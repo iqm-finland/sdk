@@ -1,0 +1,4 @@
+:cite:`Test`
+
+.. bibliography::
+   :all:

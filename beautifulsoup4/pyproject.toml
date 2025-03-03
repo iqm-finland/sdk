@@ -1,0 +1,111 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "beautifulsoup4"
+dynamic = ["version"]
+description = "Screen-scraping library"
+readme = "README.md"
+license = { text = "MIT License" }
+requires-python = ">=3.7.0"
+authors = [
+    { name = "Leonard Richardson", email = "leonardr@segfault.org" },
+]
+keywords = [
+    "HTML",
+    "XML",
+    "parse",
+    "soup"
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Markup :: HTML",
+    "Topic :: Text Processing :: Markup :: SGML",
+    "Topic :: Text Processing :: Markup :: XML",
+]
+dependencies = [
+    "typing-extensions>=4.0.0",
+    "soupsieve >1.2",
+]
+
+[project.optional-dependencies]
+html5lib = [
+    "html5lib",
+]
+lxml = [
+    "lxml",
+]
+chardet = [
+    "chardet",
+]
+cchardet = [
+    "cchardet",
+]
+charset-normalizer = [
+    "charset-normalizer",
+]
+
+[project.urls]
+Download = "https://www.crummy.com/software/BeautifulSoup/bs4/download/"
+Homepage = "https://www.crummy.com/software/BeautifulSoup/bs4/"
+
+[tool.hatch.version]
+path = "bs4/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    # The module itself, and its unit tests.
+    "/bs4/**/*.py",
+    "/bs4/**/*.testcase",
+
+    # The file that announces support for type hints per PEP-0561.
+    "/bs4/py.typed",
+
+    # The tox build configuration
+    "tox.ini",
+
+    # Metadata.
+    "/CHANGELOG",
+    "/LICENSE",
+
+    # Redundant metadata, just in case someone is depending on the
+    # old filenames.
+    "/COPYING.txt",
+    "/NEWS.txt",
+
+    # Scripts.
+    "/test-all-versions",
+    "/scripts/*.py",
+
+    # Documentation source in various languages.
+    "/doc*/Makefile",
+    "/doc*/conf.py",
+    "/doc*/*.rst",
+    "/doc*/*.jpg",
+
+    # Some translations keep the RST source in a /source/ subdirectory.
+    "/doc*/source/conf.py",
+    "/doc*/source/*.rst",
+    "/doc*/source/*.jpg",
+
+    # The Japanese and Korean translations are in HTML format, not RST.
+    "/doc.jp/index.html",
+    "/doc.ko/*.jpg",
+    "/doc.ko/index.css",
+    "/doc.ko/index.html",
+]
+
+
+[tool.hatch.build.targets.wheel]
+include = [
+    # The module itself, and its unit tests.
+    "/bs4/**/*.py",
+    "/bs4/**/*.testcase",
+    "/bs4/py.typed",
+]

@@ -1,0 +1,3 @@
+.. bibliography::
+   :list: bullet
+   :all:

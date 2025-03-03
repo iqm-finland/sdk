@@ -1,0 +1,57 @@
+[tool.poetry]
+name = "autodoc_pydantic"
+version = "1.8.0"
+description = "Seamlessly integrate pydantic models in your Sphinx documentation."
+authors = ["mansenfranzen <franz.woellert@gmail.com>"]
+packages = [{ include = "sphinxcontrib" }]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/mansenfranzen/autodoc_pydantic"
+repository = "https://github.com/mansenfranzen/autodoc_pydantic"
+documentation = "https://github.com/mansenfranzen/autodoc_pydantic"
+keywords = ["sphinx", "pydantic", "autodoc", "documentation", "extension"]
+classifiers = [
+    "Framework :: Sphinx :: Extension",
+    "Topic :: Documentation :: Sphinx",
+    "Topic :: Software Development :: Documentation"
+]
+include = ["sphinxcontrib/autodoc_pydantic/css/autodoc_pydantic.css"]
+
+[tool.poetry.dependencies]
+python = ">=3.6,<4.0.0"
+Sphinx = ">=3.4"
+pydantic = ">=1.5"
+
+sphinx-rtd-theme = { version = "^1.0", optional = true }
+sphinx-tabs = { version = "^3", optional = true }
+sphinx-copybutton = { version = "^0.4", optional = true }
+sphinxcontrib-mermaid = { version = "^0.7", optional = true }
+pytest = {version = "^6", optional = true }
+coverage = { version ="^5", optional = true }
+flake8 = { version = "^3", optional = true }
+tox = { version ="^3", optional = true }
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+
+[tool.poetry.extras]
+docs = ["sphinx-rtd-theme",
+        "sphinx-tabs",
+        "sphinx-copybutton",
+        "sphinxcontrib-mermaid"]
+
+test = ["pytest",
+        "coverage"]
+
+dev = ["pytest",
+       "coverage",
+       "sphinx-rtd-theme",
+       "sphinx-tabs",
+       "sphinx-copybutton",
+       "sphinxcontrib-mermaid",
+       "flake8",
+       "tox"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

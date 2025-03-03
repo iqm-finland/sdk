@@ -1,0 +1,96 @@
+[build-system]
+requires = ["sphinx-theme-builder >= 0.2.0a7"]
+build-backend = "sphinx_theme_builder"
+
+[tool.sphinx-theme-builder]
+node-version = "16.13.2"
+theme-name = "sphinx_book_theme"
+additional-compiled-static-assets = [
+  "locales/"
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]
+filterwarnings = [
+  "error",
+  'ignore:Jupyter is migrating its paths to use standard platformdirs:DeprecationWarning',
+  'ignore:The frontend\.OptionParser class will be replaced:DeprecationWarning',
+  'ignore:The frontend\.Option class will be removed:DeprecationWarning',
+  'ignore:nodes\.Node\.traverse\(\) is obsoleted by Node\.findall\(\):PendingDeprecationWarning',
+  # jupyter-client throws this
+  'ignore:datetime\.datetime\.utcfromtimestamp\(\) is deprecated:DeprecationWarning',
+  'ignore:datetime\.datetime\.utcnow\(\) is deprecated:DeprecationWarning',
+  # Sphinx triggers this
+  '''ignore:'imghdr' is deprecated and slated for removal in Python 3\.13:DeprecationWarning''',
+]
+
+[project]
+name = "sphinx-book-theme"
+description = "A clean book theme for scientific explanations and documentation with Sphinx"
+dynamic = ["version"]
+readme = "README.md"
+
+requires-python = ">=3.9"
+dependencies = [
+  "sphinx>=5",
+  "pydata-sphinx-theme>=0.14",
+]
+
+license = { file = "LICENSE" }
+# TODO: Add email of the maintainer
+maintainers = [
+  { name = "Executable Books Team", email = "executablebooks@gmail.com" },
+]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3",
+  "Framework :: Sphinx",
+  "Framework :: Sphinx :: Theme",
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: OS Independent",
+]
+
+[project.optional-dependencies]
+code_style = [
+    "pre-commit"
+]
+doc = [
+    "ablog",
+    "ipywidgets",
+    "folium",
+    "numpy",
+    "matplotlib",
+    "numpydoc",
+    "myst-nb",
+    "nbclient",
+    "pandas",
+    "plotly",
+    "sphinx-design",
+    "sphinx-examples",
+    "sphinx-copybutton",
+    "sphinx-tabs",
+    "sphinx-togglebutton",
+    "sphinx-thebe",
+    "sphinxcontrib-bibtex",
+    "sphinxcontrib-youtube",
+    "sphinxext-opengraph",
+]
+test = [
+    "beautifulsoup4",
+    "coverage",
+    "myst-nb",
+    "pytest",
+    "pytest-cov",
+    "pytest-regressions",
+    "sphinx_thebe",
+]
+
+[project.entry-points]
+"sphinx.html_themes" = { sphinx_book_theme = "sphinx_book_theme" }
+
+[project.urls]
+Repository = "https://github.com/executablebooks/sphinx-book-theme"
+Documentation = "https://sphinx-book-theme.readthedocs.io/"
