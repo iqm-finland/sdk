@@ -2,10 +2,8 @@ name: Update the mirror from PyPI Packages
 
 on:
   push:
-    branches:
-      - '**'
     paths:
-      - 'sdk.txt'
+      - 'requirements.txt'
   workflow_dispatch:
     # Allow manual triggering
 
@@ -87,11 +85,11 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Update PyPI packages from sdk.txt"
-          title: "Update PyPI packages from sdk.txt"
+          commit-message: "Update the source code mirror"
+          title: "Update the source code mirror"
           body: |
             This PR updates the mirrored PyPI packages according to sdk.txt.
 
             Automated update via GitHub Actions workflow.
-          branch: update-pypi-packages
+          branch: update-mirror
           delete-branch: true
