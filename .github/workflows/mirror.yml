@@ -1,0 +1,96 @@
+name: Update the mirror from PyPI Packages
+
+on:
+  pull_request:
+  push:
+    paths:
+      - 'sdk.txt'
+  workflow_dispatch:
+    # Allow manual triggering
+
+jobs:
+  mirror-packages:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install packaging wheel
+
+      - name: Download source distributions
+        id: download-packages
+        run: |
+          # Create temp directory
+          mkdir -p ./temp
+
+          if [ ! -f "requirements.txt" ]; then
+            echo "Error: requirements.txt file not found!"
+            exit 1
+          fi
+
+          # Download all source distributions
+          if ! pip download --no-deps --no-binary=:all: -r requirements.txt -d ./temp; then
+            echo "Error: Failed to download some packages."
+            exit 1
+          fi
+
+          # Flag to track if any changes were made
+          CHANGES=false
+
+          # Extract and update each package
+          for SDIST_FILE in ./temp/*.tar.gz; do
+            [ -e "$SDIST_FILE" ] || { echo "Error: No source distribution found!"; exit 1; }
+
+            PKG_NAME=$(basename "$SDIST_FILE" | cut -d '-' -f1)
+            echo "Processing package: $PKG_NAME"
+
+            # Create package directory if it doesn't exist
+            PKG_DIR="$PKG_NAME"
+            mkdir -p "$PKG_DIR"
+
+            # Extract source distribution
+            mkdir -p ./temp/extract
+            tar -xzf "$SDIST_FILE" -C ./temp/extract
+            SRC_DIR=$(find ./temp/extract -maxdepth 1 -type d | grep -v "^./temp/extract$" | head -n 1)
+
+            if [ -z "$SRC_DIR" ]; then
+              echo "Error: No source directory found in archive for $PKG_NAME."
+              exit 1
+            fi
+
+            # Clear previous version and copy new files
+            rm -rf "$PKG_DIR"/*
+            cp -r "$SRC_DIR"/* "$PKG_DIR"/
+            CHANGES=true
+
+            # Clean up extracted files
+            rm -rf ./temp/extract
+          done
+
+          # Clean up temp directory
+          rm -rf ./temp
+
+          echo "changes=$CHANGES" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request if changes detected
+        if: steps.download-packages.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Update PyPI packages from requirements.txt"
+          title: "Update PyPI packages from requirements.txt"
+          body: |
+            This PR updates the mirrored PyPI packages according to requirements.txt.
+
+            Automated update via GitHub Actions workflow.
+          branch: update-pypi-packages
+          delete-branch: true
