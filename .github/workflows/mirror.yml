@@ -2,6 +2,8 @@ name: Update the mirror from PyPI Packages
 
 on:
   push:
+    branches:
+      - '**'
     paths:
       - 'requirements.txt'
   workflow_dispatch:
@@ -16,14 +18,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: astral-sh/setup-uv@v5
         with:
           python-version: '3.11'
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install packaging wheel
+          uv pip install pip packaging wheel
 
       - name: Download source distributions
         id: download-packages
