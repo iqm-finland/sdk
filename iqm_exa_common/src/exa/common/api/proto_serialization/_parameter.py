@@ -27,13 +27,14 @@ _collection_types_inv = {v: k for k, v in _COLLECTION_TYPES.items()}
 
 _DATA_TYPES = {
     DataType.ANYTHING: ppb.Parameter.DataType.DATA_TYPE_UNSPECIFIED,
-    DataType.NUMBER: ppb.Parameter.DataType.DATA_TYPE_FLOAT64,
+    DataType.NUMBER: ppb.Parameter.DataType.DATA_TYPE_FLOAT64,  # Deprecated
     DataType.STRING: ppb.Parameter.DataType.DATA_TYPE_STRING,
     DataType.COMPLEX: ppb.Parameter.DataType.DATA_TYPE_COMPLEX128,
     DataType.BOOLEAN: ppb.Parameter.DataType.DATA_TYPE_BOOL,
+    DataType.INT: ppb.Parameter.DataType.DATA_TYPE_INT64,
+    DataType.FLOAT: ppb.Parameter.DataType.DATA_TYPE_FLOAT64,
 }
-_data_types_inv = {v: k for k, v in _DATA_TYPES.items()}
-_data_types_inv[ppb.Parameter.DataType.DATA_TYPE_INT64] = DataType.NUMBER  # TODO add DataType.INT?
+_data_types_inv = {v: k for k, v in _DATA_TYPES.items() if k != DataType.NUMBER}
 
 
 def pack(parameter: Parameter) -> ppb.Parameter:

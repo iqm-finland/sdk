@@ -79,12 +79,12 @@ def map_waveform_param_types(type_hint: type) -> tuple[DataType, CollectionType]
 
     """
     value_error = ValueError(f"Nonsupported datatype for a waveform parameter: {type_hint}")
-    if hasattr(type_hint, "__iter__") and type_hint != str:  # noqa: E721
+    if hasattr(type_hint, "__iter__") and type_hint is not str:
         if type_hint == np.ndarray:
             data_type = DataType.COMPLEX  # due to np.ndarray not being generic we assume complex numbers
             collection_type = CollectionType.NDARRAY
             return (data_type, collection_type)
-        if get_origin(type_hint) == list:  # noqa: E721
+        if get_origin(type_hint) is list:
             collection_type = CollectionType.LIST
             type_hint = get_args(type_hint)[0]
         else:
@@ -92,13 +92,15 @@ def map_waveform_param_types(type_hint: type) -> tuple[DataType, CollectionType]
     else:
         collection_type = CollectionType.SCALAR
 
-    if type_hint in {int, float}:
-        data_type = DataType.NUMBER
-    elif type_hint == str:  # noqa: E721
+    if type_hint is float:
+        data_type = DataType.FLOAT
+    elif type_hint is int:
+        data_type = DataType.INT
+    elif type_hint is str:
         data_type = DataType.STRING
-    elif type_hint == complex:  # noqa: E721
+    elif type_hint is complex:
         data_type = DataType.COMPLEX
-    elif type_hint == bool:  # noqa: E721
+    elif type_hint is bool:
         data_type = DataType.BOOLEAN
     else:
         raise value_error

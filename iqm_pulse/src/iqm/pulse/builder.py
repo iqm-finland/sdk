@@ -871,9 +871,7 @@ class ScheduleBuilder:
             boxes.append(factory(**op.args))
         return TimeBox.composite(boxes, label=name, scheduling_algorithm=scheduling_algorithm)
 
-    def timeboxes_to_front_padded_playlist(
-        self, boxes: Iterable[TimeBox], *, neighborhood: int = 0
-    ) -> tuple[Playlist, float]:
+    def timeboxes_to_front_padded_playlist(self, boxes: Iterable[TimeBox], *, neighborhood: int = 0) -> Playlist:
         """Temporary helper function, for converting a sequence of TimeBoxes to a Playlist.
 
         Each individual TimeBox in ``boxes`` is resolved into a Schedule, and then
@@ -912,7 +910,7 @@ class ScheduleBuilder:
             ]
         else:
             schedules = [schedule.front_pad(T) for schedule in schedules]
-        return self.build_playlist(schedules), max_duration_in_seconds
+        return self.build_playlist(schedules)
 
     def timeboxes_to_playlist(
         self,

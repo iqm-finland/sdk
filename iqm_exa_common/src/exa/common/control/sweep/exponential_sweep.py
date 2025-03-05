@@ -14,19 +14,15 @@
 
 """Sweep specification with exponentially spaced values."""
 
-from dataclasses import dataclass, field
-import logging
-import math
-from typing import List, Union
-
-import numpy as np
+from typing import Any
+import warnings
 
 from exa.common.control.sweep.option import CenterSpanBaseOptions, StartStopBaseOptions
 from exa.common.control.sweep.sweep import Sweep
+from exa.common.data.parameter import Parameter
 from exa.common.errors.exa_error import InvalidSweepOptionsTypeError
 
 
-@dataclass(frozen=True)
 class ExponentialSweep(Sweep):
     """Generates parameter values spaced evenly on a geometric progression based on `options`.
 
@@ -41,43 +37,15 @@ class ExponentialSweep(Sweep):
 
     """
 
-    logger: logging.Logger = field(init=False)
-
-    def __post_init__(self):
-        object.__setattr__(self, "logger", logging.getLogger(__name__ + "." + self.__class__.__name__))
-        if isinstance(self.options, StartStopBaseOptions):
-            self.__from_start_stop_base(self.options)
-        elif isinstance(self.options, CenterSpanBaseOptions):
-            self.__from_center_span_base(self.options)
-        else:
-            raise InvalidSweepOptionsTypeError(str(type(self.options)))
-
-    def __from_start_stop_base(self, options: StartStopBaseOptions) -> None:
-        self.logger.debug(f"EXPONENTS: ({options.start}, {options.stop}) with base {options.base}")
-        self._validate_value(options.start, "start")
-        self._validate_value(options.stop, "stop")
-        if options.start == 0 or options.stop == 0:
-            raise ValueError("Exponential range sweep start and stop values must not be zero.")
-        options = StartStopBaseOptions(
-            math.pow(options.base, options.start),
-            math.pow(options.base, options.stop),
-            count=options.count,
-        )
-        object.__setattr__(self, "_data", self.__generate(options))
-
-    def __from_center_span_base(self, options: CenterSpanBaseOptions) -> None:
-        start = options.center - (options.span / 2)
-        stop = options.center + (options.span / 2)
-        self.logger.debug("EXPONENTS: ({}, {}) with base {}".format(start, stop, options.base))
-        (start, stop) = (start, stop) if options.asc else (stop, start)
-        start_stop_base_options = StartStopBaseOptions(
-            start,
-            stop,
-            count=options.count,
-            base=options.base,
-        )
-        self.__from_start_stop_base(start_stop_base_options)
-
-    @staticmethod
-    def __generate(options: StartStopBaseOptions) -> List[Union[int, float, complex]]:
-        return np.geomspace(options.start, options.stop, options.count, endpoint=True).tolist()
+    def __init__(
+        self,
+        parameter: Parameter,
+        options: StartStopBaseOptions | CenterSpanBaseOptions | None = None,
+        *,
+        data: list[Any] | None = None,
+        **kwargs,
+    ) -> None:
+        warnings.warn("ExponentialSweep is deprecated, use Sweep instead.", DeprecationWarning)
+        if options and not isinstance(options, StartStopBaseOptions | CenterSpanBaseOptions):
+            raise InvalidSweepOptionsTypeError(str(type(options)))
+        super().__init__(parameter, options, data=data, **kwargs)

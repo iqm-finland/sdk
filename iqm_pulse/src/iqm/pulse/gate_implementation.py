@@ -301,7 +301,7 @@ class GateImplementation(abc.ABC):
         """
 
         def build_node(path: Iterable[str], dictionary: dict[str, Any]) -> SettingNode:
-            node = SettingNode(".".join(path))
+            node = SettingNode(".".join(path), path=".".join(path))
             for key, value in dictionary.items():
                 if "*" in key:
                     wildcard_keys = [key.replace("*", q) for q in locus]
@@ -311,15 +311,17 @@ class GateImplementation(abc.ABC):
                 for wkey in wildcard_keys:
                     new_path = (*tuple(path), wkey)
                     if isinstance(value, dict):
-                        node[wkey] = build_node(new_path, value)
+                        node.subtrees[wkey] = build_node(new_path, value)
                     elif isinstance(value, Setting | Parameter):
                         name = ".".join(new_path)
                         if isinstance(value, Parameter):
-                            node[wkey] = Setting(value.copy(name=name), None)
+                            node.settings[wkey] = Setting(value.model_copy(update={"name": name}), None, path=name)
                         else:
-                            node[wkey] = Setting(value.parameter.copy(name=name), value.value)
+                            node.settings[wkey] = Setting(
+                                value.parameter.model_copy(update={"name": name}), value.value, path=name
+                            )
                     else:
-                        raise ValueError(f"{name}: value {value} is neither a Parameter, Setting nor a dict.")
+                        raise ValueError(f"{wkey}: value {value} is neither a Parameter, Setting nor a dict.")
             return node
 
         return build_node(path, cls.parameters)

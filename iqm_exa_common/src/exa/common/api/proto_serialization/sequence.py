@@ -37,18 +37,18 @@ def pack(values: Sequence) -> dpb.Sequence:
     if not values:
         return target
     dtype = type(values[0])
-    if dtype == complex:  # noqa: E721
+    if dtype is complex or np.issubdtype(dtype, np.complexfloating):  # dtype is complex check for contingency
         target_field = target.complex128_array
         target_field.real.MergeFrom(np.real(values))
         target_field.imag.MergeFrom(np.imag(values))
         return target
-    if dtype == bool:  # noqa: E721
+    if dtype is bool:
         target_field = target.bool_array
-    elif dtype == int:  # noqa: E721
+    elif dtype is int or np.issubdtype(dtype, np.integer):
         target_field = target.int64_array
-    elif dtype == float:  # noqa: E721
+    elif dtype is float or np.issubdtype(dtype, np.floating):
         target_field = target.float64_array
-    elif dtype == str:  # noqa: E721
+    elif dtype is str:
         target_field = target.string_array
     else:
         raise TypeError(f"Unsupported numpy array type {dtype} for a sequence.")

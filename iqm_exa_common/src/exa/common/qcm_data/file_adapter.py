@@ -17,7 +17,7 @@ from http import HTTPStatus
 import io
 import locale
 from pathlib import Path
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import urlparse
 from urllib.request import url2pathname
 
 from requests import Response
@@ -37,12 +37,8 @@ class FileAdapter(BaseAdapter):
             raise ValueError("Invalid request method %s" % request.method)
 
         url_parts = urlparse(request.url)
-        params: dict = parse_qs(url_parts.query, keep_blank_values=True)
 
-        if "chip_label" in params:  # For deprecated CHAD and QDP files
-            path = url2pathname(str(Path(url_parts.path, f"{params['chip_label'][0]}.json")))
-        else:
-            path = url_parts.netloc + f"{str(Path(url2pathname(url_parts.path)))}.json"
+        path = url_parts.netloc + f"{str(Path(url2pathname(url_parts.path)))}.json"
         response = Response()
         try:
             response.status_code = HTTPStatus.OK

@@ -32,7 +32,7 @@ import pytest
 import requests
 from requests import Response
 
-from exa.common.api.model.setting_node_model import SettingNodeModel
+from exa.common.data.setting_node import SettingNode
 from exa.common.qcm_data.chip_topology import ChipTopology
 from iqm.pulla.calibration import CalibrationDataProvider
 from iqm.pulla.pulla import Pulla
@@ -80,11 +80,11 @@ def pulla_on_spark(monkeypatch):
             return response
         if args[0].startswith(f"{root_url}/station/sweeps/"):
             response = Response()
-            response.status_code = HTTPStatus.NOT_IMPLEMENTED
+            response.status_code = HTTPStatus.INTERNAL_SERVER_ERROR
             return response
         if args[0].startswith(f"{root_url}/cocos/info/client-libraries"):
             response = Response()
-            response.status_code = HTTPStatus.NOT_IMPLEMENTED
+            response.status_code = HTTPStatus.INTERNAL_SERVER_ERROR
             return response
 
         return HTTPResponse(404)
@@ -107,7 +107,7 @@ def pulla_on_spark(monkeypatch):
     monkeypatch.setattr(requests, "post", mocked_requests_post)
 
     with open(RESOURCES / "spark_settings.json", "r", encoding="utf-8") as file:
-        settings = SettingNodeModel(**json.loads(file.read())).decode()
+        settings = SettingNode(**json.loads(file.read()))
     monkeypatch.setattr(StationControlClient, "get_settings", lambda self: settings)
 
     with open(RESOURCES / "spark_chip_design_record.json", "r", encoding="utf-8") as file:

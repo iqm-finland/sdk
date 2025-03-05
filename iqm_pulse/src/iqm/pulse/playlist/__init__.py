@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Control pulses and instruction schedules for quantum computers."""  # noqa: D200
+"""Control pulses and instruction schedules for quantum computers."""
 
 from iqm.pulse.playlist.instructions import (
     AcquisitionMethod,

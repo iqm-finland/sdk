@@ -15,7 +15,7 @@
 """Helper to create a SweepOptions instance from a dict."""
 
 import ast
-from typing import Any, Dict, List
+from typing import Any
 
 from exa.common.control.sweep.option import (
     CenterSpanBaseOptions,
@@ -28,7 +28,7 @@ from exa.common.control.sweep.option.constants import OPTIONS_TYPE
 from exa.common.control.sweep.option.sweep_options import SweepOptions
 
 
-def convert_to_options(config: Dict[str, Any]) -> SweepOptions:
+def convert_to_options(config: dict[str, Any]) -> SweepOptions:
     """Creates one of the options object based on configuration dictionary.
 
     - If configuration has keys ``start`` and ``stop``, :class:`.StartStopOptions` is created.
@@ -36,10 +36,6 @@ def convert_to_options(config: Dict[str, Any]) -> SweepOptions:
     - If configuration has keys ``center`` and ``span``, :class:`.CenterSpanOptions` is created.
     - If configuration has keys ``center_exp`` and ``span_exp``, :class:`.CenterSpanBaseOptions` is created
     - If configuration has keys ``fixed``, :class:`.FixedOptions` is created.
-
-    .. note::
-        There is no support for callable options, so it is impossible to create
-        :class:`.FunctionOptions` out of configuration
 
     Args:
         config: Configuration dictionary.
@@ -72,9 +68,9 @@ def convert_to_options(config: Dict[str, Any]) -> SweepOptions:
         raise ValueError(f"Config {config} cannot be converted to range options")
 
 
-def __update_config(config: Dict[str, Any], keys: List[str]) -> Dict[str, Any]:
+def __update_config(config: dict[str, Any], keys: list[str]) -> dict[str, Any]:
     return {key: ast.literal_eval("".join(str(value).strip())) for key, value in config.items() if key in keys}
 
 
-def __rename_key(config: Dict[str, Any], old_key: str, new_key: str) -> None:
+def __rename_key(config: dict[str, Any], old_key: str, new_key: str) -> None:
     config[new_key] = config.pop(old_key)

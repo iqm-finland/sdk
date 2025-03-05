@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Range specification used with ExponentialSweep."""
+"""Range specification used with exponential sweeps."""
 
 from dataclasses import dataclass
-from typing import Union
 
 from exa.common.control.sweep.option.constants import DEFAULT_BASE, DEFAULT_COUNT
+from exa.common.control.sweep.option.start_stop_base_options import StartStopBaseOptions
 from exa.common.control.sweep.option.sweep_options import SweepOptions
 
 
@@ -32,17 +32,17 @@ class CenterSpanBaseOptions(SweepOptions):
     """
 
     #: Value of interval center for the power.
-    center: Union[int, float]
+    center: int | float
     #: Size of the interval for the power
-    span: Union[int, float]
+    span: int | float
     #: Number of values to generate. Default to
     #: :const:`exa.common.control.sweep.option.constants.DEFAULT_COUNT`.
-    count: int = None
+    count: int | None = None
     #: Number, that is raised to the power of the range with the center `center` and the size of `span`.
     # Default to :const:`exa.common.control.sweep.option.constants.DEFAULT_BASE`.
-    base: Union[int, float] = None
+    base: int | float | None = None
     #: Order of generated values. Default to ascending
-    asc: bool = None
+    asc: bool | None = None
 
     def __post_init__(self):
         if self.count is None:
@@ -51,3 +51,10 @@ class CenterSpanBaseOptions(SweepOptions):
             object.__setattr__(self, "base", DEFAULT_BASE)
         if self.asc is None:
             object.__setattr__(self, "asc", True)
+
+    @property
+    def data(self) -> list[int | float | complex]:
+        start = self.center - (self.span / 2)
+        stop = self.center + (self.span / 2)
+        (start, stop) = (start, stop) if self.asc else (stop, start)
+        return StartStopBaseOptions(start, stop, count=self.count, base=self.base).data

@@ -15,10 +15,13 @@
 """Range specification to define a linearly spaced interval."""
 
 from dataclasses import dataclass
-from typing import Union
+import math
+
+import numpy as np
 
 from exa.common.control.sweep.option.constants import DEFAULT_COUNT
 from exa.common.control.sweep.option.sweep_options import SweepOptions
+from exa.common.control.sweep.sweep_values import SweepValues
 
 
 @dataclass(frozen=True)
@@ -32,16 +35,16 @@ class StartStopOptions(SweepOptions):
     """
 
     #: Starting value of interval.
-    start: Union[int, float, complex]
+    start: int | float | complex
     #: Stopping value of interval.
-    stop: Union[int, float, complex]
+    stop: int | float | complex
     #: Number of values to generate. Must be non-negative.
     #: If `count` and `step` are empty, the default value of count is
     #: :const:`exa.common.control.sweep.option.constants.DEFAULT_COUNT`.
-    count: int = None
+    count: int | None = None
     #: Size of spacing between values. Must be non-zero.
     #: If both `count` and `step` are not empty, only `count` is used
-    step: Union[int, float, complex] = None
+    step: int | float | complex | None = None
 
     def __post_init__(self):
         if self.count is not None and self.step is not None:
@@ -55,3 +58,15 @@ class StartStopOptions(SweepOptions):
             )
         if self.count is not None and self.count <= 0:
             raise ValueError("Count value specified for range must be greater than zero.")
+
+    @property
+    def data(self) -> list[int | float | complex]:
+        if self.step is not None:
+            count = 1 + math.ceil(abs(self.stop - self.start) / float(np.abs(self.step)))
+            data = self._generate_by_count(count)
+        else:
+            data = self._generate_by_count(self.count)
+        return data
+
+    def _generate_by_count(self, count: int) -> SweepValues:
+        return np.linspace(self.start, self.stop, count, endpoint=True).tolist()

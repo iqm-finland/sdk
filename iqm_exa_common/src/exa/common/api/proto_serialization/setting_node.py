@@ -85,4 +85,6 @@ def unpack(proto: spb.SettingNode) -> SettingNode:
     """
     settings = {key: _unpack_setting(content) for key, content in proto.settings.items()}
     nodes = {key: unpack(content) for key, content in proto.subnodes.items()}
-    return SettingNode(name=proto.name, **(settings | nodes))
+    # Names are currently NEVER aligned with the paths when deserializing. This is safe to do, since currently nothing
+    # in the server-side assumes path==name, but if such logic is added this needs to be reconsidered.
+    return SettingNode(name=proto.name, **(settings | nodes), align_name=False)

@@ -19,7 +19,7 @@ from typing import Any, Callable, Optional
 BRIEF_DATEFMT = "%m-%d %H:%M:%S"
 
 BRIEF = "[{asctime};{levelname:.1}{extra_info}] {message}"
-VERBOSE = "[{asctime};{levelname};{processName}({process});{threadName}({thread});{name};{filename}:{lineno}:{funcName}{extra_info}] {message}"  # pylint:disable=line-too-long  # noqa: E501
+VERBOSE = "[{asctime};{levelname};{processName}({process});{threadName}({thread});{name};{filename}:{lineno}:{funcName}{extra_info}] {message}"  # noqa: E501
 
 
 class ExtraFormatter(logging.Formatter):

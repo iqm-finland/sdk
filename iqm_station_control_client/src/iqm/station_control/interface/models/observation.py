@@ -19,7 +19,8 @@ import uuid
 
 from pydantic import ConfigDict
 
-from iqm.station_control.interface.pydantic_base import PydanticBase, Uncertainty, Value
+from exa.common.data.value import Uncertainty, Value
+from iqm.station_control.interface.pydantic_base import PydanticBase
 
 
 class ObservationBase(PydanticBase):

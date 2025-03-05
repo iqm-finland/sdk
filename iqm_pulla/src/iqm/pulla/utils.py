@@ -262,6 +262,8 @@ def locate_instructions(
     schedule: Schedule,
     instruction_type: type[Instruction],
     min_duration: int = 0,
+    *,
+    channels: Iterable[str] | None = None,
 ) -> list[InstructionLocation]:
     """Locate specific instructions in a schedule.
 
@@ -269,15 +271,19 @@ def locate_instructions(
         schedule: The schedule to search.
         instruction_type: The type of the instruction to search for.
         min_duration: The minimum duration of the instruction to search for (in samples).
+        channels: Names of channels in ``schedule`` to search. Iff None, search all the channels.
 
     Returns:
         For each located instruction, a namedtuple containing the channel name, instruction index, and duration.
 
     """
+    if channels is None:
+        channels = schedule.channels()
+
     result = [
         InstructionLocation(channel_name=channel, index=index, duration=inst.duration)
-        for channel, segment in schedule.items()
-        for index, inst in enumerate(segment._instructions)
+        for channel in channels
+        for index, inst in enumerate(schedule[channel]._instructions)
         if isinstance(inst, instruction_type)
         if inst.duration >= min_duration
     ]
@@ -468,9 +474,9 @@ def _update_channel_props_from_calibration(
     replacements = {}
     for component, channels in component_channels.items():
         if "readout" in channels:
-            center_frequency = calset.get(f"{component}.readout.center_frequency")
+            center_frequency = calset.get(f"controllers.{component}.readout.center_frequency")
             if center_frequency is None:
-                center_frequency = calset.get(f"{component}.readout.local_oscillator.frequency")
+                center_frequency = calset.get(f"controllers.{component}.readout.local_oscillator.frequency")
             if center_frequency is None:
                 raise ValueError(
                     f"No calibration value found for the center frequency or local oscillator frequency of {component}."

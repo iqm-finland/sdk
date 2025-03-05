@@ -82,7 +82,7 @@ The context is a dictionary that can contain any information that needs to be pa
 
 
 def pass_function_idempotent(function: PassFunction) -> PassFunction:
-    """Wrap a pass function to make it idempotent."""  # noqa: D200
+    """Wrap a pass function to make it idempotent."""
 
     @functools.wraps(function)
     def pass_with_idempotency(data_: Any, context_: dict[str, Any]) -> tuple[Any, dict[str, Any]]:
@@ -140,7 +140,7 @@ class CompilationStage:
         self.passes: list[Callable] = []
 
     def ready(self) -> bool:
-        """Check if the stage is ready to run. A stage is ready if it has at least one pass defined."""  # noqa: D200
+        """Check if the stage is ready to run. A stage is ready if it has at least one pass defined."""
         return len(self.passes) > 0
 
     def add_passes(self, *pass_functions: PassFunction) -> None:
@@ -245,7 +245,7 @@ class Compiler:
             raise CalibrationError(f"{exc}") from exc
 
     def get_calibration(self) -> CalibrationSet:
-        """Returns a copy of the current local calibration set."""  # noqa: D200
+        """Returns a copy of the current local calibration set."""
         return deepcopy(self._calibration_set)
 
     def set_calibration(self, calibration: CalibrationSet) -> None:
@@ -367,7 +367,7 @@ class Compiler:
         return True
 
     def print_all_implementations_trees(self) -> None:
-        """Prints all implementations of all currently known quantum operations (gates), including parameters"""  # noqa: D200
+        """Prints all implementations of all currently known quantum operations (gates), including parameters."""
         for op in self.builder.op_table.values():
             print(f"Operation: {op.name}")
             self.print_implementations_trees(op)
@@ -407,7 +407,7 @@ class Compiler:
             print()
 
     def compiler_context(self) -> dict[str, Any]:
-        """Return initial compiler context dictionary. Used automatically by :meth:`Compiler.compile`."""  # noqa: D200
+        """Return initial compiler context dictionary. Used automatically by :meth:`Compiler.compile`."""
         return {
             "calibration_set": self._calibration_set,
             "builder": self.builder,
@@ -478,7 +478,7 @@ class Compiler:
             settings = SettingNode.merge(custom_settings, settings)
 
         # fill in the schedule durations to the metrics
-        end_delay = calibration_set["all_qubits.options.end_delay"]
+        end_delay = calibration_set["controllers.options.end_delay"]
         # Assumes all channels have the same sampling rate
         channel = next(iter(builder.channels.values()))
 

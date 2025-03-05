@@ -12,13 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Range specification used with ExponentialSweep."""
+"""Range specification used with exponential sweeps."""
 
 from dataclasses import dataclass
-from typing import Union
+import logging
+import math
+
+import numpy as np
 
 from exa.common.control.sweep.option.constants import DEFAULT_BASE, DEFAULT_COUNT
 from exa.common.control.sweep.option.sweep_options import SweepOptions
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -30,18 +35,27 @@ class StartStopBaseOptions(SweepOptions):
     """
 
     #: The power for the start of the interval.
-    start: Union[int, float, complex]
+    start: int | float | complex
     #: The power for the end of the interval.
-    stop: Union[int, float, complex]
+    stop: int | float | complex
     #: Number of values to generate. Default to
     #: :const:`exa.common.control.sweep.option.constants.DEFAULT_COUNT`.
-    count: int = None
+    count: int | None = None
     #: Number, that is raised to the power `start` or `stop`. Default to
     #: :const:`exa.common.control.sweep.option.constants.DEFAULT_BASE`.
-    base: Union[int, float] = None
+    base: int | float | None = None
 
     def __post_init__(self):
         if self.count is None:
             object.__setattr__(self, "count", DEFAULT_COUNT)
         if self.base is None:
             object.__setattr__(self, "base", DEFAULT_BASE)
+        if self.start == 0 or self.stop == 0:
+            raise ValueError("Exponential range sweep start and stop values must not be zero.")
+
+    @property
+    def data(self) -> list[int | float | complex]:
+        logger.debug(f"EXPONENTS: ({self.start}, {self.stop}) with base {self.base}")
+        start = math.pow(self.base, self.start)
+        stop = math.pow(self.base, self.stop)
+        return np.geomspace(start, stop, self.count, endpoint=True).tolist()

@@ -101,6 +101,14 @@ The values can be changed with a simple ``=`` syntax:
 
     ``node.setting`` refers to the Setting object. ``node.setting.value`` syntax refers to the data stored inside.
 
+``SettingNode`` also supports "the path notation" by default (but not if ``align_name`` is set to ``False``,
+since it cannot be made to work consistently if nodes are allowed to be named differently from their paths):
+
+.. doctest:: pulse
+
+    >>> node['flux.voltage']
+
+is the same as ``node['flux']['voltage']``.
 
 Basic manipulation
 ------------------
@@ -115,6 +123,27 @@ Adding and deleting new Settings and nodes is simple:
     >>> modified.pulse.my_new_setting = Setting(Parameter('my name'), 33)
 
 It is usually a good idea to make a copy of the original node, so that it won't be modified accidentally.
+
+The path notation of ``SettingNode``also works when inserting:
+
+.. doctest:: pulse
+
+    >>> node['flux.my.new.path.foo'] = Setting(Parameter('foo'), 1.0)
+
+Any nodes that did not already exist under ``node`` will be inserted (in this case ``flux`` already existed, but
+the rest not, so under ``flux`` the nodes ``my``, ``new``, and ``path`` would be added), and then finally the
+value is added as child to the final node. Note: ``SettingNode`` always alings the path and name of any nodes under it,
+so this would result in the new setting being renamed as "flux.my.new.path.foo":
+
+.. doctest:: pulse
+
+    >>> node['flux.my.new.path.foo'] = Setting(Parameter('bar'), 1.0)
+
+If ``align_name`` is set to ``False", the name and path of nodes are not automatically aligned, but otherwise the above
+path notation will still work. The added nodes will be named by just their path fragments ("my", "new", "path", and
+so on), and the Setting will be added under the key "foo", but it will still retain its name "bar". Note: the root node
+name will always be excluded from the paths (and names when they are aligned with the path), so that the path of
+``root.foo.bar`` is ``"foo.bar"``.
 
 To merge values of two SettingNodes, there are helpers :meth:`.SettingNode.merge` and
 :meth:`.SettingNode.merge_values`.
@@ -177,20 +206,45 @@ flag is used.
 from __future__ import annotations
 
 from collections.abc import Generator, ItemsView, Iterator
-from copy import copy, deepcopy
+from copy import copy
+from itertools import permutations
 import logging
 import numbers
 import pathlib
-from typing import Any
+from typing import Any, Iterable
 
 import jinja2
 import numpy as np
 
+from exa.common.data.base_model import BaseModel
 from exa.common.data.parameter import CollectionType, Parameter, Setting
 from exa.common.errors.exa_error import UnknownSettingError
+from exa.common.qcm_data.chip_topology import sort_components
+
+logger = logging.getLogger(__name__)
 
 
-class SettingNode:
+def _fix_path_recursive(node: SettingNode | dict, path: str) -> SettingNode | dict:
+    """Recursively travel the settings tree and fix the ``path``attribute (also aligns ``name``,
+    based on the node type). Deep copies all the child nodes.
+    """
+    settings = {}
+    subtrees = {}
+    for key, setting in node.settings.items():
+        child_path = f"{path}.{key}"
+        update_dict = {"path": child_path}
+        if node.align_name:
+            update_dict["parameter"] = setting.parameter.model_copy(update={"name": child_path})
+        settings[key] = setting.model_copy(update=update_dict)
+    for key, subnode in node.subtrees.items():
+        subtrees[key] = _fix_path_recursive(subnode, f"{path}.{key}")
+    node_update_dict = {"path": path, "settings": settings, "subtrees": subtrees}
+    if node.align_name:
+        node_update_dict["name"] = path
+    return node.model_copy(update=node_update_dict, deep=False)
+
+
+class SettingNode(BaseModel):
     """A tree-structured :class:`.Setting` container.
 
     Each child of the node is a :class:`.Setting`, or another :class:`SettingNode`.
@@ -202,90 +256,176 @@ class SettingNode:
         >>> from exa.common.data.parameter import Parameter
         >>> from exa.common.data.setting_node import SettingNode
         >>> p1 = Parameter("voltage", "Voltage")
-        >>> settings = SettingNode('name', volt=p1)
-        >>> settings.volt.parameter is p1
+        >>> f1 = Parameter("frequency", "Frequency")
+        >>> sub = SettingNode("sub", frequency=f1)
+        >>> settings = SettingNode('name', voltage=p1)
+        >>> settings.voltage.parameter is p1
         True
-        >>> settings['volt'].parameter is p1
+        >>> settings['voltage'].parameter is p1
         True
-        >>> settings.volt.value is None
+        >>> settings.voltage.value is None
         True
-        >>> settings.volt = 7  # updates to Setting(p1, 7)
-        >>> settings.volt.value
+        >>> settings.voltage = 7  # updates to Setting(p1, 7)
+        >>> settings.voltage.value
         7
+        >>> settings["sub.frequency"] = 8
+        >>> settings["sub.frequency"].value
+        8
 
     Args:
         name: Name of the node.
-        children: The children given as keyword arguments. Each argument must be a :class:`.Setting`,
+        settings: Dict of setting path fraqment names (usually the same as the setting name) to the settings. Mostly
+            used when deserialising and otherwise left empty.
+        subtrees: Dict of child node path fraqment names (usually the same as the child node name) to the settings.
+            Mostly used when deserialising and otherwise left empty.
+        path: Optionally give a path for the node, by default empty.
+        generate_paths: If set ``True``, all subnodes will get their paths autogenerated correctly. Only set to
+            ``False`` if the subnodes already have correct paths set (e.g. when deserialising).
+        kwargs: The children given as keyword arguments. Each argument must be a :class:`.Setting`,
             :class:`.Parameter`, or a :class:`SettingNode`. The keywords are used as the names of the nodes.
             Parameters will be cast into Settings with the value ``None``.
 
     """
 
-    def __init__(self, name: str, **children):
-        self._settings: dict[str, Setting] = {}
-        self._subtrees: dict[str, SettingNode] = {}
-        self.name = name
-        self.logger = logging.getLogger(__name__ + "." + self.__class__.__name__)
-        for key, child in children.items():
+    name: str
+    settings: dict[str, Setting] = {}
+    subtrees: dict[str, SettingNode] = {}
+    path: str = ""
+
+    align_name: bool = True
+
+    def __init__(
+        self,
+        name: str,
+        settings: dict[str, Any] | None = None,
+        subtrees: dict[str, Any] | None = None,
+        *,
+        path: str = "",
+        align_name: bool = True,
+        generate_paths: bool = True,
+        **kwargs,
+    ):
+        settings: dict[str, Any] = settings or {}
+        subtrees: dict[str, Any] = subtrees or {}
+
+        for key, child in kwargs.items():
             if isinstance(child, Setting):
-                self._settings[key] = child
+                settings[key] = child
             elif isinstance(child, Parameter):
-                self._settings[key] = Setting(child, None)
+                settings[key] = Setting(parameter=child, value=None, path=key)
             elif isinstance(child, SettingNode):
-                self._subtrees[key] = child
+                subtrees[key] = child
             else:
                 raise ValueError(f"{key} should be a Parameter, Setting or a SettingNode, not {type(child)}.")
+        super().__init__(
+            name=name,
+            settings=settings,
+            subtrees=subtrees,
+            path=path,
+            align_name=align_name,
+            **kwargs,
+        )
+
+        if generate_paths:
+            self._generate_paths_and_names()
+
+    def _generate_paths_and_names(self) -> None:
+        """This method generates the paths and aligns the names when required."""
+        for key, child in self.subtrees.items():
+            update_path = f"{self.path}.{key}" if self.path else key
+            self.subtrees[key] = _fix_path_recursive(child, update_path)
+        for key, child in self.settings.items():
+            update_path = f"{self.path}.{key}" if self.path else key
+            if isinstance(child, Setting):
+                update_dict = {"path": update_path}
+                if self.align_name:
+                    update_dict["parameter"] = child.parameter.copy(name=update_path)
+                self[key] = child.model_copy(update=update_dict)
+            elif self.align_name:
+                self[key] = Setting(
+                    parameter=child.model_copy(update={"name": update_path}), value=None, path=update_path
+                )
+        if self.path and self.align_name:
+            self.name = self.path
 
     def __getattr__(self, key):
-        if key == "_settings":
-            # Prevent infinite recursion. If _settings actually exists, this method is not called anyway
+        if key == "settings":
+            # Prevent infinite recursion. If settings actually exists, this method is not called anyway
             raise AttributeError
-        if key in self._settings:
-            return self._settings[key]
-        if key in self._subtrees:
-            return self._subtrees[key]
-        raise UnknownSettingError(f'{self.__class__.__name__} "{self.name}" has no attribute {key}.')
+        if key in self.settings:
+            return self.settings[key]
+        if key in self.subtrees:
+            return self.subtrees[key]
+        raise UnknownSettingError(
+            f'{self.__class__.__name__} "{self.name}" has no attribute {key}. Children: {self.children.keys()}.'
+        )
 
     def __dir__(self):
         """List settings and subtree names, so they occur in IPython autocomplete after ``node.<TAB>``."""
-        return [name for name in list(self._settings) + list(self._subtrees) if name.isidentifier()] + super().__dir__()
+        return [name for name in list(self.settings) + list(self.subtrees) if name.isidentifier()] + super().__dir__()
 
     def _ipython_key_completions_(self):
         """List items and subtree names, so they occur in IPython autocomplete after ``node[<TAB>``"""
-        return [*self._settings, *self._subtrees]
+        return [*self.settings, *self.subtrees]
 
     def __setattr__(self, key, value):
         """Overrides default attribute assignment to allow the following syntax: ``self.foo = 3`` which is
         equivalent to ``self.foo.value.update(3)`` (if ``foo`` is a :class:`.Setting`).
         """
-        if isinstance(value, Parameter):
-            value = value.set(None)
-        if isinstance(value, Setting):
-            self._settings[key] = value
-            self._subtrees.pop(key, None)
+        path = self._get_path(key)
+        if isinstance(value, (Setting, Parameter)):
+            if isinstance(value, Parameter):
+                if self.align_name:
+                    value = value.model_copy(update={"name": path})
+                value = Setting(parameter=value, value=None, path=path)
+            else:
+                update_dict = {"path": path}
+                if self.align_name:
+                    update_dict["parameter"] = value.parameter.model_copy(update={"name": path})
+                value = value.model_copy(update=update_dict)
+            self.settings[key] = value
+            self.subtrees.pop(key, None)
         elif isinstance(value, SettingNode):
-            self._subtrees[key] = value
-            self._settings.pop(key, None)
-        elif key != "_settings" and key in self._settings:  # != prevents infinite recursion
-            self._settings[key] = self._settings[key].update(value)
+            self.subtrees[key] = _fix_path_recursive(value, path)
+            self.settings.pop(key, None)
+        elif key != "settings" and key in self.settings:  # != prevents infinite recursion
+            self.settings[key] = self.settings[key].update(value)
         else:
             self.__dict__[key] = value
 
     def __delattr__(self, key):
-        if key in self._settings:
-            del self._settings[key]
-        elif key in self._subtrees:
-            del self._subtrees[key]
+        if key in self.settings:
+            del self.settings[key]
+        elif key in self.subtrees:
+            del self.subtrees[key]
         else:
             del self.__dict__[key]
 
     def __getitem__(self, item: str) -> Setting | SettingNode:
         """Allows dictionary syntax."""
-        return self.__getattr__(item)
+        if len(item.split(".")) == 1:
+            return self.__getattr__(item)
+        return self.get_node_for_path(item)
 
     def __setitem__(self, key: str, value: Any) -> None:
         """Allows dictionary syntax."""
-        self.__setattr__(key, value)
+        path_fragments = key.split(".")
+        node_key = path_fragments[0]
+        remaining_path = ".".join(path_fragments[1:])
+
+        if not remaining_path:
+            self.__setattr__(key, value)
+        elif node_key in self.children:
+            try:
+                self[node_key][remaining_path] = value
+            except TypeError:
+                raise ValueError(f"Path '{key}' is invalid: '{node_key}' is a setting, not a node.")
+        else:
+            if not isinstance(value, (SettingNode, Setting, Parameter)):
+                raise ValueError(
+                    f"Assigning value {value} to path {key} cannot be done when this path is not found in self."
+                )
+            self.add_for_path({path_fragments[-1]: value}, path=".".join(path_fragments[:-1]))
 
     def __delitem__(self, key):
         """Allows dictionary syntax."""
@@ -294,8 +434,8 @@ class SettingNode:
     def __iter__(self):
         """Allows breadth-first iteration through the tree."""
         yield self
-        yield from iter(self._settings.values())
-        for subtree in self._subtrees.values():
+        yield from iter(self.settings.values())
+        for subtree in self.subtrees.values():
             yield from iter(subtree)
 
     def nodes_by_type(
@@ -363,21 +503,17 @@ class SettingNode:
     @property
     def children(self) -> dict[str, Setting | SettingNode]:
         """Dictionary of immediate child nodes of this node."""
-        return {**self._settings, **self._subtrees}
+        return {**self.settings, **self.subtrees}
 
     @property
     def child_settings(self) -> ItemsView[str, Setting]:
         """ItemsView of settings of this node."""
-        return self._settings.items()
+        return self.settings.items()
 
     @property
     def child_nodes(self) -> ItemsView[str, SettingNode]:
         """ItemsView of immediate child nodes of this node."""
-        return self._subtrees.items()
-
-    def copy(self) -> SettingNode:
-        """Return a deepcopy of this SettingNode."""
-        return deepcopy(self)
+        return self.subtrees.items()
 
     def get_parent_of(self, name: str) -> SettingNode:
         """Get the first SettingNode that has a Setting named `name`.
@@ -408,32 +544,49 @@ class SettingNode:
         return next((item for item in self if item.name == name), None)
 
     @staticmethod
-    def merge(first: SettingNode, second: SettingNode) -> SettingNode:
+    def merge(
+        first: SettingNode,
+        second: SettingNode,
+        merge_nones: bool = False,
+        align_name: bool = True,
+        deep_copy: bool = True,
+    ) -> SettingNode:
         """Recursively combine the tree structures and values of two SettingNodes.
 
         In case of conflicting nodes,values in `first` take priority regardless of the replaced content in `second`.
-        `None` values are never prioritized.
+        `None` values are not prioritized unless ``merge_nones`` is set to ``True``.
 
         Args:
             first: SettingNode to merge, whose values and structure take priority
             second: SettingNode to merge.
+            merge_nones: Whether to merge also ``None`` values from ``first`` to ``second``.
+            align_name: Whether to align the paths (and also names if ``second`` does not use ``align_name==False``)
+                when merging the nodes. Should never be set ``False`` unless the paths in ``first`` already align with
+                what they should be in ``second`` (setting it ``False`` in such cases can improve performance).
+            deep_copy: Whether to deepcopy or just shallow copy all the sub-nodes. Set to ``False`` with high caution
+                and understand the consequences.
 
         Returns:
             A new SettingNode constructed from arguments.
 
         """
-        new = second.copy()
-        for key, item in first._settings.items():
-            if item.value is not None:
-                new[key] = copy(item)
-        for key, item in first._subtrees.items():
-            if key in new._subtrees:
-                new[key] = SettingNode.merge(item, new[key])
+        new = second.model_copy(deep=deep_copy)
+        for key, item in first.settings.items():
+            if merge_nones or item.value is not None:
+                if align_name:
+                    new[key] = item.copy(name=item.name.replace(f"{first.name}.", ""))
+                else:
+                    new.settings[key] = item.copy()
+        for key, item in first.subtrees.items():
+            item_copy = item.model_copy(update={"name": item.name.replace(f"{first.name}.", "")}, deep=deep_copy)
+            subs = new if align_name else new.subtrees
+            if key in new.subtrees:
+                subs[key] = SettingNode.merge(item_copy, new[key])
             else:
-                new[key] = copy(item)
+                subs[key] = item_copy
 
         for key, item in first.__dict__.items():
-            if key not in ["_settings", "_subtrees"]:
+            if key not in ["settings", "subtrees"]:
                 new[key] = copy(item)
         return new
 
@@ -448,17 +601,17 @@ class SettingNode:
                 will be replaced.
 
         """
-        for key, item in other._settings.items():
-            if key in self._settings and (prioritize_other or (self[key].value is None)):
-                self[key] = item.value
-        for key, item in other._subtrees.items():
-            if key in self._subtrees:
-                self[key].merge_values(copy(item), prioritize_other)
+        for key, item in other.settings.items():
+            if key in self.settings and (prioritize_other or (self[key].value is None)):
+                self.settings[key] = Setting(self.settings[key].parameter, item.value)
+        for key, item in other.subtrees.items():
+            if key in self.subtrees:
+                self.subtrees[key].merge_values(copy(item), prioritize_other)
 
     def prune(self, other: SettingNode) -> None:
         """Recursively delete all branches from this SettingNode that are not found in ``other``."""
-        for key, node in self._subtrees.copy().items():
-            if key not in other._subtrees:
+        for key, node in self.subtrees.copy().items():
+            if key not in other.subtrees:
                 del self[key]
             else:
                 self[key].prune(other[key])
@@ -471,10 +624,10 @@ class SettingNode:
 
         """
 
-        def append_lines(key: str, node: SettingNode, lines: List[str], indents: List[bool]):  # noqa: F821
+        def append_lines(node: SettingNode, lines: list[str], indents: list[bool]):
             indent = "".join([" ║  " if i else "    " for i in indents])
             if len(indents) < levels:
-                for key, setting in node._settings.items():  # noqa: PLR1704
+                for key, setting in node.settings.items():
                     if setting.value is None:
                         value = "None (automatic/unspecified)"
                     elif setting.parameter.collection_type == CollectionType.NDARRAY:
@@ -482,23 +635,25 @@ class SettingNode:
                     else:
                         value = f"{setting.value} {setting.unit}"
                     lines.append(indent + f" ╠─ {key}: {setting.label} = {value}")
-                if node._subtrees:
+                if node.subtrees:
                     lines.append(indent + " ║ ")
                 subtrees_written = 0
-                for key, subtree in node._subtrees.items():
-                    lines.append(indent + f' ╠═ {key}: "{subtree.name}"')
-                    if subtrees_written == len(node._subtrees) - 1:
+                for key, subtree in node.subtrees.items():
+                    lines.append(indent + f' ╠═ {key}: "{subtree.name}: align_name={subtree.align_name}"')
+                    if subtrees_written == len(node.subtrees) - 1:
                         lines[-1] = lines[-1].replace("╠", "╚")
-                    append_lines(key, subtree, lines, indents + [subtrees_written < len(node._subtrees) - 1])
+                    append_lines(subtree, lines, indents + [subtrees_written < len(node.subtrees) - 1])
                     subtrees_written += 1
             lines[-1] = lines[-1].replace("╠", "╚")
 
-        lines = [f'"{self.name}"']
-        append_lines("", self, lines, [])
+        lines = [f'"{self.name}: align_name={self.align_name}"']
+        append_lines(self, lines, [])
         print("\n", "\n".join(lines))
 
     def __eq__(self, other: SettingNode):
-        return isinstance(other, SettingNode) and self.children == other.children and self.name == other.name
+        return isinstance(other, SettingNode) and (
+            (self.name, self.settings, self.subtrees) == (other.name, other.settings, other.subtrees)
+        )
 
     def __repr__(self):
         return f"{self.__class__.__name__}{self.children}"
@@ -518,9 +673,9 @@ class SettingNode:
             A new SettingNode with the same structure as the original, but where node instances are of type `cls`.
 
         """
-        new = cls(name=node.name, **node._settings)
-        for key, subnode in node._subtrees.items():
-            new[key] = cls.transform_node_types(subnode)
+        new = cls(name=node.name, **node.settings, align_name=node.align_name, generate_paths=False)
+        for key, subnode in node.subtrees.items():
+            new.subtrees[key] = cls.transform_node_types(subnode)
         return new
 
     def set_from_dict(self, dct: dict[str, Any], strict: bool = False) -> None:
@@ -538,57 +693,24 @@ class SettingNode:
         for key, value in dct.items():
             if key not in self.children:
                 error = UnknownSettingError(f"Tried to set {key} to {value}, but no such node exists in {self.name}.")
-                self.logger.debug(error.message)
+                logger.debug(error.message)
                 if strict:
                     raise error
                 continue
             if isinstance(value, dict) and isinstance(self[key], SettingNode):
                 self[key].set_from_dict(value)
+            elif type(value) is str:
+                self.settings[key] = Setting(
+                    self.settings[key].name,
+                    self.settings[key].parameter.data_type.cast(value),
+                    path=self.settings[key].path,
+                )
             else:
-                self[key] = self[key].parameter.data_type.cast(value) if type(value) == str else value  # noqa: E721
+                self.settings[key] = self.settings[key].update(value)
 
     def setting_with_path_name(self, setting: Setting) -> Setting:
-        """Get Setting from ``self`` where the name of the parameter is replaced with its path in ``self``.
-
-        The path is defined as the sequence of attribute keys leading to the node with ``setting`` in it.
-        The method is used for conveniently saving settings tree observations with their settings tree path
-        as the ``dut_field``.
-
-        Args:
-            setting: Setting to search for.
-
-        Returns:
-            Copy of Setting ``setting`` where the parameter name is replaced with its path in ``self``.
-
-        Raises:
-            UnknownSettingError: If ``name`` is not found within ``self``.
-
-        """
-
-        def _search(settings: SettingNode, name: str, prefix: str) -> tuple[str, Setting] | tuple[None, None]:
-            for key, value in settings.children.items():
-                path_prefix = f"{prefix}.{key}" if prefix else key
-                if isinstance(value, Setting) and value.name == setting.name:
-                    return path_prefix, value
-                if isinstance(value, SettingNode) and value.find_by_name(setting.name):
-                    return _search(value, setting, path_prefix)
-            return None, None
-
-        path, found_setting = _search(self, setting, "")
-        if path is None:
-            raise UnknownSettingError(f'{name} not found inside {self.__class__.__name__} "{self.name}".')  # noqa: F821
-        param = found_setting.parameter
-        return Setting(
-            Parameter(
-                name=path,
-                label=param.label,
-                unit=param.unit,
-                data_type=param.data_type,
-                collection_type=param.collection_type,
-                element_indices=param.element_indices,
-            ),
-            found_setting.value,
-        )
+        """Get a copy of a setting with its name replaced with the path name."""
+        return self.find_by_name(setting.name).with_path_name()
 
     def diff(self, other: SettingNode, *, path: str = "") -> list[str]:
         """Recursive diff between two SettingNodes.
@@ -637,9 +759,9 @@ class SettingNode:
             node_diff.append(f"node name: {self.name}/{other.name}")
 
         # compare settings
-        b_keys = set(other._settings)
-        for key, a_setting in self._settings.items():
-            b_setting = other._settings.get(key)
+        b_keys = set(other.settings)
+        for key, a_setting in self.settings.items():
+            b_setting = other.settings.get(key)
             if b_setting is None:
                 node_diff.append(f"-setting: {key}")
                 continue
@@ -647,21 +769,21 @@ class SettingNode:
             if a_setting != b_setting:
                 node_diff.append(diff_settings(a_setting, b_setting, key))
         for key in b_keys:
-            if key not in self._settings:
+            if key not in self.settings:
                 node_diff.append(f"+setting: {key}")
 
         # compare subnodes
         diff_subnodes: list[tuple[SettingNode, SettingNode, str]] = []
-        b_keys = set(other._subtrees)
-        for key, a_sub in self._subtrees.items():
-            b_sub = other._subtrees.get(key)
+        b_keys = set(other.subtrees)
+        for key, a_sub in self.subtrees.items():
+            b_sub = other.subtrees.get(key)
             if b_sub is None:
                 node_diff.append(f"-subnode: {key}")
             else:
                 b_keys.remove(key)
                 diff_subnodes.append((a_sub, b_sub, key))
         for key in b_keys:
-            if key not in self._subtrees:
+            if key not in self.subtrees:
                 node_diff.append(f"+subnode: {key}")
 
         # add path prefixes
@@ -704,3 +826,227 @@ class SettingNode:
         jenv = jinja2.Environment(loader=jinja2.FileSystemLoader(tmpl_path), auto_reload=True)
 
         return jenv.get_template("settingnode_v2.html.jinja2").render(s=self, withsi=self._withsiprefix, startopen=0)
+
+    def get_node_for_path(self, path: str) -> Setting | SettingNode:
+        """Return the node corresponding to the given path.
+
+        Args:
+            path: The path.
+
+        Returns:
+            The node at ``path`` in self.
+
+        Raises:
+            ValueError: If the given path cannot be found in self.
+
+        """
+        keys = path.split(".")
+        node = self
+        for index, key in enumerate(keys, start=1):
+            if index < len(keys) and key in node.settings:
+                raise ValueError(f"Path '{path}' is invalid: '{key}' is a setting, not a node.")
+            if key not in node.children:
+                raise KeyError(f"Path '{path}' is invalid: key '{key}' is not found in the preceding node {node}.")
+            node = node[key]
+        return node
+
+    def add_for_path(
+        self,
+        nodes: Iterable[Setting | Parameter | SettingNode] | dict[str, Setting | Parameter | SettingNode],
+        path: str,
+        override_values: dict[str, Any] | None = None,
+    ) -> None:
+        """Add nodes to ``self`` while creating the missing nodes in-between.
+
+        Whether the names and paths are aligned is determined by the attribute ``align_name`` of the current node
+        (``self``). All the created missing nodes will use this same ``align_name`` value,
+        which determines whether their names will align with their paths.
+
+        Args:
+            nodes: Nodes to add as new leaves/branches of ``path``. If of type ``dict``, maps the keys used in
+                ``self.settings`` or ``self.subtrees`` to the nodes themselves. If ``align_name=False``, the key and
+                the node name can differ, but otherwise the names will be replaced by the path anyways).
+            path: Path in ``self`` to which ``nodes`` will be added. If the path or any part (suffix) of it is not
+                found in self, the associated nodes will be created automatically.
+            override_values: Optionally override the values for the `Settings` corresponding to ``nodes``. This dict
+                should have the same structure as ``nodes``, including matching names.
+
+        """
+        override_values = override_values or {}
+        path_split = path.split(".")
+        # find the depth already found in self
+        latest_node = self
+        levels_to_add = []
+        for idx, fragment in enumerate(path_split):
+            if fragment in latest_node.children:
+                latest_node = latest_node[fragment]
+            else:
+                levels_to_add = path_split[idx:]
+                break
+        # add the missing levels
+        for fragment in levels_to_add:
+            latest_node[fragment] = SettingNode(name=fragment, align_name=latest_node.align_name)
+            latest_node = latest_node[fragment]
+        # finally add the nodes
+        nodes_to_add = nodes.values() if isinstance(nodes, dict) else nodes
+        nodes_keys = list(nodes.keys()) if isinstance(nodes, dict) else []
+        for idx, node in enumerate(nodes_to_add):
+            key = nodes_keys[idx] if isinstance(nodes, dict) else node.name.split(".")[-1]
+            if isinstance(node, SettingNode):
+                latest_node[key] = node
+            else:
+                default_value = node.value if isinstance(node, Setting) else None
+                parameter = node.parameter if isinstance(node, Setting) else node
+                value = override_values.get(node.name) if override_values.get(node.name) is not None else default_value
+                latest_node[key] = Setting(parameter, value)
+
+    def get_default_implementation_name(self, gate: str, locus: str | Iterable[str]) -> str:
+        """Get the default implementation name for a given gate and locus.
+
+        Takes into account the global default implementation and a possible locus specific implementation and also
+        the symmetry properties of the gate.
+
+        NOTE: using this method requires the standard EXA settings tree structure.
+
+        Args:
+            gate: The name of the gate.
+            locus: Individual qubits, couplers, or combinations.
+
+        Returns:
+            The default implementation name.
+
+        """
+        gate_settings = self.gate_definitions[gate]
+        for impl in gate_settings.children:
+            if (
+                isinstance(gate_settings[impl], SettingNode)
+                and impl not in ("symmetric", "default_implementation")  # sanity check
+                and "override_default_for_loci" in gate_settings[impl].children  # backwards compatibility
+                and gate_settings[impl].override_default_for_loci.value
+            ):
+                if isinstance(locus, str):
+                    locus = locus.split("__")
+                if gate_settings.symmetric.value:
+                    loci = list(permutations(locus))
+                else:
+                    loci = [tuple(locus)]
+                for permuted_locus in loci:
+                    locus_str = "__".join(permuted_locus)
+                    if locus_str in gate_settings[impl].override_default_for_loci.value:
+                        return impl
+        return gate_settings.default_implementation.value
+
+    def get_gate_node_for_locus(
+        self,
+        gate: str,
+        locus: str | Iterable[str],
+        implementation: str | None = None,
+    ) -> SettingNode:
+        """Get the gate calibration sub-node for the locus given as a parameter if it exists in the settings tree.
+
+        NOTE: using this method requires the standard EXA settings tree structure.
+
+        Args:
+            gate: The gate to retrieve the settings for.
+            locus: Individual qubits, couplers, or combinations.
+            implementation: Using a custom rather than the default gate implementation.
+
+        Returns:
+            The settings of the specified locus and gate.
+
+        """
+        pulse_settings = self["gates"] if "gates" in self.children else self
+
+        if gate not in pulse_settings.children:
+            raise ValueError(f"Gate {gate} cannot be found in the pulse settings.")
+
+        if not implementation:
+            implementation = self.get_default_implementation_name(gate, locus)
+
+        if implementation not in pulse_settings[gate].children:
+            raise ValueError(f"Gate implementation {implementation} cannot be found in the pulse settings.")
+
+        str_loci = self._get_symmetric_loci(gate, implementation, locus)
+
+        for str_locus in str_loci:
+            if str_locus in pulse_settings[gate][implementation].children:
+                return pulse_settings[gate][implementation][str_locus]
+
+        raise ValueError(f"Locus {locus} cannot be found in the pulse settings.")
+
+    def get_locus_node_paths_for(self, gate: str, implementations: list[str] | None = None) -> list[str]:
+        """Get all the gate locus node paths for a given ``gate``.
+
+        NOTE: using this method requires the standard EXA settings tree structure.
+
+        Args:
+            gate: Gate name.
+            implementations: optionally limit the paths by these gate implementations.
+
+        Returns:
+            The locus node (string) paths corresponding to this gate.
+
+        """
+        node_paths = []
+        if "gates" not in self.children or gate not in self.gates.children:
+            return node_paths
+        if implementations is not None:
+            impls = [i for i in self.gates[gate].children if i in implementations]
+        else:
+            impls = self.gates[gate].children
+        for impl_name in impls:
+            if isinstance(self.gates[gate][impl_name], SettingNode):
+                for locus in self.gates[gate][impl_name].children:
+                    if isinstance(self.gates[gate][impl_name][locus], SettingNode):
+                        node_paths.append(f"{gate}.{impl_name}.{locus}")
+        return node_paths
+
+    def get_gate_properties_for_locus(
+        self, gate: str, locus: str | Iterable[str], implementation: str | None = None
+    ) -> SettingNode:
+        """Get the gate characterization sub-node for the locus given as a parameter if it exists in the settings tree.
+
+        NOTE: using this method requires the standard EXA settings tree structure.
+
+        Args:
+            gate: The gate to retrieve the settings for.
+            locus: Individual qubits, couplers, or combinations.
+            implementation: Using a custom rather than the default gate implementation.
+
+        Returns:
+            The settings of the specified locus and gate.
+
+        """
+        if not implementation:
+            implementation = self.get_default_implementation_name(gate, locus)
+        gate_properties = self.characterization.gate_properties
+        if gate not in gate_properties.children:
+            raise ValueError(f"Gate {gate} cannot be found in the characterization settings.")
+        if implementation not in gate_properties[gate].children:
+            raise ValueError(
+                f"Implementation {implementation} of Gate {gate} cannot be found in the characterization settings."
+            )
+
+        str_loci = self._get_symmetric_loci(gate, implementation, locus)
+        for str_locus in str_loci:
+            if str_locus in gate_properties[gate][implementation].children:
+                return gate_properties[gate][implementation][str_locus]
+
+        raise ValueError(f"Locus {locus} cannot be found in the gate properties characterization settings.")
+
+    def _get_symmetric_loci(self, gate: str, implementation: str, locus: str) -> list[str]:
+        if not isinstance(locus, str):
+            if self.gate_definitions[gate][implementation].symmetric.value:
+                str_loci = ["__".join(sort_components(locus))]
+            elif self.gate_definitions[gate].symmetric.value:
+                str_loci = ["__".join(item) for item in list(permutations(locus))]
+            else:
+                str_loci = ["__".join(locus)]
+        else:
+            str_loci = [locus]
+        return str_loci
+
+    def _get_path(self, key) -> str:
+        if not self.path:
+            return key
+        return f"{self.path}.{key}"

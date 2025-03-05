@@ -24,9 +24,9 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field
 
+from exa.common.data.value import ObservationValue
 from iqm.cpc.interface.compiler import Circuit as CPC_Circuit
 from iqm.cpc.interface.compiler import CircuitOperation, Locus
-from iqm.station_control.interface.models.observation import Value as ObservationValue
 
 
 class Instruction(BaseModel):

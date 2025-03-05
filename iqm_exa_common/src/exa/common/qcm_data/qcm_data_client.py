@@ -19,12 +19,13 @@ from functools import cache
 import json
 import logging
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from packaging.version import Version
 import requests
 
-from exa.common.errors.exa_error import ExaError, RequestError
+from exa.common.errors.exa_error import ExaError
+from exa.common.errors.server_errors import NotFoundError, ValidationError
 from exa.common.qcm_data.file_adapter import FileAdapter
 
 MIN_SUPPORTED_CONTENT_FORMAT_VERSION = Version("1.0")
@@ -70,10 +71,7 @@ class QCMDataClient:
 
     @root_url.setter
     def root_url(self, root_url: str) -> None:
-        """Sets the remote QCM Data service URL.
-
-        Cache for :func:`get_chad` has to be reset when the URL changes.
-        """
+        """Sets the remote QCM Data service URL."""
         if self._root_url != root_url:
             self._root_url = root_url
 
@@ -90,52 +88,16 @@ class QCMDataClient:
         url_tail = f"/cheddars/{chip_label}?target=in-house"
         try:
             response = self._send_request(self.session.get, f"{self.root_url}{url_tail}")
-        except RequestError as err:
+        except NotFoundError as err:
             if self._fallback_root_url:
                 response = self._send_request(self.session.get, f"{self._fallback_root_url}{url_tail}")
             else:
                 raise err
         data = response.json().get("data")
         if not data:
-            raise RequestError(f"Chip design record for {chip_label} does not contain data.")
+            raise ValidationError(f"Chip design record for {chip_label} does not contain data.")
         self._validate_chip_design_record(data, chip_label)
         return data
-
-    def get_chad(self, chip_label: str) -> Optional[dict]:
-        """DEPRECATED. Use :meth:`get_chip_design_record` instead."""
-        url_tail = f"/v2/chads/?chip_label={chip_label}&limit=1"
-        try:
-            response = self._send_request(self.session.get, f"{self.root_url}{url_tail}")
-        except RequestError as err:
-            if self._fallback_root_url:
-                response = self._send_request(self.session.get, f"{self._fallback_root_url}{url_tail}")
-            else:
-                raise err
-        data = response.json()["data"]
-        if data:
-            chad = data[0]
-            self._validate_chip_design_record(chad, chip_label)
-            return chad
-        return None
-
-    def get_qubit_design_properties(self, chip_label: str) -> dict | None:
-        """DEPRECATED. Use :meth:`get_chip_design_record` instead."""
-        self.logger.warning(
-            "QCMDataClient.get_qubit_design_properties is deprecated, use QCMDataClient.get_chip_design_record instead."
-        )
-        url_tail = f"/qubit-design-properties/?chip_label={chip_label}&limit=10&content_format=json"
-        try:
-            response = self._send_request(self.session.get, f"{self.root_url}{url_tail}")
-        except RequestError as err:
-            if self._fallback_root_url:
-                response = self._send_request(self.session.get, f"{self._fallback_root_url}{url_tail}")
-            else:
-                raise err
-        data = response.json()["data"]
-        if data:
-            qdp = data[0]
-            return qdp
-        return None
 
     def _send_request(self, http_method: Callable[..., requests.Response], url: str) -> requests.Response:
         # Send the request and return the response.
@@ -149,7 +111,7 @@ class QCMDataClient:
                 error_message = response_dict["detail"]
             except json.JSONDecodeError:
                 error_message = response.text
-            raise RequestError(f"{url} returned error code {response.status_code}: {error_message}")
+            raise NotFoundError(error_message)
         return response
 
     @staticmethod

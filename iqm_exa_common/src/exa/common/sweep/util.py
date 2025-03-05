@@ -16,7 +16,6 @@
 user-friendly format to canonic ones.
 """
 
-from exa.common.control.sweep.linear_sweep import LinearSweep
 from exa.common.control.sweep.option import StartStopOptions
 from exa.common.control.sweep.sweep import Sweep
 from exa.common.data.parameter import Parameter
@@ -75,7 +74,7 @@ def convert_sweeps_to_list_of_tuples(sweeps: Sweeps) -> NdSweep:
     return new_list
 
 
-def linear_index_sweep(parameter: Parameter, length: int) -> list[tuple[LinearSweep]]:
+def linear_index_sweep(parameter: Parameter, length: int) -> list[tuple[Sweep]]:
     """Produce an NdSweep over a dummy index.
 
     Can be used in places where a "hardware sweep" is needed but not really meaningful.
@@ -91,9 +90,9 @@ def linear_index_sweep(parameter: Parameter, length: int) -> list[tuple[LinearSw
     """
     return [
         (
-            LinearSweep(
-                Parameter(name=parameter.name + "_index", label=parameter.label + " index"),
-                StartStopOptions(0, length - 1, count=length),
+            Sweep(
+                parameter=Parameter(name=parameter.name + "_index", label=parameter.label + " index"),
+                data=StartStopOptions(0, length - 1, count=length).data,
             ),
         )
     ]

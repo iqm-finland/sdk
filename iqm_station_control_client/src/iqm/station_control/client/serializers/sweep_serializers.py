@@ -22,8 +22,8 @@ from iqm.data_definitions.station_control.v1.sweep_request_pb2 import SweepReque
 from iqm.data_definitions.station_control.v2.task_service_pb2 import SweepResultsResponse as SweepResultsResponseProto
 
 from exa.common.api import proto_serialization
-from exa.common.api.model.setting_node_model import SettingNodeModel
 from exa.common.api.proto_serialization import array
+from exa.common.data.setting_node import SettingNode
 from exa.common.sweep.database_serialization import decode_and_validate_sweeps, encode_nd_sweeps
 from iqm.station_control.client.serializers.datetime_serializers import deserialize_datetime, serialize_datetime
 from iqm.station_control.client.serializers.playlist_serializers import pack_playlist, unpack_playlist
@@ -67,7 +67,7 @@ def serialize_sweep_data(sweep_data: SweepData) -> dict:
     return {
         "sweep_id": str(sweep_data.sweep_id),
         "dut_label": sweep_data.dut_label,
-        "settings": SettingNodeModel.encode(sweep_data.settings).model_dump_json() if sweep_data.settings else None,
+        "settings": sweep_data.settings.model_dump_json() if sweep_data.settings else None,
         "sweeps": encode_nd_sweeps(sweep_data.sweeps),
         "return_parameters": sweep_data.return_parameters,
         "created_timestamp": serialize_datetime(sweep_data.created_timestamp),
@@ -83,7 +83,7 @@ def deserialize_sweep_data(data: dict) -> SweepData:
     return SweepData(
         sweep_id=uuid.UUID(data["sweep_id"]),
         dut_label=data["dut_label"],
-        settings=SettingNodeModel(**json.loads(data["settings"])).decode(),
+        settings=SettingNode(**json.loads(data["settings"])),
         sweeps=decode_and_validate_sweeps(data["sweeps"]),
         return_parameters=data["return_parameters"],
         created_timestamp=deserialize_datetime(data["created_timestamp"]),

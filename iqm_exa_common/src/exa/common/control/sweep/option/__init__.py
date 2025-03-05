@@ -11,12 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 """Range specifications for Sweeps."""
 
 from .center_span_base_options import CenterSpanBaseOptions
 from .center_span_options import CenterSpanOptions
 from .fixed_options import FixedOptions
-from .function_options import FunctionOptions
 from .start_stop_base_options import StartStopBaseOptions
 from .start_stop_options import StartStopOptions
 from .sweep_options import SweepOptions

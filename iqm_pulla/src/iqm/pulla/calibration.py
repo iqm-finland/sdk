@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Provider of calibration sets and quality metrics from remote IQM servers."""  # noqa: D200
+"""Provider of calibration sets and quality metrics from remote IQM servers."""
 
 from copy import deepcopy
 import logging

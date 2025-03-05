@@ -14,26 +14,22 @@
 
 """Sweep specification with arbitrary values."""
 
-from dataclasses import dataclass
-
-import numpy as np
+from typing import Any
+import warnings
 
 from exa.common.control.sweep.option import FixedOptions
 from exa.common.control.sweep.sweep import Sweep
+from exa.common.data.parameter import Parameter
 from exa.common.errors.exa_error import InvalidSweepOptionsTypeError
 
 
-@dataclass(frozen=True)
 class FixedSweep(Sweep):
     """A sweep over arbitrary set of values, given by `options`."""
 
-    def __post_init__(self):
-        if not isinstance(self.options, FixedOptions):
-            raise InvalidSweepOptionsTypeError(str(type(self.options)))
-
-        if not all(self.parameter.validate(value) for value in self.options.fixed):
-            raise ValueError(
-                f"Invalid fixed range data {self.options.fixed} for parameter type {self.parameter.data_type.name}."
-            )
-        data = np.asarray(self.options.fixed).tolist()
-        object.__setattr__(self, "_data", data)
+    def __init__(
+        self, parameter: Parameter, options: FixedOptions | None = None, *, data: list[Any] | None = None, **kwargs
+    ) -> None:
+        warnings.warn("FixedSweep is deprecated, use Sweep instead.", DeprecationWarning)
+        if options and not isinstance(options, FixedOptions):
+            raise InvalidSweepOptionsTypeError(str(type(options)))
+        super().__init__(parameter, options, data=data, **kwargs)

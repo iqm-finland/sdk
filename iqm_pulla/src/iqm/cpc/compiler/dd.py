@@ -13,6 +13,7 @@
 # limitations under the License.
 """Dynamical decoupling utilities."""
 
+from collections.abc import Iterable, Set
 import logging
 import math
 
@@ -113,14 +114,14 @@ def merge_wait_instructions_in_schedule(builder: ScheduleBuilder, schedule: Sche
     copied_schedule = schedule.copy()
 
     for channel_name, segment in copied_schedule.items():
-        if is_drive_channel(builder, channel_name):
+        if _is_drive_channel(builder, channel_name):
             new_segment = _merge_wait_instructions_in_segment(segment)
             copied_schedule[channel_name] = new_segment
 
     return copied_schedule
 
 
-def get_component_name(builder: ScheduleBuilder, channel_name: str) -> str | None:
+def _channel_to_component(builder: ScheduleBuilder, channel_name: str) -> str:
     """QPU component with which the given control channel is associated.
 
     Args:
@@ -128,64 +129,38 @@ def get_component_name(builder: ScheduleBuilder, channel_name: str) -> str | Non
         channel_name: Name of the control channel to look up.
 
     Returns:
-        Name of the QPU component that owns ``channel_name``, or ``None`` if the channel is not known.
+        Name of the QPU component that owns ``channel_name``.
+
+    Raises:
+        ValueError: ``channel_name`` is not associated with any QPU component.
 
     """
-    for component, channel in builder.component_channels.items():
-        if channel_name in channel.values():
+    for component, channels in builder.component_channels.items():
+        if channel_name in channels.values():
             return component
 
-    return None
+    raise ValueError(f"Channel {channel_name} is not associated with any QPU component.")
 
 
-def is_drive_channel(builder: ScheduleBuilder, channel_name: str) -> bool:
-    """Utility function to check whether a channel is a qubit drive channel.
+def _is_drive_channel(builder: ScheduleBuilder, channel_name: str) -> bool:
+    """True iff the given channel is a non-virtual drive channel.
 
     Args:
         builder: Provides component to channel mapping.
         channel_name: Name of the control channel to look up.
 
     Returns:
-        True iff ``channel_name`` is a  is a drive channel.
+        True iff ``channel_name`` refers to a non-virtual drive channel.
 
     """
-    component_name = get_component_name(builder, channel_name)
-
-    try:
-        if component_name and builder.get_drive_channel(component_name) == channel_name:
-            return True
-        return False
-
-    except KeyError:
-        return False
+    channel = builder.channels.get(channel_name)
+    return channel is not None and channel.is_iq and not channel.is_virtual
 
 
-def _extract_gate_implementations(builder: ScheduleBuilder, schedule: Schedule) -> dict[str, GateImplementation]:
-    """Get the highest-priority PRX implementation available for every qubit in a schedule.
-
-    Args:
-        builder: Schedule builder object.
-        schedule: Schedule of a circuit containing qubit drive channel names.
-
-    Returns:
-        Channel names mapped to PRX gate implementations.
-
-    """
-    implementations: dict[str, GateImplementation] = {}
-    drive_channel_names = [name for name in schedule.channels() if is_drive_channel(builder, name)]
-
-    for drive_channel_name in drive_channel_names:
-        qubit_name = get_component_name(builder, drive_channel_name)
-        implementations[drive_channel_name] = builder.get_implementation("prx", (qubit_name,), use_priority_order=True)
-
-    return implementations
-
-
-def _find_wait_instructions_on_qubits(
+def _find_wait_instructions_on_channels(
     schedule: Schedule,
-    builder: ScheduleBuilder,
+    channels: Iterable[str],
     min_duration: int,
-    qubits: frozenset[str] | None = None,
     skip_leading_wait: bool = True,
     skip_trailing_wait: bool = True,
 ) -> list[InstructionLocation]:
@@ -193,39 +168,32 @@ def _find_wait_instructions_on_qubits(
 
     The Wait must
 
-    * be on a drive channel of one of the given qubits,
+    * be on one of ``channels``,
     * have a duration >= the given minimum,
     * not be the first or last Wait on the channel, if the corresponding flag is set.
 
     Args:
         schedule: Schedule to search.
-        builder: Provides channel information.
+        channels: Names of channels in ``schedule`` to search.
         min_duration: Minimum duration for the Wait instructions (in samples).
-        qubits: Qubits on which dynamical decoupling should be applied. ``None`` means all of them.
         skip_leading_wait: Iff True, the first ``Wait`` instruction on each channel should be skipped.
         skip_trailing_wait: Iff True, the last ``Wait`` instruction on each channel should be skipped.
 
     Returns:
-        Dictionaries associated with ``Wait`` instructions that match the given criteria.
+        Information on ``Wait`` instructions in ``schedule`` that match the given criteria.
 
     """
-    all_waits = locate_instructions(schedule, Wait)
+    all_waits = locate_instructions(schedule, Wait, min_duration=min_duration, channels=channels)
     filtered_waits = []
 
     for wait in all_waits:
-        if is_drive_channel(builder, wait.channel_name) and wait.duration >= min_duration:
-            qubit_name = get_component_name(builder, wait.channel_name)
-
-            # Empty set of `qubits` is a valid input. But in that case no `Wait` instructions will be found.
-            if (qubits is None) or (qubit_name in qubits):
-                # Check if leading and/or trailing instruction should be excluded
-                if skip_leading_wait and wait.index == 0:
-                    continue
-                last_index = len(schedule[wait.channel_name]) - 1
-                if skip_trailing_wait and wait.index == last_index:
-                    continue
-
-                filtered_waits.append(wait)
+        # Check if leading and/or trailing instruction should be excluded
+        if skip_leading_wait and wait.index == 0:
+            continue
+        last_index = len(schedule[wait.channel_name]) - 1
+        if skip_trailing_wait and wait.index == last_index:
+            continue
+        filtered_waits.append(wait)
 
     return filtered_waits
 
@@ -381,7 +349,7 @@ def _create_dd_sequence(
     )
 
     # Creation of corresponding instructions
-    instructions = [Wait(duration=granularity * even_waits[0])]
+    instructions: list[Instruction] = [Wait(duration=granularity * even_waits[0])]
     for seg_even, wait_odd, seg_odd, wait_even in zip(dd_segments[::2], odd_waits, dd_segments[1::2], even_waits[1:]):
         instructions += (
             list(seg_even)
@@ -398,6 +366,89 @@ def _create_dd_sequence(
         str([inst.duration // granularity for inst in instructions]),
     )
     return instructions
+
+
+def _find_dd_channels(
+    builder: ScheduleBuilder,
+    schedule: Schedule,
+    target_components: Set[str] | None,
+) -> dict[str, GateImplementation]:
+    """Find channels in the given schedule on which DD should be applied.
+
+    Finds all non-virtual drive channels in ``schedule`` whose QPU component has a PRX implementation
+    available in the current calset.
+
+    If ``target_components`` is given, further restrict the returned channels to the channels
+    of the given components, and raise an error if a component has no DD channel available.
+
+    Args:
+        builder: Schedule builder used to build ``schedule``, containing channel information.
+        schedule: Schedule to analyze.
+        target_components: QPU components on whose drive channels to apply DD.
+            If None, apply DD on all QPU components.
+
+    Returns:
+        DD channels mapped to the PRX implementation that is used to implement DD on that channel.
+
+    Raises:
+        ValueError: Something impossible was requested.
+
+    """
+    # TODO there should be a better way to get the channel info and component
+    # Find the channels in the schedule on which DD should be applied
+    dd_channels: dict[str, GateImplementation] = {}
+
+    if target_components is None:
+        for channel_name in schedule.channels():
+            if not _is_drive_channel(builder, channel_name):
+                continue
+
+            # Get the highest-priority PRX gate implementation available for the channel component
+            component_name = _channel_to_component(builder, channel_name)
+            try:
+                prx = builder.get_implementation("prx", (component_name,), use_priority_order=True)
+            except ValueError:
+                pass
+
+            dd_channels[channel_name] = prx
+    else:
+        # We need more complicated error handling if target_components are given.
+        all_components = builder.chip_topology.qubits | builder.chip_topology.computational_resonators
+        diff = target_components - all_components
+        if diff:
+            raise ValueError(f"Unknown target components {list(diff)}.")
+
+        errors = []
+        schedule_channels = frozenset(schedule.channels())
+        for component_name in target_components:
+            try:
+                channel_name = builder.get_drive_channel(component_name)
+            except KeyError:
+                errors.append(f"Target component {component_name} has no drive channel available.")
+                continue
+
+            if not _is_drive_channel(builder, channel_name):
+                errors.append(
+                    f"Drive channel {channel_name} of component {component_name} is a virtual channel"
+                    " that does not support DD."
+                )
+                continue
+
+            if channel_name not in schedule_channels:
+                continue
+
+            # Get the highest-priority PRX gate implementation available for the channel component
+            try:
+                prx = builder.get_implementation("prx", (component_name,), use_priority_order=True)
+            except ValueError:
+                errors.append(f"Drive channel {channel_name} of component {component_name} has no PRX available.")
+
+            dd_channels[channel_name] = prx
+
+        if errors:
+            raise ValueError("\n".join(errors))
+
+    return dd_channels
 
 
 def insert_dd_sequences(
@@ -440,13 +491,13 @@ def insert_dd_sequences(
         for ratio, pattern, alignment in dd_sequences_sorted
     ]
 
-    gate_implementations = _extract_gate_implementations(builder, schedule)
+    dd_channels = _find_dd_channels(builder, schedule, strategy.target_qubits)
 
-    dd_windows = _find_wait_instructions_on_qubits(
+    # Find Wait instructions on dd_channels with a sufficient duration etc.
+    dd_windows = _find_wait_instructions_on_channels(
         schedule,
-        builder,
+        channels=dd_channels.keys(),
         min_duration=0,
-        qubits=strategy.target_qubits,
         skip_leading_wait=strategy.skip_leading_wait,
         skip_trailing_wait=strategy.skip_trailing_wait,
     )
@@ -455,8 +506,8 @@ def insert_dd_sequences(
     # insertions
     for wait in reversed(dd_windows):
         channel_name = wait.channel_name
+        prx = dd_channels[channel_name]
         wait_duration = wait.duration
-        prx = gate_implementations[channel_name]
 
         # NOTE: Duration is always calculated using "X"
         prx_duration = _get_channel_segment(builder, prx.rx(math.pi), channel_name).duration

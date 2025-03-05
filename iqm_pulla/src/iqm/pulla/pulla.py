@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Pulse level access library for IQM's circuit-to-pulse compiler and Station Control API."""  # noqa: D200
+"""Pulse level access library for IQM's circuit-to-pulse compiler and Station Control API."""
 
 from importlib.metadata import version
 import logging
@@ -135,7 +135,7 @@ class Pulla:
         )
 
     def fetch_latest_calibration_set(self) -> tuple[CalibrationSet, CalibrationSetId]:
-        """Fetches the latest default calibration set from the server, and returns its decoded representation and id."""  # noqa: D200, E501
+        """Fetches the latest default calibration set from the server, and returns its decoded representation and id."""  # noqa: E501
         latest_calibration_set, latest_calibration_set_id = self._calibration_data_provider.get_latest_calibration_set(
             self.get_chip_label()
         )
@@ -154,7 +154,7 @@ class Pulla:
         return calibration_set
 
     def get_chip_label(self) -> str:
-        """Returns the chip label of the current quantum computer. The chip label is fetched from the Station Control API."""  # noqa: E501, D200
+        """Returns the chip label of the current quantum computer. The chip label is fetched from the Station Control API."""  # noqa: E501
         try:
             duts = self._station_control_client.get_duts()
         except requests.RequestException as e:
@@ -165,7 +165,7 @@ class Pulla:
         return duts[0].label
 
     def get_chip_topology(self) -> ChipTopology:
-        """Returns chip topology that was fetched from the IQM server during Pulla initialization."""  # noqa: D200
+        """Returns chip topology that was fetched from the IQM server during Pulla initialization."""
         try:
             record = self._station_control_client.get_chip_design_record(self.get_chip_label())
         except Exception as e:
@@ -173,7 +173,7 @@ class Pulla:
         return ChipTopology.from_chip_design_record(record)
 
     def _get_station_control_settings(self) -> SettingNode:
-        """Returns the Station Control settings node that was fetched from the IQM server during Pulla initialization."""  # noqa: D200, E501
+        """Returns the Station Control settings node that was fetched from the IQM server during Pulla initialization."""  # noqa: E501
         if self._station_control_settings is None:
             # request the station settings, cache the results
             try:
@@ -226,7 +226,7 @@ class Pulla:
         sweep_response = self._station_control_client.sweep(
             SweepDefinition(
                 sweep_id=sweep_id,
-                playlists=playlist,
+                playlist=playlist,
                 return_parameters=list(extract_readout_controller_result_names(context["readout_mappings"])),
                 settings=settings,
                 dut_label=self.get_chip_label(),

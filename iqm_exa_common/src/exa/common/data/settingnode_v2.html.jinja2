@@ -29,7 +29,7 @@
 {% endmacro %}
 
 {% macro slisttabrow(key, s) %}
-    <tr>
+    <tr style={{"color:gray" if s.read_only else ""}}>
         <td style="text-align: left">
             <span style="font-family: monospace;
                          font-weight: bold"
@@ -59,18 +59,18 @@
 {% macro snlist(s, lvl=0) %}
     {% if slistmode %}
         <ul style="padding-left: 2em; list-style: none;">
-            {% for key, subs in s._settings.items() %}{{ slistitem(key, subs) }}{% endfor %}
+            {% for key, subs in s.settings.items() %}{{ slistitem(key, subs) }}{% endfor %}
         </ul>
     {% else %}
-        {% if s._settings %}
+        {% if s.settings %}
             <table style="margin-left: 1em;">
-                {% for key, subs in s._settings.items() %}{{ slisttabrow(key, subs) }}{% endfor %}
+                {% for key, subs in s.settings.items() %}{{ slisttabrow(key, subs) }}{% endfor %}
             </table>
         {% endif %}
     {% endif %}
-    {% if s._subtrees %}
+    {% if s.subtrees %}
         <ul class="exa-subtree">
-            {% for key, subsn in s._subtrees.items() %}{{ snlistitem(key, subsn, lvl+1) }}{% endfor %}
+            {% for key, subsn in s.subtrees.items() %}{{ snlistitem(key, subsn, lvl+1) }}{% endfor %}
         </ul>
     {% endif %}
 {% endmacro %}

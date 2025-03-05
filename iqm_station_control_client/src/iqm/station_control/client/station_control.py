@@ -29,8 +29,12 @@ from packaging.version import Version, parse
 import requests
 
 from exa.common.data.setting_node import SettingNode
-from exa.common.errors.exa_error import RequestError
-from exa.common.qcm_data.chad_model import CHAD
+from exa.common.errors.server_errors import (
+    STATUS_CODE_TO_ERROR_MAPPING,
+    InternalServerError,
+    NotFoundError,
+    StationControlError,
+)
 from exa.common.qcm_data.qcm_data_client import QCMDataClient
 from iqm.station_control.client.list_models import (
     DutFieldDataList,
@@ -110,7 +114,7 @@ class StationControlClient:
         - range: Range test (inclusive).
             For example, ``created_timestamp__range=(datetime(2023, 10, 12), datetime(2024, 10, 14))``
         - in: In a given iterable; often a list, tuple, or queryset.
-            For example, ``dut_field__in=["QB1.frequency", "QB2.readout.frequency"]``
+            For example, ``dut_field__in=["QB1.frequency", "gates.measure.constant.QB2.frequency"]``
         - icontains: Case-insensitive containment test.
             For example, ``origin_uri__icontains="local"``
         - overlap: Returns objects where the data shares any results with the values passed.
@@ -160,6 +164,12 @@ class StationControlClient:
         response = self._send_request(requests.get, "configuration")
         return response.json()
 
+    @cache
+    def get_exa_configuration(self) -> str:
+        """Return the recommended EXA configuration from the server."""
+        response = self._send_request(requests.get, "exa/configuration")
+        return response.content.decode("utf-8")
+
     def get_or_create_software_version_set(self, software_version_set: SoftwareVersionSet) -> int:
         """Get software version set ID from the database, or create if it doesn't exist."""
         # FIXME: We don't have information if the object was created or fetched. Thus, server always responds 200 (OK).
@@ -169,7 +179,7 @@ class StationControlClient:
 
     def get_settings(self) -> SettingNode:
         """Return a tree representation of the default settings as defined in the configuration file."""
-        return self._get_cached_settings().copy()
+        return self._get_cached_settings().model_copy()
 
     @cache
     def _get_cached_settings(self) -> SettingNode:
@@ -181,10 +191,10 @@ class StationControlClient:
         """Get a raw chip design record matching the given chip label."""
         try:
             response = self._send_request(requests.get, f"chip-design-records/{dut_label}")
-        except RequestError as err:
-            if str(err).find("An error occurred on the server with the error code 404") >= 0 and self._qcm_data_client:
+        except StationControlError as err:
+            if isinstance(err, NotFoundError) and self._qcm_data_client:
                 return self._qcm_data_client.get_chip_design_record(dut_label)
-            response = self._send_request(requests.get, f"chads/{dut_label}")
+            raise err
         return response.json()
 
     @cache
@@ -202,36 +212,6 @@ class StationControlClient:
         response = self._send_request(requests.get, "channel-properties/", headers=headers)
         decoded_dict = unpack_channel_properties(response.content)
         return decoded_dict
-
-    @cache
-    def get_chad(self, dut_label: str) -> CHAD:
-        """DEPRECATED."""
-        logger.warning(
-            "StationControlClient.get_chad is deprecated, use StationControlClient.get_chip_design_record instead."
-        )
-        try:
-            response = self._send_request(requests.get, f"chads/{dut_label}")
-            return CHAD(**response.json())
-        except RequestError as err:
-            if str(err).find("An error occurred on the server with the error code 404") >= 0 and self._qcm_data_client:
-                chad_dict = self._qcm_data_client.get_chad(dut_label)
-                return CHAD(**chad_dict)
-            raise err
-
-    @cache
-    def get_qubit_design_properties(self, dut_label: str) -> dict:
-        """DEPRECATED."""
-        logger.warning(
-            "StationControlClient.get_qubit_design_properties is deprecated, "
-            "use StationControlClient.get_chip_design_record instead."
-        )
-        try:
-            response = self._send_request(requests.get, f"qubit-design-properties/{dut_label}")
-            return response.json()
-        except RequestError as err:
-            if str(err).find("An error occurred on the server with the error code 404") >= 0 and self._qcm_data_client:
-                return self._qcm_data_client.get_qubit_design_properties(dut_label)
-            raise err
 
     def sweep(
         self,
@@ -255,7 +235,7 @@ class StationControlClient:
             in monolithic mode or successful submission to the task queue in remote mode.
 
         Raises:
-            RequestError if submitting a sweep failed.
+            ExaError if submitting a sweep failed.
 
         """
         data = serialize_sweep_task_request(sweep_definition, queue_name="sweeps")
@@ -278,7 +258,7 @@ class StationControlClient:
 
     def delete_sweep(self, sweep_id: uuid.UUID) -> None:
         """Delete sweep in the database."""
-        self._send_request(requests.delete, f"sweeps/{sweep_id}/delete")
+        self._send_request(requests.delete, f"sweeps/{sweep_id}")
 
     def get_sweep_results(self, sweep_id: uuid.UUID) -> SweepResults:
         """Get N-dimensional sweep results from the database."""
@@ -675,7 +655,7 @@ class StationControlClient:
     def _poll_task(self, task_id: str) -> dict:
         task = self._send_request(requests.get, f"tasks/{task_id}").json()
         if task["task_status"] == "FAILURE":
-            raise RequestError(f"Server-side error. Details: {task}")
+            raise InternalServerError(task)
         return task
 
     def _send_request(
@@ -706,9 +686,9 @@ class StationControlClient:
                 error_message = response_json["detail"]
             except json.JSONDecodeError:
                 error_message = response.text
-            raise RequestError(
-                f"An error occurred on the server with the error code {response.status_code}: {error_message}"
-            )
+
+            error_class = STATUS_CODE_TO_ERROR_MAPPING[response.status_code]
+            raise error_class(error_message)
         return response
 
     def _check_api_versions(self):

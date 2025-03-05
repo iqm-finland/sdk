@@ -76,11 +76,11 @@ from typing import TYPE_CHECKING
 
 from exa.common.data.parameter import CollectionType, DataType, Parameter, Setting
 from exa.common.data.setting_node import SettingNode
-from iqm.cpc.compiler.errors import CalibrationError, SettingsConventionError
+from iqm.cpc.compiler.errors import CalibrationError
 from iqm.pulla.interface import CalibrationSet
 
 if TYPE_CHECKING:
-    from iqm.station_control.interface.models.observation import Value as ObservationValue
+    from exa.common.data.value import ObservationValue
 
 ### Naming convention for controllers.
 
@@ -112,7 +112,7 @@ class Map:
         """Settings path for the given component."""
         if self.settings_path_template is None:
             # derive from observation_path
-            return self.observation_path_template.replace(".", "__", 1).format(component)
+            return self.observation_path_template.replace("controllers.", "").replace(".", "__", 1).format(component)
         return self.settings_path_template.format(component)
 
 
@@ -143,28 +143,24 @@ def find_observation(
     return obs_value
 
 
-# NOTE: The older ZI HDAWG and ZI UHFQA devices use external local oscillators and upconversion modules.
-# The standard Apollo station uses ZI SHFSG for driving and ZI SHFQA for readout. Both have internal upconversion.
-# Hence there is no QB__drive.local_oscillator or a PL__readout.local_oscillator controller for these devices.
-
 # TODO until station type records (defining the instrumentation for each chip component) are available,
 # CPC cannot know which instruments are being used, so we must generate settings for all supported instruments
 # if the corresponding observation is in the calset.
 
 _per_qubit = (
-    Map(Parameter("", "Flux voltage at parking spot", "V"), "{}.flux.voltage"),
+    Map(Parameter("", "Flux voltage at parking spot", "V"), "controllers.{}.flux.voltage"),
     Map(
         Parameter("", "Qubit drive frequency, should match the g-e transition frequency at parking spot", "Hz"),
-        "{}.drive.frequency",
+        "controllers.{}.drive.frequency",
     ),
     Map(
         Parameter("", "DC offset at I port of the drive mixer", "V"),
-        "{}.drive.awg.mixer_correction.dc_bias_i",
+        "controllers.{}.drive.awg.mixer_correction.dc_bias_i",
         required=False,
     ),  # ZI HDAWG
     Map(
         Parameter("", "DC offset at Q port of the drive mixer", "V"),
-        "{}.drive.awg.mixer_correction.dc_bias_q",
+        "controllers.{}.drive.awg.mixer_correction.dc_bias_q",
         required=False,
     ),  # ZI HDAWG
     # For SHFSG the center frequency has to be a multiple of some fixed granularity.
@@ -172,90 +168,89 @@ _per_qubit = (
     # For the HDAWG, setting the IF to a good value is more optimal.
     Map(
         Parameter("", "Intermediate frequency for drive mixer", "Hz"),
-        "{}.drive.awg.intermediate_frequency",
+        "controllers.{}.drive.awg.intermediate_frequency",
         required=False,
     ),  # ZI HDAWG
     Map(
         Parameter("", "Center frequency for drive mixer", "Hz"),
-        "{}.drive.awg.center_frequency",
+        "controllers.{}.drive.awg.center_frequency",
         required=False,
     ),  # ZI SHFSG
-    Map(Parameter("", "Trigger delay for drive AWG", "s"), "{}.drive.awg.trigger_delay", required=False),
+    Map(Parameter("", "Trigger delay for drive AWG", "s"), "controllers.{}.drive.awg.trigger_delay", required=False),
 )
 
 _per_flux_pulsed_qubit = {
     # precompensation settings
     Map(
-        Parameter("", "Precompensation timeconstants", "", DataType.NUMBER, CollectionType.LIST),
-        "{}.flux.awg.precompensation.timeconstants",
+        Parameter("", "Precompensation timeconstants", "", DataType.FLOAT, CollectionType.LIST),
+        "controllers.{}.flux.awg.precompensation.timeconstants",
         required=False,
     ),
     Map(
-        Parameter("", "Precompensation amplitudes", "", DataType.NUMBER, CollectionType.LIST),
-        "{}.flux.awg.precompensation.amplitudes",
+        Parameter("", "Precompensation amplitudes", "", DataType.FLOAT, CollectionType.LIST),
+        "controllers.{}.flux.awg.precompensation.amplitudes",
         required=False,
     ),
-    Map(Parameter("", "Trigger delay for flux AWG", "s"), "{}.flux.awg.trigger_delay", required=False),
+    Map(Parameter("", "Trigger delay for flux AWG", "s"), "controllers.{}.flux.awg.trigger_delay", required=False),
 }
 
 _per_coupler = (
-    Map(Parameter("", "Flux voltage at idling spot", "V"), "{}.flux.voltage"),
+    Map(Parameter("", "Flux voltage at idling spot", "V"), "controllers.{}.flux.voltage"),
     # precompensation settings
     Map(
-        Parameter("", "Precompensation timeconstants", "", DataType.NUMBER, CollectionType.LIST),
-        "{}.flux.awg.precompensation.timeconstants",
+        Parameter("", "Precompensation timeconstants", "", DataType.FLOAT, CollectionType.LIST),
+        "controllers.{}.flux.awg.precompensation.timeconstants",
         required=False,
     ),
     Map(
-        Parameter("", "Precompensation amplitudes", "", DataType.NUMBER, CollectionType.LIST),
-        "{}.flux.awg.precompensation.amplitudes",
+        Parameter("", "Precompensation amplitudes", "", DataType.FLOAT, CollectionType.LIST),
+        "controllers.{}.flux.awg.precompensation.amplitudes",
         required=False,
     ),
-    Map(Parameter("", "Trigger delay for flux AWG", "s"), "{}.flux.awg.trigger_delay", required=False),
+    Map(Parameter("", "Trigger delay for flux AWG", "s"), "controllers.{}.flux.awg.trigger_delay", required=False),
 )
 
 _per_probe_line = (
     # TWPA settings.
-    Map(Parameter("", "On/Off status of TWPA", "", DataType.BOOLEAN), "{}.twpa.status", required=False),
-    Map(Parameter("", "TWPA bias voltage", "V"), "{}.twpa.voltage", required=False),
-    Map(Parameter("", "TWPA bias voltage_1", "V"), "{}.twpa.voltage_1", required=False),
-    Map(Parameter("", "TWPA bias voltage_2", "V"), "{}.twpa.voltage_2", required=False),
-    Map(Parameter("", "Frequency of the LO driving the TWPA", "Hz"), "{}.twpa.frequency", required=False),
-    Map(Parameter("", "Power of the LO driving the TWPA", "dBm"), "{}.twpa.power", required=False),
+    Map(Parameter("", "On/Off status of TWPA", "", DataType.BOOLEAN), "controllers.{}.twpa.status", required=False),
+    Map(Parameter("", "TWPA bias voltage", "V"), "controllers.{}.twpa.voltage", required=False),
+    Map(Parameter("", "TWPA bias voltage_1", "V"), "controllers.{}.twpa.voltage_1", required=False),
+    Map(Parameter("", "TWPA bias voltage_2", "V"), "controllers.{}.twpa.voltage_2", required=False),
+    Map(Parameter("", "Frequency of the LO driving the TWPA", "Hz"), "controllers.{}.twpa.frequency", required=False),
+    Map(Parameter("", "Power of the LO driving the TWPA", "dBm"), "controllers.{}.twpa.power", required=False),
     # Center frequency must be within the AWG IF bandwidth from every <qubit>.readout.frequency
     Map(
-        Parameter("", "Probe line local oscillator frequency", "Hz"),
-        "{}.readout.local_oscillator.frequency",
-        required=False,
-    ),  # ZI UHFQA
-    Map(
         Parameter("", "Probe line center frequency", "Hz"),
-        "{}.readout.center_frequency",
+        "controllers.{}.readout.center_frequency",
+        required=True,
+    ),
+    Map(
+        Parameter("", "Trigger delay for readout instrument", "s"),
+        "controllers.{}.readout.trigger_delay",
         required=False,
-    ),  # ZI SHFQA, Athene
-    Map(Parameter("", "Trigger delay for readout instrument", "s"), "{}.readout.trigger_delay", required=False),
+    ),
 )
 
 _per_qpu = (
     Map(
         Parameter("", "Delay from end of sequence to next trigger", "s"),
-        "all_qubits.options.end_delay",
+        "controllers.options.end_delay",
         "options.end_delay",
     ),
 )
 
 _per_boundary_qubit = (
-    Map(Parameter("", "Flux voltage at parking spot", "V"), "{}.flux.voltage"),
+    Map(Parameter("", "Flux voltage at parking spot", "V"), "controllers.{}.flux.voltage"),
     # For SHFSG neighboring (paired) cores must have identical center frequencies.
     # If we do not set it here, it is possible that the cal set and the station.yaml have different values.
     Map(
         Parameter("", "Center frequency for drive mixer", "Hz"),
-        "{}.drive.awg.center_frequency",
+        "controllers.{}.drive.awg.center_frequency",
         required=False,
     ),
 )
 
-_per_boundary_coupler = (Map(Parameter("", "Flux voltage at idling spot", "V"), "{}.flux.voltage"),)
+_per_boundary_coupler = (Map(Parameter("", "Flux voltage at idling spot", "V"), "controllers.{}.flux.voltage"),)
 
 
 # Mapping from station settings parameter to the value of the setting, for settings
@@ -307,39 +302,6 @@ _per_qpu_repetitions = (
 )
 
 
-def _add_setting(node: SettingNode, path: list[str], setting: Setting) -> None:
-    """Add the given setting at the given path in a settings tree.
-
-    Args:
-        node: settings tree node
-        path: settings tree path starting at ``node``
-        setting: setting to add
-
-    """
-    # TODO this could be a :class:`SettingNode` method. Cf. :meth:`.ChipComponentExperiment._update_settings_value`
-    setting_key = path.pop()
-    name = ""
-    while path:
-        next_node_key = path[0]
-        path = path[1:]
-
-        if next_node_key in node._settings:
-            raise SettingsConventionError(f"Node {node} has a conflicting setting: {next_node_key}")
-
-        name += "." + next_node_key
-        child = node._subtrees.get(next_node_key)
-        if child is None:
-            child = SettingNode(name[1:])
-            node._subtrees[next_node_key] = child
-        elif child.name != name[1:]:
-            raise SettingsConventionError(f"Existing node {child} has a nonstandard name.")
-
-        node = child
-
-    # correct node reached
-    node[setting_key] = setting
-
-
 def _apply_static_settings(component: str, settings: dict[Parameter, ObservationValue], node: SettingNode) -> None:
     """Add the given static settings to the given settings tree for the given component."""
     for base_param, value in settings.items():
@@ -349,7 +311,7 @@ def _apply_static_settings(component: str, settings: dict[Parameter, Observation
 def _create_and_add_setting(setting_path: str, param: Parameter, value: ObservationValue, node: SettingNode) -> None:
     """Add the given parameter, with the given value, to the given settings tree path, starting from node."""
     param = param.copy(name=setting_path)
-    _add_setting(node, setting_path.split("."), Setting(param, value))
+    node[setting_path] = Setting(param, value)
 
 
 def build_station_settings(

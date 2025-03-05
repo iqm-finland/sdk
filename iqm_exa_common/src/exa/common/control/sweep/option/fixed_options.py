@@ -15,9 +15,11 @@
 """Range specification for arbitrary set of values."""
 
 from dataclasses import dataclass
-from typing import List, Union
+
+import numpy as np
 
 from exa.common.control.sweep.option.sweep_options import SweepOptions
+from exa.common.control.sweep.sweep_values import SweepValues
 
 
 @dataclass(frozen=True)
@@ -25,4 +27,8 @@ class FixedOptions(SweepOptions):
     """Range fixed options."""
 
     #: List of values.
-    fixed: List[Union[int, float, complex, bool, str]]
+    fixed: SweepValues
+
+    @property
+    def data(self) -> SweepValues:
+        return np.asarray(self.fixed).tolist()

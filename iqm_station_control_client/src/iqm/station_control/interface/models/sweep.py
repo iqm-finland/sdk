@@ -17,7 +17,6 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 import uuid
-import warnings
 
 from iqm.models.playlist import Playlist
 
@@ -49,26 +48,6 @@ class SweepDefinition(SweepBase):
 
     playlist: Playlist | None
     """A :class:`~iqm.models.playlist.Playlist` that should be uploaded to the controllers."""
-
-    def __init__(self, *args, playlist: Playlist | None = None, playlists: Playlist | None = None, **kwargs):
-        super().__init__(*args, **kwargs)
-        if playlists is not None:
-            warnings.warn("'playlists' attribute is deprecated, use 'playlist' instead.", DeprecationWarning)
-            self.playlist = playlists
-        elif playlist is not None:
-            self.playlist = playlist
-        else:
-            self.playlist = None
-
-    @property
-    def playlists(self):
-        """Returns playlists for backwards compatibility."""
-        warnings.warn("'playlists' attribute is deprecated, use 'playlist' instead.", DeprecationWarning)
-        return self.playlist
-
-    @playlists.setter
-    def playlists(self, playlist):
-        self.playlist = playlist
 
 
 class SweepStatus(Enum):

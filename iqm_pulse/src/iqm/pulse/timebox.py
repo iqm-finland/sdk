@@ -13,7 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Reserving QPU resources in instruction scheduling."""  # noqa: D200
+"""Reserving QPU resources in instruction scheduling."""
 
 from __future__ import annotations
 

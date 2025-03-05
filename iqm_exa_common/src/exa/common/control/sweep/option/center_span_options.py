@@ -15,9 +15,9 @@
 """Range specification to define a range around a center value."""
 
 from dataclasses import dataclass
-from typing import Union
 
 from exa.common.control.sweep.option.constants import DEFAULT_COUNT
+from exa.common.control.sweep.option.start_stop_options import StartStopOptions
 from exa.common.control.sweep.option.sweep_options import SweepOptions
 
 
@@ -32,17 +32,17 @@ class CenterSpanOptions(SweepOptions):
     """
 
     #: Value of interval center.
-    center: Union[int, float, complex]
+    center: int | float | complex
     #: Size of the interval.
-    span: Union[int, float, complex]
+    span: int | float | complex
     #: Number of values to generate.
     #: If `count` and `step` are empty, the default value of count is
     #: :const:`exa.common.control.sweep.option.constants.DEFAULT_COUNT`.
-    count: int = None
+    count: int | None = None
     #: Size of spacing between values.
-    step: Union[int, float, complex] = None
+    step: int | float | complex = None
     #: Order of generated values. Default to ascending
-    asc: bool = None
+    asc: bool | None = None
 
     def __post_init__(self):
         if self.count is not None and self.step is not None:
@@ -51,3 +51,10 @@ class CenterSpanOptions(SweepOptions):
             object.__setattr__(self, "count", DEFAULT_COUNT)
         if self.asc is None:
             object.__setattr__(self, "asc", True)
+
+    @property
+    def data(self) -> list[int | float | complex]:
+        start = self.center - (self.span / 2)
+        stop = self.center + (self.span / 2)
+        (start, stop) = (start, stop) if self.asc else (stop, start)
+        return StartStopOptions(start, stop, count=self.count, step=self.step).data

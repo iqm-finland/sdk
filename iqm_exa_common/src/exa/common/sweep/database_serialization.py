@@ -18,16 +18,14 @@ serializing and deserializing sweep arguments before saving them to database.
 """
 
 import json
-from typing import Any, Optional, Union, cast
+from typing import Any, cast
 
-from exa.common.api.model.parameter_model import ParameterModel
-from exa.common.api.model.setting_node_model import SettingNodeModel
-from exa.common.api.model.sweep_model import SweepModel
 from exa.common.control.sweep.sweep import Sweep
-from exa.common.data.parameter import Parameter, Setting
+from exa.common.data.parameter import Parameter
 from exa.common.data.setting_node import SettingNode
+from exa.common.helpers import json_helper
 from exa.common.helpers.json_helper import decode_json, get_json_encoder
-from exa.common.sweep.util import NdSweep, Sweeps, linear_index_sweep
+from exa.common.sweep.util import NdSweep, Sweeps
 
 
 def encode_nd_sweeps(sweeps: NdSweep, **kwargs) -> str:
@@ -45,22 +43,7 @@ def encode_nd_sweeps(sweeps: NdSweep, **kwargs) -> str:
     return json.dumps(sweeps, **kwargs)
 
 
-def encode_return_parameters_legacy(return_parameters: dict[Parameter, Optional[NdSweep]], **kwargs) -> str:
-    """Encode sweeps to a JSON string.
-
-    Args:
-        return_parameters: Return parameters as specified by :meth:`~.Backend.sweep`.
-        kwargs: keyword arguments passed to json.dumps
-
-    Returns:
-        json as a string
-
-    """
-    kwargs.setdefault("cls", _SweepDataEncoder)
-    return json.dumps(return_parameters, **kwargs)
-
-
-def encode_return_parameters(return_parameters: dict[Parameter, Optional[NdSweep]], **kwargs) -> str:
+def encode_return_parameters(return_parameters: dict[Parameter, NdSweep | None], **kwargs) -> str:
     """Encode sweeps to a JSON string.
 
     Args:
@@ -102,40 +85,7 @@ def decode_and_validate_sweeps(sweeps_json: str) -> Sweeps:
     return cast(Sweeps, decoded)
 
 
-def decode_return_parameters_legacy(json_str: str) -> dict[Parameter, Optional[NdSweep]]:
-    """Deserialize return parameters.
-
-    For backwards compatibility, changes values of the return parameters dict to a new,
-    more general format: NdSweeps, which is a list of tuples of Sweeps.
-
-    A key in the dict may be a Parameter or a Setting; both will be converted to a Parameter.
-    The values in the dict are converted with the following rules:
-
-    * 1 is converted to an empty NdSweep, i.e., a scalar.
-    * Other integers are converted to a :func:`.linear_index_sweep`
-    * `Sweep` is converted to an NdSweep that contains only the sweep
-    * NdSweep and None are not converted.
-
-    Args:
-        json_str: JSON representation of the ``return_parameters`` loaded
-            from e.g. persistence
-
-    Return:
-        a reconstituted, typed ``return_parameters`` structure
-
-    """
-
-    def decode_key(key: str) -> Parameter:
-        parameter_or_setting: dict[str, Any] = json.loads(key)
-        parameter_dict = parameter_or_setting.get("parameter", parameter_or_setting)
-        return ParameterModel(**parameter_dict).decode()
-
-    raw: dict[str, Any] = _loads(json_str)
-    decoded: dict[Setting, Union[NdSweep, Sweep, int]] = {decode_key(key): value for key, value in raw.items()}
-    return _legacy_return_parameters_to_new_format(decoded)
-
-
-def decode_return_parameters(json_str: str) -> dict[Parameter, Optional[NdSweep]]:
+def decode_return_parameters(json_str: str) -> dict[Parameter, NdSweep | None]:
     """Deserialize return parameters.
 
     For backwards compatibility, changes values of the return parameters dict to a new,
@@ -164,8 +114,7 @@ def decode_return_parameters(json_str: str) -> dict[Parameter, Optional[NdSweep]
         raise ValueError(f"Outer type is not list type when decoding: {json_str}")
 
     return_parameters = {
-        ParameterModel(**param_and_sweeps["parameter"]).decode(): param_and_sweeps["hard_sweeps"]
-        for param_and_sweeps in decoded
+        Parameter(**param_and_sweeps["parameter"]): param_and_sweeps["hard_sweeps"] for param_and_sweeps in decoded
     }
     return return_parameters
 
@@ -181,37 +130,8 @@ def decode_settings(json_str: str) -> SettingNode:
         deserialized settings
 
     """
-    return SettingNodeModel(**json.loads(json_str)).decode()
-
-
-def _legacy_return_parameters_to_new_format(
-    old: dict[Union[Parameter, Setting], Union[NdSweep, Sweep, int, None]],
-) -> dict[Parameter, NdSweep]:
-    """For backwards compatibility, changes values of the return parameters dict to a new,
-    more general format: NdSweeps, which is a list of tuples of Sweeps.
-
-    Args:
-        old: return parameters in old format.
-
-    Returns:
-        `old` coerced to the new format.
-
-    """
-    new = {}
-    for key, value in old.items():
-        parameter = key.parameter if isinstance(key, Setting) else key
-
-        # Previously, int meant "I don't know the numerical coordinates of this hard sweep, so
-        # just give me a dummy sweep with integers from 0 to <coord>"
-        if isinstance(value, int):
-            # Length 1 means scalar, so no hard sweeps at all
-            new_value = linear_index_sweep(parameter, value) if value != 1 else []
-        elif isinstance(value, Sweep):
-            new_value = [(value,)]
-        else:
-            new_value = value
-        new[parameter] = new_value
-    return new
+    json_loads = json.loads(json_str)
+    return SettingNode(**json_loads)
 
 
 def _loads(*args, **kwargs) -> Any:
@@ -228,12 +148,22 @@ def _loads(*args, **kwargs) -> Any:
     """
 
     def _decode_json(obj: Any) -> Any:
+        if isinstance(obj, dict) and "parameter" in obj:
+            # This is kind of a hack to provide backwards compatibility for old data.
+            #  Pydantic doesn't allow extra attributes with the current setup,
+            #  but old database data can have "parent_name" and "parent_label", which are not part of the model.
+            obj["parameter"].pop("parent_name", None)
+            obj["parameter"].pop("parent_label", None)
+
         if isinstance(obj, dict) and {"parameter", "data"}.issubset(obj):
-            return SweepModel(**obj).decode()
-        return decode_json(obj)
+            data = [json_helper.decode_json(d) for d in obj["data"]]
+            return Sweep(parameter=Parameter(**obj["parameter"]), data=data)
+        json_data_return = decode_json(obj)
+        return json_data_return
 
     kwargs.setdefault("object_hook", _decode_json)
-    return json.loads(*args, **kwargs)
+    loads = json.loads(*args, **kwargs)
+    return loads
 
 
 class _SweepDataEncoder(json.JSONEncoder):
@@ -250,12 +180,14 @@ class _SweepDataEncoder(json.JSONEncoder):
 
         """
         if isinstance(obj, Sweep):
-            return json.loads(SweepModel.encode(obj).model_dump_json())
-        if isinstance(obj, Parameter):
-            return json.loads(ParameterModel.encode(obj).model_dump_json())
-        if isinstance(obj, tuple):
-            return get_json_encoder()[tuple](obj)
-        return super().default(obj)
+            obj = obj.model_copy().model_dump()
+        elif isinstance(obj, Parameter):
+            obj = obj.model_copy().model_dump()
+        elif isinstance(obj, tuple):
+            obj = get_json_encoder()[tuple](obj)
+        else:
+            obj = super().default(obj)
+        return obj
 
     # JSONEncoder doesn't call `default` method for tuple, because
     # it knows how to serialize it. In order to use custom encoder

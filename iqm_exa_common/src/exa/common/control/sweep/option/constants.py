@@ -14,14 +14,14 @@
 
 """Helper constants for SweepOptions classes."""
 
-from typing import Any, Dict
+from typing import Any
 
 #: Default value for `count` value in options.
 DEFAULT_COUNT: int = 101
 #: Default value for `base` value in options.
 DEFAULT_BASE: int = 10
 #: Dictionary with all possible types of options
-OPTIONS_TYPE: Dict[str, Any] = {
+OPTIONS_TYPE: dict[str, Any] = {
     "start": "start",
     "stop": "stop",
     "center": "center",

@@ -30,8 +30,6 @@ class CCPRX_Composite(CompositeGate):
     Applies a PRX gate conditioned on a discriminated readout result obtained in the same segment (active feedback).
     Applies a PRX gate if the result is 1, and a Wait of equal duration if the result is 0.
     Uses the default implementation of PRX underneath, so no extra calibration is needed.
-
-    Not usable in the "legacy" readout programming mode.
     """
 
     parameters = {"control_delays": Parameter("", "Control delays", "s", collection_type=CollectionType.NDARRAY)}

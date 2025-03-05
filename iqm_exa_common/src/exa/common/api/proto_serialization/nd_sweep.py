@@ -18,8 +18,6 @@ import iqm.data_definitions.common.v1.sweep_pb2 as spb
 
 from exa.common.api.proto_serialization import sequence
 import exa.common.api.proto_serialization._parameter as param_proto
-from exa.common.control.sweep.fixed_sweep import FixedSweep
-from exa.common.control.sweep.option.fixed_options import FixedOptions
 from exa.common.control.sweep.sweep import Sweep
 from exa.common.data.parameter import DataType, Parameter
 from exa.common.sweep.util import NdSweep
@@ -41,10 +39,7 @@ def pack(nd_sweep: NdSweep, minimal: bool = True) -> spb.CartesianSweep:
 
 
 def unpack(proto: spb.CartesianSweep) -> NdSweep:
-    """Convert protobuf representation into a NdSweep. Reverse operation of :func:`.pack`.
-
-    Note: All sweeps will be of type :class:`.FixedSweep`.
-    """
+    """Convert protobuf representation into a NdSweep. Reverse operation of :func:`.pack`."""
     nd_sweep = []
     for parallel_proto in reversed(proto.parallel_sweeps):
         parallel = tuple(_unpack_single_sweep(sweep) for sweep in parallel_proto.single_parameter_sweeps)
@@ -59,10 +54,10 @@ def _pack_single_sweep(sweep: Sweep, minimal: bool) -> spb.SingleParameterSweep:
     return spb.SingleParameterSweep(**kwargs)
 
 
-def _unpack_single_sweep(proto: spb.SingleParameterSweep) -> FixedSweep:
+def _unpack_single_sweep(proto: spb.SingleParameterSweep) -> Sweep:
     sweep_values = sequence.unpack(proto.values)
     if proto.HasField("parameter"):
         parameter = param_proto.unpack(proto.parameter)
     else:
         parameter = Parameter(proto.parameter_name, data_type=DataType.ANYTHING)
-    return FixedSweep(parameter, FixedOptions(sweep_values))
+    return Sweep(parameter=parameter, data=sweep_values)

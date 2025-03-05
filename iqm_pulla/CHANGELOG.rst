@@ -2,6 +2,61 @@
 Changelog
 =========
 
+Version 6.4 (2025-03-05)
+========================
+
+Features
+--------
+
+- Remove general RequestError and use new specific error classes instead.
+- Use HTTPStatus code names instead of numbers for better clarity. No functional changes.
+
+Version 6.3 (2025-03-04)
+========================
+
+Bug fix
+-------
+- Pulla compiler's station settings are now generated with correct paths.
+
+Version 6.2 (2025-03-03)
+========================
+
+- Bump exa-common
+
+Version 6.1 (2025-02-28)
+========================
+
+
+Bug fix
+-------
+- Bump exa-common
+
+Version 6.0 (2025-02-27)
+========================
+
+Features
+--------
+
+- Adapt to setting tree reorganization
+- Replace deprecated usages of ``DataType.NUMBER`` with either new ``DataType.FLOAT`` or ``DataType.INT``.
+
+Version 5.28 (2025-02-25)
+=========================
+
+Features
+--------
+
+- Fix broken Configuration and Usage guide.
+- Bump Qiskit dependencies.
+
+Version 5.27 (2025-02-24)
+=========================
+
+Bug fix
+-------
+
+- Do not attempt to apply dynamical decoupling (DD) sequences on components with virtual drive channels (e.g. computational resonators). This enables DD to be used on stations with star architectures.
+
 Version 5.26 (2025-02-24)
 =========================
 

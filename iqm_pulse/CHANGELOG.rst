@@ -2,6 +2,23 @@
 Changelog
 =========
 
+Version 8.1 (2025-02-28)
+========================
+
+
+Bug fix
+-------
+- Bump exa-common
+
+Version 8.0 (2025-02-27)
+========================
+
+Features
+--------
+- Settings refactoring major version
+- Updates to documentation.
+- Replace deprecated usages of ``DataType.NUMBER`` with either new ``DataType.FLOAT`` or ``DataType.INT``.
+
 Version 7.24 (2025-02-20)
 =========================
 

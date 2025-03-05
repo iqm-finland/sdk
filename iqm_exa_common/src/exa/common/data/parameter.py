@@ -59,27 +59,33 @@ from __future__ import annotations
 
 import ast
 import copy
-from dataclasses import dataclass
 from enum import IntEnum
-import math
-from typing import Any, Dict, Hashable, List, Optional, Set, Tuple, Union
+from typing import Any, Hashable, Self
+import warnings
 
 import numpy as np
+from pydantic import model_validator
 import xarray as xr
 
-from exa.common.errors.exa_error import InvalidParameterValueError
+from exa.common.control.sweep.sweep_values import SweepValues
+from exa.common.data.base_model import BaseModel
+from exa.common.data.value import ObservationValue
+from exa.common.errors.server_errors import ValidationError
 
-CastType = Union[Optional[str], List["CastType"]]
+CastType = str | list["CastType"] | None
 
 
 class DataType(IntEnum):
     """Parameter data type."""
 
     ANYTHING = 0
-    NUMBER = 1
+    FLOAT = 1
     COMPLEX = 2
     STRING = 3
     BOOLEAN = 4
+    INT = 5
+
+    NUMBER = 101  # Deprecated
 
     def cast(self, value: CastType) -> Any:
         if isinstance(value, list):
@@ -92,8 +98,14 @@ class DataType(IntEnum):
             return True
         elif isinstance(value, np.generic):
             return self.validate(value.item())
-        elif self is DataType.NUMBER:
+        elif self in [DataType.FLOAT, DataType.NUMBER]:
+            # Accept int as well, i.e. 1 == 1.0
             return type(value) in (int, float)
+        elif self is DataType.INT:
+            # Accept float as well, i.e. 1.0 == 1
+            if type(value) in (int, float):
+                return value % 1 == 0
+            return False
         elif self is DataType.COMPLEX:
             return type(value) in (int, float, complex)
         elif self is DataType.STRING:
@@ -103,15 +115,16 @@ class DataType(IntEnum):
         else:
             return False
 
-    def _cast(self, value: str) -> Any:
+    def _cast(self, value: str) -> Any:  # noqa: PLR0911
         if value is None:
             return None
-        elif self is DataType.NUMBER:
-            if float(value) == math.floor(float(value)):
-                return int(float(value))
-            else:
-                return float(value)
+        elif self in [DataType.FLOAT, DataType.NUMBER]:
+            return float(value)
+        elif self is DataType.INT:
+            return int(value)
         elif self is DataType.COMPLEX:
+            if isinstance(value, complex):
+                return value
             return complex("".join(value.split()))
         elif self is DataType.BOOLEAN:
             if value.lower() == "true" or value == "1":
@@ -150,8 +163,7 @@ class CollectionType(IntEnum):
         return value
 
 
-@dataclass(frozen=True)
-class Parameter:
+class Parameter(BaseModel):
     """A basic data structure that represents a single variable.
 
     The variable can be a high-level or low-level control knob of an instrument such as the amplitude of a pulse
@@ -163,40 +175,57 @@ class Parameter:
 
     name: str
     """Parameter name used as identifier"""
-    label: str = None
+    label: str = ""
     """Parameter label used as pretty identifier for display purposes. Default: `name`"""
-    unit: str = None
+    unit: str = ""
     """SI unit of the quantity, if applicable."""
-    data_type: Union[DataType, Tuple[DataType, ...]] = None
+    data_type: DataType | tuple[DataType, ...] = DataType.FLOAT
     """Data type or a tuple of datatypes that this parameter accepts and validates. One of :class:`.DataType`.
-    Default: NUMBER."""
-    collection_type: CollectionType = None
+    Default: FLOAT."""
+    collection_type: CollectionType = CollectionType.SCALAR
     """Data format that this parameter accepts and validates. One of :class:`.CollectionType`.
     Default: SCALAR."""
-    element_indices: Optional[int | list[int]] = None
+    element_indices: int | list[int] | None = None
     """For parameters representing a single value in a collection-valued parent parameter, this field gives the indices
     of that value. If populated, the ``self.name`` and ``self.label`` will be updated in post init to include
     the indices (becoming ``"<parent name>__<index0>__<index1>__...__<indexN>"`` and ``"<parent label> <indices>"``
     , respectively). The parent name can then be retrieved with ``self.parent_name`` and the parent label with
     ``self.parent_label``."""
 
-    _parent_name: Optional[str] = None
-    _parent_label: Optional[str] = None
+    _parent_name: str | None = None
+    _parent_label: str | None = None
 
-    def __post_init__(self) -> None:
-        if self.data_type is None:
-            object.__setattr__(self, "data_type", DataType.NUMBER)
-        if self.unit is None:
-            object.__setattr__(self, "unit", "")
-        if self.label is None:
-            object.__setattr__(self, "label", self.name)
-        if self.collection_type is None:
-            object.__setattr__(self, "collection_type", CollectionType.SCALAR)
+    def __init__(
+        self,
+        name: str,
+        label: str = "",
+        unit: str = "",
+        data_type: DataType | tuple[DataType, ...] = DataType.FLOAT,
+        collection_type: CollectionType = CollectionType.SCALAR,
+        element_indices: int | list[int] | None = None,
+        **kwargs,
+    ) -> None:
+        if not label:
+            label = name
+        if data_type == DataType.NUMBER:
+            warnings.warn(
+                "data_type 'DataType.NUMBER' is deprecated, using 'DataType.FLOAT' instead.",
+                DeprecationWarning,
+            )
+            # Consider DataType.NUMBER as a deprecated alias for DataType.FLOAT
+            data_type = DataType.FLOAT
+        super().__init__(
+            name=name,
+            label=label,
+            unit=unit,
+            data_type=data_type,
+            collection_type=collection_type,
+            element_indices=element_indices,
+            **kwargs,
+        )
         if self.element_indices is not None:
             if self.collection_type is not CollectionType.SCALAR:
-                raise InvalidParameterValueError(
-                    "Element-wise parameter must have CollectionType.SCALAR collection type."
-                )
+                raise ValidationError("Element-wise parameter must have 'CollectionType.SCALAR' collection type.")
 
             match self.element_indices:
                 case [_i, *_more_is] as idxs:
@@ -205,7 +234,7 @@ class Parameter:
                 case int(idx):
                     idxs = [idx]
                 case _:
-                    raise InvalidParameterValueError("element_indices must be one or more ints.")
+                    raise ValidationError("Parameter 'element_indices' must be one or more ints.")
             object.__setattr__(self, "element_indices", idxs)
 
             object.__setattr__(self, "_parent_name", self.name)
@@ -217,7 +246,7 @@ class Parameter:
             object.__setattr__(self, "name", name)
 
     @property
-    def parent_name(self) -> Optional[str]:
+    def parent_name(self) -> str | None:
         """Returns the parent name.
 
         This `None` except in element-wise parameters where gives the name of the parent parameter.
@@ -225,7 +254,7 @@ class Parameter:
         return self._parent_name
 
     @property
-    def parent_label(self) -> Optional[str]:
+    def parent_label(self) -> str | None:
         """Returns the parent label.
 
         This `None` except in element-wise parameters where gives the label of the parent parameter.
@@ -239,10 +268,10 @@ class Parameter:
 
     @staticmethod
     def build_data_set(
-        variables: List[Tuple[Parameter, List[Any]]],
-        data: Tuple[Parameter, List[Any]],
-        attributes: Dict[str, Any] = None,
-        extra_variables: Optional[List[Tuple[str, int]]] = None,
+        variables: list[tuple[Parameter, list[Any]]],
+        data: tuple[Parameter, SweepValues],
+        attributes: dict[str, Any] = None,
+        extra_variables: list[tuple[str, int]] | None = None,
     ):
         """Build an xarray Dataset, where the only DataArray is given by `results` and coordinates are given by
         `variables`. The data is reshaped to correspond to the sizes of the variables. For example,
@@ -279,7 +308,7 @@ class Parameter:
         """Validate that given `value` matches the :attr:`data_type` and :attr:`collection_type`."""
         return self._validate(value, self.data_type)
 
-    def _validate(self, value: Any, data_type: Union[DataType, Tuple[DataType, ...]]) -> bool:
+    def _validate(self, value: Any, data_type: DataType | tuple[DataType, ...]) -> bool:
         # on the first iteration the `data_type` type is checked, in case it is a tuple,
         # current method is called once again with each `data_type` from tuple with further
         # checking of `collection_type`
@@ -292,22 +321,12 @@ class Parameter:
         else:
             return data_type.validate(value)
 
-    def copy(self, **attributes):
-        """Return a copy of the parameter, where attributes defined in `attributes` are replaced."""
-        return Parameter(
-            name=attributes.get("name", self.name),
-            label=attributes.get("label", self.label),
-            unit=attributes.get("unit", self.unit),
-            data_type=attributes.get("data_type", self.data_type),
-            collection_type=attributes.get("collection_type", self.collection_type),
-        )
-
     def build_data_array(
         self,
         data: np.ndarray,
-        dimensions: List[Hashable] = None,
-        coords: Dict[Hashable, Any] = None,
-        metadata: Dict[str, Any] = None,
+        dimensions: list[Hashable] = None,
+        coords: dict[Hashable, Any] = None,
+        metadata: dict[str, Any] = None,
     ) -> xr.DataArray:
         """Attach Parameter information to a numerical array.
 
@@ -358,12 +377,12 @@ class Parameter:
             The element-wise parameter.
 
         Raises:
-            InvalidParameterValueError: If ``self`` is not collection-valued.
+            UnprocessableEntityError: If ``self`` is not collection-valued.
 
         """
         if self.collection_type is CollectionType.SCALAR:
-            raise InvalidParameterValueError(
-                "Cannot create an element-wise parameter from a parameter with CollectionType.SCALAR."
+            raise ValidationError(
+                "Cannot create an element-wise parameter from a parameter with 'CollectionType.SCALAR'."
             )
         return Parameter(
             name=self.name,
@@ -375,24 +394,57 @@ class Parameter:
         )
 
 
-@dataclass(frozen=True)
-class Setting:
+class Setting(BaseModel):
     """Physical quantity represented as a Parameter attached to a numerical value."""
 
     parameter: Parameter
     """The parameter this Setting represents."""
-    value: Any
+    value: ObservationValue
     """Data value attached to the parameter."""
+    read_only: bool = False
+    """Indicates if the attribute is read-only."""
+    path: str = ""
+    """Path in the settings tree (starting from the root ``SettingNode``) for this setting."""
 
-    def __post_init__(self) -> None:
+    def __init__(
+        self,
+        parameter: Parameter | None = None,
+        value: ObservationValue | None = None,
+        read_only: bool = False,
+        path: str = "",
+        **kwargs,
+    ) -> None:
+        super().__init__(
+            parameter=parameter,
+            value=value,
+            read_only=read_only,
+            path=path,
+            **kwargs,
+        )
+
+    @model_validator(mode="after")
+    def validate_parameter_value_after(self) -> Self:
         if self.parameter.collection_type in (CollectionType.LIST, CollectionType.NDARRAY):
+            # Use __setattr__ to set the value, since the instance is frozen.
+            # Ideally, this value would be set in "before" validation.
+            # However, "before" validation has to deal with raw data, which could be any arbitrary object.
+            # To avoid extra complexity, let Pydantic deal with the raw data and change the value in "after" validation.
             object.__setattr__(self, "value", self.parameter.collection_type.cast(self.value))
         if self.value is not None and not self.parameter.validate(self.value):
-            raise InvalidParameterValueError("Invalid value {} for parameter {}.".format(self.value, self.parameter))
+            raise ValidationError(f"Invalid value '{self.value}' for parameter '{self.parameter}'.")
+        return self
 
-    def update(self, value: Any) -> Setting:
+    def update(self, value: ObservationValue) -> Setting:
         """Create a new setting object with updated `value`."""
-        return Setting(self.parameter, value)
+        if self.read_only:
+            raise ValueError(
+                f"Can't update the value of {self.parameter.name} to {value} since the setting is read-only."
+            )
+        if isinstance(value, list) and self.parameter.collection_type == CollectionType.NDARRAY:
+            value = np.array(value)
+        # Need to create a new Setting here instead of using Pydantic model_copy().
+        # model_copy() can't handle backdoor settings without errors, i.e. values with a list of 2 elements.
+        return Setting(self.parameter, value, self.read_only, self.path)
 
     @property
     def name(self):
@@ -420,19 +472,16 @@ class Setting:
         return self.parameter.unit
 
     @property
-    def element_indices(self) -> Optional[tuple[int, ...]]:
+    def element_indices(self) -> tuple[int, ...] | None:
         """Element-wise indices of the parameter in ``self``."""
         return self.parameter.element_indices
 
-    def copy(self):
-        return Setting(self.parameter, self.value)
-
     @staticmethod
-    def get_by_name(name: str, values: Set[Setting]) -> Optional[Setting]:
+    def get_by_name(name: str, values: set[Setting]) -> Setting | None:
         return next((setting for setting in values if setting.parameter.name == name), None)
 
     @staticmethod
-    def remove_by_name(name: str, values: Set[Setting] = None) -> Set[Setting]:
+    def remove_by_name(name: str, values: set[Setting] = None) -> set[Setting]:
         if values is None:
             values = set()
         removed = copy.deepcopy(values)
@@ -440,7 +489,7 @@ class Setting:
         return removed
 
     @staticmethod
-    def replace(settings: Union[Setting, List[Setting]], values: Set[Setting] = None) -> Set[Setting]:
+    def replace(settings: Setting | list[Setting], values: set[Setting] = None) -> set[Setting]:
         if values is None:
             values = set()
         if not isinstance(settings, list):
@@ -452,7 +501,7 @@ class Setting:
         return removed
 
     @staticmethod
-    def diff_sets(first: Set[Setting], second: Set[Setting]) -> Set[Setting]:
+    def diff_sets(first: set[Setting], second: set[Setting]) -> set[Setting]:
         """Return a one-sided difference between two sets of Settings, prioritising values in `first`.
 
         Args:
@@ -472,7 +521,7 @@ class Setting:
         return diff
 
     @staticmethod
-    def merge(settings1: Set[Setting], settings2: Set[Setting]) -> Set[Setting]:
+    def merge(settings1: set[Setting], settings2: set[Setting]) -> set[Setting]:
         if settings1 is None:
             settings1 = set()
         if settings2 is None:
@@ -520,4 +569,8 @@ class Setting:
         return self.parameter.__lt__(other.parameter)
 
     def __str__(self):
-        return f"Setting({self.parameter.label} = {self.value} {self.parameter.unit})"
+        return f"Setting({self.parameter.label} = {self.value} {self.parameter.unit} {self.read_only=})"
+
+    def with_path_name(self) -> Setting:
+        """Copy of self with the parameter name replaced by the path name."""
+        return self.model_copy(update={"parameter": self.parameter.model_copy(update={"name": self.path})})

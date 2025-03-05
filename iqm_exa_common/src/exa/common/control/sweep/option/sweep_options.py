@@ -12,9 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""Base class for sweep options."""
+
 from dataclasses import dataclass
+
+from exa.common.control.sweep.sweep_values import SweepValues
 
 
 @dataclass(frozen=True)
 class SweepOptions:
     """Base immutable class for sweep options."""
+
+    @property
+    def data(self) -> SweepValues:
+        """List of values for :attr:`parameter`"""
+        raise NotImplementedError

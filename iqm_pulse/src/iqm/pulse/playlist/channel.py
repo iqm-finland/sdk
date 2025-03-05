@@ -303,14 +303,14 @@ def get_channel_properties_from_station_settings(
     flux_controllers = {}
     readout_controllers = {}
     for component in chip_topology.probe_lines:
-        if (node := settings._subtrees.get(READOUT_CONTROLLER.format(component))) is not None:
+        if (node := settings.subtrees.get(READOUT_CONTROLLER.format(component))) is not None:
             readout_controllers[component] = node
     for component in chip_topology.qubits_sorted + chip_topology.couplers_sorted:
-        if (node := settings._subtrees.get(DRIVE_CONTROLLER.format(component))) is not None:
-            if (awg_node := node._subtrees.get("awg")) is not None:
+        if (node := settings.subtrees.get(DRIVE_CONTROLLER.format(component))) is not None:
+            if (awg_node := node.subtrees.get("awg")) is not None:
                 drive_controllers[component] = awg_node
-        if (node := settings._subtrees.get(FLUX_CONTROLLER.format(component))) is not None:
-            if (awg_node := node._subtrees.get("awg")) is not None:
+        if (node := settings.subtrees.get(FLUX_CONTROLLER.format(component))) is not None:
+            if (awg_node := node.subtrees.get("awg")) is not None:
                 flux_controllers[component] = awg_node
 
     return get_channel_properties(chip_topology, drive_controllers, flux_controllers, readout_controllers)
@@ -341,8 +341,6 @@ def get_channel_properties(
 
     for component, node in readout_controllers.items():
         component_to_channel.setdefault(component, {})["readout"] = node.name
-        lo_freq = node.local_oscillator.frequency.value if hasattr(node, "local_oscillator") else None
-        center_freq = node.center_frequency.value if hasattr(node, "center_frequency") else None
 
         channel_properties[node.name] = ProbeChannelProperties(
             sample_rate=node.sampling_rate.value,
@@ -350,7 +348,7 @@ def get_channel_properties(
             instruction_duration_min=node.instruction_duration_min.value,
             integration_start_dead_time=node.integration_start_dead_time.value,
             integration_stop_dead_time=node.integration_stop_dead_time.value,
-            center_frequency=lo_freq if lo_freq else center_freq,
+            center_frequency=node.center_frequency.value,
         )
         component_to_channel.setdefault(component, {})["readout"] = node.name
 

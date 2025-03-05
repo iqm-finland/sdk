@@ -2,6 +2,54 @@
 Changelog
 =========
 
+Version 3.4 (2025-03-05)
+========================
+
+Features
+--------
+
+- Remove general RequestError and use new specific error classes instead, and improve error handling in general.
+- Start using new "DELETE sweeps/{sweep_id}" endpoint instead of the deprecated one.
+- Use HTTPStatus code names instead of numbers for better clarity. No functional changes.
+- The ``/docs`` endpoint shows relevant metadata, e.g. the package version.
+
+Version 3.3 (2025-02-28)
+========================
+
+Features
+--------
+
+- Add ``StationControlClient.get_exa_configuration`` that returns the recommended EXA configuration from the server.
+  :issue:`SW-1078`
+
+
+Version 3.2 (2025-02-28)
+========================
+
+
+Bug fix
+-------
+- Bump exa-common
+
+Version 3.1 (2025-02-27)
+========================
+
+Features
+--------
+
+* Bump EXA version.
+
+Version 3.0 (2025-02-27)
+========================
+
+Breaking changes
+****************
+
+- It is no longer possible to submit sweeps in the legacy readout format (settings without readout instructions
+  in the playlist). :issue:`SW-690`
+- Removed deprecated ``StationControlClient.get_chad`` and ``StationControlClient.get_qubit_design_properties``.
+- Removed deprecated field ``SweepDefinition.playlists`` use ``.playlist`` instead.
+
 Version 2.20 (2025-02-19)
 =========================
 

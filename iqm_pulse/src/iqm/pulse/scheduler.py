@@ -35,7 +35,6 @@ from iqm.pulse.playlist.channel import ChannelProperties
 from iqm.pulse.playlist.instructions import Block, Instruction, Wait
 from iqm.pulse.playlist.schedule import TOLERANCE, TOLERANCE_DECIMALS, Nothing, Schedule
 
-# pylint: skip-file
 # TODO: remove the above skips once COMP-1281 is done and the TETRIS mode is fixed.
 
 
