@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=65.4.1", "setuptools_scm[toml]>=7"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "iqm-data-definitions"
+dynamic = ["version"]
+description = "Common repository for data definitions inside IQM"
+authors = [{ name = "IQM Finland Oy", email = "developers@meetiqm.com" }]
+license = { file = "LICENSE.txt" }
+readme = "README.md" # TODO disable readme from the wheel? Currently twine commands fail if we do so.
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Intended Audience :: Science/Research",
+]
+requires-python = ">=3.9.12"
+dependencies = [
+    "protobuf >= 4.25.3,<5.0",
+    "numpy >= 1.25.2,<3.0",
+    "scipy >= 1.11.4,<1.16.0",
+]
+
+[project.urls]
+Homepage = "https://gitlab.iqm.fi/iqm/qccsw/iqm-data-definitions"
+Documentation = "https://gitlab.iqm.fi/iqm/qccsw/iqm-data-definitions"
+
+[project.optional-dependencies]
+testing = [
+    "pytest == 7.4.0",
+    "pytest-cov == 4.1.0",
+    "pytest-isort == 3.1.0",
+    "pytest-mypy == 0.10.3",
+    "pytest-pylint == 0.21.0",
+]
+docs = [
+    "sphinx == 7.2.6",
+    "sphinx-book-theme == 1.1.2",
+]
+
+# NOTE: auto-generated Python sources could go into a different directory and then be specified in pyproject.toml
+#       like commented below. However, at the time of writing this comment, support for `[tool.setuptools]` in
+#       `pyproject.toml` is still *beta*, see
+#       https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#custom-discovery 
+# [tool.setuptools.packages.find]
+# where = ["build_python"]
+
+# [tool.setuptools.packages.find]
+# where = ["src"]
+
+# [tool.setuptools.package-data]
+# "*" = ["*.pyi"]
+
+[tool.setuptools_scm]
+# See configuration details in https://github.com/pypa/setuptools_scm
+version_scheme = "no-guess-dev"
+
+[tool.pylint.main]
+disable = [
+    "fixme",
+    "invalid-name",
+    "ungrouped-imports",
+    "wrong-import-order",
+]
+extension-pkg-allow-list = ["scipy.special"]
+
+[tool.pylint.design]
+max-args = 8
+
+[tool.pylint.basic]
+good-names = ["i", "j", "k", "ex", "Run", "_", "pk", "x", "y", "T", "t", "rf", "up"]
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint.string]
+check-quote-consistency = true
+
+[tool.pylint.similarities]
+min-similarity-lines = 12

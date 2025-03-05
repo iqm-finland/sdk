@@ -1,0 +1,366 @@
+=========
+Changelog
+=========
+
+Version 2.20 (2025-02-19)
+=========================
+
+- Bump station-control dependencies.
+
+Version 2.19 (2025-02-18)
+=========================
+
+Bump exa-data, iqm-data-definitions versions.
+
+Version 2.18 (2025-02-04)
+=========================
+
+Features
+--------
+
+- Refactor codebase to new lint rules. No functional changes. :issue:`SW-467`
+
+
+Version 2.17 (2025-02-04)
+=========================
+
+Features
+--------
+
+- Refactor codebase to new lint rules. No functional changes. :issue:`SW-467`
+
+
+Version 2.16 (2025-01-30)
+=========================
+
+Features
+--------
+
+- Implement callback to display progress bars for task execution :issue:`SW-881`
+
+Version 2.15 (2025-01-28)
+=========================
+
+Features
+********
+- Support broader range of `numpy` versions and verify compatibily with ruff, see migration guide `https://numpy.org/doc/stable/numpy_2_0_migration_guide.html`.
+
+Version 2.14 (2025-01-28)
+=========================
+
+Features
+--------
+
+- Bump exa-common.
+
+Version 2.13 (2025-01-27)
+=========================
+
+Features
+--------
+
+- Bump version for an updated repo organization. No functional changes. :issue:`SW-1042`
+
+Version 2.12 (2025-01-24)
+=========================
+
+Features
+--------
+
+* Add serialisation and deserialisation for channel properties
+
+Version 2.11 (2025-01-10)
+=========================
+
+Features
+--------
+
+- Log meta.errors is station control responses automatically. :issue:`SW-514`.
+
+Version 2.10 (2025-01-08)
+=========================
+
+Features
+--------
+
+- Remove gitlab links from public pages. :issue:`SW-776`
+
+Version 2.9 (2024-12-30)
+========================
+
+Features
+--------
+
+- Minor typos fixed. :issue:`SW-776`
+
+Version 2.8 (2024-12-30)
+========================
+
+Features
+--------
+
+- Change license info to Apache 2.0. :issue:`SW-776`
+
+Version 2.7 (2024-12-17)
+========================
+
+Features
+--------
+
+- Remove hardcoded iqm-internal links from docstrings :issue:`SW-977`
+
+Version 2.6 (2024-12-12)
+========================
+
+Features
+--------
+
+- Bump exa-experiments
+
+Version 2.5 (2024-12-10)
+========================
+
+Features
+********
+
+- Make `observation_ids` in `ObservationSetUpdate` optional. `SW-926`
+
+Version 2.4 (2024-12-09)
+========================
+
+Features
+--------
+
+Fix extlinks to MRs and issues in sphinx docs config :issue:`SW-916`
+
+Version 2.3 (2024-12-05)
+========================
+
+Features
+--------
+
+- Fix intersphinx reference paths in docs :issue:`SW-916`
+
+Version 2.2 (2024-12-05)
+========================
+
+Features
+--------
+
+- Add `characterization-set` to observation set pydantic model. `SW-845`
+
+Version 2.1 (2024-12-04)
+========================
+
+Features
+--------
+
+- Bump version for an updated repo organization. No functional changes. :issue:`SW-665`
+
+Version 2.0 (2024-11-22)
+========================
+
+Breaking changes
+****************
+- This is only a bug fix MR, however it's technically a breaking change for station-control since the fix
+  required us to change how list objects are serialized/deserialized and thus, station-control need to use
+  different syntax for that from now on. exa-repo or other clients shouldn't be affected, so from their perspective
+  this should be considered a minor release.
+
+Bug fixes
+*********
+
+- Fix `NaN` and `Inf` serialization for float values, serializing them to `NaN` and `Inf` instead of `None`.
+  This affected only when serializing list of objects at once (for example when saving multiple observations),
+  endpoints dealing with single object were working as expected. :issue:`SW-865`
+
+Version 1.23 (2024-11-19)
+=========================
+
+Features
+--------
+
+- Bump version for an updated repo organization. No functional changes. :issue:`SW-774`
+
+Version 1.22 (2024-11-15)
+=========================
+
+Bug fixes
+---------
+
+- Remove iqm-internal web links in customer docs artifacts.
+
+Version 1.21 (2024-11-12)
+=========================
+
+Features
+********
+
+- Allow extra attributes for ObservationDefinition 1.) to allow older server versions to accept newer versions
+  with added attributes, and 2.) to make it possible to convert inheriting classes to ObservationDefinition without
+  removing extra attributes. Part of :issue:`SW-774`.
+
+Version 1.20 (2024-11-11)
+=========================
+
+Features
+--------
+
+- Adds "gbc-set" observation set type. :issue:`GBC-672`
+
+Version 1.19 (2024-11-08)
+=========================
+
+Features
+--------
+
+- New changelog workflow, no functional changes. :issue:`SW-774`
+
+Version 1.18 (2024-10-30)
+=========================
+
+- Bump Pydantic to version 2.9.2, :issue:`SW-804`.
+- Bump `iqm-exa-common` to version 25.14.
+
+
+Version 1.17 (2024-10-25)
+=========================
+
+- Update `iqm-exa-common` to version 25.13 and bump NumPy to version 1.25.2.
+
+
+Version 1.16 (2024-10-24)
+=========================
+
+- Update `iqm-exa-common` to 25.12
+- Use function :func:`convert_sweeps_to_list_of_tuples` from exa-common to sweep conversion
+
+
+Version 1.15 (2024-10-23)
+=========================
+
+Features
+--------
+- Add optional `wait_task_completion` boolean parameter (default `True`) to station control client's `run()`.
+  If set to `False`, `run()` won't wait/poll for the task completion, but instead returns immediately after it
+  receives the initial response. This feature can be used to implement async-like workflows which is not blocked
+  by the task execution. :issue:`EXA-1244`
+
+
+Version 1.14 (2024-10-11)
+=========================
+
+- Update `iqm-exa-common` to version 25.11.
+
+
+Version 1.13 (2024-10-02)
+=========================
+
+- Update `iqm-data-definitions` to version 2.0.
+
+
+Version 1.12 (2024-09-26)
+=========================
+
+- Bugfix: JSON serialization error when saving array-valued observations that are non-contiguous memory. (in particular eg this happened from the IntegrationWeights experiment analysis).
+
+
+Version 1.11 (2024-09-23)
+=========================
+
+Features
+--------
+- Update `iqm-exa-common` to version 25.9.
+
+
+Version 1.10 (2024-09-20)
+=========================
+
+Features
+--------
+- Add optional client side fallback to fetch chip design records from QCM API. :issue:`SW-570`
+
+
+Version 1.9 (2024-09-11)
+========================
+
+Features
+--------
+- Update exa-common.
+
+
+Version 1.8 (2024-08-26)
+========================
+
+- Update ``exa-common`` to 25.7.
+
+
+Version 1.7 (2024-08-23)
+========================
+
+Features
+--------
+- Support empty settings field in sweep serialization. :issue:`EXA-2099`
+
+
+Version 1.6 (2024-08-16)
+========================
+
+Features
+--------
+- Update `iqm-exa-common`` to 25.6.
+
+
+Version 1.5 (2024-08-15)
+========================
+
+Features
+--------
+
+- Add method `get_chip_design_record` to `StationControlClient`
+
+
+Version 1.4 (2024-07-23)
+========================
+
+Features
+--------
+- Field ``feedback_signal_label`` added to ``ThresholdStateDiscrimination`` (an acquisition
+  method in programmable readout).
+  The label is used to specify a signal that a `ConditionalInstruction` can act on. :issue:`EXA-1923`
+
+
+
+Version 1.3 (2024-07-12)
+========================
+
+Features
+--------
+- Bump exa-common to 25.4
+
+
+Version 1.2 (2024-07-05)
+========================
+
+Features
+--------
+- Bump exa-common to 25.3 
+
+
+Version 1.1 (2024-07-04)
+========================
+
+Features
+--------
+
+- Bump exa-common to 25.2. :issue:`EXA-2056`
+
+
+Version 1.0 (2024-07-02)
+========================
+
+Features
+--------
+
+- Package `iqm-exa-backend-client` is renamed to `iqm-station-control-client`.
+  No functional changes to `iqm-exa-backend-client` version 59.4.

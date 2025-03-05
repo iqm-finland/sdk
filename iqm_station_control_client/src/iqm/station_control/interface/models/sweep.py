@@ -1,0 +1,104 @@
+# Copyright 2024 IQM
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""Sweep related station control interface models."""
+
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+import uuid
+import warnings
+
+from iqm.models.playlist import Playlist
+
+from exa.common.data.setting_node import SettingNode
+from exa.common.sweep.util import NdSweep
+
+
+@dataclass(kw_only=True)
+class SweepBase:
+    """Abstract base class of the sweep definition and data."""
+
+    sweep_id: uuid.UUID
+    """Unique identifier of the sweep."""
+    dut_label: str
+    """DUT label of the device being used."""
+    settings: SettingNode
+    """A tree representation of the initial settings to set before the sweep."""
+    sweeps: NdSweep
+    """Sweeps that define the swept parameters, i.e. a list of parallel sweeps,
+    where the data values of all sweeps in the tuple are interleaved, and updated simultaneously during the sweep."""
+    return_parameters: list[str]
+    """Parameters that will be queried from devices and saved for each spot (variable-tuple)
+    of the N-dimensional sweep. Each item must correspond to a setting name in `settings`."""
+
+
+@dataclass(kw_only=True)
+class SweepDefinition(SweepBase):
+    """The content of the sweep object when creating it."""
+
+    playlist: Playlist | None
+    """A :class:`~iqm.models.playlist.Playlist` that should be uploaded to the controllers."""
+
+    def __init__(self, *args, playlist: Playlist | None = None, playlists: Playlist | None = None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if playlists is not None:
+            warnings.warn("'playlists' attribute is deprecated, use 'playlist' instead.", DeprecationWarning)
+            self.playlist = playlists
+        elif playlist is not None:
+            self.playlist = playlist
+        else:
+            self.playlist = None
+
+    @property
+    def playlists(self):
+        """Returns playlists for backwards compatibility."""
+        warnings.warn("'playlists' attribute is deprecated, use 'playlist' instead.", DeprecationWarning)
+        return self.playlist
+
+    @playlists.setter
+    def playlists(self, playlist):
+        self.playlist = playlist
+
+
+class SweepStatus(Enum):
+    """Status for sweeps."""
+
+    PENDING = "PENDING"
+    """Sweep waiting for execution or status unknown"""
+    PROGRESS = "PROGRESS"
+    """Sweep is currently being executed"""
+    SUCCESS = "SUCCESS"
+    """Sweep has succeeded, ready for result retrieval"""
+    FAILURE = "FAILURE"
+    """Sweep has failed"""
+    REVOKED = "REVOKED"
+    """Sweep was revoked from execution"""
+    INTERRUPTED = "INTERRUPTED"
+    """Sweep was interrupted during its execution"""
+
+
+@dataclass(kw_only=True)
+class SweepData(SweepBase):
+    """The content of the sweep stored in the database."""
+
+    created_timestamp: datetime
+    """Time when the object was created in the database."""
+    modified_timestamp: datetime
+    """Time when the object was last modified in the database."""
+    begin_timestamp: datetime | None
+    """Time when the sweep began in the station control."""
+    end_timestamp: datetime | None
+    """Time when the sweep ended in the station control."""
+    sweep_status: SweepStatus
+    """Status of sweep execution."""

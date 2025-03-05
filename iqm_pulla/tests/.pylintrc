@@ -1,0 +1,18 @@
+[MASTER]
+disable=
+    fixme,
+    invalid-name,
+    duplicate-code,
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    too-few-public-methods,
+    too-many-arguments,
+    redefined-outer-name,  # fixtures violate this
+    protected-access,  # sometimes protected stuff needs to be tested or mocked
+    no-member  # pylint does not understand pydantic models
+load-plugins=pylint_pydantic
+
+[FORMAT]
+max-line-length=120
+good-names=i,j,k,ex,Run,_,pk,x,y
