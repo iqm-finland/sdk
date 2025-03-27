@@ -6,75 +6,33 @@ on:
       - main
     paths:
       - 'docs/**'
+      - 'sdk.txt'
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
     # Allow manual triggering
 
-env:
-  PACKAGES: "iqm-pulse iqm-exa-common iqm-station-control-client iqm-pulla[qiskit,qir] iqm-benchmarks cirq-iqm iqm-client iqm-data-definitions"
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: python:3.11
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-      - name: Install dependencies
-        working-directory: ./docs
-        run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
-          apt-get update
-          apt-get install -y graphviz
-
-      - name: Build sphinx documentation
-        working-directory: ./docs
-        run: |
-          mkdir -p public
-          mkdir -p temp
-          cd temp
-
-          for package in $PACKAGES; do
-            echo "Processing $package..."
-            # download source distribution
-            python -m pip download --no-deps --no-binary :all: $package
-            echo "installing package (required for namespace resolution when building docs with Sphinx)..."
-            python -m pip install $package
-            echo "unarchiving source distribution and cd-ing into the resulting directory..."
-            tar -xvzf *.tar.gz
-            cd "$(tar -tzf *.tar.gz | head -1 | cut -f1 -d"/")"
-            echo "building docs..."
-            USE_LOCAL_TARGET=true python -m sphinx docs ../../public/${package%[*}
-            # add .nojekyll in order to stop Github from treating the directory as a Jekyll blog generator,
-            # which ignores directories starting with underscore
-            touch ../../public/${package%[*}/.nojekyll
-            echo "cleaning up..."
-            cd ..
-            rm -rf *
-          done
-
-          cd ..
-          rm -rf temp
-          rm -rf public/jupyter_execute
-          touch public/.nojekyll
-
-      - name: Generate search index
-        working-directory: ./docs
-        run: python generate_search_index.py
-
-      - name: Ensure search index is in public folder
-        working-directory: ./docs
-        run: |
-          cp search.json public/ || echo "No search index found"
+      - name: Set up Python
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.11'
 
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          working-directory: ./docs
           node-version: 18
+
+      - name: Build documentation
+        run: |
+          bash build.sh
 
       - name: Install and build React project
         working-directory: ./docs
@@ -88,11 +46,6 @@ jobs:
           mkdir -p public
           cp -r dist/* public/
           cp src/favicon.ico public/favicon.ico
-
-      - name: Install rsync
-        working-directory: ./docs
-        run: |
-          apt-get update && apt-get install -y rsync
 
       - name: Publish to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4

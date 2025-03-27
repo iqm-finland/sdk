@@ -39,11 +39,17 @@ jobs:
             exit 1
           fi
 
+          # Do not mirror IQM Benchmarks and Cirq IQM
+          sed -i '/^iqm-benchmarks/d; /^cirq-iqm/d; /^#/d' sdk.txt
+
           # Download all source distributions
           if ! pip download --no-deps --no-binary=:all: -r sdk.txt -d ./temp; then
             echo "Error: Failed to download some packages."
             exit 1
           fi
+
+          # Restore sdk.txt
+          git checkout sdk.txt
 
           # Flag to track if any changes were made
           CHANGES=false
