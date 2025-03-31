@@ -17,52 +17,15 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 import copy
-from typing import Any, Sized, get_args, get_origin
+from typing import Any, get_args, get_origin
 
 import numpy as np
 from ruamel.yaml import YAML
 
 from exa.common.data.parameter import CollectionType, DataType
-
-
-def merge_dicts(A: dict, B: dict, path=(), merge_nones: bool = True) -> dict:
-    """Merge two dictionaries recursively, leaving the originals unchanged.
-
-    Args:
-        A: dictionary
-        B: another dictionary
-        merge_nones: whether to also merge ``None`` and empty ``Sized`` values from B to A.
-
-    Returns:
-        copy of A, with the contents of B merged in (and taking precedence) recursively
-
-    """
-
-    def is_not_empty(val: Any) -> bool:
-        if val is None:
-            return False
-        if isinstance(val, Sized) and len(val) == 0:
-            return False
-        return True
-
-    # A and B must be left intact, make a shallow copy
-    A = copy.copy(A)
-    for key, vb in B.items():
-        if (va := A.get(key)) is not None:
-            new_path = (*path, key)
-            if isinstance(va, dict):
-                if isinstance(vb, dict):
-                    # replace the dict with the shallow copy returned by merge_dicts
-                    A[key] = merge_dicts(va, vb, new_path, merge_nones=merge_nones)
-                    continue
-                raise ValueError(f"Merging dict with scalar: {'.'.join(new_path)}")
-            if isinstance(vb, dict):
-                raise ValueError(f"Merging scalar with dict: {'.'.join(new_path)}")
-        # scalar overrides scalar, or a new key is inserted
-        if merge_nones or is_not_empty(vb):
-            A[key] = vb
-    return A  # return the shallow copy
+from iqm.pulse.quantum_ops import QuantumOpTable
 
 
 def map_waveform_param_types(type_hint: type) -> tuple[DataType, CollectionType]:
@@ -164,3 +127,92 @@ def phase_transformation(psi_1: float = 0.0, psi_2: float = 0.0) -> tuple[float,
 
     """
     return psi_2, -(psi_1 + psi_2)
+
+
+def _validate_locus_defaults(op_name: str, definition: dict, implementations: dict) -> None:
+    """Validate that locus defaults reference valid implementations.
+
+    Args:
+        op_name: Name of the gate we want to validate
+        definition: Dictionary containing the parameters of the new operation
+        implementations: Available implementations for the operation
+
+    Raises:
+        ValueError: If locus default references invalid implementation
+
+    """
+    for locus, impl_name in definition["defaults_for_locus"].items():
+        if impl_name not in implementations:
+            raise ValueError(
+                f"defaults_for_locus[{locus}] implementation '{impl_name}' does not "
+                f"appear in the implementations field of {op_name}."
+            )
+
+
+def _validate_op_attributes(op_name: str, definition: dict, op_table: QuantumOpTable) -> None:
+    """Assert that the attributes of the operation (other than default implementation info) are not changed.
+
+    Args:
+        op_name: Name of the quantum operation to be added to table of quantum operations
+        definition: Dictionary containing the parameters of the new operation
+        op_table: Table of default or existing quantum operations
+
+    Raises:
+        ValueError: If attributes don't match defaults or are invalid
+
+    """
+    for attribute_name, value in definition.items():
+        if not hasattr(op_table[op_name], attribute_name):
+            raise ValueError(f"QuantumOp {op_name} has no attribute '{attribute_name}'.")
+
+        default_value = getattr(op_table[op_name], attribute_name)
+        if isinstance(value, Iterable):
+            default_value = tuple(default_value)
+            value = tuple(value)  # noqa: PLW2901
+        if attribute_name not in ("implementations", "defaults_for_locus") and default_value != value:
+            raise ValueError(
+                "The QuantumOp definition provided by the user has a different value in the"
+                f" attribute {attribute_name} compared to the QuantumOp definition in iqm-pulse "
+                f" ({value} != {default_value}). "
+                "Changing the attributes of default QuantumOps is not allowed, other than"
+                "implementations and defaults_for_locus."
+            )
+
+
+def _process_implementations(
+    op_name: str, new_implementations: dict, exposed_implementations: dict, _default_implementations: dict
+) -> dict:
+    """Processes implementation definitions into implementation classes.
+
+    Args:
+        op_name: Name of the quantum operation
+        new_implementations: Dictionary mapping implementation names to class names
+        exposed_implementations: Dictionary containing the exposed implementations
+        _default_implementations: Dictionary containing the default mappings between implementations
+        and implementation classes for different gates
+
+    Returns:
+        Dictionary mapping implementation names to implementation classes
+
+    Raises:
+        ValueError: If implementation class is not exposed
+        ValueError: If implementation is overriding a default implementation
+
+    """
+    implementations = {}
+    default_implementations = copy.deepcopy(_default_implementations).get(op_name, {})
+    for new_impl_name, new_impl_cls in new_implementations.items():
+        if (impl := exposed_implementations.get(new_impl_cls)) is None:
+            raise ValueError(f"Implementation {new_impl_cls} has not been exposed.")
+        # check if the implementation is overriding a default implementation
+        for def_impl_name, def_impl_cls in default_implementations.items():
+            if new_impl_name == def_impl_name:
+                def_impl_class_name = def_impl_cls if isinstance(def_impl_cls, str) else def_impl_cls.__name__
+                if new_impl_cls != def_impl_class_name:
+                    raise ValueError(
+                        f"'{def_impl_class_name}' is the default GateImplementation class for implementation '{def_impl_name}' and cannot be overridden. Consider adding a new implementation with a different name."  # noqa: E501
+                    )
+
+        implementations[new_impl_name] = impl
+
+    return implementations

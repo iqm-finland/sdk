@@ -308,14 +308,17 @@ As an example here is a snippet that adds the CNOT gate, and its implementation,
 
     register_implementation(
         operations=my_builder.op_table,
-        operation_name="cnot",
-        implementation_name="my_cnot_impl",
-        implementation_class=MyCNotClass,
+        gate_name="cnot",
+        impl_name="my_cnot_impl",
+        impl_class=MyCNotClass,
         quantum_op_specs=cnot_op
     )
 
 Here, the CNOT implementation ``MyCNotClass`` needs to be of course defined first (a QuantumOp always needs at least one
 implementation).
+
+**Note:** The end user cannot modify the canonical mapping (defined in iqm-pulse) between ``implementation_name`` and 
+``implementation_class``.
 
 Note that often :class:`.ScheduleBuilder` is created and operated by some client application, and the same application usually
 has its own interface for adding/manipulating QuantumOps. However, if the user has access to the builder object, the

@@ -2,6 +2,37 @@
 Changelog
 =========
 
+Version 8.9 (2025-03-28)
+========================
+
+### Features
+--------
+
+- Reworked the way default gates (operations) are defined so they are decoupled from their implementations. This separation allows for the deletion of default implementations without losing information about its designated name. 
+- The majority of the original functionality stays the same.
+- The `register_implementation` function has been split into several different functions to improve readability and testing, as seen below:
+
+`register_implementation`
+        |
+        v
+`register_gate` --> `validate_operation` --> `compare_operations` --> `add_implementation`
+                                                                                |
+                                                                                v
+                                                                      `validate_implementation` --> `set_default`
+
+- The `build_quantum_ops` function in builder.py has been split into several functions as well. 
+- Trying to modify the implementation class of an existing or default gate implementation yields an error. 
+
+
+
+Version 8.8 (2025-03-28)
+========================
+
+Features
+--------
+
+- Fixing the rounding issue for rise and fall pulses in 'Constant_PRX_with_smooth_rise_fall'
+
 Version 8.7 (2025-03-27)
 ========================
 

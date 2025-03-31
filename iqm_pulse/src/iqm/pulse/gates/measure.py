@@ -429,6 +429,14 @@ class Measure_Constant(Measure_CustomWaveforms, wave_i=Constant, wave_q=Constant
     """
 
 
+class Measure_Constant_Qnd(Measure_CustomWaveforms, wave_i=Constant, wave_q=Constant):
+    """Implementation of a single-qubit projective, non quantum demolition, dispersive
+    measurements in the Z basis.
+
+    Uses a constant probe pulse.
+    """
+
+
 class ProbePulse_CustomWaveforms(CustomIQWaveforms):
     """Base class for implementing a probe line measurement pulse with custom waveforms in the I and Q channels.
 

@@ -23,7 +23,7 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable, TypeAlias
 
 import numpy as np
 
-from iqm.pulse.utils import merge_dicts
+from iqm.pulse.base_utils import merge_dicts
 
 if TYPE_CHECKING:  # pragma: no cover
     from iqm.pulse.gate_implementation import GateImplementation, OILCalibrationData, OpCalibrationDataTree
@@ -139,6 +139,7 @@ class QuantumOp:
             ValueError: ``default`` is unknown or is a special implementation.
 
         """
+        # breakpoint()
         if (impl := self.implementations.get(default)) is None:
             raise ValueError(f"Operation '{self.name}' has no implementation named '{default}'.")
 

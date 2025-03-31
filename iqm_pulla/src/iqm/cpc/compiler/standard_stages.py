@@ -105,6 +105,7 @@ from iqm.pulla.interface import (
     RESTRICTED_MEASUREMENT_KEYS,
     CalibrationErrors,
 )
+from iqm.pulse.base_utils import merge_dicts
 from iqm.pulse.builder import CircuitOperation, ScheduleBuilder, validate_quantum_circuit
 from iqm.pulse.gate_implementation import OpCalibrationDataTree
 from iqm.pulse.gates import move
@@ -112,7 +113,6 @@ from iqm.pulse.playlist import Schedule
 from iqm.pulse.playlist.playlist import Playlist
 from iqm.pulse.quantum_ops import QuantumOpTable
 from iqm.pulse.timebox import MultiplexedProbeTimeBox, TimeBox
-from iqm.pulse.utils import merge_dicts
 
 
 # Compilation functions

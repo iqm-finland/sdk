@@ -33,9 +33,9 @@ from iqm.models.playlist.channel_descriptions import (
 import iqm.models.playlist.instructions as sc_instructions  # TODO make SC use iqm.pulse Instructions?
 from iqm.models.playlist.segment import Segment as SC_Schedule  # iqm.models names are temporary
 from iqm.models.playlist.waveforms import to_canonical
-import numpy as np
 
 from exa.common.qcm_data.chip_topology import ChipTopology, sort_components
+from iqm.pulse.base_utils import _dicts_differ, merge_dicts
 from iqm.pulse.gate_implementation import (
     CompositeCache,
     GateImplementation,
@@ -43,7 +43,8 @@ from iqm.pulse.gate_implementation import (
     OILCalibrationData,
     OpCalibrationDataTree,
 )
-from iqm.pulse.gates import _default_operations, _exposed_implementations
+from iqm.pulse.gates import _exposed_implementations
+from iqm.pulse.gates.default_gates import _default_implementations, _quantum_ops_library
 from iqm.pulse.playlist.channel import ChannelProperties, ProbeChannelProperties
 from iqm.pulse.playlist.instructions import (
     AcquisitionMethod,
@@ -71,7 +72,12 @@ from iqm.pulse.scheduler import (
     extend_schedule_new,
 )
 from iqm.pulse.timebox import SchedulingAlgorithm, SchedulingStrategy, TimeBox
-from iqm.pulse.utils import load_yaml, merge_dicts
+from iqm.pulse.utils import (
+    _process_implementations,
+    _validate_locus_defaults,
+    _validate_op_attributes,
+    load_yaml,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -141,59 +147,6 @@ def load_config(path: str) -> tuple[QuantumOpTable, OpCalibrationDataTree]:
     return build_quantum_ops(ops), calibration
 
 
-def build_quantum_ops(ops: dict[str, Any]) -> QuantumOpTable:
-    """Builds the table of known quantum operations.
-
-    Hardcoded default native ops table is extended by the ones in `ops`.
-    In case of name collisions, the content of `ops` takes priority over the defaults.
-
-    Args:
-        ops: Contents of the ``gate_definitions`` section defining the quantum operations in the
-            configuration YAML file. Modified by the function.
-
-    Returns:
-        Mapping from quantum operation name to its definition
-
-    """
-    op_table = copy.deepcopy(_default_operations)
-    for op_name, definition in ops.items():
-        implementations_def = definition.pop("implementations", {})
-        implementations = {}
-        for impl_name, class_name in implementations_def.items():
-            if (impl := _exposed_implementations.get(class_name)) is None:
-                raise ValueError(f"Implementation {class_name} has not been exposed.")
-            implementations[impl_name] = impl
-        if "defaults_for_locus" in definition:
-            for locus, impl_name in definition["defaults_for_locus"].items():
-                if impl_name not in implementations:
-                    raise ValueError(
-                        f"defaults_for_locus[{locus}] implementation '{impl_name}' does not "
-                        "appear in the implementations field of {op_name}."
-                    )
-        # assert that the attributes (other than default implementation info) are not changed:
-        if op_name in op_table:
-            for attribute_name, value in definition.items():
-                if not hasattr(op_table[op_name], attribute_name):
-                    raise ValueError(f"QuantumOp {op_name} has no attribute '{attribute_name}'.")
-                default_value = getattr(op_table[op_name], attribute_name)
-                if isinstance(value, Iterable):
-                    # cast all iterables to tuples for comparisons
-                    default_value = tuple(default_value)
-                    value = tuple(value)  # noqa: PLW2901
-                if attribute_name not in ("implementations", "defaults_for_locus") and default_value != value:
-                    raise ValueError(
-                        "The QuantumOp definition provided by the user has a different value in the"
-                        f" attribute {attribute_name} compared to the QuantumOp definition in iqm-pulse "
-                        f" ({value} != {default_value}). "
-                        "Changing the attributes of default QuantumOps is not allowed, other than"
-                        "implementations and defaults_for_locus."
-                    )
-            op_table[op_name] = replace(op_table[op_name], implementations=implementations, **definition)
-        else:
-            op_table[op_name] = QuantumOp(name=op_name, implementations=implementations, **definition)
-    return op_table
-
-
 def validate_quantum_circuit(
     operations: Iterable[CircuitOperation],
     op_table: QuantumOpTable,
@@ -230,14 +183,38 @@ def validate_quantum_circuit(
         raise ValueError("Circuit contains no measurements.")
 
 
-def _dicts_differ(a: Any, b: Any) -> bool:
-    if isinstance(a, dict) and isinstance(b, dict):
-        if a.keys() != b.keys():
-            return True
-        return any(_dicts_differ(a[key], b[key]) for key in a)
-    if isinstance(a, np.ndarray) and isinstance(b, np.ndarray):
-        return not np.array_equal(a, b)
-    return a != b
+def build_quantum_ops(ops: dict[str, Any]) -> QuantumOpTable:
+    """Builds the table of known quantum operations.
+
+    Hardcoded default native ops table is extended by the ones in `ops`.
+    In case of name collisions, the content of `ops` takes priority over the defaults.
+
+    Args:
+        ops: Contents of the ``gate_definitions`` section defining
+        the quantum operations in the configuration YAML file.
+        Modified by the function.
+
+    Returns:
+        Mapping from quantum operation name to its definition
+
+    """
+    op_table = copy.deepcopy(_quantum_ops_library)
+    for op_name, definition in ops.items():
+        implementations_def = definition.pop("implementations", {})
+        implementations = _process_implementations(
+            op_name, implementations_def, _exposed_implementations, _default_implementations
+        )
+
+        if "defaults_for_locus" in definition:
+            _validate_locus_defaults(op_name, definition, implementations)
+
+        if op_name in op_table:
+            _validate_op_attributes(op_name, definition, op_table)
+            op_table[op_name] = replace(op_table[op_name], implementations=implementations, **definition)
+        else:
+            op_table[op_name] = QuantumOp(name=op_name, implementations=implementations, **definition)
+
+    return op_table
 
 
 class ScheduleBuilder:
@@ -902,7 +879,7 @@ class ScheduleBuilder:
                 blocks only the defined locus components and any other components which have occupied channels.
 
         Returns:
-            playlist that implements ``boxes``, padded schedule duration in seconds
+            playlist that implements ``boxes``
 
         """
         schedules = [self.resolve_timebox(box, neighborhood=neighborhood).cleanup() for box in boxes]

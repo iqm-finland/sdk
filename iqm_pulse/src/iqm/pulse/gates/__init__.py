@@ -26,8 +26,6 @@ through different calibration data.
 
 from dataclasses import replace
 
-import numpy as np
-
 from iqm.pulse.gate_implementation import GateImplementation
 from iqm.pulse.gates.barrier import Barrier
 from iqm.pulse.gates.conditional import (
@@ -46,9 +44,10 @@ from iqm.pulse.gates.cz import (
     FluxPulseGate_CRF_CRF,
     FluxPulseGate_TGSS_CRF,
 )
+from iqm.pulse.gates.default_gates import _quantum_ops_library
 from iqm.pulse.gates.delay import Delay
 from iqm.pulse.gates.flux_multiplexer import FluxMultiplexer_SampleLinear
-from iqm.pulse.gates.measure import Measure_Constant
+from iqm.pulse.gates.measure import Measure_Constant, Measure_Constant_Qnd
 from iqm.pulse.gates.move import MOVE_CRF_CRF, MOVE_TGSS_CRF
 from iqm.pulse.gates.prx import (
     Constant_PRX_with_smooth_rise_fall,
@@ -91,6 +90,7 @@ _exposed_implementations: dict[str, type[GateImplementation]] = {
         FluxPulseGate_TGSS_CRF,
         FluxPulseGate_CRF_CRF,
         Measure_Constant,
+        Measure_Constant_Qnd,
         MOVE_CRF_CRF,
         MOVE_TGSS_CRF,
         RZ_ACStarkShift_CosineRiseFall,
@@ -124,37 +124,96 @@ def expose_implementation(implementation: type[GateImplementation], overwrite: b
     _exposed_implementations[name] = implementation
 
 
-def register_implementation(
-    operations: dict[str, QuantumOp],
-    gate_name: str,
-    impl_name: str,
-    impl_class: type[GateImplementation],
-    set_as_default: bool = False,
-    overwrite: bool = False,
-    quantum_op_specs: QuantumOp | dict | None = None,
-) -> None:
-    """Register a new gate implementation, and a new gate if needed.
-
-    TODO: split the method for adding a new gate implementation and a new gate + implementation
+def _compare_operations(op1: QuantumOp, op2: QuantumOp) -> bool:
+    """Compares two QuantumOp instances. Operations are different only if certain parameters do not match.
+    (everything else except the implementations information which the user is allowed to modify and
+    :attr:`QuatumOp.unitary` the equality of which cannot be validated as it is a free-form function).
 
     Args:
-        operations: Known operations, mapping gate names to QuantumOps. A new QuantumOp is inserted here.
-        gate_name: The gate name for which to register a new implementation.
-        impl_name: The "human-readable" name with which the new gate implementation will be found e.g. in settings.
-        impl_class: The python class of the new gate implementation to be addded.
-        set_as_default: Whether to set the new implementation as the default implementation for the gate.
-        overwrite: If True, allows replacing any existing implementation of the same name.
-        quantum_op_specs: The quantum operation this gate represents. If a QuantumOp is given, it is used as is.
-            If None is given and the same gate has been registered before, the previously registered properties are
-            used.
-            Otherwise, the given dict values are given to the constructor of :class:`~iqm.pulse.quantum_ops.QuantumOp`.
-            For any missing constructor values, some defaults suitable for a 1-QB gate are used.
+        op1: First QuantumOp instance
+        op2: Second QuantumOp instance
+
+    Returns:
+        True if the operations have identical parameters, False otherwise
+
+    """
+    IGNORED_FIELDS = {"implementations", "defaults_for_locus", "unitary"}
+    op1_dict = vars(op1)
+    op2_dict = vars(op2)
+    return all(
+        (op1_dict[field] == op2_dict[field] or (field == "params" and tuple(op1_dict[field]) == tuple(op2_dict[field])))
+        for field in op1_dict
+        if field not in IGNORED_FIELDS
+    )
+
+
+def _validate_operation(
+    new_op: QuantumOp,
+    gate_name: str,
+    operations: QuantumOpTable,
+    overwrite: bool = False,
+) -> QuantumOp:
+    """Validate new operation against existing operations and set unitary if needed.
+
+    Args:
+        new_op: Operation to validate
+        gate_name: Name of the gate
+        operations: Dictionary containing existing operations
+        overwrite: Whether to allow overwriting existing operations
+
+    Returns:
+        Validated QuantumOp with unitary set if needed
+
+    Raises:
+        ValueError: If operation exists with different parameters and overwrite is False
+
+    """
+    if not overwrite and gate_name in operations:
+        old = operations.get(gate_name)
+        same = _compare_operations(new_op, old)
+        if not same:
+            raise ValueError(f"{gate_name} already registered with different parameters")
+
+    if gate_name in _quantum_ops_library:
+        default = _quantum_ops_library.get(gate_name)
+        same = _compare_operations(new_op, default)
+        if not same:
+            raise ValueError(f"{gate_name} conflicts with a canonical operation in iqm-pulse")
+
+    if new_op.unitary is None:
+        if gate_name in operations and operations[gate_name].unitary is not None:
+            unitary = operations[gate_name].unitary
+        elif gate_name in _quantum_ops_library and _quantum_ops_library[gate_name].unitary is not None:
+            unitary = default.unitary
+        else:
+            unitary = None
+        new_op = replace(new_op, unitary=unitary)
+
+    return new_op
+
+
+def _register_gate(
+    operations: QuantumOpTable,
+    gate_name: str,
+    impl_class: type[GateImplementation],
+    quantum_op_specs: QuantumOp | dict | None = None,
+) -> QuantumOp:
+    """Create the quantum operation for the new gate.
+
+    Args:
+        operations: Known operations, mapping gate names to QuantumOps
+        gate_name: Name of the gate to register
+        impl_class: The implementation class
+        quantum_op_specs: The quantum operation specifications
+
+    Returns:
+        The instance of the new quantum operation
 
     """
     if isinstance(quantum_op_specs, QuantumOp):
-        new = quantum_op_specs
+        new_op = quantum_op_specs
     elif quantum_op_specs is None and gate_name in operations:
-        new = operations[gate_name]
+        new_op = operations[gate_name]
     else:
         new_kwargs = {
             "name": gate_name,
@@ -166,155 +225,118 @@ def register_implementation(
         }
         if quantum_op_specs:
             new_kwargs |= quantum_op_specs
-            # cast iterables to tuple for consistency
-            # TODO: fix the QuantumOp datclass comparisons and field typings properly
-            new_kwargs["params"] = tuple(new_kwargs["params"])
-        new = QuantumOp(**new_kwargs)
+            new_kwargs["params"] = tuple(new_kwargs.get("params", ()))
 
-    # TODO: fix the QuantumOp datclass comparisons and field typings properly
-    new_without_impls = replace(new, params=tuple(new.params), implementations={}, defaults_for_locus={}, unitary=None)
-    if gate_name in _default_operations:
-        default_op = _default_operations[gate_name]
-        default_without_impls = replace(default_op, implementations={}, defaults_for_locus={}, unitary=None)
-        if new_without_impls != default_without_impls:
-            raise ValueError(
-                f"{gate_name} is one of the default operation defined in iqm-pulse where it has different "
-                f"properties. {default_op=}, {new=}"
-            )
-        if new.unitary is None and default_op.unitary is not None:
-            # it is impossible to compare unitary generating functions, so the only thing we can do is to ensure
-            # if no unitary was provided, we will still retain the old unitary
-            new = replace(new, unitary=default_op.unitary)
+        new_op = QuantumOp(**new_kwargs)
 
-    if not overwrite and gate_name in operations:
-        old = operations[gate_name]
-        # TODO: fix the QuantumOp datclass comparisons and field typings properly
-        old_without_impls = replace(
-            old, params=tuple(old.params), implementations={}, defaults_for_locus={}, unitary=None
-        )
-        if new_without_impls != old_without_impls:
-            raise ValueError(f"{gate_name} has already been registered with different properties. {old=}, {new=}")
-        if new.unitary is None and old.unitary is not None:
-            new = replace(new, unitary=old.unitary)
+    return new_op
 
-    new.implementations[impl_name] = impl_class
-    if set_as_default and len(new.implementations) >= 1:
-        new.set_default_implementation(impl_name)
+
+def _add_implementation(
+    operations: dict[str, QuantumOp],
+    new_op: QuantumOp,
+    impl_name: str,
+    impl_class: type[GateImplementation],
+    set_as_default: bool = False,
+    overwrite: bool = False,
+) -> None:
+    """Register a new implementation for an existing quantum operation.
+
+    Args:
+        operations: Table of existing quantum operations
+        new_op: The new quantum operation
+        impl_name: The name for the implementation that is added
+        impl_class: The GateImplementation class corresponding to the new implementation
+        set_as_default: Whether to set as default implementation
+        overwrite: If True, allows replacing existing implementation
+
+    Returns:
+        new_op: QuantumOp with the new implementation
+
+    """
+    new_op.implementations[impl_name] = impl_class
+    _validate_implementation(operations, new_op, impl_name, impl_class)
+    if set_as_default and len(new_op.implementations) >= 1:
+        new_op.set_default_implementation(impl_name)
     if not get_implementation_class(impl_class.__name__):
         expose_implementation(impl_class, overwrite)
 
-    operations[gate_name] = new
+    return new_op
 
 
-_default_operations: QuantumOpTable = {
-    op.name: op
-    for op in [
-        QuantumOp(
-            "barrier",
-            0,
-            implementations={"": Barrier},
-            symmetric=True,
-        ),
-        QuantumOp(
-            "delay",
-            0,
-            ("duration",),
-            implementations={"wait": Delay},
-            symmetric=True,
-        ),
-        QuantumOp(
-            "measure",
-            0,
-            ("key",),
-            implementations={
-                "constant": Measure_Constant,
-                "constant_qnd": Measure_Constant,
-            },
-            factorizable=True,
-        ),
-        QuantumOp(
-            "prx",
-            1,
-            ("angle", "phase"),
-            implementations={
-                "drag_gaussian": PRX_DRAGGaussian,
-                "drag_crf": PRX_DRAGCosineRiseFall,
-                "drag_crf_sx": PRX_DRAGCosineRiseFallSX,
-                "drag_gaussian_sx": PRX_DRAGGaussianSX,
-            },
-            unitary=get_unitary_prx,
-        ),
-        QuantumOp(
-            "u",
-            1,
-            ("theta", "phi", "lam"),
-            implementations={"prx_u": UGate},
-            unitary=get_unitary_u,
-        ),
-        QuantumOp("sx", 1, implementations={"prx_sx": SXGate}, unitary=lambda: get_unitary_prx(np.pi / 2, 0)),
-        QuantumOp(
-            "rz",
-            1,
-            ("angle",),
-            implementations={"virtual": RZ_Virtual},
-            unitary=get_unitary_rz,
-        ),
-        QuantumOp(
-            "rz_physical",
-            1,
-            implementations={"ac_stark_crf": RZ_ACStarkShift_CosineRiseFall},
-        ),
-        QuantumOp(
-            "cz",
-            2,
-            implementations={
-                "tgss": CZ_TruncatedGaussianSmoothedSquare,
-                "tgss_crf": FluxPulseGate_TGSS_CRF,
-                "crf_crf": FluxPulseGate_CRF_CRF,
-                "crf": CZ_CRF,
-                "gaussian_smoothed_square": CZ_GaussianSmoothedSquare,
-                "slepian": CZ_Slepian,
-                "slepian_crf": CZ_Slepian_CRF,
-                "crf_acstarkcrf": CZ_CRF_ACStarkCRF,
-                "slepian_acstarkcrf": CZ_Slepian_ACStarkCRF,
-            },
-            symmetric=True,
-            unitary=lambda: np.diag([1.0, 1.0, 1.0, -1.0]),
-        ),
-        QuantumOp(
-            "move",
-            2,
-            implementations={
-                "tgss_crf": MOVE_TGSS_CRF,
-                "crf_crf": MOVE_CRF_CRF,
-            },
-        ),
-        QuantumOp(
-            "cc_prx",
-            1,
-            ("angle", "phase", "feedback_qubit", "feedback_key"),
-            implementations={
-                "prx_composite": CCPRX_Composite,
-                "prx_composite_drag_crf": CCPRX_Composite_DRAGCosineRiseFall,
-                "prx_composite_drag_gaussian": CCPRX_Composite_DRAGGaussian,
-            },
-        ),
-        QuantumOp(
-            "reset",
-            0,
-            implementations={"reset_conditional": Reset_Conditional},
-            symmetric=True,
-            factorizable=True,
-        ),
-        QuantumOp(
-            "reset_wait",
-            0,
-            implementations={"reset_wait": Reset_Wait},
-            symmetric=True,
-            factorizable=True,
-        ),
-        QuantumOp("flux_multiplexer", 0, implementations={"sample_linear": FluxMultiplexer_SampleLinear}),
-    ]
-}
-"""Native quantum operations are hardcoded here. They can be overridden using the YAML config file."""
-# TODO for now, the default ops are hardcoded here, but they could always be read from a config file.
+def _validate_implementation(
+    operations: QuantumOpTable,
+    new_op: QuantumOp,
+    impl_name: str,
+    impl_class: type[GateImplementation],
+) -> None:
+    """Validate new implementation against existing implementations.
+
+    Args:
+        operations: Table of quantum operations
+        new_op: Operation whose implementation we want to validate
+        impl_name: Name of the new implementation
+        impl_class: The GateImplementation class corresponding to the new
+        implementation
+
+    Raises:
+        ValueError: If there is already an implementation with the same name, but
+        corresponds to a different implementation class.
+
+    """
+    if new_op.name in _quantum_ops_library:
+        default_op = _quantum_ops_library[new_op.name]
+        for default_impl_name, default_impl_cls in default_op.implementations.items():
+            if impl_name == default_impl_name:
+                default_impl_cls_name = (
+                    default_impl_cls if isinstance(default_impl_cls, str) else default_impl_cls.__name__
+                )
+                if impl_class.__name__ != default_impl_cls_name:
+                    raise ValueError(
+                        f"The implementation '{default_impl_name}' already exists in default implementations with '{default_impl_cls.__name__}' as corresponding GateImplementation class."  # noqa: E501
+                    )
+
+    if new_op.name in operations:
+        existing_op = operations[new_op.name]
+        for existing_impl_name, existing_impl_cls in existing_op.implementations.items():
+            if impl_name == existing_impl_name:
+                existing_impl_cls_name = (
+                    existing_impl_cls if isinstance(existing_impl_cls, str) else existing_impl_cls.__name__
+                )  # noqa: E501
+                if impl_class.__name__ != existing_impl_cls_name:
+                    raise ValueError(
+                        f"The implementation '{existing_impl_name}' already exists with '{existing_impl_cls.__name__}' as corresponding GateImplementation class."  # noqa: E501
+                    )
+
+
+def register_implementation(
+    operations: dict[str, QuantumOp],
+    gate_name: str,
+    impl_name: str,
+    impl_class: type[GateImplementation],
+    set_as_default: bool = False,
+    overwrite: bool = False,
+    quantum_op_specs: QuantumOp | dict | None = None,
+) -> None:
+    """Register a new gate implementation, and a new gate (operation) if needed.
+
+    Args:
+        operations: Known operations, mapping gate names to QuantumOps
+        gate_name: The gate name to register
+        impl_name: The name for this implementation
+        impl_class: The implementation class
+        set_as_default: Whether to set as default implementation
+        overwrite: If True, allows replacing existing operation/implementation
+        quantum_op_specs: Specs for creating new quantum op if needed
+
+    Raises:
+        ValueError: If operation/implementation exists and overwrite=False
+
+    """
+    new_op = _register_gate(operations, gate_name, impl_class, quantum_op_specs)
+
+    new_op = _validate_operation(new_op, gate_name, operations, overwrite)
+
+    _add_implementation(operations, new_op, impl_name, impl_class, set_as_default, overwrite)
+
+    operations[gate_name] = new_op

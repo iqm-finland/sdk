@@ -443,11 +443,13 @@ class ABC_Constant_smooth(PRX_GateImplementation):
         params_for_risefall = copy.deepcopy(params)
 
         params_for_stark["n_samples"] = max(
-            int(params_for_stark["n_samples"] * (1 - 2 * params_for_stark["rise_time"])), 0
+            int(round(params_for_stark["n_samples"] * (1 - 2 * params_for_stark["rise_time"]), 0)), 0
         )
         self.main_waveform = self._main_pulse(**params_for_stark)
 
-        params_for_risefall["n_samples"] = int(params_for_risefall["n_samples"] * params_for_risefall["rise_time"])
+        params_for_risefall["n_samples"] = int(
+            round(params_for_risefall["n_samples"] * params_for_risefall["rise_time"], 0)
+        )
 
         self.fall_waveform = self._fall_pulse(**params_for_risefall)
         self.rise_waveform = self._rise_pulse(**params_for_risefall)
@@ -457,7 +459,7 @@ class ABC_Constant_smooth(PRX_GateImplementation):
 
     def __init_subclass__(
         cls,
-        /,  # TODO likely a bad way of doing things, fix
+        /,
         fall_waveform: type[Waveform],
         rise_waveform: type[Waveform],
         main_waveform: type[Waveform],
