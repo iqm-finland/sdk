@@ -13,76 +13,47 @@
 # limitations under the License.
 """Fake (i.e. simulated) backend for IQM's 20-qubit Apollo architecture"""
 
-from iqm.iqm_client import QuantumArchitectureSpecification
+from iqm.iqm_client import StaticQuantumArchitecture
 from iqm.qiskit_iqm.fake_backends.iqm_fake_backend import IQMErrorProfile, IQMFakeBackend
 
 
 def IQMFakeApollo() -> IQMFakeBackend:
     """Return IQMFakeBackend instance representing IQM's Apollo architecture."""
-    qubits = [
-        "QB1",
-        "QB2",
-        "QB3",
-        "QB4",
-        "QB5",
-        "QB6",
-        "QB7",
-        "QB8",
-        "QB9",
-        "QB10",
-        "QB11",
-        "QB12",
-        "QB13",
-        "QB14",
-        "QB15",
-        "QB16",
-        "QB17",
-        "QB18",
-        "QB19",
-        "QB20",
-    ]
-    qubit_connectivity = [
-        ["QB1", "QB2"],
-        ["QB1", "QB4"],
-        ["QB2", "QB5"],
-        ["QB3", "QB4"],
-        ["QB8", "QB3"],
-        ["QB4", "QB5"],
-        ["QB9", "QB4"],
-        ["QB5", "QB6"],
-        ["QB10", "QB5"],
-        ["QB6", "QB7"],
-        ["QB11", "QB6"],
-        ["QB12", "QB7"],
-        ["QB8", "QB9"],
-        ["QB8", "QB13"],
-        ["QB9", "QB10"],
-        ["QB9", "QB14"],
-        ["QB10", "QB11"],
-        ["QB10", "QB15"],
-        ["QB11", "QB12"],
-        ["QB16", "QB11"],
-        ["QB17", "QB12"],
-        ["QB13", "QB14"],
-        ["QB14", "QB15"],
-        ["QB18", "QB14"],
-        ["QB16", "QB15"],
-        ["QB19", "QB15"],
-        ["QB16", "QB17"],
-        ["QB16", "QB20"],
-        ["QB18", "QB19"],
-        ["QB19", "QB20"],
-    ]
-    architecture = QuantumArchitectureSpecification(
-        name="Apollo",
-        operations={
-            "prx": [[q] for q in qubits],
-            "cz": list(qubit_connectivity),
-            "measure": [[q] for q in qubits],
-            "barrier": [],
-        },
-        qubits=qubits,
-        qubit_connectivity=qubit_connectivity,
+    architecture = StaticQuantumArchitecture(
+        qubits=[f"QB{i}" for i in range(1, 21)],
+        computational_resonators=[],
+        connectivity=[
+            ("QB1", "QB2"),
+            ("QB1", "QB4"),
+            ("QB2", "QB5"),
+            ("QB3", "QB4"),
+            ("QB3", "QB8"),
+            ("QB4", "QB5"),
+            ("QB4", "QB9"),
+            ("QB5", "QB6"),
+            ("QB5", "QB10"),
+            ("QB6", "QB7"),
+            ("QB6", "QB11"),
+            ("QB7", "QB12"),
+            ("QB8", "QB9"),
+            ("QB8", "QB13"),
+            ("QB9", "QB10"),
+            ("QB9", "QB14"),
+            ("QB10", "QB11"),
+            ("QB10", "QB15"),
+            ("QB11", "QB12"),
+            ("QB11", "QB16"),
+            ("QB12", "QB17"),
+            ("QB13", "QB14"),
+            ("QB14", "QB15"),
+            ("QB14", "QB18"),
+            ("QB15", "QB16"),
+            ("QB15", "QB19"),
+            ("QB16", "QB17"),
+            ("QB16", "QB20"),
+            ("QB18", "QB19"),
+            ("QB19", "QB20"),
+        ],
     )
     # Note that these specs are ballpark numbers and don't correspond directly to a specific device
     error_profile = IQMErrorProfile(

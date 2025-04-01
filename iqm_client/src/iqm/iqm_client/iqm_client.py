@@ -57,6 +57,7 @@ from iqm.iqm_client.models import (
     RunRequest,
     RunResult,
     RunStatus,
+    StaticQuantumArchitecture,
     Status,
     serialize_qubit_mapping,
     validate_circuit,
@@ -130,6 +131,7 @@ class IQMClient:
         if client_signature:
             self._signature += f", {client_signature}"
         self._architecture: QuantumArchitectureSpecification | None = None
+        self._static_architecture: StaticQuantumArchitecture | None = None
         self._dynamic_architectures: dict[UUID, DynamicQuantumArchitecture] = {}
 
         if api_variant is None:
@@ -907,6 +909,36 @@ class IQMClient:
         # Cache architecture so that later invocations do not need to query it again
         self._architecture = qa
         return qa
+
+    def get_static_quantum_architecture(self, *, timeout_secs: float = REQUESTS_TIMEOUT) -> StaticQuantumArchitecture:
+        """Retrieve the static quantum architecture (SQA) from the server.
+
+        Caches the result and returns it on later invocations.
+
+        Args:
+            timeout_secs: Network request timeout (seconds).
+
+        Returns:
+            Static quantum architecture of the server.
+
+        Raises:
+            EndpointRequestError: did not understand the endpoint response
+            ClientAuthenticationError: no valid authentication provided
+            HTTPException: HTTP exceptions
+
+        """
+        if self._static_architecture:
+            return self._static_architecture
+
+        response = self._get_request(
+            APIEndpoint.STATIC_QUANTUM_ARCHITECTURE,
+            timeout=timeout_secs,
+        )
+        sqa = self._deserialize_response(response, StaticQuantumArchitecture)
+
+        # Cache the architecture so that later invocations do not need to query it again
+        self._static_architecture = sqa
+        return sqa
 
     def get_quality_metric_set(
         self, calibration_set_id: UUID | None = None, *, timeout_secs: float = REQUESTS_TIMEOUT

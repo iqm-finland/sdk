@@ -770,6 +770,3 @@ connectivity, and the native gateset should match the 5-qubit Adonis architectur
    0-filled bits. To make sure the facade backend returns results in the same format as a real IQM server,
    :meth:`.IQMFacadeBackend.run` checks for the presence of unused classical registers, and fails with an error if there
    are any.
-
-
-.. include:: ../CONTRIBUTING.rst

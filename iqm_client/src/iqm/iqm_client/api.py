@@ -40,6 +40,7 @@ class APIEndpoint(Enum):
     # Calibration and Calibration Service endpoints
     CALIBRATION_SERVICE_CONFIGURATION = auto()
     QUANTUM_ARCHITECTURE = auto()
+    STATIC_QUANTUM_ARCHITECTURE = auto()
     CHANNEL_PROPERTIES = auto()
     QUALITY_METRICS_LATEST = auto()
     QUALITY_METRICS = auto()
@@ -112,6 +113,7 @@ class APIConfig:
                 APIEndpoint.ABORT_CALIBRATION_JOB: "jobs/%s/abort",
                 APIEndpoint.DELETE_JOB: "jobs/%s",
                 APIEndpoint.QUANTUM_ARCHITECTURE: "quantum-architecture",
+                APIEndpoint.STATIC_QUANTUM_ARCHITECTURE: "api/v1/quantum-architecture",
                 APIEndpoint.CALIBRATED_GATES: "api/v1/calibration/%s/gates",
                 APIEndpoint.QUALITY_METRICS_MONITORING: "api/v1/monitor/calibration/metrics",
                 APIEndpoint.HEALTH: "health",
@@ -140,6 +142,7 @@ class APIConfig:
                 APIEndpoint.ABORT_CALIBRATION_JOB: "cocos/jobs/%s/abort",
                 APIEndpoint.DELETE_JOB: "station/circuits/%s",
                 APIEndpoint.QUANTUM_ARCHITECTURE: "cocos/quantum-architecture",
+                APIEndpoint.STATIC_QUANTUM_ARCHITECTURE: "cocos/api/v1/quantum-architecture",
                 APIEndpoint.CHANNEL_PROPERTIES: "station/channel-properties",
                 APIEndpoint.CALIBRATED_GATES: "cocos/api/v1/calibration/%s/gates",
                 APIEndpoint.QUALITY_METRICS_MONITORING: "cocos/api/v1/monitor/calibration/metrics",

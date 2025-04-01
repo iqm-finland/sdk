@@ -38,18 +38,18 @@ Locus = tuple[str, ...]
 LocusIdx = tuple[int, ...]
 
 
-def _dqa_from_static_architecture(sqa: QuantumArchitectureSpecification) -> DynamicQuantumArchitecture:
-    """Create a dynamic quantum architecture from the given static quantum architecture.
+def _dqa_from_quantum_architecture(qa: QuantumArchitectureSpecification) -> DynamicQuantumArchitecture:
+    """Create a dynamic quantum architecture from the given quantum architecture.
 
-    Since the DQA contains some attributes that are not present in an SQA, they are filled with mock data:
+    Since the DQA contains some attributes that are not present in an QA, they are filled with mock data:
 
     * Each gate type is given a single mock implementation.
     * Calibration set ID is set to the all-zeros UUID.
 
     Args:
-        sqa: static quantum architecture to replicate
+        qa: quantum architecture to replicate
     Returns:
-        DQA replicating the properties of ``sqa``
+        DQA replicating the properties of ``qa``
 
     """
     gates = {
@@ -58,16 +58,16 @@ def _dqa_from_static_architecture(sqa: QuantumArchitectureSpecification) -> Dyna
             default_implementation="__fake",
             override_default_implementation={},
         )
-        for gate_name, gate_loci in sqa.operations.items()
+        for gate_name, gate_loci in qa.operations.items()
     }
     # NOTE that this heuristic for defining computational resonators is not perfect, but it should work for more cases
     # than the name-based heuristic. Computational_resonators will be mapped wrong if the resonator is not used in any
     # move gates.
-    if "move" in sqa.operations:
-        computational_resonators = list({res for _, res in sqa.operations["move"]})
+    if "move" in qa.operations:
+        computational_resonators = list({res for _, res in qa.operations["move"]})
     else:
         computational_resonators = []
-    qubits = [qb for qb in sqa.qubits if qb not in computational_resonators]
+    qubits = [qb for qb in qa.qubits if qb not in computational_resonators]
 
     return DynamicQuantumArchitecture(
         calibration_set_id=UUID("00000000-0000-0000-0000-000000000000"),
@@ -92,7 +92,7 @@ class IQMBackendBase(BackendV2, ABC):
     ):
         super().__init__(**kwargs)
         if isinstance(architecture, QuantumArchitectureSpecification):
-            arch = _dqa_from_static_architecture(architecture)
+            arch = _dqa_from_quantum_architecture(architecture)
         else:
             arch = architecture
         self.architecture: DynamicQuantumArchitecture = arch
@@ -216,7 +216,7 @@ def _restrict_dqa_to_qubits(
     for gate_name, gate_info in architecture.gates.items():
         new_implementations = {}
         for implementation_name, implementation_info in gate_info.implementations.items():
-            new_loci = [locus for locus in implementation_info.loci if all(q in qubits for q in locus)]
+            new_loci = tuple(locus for locus in implementation_info.loci if all(q in qubits for q in locus))
             if new_loci:
                 new_implementations[implementation_name] = GateImplementationInfo(loci=new_loci)
         if new_implementations:

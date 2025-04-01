@@ -13,78 +13,13 @@
 # limitations under the License.
 """Fake (i.e. simulated) backend for IQM's 20-qubit Garnet architecture"""
 
-from iqm.iqm_client import QuantumArchitectureSpecification
+from iqm.qiskit_iqm.fake_backends.fake_apollo import IQMFakeApollo
 from iqm.qiskit_iqm.fake_backends.iqm_fake_backend import IQMErrorProfile, IQMFakeBackend
 
 
 # pylint: disable=duplicate-code
 def IQMFakeGarnet() -> IQMFakeBackend:
     """Return IQMFakeBackend instance representing IQM's Garnet architecture."""
-    qubits = [
-        "QB1",
-        "QB2",
-        "QB3",
-        "QB4",
-        "QB5",
-        "QB6",
-        "QB7",
-        "QB8",
-        "QB9",
-        "QB10",
-        "QB11",
-        "QB12",
-        "QB13",
-        "QB14",
-        "QB15",
-        "QB16",
-        "QB17",
-        "QB18",
-        "QB19",
-        "QB20",
-    ]
-    qubit_connectivity = [
-        ["QB1", "QB2"],
-        ["QB1", "QB4"],
-        ["QB2", "QB5"],
-        ["QB3", "QB4"],
-        ["QB8", "QB3"],
-        ["QB4", "QB5"],
-        ["QB9", "QB4"],
-        ["QB5", "QB6"],
-        ["QB10", "QB5"],
-        ["QB6", "QB7"],
-        ["QB11", "QB6"],
-        ["QB12", "QB7"],
-        ["QB8", "QB9"],
-        ["QB8", "QB13"],
-        ["QB9", "QB10"],
-        ["QB9", "QB14"],
-        ["QB10", "QB11"],
-        ["QB10", "QB15"],
-        ["QB11", "QB12"],
-        ["QB16", "QB11"],
-        ["QB17", "QB12"],
-        ["QB13", "QB14"],
-        ["QB14", "QB15"],
-        ["QB18", "QB14"],
-        ["QB16", "QB15"],
-        ["QB19", "QB15"],
-        ["QB16", "QB17"],
-        ["QB16", "QB20"],
-        ["QB18", "QB19"],
-        ["QB19", "QB20"],
-    ]
-    architecture = QuantumArchitectureSpecification(
-        name="Garnet",
-        operations={
-            "prx": [[q] for q in qubits],
-            "cz": list(qubit_connectivity),
-            "measure": [[q] for q in qubits],
-            "barrier": [],
-        },
-        qubits=qubits,
-        qubit_connectivity=qubit_connectivity,
-    )
     error_profile = IQMErrorProfile(
         t1s={
             "QB1": 37741.0,
@@ -212,7 +147,8 @@ def IQMFakeGarnet() -> IQMFakeBackend:
             "QB19": {"0": 0.0250, "1": 0.0255},
             "QB20": {"0": 0.0280, "1": 0.0285},
         },
-        name="sample-chip",
+        name="Garnet",
     )
-
-    return IQMFakeBackend(architecture, error_profile, name="IQMFakeGarnetBackend")
+    fake_backend = IQMFakeApollo()
+    fake_backend.name = "IQMFakeGarnetBackend"
+    return fake_backend.copy_with_error_profile(error_profile)

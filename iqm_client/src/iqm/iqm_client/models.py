@@ -575,11 +575,28 @@ class QuantumArchitecture(BaseModel):
 
 
 def _component_sort_key(component_name: str) -> tuple[str, int, str]:
+    """Sorting key for QPU component names."""
+
     def get_numeric_id(name: str) -> int:
         match = re.search(r"(\d+)", name)
         return int(match.group(1)) if match else 0
 
     return re.sub(r"[^a-zA-Z]", "", component_name), get_numeric_id(component_name), component_name
+
+
+class StaticQuantumArchitecture(BaseModel):
+    """Static quantum architecture of the server.
+
+    The static quantum architecture (SQA) provides information about the QPU,
+    including the names of its computational components and the connections between them.
+    """
+
+    qubits: list[str] = Field(...)
+    """Names of the physical qubits on the QPU, sorted."""
+    computational_resonators: list[str] = Field(...)
+    """Names of the physical computational resonators on the QPU, sorted."""
+    connectivity: list[Locus] = Field(...)
+    """Groups of components (qubits and computational resonators) that are connected by a coupler on the QPU, sorted."""
 
 
 class QualityMetricSet(BaseModel):

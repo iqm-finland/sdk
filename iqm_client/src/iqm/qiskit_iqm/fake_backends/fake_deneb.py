@@ -1,4 +1,4 @@
-# Copyright 2022-2023 Qiskit on IQM developers
+# Copyright 2022-2025 Qiskit on IQM developers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,43 +13,22 @@
 # limitations under the License.
 """Fake backend for IQM's 6-qubit Deneb architecture."""
 
-from iqm.iqm_client import QuantumArchitectureSpecification
+from iqm.iqm_client import StaticQuantumArchitecture
 from iqm.qiskit_iqm.fake_backends.iqm_fake_backend import IQMErrorProfile, IQMFakeBackend
 
 
 def IQMFakeDeneb() -> IQMFakeBackend:
     """Return IQMFakeBackend instance representing IQM's Deneb architecture."""
-    architecture = QuantumArchitectureSpecification(
-        name="Deneb",
-        operations={
-            "prx": [["QB1"], ["QB2"], ["QB3"], ["QB4"], ["QB5"], ["QB6"]],
-            "cz": [
-                ["QB1", "CR1"],
-                ["QB2", "CR1"],
-                ["QB3", "CR1"],
-                ["QB4", "CR1"],
-                ["QB5", "CR1"],
-                ["QB6", "CR1"],
-            ],
-            "move": [
-                ["QB1", "CR1"],
-                ["QB2", "CR1"],
-                ["QB3", "CR1"],
-                ["QB4", "CR1"],
-                ["QB5", "CR1"],
-                ["QB6", "CR1"],
-            ],
-            "measure": [["QB1"], ["QB2"], ["QB3"], ["QB4"], ["QB5"], ["QB6"]],
-            "barrier": [],
-        },
-        qubits=["CR1", "QB1", "QB2", "QB3", "QB4", "QB5", "QB6"],
-        qubit_connectivity=[
-            ["QB1", "CR1"],
-            ["QB2", "CR1"],
-            ["QB3", "CR1"],
-            ["QB4", "CR1"],
-            ["QB5", "CR1"],
-            ["QB6", "CR1"],
+    architecture = StaticQuantumArchitecture(
+        qubits=["QB1", "QB2", "QB3", "QB4", "QB5", "QB6"],
+        computational_resonators=["CR1"],
+        connectivity=[
+            ("CR1", "QB1"),
+            ("CR1", "QB2"),
+            ("CR1", "QB3"),
+            ("CR1", "QB4"),
+            ("CR1", "QB5"),
+            ("CR1", "QB6"),
         ],
     )
     error_profile = IQMErrorProfile(
@@ -73,7 +52,6 @@ def IQMFakeDeneb() -> IQMFakeBackend:
         },
         single_qubit_gate_depolarizing_error_parameters={
             "prx": {
-                "CR1": 0.0,
                 "QB1": 0.0002,
                 "QB2": 0.0002,
                 "QB3": 0.0002,
@@ -103,7 +81,6 @@ def IQMFakeDeneb() -> IQMFakeBackend:
         single_qubit_gate_durations={"prx": 40.0},
         two_qubit_gate_durations={"cz": 120.0, "move": 96.0},
         readout_errors={
-            "CR1": {"0": 0.0, "1": 0.0},
             "QB1": {"0": 0.02, "1": 0.02},
             "QB2": {"0": 0.02, "1": 0.02},
             "QB3": {"0": 0.02, "1": 0.02},
@@ -111,7 +88,7 @@ def IQMFakeDeneb() -> IQMFakeBackend:
             "QB5": {"0": 0.02, "1": 0.02},
             "QB6": {"0": 0.02, "1": 0.02},
         },
-        name="sample-chip",
+        name="Deneb",
     )
 
     return IQMFakeBackend(architecture, error_profile, name="IQMFakeDenebBackend")

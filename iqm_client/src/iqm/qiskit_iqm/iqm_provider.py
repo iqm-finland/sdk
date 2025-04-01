@@ -250,7 +250,7 @@ class IQMBackend(IQMBackendBase):
         """
         if qubit_mapping is None:
             qubit_mapping = self._idx_to_qb
-        instructions = serialize_instructions(circuit, qubit_index_to_name=qubit_mapping)
+        instructions = tuple(serialize_instructions(circuit, qubit_index_to_name=qubit_mapping))
 
         try:
             metadata = to_json_dict(circuit.metadata)
@@ -276,7 +276,7 @@ class IQMFacadeBackend(IQMBackend):
 
     def __init__(self, client: IQMClient, **kwargs):
         self.fake_adonis = IQMFakeAdonis()
-        target_architecture = client.get_dynamic_quantum_architecture(kwargs.get("calibration_set_id", None))
+        target_architecture = client.get_static_quantum_architecture()
 
         if not self.fake_adonis.validate_compatible_architecture(target_architecture):
             raise ValueError("Quantum architecture of the remote quantum computer does not match Adonis.")

@@ -13,23 +13,16 @@
 # limitations under the License.
 """Fake backend for IQM's 5-qubit Adonis architecture."""
 
-from iqm.iqm_client import QuantumArchitectureSpecification
+from iqm.iqm_client import StaticQuantumArchitecture
 from iqm.qiskit_iqm.fake_backends.iqm_fake_backend import IQMErrorProfile, IQMFakeBackend
 
 
 def IQMFakeAdonis() -> IQMFakeBackend:
     """Return IQMFakeBackend instance representing IQM's Adonis architecture."""
-    architecture = QuantumArchitectureSpecification(
-        name="Adonis",
-        operations={
-            "prx": [["QB1"], ["QB2"], ["QB3"], ["QB4"], ["QB5"]],
-            "cc_prx": [["QB1"], ["QB2"], ["QB3"], ["QB4"], ["QB5"]],
-            "cz": [["QB1", "QB3"], ["QB2", "QB3"], ["QB4", "QB3"], ["QB5", "QB3"]],
-            "measure": [["QB1"], ["QB2"], ["QB3"], ["QB4"], ["QB5"]],
-            "barrier": [],
-        },
+    architecture = StaticQuantumArchitecture(
         qubits=["QB1", "QB2", "QB3", "QB4", "QB5"],
-        qubit_connectivity=[["QB1", "QB3"], ["QB2", "QB3"], ["QB3", "QB4"], ["QB3", "QB5"]],
+        computational_resonators=[],
+        connectivity=[("QB1", "QB3"), ("QB2", "QB3"), ("QB3", "QB4"), ("QB3", "QB5")],
     )
     error_profile = IQMErrorProfile(
         t1s={"QB1": 27000.0, "QB2": 33000.0, "QB3": 25000.0, "QB4": 40000.0, "QB5": 25000.0},

@@ -2,6 +2,15 @@
 Changelog
 =========
 
+Version 22.12 (2025-03-31)
+==========================
+
+Features
+--------
+
+- :meth:`IQMClient.get_static_quantum_architecture` added. :issue:`SW-706`
+- :class:`iqm.qiskit_iqm.fake_backends.IQMFakeBackend` uses the static quantum architecture. :issue:`SW-706`
+
 Version 22.11 (2025-03-25)
 ==========================
 
