@@ -15,14 +15,17 @@
 """Sweep specification with linearly spaced values."""
 
 from typing import Any
-import warnings
+
+from typing_extensions import deprecated
 
 from exa.common.control.sweep.option import CenterSpanOptions, StartStopOptions
 from exa.common.control.sweep.sweep import Sweep
 from exa.common.data.parameter import Parameter
 from exa.common.errors.exa_error import InvalidSweepOptionsTypeError
+from exa.common.helpers.deprecation import format_deprecated
 
 
+@deprecated(format_deprecated(old="`LinearSweep`", new="`Sweep`", since="28.3.2025"))
 class LinearSweep(Sweep):
     """Generates evenly spaced parameter values based on `options`.
 
@@ -43,7 +46,6 @@ class LinearSweep(Sweep):
         data: list[Any] | None = None,
         **kwargs,
     ) -> None:
-        warnings.warn("LinearSweep is deprecated, use Sweep instead.", DeprecationWarning)
         if options and not isinstance(options, StartStopOptions | CenterSpanOptions):
             raise InvalidSweepOptionsTypeError(str(type(options)))
         super().__init__(parameter, options, data=data, **kwargs)

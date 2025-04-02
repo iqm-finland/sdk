@@ -1,4 +1,6 @@
-import warnings
+from typing_extensions import deprecated
+
+from exa.common.helpers.deprecation import format_deprecated
 
 
 class ExaError(Exception):
@@ -25,9 +27,9 @@ class EmptyComponentListError(ExaError, ValueError):
     """Error raised when an empty list is given as components for running an experiment."""
 
 
+@deprecated(format_deprecated(old="`InvalidSweepOptionsTypeError`", new="`Sweep.data`", since="28.3.2025"))
 class InvalidSweepOptionsTypeError(ExaError, TypeError):
     """The type of sweep options is invalid."""
 
     def __init__(self, options: str, *args):
-        warnings.warn("InvalidSweepOptionsTypeError is deprecated.", DeprecationWarning)
         super().__init__(f"Options have unsupported type of {options}", *args)

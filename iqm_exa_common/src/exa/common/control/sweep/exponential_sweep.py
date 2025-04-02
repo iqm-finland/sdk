@@ -15,14 +15,17 @@
 """Sweep specification with exponentially spaced values."""
 
 from typing import Any
-import warnings
+
+from typing_extensions import deprecated
 
 from exa.common.control.sweep.option import CenterSpanBaseOptions, StartStopBaseOptions
 from exa.common.control.sweep.sweep import Sweep
 from exa.common.data.parameter import Parameter
 from exa.common.errors.exa_error import InvalidSweepOptionsTypeError
+from exa.common.helpers.deprecation import format_deprecated
 
 
+@deprecated(format_deprecated(old="`ExponentialSweep`", new="`Sweep`", since="28.3.2025"))
 class ExponentialSweep(Sweep):
     """Generates parameter values spaced evenly on a geometric progression based on `options`.
 
@@ -45,7 +48,6 @@ class ExponentialSweep(Sweep):
         data: list[Any] | None = None,
         **kwargs,
     ) -> None:
-        warnings.warn("ExponentialSweep is deprecated, use Sweep instead.", DeprecationWarning)
         if options and not isinstance(options, StartStopBaseOptions | CenterSpanBaseOptions):
             raise InvalidSweepOptionsTypeError(str(type(options)))
         super().__init__(parameter, options, data=data, **kwargs)

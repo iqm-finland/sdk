@@ -209,7 +209,7 @@ class Parameter(BaseModel):
             label = name
         if data_type == DataType.NUMBER:
             warnings.warn(
-                "data_type 'DataType.NUMBER' is deprecated, using 'DataType.FLOAT' instead.",
+                "data_type 'DataType.NUMBER' is deprecated, use 'DataType.FLOAT' instead.",
                 DeprecationWarning,
             )
             # Consider DataType.NUMBER as a deprecated alias for DataType.FLOAT

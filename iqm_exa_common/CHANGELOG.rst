@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 26.7 (2025-04-01)
+=========================
+
+Features
+--------
+
+- Use standard process of deprecation. No functional changes. :issue:`SW-450`
+
 Version 26.6 (2025-03-21)
 =========================
 

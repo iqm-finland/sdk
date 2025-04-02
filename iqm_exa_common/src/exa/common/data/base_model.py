@@ -2,6 +2,9 @@ from typing import Any, Self
 
 import pydantic
 from pydantic import ConfigDict
+from typing_extensions import deprecated
+
+from exa.common.helpers.deprecation import format_deprecated
 
 
 class BaseModel(pydantic.BaseModel):
@@ -28,10 +31,7 @@ class BaseModel(pydantic.BaseModel):
         """
         return super().model_copy(update=update, deep=deep)
 
+    @deprecated(format_deprecated(old="`copy` method", new="`model_copy`", since="28.3.2025"))
     def copy(self, **kwargs) -> Self:
-        """Returns a copy of the model.
-
-        DEPRECATED: Use model_copy(update: dict[str, Any], deep: bool) instead.
-        """
-        # Call deprecated copy() here deliberately to trigger deprecation warning from Pydantic.
+        """Returns a copy of the model."""
         return super().copy(update=kwargs, deep=True)
