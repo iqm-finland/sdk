@@ -70,8 +70,6 @@ class IQMNaiveResonatorMoving(TransformationPass):
             TranspilerError: The layout is not compatible with the DAG, or if the input gate set is incorrect.
 
         """
-        # pylint: disable=too-many-branches
-
         # TODO: Temporary hack to get the symbolic parameters to work: replace symbols with (inf, idx).
         # Replace symbolic parameters with indices and store the index to symbol mapping.
         symbolic_gates = {}
@@ -160,7 +158,6 @@ def _get_scheduling_method(
     existing_moves_handling: Optional[ExistingMoveHandlingOptions],
 ) -> str:
     """Determine scheduling based on flags."""
-    # pylint: disable=too-many-branches
     if perform_move_routing:
         if optimize_single_qubits:
             if not remove_final_rzs and ignore_barriers and existing_moves_handling is None:

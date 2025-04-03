@@ -47,7 +47,6 @@ class IQMSchedulingPlugin(PassManagerStagePlugin):
         ignore_barriers: bool,
         existing_move_handling: Optional[ExistingMoveHandlingOptions],
     ) -> None:
-        # pylint: disable=too-many-arguments
         super().__init__()
         self.move_gate_routing = move_gate_routing
         self.optimize_sqg = optimize_sqg

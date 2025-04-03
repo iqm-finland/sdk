@@ -231,7 +231,6 @@ class IQMJob(JobV1):
             Position in the queue or ``None`` if position is unknown or not applicable.
 
         """
-        # pylint: disable=unused-argument
         return None
 
     def error_message(self) -> Optional[str]:

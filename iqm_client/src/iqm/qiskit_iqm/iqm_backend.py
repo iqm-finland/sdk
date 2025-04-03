@@ -265,7 +265,6 @@ class IQMTarget(Target):
 
     def _add_connections_from_DQA(self):
         """Initializes the Target, making it represent the dynamic quantum architecture :attr:`iqm_dqa`."""
-        # pylint: disable=too-many-branches,too-many-nested-blocks
         # mapping from op name to all its allowed loci
         architecture = self.iqm_dqa
         component_to_idx = self.iqm_component_to_idx

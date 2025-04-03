@@ -116,7 +116,6 @@ def serialize_instructions(  # noqa: PLR0912, PLR0915
         ValueError: circuit contains an unsupported instruction or is not transpiled in general
 
     """
-    # pylint: disable=too-many-branches,too-many-statements
     instructions: list[Instruction] = []
     # maps clbits to the latest "measure" instruction to store its result there
     clbit_to_measure: dict[Clbit, Instruction] = {}
@@ -220,7 +219,6 @@ def serialize_instructions(  # noqa: PLR0912, PLR0915
     return instructions
 
 
-# pylint: disable=too-many-branches
 def deserialize_instructions(
     instructions: list[Instruction], qubit_name_to_index: dict[str, int], layout: Layout
 ) -> QiskitQuantumCircuit:

@@ -17,7 +17,6 @@ from iqm.qiskit_iqm.fake_backends.fake_apollo import IQMFakeApollo
 from iqm.qiskit_iqm.fake_backends.iqm_fake_backend import IQMErrorProfile, IQMFakeBackend
 
 
-# pylint: disable=duplicate-code
 def IQMFakeGarnet() -> IQMFakeBackend:
     """Return IQMFakeBackend instance representing IQM's Garnet architecture."""
     error_profile = IQMErrorProfile(

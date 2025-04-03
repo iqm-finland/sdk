@@ -60,7 +60,6 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
         self._ignore_barriers = ignore_barriers
 
     def run(self, dag: DAGCircuit) -> DAGCircuit:
-        # pylint: disable=too-many-branches
         self._validate_ops(dag)
         # accumulated RZ angles for each qubit, from the beginning of the circuit to the current gate
         rz_angles: list[float] = [0] * dag.num_qubits()

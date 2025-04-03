@@ -21,9 +21,9 @@ The generated schedules and settings can be sent to Station Control
 for execution on real or simulated quantum hardware.
 
 CPC is normally only accessed indirectly through Cocos or its reference client
-`IQM client <https://iqm-finland.github.io/iqm-client/index.html>`_,
+`IQM client <https://docs.meetiqm.com/iqm-client/index.html>`_,
 or a frontend such as
-`Cirq on IQM <https://iqm-finland.github.io/cirq-on-iqm/index.html>`_ or
+`Cirq on IQM <https://docs.meetiqm.com/iqm-client/user_guide_cirq.html>`_ or
 `Qiskit on IQM <https://docs.meetiqm.com/iqm-client/user_guide_qiskit.html>`_.
 """
 

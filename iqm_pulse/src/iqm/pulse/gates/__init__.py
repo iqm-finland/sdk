@@ -55,6 +55,10 @@ from iqm.pulse.gates.prx import (
     PRX_DRAGCosineRiseFallSX,
     PRX_DRAGGaussian,
     PRX_DRAGGaussianSX,
+    PRX_FastDrag,
+    PRX_FastDragSX,
+    PRX_HdDrag,
+    PRX_HdDragSX,
     get_unitary_prx,
 )
 from iqm.pulse.gates.reset import Reset_Conditional, Reset_Wait
@@ -77,6 +81,10 @@ _exposed_implementations: dict[str, type[GateImplementation]] = {
         PRX_DRAGCosineRiseFall,
         PRX_DRAGGaussianSX,
         PRX_DRAGCosineRiseFallSX,
+        PRX_FastDragSX,
+        PRX_FastDrag,
+        PRX_HdDrag,
+        PRX_HdDragSX,
         SXGate,
         UGate,
         RZ_Virtual,

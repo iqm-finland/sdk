@@ -20,7 +20,6 @@ sys.path.insert(0, os.path.abspath(py_path))
 # -- Project information -----------------------------------------------------
 
 project = "iqm.pulse"
-copyright = "2019-2025, IQM Finland Oy"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -37,6 +36,7 @@ except ImportError:
 else:
     version = parse(release).base_version
 
+copyright = "2019-2025, IQM Finland Oy, Release {}".format(release)
 
 # -- General configuration -----------------------------------------------------
 

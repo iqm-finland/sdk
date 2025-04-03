@@ -3,29 +3,31 @@ IQM Client
 
 Client-side Python library for connecting to an `IQM <https://meetiqm.com/>`_ quantum computer.
 
-Includes as an optional feature a `Qiskit <https://qiskit.org/>`_ adapter for `IQM's <https://www.meetiqm.com>`_
-quantum computers, which allows you to:
+Includes as an optional feature `Qiskit <https://qiskit.org/>`_ and `Cirq <https://quantumai.google/cirq>`_
+adapters for `IQM's <https://www.meetiqm.com>`_ quantum computers, which allow you to:
 
 * Transpile arbitrary quantum circuits for IQM quantum architectures
-* Simulate execution with an IQM-specific noise model
+* Simulate execution on IQM quantum architectures with IQM-specific noise models
+  (currently only the Qiskit adapter contains IQM noise models)
 * Run quantum circuits on an IQM quantum computer
 
 Installation
 ============
 
 For executing code on an IQM quantum computer, you can use for example
-`Qiskit on IQM <https://docs.meetiqm.com/iqm-client/user_guide_qiskit.html>`_, which can be installed as an optional
-feature of IQM Client from the Python Package Index (PyPI), e.g.:
+`Qiskit on IQM <https://docs.meetiqm.com/iqm-client/user_guide_qiskit.html>`_ or
+`Cirq on IQM <https://docs.meetiqm.com/iqm-client/user_guide_cirq.html>`_, which can be installed as optional
+features of IQM Client from the Python Package Index (PyPI), e.g.:
 
 .. code-block:: bash
 
-    $ uv pip install iqm-client[qiskit]
+    $ uv pip install iqm-client[qiskit,cirq]
 
 .. note::
 
-    If you have previously installed the (now deprecated) ``qiskit-iqm`` package in your Python environment,
-    you should first uninstall it with ``$ pip uninstall qiskit-iqm``. In this case, you should also include
-    the ``--force-reinstall`` option in the ``iqm-client`` installation command.
+    If you have previously installed the (now deprecated) ``qiskit-iqm`` or ``cirq-iqm`` packages in your
+    Python environment, you should first uninstall them with ``$ pip uninstall qiskit-iqm cirq-iqm``.
+    In this case, you should also include the ``--force-reinstall`` option in the ``iqm-client`` installation command.
 
 IQM Client by itself is not intended to be used directly by human users. If you want just the base IQM Client library,
 though, you can install it with

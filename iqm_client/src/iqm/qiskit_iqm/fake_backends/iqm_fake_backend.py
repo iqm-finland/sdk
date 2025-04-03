@@ -88,7 +88,6 @@ def _dqa_from_sqa(
     )
 
 
-# pylint: disable=too-many-instance-attributes
 @dataclass
 class IQMErrorProfile:
     r"""Characteristics of an IQM QPU specimen, used for constructing an error model.

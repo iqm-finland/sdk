@@ -2,25 +2,42 @@
 Changelog
 =========
 
+Version 8.11 (2025-04-02)
+=========================
+
+Features
+--------
+
+- Added waveforms for I- and Q-envelopes of FAST DRAG and higher-derivative (HD) DRAG: ``HdDragI``, ``HdDragQ``, ``FastDragI``, ``FastDragQ``
+- Added PRX implementations using FAST DRAG and HD DRAG: ``PRX_HdDragSX``, ``PRX_HdDrag``, ``PRX_FastDragSX``, ``PRX_FastDrag``
+
+Version 8.10 (2025-04-02)
+=========================
+
+Features
+********
+
+- Update the documentation footer to display the package version.
+
 Version 8.9 (2025-03-28)
 ========================
 
-### Features
+Features
 --------
 
 - Reworked the way default gates (operations) are defined so they are decoupled from their implementations. This separation allows for the deletion of default implementations without losing information about its designated name. 
 - The majority of the original functionality stays the same.
-- The `register_implementation` function has been split into several different functions to improve readability and testing, as seen below:
+- The ``register_implementation`` function has been split into several different functions to improve readability and testing, as seen below::
 
-`register_implementation`
-        |
-        v
-`register_gate` --> `validate_operation` --> `compare_operations` --> `add_implementation`
-                                                                                |
-                                                                                v
-                                                                      `validate_implementation` --> `set_default`
+    ``register_implementation``
+            |
+            v
+    ``register_gate`` --> ``validate_operation`` --> ``compare_operations`` --> ``add_implementation``
+                                                                                    |
+                                                                                    v
+                                                                          ``validate_implementation`` --> ``set_default``
 
-- The `build_quantum_ops` function in builder.py has been split into several functions as well. 
+- The ``build_quantum_ops`` function in builder.py has been split into several functions as well. 
 - Trying to modify the implementation class of an existing or default gate implementation yields an error. 
 
 
@@ -48,9 +65,9 @@ Features
 --------
 
 - A "gate implementation" ``FluxMultiplexer_SampleLinear`` which can be used to multiplex several flux pulse gate
-  ``TimeBoxe``s together to cancel flux crosstalk.
-- Handle out of locus long-distance VirtualZ corrections in CZ gates better (scheduling fuses the VirtualZ corrections
-  to the right ``IQPulse``).
+  TimeBoxes together to cancel flux crosstalk.
+- Handle out of locus long-distance ``VirtualRZ`` corrections in CZ gates better
+  (scheduling fuses the ``VirtualRZ`` corrections to the right ``IQPulse``).
 
 Version 8.5 (2025-03-26)
 ========================
@@ -64,7 +81,7 @@ Version 8.4 (2025-03-21)
 ========================
 
 Features
-********
+--------
 
 * Rename QPU chip types, based on either "crystal" or "star" architecture and number of qubits. For example,
   "crystal_5" or "star_6". For "mini" chips, like "mini_crystal_20", the number is not based on the actual number
@@ -82,11 +99,11 @@ Version 8.2 (2025-03-13)
 ========================
 
 Features
--------
+--------
 
-- added 'Constant_PRX_with_smooth_rise_fall' and 'RZ_ACStarkShift_smoothConstant' pulses, which create a 3-pulse
-schedule, consisting of rise, constant, and fall pulses. These pulses can have arbitrarily long duration, not limited
-by the electronics memory.
+- added ``Constant_PRX_with_smooth_rise_fall`` and ``RZ_ACStarkShift_smoothConstant`` pulses, which create a 3-pulse
+  schedule, consisting of rise, constant, and fall pulses. These pulses can have arbitrarily long duration, not limited
+  by the electronics memory.
 
 Version 8.1 (2025-02-28)
 ========================
@@ -219,8 +236,10 @@ Version 7.14 (2025-01-28)
 =========================
 
 Features
-********
-- Support broader range of `numpy` versions and verify compatibily with ruff, see migration guide `https://numpy.org/doc/stable/numpy_2_0_migration_guide.html`.
+--------
+
+- Support broader range of Numpy versions and verify compatibily with Ruff, see the
+  `Numpy 2.0 migration guide <https://numpy.org/doc/stable/numpy_2_0_migration_guide.html>`_.
 
 Version 7.13 (2025-01-28)
 =========================
@@ -261,7 +280,7 @@ Version 7.10 (2025-01-17)
 =========================
 
 Features
-********
+--------
 
 - Added a user guide covering basic concepts and Timebox usage. :issue:`SW-531`
 
@@ -360,7 +379,7 @@ Version 6.14 (2024-11-27)
 =========================
 
 Features
-********
+--------
 
 - Add :class:`CouplerFluxPulseQubitACStarkPulseGate` Pulse, which is a base class for AC Stark pulsed CZ gates.
 
@@ -403,7 +422,8 @@ Version 6.9 (2024-11-13)
 ========================
 
 Bug fixes
-*********
+---------
+
 - Fix ResetWait gate for computational resonators
 
 Version 6.8 (2024-11-12)
@@ -424,7 +444,7 @@ Version 6.7 (2024-11-12)
 ========================
 
 Bug fixes
-*********
+---------
 
 - Prefer system fonts in schedule viewer. :mr:`358`
 - Fix typos in API docs. :mr:`358`

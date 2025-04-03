@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 26.8 (2025-04-02)
+=========================
+
+Features
+********
+
+- Update the documentation footer to display the package version.
+
 Version 26.7 (2025-04-01)
 =========================
 

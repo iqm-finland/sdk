@@ -2,6 +2,22 @@
 Changelog
 =========
 
+Version 22.14 (2025-04-02)
+==========================
+
+Features
+********
+
+- Update the documentation footer to display the package version.
+
+Version 22.13 (2025-04-02)
+==========================
+
+Features
+--------
+
+- Add ``cirq_iqm`` to ``iqm-client`` distribution package as an optional feature. :issue:`SW-1145`
+
 Version 22.12 (2025-03-31)
 ==========================
 

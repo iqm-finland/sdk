@@ -2,6 +2,22 @@
 Changelog
 =========
 
+Version 6.17 (2025-04-02)
+=========================
+
+Features
+********
+
+- Update the documentation footer to display the package version.
+
+Version 6.16 (2025-04-02)
+=========================
+
+Features
+--------
+
+- Fix links to client library docs in docstrings.
+
 Version 6.15 (2025-03-28)
 =========================
 

@@ -18,3 +18,5 @@ Contributors
 * Stefan Seegerer <stefan.seegerer@meetiqm.com>
 * Vicente Pina Canelles <vicente.pina@meetiqm.com>
 * Jake Muff <jake.muff@vtt.fi>
+* Johan Guldmyr <johan@meetiqm.com>
+* Caspar Ockeloen-Korppi <caspar@meetiqm.com>

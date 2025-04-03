@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 3.9 (2025-04-02)
+========================
+
+Features
+********
+
+- Update the documentation footer to display the package version.
+
 Version 3.8 (2025-03-19)
 ========================
 

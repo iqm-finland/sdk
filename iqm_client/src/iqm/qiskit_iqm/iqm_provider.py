@@ -111,7 +111,6 @@ class IQMBackend(IQMBackendBase):
         job.circuit_metadata = [c.metadata for c in run_request.circuits]
         return job
 
-    # pylint: disable=too-many-arguments
     def create_run_request(
         self,
         run_input: Union[QuantumCircuit, list[QuantumCircuit]],

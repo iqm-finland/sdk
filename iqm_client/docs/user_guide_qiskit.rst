@@ -64,7 +64,7 @@ Installation
 
     If you have previously installed the (now deprecated) ``qiskit-iqm`` package in your Python environment,
     you should first uninstall it with ``$ pip uninstall qiskit-iqm``. In this case, you should also include
-    the ``--force-reinstall`` option in the ``iqm-client`` installation command..
+    the ``--force-reinstall`` option in the ``iqm-client`` installation command.
 
 The recommended way is to install the optional ``qiskit`` feature of the ``iqm-client`` distribution package directly
 from the Python Package Index (PyPI):

@@ -18,7 +18,6 @@ sys.path.insert(0, os.path.abspath(py_path))
 # -- Project information -----------------------------------------------------
 
 project = "IQM client"
-copyright = "2021-2025, IQM"
 author = "IQM client developers"
 
 # The short X.Y version.
@@ -31,6 +30,8 @@ except ImportError:
     pass
 else:
     release = version
+
+copyright = "2021-2025, IQM Finland Oy, Release {}".format(release)
 
 # -- General configuration ---------------------------------------------------
 

@@ -43,6 +43,8 @@ from iqm.pulse.gate_implementation import (
     get_waveform_parameters,
 )
 from iqm.pulse.gates.enums import XYGate
+from iqm.pulse.playlist.fast_drag import FastDragI, FastDragQ
+from iqm.pulse.playlist.hd_drag import HdDragI, HdDragQ
 from iqm.pulse.playlist.instructions import Block, IQPulse
 from iqm.pulse.playlist.schedule import TOLERANCE, Schedule
 from iqm.pulse.playlist.waveforms import Constant, CosineFall, CosineRise, CosineRiseFall, TruncatedGaussian, Waveform
@@ -385,6 +387,38 @@ class PRX_DRAGCosineRiseFallSX(PRX_CustomWaveformsSX, wave_i=CosineRiseFall, wav
     def _get_pulse(cls, **kwargs) -> IQPulse:
         kwargs["rise_time"] = kwargs["full_width"] / 2  # just a cosine, no flat part
         return super()._get_pulse(**kwargs)
+
+
+class PRX_FastDragSX(PRX_CustomWaveformsSX, wave_i=FastDragI, wave_q=FastDragQ):
+    # type: ignore
+    """PRX gate, FAST DRAG IQ pulse with VZ-based SX-implementation.
+
+    See :class:`.PRX_CustomWaveformsSX`.
+    """
+
+
+class PRX_FastDrag(PRX_CustomWaveforms, wave_i=FastDragI, wave_q=FastDragQ):
+    # type: ignore
+    """PRX gate, FAST DRAG IQ pulse based on amplitude scaling.
+
+    See :class:`.PRX_CustomWaveforms`.
+    """
+
+
+class PRX_HdDragSX(PRX_CustomWaveformsSX, wave_i=HdDragI, wave_q=HdDragQ):
+    # type: ignore
+    """PRX gate, HD DRAG IQ pulse with VZ-based SX-implementation.
+
+    See :class:`.PRX_CustomWaveformsSX`.
+    """
+
+
+class PRX_HdDrag(PRX_CustomWaveforms, wave_i=HdDragI, wave_q=HdDragQ):
+    # type: ignore
+    """PRX gate, HD DRAG IQ pulse based on amplitude scaling
+
+    See :class:`.PRX_CustomWaveforms`.
+    """
 
 
 def _normalize_params(angle: float, phase: float) -> tuple[float, float]:
