@@ -13,8 +13,6 @@
 # limitations under the License.
 """Collection of Qiskit transpiler plugins for native use of specialized transpiler passes by our devices."""
 
-from typing import Optional
-
 from iqm.iqm_client.transpile import ExistingMoveHandlingOptions
 from iqm.qiskit_iqm.iqm_backend import IQMTarget
 from iqm.qiskit_iqm.iqm_naive_move_pass import IQMNaiveResonatorMoving
@@ -45,7 +43,7 @@ class IQMSchedulingPlugin(PassManagerStagePlugin):
         optimize_sqg: bool,
         drop_final_rz: bool,
         ignore_barriers: bool,
-        existing_move_handling: Optional[ExistingMoveHandlingOptions],
+        existing_move_handling: ExistingMoveHandlingOptions | None,
     ) -> None:
         super().__init__()
         self.move_gate_routing = move_gate_routing
@@ -57,7 +55,7 @@ class IQMSchedulingPlugin(PassManagerStagePlugin):
         )
 
     def pass_manager(
-        self, pass_manager_config: PassManagerConfig, optimization_level: Optional[int] = None
+        self, pass_manager_config: PassManagerConfig, optimization_level: int | None = None
     ) -> PassManager:
         """Build scheduling stage PassManager"""
         scheduling = PassManager()
@@ -85,7 +83,7 @@ class MoveGateRoutingPlugin(IQMSchedulingPlugin):
         optimize_sqg: bool = True,
         drop_final_rz: bool = True,
         ignore_barriers: bool = False,
-        existing_move_handling: Optional[ExistingMoveHandlingOptions] = None,
+        existing_move_handling: ExistingMoveHandlingOptions | None = None,
     ) -> None:
         super().__init__(True, optimize_sqg, drop_final_rz, ignore_barriers, existing_move_handling)
 
@@ -229,7 +227,7 @@ class IQMDefaultSchedulingPlugin(IQMSchedulingPlugin):
         )
 
     def pass_manager(
-        self, pass_manager_config: PassManagerConfig, optimization_level: Optional[int] = None
+        self, pass_manager_config: PassManagerConfig, optimization_level: int | None = None
     ) -> PassManager:
         """Build scheduling stage PassManager"""
         if optimization_level == 0:

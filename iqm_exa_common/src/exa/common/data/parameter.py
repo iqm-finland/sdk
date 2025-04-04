@@ -58,9 +58,10 @@ parameter.
 from __future__ import annotations
 
 import ast
+from collections.abc import Hashable
 import copy
 from enum import IntEnum
-from typing import Any, Hashable, Self
+from typing import Any, Self
 import warnings
 
 import numpy as np

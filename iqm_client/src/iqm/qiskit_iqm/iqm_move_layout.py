@@ -15,8 +15,6 @@
 valid on the quantum architecture specification of the given backend.
 """
 
-from typing import Optional, Union
-
 from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
 from qiskit import QuantumCircuit
 from qiskit.circuit import Qubit
@@ -173,7 +171,7 @@ class IQMMoveLayout(TrivialLayout):
 def generate_initial_layout(
     backend: IQMBackendBase,
     circuit: QuantumCircuit,
-    restrict_to_qubits: Optional[Union[list[int], list[str]]] = None,
+    restrict_to_qubits: list[int] | list[str] | None = None,
 ) -> Layout:
     """Generates an initial layout for the given circuit, when run against the given backend.
 

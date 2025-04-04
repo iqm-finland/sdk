@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n7iqm/data_definitions/common/v1/channel_properties.proto\x12\x1eiqm.data_definitions.common.v1\"\x89\x02\n\x19\x43hannelPropertyDictionary\x12w\n\x18\x63hannel_property_mapping\x18\x01 \x03(\x0b\x32U.iqm.data_definitions.common.v1.ChannelPropertyDictionary.ChannelPropertyMappingEntry\x1as\n\x1b\x43hannelPropertyMappingEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x43\n\x05value\x18\x02 \x01(\x0b\x32\x34.iqm.data_definitions.common.v1.ChannelPropertyEntry:\x02\x38\x01\"\x9e\x01\n\x14\x43hannelPropertyEntry\x12<\n\x03\x61wg\x18\x01 \x01(\x0b\x32-.iqm.data_definitions.common.v1.AWGPropertiesH\x00\x12?\n\x02ro\x18\x02 \x01(\x0b\x32\x31.iqm.data_definitions.common.v1.ReadoutPropertiesH\x00\x42\x07\n\x05value\"\x97\x01\n\x11\x43hannelProperties\x12\x15\n\rsampling_rate\x18\x01 \x01(\x01\x12(\n instruction_duration_granularity\x18\x02 \x01(\x01\x12 \n\x18instruction_duration_min\x18\x03 \x01(\x01\x12\x1f\n\x17\x63ompatible_instructions\x18\x04 \x03(\t\"\xb1\x01\n\rAWGProperties\x12M\n\x12\x63hannel_properties\x18\x01 \x01(\x0b\x32\x31.iqm.data_definitions.common.v1.ChannelProperties\x12\x1d\n\x15\x66\x61st_feedback_sources\x18\x03 \x03(\t\x12\x18\n\x10local_oscillator\x18\x04 \x01(\x08\x12\x18\n\x10mixer_correction\x18\x05 \x01(\x08\"\xab\x01\n\x11ReadoutProperties\x12M\n\x12\x63hannel_properties\x18\x01 \x01(\x0b\x32\x31.iqm.data_definitions.common.v1.ChannelProperties\x12#\n\x1bintegration_start_dead_time\x18\x04 \x01(\x01\x12\"\n\x1aintegration_stop_dead_time\x18\x05 \x01(\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n7iqm/data_definitions/common/v1/channel_properties.proto\x12\x1eiqm.data_definitions.common.v1\"\x89\x02\n\x19\x43hannelPropertyDictionary\x12w\n\x18\x63hannel_property_mapping\x18\x01 \x03(\x0b\x32U.iqm.data_definitions.common.v1.ChannelPropertyDictionary.ChannelPropertyMappingEntry\x1as\n\x1b\x43hannelPropertyMappingEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x43\n\x05value\x18\x02 \x01(\x0b\x32\x34.iqm.data_definitions.common.v1.ChannelPropertyEntry:\x02\x38\x01\"\x9e\x01\n\x14\x43hannelPropertyEntry\x12<\n\x03\x61wg\x18\x01 \x01(\x0b\x32-.iqm.data_definitions.common.v1.AWGPropertiesH\x00\x12?\n\x02ro\x18\x02 \x01(\x0b\x32\x31.iqm.data_definitions.common.v1.ReadoutPropertiesH\x00\x42\x07\n\x05value\"\xf3\x01\n\x11\x43hannelProperties\x12\x15\n\rsampling_rate\x18\x01 \x01(\x01\x12(\n instruction_duration_granularity\x18\x02 \x01(\x01\x12 \n\x18instruction_duration_min\x18\x03 \x01(\x01\x12\x1f\n\x17\x63ompatible_instructions\x18\x04 \x03(\t\x12\x30\n(instruction_duration_granularity_samples\x18\x05 \x01(\x04\x12(\n instruction_duration_min_samples\x18\x06 \x01(\x04\"\xb1\x01\n\rAWGProperties\x12M\n\x12\x63hannel_properties\x18\x01 \x01(\x0b\x32\x31.iqm.data_definitions.common.v1.ChannelProperties\x12\x1d\n\x15\x66\x61st_feedback_sources\x18\x03 \x03(\t\x12\x18\n\x10local_oscillator\x18\x04 \x01(\x08\x12\x18\n\x10mixer_correction\x18\x05 \x01(\x08\"\x84\x02\n\x11ReadoutProperties\x12M\n\x12\x63hannel_properties\x18\x01 \x01(\x0b\x32\x31.iqm.data_definitions.common.v1.ChannelProperties\x12#\n\x1bintegration_start_dead_time\x18\x04 \x01(\x01\x12\"\n\x1aintegration_stop_dead_time\x18\x05 \x01(\x01\x12+\n#integration_start_dead_time_samples\x18\x06 \x01(\x04\x12*\n\"integration_stop_dead_time_samples\x18\x07 \x01(\x04\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'iqm.data_definitions.common.v1.channel_properties_pb2', globals())
@@ -29,9 +29,9 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _CHANNELPROPERTYENTRY._serialized_start=360
   _CHANNELPROPERTYENTRY._serialized_end=518
   _CHANNELPROPERTIES._serialized_start=521
-  _CHANNELPROPERTIES._serialized_end=672
-  _AWGPROPERTIES._serialized_start=675
-  _AWGPROPERTIES._serialized_end=852
-  _READOUTPROPERTIES._serialized_start=855
-  _READOUTPROPERTIES._serialized_end=1026
+  _CHANNELPROPERTIES._serialized_end=764
+  _AWGPROPERTIES._serialized_start=767
+  _AWGPROPERTIES._serialized_end=944
+  _READOUTPROPERTIES._serialized_start=947
+  _READOUTPROPERTIES._serialized_end=1207
 # @@protoc_insertion_point(module_scope)

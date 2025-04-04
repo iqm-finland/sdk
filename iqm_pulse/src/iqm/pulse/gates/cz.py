@@ -22,7 +22,7 @@ It can be represented by the unitary matrix
 from __future__ import annotations
 
 from dataclasses import replace
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 import numpy as np
 
@@ -75,9 +75,9 @@ class FluxPulseGate(GateImplementation):
 
     """
 
-    coupler_wave: Optional[type[Waveform]]
+    coupler_wave: type[Waveform] | None
     """Flux pulse Waveform to be played in the coupler flux AWG."""
-    qubit_wave: Optional[type[Waveform]]
+    qubit_wave: type[Waveform] | None
     """Flux pulse Waveform to be played in the qubit flux AWG."""
     root_parameters: dict[str, Parameter | Setting] = {
         "duration": Parameter("", "Gate duration", "s"),
@@ -161,9 +161,7 @@ class FluxPulseGate(GateImplementation):
         self._affected_components = affected_components
         self._schedule = Schedule(schedule if T > 0 else {c: [Block(0)] for c in schedule}, duration=T)
 
-    def __init_subclass__(
-        cls, /, coupler_wave: Optional[type[Waveform]] = None, qubit_wave: Optional[type[Waveform]] = None
-    ):
+    def __init_subclass__(cls, /, coupler_wave: type[Waveform] | None = None, qubit_wave: type[Waveform] | None = None):
         """Store the Waveform types used by this subclass, and their parameters.
 
         NOTE: if ``MyCZ`` is a subclass of ``FluxPulseGate``, with some defined coupler and qubit waves, further
@@ -261,9 +259,9 @@ class CouplerFluxPulseQubitACStarkPulseGate(GateImplementation):
 
     """
 
-    coupler_wave: Optional[type[Waveform]]
+    coupler_wave: type[Waveform] | None
     """Flux pulse Waveform to be played in the coupler flux AWG."""
-    qubit_drive_wave: Optional[type[Waveform]]
+    qubit_drive_wave: type[Waveform] | None
     """Qubit drive pulse waveform to be played in the qubit drive AWG."""
 
     root_parameters: dict[str, Parameter | Setting] = {
@@ -350,7 +348,7 @@ class CouplerFluxPulseQubitACStarkPulseGate(GateImplementation):
         self._schedule = Schedule(schedule) if T > 0 else Schedule({c: [Block(0)] for c in schedule})
 
     def __init_subclass__(
-        cls, /, coupler_wave: Optional[type[Waveform]] = None, qubit_drive_wave: Optional[type[Waveform]] = None
+        cls, /, coupler_wave: type[Waveform] | None = None, qubit_drive_wave: type[Waveform] | None = None
     ):
         """Store the Waveform types used by this subclass, and their parameters."""
         cls.coupler_wave = coupler_wave

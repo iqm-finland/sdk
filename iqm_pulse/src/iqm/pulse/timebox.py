@@ -17,10 +17,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 import enum
 from functools import reduce
-from typing import Iterable, Optional
 
 from iqm.pulse.playlist.instructions import Block, ReadoutTrigger
 from iqm.pulse.playlist.schedule import Schedule
@@ -98,7 +98,7 @@ class TimeBox:
     attribute will be blocked in scheduling, in addition to the ones dictated by the neighborhood range (see
     :attr:`.neighborhood_components`)."""
 
-    atom: Optional[Schedule]
+    atom: Schedule | None
     """Resolved contents of the TimeBox, or None if not resolved."""
 
     children: tuple[TimeBox, ...] = field(default_factory=tuple)

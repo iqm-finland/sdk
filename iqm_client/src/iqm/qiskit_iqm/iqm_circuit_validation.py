@@ -13,8 +13,6 @@
 # limitations under the License.
 """Helper functions for circuit validation."""
 
-from typing import Optional
-
 from iqm.iqm_client import Circuit as IQMClientCircuit
 from iqm.iqm_client import IQMClient, MoveGateValidationMode
 from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
@@ -25,8 +23,8 @@ from qiskit import QuantumCircuit
 def validate_circuit(
     circuit: QuantumCircuit,
     backend: IQMBackendBase,
-    validate_moves: Optional[MoveGateValidationMode] = None,
-    qubit_mapping: Optional[dict[int, str]] = None,
+    validate_moves: MoveGateValidationMode | None = None,
+    qubit_mapping: dict[int, str] | None = None,
 ):
     """Validate a circuit against the backend."""
     if qubit_mapping is None:

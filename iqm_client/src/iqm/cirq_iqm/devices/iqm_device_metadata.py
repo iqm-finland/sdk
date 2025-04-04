@@ -16,7 +16,6 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import FrozenSet, Optional
 
 import cirq
 from cirq import Gate, NamedQid, devices, ops
@@ -50,10 +49,10 @@ class IQMDeviceMetadata(devices.DeviceMetadata):
         qubits: Iterable[NamedQid],
         connectivity: Iterable[tuple[NamedQid, ...]],
         *,
-        operations: Optional[dict[type[cirq.Gate], list[tuple[cirq.NamedQid, ...]]]] = None,
-        gateset: Optional[cirq.Gateset] = None,
+        operations: dict[type[cirq.Gate], list[tuple[cirq.NamedQid, ...]]] | None = None,
+        gateset: cirq.Gateset | None = None,
         resonators: Iterable[NamedQid] = (),
-        architecture: Optional[DynamicQuantumArchitecture] = None,
+        architecture: DynamicQuantumArchitecture | None = None,
     ):
         """Construct an IQMDeviceMetadata object."""
         nx_graph = nx.Graph()
@@ -62,8 +61,8 @@ class IQMDeviceMetadata(devices.DeviceMetadata):
                 raise ValueError("Connectivity must be an iterable of 2-tuples.")
             nx_graph.add_edge(edge[0], edge[1])
         super().__init__(qubits, nx_graph)
-        self._qubit_set: FrozenSet[NamedQid] = frozenset(qubits)
-        self._resonator_set: FrozenSet[NamedQid] = frozenset(resonators)
+        self._qubit_set: frozenset[NamedQid] = frozenset(qubits)
+        self._resonator_set: frozenset[NamedQid] = frozenset(resonators)
 
         if gateset is None:
             if operations is None:
@@ -86,7 +85,7 @@ class IQMDeviceMetadata(devices.DeviceMetadata):
         self.architecture = architecture
 
     @property
-    def resonator_set(self) -> FrozenSet[NamedQid]:
+    def resonator_set(self) -> frozenset[NamedQid]:
         """Returns the set of resonators on the device.
 
         Returns:
@@ -140,7 +139,7 @@ class IQMDeviceMetadata(devices.DeviceMetadata):
         cls,
         qubit_count: int,
         connectivity_indices: Iterable[set[int]],
-        gateset: Optional[tuple[type[cirq.Gate]]] = None,
+        gateset: tuple[type[cirq.Gate]] | None = None,
     ) -> IQMDeviceMetadata:
         """Returns device metadata object created based on connectivity specified using qubit indices only."""
         qubits = tuple(NamedQid.range(1, qubit_count + 1, prefix=cls.QUBIT_NAME_PREFIX, dimension=2))

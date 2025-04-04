@@ -2,6 +2,22 @@
 Changelog
 =========
 
+Version 6.19 (2025-04-03)
+=========================
+
+Feature
+*******
+
+- Enable PEP 604 in linting rules, :issue:`SW-1230`.
+
+Version 6.18 (2025-04-03)
+=========================
+
+Bug fixes
+---------
+
+- Pulla QIR example now correctly remaps qubits
+
 Version 6.17 (2025-04-02)
 =========================
 

@@ -16,8 +16,8 @@
 from __future__ import annotations
 
 from collections import Counter
-from collections.abc import Collection
-from typing import TYPE_CHECKING, Optional, Sequence
+from collections.abc import Collection, Sequence
+from typing import TYPE_CHECKING
 
 from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
 from iqm.qiskit_iqm.iqm_job import IQMJob
@@ -251,7 +251,7 @@ class IQMPullaBackend(IQMBackendBase):
         return Options(shots=1024)
 
     @property
-    def max_circuits(self) -> Optional[int]:
+    def max_circuits(self) -> int | None:
         return None
 
 

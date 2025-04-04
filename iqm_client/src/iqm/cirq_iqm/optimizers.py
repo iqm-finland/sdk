@@ -14,7 +14,6 @@
 """Circuit optimization classes."""
 
 import operator
-from typing import Optional
 
 import cirq
 from cirq import circuits, ops
@@ -103,7 +102,7 @@ class MergeOneParameterGroupGates(circuits.PointOptimizer):
         circuit: cirq.Circuit,
         index: int,
         op: cirq.Operation,
-    ) -> Optional[cirq.PointOptimizationSummary]:
+    ) -> cirq.PointOptimizationSummary | None:
         """Describes how to change operations near the given location.
 
         Args:
@@ -177,7 +176,7 @@ class DropRZBeforeMeasurement(circuits.PointOptimizer):
         circuit: cirq.Circuit,
         index: int,
         op: cirq.Operation,
-    ) -> Optional[cirq.PointOptimizationSummary]:
+    ) -> cirq.PointOptimizationSummary | None:
         """Describes how to change operations near the given location.
 
         Args:

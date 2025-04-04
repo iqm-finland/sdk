@@ -2,6 +2,22 @@
 Changelog
 =========
 
+Version 3.11 (2025-04-03)
+=========================
+
+Feature
+*******
+
+- Enable PEP 604 in linting rules, :issue:`SW-1230`.
+
+Version 3.10 (2025-04-03)
+=========================
+
+Features
+--------
+
+- Add versioning for station control API. :issue:`SW-898`
+
 Version 3.9 (2025-04-02)
 ========================
 

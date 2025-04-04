@@ -126,6 +126,7 @@ class APIConfig:
             }
         if self.variant == APIVariant.V2:
             return {
+                # TODO SW-1387: Use station/v1 API
                 APIEndpoint.GET_JOB_REQUEST_PARAMETERS: "station/circuits/%s/request_parameters",
                 APIEndpoint.CONFIGURATION: "cocos/configuration",
                 APIEndpoint.QUALITY_METRICS_LATEST: "cocos/calibration/metrics/latest",

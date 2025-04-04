@@ -18,7 +18,6 @@ from __future__ import annotations
 from copy import deepcopy
 from dataclasses import dataclass
 from itertools import permutations
-from typing import Optional, Union
 from uuid import UUID
 
 from iqm.iqm_client import (
@@ -138,7 +137,7 @@ class IQMErrorProfile:
     single_qubit_gate_durations: dict[str, float]
     two_qubit_gate_durations: dict[str, float]
     readout_errors: dict[str, dict[str, float]]
-    name: Optional[str] = None
+    name: str | None = None
 
     def thermal_relaxation(self, component: str, duration: float) -> QuantumError:
         """One-qubit relaxation error channel."""
@@ -309,10 +308,10 @@ class IQMFakeBackend(IQMBackendBase):
         return Options(shots=1024)
 
     @property
-    def max_circuits(self) -> Optional[int]:
+    def max_circuits(self) -> int | None:
         return None
 
-    def run(self, run_input: Union[QuantumCircuit, list[QuantumCircuit]], **options) -> JobV1:
+    def run(self, run_input: QuantumCircuit | list[QuantumCircuit], **options) -> JobV1:
         """Run quantum circuits on the fake backend (by simulating them).
 
         This method will run the simulation with the noise model of the fake backend.

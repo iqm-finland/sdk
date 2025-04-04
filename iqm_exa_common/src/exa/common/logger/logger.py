@@ -12,9 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from collections.abc import Callable
 import logging
 import logging.config
-from typing import Any, Callable, Optional
+from typing import Any
 
 BRIEF_DATEFMT = "%m-%d %H:%M:%S"
 
@@ -25,7 +26,7 @@ VERBOSE = "[{asctime};{levelname};{processName}({process});{threadName}({thread}
 class ExtraFormatter(logging.Formatter):
     """Helper formatter class to pass in arbitrary extra information to log messages."""
 
-    def __init__(self, *args, extra_info_getter: Optional[Callable[[], str]] = None, **kwargs):
+    def __init__(self, *args, extra_info_getter: Callable[[], str] | None = None, **kwargs):
         self.extra_info_getter = extra_info_getter if extra_info_getter is not None else lambda: ""
         super().__init__(*args, **kwargs)
 
@@ -43,10 +44,10 @@ class InfoFilter(logging.Filter):
 
 
 def init_loggers(
-    loggers: Optional[dict[str, Optional[str]]] = None,
+    loggers: dict[str, str | None] | None = None,
     default_level: str = "INFO",
     verbose: bool = False,
-    extra_info_getter: Optional[Callable[[], str]] = None,
+    extra_info_getter: Callable[[], str] | None = None,
 ) -> None:
     """Set the log level of given logger names.
 

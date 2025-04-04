@@ -74,7 +74,7 @@ def _gate_inst_to_str(inst: Call) -> CircuitOperation | None:
         return None
 
     operation = _removesuffix(_removeprefix(inst.callee.name, "__quantum__qis__"), "__body")
-    if operation in ["phased_rx", "prx"]:
+    if operation in ["phased_rx", "prx", "r"]:
         operation = "prx"
     if operation in ["mz", "measurement", "measure"]:
         operation = "measure"
@@ -146,11 +146,16 @@ def _parse_double(value: str) -> float:
     raise ValueError(f"Invalid double value: {value}")
 
 
-def qir_to_pulla(pulla: Pulla, qir: str | bytes) -> tuple[list[CPC_Circuit], Compiler]:  # noqa: PLR0915
+def qir_to_pulla(  # noqa: PLR0915, PLR0912
+    pulla: Pulla, qir: str | bytes, qubit_mapping: dict[int:str] | None = None
+) -> tuple[list[CPC_Circuit], Compiler]:
     """Convert a QIR module to a CPC circuit.
 
     Args:
+        pulla: The Pulla instance to get compiler from.
         qir: The QIR source or bitcode to convert to a circuit.
+        qubit_mapping: A dictionary mapping QIR qubit indexes to physical qubit names,
+                       None will assume opaque pointers match physical names.
 
     Returns:
         str: The QIR program name,
@@ -238,10 +243,16 @@ def qir_to_pulla(pulla: Pulla, qir: str | bytes) -> tuple[list[CPC_Circuit], Com
     # Create a compiler containing all the required station information
     compiler = pulla.get_standard_compiler()
 
-    # QIR programs reference to qubits as opaque pointer indexes,
-    # we expect these indexes to match physical qubit names,
-    # transform QIR instructions to Pulla circuit instructions accordingly,
-    # so we need mapping from 0, 1, 2, ... to QB1, QB2, QB3, ... for all the components
-    compiler.component_mapping = {f"{i}": f"QB{i + 1}" for i in range(_required_num_qubits)}
+    if qubit_mapping:
+        # QIR programs reference to qubits as opaque pointer indexes,
+        # however, for example qiskit is using logical names for qubits,
+        # so we need to map these indexes to physical qubit names
+        compiler.component_mapping = {f"{i}": qubit_mapping[i] for i in range(_required_num_qubits)}
+    else:
+        # QIR programs reference to qubits as opaque pointer indexes,
+        # we expect these indexes to match physical qubit names,
+        # transform QIR instructions to Pulla circuit instructions accordingly,
+        # so we need mapping from 0, 1, 2, ... to QB1, QB2, QB3, ... for all the components
+        compiler.component_mapping = {f"{i}": f"QB{i + 1}" for i in range(_required_num_qubits)}
 
     return circuits, compiler

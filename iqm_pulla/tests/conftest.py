@@ -66,6 +66,8 @@ def pulla_on_spark(monkeypatch):
     root_url = "https://fake.iqm.fi"
 
     def mocked_requests_get(*args, **kwargs):
+        # TODO SW-1387: Use v1 API
+        # if args[0] == f"{root_url}/station/v1/about":
         if args[0] == f"{root_url}/station/about":
             response = Response()
             response.status_code = HTTPStatus.OK
@@ -73,11 +75,15 @@ def pulla_on_spark(monkeypatch):
                 "software_versions": {"iqm-station-control-client": version("iqm-station-control-client")}
             }
             return response
+        # TODO SW-1387: Use v1 API
+        # if args[0] == f"{root_url}/station/v1/duts":
         if args[0] == f"{root_url}/station/duts":
             response = Response()
             response.status_code = HTTPStatus.OK
             response.json = lambda: [{"label": "M000_fake_0_0", "dut_type": "chip"}]
             return response
+        # TODO SW-1387: Use v1 API
+        # if args[0].startswith(f"{root_url}/station/v1/sweeps/"):
         if args[0].startswith(f"{root_url}/station/sweeps/"):
             response = Response()
             response.status_code = HTTPStatus.INTERNAL_SERVER_ERROR
@@ -90,12 +96,17 @@ def pulla_on_spark(monkeypatch):
         return HTTPResponse(404)
 
     def mocked_requests_post(*args, **kwargs):
+        # TODO SW-1387: Use v1 API
+        # if args[0] == f"{root_url}/station/v1/sweeps":
         if args[0] == f"{root_url}/station/sweeps":
             response = Response()
             response.status_code = HTTPStatus.OK
             response.json = lambda: {
                 "task_id": "c2d31ae9-e749-4835-8450-0df10be5d1c1",
                 "sweep_id": "8a28be71-b819-419d-bfcb-9ed9186b7473",
+                # TODO SW-1387: Use v1 API
+                # "task_href": f"{root_url}/station/v1/tasks/c2d31ae9-e749-4835-8450-0df10be5d1c1",
+                # "sweep_href": f"{root_url}/station/v1/sweeps/8a28be71-b819-419d-bfcb-9ed9186b7473",
                 "task_href": f"{root_url}/station/tasks/c2d31ae9-e749-4835-8450-0df10be5d1c1",
                 "sweep_href": f"{root_url}/station/sweeps/8a28be71-b819-419d-bfcb-9ed9186b7473",
             }

@@ -17,7 +17,6 @@ from importlib.metadata import distribution
 import os
 import platform
 import subprocess
-from typing import Optional
 
 import pkg_resources
 
@@ -79,7 +78,7 @@ def get_all_software_versions(reload_module: bool = False) -> dict[str, str]:
     return software_versions
 
 
-def get_vcs_description(root_directory: str) -> Optional[str]:
+def get_vcs_description(root_directory: str) -> str | None:
     """Get Version Control System (VCS) description for the caller's current working directory.
 
     The description is used to verify if a directory is installed under VCS and whether changes to the files have

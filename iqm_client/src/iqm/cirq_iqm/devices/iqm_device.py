@@ -20,8 +20,9 @@ to use with the architecture.
 from __future__ import annotations
 
 import collections.abc as ca
+from collections.abc import Sequence
 from math import pi as PI
-from typing import Optional, Sequence, cast
+from typing import cast
 
 import cirq
 from cirq import devices, ops, protocols
@@ -107,7 +108,7 @@ class IQMDevice(devices.Device):
             return op.qubits in valid_loci
         return False
 
-    def operation_decomposer(self, op: cirq.Operation) -> Optional[list[cirq.Operation]]:
+    def operation_decomposer(self, op: cirq.Operation) -> list[cirq.Operation] | None:
         """Decomposes operations into the native operation set.
 
         All the decompositions below keep track of global phase (required for decomposing controlled gates).
@@ -194,8 +195,8 @@ class IQMDevice(devices.Device):
         self,
         circuit: cirq.Circuit,
         *,
-        initial_mapper: Optional[cirq.AbstractInitialMapper] = None,
-        qubit_subset: Optional[Sequence[cirq.Qid]] = None,
+        initial_mapper: cirq.AbstractInitialMapper | None = None,
+        qubit_subset: Sequence[cirq.Qid] | None = None,
     ) -> tuple[cirq.Circuit, dict[cirq.Qid, cirq.Qid], dict[cirq.Qid, cirq.Qid]]:
         """Routes the given circuit to the device connectivity and qubit names.
 

@@ -13,7 +13,6 @@
 # limitations under the License.
 """Naive transpilation for the IQM Star architecture."""
 
-from typing import Optional, Union
 import warnings
 
 from iqm.iqm_client import Circuit as IQMClientCircuit
@@ -155,7 +154,7 @@ def _get_scheduling_method(
     optimize_single_qubits: bool,
     remove_final_rzs: bool,
     ignore_barriers: bool,
-    existing_moves_handling: Optional[ExistingMoveHandlingOptions],
+    existing_moves_handling: ExistingMoveHandlingOptions | None,
 ) -> str:
     """Determine scheduling based on flags."""
     if perform_move_routing:
@@ -194,14 +193,14 @@ def _get_scheduling_method(
 def transpile_to_IQM(  # noqa: PLR0913
     circuit: QuantumCircuit,
     backend: IQMBackendBase,
-    target: Optional[IQMTarget] = None,
-    initial_layout: Optional[Union[Layout, dict, list]] = None,
+    target: IQMTarget | None = None,
+    initial_layout: Layout | dict | list | None = None,
     perform_move_routing: bool = True,
     optimize_single_qubits: bool = True,
     ignore_barriers: bool = False,
     remove_final_rzs: bool = True,
-    existing_moves_handling: Optional[ExistingMoveHandlingOptions] = None,
-    restrict_to_qubits: Optional[Union[list[int], list[str]]] = None,
+    existing_moves_handling: ExistingMoveHandlingOptions | None = None,
+    restrict_to_qubits: list[int] | list[str] | None = None,
     **qiskit_transpiler_kwargs,
 ) -> QuantumCircuit:
     """Customized transpilation to IQM backends.

@@ -33,14 +33,19 @@ message ChannelPropertyEntry {
 }
 
 message ChannelProperties {
-    double sampling_rate = 1;
     // sample rate of the instrument responsible for the channel (in Hz)
+    double sampling_rate = 1;
+    // Unused
     double instruction_duration_granularity = 2;
-    // all instruction durations on this channel must be multiples of this granularity (in samples) 
+    // Unused
     double instruction_duration_min = 3;
-    // all instruction durations on this channel must at least this long (in samples)
-    repeated string compatible_instructions = 4;
     // instruction types that are allowed on this channel
+    repeated string compatible_instructions = 4;
+
+    // all instruction durations on this channel must be multiples of this granularity (in samples) 
+    uint64 instruction_duration_granularity_samples = 5;
+    // all instruction durations on this channel must at least this long (in samples)
+    uint64 instruction_duration_min_samples = 6;
 }
 
 
@@ -60,8 +65,12 @@ message AWGProperties {
 
 message ReadoutProperties {
     ChannelProperties channel_properties = 1;
-    // Dead time samples before integration 
+    // Unused.
     double integration_start_dead_time = 4;
-    // Dead time samples after integration.
+    // Unused.
     double integration_stop_dead_time = 5;
+     // Dead time samples before integration 
+    uint64 integration_start_dead_time_samples = 6;
+    // Dead time samples after integration.
+    uint64 integration_stop_dead_time_samples = 7;
 }

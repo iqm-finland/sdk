@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from importlib.metadata import PackageNotFoundError, version
-from typing import Any, Optional, Union
+from typing import Any
 from uuid import UUID
 import warnings
 
@@ -50,14 +50,14 @@ class IQMBackend(IQMBackendBase):
 
     """
 
-    def __init__(self, client: IQMClient, *, calibration_set_id: Union[str, UUID, None] = None, **kwargs):
+    def __init__(self, client: IQMClient, *, calibration_set_id: str | UUID | None = None, **kwargs):
         if calibration_set_id is not None and not isinstance(calibration_set_id, UUID):
             calibration_set_id = UUID(calibration_set_id)
         self._use_default_calibration_set = calibration_set_id is None
         architecture = client.get_dynamic_quantum_architecture(calibration_set_id)
         super().__init__(architecture, **kwargs)
         self.client: IQMClient = client
-        self._max_circuits: Optional[int] = None
+        self._max_circuits: int | None = None
         self.name = "IQM Backend"
         self._calibration_set_id = architecture.calibration_set_id
 
@@ -69,7 +69,7 @@ class IQMBackend(IQMBackendBase):
         return Options()
 
     @property
-    def max_circuits(self) -> Optional[int]:
+    def max_circuits(self) -> int | None:
         """Maximum number of circuits that should be run in a single batch.
 
         Currently there is no hard limit on the number of circuits that can be executed in a single batch/job.
@@ -82,14 +82,14 @@ class IQMBackend(IQMBackendBase):
         return self._max_circuits
 
     @max_circuits.setter
-    def max_circuits(self, value: Optional[int]) -> None:
+    def max_circuits(self, value: int | None) -> None:
         self._max_circuits = value
 
     def run(
         self,
-        run_input: Union[QuantumCircuit, list[QuantumCircuit]],
+        run_input: QuantumCircuit | list[QuantumCircuit],
         *,
-        timeout_seconds: Optional[float] = None,
+        timeout_seconds: float | None = None,
         **options,
     ) -> IQMJob:
         """Run a quantum circuit or a list of quantum circuits on the IQM quantum computer represented by this backend.
@@ -113,11 +113,11 @@ class IQMBackend(IQMBackendBase):
 
     def create_run_request(
         self,
-        run_input: Union[QuantumCircuit, list[QuantumCircuit]],
+        run_input: QuantumCircuit | list[QuantumCircuit],
         shots: int = 1024,
-        circuit_compilation_options: Optional[CircuitCompilationOptions] = None,
-        circuit_callback: Optional[Callable[[list[QuantumCircuit]], Any]] = None,
-        qubit_mapping: Optional[dict[int, str]] = None,
+        circuit_compilation_options: CircuitCompilationOptions | None = None,
+        circuit_callback: Callable[[list[QuantumCircuit]], Any] | None = None,
+        qubit_mapping: dict[int, str] | None = None,
         **unknown_options,
     ) -> RunRequest:
         """Creates a run request without submitting it for execution.
@@ -219,7 +219,7 @@ class IQMBackend(IQMBackendBase):
         """Close IQMClient's session with the authentication server."""
         self.client.close_auth_session()
 
-    def serialize_circuit(self, circuit: QuantumCircuit, qubit_mapping: Optional[dict[int, str]] = None) -> Circuit:
+    def serialize_circuit(self, circuit: QuantumCircuit, qubit_mapping: dict[int, str] | None = None) -> Circuit:
         """Serialize a quantum circuit into the IQM data transfer format.
 
         Serializing is not strictly bound to the native gateset, i.e. some gates that are not explicitly mentioned in
@@ -294,7 +294,7 @@ class IQMFacadeBackend(IQMBackend):
             return False
         return True
 
-    def run(self, run_input: Union[QuantumCircuit, list[QuantumCircuit]], **options) -> JobV1:
+    def run(self, run_input: QuantumCircuit | list[QuantumCircuit], **options) -> JobV1:
         circuits = [run_input] if isinstance(run_input, QuantumCircuit) else run_input
         circuits_validated_cregs: list[bool] = [self._validate_no_empty_cregs(circuit) for circuit in circuits]
         if not all(circuits_validated_cregs):
@@ -328,8 +328,8 @@ class IQMProvider:
         self.user_auth_args = user_auth_args
 
     def get_backend(
-        self, name: Optional[str] = None, calibration_set_id: Optional[UUID] = None
-    ) -> Union[IQMBackend, IQMFacadeBackend]:
+        self, name: str | None = None, calibration_set_id: UUID | None = None
+    ) -> IQMBackend | IQMFacadeBackend:
         """An IQMBackend instance associated with this provider.
 
         Args:

@@ -17,9 +17,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field, replace
 from itertools import permutations
-from typing import TYPE_CHECKING, Any, Callable, Iterable, TypeAlias
+from typing import TYPE_CHECKING, Any, TypeAlias
 
 import numpy as np
 

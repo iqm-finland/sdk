@@ -13,8 +13,6 @@
 # limitations under the License.
 """Implementations for IQM specific quantum gates"""
 
-from typing import List, Tuple
-
 from cirq import CircuitDiagramInfo, CircuitDiagramInfoArgs, EigenGate
 import numpy as np
 
@@ -43,7 +41,7 @@ class IQMMoveGate(EigenGate):
     def _num_qubits_(self) -> int:
         return 2
 
-    def _eigen_components(self) -> List[Tuple[float, np.ndarray]]:
+    def _eigen_components(self) -> list[tuple[float, np.ndarray]]:
         return [
             (0, np.array([[1, 0, 0, 0], [0, 0.5, 0.5, 0], [0, 0.5, 0.5, 0], [0, 0, 0, 1]])),
             (1, np.array([[0, 0, 0, 0], [0, 0.5, -0.5, 0], [0, -0.5, 0.5, 0], [0, 0, 0, 0]])),

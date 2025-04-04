@@ -18,13 +18,12 @@ https://docs.meetiqm.com/iqm-client/user_guide_qiskit.html
 """
 
 import argparse
-from typing import Optional
 
 from iqm.qiskit_iqm import IQMProvider
 from qiskit import QuantumCircuit, transpile
 
 
-def resonance_example(server_url: str, api_token: Optional[str]) -> dict[str, int]:
+def resonance_example(server_url: str, api_token: str | None) -> dict[str, int]:
     """Run a circuit via IQM Resonance.
 
     Args:

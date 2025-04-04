@@ -15,9 +15,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Collection
 from dataclasses import dataclass
 import re
-from typing import Collection
 
 from iqm.iqm_client import Instruction
 from iqm.qiskit_iqm.move_gate import MoveGate

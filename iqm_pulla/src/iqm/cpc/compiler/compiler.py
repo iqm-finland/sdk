@@ -20,12 +20,12 @@ can be executed by the IQM server on quantum hardware.
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from copy import deepcopy
 import functools
 import inspect
 import logging
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any
 
 from opentelemetry import trace
 

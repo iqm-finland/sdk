@@ -17,8 +17,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Sized
 import copy
-from typing import Any, Sized
+from typing import Any
 
 import numpy as np
 

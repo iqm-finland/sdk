@@ -17,7 +17,6 @@
 from collections.abc import Collection
 from functools import cached_property
 import re
-from typing import Union
 
 from pydantic import Field, field_validator
 
@@ -167,7 +166,7 @@ class CHAD(ImmutableBaseModel):
 
         launchers = {launcher.name: launcher for launcher in self.components.launchers}
 
-        component: Union[Qubit, Coupler]
+        component: Qubit | Coupler
         for component in [*self.components.qubits, *self.components.couplers]:
             component_type = "qubit" if isinstance(component, Qubit) else "coupler"
             if component.name in component_names:

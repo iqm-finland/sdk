@@ -9,8 +9,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from copy import deepcopy
-from typing import Iterable
 
 from iqm.models.playlist.waveforms import Samples
 import numpy as np

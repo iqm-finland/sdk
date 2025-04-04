@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 8.12 (2025-04-03)
+=========================
+
+Feature
+*******
+
+- Format code and enable PEP 604 in linting rules, :issue:`SW-1230`.
+
 Version 8.11 (2025-04-02)
 =========================
 

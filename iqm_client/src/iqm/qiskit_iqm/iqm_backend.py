@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from abc import ABC
 import itertools
-from typing import Final, Union
+from typing import Final
 from uuid import UUID
 
 from iqm.iqm_client import (
@@ -87,7 +87,7 @@ class IQMBackendBase(BackendV2, ABC):
 
     def __init__(
         self,
-        architecture: Union[QuantumArchitectureSpecification, DynamicQuantumArchitecture],
+        architecture: QuantumArchitectureSpecification | DynamicQuantumArchitecture,
         **kwargs,
     ):
         super().__init__(**kwargs)
@@ -180,7 +180,7 @@ class IQMBackendBase(BackendV2, ABC):
         return "iqm_default_scheduling"
 
     def restrict_to_qubits(
-        self, qubits: Union[list[int], list[str]], include_resonators: bool = False, include_fake_czs: bool = True
+        self, qubits: list[int] | list[str], include_resonators: bool = False, include_fake_czs: bool = True
     ) -> IQMTarget:
         """Generated a restricted transpilation target from this backend that only contains the given qubits.
 
@@ -355,7 +355,7 @@ class IQMTarget(Target):
         # Overrides the property from the superclass to contain the correct information.
         return [self.iqm_idx_to_component[i] for i in range(self.num_qubits)]
 
-    def restrict_to_qubits(self, qubits: Union[list[int], list[str]]) -> IQMTarget:
+    def restrict_to_qubits(self, qubits: list[int] | list[str]) -> IQMTarget:
         """Generated a restricted transpilation target from this Target that only contains the given qubits.
 
         Args:

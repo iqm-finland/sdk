@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Optional
 
 import xarray as xr
 
@@ -20,7 +19,7 @@ import xarray as xr
 """
 
 
-def add_data_array(ds: xr.Dataset, da: xr.DataArray, name: Optional[str] = None) -> xr.Dataset:
+def add_data_array(ds: xr.Dataset, da: xr.DataArray, name: str | None = None) -> xr.Dataset:
     """Add data array `da` to dataset `ds`.
 
     Unlike the default xarray command, preserves metadata of the dataset.

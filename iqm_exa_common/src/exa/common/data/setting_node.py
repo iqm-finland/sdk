@@ -205,13 +205,13 @@ flag is used.
 
 from __future__ import annotations
 
-from collections.abc import Generator, ItemsView, Iterator
+from collections.abc import Generator, ItemsView, Iterable, Iterator
 from copy import copy
 from itertools import permutations
 import logging
 import numbers
 import pathlib
-from typing import Any, Iterable
+from typing import Any
 
 import jinja2
 import numpy as np

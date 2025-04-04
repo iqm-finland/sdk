@@ -14,7 +14,7 @@
 
 """Convert Python Sequences to protos and back."""
 
-from typing import Sequence
+from collections.abc import Sequence
 
 import iqm.data_definitions.common.v1.data_types_pb2 as dpb
 import numpy as np

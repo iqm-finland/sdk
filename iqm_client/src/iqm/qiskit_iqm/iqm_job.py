@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from collections import Counter
 from datetime import date
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING
 import uuid
 import warnings
 
@@ -52,13 +52,13 @@ class IQMJob(JobV1):
 
     """
 
-    def __init__(self, backend: IQMBackend, job_id: str, timeout_seconds: Optional[float] = None, **kwargs):
+    def __init__(self, backend: IQMBackend, job_id: str, timeout_seconds: float | None = None, **kwargs):
         super().__init__(backend, job_id=job_id, **kwargs)
-        self._result: Union[None, list[tuple[str, list[str]]]] = None
-        self._calibration_set_id: Optional[uuid.UUID] = None
-        self._request: Optional[RunRequest] = None
+        self._result: None | list[tuple[str, list[str]]] = None
+        self._calibration_set_id: uuid.UUID | None = None
+        self._request: RunRequest | None = None
         self._client: IQMClient = backend.client
-        self.circuit_metadata: Optional[list] = None  # Metadata that was originally associated with circuits by user
+        self.circuit_metadata: list | None = None  # Metadata that was originally associated with circuits by user
         self._timeout_seconds: float = timeout_seconds if timeout_seconds is not None else DEFAULT_TIMEOUT_SECONDS
 
     def _format_iqm_results(self, iqm_result: RunResult) -> list[tuple[str, list[str]]]:
@@ -216,7 +216,7 @@ class IQMJob(JobV1):
         # For everything else, we assume that it's in progress one way or another
         return JobStatus.QUEUED
 
-    def queue_position(self, refresh: bool = False) -> Optional[int]:
+    def queue_position(self, refresh: bool = False) -> int | None:
         """Return the position of the job in the server queue.
 
         Note:
@@ -233,6 +233,6 @@ class IQMJob(JobV1):
         """
         return None
 
-    def error_message(self) -> Optional[str]:
+    def error_message(self) -> str | None:
         """Returns the error message if job has failed, otherwise returns None."""
         return self._client.get_run_status(uuid.UUID(self._job_id)).message

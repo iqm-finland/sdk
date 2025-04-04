@@ -29,7 +29,6 @@ from __future__ import annotations
 
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
-from typing import Optional
 
 from iqm.pulse.playlist.channel import ChannelProperties
 from iqm.pulse.playlist.instructions import Block, Instruction, Wait
@@ -256,7 +255,7 @@ def extend_schedule_new(  # noqa: PLR0915
                 free = float("inf")
         return free, blocking
 
-    def merge_overlap(iA: Optional[Instruction], iB: Optional[Instruction], duration: float) -> Instruction:
+    def merge_overlap(iA: Instruction | None, iB: Instruction | None, duration: float) -> Instruction:
         """Instruction resulting from the overlap of two nonsolid Instructions.
 
         Nonsolid instructions are all Wait-like, and can thus be chopped up into multiple

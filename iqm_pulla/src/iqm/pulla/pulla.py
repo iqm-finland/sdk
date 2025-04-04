@@ -14,11 +14,12 @@
 
 """Pulse level access library for IQM's circuit-to-pulse compiler and Station Control API."""
 
+from collections.abc import Callable
 from importlib.metadata import version
 import logging
 import platform
 import time
-from typing import Any, Callable
+from typing import Any
 import uuid
 
 import requests

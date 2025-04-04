@@ -148,9 +148,15 @@ class StationControlClient:
         self.root_url = root_url
         self._enable_opentelemetry = os.environ.get("JAEGER_OPENTELEMETRY_COLLECTOR_ENDPOINT", None) is not None
         self._get_token_callback = get_token_callback
+        # TODO SW-1387: Remove this when using v1 API, not needed
         self._check_api_versions()
         qcm_url = os.environ.get("CHIP_DESIGN_RECORD_FALLBACK_URL", None)
         self._qcm_data_client = QCMDataClient(qcm_url) if qcm_url else None
+
+    @property
+    def version(self):
+        """Return the version of the station control API this client is using."""
+        return "v1"
 
     @cache
     def get_about(self) -> dict:
@@ -679,6 +685,8 @@ class StationControlClient:
         # Remove None and {} values
         http_request_options = {key: value for key, value in http_request_options.items() if value not in [None, {}]}
         url = f"{self.root_url}/{url_path}"
+        # TODO SW-1387: Use v1 API
+        # url = f"{self.root_url}/{self.version}/{url_path}"
         response = http_method(url, **http_request_options)
         if not response.ok:
             try:
@@ -691,6 +699,7 @@ class StationControlClient:
             raise error_class(error_message)
         return response
 
+    # TODO SW-1387: Remove this when using v1 API, not needed
     def _check_api_versions(self):
         client_api_version = self._get_client_api_version()
         # Parse versions using standard packaging.version implementation.
@@ -720,6 +729,7 @@ class StationControlClient:
                 server_api_version,
             )
 
+    # TODO SW-1387: Remove this when using v1 API, not needed
     @staticmethod
     def _get_client_api_version() -> Version:
         return parse(version("iqm-station-control-client"))

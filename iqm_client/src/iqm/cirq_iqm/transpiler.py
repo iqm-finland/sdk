@@ -15,7 +15,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
 
 from cirq import Circuit
 from iqm.cirq_iqm.serialize import deserialize_circuit, serialize_circuit
@@ -29,7 +29,7 @@ def transpile_insert_moves_into_circuit(
     cirq_circuit: Circuit,
     device: IQMDevice,
     existing_moves: ExistingMoveHandlingOptions = ExistingMoveHandlingOptions.KEEP,
-    qubit_mapping: Optional[dict[str, str]] = None,
+    qubit_mapping: dict[str, str] | None = None,
 ) -> Circuit:
     """Transpile the circuit to insert MOVE gates where needed.
 

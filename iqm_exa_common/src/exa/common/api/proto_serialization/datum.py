@@ -14,7 +14,7 @@
 
 """Convert native Python types and numpy arrays to protos and back."""
 
-from typing import Optional, Sequence, Union
+from collections.abc import Sequence
 
 import iqm.data_definitions.common.v1.data_types_pb2 as dpb
 import numpy as np
@@ -22,7 +22,7 @@ import numpy as np
 from exa.common.api.proto_serialization import array, sequence
 
 
-def pack(value: Union[None, bool, str, int, float, complex, np.ndarray, Sequence]) -> dpb.Datum:
+def pack(value: None | bool | str | int | float | complex | np.ndarray | Sequence) -> dpb.Datum:
     """Packs a string, numerical value, or an array thereof into protobuf format.
 
     Supported data types are:
@@ -66,7 +66,7 @@ def pack(value: Union[None, bool, str, int, float, complex, np.ndarray, Sequence
     raise TypeError(f"Encoding of type '{type(value)}' is not supported.")
 
 
-def unpack(source: dpb.Datum) -> Union[None, str, bool, int, float, complex, np.ndarray, list]:
+def unpack(source: dpb.Datum) -> None | str | bool | int | float | complex | np.ndarray | list:
     """Unpacks a protobuf into a native Python type or a numpy array. Reverse operation of :func:`.pack`.
 
     Args:
@@ -99,7 +99,7 @@ def unpack(source: dpb.Datum) -> Union[None, str, bool, int, float, complex, np.
     raise TypeError(f"Unrecognized datatype field {field_name}")
 
 
-def serialize(value: Union[None, bool, str, int, float, complex, np.ndarray, Sequence]) -> bytes:
+def serialize(value: None | bool | str | int | float | complex | np.ndarray | Sequence) -> bytes:
     """Serialize a piece of data into a bitstring.
 
     Args:
@@ -112,7 +112,7 @@ def serialize(value: Union[None, bool, str, int, float, complex, np.ndarray, Seq
     return pack(value).SerializeToString()
 
 
-def deserialize(source: bytes) -> Union[None, str, bool, int, float, complex, np.ndarray, list]:
+def deserialize(source: bytes) -> None | str | bool | int | float | complex | np.ndarray | list:
     """Deserialize a bitstring into a native Python type or a numpy array. Reverse operation of :func:`.serialize`.
 
     Args:
@@ -127,7 +127,7 @@ def deserialize(source: bytes) -> Union[None, str, bool, int, float, complex, np
     return unpack(proto)
 
 
-def _pack_complex128(value: Union[np.complex128, complex], target: Optional[dpb.Complex128] = None) -> dpb.Complex128:
+def _pack_complex128(value: np.complex128 | complex, target: dpb.Complex128 | None = None) -> dpb.Complex128:
     """Packs a numpy complex128 to the respective protobuf type."""
     target = target or dpb.Complex128()
     target.real = value.real

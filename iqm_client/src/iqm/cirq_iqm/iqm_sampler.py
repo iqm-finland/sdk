@@ -16,9 +16,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping
 from dataclasses import dataclass
 import sys
-from typing import Mapping, Optional
 from uuid import UUID
 import warnings
 
@@ -54,10 +54,10 @@ class IQMSampler(cirq.work.Sampler):
         self,
         url: str,
         *,
-        device: Optional[IQMDevice] = None,
-        calibration_set_id: Optional[UUID] = None,
-        run_sweep_timeout: Optional[int] = None,
-        compiler_options: Optional[CircuitCompilationOptions] = None,
+        device: IQMDevice | None = None,
+        calibration_set_id: UUID | None = None,
+        run_sweep_timeout: int | None = None,
+        compiler_options: CircuitCompilationOptions | None = None,
         **user_auth_args,  # contains keyword args auth_server_url, username and password
     ):
         self._client = IQMClient(url, **user_auth_args)
@@ -247,7 +247,7 @@ class ResultMetadata:
     """
 
     job_id: UUID
-    calibration_set_id: Optional[UUID]
+    calibration_set_id: UUID | None
     request: RunRequest
 
 
@@ -267,9 +267,9 @@ class IQMResult(cirq.ResultDict):
     def __init__(
         self,
         *,
-        params: Optional[cirq.ParamResolver] = None,
-        measurements: Optional[Mapping[str, np.ndarray]] = None,
-        records: Optional[Mapping[str, np.ndarray]] = None,
+        params: cirq.ParamResolver | None = None,
+        measurements: Mapping[str, np.ndarray] | None = None,
+        records: Mapping[str, np.ndarray] | None = None,
         metadata: ResultMetadata,
     ) -> None:
         super().__init__(params=params, measurements=measurements, records=records)

@@ -18,7 +18,7 @@ The reset operation is a non-unitary quantum channel that sets the state of a qu
 
 from __future__ import annotations
 
-from typing import Iterable
+from collections.abc import Iterable
 
 from exa.common.data.parameter import Parameter
 from exa.common.qcm_data.chip_topology import ChipTopology
