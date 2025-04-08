@@ -45,6 +45,13 @@ class NotFoundError(StationControlError):
     """
 
 
+class ConflictError(StationControlError):
+    """This error happens when there is a conflict with the current state of the resource.
+
+    For example, when doing duplicate submissions for the same unique data.
+    """
+
+
 class ValidationError(StationControlError):
     """Error raised when something is unprocessable in general, for example if the input value is not acceptable."""
 
@@ -66,6 +73,7 @@ ERROR_TO_STATUS_CODE_MAPPING = {
     UnauthorizedError: HTTPStatus.UNAUTHORIZED,  # 401
     ForbiddenError: HTTPStatus.FORBIDDEN,  # 403
     NotFoundError: HTTPStatus.NOT_FOUND,  # 404
+    ConflictError: HTTPStatus.CONFLICT,  # 409
     ValidationError: HTTPStatus.UNPROCESSABLE_ENTITY,  # 422
     InternalServerError: HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
     ServiceUnavailableError: HTTPStatus.SERVICE_UNAVAILABLE,  # 503

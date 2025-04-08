@@ -2,6 +2,22 @@
 Changelog
 =========
 
+Version 3.13 (2025-04-07)
+=========================
+
+Features
+--------
+
+- Add partial IQM Server backend support to Station Control client to enable Pulla usage through IQM Server
+
+Version 3.12 (2025-04-07)
+=========================
+
+Features
+--------
+
+- Fix package version in published docs footers, :issue:`SW-1392`. 
+
 Version 3.11 (2025-04-03)
 =========================
 

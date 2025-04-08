@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 8.13 (2025-04-07)
+=========================
+
+Features
+--------
+
+- Fix package version in published docs footers, :issue:`SW-1392`. 
+
 Version 8.12 (2025-04-03)
 =========================
 

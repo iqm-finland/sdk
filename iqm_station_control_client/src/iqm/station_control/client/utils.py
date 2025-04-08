@@ -8,11 +8,13 @@
 
 """Utility functions for IQM Station Control Client."""
 
-from collections.abc import Callable
+from collections.abc import Callable, Iterable
 
 from tqdm.auto import tqdm
 
+from exa.common.data.value import ObservationValue
 from iqm.station_control.interface.models import Statuses
+from iqm.station_control.interface.models.observation import ObservationBase
 
 
 def get_progress_bar_callback() -> Callable[[Statuses], None]:
@@ -27,3 +29,16 @@ def get_progress_bar_callback() -> Callable[[Statuses], None]:
             progress_bars[label].refresh()
 
     return _create_and_update_progress_bars
+
+
+def calset_from_observations(calset_observations: Iterable[ObservationBase]) -> dict[str, ObservationValue]:
+    """Create a calibration set from the given observations.
+
+    Args:
+        calset_observations: observations that form a calibration set
+
+    Returns:
+        calibration set
+
+    """
+    return {obs.dut_field: obs.value for obs in calset_observations}

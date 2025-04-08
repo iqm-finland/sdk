@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Station control client implementation."""
+
+from __future__ import annotations
 
 from collections.abc import Callable, Sequence
 from functools import cache
@@ -29,6 +31,7 @@ from packaging.version import Version, parse
 import requests
 
 from exa.common.data.setting_node import SettingNode
+from exa.common.data.value import ObservationValue
 from exa.common.errors.server_errors import (
     STATUS_CODE_TO_ERROR_MAPPING,
     InternalServerError,
@@ -58,6 +61,7 @@ from iqm.station_control.client.serializers import (
 from iqm.station_control.client.serializers.channel_property_serializer import unpack_channel_properties
 from iqm.station_control.client.serializers.setting_node_serializer import deserialize_setting_node
 from iqm.station_control.client.serializers.sweep_serializers import deserialize_sweep_data
+from iqm.station_control.client.utils import calset_from_observations
 from iqm.station_control.interface.list_with_meta import ListWithMeta
 from iqm.station_control.interface.models import (
     DutData,
@@ -157,6 +161,42 @@ class StationControlClient:
     def version(self):
         """Return the version of the station control API this client is using."""
         return "v1"
+
+    @staticmethod
+    def init(root_url: str, get_token_callback: Callable[[], str] | None = None, **kwargs) -> StationControlClient:
+        """Initialize a new station control client instance connected to the given remote.
+
+        Client implementation is selected automatically based on the remote station: if the remote station
+        is running the IQM Server software stack, then the IQM Server client implementation (with a limited
+        feature set) is chosen. If the remote station is running the SC software stack, then the Station
+        Control client implementation (with the full feature set) is chosen.
+
+        Args:
+            root_url: Remote station control service URL. For IQM Server remotes, this is the "Quantum Computer URL"
+                value from the web dashboard.
+            get_token_callback: A callback function that returns a token (str) which will be passed in Authorization
+                header in all requests.
+
+        """
+        try:
+            headers = {"Authorization": f"Bearer {get_token_callback()}"} if get_token_callback else {}
+            response = requests.get(f"{root_url}/about", headers=headers)
+            response.raise_for_status()
+            about = response.json()
+            if isinstance(about, dict) and about.get("iqm_server") is True:
+                # If about information has iqm_server flag, it means that we're communicating
+                # with IQM server instead of direct Station Control service, hence we need to
+                # use the specialized client
+
+                # Must be imported here in order to avoid circular dependencies
+                from iqm.station_control.client.iqm_server.iqm_server_client import IqmServerClient
+
+                return IqmServerClient(root_url, get_token_callback, **kwargs)
+            # Using direct station control by default
+            return StationControlClient(root_url, get_token_callback)
+
+        except Exception as e:
+            raise StationControlError("Failed to connect to the remote server") from e
 
     @cache
     def get_about(self) -> dict:
@@ -542,6 +582,42 @@ class StationControlClient:
         """
         response = self._send_request(requests.get, f"observation-sets/{observation_set_id}/observations")
         return ObservationLiteList.model_validate(response.json())
+
+    def get_calibration_set_values(self, calibration_set_id: uuid.UUID) -> dict[str, ObservationValue]:
+        """Get saved calibration set observations by UUID
+
+        Args:
+            calibration_set_id: UUID of the calibration set to retrieve.
+
+        Returns:
+            Dictionary of observations belonging to the given calibration set.
+
+        """
+        observation_set = self.get_observation_set(calibration_set_id)
+        if observation_set.observation_set_type != "calibration-set":
+            raise ValueError("Observation set type is not 'calibration-set'")
+        observations = self.get_observation_set_observations(calibration_set_id)
+        return calset_from_observations(observations)
+
+    def get_latest_calibration_set_id(self, dut_label: str) -> uuid.UUID:
+        """Get UUID of the latest saved calibration set for the given dut_label.
+
+        Args:
+            dut_label: Target DUT label
+
+        Returns:
+            UUID of the latest saved calibration set.
+
+        """
+        observation_sets = self.query_observation_sets(
+            observation_set_type="calibration-set",
+            dut_label=dut_label,
+            invalid=False,
+            end_timestamp__isnull=False,  # Finalized
+            order_by="-end_timestamp",  # This requires SC version > 35.15
+            limit=1,
+        )
+        return observation_sets[0].observation_set_id
 
     def get_duts(self) -> list[DutData]:
         """Get DUTs of the station control."""
