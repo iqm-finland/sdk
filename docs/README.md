@@ -4,6 +4,7 @@
 
 - [`uv`](https://github.com/astral-sh/uv)
 - Node.js
+- [`graphviz`](https://graphviz.org/download/) (optional; some diagrams will not be rendered without it)
 
 ## Info
 

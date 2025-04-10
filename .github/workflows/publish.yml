@@ -30,6 +30,10 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install dependencies
+        run: |
+           sudo apt-get install graphviz
+
       - name: Build documentation
         run: |
           bash build.sh
