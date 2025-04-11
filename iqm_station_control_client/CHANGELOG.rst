@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 3.14 (2025-04-10)
+=========================
+
+Bug fixes
+---------
+
+- Fix broken iqm-server-client initialization
+
 Version 3.13 (2025-04-07)
 =========================
 

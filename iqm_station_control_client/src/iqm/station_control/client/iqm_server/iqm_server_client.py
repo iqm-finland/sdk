@@ -79,8 +79,8 @@ class IqmServerClient(StationControlClient, metaclass=IqmServerClientMeta):
     def __del__(self):
         try:
             self._channel.close()
-        except Exception as e:
-            logger.error("Failed to close GRPC channel gracefully", exc_info=e)
+        except Exception:
+            pass
 
     def get_about(self) -> dict:
         return self._get_resource("about", parse_json)

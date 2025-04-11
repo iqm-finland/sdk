@@ -2,6 +2,15 @@
 Changelog
 =========
 
+Version 26.12 (2025-04-10)
+==========================
+
+Features
+--------
+
+- Fix vulnerability issue with YAML loading, use safe_load to avoid potential harmful remote code execution.
+  :issue:`SW-1378`
+
 Version 26.11 (2025-04-07)
 ==========================
 

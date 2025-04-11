@@ -14,10 +14,10 @@
 """Internal utility functions used by IqmServerClient."""
 
 from collections.abc import Callable, Iterable
+from dataclasses import dataclass
 from datetime import datetime
 import uuid
 
-from attr import dataclass
 from google.protobuf import json_format, struct_pb2, timestamp_pb2
 import grpc
 from grpc import Compression
