@@ -7,10 +7,12 @@ on:
     paths:
       - 'docs/**'
       - 'sdk.txt'
-    pull_request:
-      paths:
-        - 'docs/**'
-        - 'sdk.txt'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'sdk.txt'
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
