@@ -7,6 +7,10 @@ on:
     paths:
       - 'docs/**'
       - 'sdk.txt'
+    pull_request:
+      paths:
+        - 'docs/**'
+        - 'sdk.txt'
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
@@ -53,5 +57,7 @@ jobs:
 
       - name: Publish to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4
+        # Only run this step on push to main
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         with:
           folder: docs/public
