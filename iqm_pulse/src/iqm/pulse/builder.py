@@ -34,6 +34,7 @@ import iqm.models.playlist.instructions as sc_instructions  # TODO make SC use i
 from iqm.models.playlist.segment import Segment as SC_Schedule  # iqm.models names are temporary
 from iqm.models.playlist.waveforms import to_canonical
 
+from exa.common.helpers.yaml_helper import load_yaml
 from exa.common.qcm_data.chip_topology import ChipTopology, sort_components
 from iqm.pulse.base_utils import _dicts_differ, merge_dicts
 from iqm.pulse.gate_implementation import (
@@ -76,7 +77,6 @@ from iqm.pulse.utils import (
     _process_implementations,
     _validate_locus_defaults,
     _validate_op_attributes,
-    load_yaml,
 )
 
 logger = logging.getLogger(__name__)

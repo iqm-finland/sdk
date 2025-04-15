@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2024-2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ from iqm.pulla.interface import StationControlResult, TaskStatus
 from iqm.pulse.builder import CircuitOperation
 
 if TYPE_CHECKING:
-    from iqm.qiskit_iqm.iqm_backend import QuantumArchitectureSpecification
+    from iqm.qiskit_iqm.iqm_backend import DynamicQuantumArchitecture
     from iqm.qiskit_iqm.iqm_provider import Circuit, Instruction, IQMBackend
 
     from iqm.cpc.compiler.compiler import Compiler
@@ -220,7 +220,7 @@ class IQMPullaBackend(IQMBackendBase):
 
     """
 
-    def __init__(self, architecture: QuantumArchitectureSpecification, pulla: Pulla, compiler: Compiler):
+    def __init__(self, architecture: DynamicQuantumArchitecture, pulla: Pulla, compiler: Compiler):
         super().__init__(architecture)
         self.pulla = pulla
         self.name = "IQMPullaBackend"

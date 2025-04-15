@@ -2,6 +2,79 @@
 Changelog
 =========
 
+Version 23.8 (2025-04-11)
+=========================
+
+Bug fixes
+---------
+
+- Fix broken link in docs to Cirq user guide
+
+Version 23.7 (2025-04-11)
+=========================
+
+Bug fixes
+---------
+
+- Update license
+
+Version 23.6 (2025-04-10)
+=========================
+
+Features
+--------
+
+- fix flaky e2e tests
+
+Version 23.5 (2025-04-09)
+=========================
+
+Bug fixes
+---------
+
+- Add STATIC_QUANTUM_ARCHITECTURE to RESONANCE_COCOS_V1 api
+
+Version 23.4 (2025-04-09)
+=========================
+
+Bug fixes
+---------
+
+- Fix missing api docs for :mod:`iqm.qiskit_iqm` and :mod:`iqm.cirq_iqm`.
+
+Version 23.3 (2025-04-09)
+=========================
+
+Bug fixes
+---------
+
+- Fix links in readme to be compatible with PyPI publishing.
+
+Version 23.2 (2025-04-09)
+=========================
+
+Features
+--------
+
+- ``iqm.cortex_cli`` is moved inside ``iqm-client`` to a new submodule ``iqm.iqm_client.cli``. The corresponding ``cli``
+  extra dependency can be installed as ``iqm-client[cli]``. :issue:`SW-1145`
+
+Version 23.1 (2025-04-07)
+=========================
+
+Features
+--------
+
+- Fix package version in published docs footers, :issue:`SW-1392`. 
+
+Version 23.0 (2025-04-04)
+=========================
+
+Features
+--------
+
+- Replaced the old quantum architecture in :class:`IQMBackendBase`.
+
 Version 22.16 (2025-04-03)
 ==========================
 

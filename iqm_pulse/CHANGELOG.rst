@@ -2,6 +2,33 @@
 Changelog
 =========
 
+Version 9.2 (2025-04-11)
+========================
+
+Bug fixes
+---------
+
+- Update license
+
+Version 9.1 (2025-04-10)
+========================
+
+Features
+--------
+
+- Fix vulnerability issue with YAML loading, use safe_load to avoid potential harmful remote code execution.
+  :issue:`SW-1378`
+
+Version 9.0 (2025-04-09)
+========================
+
+Breaking changes
+----------------
+
+- Add ``prx_12`` gate in the initial ``QuantumOpTable``, with one implementation ``modulated_drag_crf``.
+- Add Baseclass :class:`PRX_ModulatedCustomWaveForms` for arbitrary IQ waveform modulated PRX gate.
+- Add gate implementation :class:`PRX_ModulatedDRAGCosineRiseFall` for cosine rise fall modulated PRX gate.
+
 Version 8.13 (2025-04-07)
 =========================
 

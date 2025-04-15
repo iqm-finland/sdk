@@ -19,10 +19,9 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 import copy
-from typing import Any, get_args, get_origin
+from typing import get_args, get_origin
 
 import numpy as np
-from ruamel.yaml import YAML
 
 from exa.common.data.parameter import CollectionType, DataType
 from iqm.pulse.quantum_ops import QuantumOpTable
@@ -68,22 +67,6 @@ def map_waveform_param_types(type_hint: type) -> tuple[DataType, CollectionType]
     else:
         raise value_error
     return (data_type, collection_type)
-
-
-def load_yaml(path: str) -> dict[str, Any]:
-    """Load a YAML file from the given path, raise error if the file can't be loaded.
-
-    Args:
-        path: path to a YAML file
-
-    Returns:
-        contents of the YAML file as Python types
-
-    """
-    with open(path, encoding="utf-8") as f:
-        yaml = YAML(typ="safe")  # default, if not specified, is 'rt' (round-trip)
-        data = yaml.load(f)
-    return data
 
 
 def normalize_angle(angle: float) -> float:

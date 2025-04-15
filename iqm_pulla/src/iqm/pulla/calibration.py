@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2024-2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ from copy import deepcopy
 import logging
 
 from iqm.pulla.interface import CalibrationSet, CalibrationSetId
-from iqm.pulla.utils import calset_from_observations
 from iqm.station_control.client.station_control import StationControlClient
 
 logger = logging.getLogger(__name__)
@@ -38,8 +37,8 @@ class CalibrationDataProvider:
         logger.debug("Get the calibration set from the database: cal_set_id=%s", cal_set_id)
         try:
             if cal_set_id not in self._calibration_sets:
-                observations = self._station_control_client.get_observation_set_observations(cal_set_id)
-                self._calibration_sets[cal_set_id] = calset_from_observations(observations)
+                cal_set_values = self._station_control_client.get_calibration_set_values(cal_set_id)
+                self._calibration_sets[cal_set_id] = cal_set_values
             return deepcopy(self._calibration_sets[cal_set_id])
         except Exception as e:
             raise CalibrationDataFetchException("Could not fetch calibration set from the database.") from e
@@ -48,16 +47,7 @@ class CalibrationDataProvider:
         """Get the latest calibration set id for chip label from the database."""
         logger.debug("Get the latest calibration set for chip label: chip_label=%s", chip_label)
         try:
-            observation_set = self._station_control_client.query_observation_sets(
-                observation_set_type="calibration-set",
-                dut_label=chip_label,
-                invalid=False,
-                end_timestamp__isnull=False,  # Finalized
-                order_by="-end_timestamp",  # This requires SC version > 35.15
-                limit=1,
-            )[0]
-
-            latest_cal_set_id = observation_set.observation_set_id
+            latest_cal_set_id = self._station_control_client.get_latest_calibration_set_id(chip_label)
         except Exception as e:
             raise CalibrationDataFetchException(
                 f"Could not fetch latest calibration set id from the database: {e}"

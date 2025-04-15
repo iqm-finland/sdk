@@ -97,6 +97,7 @@ class APIConfig:
                 APIEndpoint.GET_JOB_COUNTS: "jobs/%s/counts",
                 APIEndpoint.ABORT_JOB: "jobs/%s/abort",
                 APIEndpoint.QUANTUM_ARCHITECTURE: "quantum-architecture",
+                APIEndpoint.STATIC_QUANTUM_ARCHITECTURE: "api/v1/quantum-architecture",
                 APIEndpoint.CALIBRATED_GATES: "api/v1/calibration/%s/gates",
                 APIEndpoint.CLIENT_LIBRARIES: "info/client-libraries",
             }

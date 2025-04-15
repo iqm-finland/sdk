@@ -18,13 +18,11 @@ from __future__ import annotations
 from abc import ABC
 import itertools
 from typing import Final
-from uuid import UUID
 
 from iqm.iqm_client import (
     DynamicQuantumArchitecture,
     GateImplementationInfo,
     GateInfo,
-    QuantumArchitectureSpecification,
 )
 from iqm.qiskit_iqm.move_gate import MoveGate
 from qiskit.circuit import Delay, Parameter, Reset
@@ -38,45 +36,6 @@ Locus = tuple[str, ...]
 LocusIdx = tuple[int, ...]
 
 
-def _dqa_from_quantum_architecture(qa: QuantumArchitectureSpecification) -> DynamicQuantumArchitecture:
-    """Create a dynamic quantum architecture from the given quantum architecture.
-
-    Since the DQA contains some attributes that are not present in an QA, they are filled with mock data:
-
-    * Each gate type is given a single mock implementation.
-    * Calibration set ID is set to the all-zeros UUID.
-
-    Args:
-        qa: quantum architecture to replicate
-    Returns:
-        DQA replicating the properties of ``qa``
-
-    """
-    gates = {
-        gate_name: GateInfo(
-            implementations={"__fake": GateImplementationInfo(loci=tuple(tuple(locus) for locus in gate_loci))},
-            default_implementation="__fake",
-            override_default_implementation={},
-        )
-        for gate_name, gate_loci in qa.operations.items()
-    }
-    # NOTE that this heuristic for defining computational resonators is not perfect, but it should work for more cases
-    # than the name-based heuristic. Computational_resonators will be mapped wrong if the resonator is not used in any
-    # move gates.
-    if "move" in qa.operations:
-        computational_resonators = list({res for _, res in qa.operations["move"]})
-    else:
-        computational_resonators = []
-    qubits = [qb for qb in qa.qubits if qb not in computational_resonators]
-
-    return DynamicQuantumArchitecture(
-        calibration_set_id=UUID("00000000-0000-0000-0000-000000000000"),
-        qubits=qubits,
-        computational_resonators=computational_resonators,
-        gates=gates,
-    )
-
-
 class IQMBackendBase(BackendV2, ABC):
     """Abstract base class for various IQM-specific backends.
 
@@ -87,25 +46,21 @@ class IQMBackendBase(BackendV2, ABC):
 
     def __init__(
         self,
-        architecture: QuantumArchitectureSpecification | DynamicQuantumArchitecture,
+        architecture: DynamicQuantumArchitecture,
         **kwargs,
     ):
         super().__init__(**kwargs)
-        if isinstance(architecture, QuantumArchitectureSpecification):
-            arch = _dqa_from_quantum_architecture(architecture)
-        else:
-            arch = architecture
-        self.architecture: DynamicQuantumArchitecture = arch
+        self.architecture = architecture
         """Dynamic quantum architecture of the backend instance."""
 
         # Qiskit uses integer indices to refer to qubits, so we need to map component names to indices.
         # Because of the way the Target and the transpiler interact, the resonators need to have higher indices than
         # qubits, or else transpiling with optimization_level=0 will fail because of lacking resonator indices.
-        qb_to_idx = {qb: idx for idx, qb in enumerate(arch.qubits + arch.computational_resonators)}
+        qb_to_idx = {qb: idx for idx, qb in enumerate(architecture.qubits + architecture.computational_resonators)}
 
-        self._target = IQMTarget(arch, qb_to_idx, include_resonators=False)
+        self._target = IQMTarget(architecture, qb_to_idx, include_resonators=False)
         self._fake_target_with_moves = (
-            IQMTarget(arch, qb_to_idx, include_resonators=True) if "move" in arch.gates else None
+            IQMTarget(architecture, qb_to_idx, include_resonators=True) if "move" in architecture.gates else None
         )
         self._qb_to_idx = qb_to_idx
         self._idx_to_qb = {v: k for k, v in qb_to_idx.items()}

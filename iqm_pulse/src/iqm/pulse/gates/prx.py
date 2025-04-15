@@ -47,7 +47,14 @@ from iqm.pulse.playlist.fast_drag import FastDragI, FastDragQ
 from iqm.pulse.playlist.hd_drag import HdDragI, HdDragQ
 from iqm.pulse.playlist.instructions import Block, IQPulse
 from iqm.pulse.playlist.schedule import TOLERANCE, Schedule
-from iqm.pulse.playlist.waveforms import Constant, CosineFall, CosineRise, CosineRiseFall, TruncatedGaussian, Waveform
+from iqm.pulse.playlist.waveforms import (
+    Constant,
+    CosineFall,
+    CosineRise,
+    CosineRiseFall,
+    TruncatedGaussian,
+    Waveform,
+)
 from iqm.pulse.playlist.waveforms import CosineRiseFallDerivative as CosineRiseFallD
 from iqm.pulse.playlist.waveforms import TruncatedGaussianDerivative as TruncatedGaussianD
 from iqm.pulse.utils import normalize_angle, phase_transformation
@@ -299,7 +306,6 @@ class PRX_CustomWaveformsSX(PRX_SinglePulse_GateImplementation, CustomIQWaveform
         """
         new_angle, new_phase = _normalize_params(angle, phase)
         new_angle = new_angle * np.pi
-
         if self.pulse.duration < TOLERANCE:
             timebox = self.to_timebox(Schedule({self.channel: [Block(0)]}))
         elif np.isclose(new_angle, 0.0, atol=1e-8):
@@ -609,3 +615,57 @@ class Constant_PRX_with_smooth_rise_fall(
     """Constant PRX pulse with cosine rise and fall padding.
     Implemented as a 3-instruction Schedule.
     """
+
+
+class PRX_ModulatedCustomWaveForms(PRX_CustomWaveforms):  # type: ignore
+    r"""ABC for PRX gates with modulated frequency, hot-swappable waveforms.
+
+    The class takes baseband I and Q waveform as input, and modulates them with frequency in the root_parameters.
+    The final pulse shape after modulation is:
+
+    .. math::
+        A_I^{\delta}\Omega_I(t)\cos((\omega_d + \delta)t) - A_Q^{\delta}\Omega_Q(t)\sin((\omega_d + \delta)t)
+
+    where :math:`A_I` is `amplitude_i`, :math:`A_Q` is `amplitude_q`, :math:`\Omega` is arbitrary waveform in
+    baseband, :math:`\omega_d/2\pi` is the drive frequency and :math:`\delta/2\pi` is the modulated `frequency`.
+
+    """
+
+    root_parameters: dict[str, Parameter | Setting] = {
+        "duration": Parameter("", "pi pulse duration", "s"),
+        "amplitude_i": Parameter("", "pi pulse amplitude of base band I waveform", ""),
+        "amplitude_q": Parameter("", "pi pulse amplitude of base band Q waveform", ""),
+        "frequency": Parameter("", "modulated pulse frequency", "Hz"),
+    }
+
+    @classmethod
+    def _get_pulse(  # type: ignore[override]
+        cls, *, amplitude_i: float, amplitude_q: float, n_samples: int, **rest_of_calibration_data
+    ) -> IQPulse:
+        """Return the IQPulse with modulated arbitrary waveform based on the calibration data."""
+        frequency = rest_of_calibration_data.pop("frequency")
+        if cls.dependent_waves:
+            wave_i = cls.wave_i(n_samples=n_samples, **rest_of_calibration_data)
+            wave_q = cls.wave_q(n_samples=n_samples, **rest_of_calibration_data)
+        else:
+            wave_i = cls.wave_i(n_samples=n_samples, **rest_of_calibration_data["i"])
+            wave_q = cls.wave_q(n_samples=n_samples, **rest_of_calibration_data["q"])
+        return IQPulse(
+            n_samples,
+            wave_i=wave_i,
+            wave_q=wave_q,
+            scale_i=amplitude_i,
+            scale_q=amplitude_q,
+            modulation_frequency=frequency / n_samples,
+        )
+
+
+class PRX_ModulatedDRAGCosineRiseFall(PRX_ModulatedCustomWaveForms, wave_i=CosineRiseFall, wave_q=CosineRiseFallD):
+    """Modulated PRX pulse with cosine rise fall waveform"""
+
+    excluded_parameters = ["rise_time"]
+
+    @classmethod
+    def _get_pulse(cls, **kwargs) -> IQPulse:
+        kwargs["rise_time"] = kwargs["full_width"] / 2  # just a cosine, no flat part
+        return super()._get_pulse(**kwargs)

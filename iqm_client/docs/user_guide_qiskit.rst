@@ -48,9 +48,9 @@ On-premises device
 
 1. Download the `bell_measure.py example file <https://raw.githubusercontent.com/iqm-finland/sdk/main/iqm-client/src/iqm/qiskit_iqm/examples/bell_measure.py>`_ (Save Page As...).
 2. Install Qiskit on IQM as instructed below.
-3. Install Cortex CLI and log in as instructed in the
-   `documentation <https://iqm-finland.github.io/cortex-cli/readme.html#installing-cortex-cli>`__
-4. Set the environment variable as instructed by Cortex CLI after logging in.
+3. Install IQM Client CLI and log in as instructed in the
+   `documentation <https://docs.meetiqm.com/iqm-client/user_guide_cli.html#installing-iqm-client-cli>`__
+4. Set the environment variable as instructed by IQM Client CLI after logging in.
 5. Run ``$ python bell_measure.py --cortex_server_url https://demo.qc.iqm.fi/cocos`` - replace the example URL with the correct one.
 6. If you're connecting to a real quantum computer, the output should show almost half of the
    measurements resulting in '00' and almost half in '11' - if this is the case, things are set up
@@ -98,9 +98,9 @@ On-premises devices
 ~~~~~~~~~~~~~~~~~~~
 
 If the IQM server you are connecting to requires authentication, you may use
-`Cortex CLI <https://github.com/iqm-finland/cortex-cli>`_ to retrieve and automatically refresh access tokens,
+:ref:`IQM Client CLI <User guide CLI>` to retrieve and automatically refresh access tokens,
 then set the :envvar:`IQM_TOKENS_FILE` environment variable, as instructed, to point to the tokens file.
-See Cortex CLI's `documentation <https://iqm-finland.github.io/cortex-cli/readme.html>`__ for details.
+See IQM Client CLI's `documentation <https://docs.meetiqm.com/iqm-client/user_guide_cli.html>`__ for details.
 
 You may also authenticate yourself using the :envvar:`IQM_AUTH_SERVER`,
 :envvar:`IQM_AUTH_USERNAME` and :envvar:`IQM_AUTH_PASSWORD` environment variables, or pass them as

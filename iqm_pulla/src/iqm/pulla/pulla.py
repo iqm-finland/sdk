@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2024-2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -76,6 +76,7 @@ class Pulla:
         station_control_url: str,
         *,
         get_token_callback: Callable[[], str] | None = None,
+        **kwargs,
     ):
         self._signature = f"{platform.platform(terse=True)}"
         self._signature += f", python {platform.python_version()}"
@@ -86,7 +87,9 @@ class Pulla:
 
         # SC Client to be used for fetching calibration data, submitting sweeps, and retrieving results.
         try:
-            self._station_control_client = StationControlClient(station_control_url, self.get_token_callback)
+            self._station_control_client = StationControlClient.init(
+                station_control_url, get_token_callback=self.get_token_callback, **kwargs
+            )
         except Exception as e:
             logger.error("Failed to initialize Station Control Client: %s", e)
             raise ValueError("Failed to initialize Station Control Client") from e
@@ -223,10 +226,9 @@ class Pulla:
                 if k == "readout":
                     readout_components.append(v)
 
-        sweep_id = uuid.uuid4()
         sweep_response = self._station_control_client.sweep(
             SweepDefinition(
-                sweep_id=sweep_id,
+                sweep_id=uuid.uuid4(),
                 playlist=playlist,
                 return_parameters=list(extract_readout_controller_result_names(context["readout_mappings"])),
                 settings=settings,
@@ -234,12 +236,15 @@ class Pulla:
                 sweeps=[],
             )
         )
+        sweep_id = uuid.UUID(sweep_response["sweep_id"])
         task_id = uuid.UUID(sweep_response["task_id"])
         try:
             logger.info("Submitted sweep with ID: %s", sweep_id)
             logger.info("Created task in queue with ID: %s", task_id)
-            logger.info("Sweep link: %s", sweep_response["sweep_href"])
-            logger.info("Task link: %s", sweep_response["task_href"])
+            if href := sweep_response.get("sweep_href"):
+                logger.info("Sweep link: %s", href)
+            if href := sweep_response.get("task_href"):
+                logger.info("Task link: %s", href)
 
             logger.info("Waiting for the sweep to finish...")
 
@@ -249,7 +254,11 @@ class Pulla:
 
                 if sweep_data.sweep_status in (SweepStatus.PENDING, SweepStatus.PROGRESS):
                     # Wait in the task queue while showing a progress bar
-                    self._station_control_client._wait_task_completion(task_id, get_progress_bar_callback())
+                    interrupted = self._station_control_client._wait_task_completion(
+                        str(task_id), get_progress_bar_callback()
+                    )
+                    if interrupted:
+                        raise KeyboardInterrupt
 
                 elif sweep_data.sweep_status == SweepStatus.SUCCESS:
                     logger.info("Sweep status: %s", str(sweep_data.sweep_status))

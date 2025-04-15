@@ -426,9 +426,9 @@ On-premises devices
 """""""""""""""""""
 
 If the IQM server you are connecting to requires authentication, you may use
-`Cortex CLI <https://github.com/iqm-finland/cortex-cli>`_ to retrieve and automatically refresh access tokens,
+:ref:`IQM Client CLI <User guide CLI>` to retrieve and automatically refresh access tokens,
 then set the :envvar:`IQM_TOKENS_FILE` environment variable, as instructed, to point to the tokens file.
-See Cortex CLI's `documentation <https://iqm-finland.github.io/cortex-cli/readme.html>`__ for details.
+See IQM Client CLI's `documentation <https://docs.meetiqm.com/iqm-client/user_guide_cli.html>`__ for details.
 
 Alternatively, you may authenticate yourself using the :envvar:`IQM_AUTH_SERVER`,
 :envvar:`IQM_AUTH_USERNAME` and :envvar:`IQM_AUTH_PASSWORD` environment variables, or pass them as

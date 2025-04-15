@@ -17,6 +17,9 @@ email = "developers@meetiqm.com"
 [project.license]
 file = "LICENSE.txt"
 
+[project.scripts]
+iqmclient = "iqm.iqm_client.cli.cli:iqmclient"
+
 [project.urls]
 Documentation = "https://docs.meetiqm.com/iqm-client/"
 Homepage = "https://pypi.org/project/iqm-client/"
@@ -90,6 +93,9 @@ file = "requirements/base.txt"
 
 [tool.setuptools.dynamic.optional-dependencies.cirq]
 file = "requirements/cirq.txt"
+
+[tool.setuptools.dynamic.optional-dependencies.cli]
+file = "requirements/cli.txt"
 
 [tool.setuptools.dynamic.optional-dependencies.qiskit]
 file = "requirements/qiskit.txt"

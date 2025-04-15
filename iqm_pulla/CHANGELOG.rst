@@ -2,6 +2,102 @@
 Changelog
 =========
 
+Version 7.11 (2025-04-11)
+=========================
+
+Bug fixes
+---------
+
+- Update dependency on iqm-client
+
+Version 7.10 (2025-04-11)
+=========================
+
+Bug fixes
+---------
+
+- Replace static station url to dynamic in line with other example notebooks.
+
+Version 7.9 (2025-04-10)
+========================
+
+Bug fixes
+---------
+
+- Update dependency on station-control-client
+
+Version 7.8 (2025-04-10)
+========================
+
+Features
+--------
+
+- Update dependency on iqm-client
+
+Version 7.7 (2025-04-09)
+========================
+
+Bug fixes
+---------
+
+- Update dependency on iqm-client
+
+Version 7.6 (2025-04-09)
+========================
+
+Features
+--------
+
+- Bump exa-common and iqm-pulse.
+
+Version 7.5 (2025-04-09)
+========================
+
+Bug fixes
+---------
+
+- Update dependency on iqm-client
+
+Version 7.4 (2025-04-09)
+========================
+
+Features
+--------
+
+- Update Cortex CLI to IQM Client CLI in documentation.
+
+Version 7.3 (2025-04-07)
+========================
+
+Bug fixes
+---------
+
+- Fix docs links to ``iqm.qiskit_iqm``.
+
+Version 7.2 (2025-04-07)
+========================
+
+Features
+--------
+
+- Enable Pulla usage with IQM Server backends
+
+Version 7.1 (2025-04-07)
+========================
+
+Features
+--------
+
+- Fix package version in published docs footers, :issue:`SW-1392`. 
+
+Version 7.0 (2025-04-04)
+========================
+
+Features
+--------
+
+- Replace the old quantum architecture with :class:`DynamicQuantumArchitecture` in :class:`IQMPullaBackend.__init__`.
+
 Version 6.19 (2025-04-03)
 =========================
 

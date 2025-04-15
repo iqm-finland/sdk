@@ -169,6 +169,8 @@ intersphinx_mapping = {
     ),
     "iqm.pulse": ("../iqm-pulse", "../../iqm-pulse/build/sphinx/objects.inv"),
     "exa.common": ("../exa-common", "../../exa-common/build/sphinx/objects.inv"),
+    "iqm.iqm_client": ("../iqm-client", "../../iqm-client/build/sphinx/objects.inv"),
+    "iqm.qiskit_iqm": ("../iqm-client", "../../iqm-client/build/sphinx/objects.inv"),
 }
 
 # update intersphinx_mapping so it reads inventory from gitlab pages, but
@@ -190,6 +192,14 @@ if use_local_target == "true":
             "exa.common": (
                 "../exa-common",
                 "https://iqm.gitlab-pages.iqm.fi/qccsw/exa/exa-repo/exa-common/objects.inv",
+            ),
+            "iqm.iqm_client": (
+                "../iqm-client",
+                "https://iqm.gitlab-pages.iqm.fi/qccsw/exa/exa-repo/iqm-client/objects.inv",
+            ),
+            "iqm.qiskit_iqm": (
+                "../iqm-client",
+                "https://iqm.gitlab-pages.iqm.fi/qccsw/exa/exa-repo/iqm-client/objects.inv",
             ),
         }
     )

@@ -41,6 +41,7 @@ from iqm.pulse.gates.prx import (
     PRX_DRAGCosineRiseFallSX,
     PRX_DRAGGaussian,
     PRX_DRAGGaussianSX,
+    PRX_ModulatedDRAGCosineRiseFall,
     get_unitary_prx,
 )
 from iqm.pulse.gates.reset import Reset_Conditional, Reset_Wait
@@ -64,6 +65,9 @@ _default_implementations = {
         "drag_crf": PRX_DRAGCosineRiseFall,
         "drag_crf_sx": PRX_DRAGCosineRiseFallSX,
         "drag_gaussian_sx": PRX_DRAGGaussianSX,
+    },
+    "prx_12": {
+        "modulated_drag_crf": PRX_ModulatedDRAGCosineRiseFall,
     },
     "u": {"prx_u": UGate},
     "sx": {"prx_sx": SXGate},
@@ -129,6 +133,12 @@ _default_operations: QuantumOpTable = {
             ("angle", "phase"),
             implementations=_default_implementations["prx"],
             unitary=get_unitary_prx,
+        ),
+        QuantumOp(
+            "prx_12",
+            1,
+            ("angle", "phase"),
+            implementations=_default_implementations["prx_12"],
         ),
         QuantumOp(
             "u",
@@ -223,6 +233,12 @@ _quantum_ops_library = {
             ("angle", "phase"),
             implementations=_default_implementations["prx"],
             unitary=get_unitary_prx,
+        ),
+        QuantumOp(
+            "prx_12",
+            1,
+            ("angle", "phase"),
+            implementations=_default_implementations["prx_12"],
         ),
         QuantumOp(
             "u",

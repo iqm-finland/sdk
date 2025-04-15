@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2024-2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ from typing import Any
 import numpy as np
 
 from exa.common.data.setting_node import SettingNode
+from exa.common.data.value import ObservationValue
 from exa.common.qcm_data.chip_topology import ChipTopology
 from iqm.cpc.compiler.errors import InsufficientContextError
 from iqm.cpc.compiler.station_settings import build_station_settings
@@ -41,6 +42,7 @@ from iqm.pulse.playlist.channel import ChannelProperties
 from iqm.pulse.playlist.instructions import Instruction
 from iqm.pulse.playlist.schedule import Schedule, Segment
 from iqm.pulse.timebox import TimeBox
+from iqm.station_control.client import utils as station_control_client_utils
 from iqm.station_control.interface.models.observation import ObservationBase
 
 LOCUS_SEPARATOR = "__"  # EXA uses this, currently
@@ -590,14 +592,14 @@ def build_settings(
     return settings
 
 
-def calset_from_observations(calset_observations: Iterable[ObservationBase]) -> CalibrationSet:
-    """Create a Pulla calibration set from the given observations.
+def calset_from_observations(calset_observations: Iterable[ObservationBase]) -> dict[str, ObservationValue]:
+    """Create a calibration set from the given observations.
 
     Args:
         calset_observations: observations that form a calibration set
 
     Returns:
-        calibration set in Pulla format
+        calibration set
 
     """
-    return {obs.dut_field: obs.value for obs in calset_observations}
+    return station_control_client_utils.calset_from_observations(calset_observations)

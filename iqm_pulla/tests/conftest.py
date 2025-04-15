@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2024-2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,18 +25,20 @@ from iqm.iqm_client.models import (
     DynamicQuantumArchitecture,
     GateImplementationInfo,
     GateInfo,
-    QuantumArchitectureSpecification,
 )
 from iqm.qiskit_iqm.iqm_provider import IQMBackend, IQMClient
 import pytest
 import requests
 from requests import Response
 
+from exa.common.api import proto_serialization
 from exa.common.data.setting_node import SettingNode
 from exa.common.qcm_data.chip_topology import ChipTopology
 from iqm.pulla.calibration import CalibrationDataProvider
 from iqm.pulla.pulla import Pulla
 from iqm.pulla.utils_qiskit import IQMPullaBackend
+from iqm.station_control.client.iqm_server import proto
+from iqm.station_control.client.iqm_server.testing.iqm_server_mock import IqmServerMockBase
 from iqm.station_control.client.station_control import StationControlClient
 
 RESOURCES = Path(os.path.abspath(__name__)).parent / "tests" / "resources"
@@ -60,12 +62,21 @@ def chip_topology_star() -> ChipTopology:
     return ChipTopology.from_chip_design_record(record)
 
 
-@pytest.fixture
-def pulla_on_spark(monkeypatch):
+@pytest.fixture(params=["station-control", "iqm-server"])
+def pulla_on_spark(request, monkeypatch):
     """Pulla instance that mocks connection with a Spark system."""
+    backend = request.param
     root_url = "https://fake.iqm.fi"
 
+    # Provide mocks for Station Control backend
     def mocked_requests_get(*args, **kwargs):
+        if args[0] == f"{root_url}/spark/about":
+            response = Response()
+            response.status_code = HTTPStatus.OK
+            response.json = lambda: {
+                "iqm_server": True,
+            }
+            return response
         # TODO SW-1387: Use v1 API
         # if args[0] == f"{root_url}/station/v1/about":
         if args[0] == f"{root_url}/station/about":
@@ -119,10 +130,13 @@ def pulla_on_spark(monkeypatch):
 
     with open(RESOURCES / "spark_settings.json", "r", encoding="utf-8") as file:
         settings = SettingNode(**json.loads(file.read()))
+        settings_proto = proto_serialization.setting_node.pack(settings, minimal=False)
+        settings_bytes = settings_proto.SerializeToString()
     monkeypatch.setattr(StationControlClient, "get_settings", lambda self: settings)
 
     with open(RESOURCES / "spark_chip_design_record.json", "r", encoding="utf-8") as file:
-        record = json.loads(file.read())
+        design_record_str = file.read()
+        record = json.loads(design_record_str)
     monkeypatch.setattr(StationControlClient, "get_chip_design_record", lambda self, label: record)
 
     with open(RESOURCES / "spark_calibration_set_raw.json", "r", encoding="utf-8") as file:
@@ -130,7 +144,54 @@ def pulla_on_spark(monkeypatch):
     monkeypatch.setattr(CalibrationDataProvider, "get_latest_calibration_set", lambda self, label: cal)
     monkeypatch.setattr(CalibrationDataProvider, "get_calibration_set", lambda self, label: cal[0])
 
-    pulla = Pulla(station_control_url=f"{root_url}/station")
+    # Provide mocks for IQM server backend
+    class IqmServerMockBackend(IqmServerMockBase):
+        def ListQuantumComputersV1(self, request: proto.ListQuantumComputerFiltersV1, context):
+            return proto.QuantumComputersListV1(
+                items=[
+                    proto.QuantumComputerV1(
+                        id=self.proto_uuid(UUID("c2d31ae9-e749-4835-8450-0df10be5d1c1")),
+                        alias="spark",
+                        display_name="Spark",
+                    )
+                ]
+            )
+
+        def GetQuantumComputerResourceV1(self, request: proto.QuantumComputerResourceLookupV1, context):
+            match request.resource_name:
+                case "duts":
+                    return self.chunk_stream(
+                        json.dumps([{"label": "M000_fake_0_0", "dut_type": "chip"}]).encode("utf-8")
+                    )
+                case "settings":
+                    return self.chunk_stream(settings_bytes)
+                case "chip-design-records/M000_fake_0_0":
+                    return self.chunk_stream(design_record_str.encode("utf-8"))
+                case "about":
+                    return self.chunk_stream(
+                        json.dumps(
+                            {"software_versions": {"iqm-station-control-client": version("iqm-station-control-client")}}
+                        ).encode("utf-8")
+                    )
+            return self.chunk_stream(bytearray())
+
+        def SubmitJobV1(self, request: proto.SubmitJobRequestV1, context):
+            now = self.proto_timestamp()
+            return proto.JobV1(
+                id=self.proto_uuid(UUID("8a28be71-b819-419d-bfcb-9ed9186b7473")),
+                type=proto.JobType.PULSE,
+                status=proto.JobStatus.IN_QUEUE,
+                created_at=now,
+                updated_at=now,
+            )
+
+    if backend == "iqm-server":
+        pulla = Pulla(
+            station_control_url=f"{root_url}/spark",
+            grpc_channel=IqmServerMockBackend().channel(),
+        )
+    else:
+        pulla = Pulla(station_control_url=f"{root_url}/station")
     return pulla
 
 
@@ -183,17 +244,54 @@ def qiskit_backend_spark(monkeypatch) -> IQMBackend:
 @pytest.fixture
 def pulla_backend_spark(pulla_on_spark) -> IQMPullaBackend:
     compiler = pulla_on_spark.get_standard_compiler()
-    architecture = QuantumArchitectureSpecification(
-        name="crystal_5",
-        operations={
-            "prx": [["QB1"], ["QB2"], ["QB3"], ["QB4"], ["QB5"]],
-            "cc_prx": [["QB1"], ["QB2"], ["QB3"], ["QB4"], ["QB5"]],
-            "cz": [["QB1", "QB3"], ["QB2", "QB3"], ["QB4", "QB3"], ["QB5", "QB3"]],
-            "measure": [["QB1"], ["QB2"], ["QB3"], ["QB4"], ["QB5"]],
-            "barrier": [],
+
+    def loci_1q(qubits: list) -> tuple:
+        """One-qubit loci for the given qubits."""
+        return tuple((q,) for q in qubits)
+
+    qubits = ["QB1", "QB2", "QB3", "QB4", "QB5"]
+    calset_id = UUID("26c5e70f-bea0-43af-bd37-6212ec7d04cb")
+    dqa = DynamicQuantumArchitecture(
+        calibration_set_id=calset_id,
+        qubits=list(qubits),
+        computational_resonators=[],
+        gates={
+            "prx": GateInfo(
+                implementations={
+                    "drag_gaussian": GateImplementationInfo(loci=loci_1q(qubits)),
+                },
+                default_implementation="drag_gaussian",
+                override_default_implementation={},
+            ),
+            "cc_prx": GateInfo(
+                implementations={
+                    "prx_composite": GateImplementationInfo(loci=loci_1q(qubits)),
+                },
+                default_implementation="prx_composite",
+                override_default_implementation={},
+            ),
+            "cz": GateInfo(
+                implementations={
+                    "tgss": GateImplementationInfo(
+                        loci=(
+                            ("QB1", "QB3"),
+                            ("QB2", "QB3"),
+                            ("QB3", "QB4"),
+                            ("QB3", "QB5"),
+                        )
+                    ),
+                },
+                default_implementation="tgss",
+                override_default_implementation={},
+            ),
+            "measure": GateInfo(
+                implementations={
+                    "constant": GateImplementationInfo(loci=loci_1q(qubits)),
+                },
+                default_implementation="constant",
+                override_default_implementation={},
+            ),
         },
-        qubits=["QB1", "QB2", "QB3", "QB4", "QB5"],
-        qubit_connectivity=[["QB1", "QB3"], ["QB2", "QB3"], ["QB3", "QB4"], ["QB3", "QB5"]],
     )
 
-    return IQMPullaBackend(architecture, pulla_on_spark, compiler)
+    return IQMPullaBackend(dqa, pulla_on_spark, compiler)
