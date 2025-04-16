@@ -41,7 +41,8 @@ for SDIST_FILE in ./temp/*.tar.gz; do
 
     # Build the docs and save to the public directory
     # we are now in ROOT/temp/<package_name>/ and public dir is ROOT/public/
-    USE_LOCAL_TARGET=true python -m sphinx docs ../../public/${PKG_NAME%[*}
+    cat ../../../sphinx_docs_conf.py >> docs/conf.py
+    python -m sphinx docs ../../public/${PKG_NAME%[*}
     # add .nojekyll in order to stop Github from treating the directory as a Jekyll blog generator,
     # which ignores directories starting with underscore
     touch ../../public/${PKG_NAME%[*}/.nojekyll
