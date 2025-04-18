@@ -2,6 +2,22 @@
 Changelog
 =========
 
+Version 7.13 (2025-04-17)
+=========================
+
+Bug fixes
+---------
+
+- Fix broken search input window and shortcut
+
+Version 7.12 (2025-04-17)
+=========================
+
+Features
+--------
+
+- Bump `iqm-client`, no functional changes.
+
 Version 7.11 (2025-04-11)
 =========================
 

@@ -175,4 +175,4 @@ def inspect_playlist(playlist: Playlist, segments: Sequence[int] = (0,)) -> str:
     return f"""<iframe allowfullscreen="true"
         style="background: #F4F0EA; width: 100%; height: 1000;"
         width=1000 height=600
-        srcdoc="{html.escape(html_text)}">"""
+        srcdoc="{html.escape(html_text)}"></iframe>"""

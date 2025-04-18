@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 9.3 (2025-04-17)
+========================
+
+Bug fixes
+---------
+
+- Fix broken inspect_playlist function. It was missing to add a closing IFRAME tag to the generated HTML code
+
 Version 9.2 (2025-04-11)
 ========================
 
