@@ -51,8 +51,10 @@ for SDIST_FILE in ./temp/*.tar.gz; do
     cd ../..
 done
 
-# Remove the Jupyter notebook execution directory
+# Remove the Jupyter notebook execution directory and pickled doctree caches
 rm -rf public/jupyter_execute
+find public -type d -name .doctrees -exec rm -rf {} +
+
 # add .nojekyll in order to stop Github from treating the directory as a Jekyll blog generator,
 # which ignores directories starting with underscore
 touch public/.nojekyll
