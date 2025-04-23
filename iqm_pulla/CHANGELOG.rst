@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 7.14 (2025-04-22)
+=========================
+
+Features
+--------
+
+- Update dependency on station-control-client
+
 Version 7.13 (2025-04-17)
 =========================
 

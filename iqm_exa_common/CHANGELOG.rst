@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 26.14 (2025-04-22)
+==========================
+
+Features
+--------
+
+- Trigger new version with improved CI workflow
+
 Version 26.13 (2025-04-11)
 ==========================
 

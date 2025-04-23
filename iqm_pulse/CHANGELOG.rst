@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 9.4 (2025-04-22)
+========================
+
+Features
+--------
+
+- Update dependency on exa-common
+
 Version 9.3 (2025-04-17)
 ========================
 

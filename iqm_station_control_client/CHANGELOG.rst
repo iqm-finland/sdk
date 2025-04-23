@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 3.16 (2025-04-22)
+=========================
+
+Features
+--------
+
+- Update dependency on exa-common
+
 Version 3.15 (2025-04-11)
 =========================
 
