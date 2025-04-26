@@ -47,6 +47,7 @@ from iqm.pulse.gates.prx import (
 from iqm.pulse.gates.reset import Reset_Conditional, Reset_Wait
 from iqm.pulse.gates.rz import (
     RZ_ACStarkShift_CosineRiseFall,
+    RZ_PRX_Composite,
     RZ_Virtual,
     get_unitary_rz,
 )
@@ -71,7 +72,7 @@ _default_implementations = {
     },
     "u": {"prx_u": UGate},
     "sx": {"prx_sx": SXGate},
-    "rz": {"virtual": RZ_Virtual},
+    "rz": {"virtual": RZ_Virtual, "prx_composite": RZ_PRX_Composite},
     "rz_physical": {"ac_stark_crf": RZ_ACStarkShift_CosineRiseFall},
     "cz": {
         "tgss": CZ_TruncatedGaussianSmoothedSquare,

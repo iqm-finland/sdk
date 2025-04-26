@@ -2,6 +2,15 @@
 Changelog
 =========
 
+Version 9.5 (2025-04-25)
+========================
+
+Features
+--------
+
+- Add the CompositeGate :class:`RZ_PRX_Composite`, which is a physical Z rotation gate implemented as a sequence of
+  PRX gates: RZ(theta) = RY(pi/2) - RX(theta) - RY(-pi/2).
+
 Version 9.4 (2025-04-22)
 ========================
 

@@ -32,6 +32,7 @@ import numpy as np
 from exa.common.data.parameter import Parameter
 from iqm.pulse.gate_implementation import (
     SINGLE_COMPONENTS_WITH_DRIVE_LOCUS_MAPPING,
+    CompositeGate,
     GateImplementation,
     Locus,
     OILCalibrationData,
@@ -46,7 +47,7 @@ from iqm.pulse.utils import normalize_angle, phase_transformation
 if TYPE_CHECKING:  # pragma: no cover
     from iqm.pulse.builder import ScheduleBuilder
     from iqm.pulse.quantum_ops import QuantumOp
-    from iqm.pulse.timebox import TimeBox
+from iqm.pulse.timebox import TimeBox
 
 
 @lru_cache
@@ -245,3 +246,22 @@ class RZ_ACStarkShift_smoothConstant(
 
     def __call__(self):
         return super().__call__(angle=np.pi)
+
+
+class RZ_PRX_Composite(CompositeGate):
+    """RZ gate implemented as a sequence of PRX gates."""
+
+    registered_gates = ["prx"]
+
+    def __init__(self, parent, name, locus, calibration_data, builder):
+        super().__init__(parent, name, locus, calibration_data, builder)
+
+    def __call__(self, angle: float) -> TimeBox:
+        prx = self.build("prx", self.locus)
+        return TimeBox.composite(
+            [
+                prx.ry(np.pi / 2),
+                prx.rx(angle),
+                prx.ry(-np.pi / 2),
+            ]
+        )

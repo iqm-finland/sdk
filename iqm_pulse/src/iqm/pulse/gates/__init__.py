@@ -66,6 +66,7 @@ from iqm.pulse.gates.reset import Reset_Conditional, Reset_Wait
 from iqm.pulse.gates.rz import (
     RZ_ACStarkShift_CosineRiseFall,
     RZ_ACStarkShift_smoothConstant,
+    RZ_PRX_Composite,
     RZ_Virtual,
     get_unitary_rz,
 )
@@ -88,6 +89,7 @@ _exposed_implementations: dict[str, type[GateImplementation]] = {
         PRX_HdDragSX,
         SXGate,
         UGate,
+        RZ_PRX_Composite,
         RZ_Virtual,
         CZ_CRF_ACStarkCRF,
         CZ_Slepian_ACStarkCRF,
