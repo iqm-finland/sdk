@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 9.6 (2025-04-28)
+========================
+
+Features
+--------
+
+- Added a new probe waveform :class:`ProbePulse_CustomWaveforms_noIntegration` which doesn't integrate
+
 Version 9.5 (2025-04-25)
 ========================
 
