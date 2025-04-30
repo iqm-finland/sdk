@@ -244,6 +244,22 @@ class ChipTopology:
         """Get probelines that are connected to any of the given components."""
         return {self.component_to_probe_line[c] for c in components}
 
+    def get_connected_coupler_map(self, components: Collection[str]) -> ComponentMap:
+        """Returns a `ComponentMap`, including only the couplers between components that both are in the given subset.
+
+        Args:
+            components: Collection of coupled components to restrict the returned couplers.
+
+        Returns:
+            A `ComponentMap`, a dict mapping coupler names to the names of the coupled components.
+
+        """
+        return {
+            key: values
+            for key, values in self.coupler_to_components.items()
+            if (key in self.get_connecting_couplers(components))
+        }
+
     @staticmethod
     def limit_values(dct: ComponentMap, limit_to: Collection[str]) -> ComponentMap:
         """Prunes the given dictionary (e.g. a coupler-to-qubits map) to a subset of values.

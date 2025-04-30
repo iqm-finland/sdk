@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 26.15 (2025-04-29)
+==========================
+
+Features
+--------
+
+- Add method ``ChipTopology.get_connected_coupler_map``, which returns a dictionary mapping couplers to components based on the output of ``ChipTopology.get_connecting_couplers``.
+
 Version 26.14 (2025-04-22)
 ==========================
 
