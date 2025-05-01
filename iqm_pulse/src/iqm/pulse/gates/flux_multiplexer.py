@@ -64,7 +64,7 @@ class FluxMultiplexer_SampleLinear(GateImplementation):
         "matrix_elements": Parameter(
             "matrix_elements",
             label="Flux crosstalk correction sparse matrix elements",
-            data_type=DataType.NUMBER,
+            data_type=DataType.FLOAT,
             collection_type=CollectionType.NDARRAY,
         ),
     }

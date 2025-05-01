@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 9.7 (2025-04-30)
+========================
+
+Features
+--------
+
+- Change deprecated :class:`exa.common.data.parameter.DataType.NUMBER` usage from to ``FLOAT`` or ``INT``.
+
 Version 9.6 (2025-04-28)
 ========================
 
