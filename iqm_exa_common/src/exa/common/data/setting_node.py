@@ -339,7 +339,7 @@ class SettingNode(BaseModel):
             if isinstance(child, Setting):
                 update_dict = {"path": update_path}
                 if self.align_name:
-                    update_dict["parameter"] = child.parameter.copy(name=update_path)
+                    update_dict["parameter"] = child.parameter.model_copy(update={"name": update_path})
                 self[key] = child.model_copy(update=update_dict)
             elif self.align_name:
                 self[key] = Setting(
@@ -574,9 +574,9 @@ class SettingNode(BaseModel):
         for key, item in first.settings.items():
             if merge_nones or item.value is not None:
                 if align_name:
-                    new[key] = item.copy(name=item.name.replace(f"{first.name}.", ""))
+                    new[key] = item.model_copy(update={"name": item.name.replace(f"{first.name}.", "")})
                 else:
-                    new.settings[key] = item.copy()
+                    new.settings[key] = item.model_copy()
         for key, item in first.subtrees.items():
             item_copy = item.model_copy(update={"name": item.name.replace(f"{first.name}.", "")}, deep=deep_copy)
             subs = new if align_name else new.subtrees

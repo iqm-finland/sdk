@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 26.16 (2025-05-06)
+==========================
+
+Bug fixes
+---------
+
+- Fix copy deprecation warning.
+
 Version 26.15 (2025-04-29)
 ==========================
 
