@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 26.17 (2025-05-09)
+==========================
+
+Features
+--------
+
+- Modify :func:`get_connected_probe_lines` such that it also works for qubits without readout, :issue:`QPUC-603`.
+
 Version 26.16 (2025-05-06)
 ==========================
 

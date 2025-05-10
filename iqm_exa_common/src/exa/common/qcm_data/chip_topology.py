@@ -242,7 +242,7 @@ class ChipTopology:
 
     def get_connected_probe_lines(self, components: Collection[str]) -> set[str]:
         """Get probelines that are connected to any of the given components."""
-        return {self.component_to_probe_line[c] for c in components}
+        return {self.component_to_probe_line[c] for c in components if c in self.component_to_probe_line}
 
     def get_connected_coupler_map(self, components: Collection[str]) -> ComponentMap:
         """Returns a `ComponentMap`, including only the couplers between components that both are in the given subset.
