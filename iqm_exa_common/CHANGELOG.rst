@@ -2,48 +2,61 @@
 Changelog
 =========
 
-Version 26.17 (2025-05-09)
-==========================
+Version 26.18.0 (2025-05-12)
+============================
+
+Features
+--------
+
+- Changes in CI and image build logic, no functional changes.
+
+Version 26.17.1 (2025-05-12)
+============================
+
+- Test patch versioning, no functional changes. :issue:`SW-1429`
+
+Version 26.17.0 (2025-05-09)
+============================
 
 Features
 --------
 
 - Modify :func:`get_connected_probe_lines` such that it also works for qubits without readout, :issue:`QPUC-603`.
 
-Version 26.16 (2025-05-06)
-==========================
+Version 26.16.0 (2025-05-06)
+============================
 
 Bug fixes
 ---------
 
 - Fix copy deprecation warning.
 
-Version 26.15 (2025-04-29)
-==========================
+Version 26.15.0 (2025-04-29)
+============================
 
 Features
 --------
 
 - Add method ``ChipTopology.get_connected_coupler_map``, which returns a dictionary mapping couplers to components based on the output of ``ChipTopology.get_connecting_couplers``.
 
-Version 26.14 (2025-04-22)
-==========================
+Version 26.14.0 (2025-04-22)
+============================
 
 Features
 --------
 
 - Trigger new version with improved CI workflow
 
-Version 26.13 (2025-04-11)
-==========================
+Version 26.13.0 (2025-04-11)
+============================
 
 Bug fixes
 ---------
 
 - Update license
 
-Version 26.12 (2025-04-10)
-==========================
+Version 26.12.0 (2025-04-10)
+============================
 
 Features
 --------
@@ -51,8 +64,8 @@ Features
 - Fix vulnerability issue with YAML loading, use safe_load to avoid potential harmful remote code execution.
   :issue:`SW-1378`
 
-Version 26.11 (2025-04-07)
-==========================
+Version 26.11.0 (2025-04-07)
+============================
 
 Features
 --------
@@ -60,40 +73,40 @@ Features
 - Add new error class ConflictError designed for client-server communication via station control client.
   :issue:`SW-1361`
 
-Version 26.10 (2025-04-07)
-==========================
+Version 26.10.0 (2025-04-07)
+============================
 
 Features
 --------
 
 - Fix package version in published docs footers, :issue:`SW-1392`. 
 
-Version 26.9 (2025-04-03)
-=========================
+Version 26.9.0 (2025-04-03)
+===========================
 
 Feature
 *******
 
 - Format code and enable PEP 604 in linting rules, :issue:`SW-1230`.
 
-Version 26.8 (2025-04-02)
-=========================
+Version 26.8.0 (2025-04-02)
+===========================
 
 Features
 ********
 
 - Update the documentation footer to display the package version.
 
-Version 26.7 (2025-04-01)
-=========================
+Version 26.7.0 (2025-04-01)
+===========================
 
 Features
 --------
 
 - Use standard process of deprecation. No functional changes. :issue:`SW-450`
 
-Version 26.6 (2025-03-21)
-=========================
+Version 26.6.0 (2025-03-21)
+===========================
 
 Features
 ********
@@ -102,24 +115,24 @@ Features
   "crystal_5" or "star_6". For "mini" chips, like "mini_crystal_20", the number is not based on the actual number
   of qubits but to the chip it's trying to "minimize" instead, like "crystal_20". :issue:`SW-1059`
 
-Version 26.5 (2025-03-19)
-=========================
+Version 26.5.0 (2025-03-19)
+===========================
 
 Bug fixes
 ---------
 
 - Fix Parameters with element_indices having those indices duplicated in the name when deserialised
 
-Version 26.4 (2025-03-11)
-=========================
+Version 26.4.0 (2025-03-11)
+===========================
 
 Features
 --------
 
 - Bump pulla
 
-Version 26.3 (2025-03-05)
-=========================
+Version 26.3.0 (2025-03-05)
+===========================
 
 Features
 --------
@@ -127,23 +140,23 @@ Features
 - Add new error classes designed for client-server communication via station control client.
 - Remove general RequestError and use new specific error classes instead.
 
-Version 26.2 (2025-03-03)
-=========================
+Version 26.2.0 (2025-03-03)
+===========================
 
 Bug fix
 -------
 - Fix numpy numeric types serialization in sweeps
 
-Version 26.1 (2025-02-28)
-=========================
+Version 26.1.0 (2025-02-28)
+===========================
 
 
 Bug fix
 -------
 - Fix protobuf deserialisation to not align SettingNode names
 
-Version 26.0 (2025-02-27)
-=========================
+Version 26.0.0 (2025-02-27)
+===========================
 
 
 Features
@@ -187,16 +200,16 @@ Features
 - Split ``DataType.NUMBER`` to ``DataType.FLOAT`` and ``DataType.INT``. ``DataType.NUMBER`` is now handled as a
   deprecated alias for ``DataType.FLOAT``.
 
-Version 25.34 (2025-02-06)
-==========================
+Version 25.34.0 (2025-02-06)
+============================
 
 Bug fixes
 ---------
 
 - Bump mechanize test dependency.
 
-Version 25.33 (2025-02-04)
-==========================
+Version 25.33.0 (2025-02-04)
+============================
 
 Features
 --------
@@ -204,8 +217,8 @@ Features
 - Refactor codebase to new lint rules. No functional changes. :issue:`SW-467`
 
 
-Version 25.32 (2025-02-04)
-==========================
+Version 25.32.0 (2025-02-04)
+============================
 
 Features
 --------
@@ -213,15 +226,15 @@ Features
 - Refactor codebase to new lint rules. No functional changes. :issue:`SW-467`
 
 
-Version 25.31 (2025-01-28)
-==========================
+Version 25.31.0 (2025-01-28)
+============================
 
 Features
 ********
 - Support broader range of `numpy` versions and verify compatibily with ruff, see migration guide `https://numpy.org/doc/stable/numpy_2_0_migration_guide.html`.
 
-Version 25.30 (2025-01-28)
-==========================
+Version 25.30.0 (2025-01-28)
+============================
 
 Bug Fixes
 ---------
@@ -229,86 +242,86 @@ Bug Fixes
 - Method ``ChipTopology.get_all_common_resonators`` can never return a set containing components which are not
   computational resonators.
 
-Version 25.29 (2025-01-27)
-==========================
+Version 25.29.0 (2025-01-27)
+============================
 
 Features
 --------
 
 - Bump version for an updated repo organization. No functional changes. :issue:`SW-1042`
 
-Version 25.28 (2025-01-08)
-==========================
+Version 25.28.0 (2025-01-08)
+============================
 
 Features
 --------
 
 - Remove gitlab links from public pages. :issue:`SW-776`
 
-Version 25.27 (2024-12-19)
-==========================
+Version 25.27.0 (2024-12-19)
+============================
 
 Features
 ********
 - Bumps xarray
 
-Version 25.26 (2024-12-12)
-==========================
+Version 25.26.0 (2024-12-12)
+============================
 
 Features
 --------
 
 - Bump exa-experiments
 
-Version 25.25 (2024-12-11)
-==========================
+Version 25.25.0 (2024-12-11)
+============================
 
 Features
 --------
 
 - Fix public PyPI publishing. :issue:`SW-776`
 
-Version 25.24 (2024-12-11)
-==========================
+Version 25.24.0 (2024-12-11)
+============================
 
 Features
 --------
 
 - Change license info to Apache 2.0. :issue:`SW-776`
 
-Version 25.23 (2024-12-09)
-==========================
+Version 25.23.0 (2024-12-09)
+============================
 
 Features
 --------
 
 Fix extlinks to MRs and issues in sphinx docs config :issue:`SW-916`
 
-Version 25.22 (2024-12-05)
-==========================
+Version 25.22.0 (2024-12-05)
+============================
 
 Features
 --------
 
 - Fix intersphinx reference paths in docs :issue:`SW-916`
 
-Version 25.21 (2024-12-04)
-==========================
+Version 25.21.0 (2024-12-04)
+============================
 
 Test
 ****
 - Adds unit test for sorting couplers
 
-Version 25.20 (2024-12-04)
-==========================
+Version 25.20.0 (2024-12-04)
+============================
 
 Features
 --------
 
 - Bump version for an updated repo organization. No functional changes. :issue:`SW-665`
 
-Version 25.19 (2024-11-29)
-==========================
+Version 25.19.0 (2024-11-29)
+============================
 
 Features
 --------
@@ -316,32 +329,32 @@ Features
 - Include computational resonators as possible locus components for `DEFAULT_2QB_MAPPING`, which is used for slow CZ
   gates, required for :issue:`GBC-589`.
 
-Version 25.18 (2024-11-27)
-==========================
+Version 25.18.0 (2024-11-27)
+============================
 
 Features
 --------
 
 - Expand allowed CHEDDAR versions in `qcm_data_client` to include versions 2.x.
 
-Version 25.17 (2024-11-19)
-==========================
+Version 25.17.0 (2024-11-19)
+============================
 
 Features
 --------
 
 - Bump version for an updated repo organization. No functional changes. :issue:`SW-774`
 
-Version 25.16 (2024-11-15)
-==========================
+Version 25.16.0 (2024-11-15)
+============================
 
 Bug fixes
 ---------
 
 - Remove iqm-internal web links in customer docs artifacts.
 
-Version 25.15 (2024-11-08)
-==========================
+Version 25.15.0 (2024-11-08)
+============================
 
 Features
 --------

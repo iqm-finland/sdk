@@ -2,24 +2,37 @@
 Changelog
 =========
 
-Version 9.7 (2025-04-30)
-========================
+Version 9.8.0 (2025-05-12)
+==========================
+
+Features
+--------
+
+- Update dependency on exa-common
+
+Version 9.7.1 (2025-05-12)
+==========================
+
+- Test patch versioning, no functional changes. :issue:`SW-1429`
+
+Version 9.7.0 (2025-04-30)
+==========================
 
 Features
 --------
 
 - Change deprecated :class:`exa.common.data.parameter.DataType.NUMBER` usage from to ``FLOAT`` or ``INT``.
 
-Version 9.6 (2025-04-28)
-========================
+Version 9.6.0 (2025-04-28)
+==========================
 
 Features
 --------
 
 - Added a new probe waveform :class:`ProbePulse_CustomWaveforms_noIntegration` which doesn't integrate
 
-Version 9.5 (2025-04-25)
-========================
+Version 9.5.0 (2025-04-25)
+==========================
 
 Features
 --------
@@ -27,32 +40,32 @@ Features
 - Add the CompositeGate :class:`RZ_PRX_Composite`, which is a physical Z rotation gate implemented as a sequence of
   PRX gates: RZ(theta) = RY(pi/2) - RX(theta) - RY(-pi/2).
 
-Version 9.4 (2025-04-22)
-========================
+Version 9.4.0 (2025-04-22)
+==========================
 
 Features
 --------
 
 - Update dependency on exa-common
 
-Version 9.3 (2025-04-17)
-========================
+Version 9.3.0 (2025-04-17)
+==========================
 
 Bug fixes
 ---------
 
 - Fix broken inspect_playlist function. It was missing to add a closing IFRAME tag to the generated HTML code
 
-Version 9.2 (2025-04-11)
-========================
+Version 9.2.0 (2025-04-11)
+==========================
 
 Bug fixes
 ---------
 
 - Update license
 
-Version 9.1 (2025-04-10)
-========================
+Version 9.1.0 (2025-04-10)
+==========================
 
 Features
 --------
@@ -60,8 +73,8 @@ Features
 - Fix vulnerability issue with YAML loading, use safe_load to avoid potential harmful remote code execution.
   :issue:`SW-1378`
 
-Version 9.0 (2025-04-09)
-========================
+Version 9.0.0 (2025-04-09)
+==========================
 
 Breaking changes
 ----------------
@@ -70,24 +83,24 @@ Breaking changes
 - Add Baseclass :class:`PRX_ModulatedCustomWaveForms` for arbitrary IQ waveform modulated PRX gate.
 - Add gate implementation :class:`PRX_ModulatedDRAGCosineRiseFall` for cosine rise fall modulated PRX gate.
 
-Version 8.13 (2025-04-07)
-=========================
+Version 8.13.0 (2025-04-07)
+===========================
 
 Features
 --------
 
 - Fix package version in published docs footers, :issue:`SW-1392`. 
 
-Version 8.12 (2025-04-03)
-=========================
+Version 8.12.0 (2025-04-03)
+===========================
 
 Feature
 *******
 
 - Format code and enable PEP 604 in linting rules, :issue:`SW-1230`.
 
-Version 8.11 (2025-04-02)
-=========================
+Version 8.11.0 (2025-04-02)
+===========================
 
 Features
 --------
@@ -95,16 +108,16 @@ Features
 - Added waveforms for I- and Q-envelopes of FAST DRAG and higher-derivative (HD) DRAG: ``HdDragI``, ``HdDragQ``, ``FastDragI``, ``FastDragQ``
 - Added PRX implementations using FAST DRAG and HD DRAG: ``PRX_HdDragSX``, ``PRX_HdDrag``, ``PRX_FastDragSX``, ``PRX_FastDrag``
 
-Version 8.10 (2025-04-02)
-=========================
+Version 8.10.0 (2025-04-02)
+===========================
 
 Features
 ********
 
 - Update the documentation footer to display the package version.
 
-Version 8.9 (2025-03-28)
-========================
+Version 8.9.0 (2025-03-28)
+==========================
 
 Features
 --------
@@ -126,24 +139,24 @@ Features
 
 
 
-Version 8.8 (2025-03-28)
-========================
+Version 8.8.0 (2025-03-28)
+==========================
 
 Features
 --------
 
 - Fixing the rounding issue for rise and fall pulses in 'Constant_PRX_with_smooth_rise_fall'
 
-Version 8.7 (2025-03-27)
-========================
+Version 8.7.0 (2025-03-27)
+==========================
 
 Features
 --------
 
 - :class:`.CouplerFluxPulseQubitACStarkPulseGate` also now supports off-locus RZ corrections.
 
-Version 8.6 (2025-03-26)
-========================
+Version 8.6.0 (2025-03-26)
+==========================
 
 Features
 --------
@@ -153,16 +166,16 @@ Features
 - Handle out of locus long-distance ``VirtualRZ`` corrections in CZ gates better
   (scheduling fuses the ``VirtualRZ`` corrections to the right ``IQPulse``).
 
-Version 8.5 (2025-03-26)
-========================
+Version 8.5.0 (2025-03-26)
+==========================
 
 Bug fix
 -------
 
 - Fix that injecting a new calibration of an array-valued pulse parameter didn't work.
 
-Version 8.4 (2025-03-21)
-========================
+Version 8.4.0 (2025-03-21)
+==========================
 
 Features
 --------
@@ -171,16 +184,16 @@ Features
   "crystal_5" or "star_6". For "mini" chips, like "mini_crystal_20", the number is not based on the actual number
   of qubits but to the chip it's trying to "minimize" instead, like "crystal_20". :issue:`SW-1059`
 
-Version 8.3 (2025-03-19)
-========================
+Version 8.3.0 (2025-03-19)
+==========================
 
 Bug fixes
 ---------
 
 - Update dependency on exa-common
 
-Version 8.2 (2025-03-13)
-========================
+Version 8.2.0 (2025-03-13)
+==========================
 
 Features
 --------
@@ -189,16 +202,16 @@ Features
   schedule, consisting of rise, constant, and fall pulses. These pulses can have arbitrarily long duration, not limited
   by the electronics memory.
 
-Version 8.1 (2025-02-28)
-========================
+Version 8.1.0 (2025-02-28)
+==========================
 
 
 Bug fix
 -------
 - Bump exa-common
 
-Version 8.0 (2025-02-27)
-========================
+Version 8.0.0 (2025-02-27)
+==========================
 
 Features
 --------
@@ -206,8 +219,8 @@ Features
 - Updates to documentation.
 - Replace deprecated usages of ``DataType.NUMBER`` with either new ``DataType.FLOAT`` or ``DataType.INT``.
 
-Version 7.24 (2025-02-20)
-=========================
+Version 7.24.0 (2025-02-20)
+===========================
 
 Bug fixes
 ---------
@@ -215,24 +228,24 @@ Bug fixes
   to be equal with the previous unitary (it is impossible to check for this, as they are functions...). If no unitary is
   provided, the previous unitary is retained.
 
-Version 7.23 (2025-02-19)
-=========================
+Version 7.23.0 (2025-02-19)
+===========================
 
 Features
 --------
 
 - Bump ``python-rapidjson`` to version 1.20
 
-Version 7.22 (2025-02-10)
-=========================
+Version 7.22.0 (2025-02-10)
+===========================
 
 Features
 --------
 
 - Adds the delay operation :class:`~iqm.pulse.gates.delay.Delay`. :issue:`SW-685`
 
-Version 7.21 (2025-02-07)
-=========================
+Version 7.21.0 (2025-02-07)
+===========================
 
 Features
 --------
@@ -241,8 +254,8 @@ Features
   which case a single zero-amplitude pulse with no phase increment is now played. Previously, this special case was not
   separately considered and two X90 pulses with phase increments were used even though this is unnecessary.
 
-Version 7.20 (2025-02-04)
-=========================
+Version 7.20.0 (2025-02-04)
+===========================
 
 Features
 --------
@@ -250,8 +263,8 @@ Features
 - Refactor codebase to new lint rules. No functional changes. :issue:`SW-467`
 
 
-Version 7.19 (2025-02-04)
-=========================
+Version 7.19.0 (2025-02-04)
+===========================
 
 Features
 --------
@@ -271,8 +284,8 @@ Bug Fixes
   new object by assinging the :attr:`qubits` and :attr:`table` attributes at init, and not after, leading to significant
   speedup.
 
-Version 7.18 (2025-02-04)
-=========================
+Version 7.18.0 (2025-02-04)
+===========================
 
 Features
 --------
@@ -280,8 +293,8 @@ Features
 - Refactor codebase to new lint rules. No functional changes. :issue:`SW-467`
 
 
-Version 7.17 (2025-02-03)
-=========================
+Version 7.17.0 (2025-02-03)
+===========================
 
 Features
 --------
@@ -289,8 +302,8 @@ Features
   ``ScheduleBuilder.inject_calibration`` is called)
 - Add GateImplementation documentation.
 
-Version 7.16 (2025-02-03)
-=========================
+Version 7.16.0 (2025-02-03)
+===========================
 
 Features
 --------
@@ -308,16 +321,16 @@ Bug fixes
 
 
 
-Version 7.15 (2025-01-28)
-=========================
+Version 7.15.0 (2025-01-28)
+===========================
 
 Bug fix
 -------
 
 - Schedule probe pulses in seconds also when the channel granularity is diffrenet for probe vs. drive/flux.
 
-Version 7.14 (2025-01-28)
-=========================
+Version 7.14.0 (2025-01-28)
+===========================
 
 Features
 --------
@@ -325,8 +338,8 @@ Features
 - Support broader range of Numpy versions and verify compatibily with Ruff, see the
   `Numpy 2.0 migration guide <https://numpy.org/doc/stable/numpy_2_0_migration_guide.html>`_.
 
-Version 7.13 (2025-01-28)
-=========================
+Version 7.13.0 (2025-01-28)
+===========================
 
 Features
 --------
@@ -343,16 +356,16 @@ Features
 - Add CZ implementations ``crf_acstarkcrf`` and ``slepian_acstarkcrf`` to the default :class:`QuantumOpTable`.
 - Bump exa-common.
 
-Version 7.12 (2025-01-27)
-=========================
+Version 7.12.0 (2025-01-27)
+===========================
 
 Features
 --------
 
 - Bump version for an updated repo organization. No functional changes. :issue:`SW-1042`
 
-Version 7.11 (2025-01-24)
-=========================
+Version 7.11.0 (2025-01-24)
+===========================
 
 Features
 --------
@@ -360,88 +373,88 @@ Features
 * Disable horizontal scroll from playlist visualisation by default.
 * Add a toggle to enable/disable horizontal scroll.
 
-Version 7.10 (2025-01-17)
-=========================
+Version 7.10.0 (2025-01-17)
+===========================
 
 Features
 --------
 
 - Added a user guide covering basic concepts and Timebox usage. :issue:`SW-531`
 
-Version 7.9 (2025-01-08)
-========================
+Version 7.9.0 (2025-01-08)
+==========================
 
 Features
 --------
 
 - Remove gitlab links from public pages. :issue:`SW-776`
 
-Version 7.8 (2025-01-02)
-========================
+Version 7.8.0 (2025-01-02)
+==========================
 
 Features
 --------
 
 - Fix that using the measure gate on a system without drive lines didn't work. :mr:`SW-514`
 
-Version 7.7 (2024-12-30)
-========================
+Version 7.7.0 (2024-12-30)
+==========================
 
 Features
 --------
 
 - Bump Station Control Client dependency. :issue:`SW-776`
 
-Version 7.6 (2024-12-30)
-========================
+Version 7.6.0 (2024-12-30)
+==========================
 
 Features
 --------
 
 - Change license info to Apache 2.0. :issue:`SW-776`
 
-Version 7.5 (2024-12-12)
-========================
+Version 7.5.0 (2024-12-12)
+==========================
 
 Features
 --------
 
 - Bump exa-experiments
 
-Version 7.4 (2024-12-10)
-========================
+Version 7.4.0 (2024-12-10)
+==========================
 
 Bug fix
 -------
 
 - Improve documentation structure.
 
-Version 7.3 (2024-12-09)
-========================
+Version 7.3.0 (2024-12-09)
+==========================
 
 Features
 --------
 
 Fix extlinks to MRs and issues in sphinx docs config :issue:`SW-916`
 
-Version 7.2 (2024-12-05)
-========================
+Version 7.2.0 (2024-12-05)
+==========================
 
 Features
 --------
 
 - Fix intersphinx reference paths in docs :issue:`SW-916`
 
-Version 7.1 (2024-12-04)
-========================
+Version 7.1.0 (2024-12-04)
+==========================
 
 Features
 --------
 
 - Bump version for an updated repo organization. No functional changes. :issue:`SW-665`
 
-Version 7.0 (2024-11-29)
-========================
+Version 7.0.0 (2024-11-29)
+==========================
 
 Breaking changes
 ----------------
@@ -459,16 +472,16 @@ Bug fixes
 - Fix the behaviour of U gates: normalization of angle and phases, and pass the correct variable to the schedule
   in case the RY is realized with two or more phased SX pulses instead of one.
 
-Version 6.14 (2024-11-27)
-=========================
+Version 6.14.0 (2024-11-27)
+===========================
 
 Features
 --------
 
 - Add :class:`CouplerFluxPulseQubitACStarkPulseGate` Pulse, which is a base class for AC Stark pulsed CZ gates.
 
-Version 6.13 (2024-11-20)
-=========================
+Version 6.13.0 (2024-11-20)
+===========================
 
 Features
 --------
@@ -477,16 +490,16 @@ Features
   :class:`.Wait` s inserted by the scheduling algorithm to idle the qubits, since the former is more
   correct semantically, and will not be disturbed by dynamical decoupling.
 
-Version 6.12 (2024-11-19)
-=========================
+Version 6.12.0 (2024-11-19)
+===========================
 
 Features
 --------
 
 - Bump version for an updated repo organization. No functional changes. :issue:`SW-774`
 
-Version 6.11 (2024-11-18)
-=========================
+Version 6.11.0 (2024-11-18)
+===========================
 
 Bug fixes
 ---------
@@ -494,24 +507,24 @@ Bug fixes
 - Hard box scheduling no longer uses floats anywhere, and does not leak them into the finished schedule.
 
 
-Version 6.10 (2024-11-15)
-=========================
+Version 6.10.0 (2024-11-15)
+===========================
 
 Bug fixes
 ---------
 
 - Remove iqm-internal web links in customer docs artifacts.
 
-Version 6.9 (2024-11-13)
-========================
+Version 6.9.0 (2024-11-13)
+==========================
 
 Bug fixes
 ---------
 
 - Fix ResetWait gate for computational resonators
 
-Version 6.8 (2024-11-12)
-========================
+Version 6.8.0 (2024-11-12)
+==========================
 
 Features
 --------
@@ -524,8 +537,8 @@ Features
     - The timeline axis is no longer shown, as it was broken when instructions are truncated (this
       will be fixed and redisplayed in an upcoming release).
 
-Version 6.7 (2024-11-12)
-========================
+Version 6.7.0 (2024-11-12)
+==========================
 
 Bug fixes
 ---------
@@ -533,8 +546,8 @@ Bug fixes
 - Prefer system fonts in schedule viewer. :mr:`358`
 - Fix typos in API docs. :mr:`358`
 
-Version 6.6 (2024-11-08)
-========================
+Version 6.6.0 (2024-11-08)
+==========================
 
 Features
 --------

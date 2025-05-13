@@ -2,101 +2,114 @@
 Changelog
 =========
 
-Version 3.16 (2025-04-22)
-=========================
+Version 3.17.0 (2025-05-12)
+===========================
 
 Features
 --------
 
 - Update dependency on exa-common
 
-Version 3.15 (2025-04-11)
-=========================
+Version 3.16.1 (2025-05-12)
+===========================
+
+- Test patch versioning, no functional changes. :issue:`SW-1429`
+
+Version 3.16.0 (2025-04-22)
+===========================
+
+Features
+--------
+
+- Update dependency on exa-common
+
+Version 3.15.0 (2025-04-11)
+===========================
 
 Bug fixes
 ---------
 
 - Update license
 
-Version 3.14 (2025-04-10)
-=========================
+Version 3.14.0 (2025-04-10)
+===========================
 
 Bug fixes
 ---------
 
 - Fix broken iqm-server-client initialization
 
-Version 3.13 (2025-04-07)
-=========================
+Version 3.13.0 (2025-04-07)
+===========================
 
 Features
 --------
 
 - Add partial IQM Server backend support to Station Control client to enable Pulla usage through IQM Server
 
-Version 3.12 (2025-04-07)
-=========================
+Version 3.12.0 (2025-04-07)
+===========================
 
 Features
 --------
 
 - Fix package version in published docs footers, :issue:`SW-1392`. 
 
-Version 3.11 (2025-04-03)
-=========================
+Version 3.11.0 (2025-04-03)
+===========================
 
 Feature
 *******
 
 - Enable PEP 604 in linting rules, :issue:`SW-1230`.
 
-Version 3.10 (2025-04-03)
-=========================
+Version 3.10.0 (2025-04-03)
+===========================
 
 Features
 --------
 
 - Add versioning for station control API. :issue:`SW-898`
 
-Version 3.9 (2025-04-02)
-========================
+Version 3.9.0 (2025-04-02)
+==========================
 
 Features
 ********
 
 - Update the documentation footer to display the package version.
 
-Version 3.8 (2025-03-19)
-========================
+Version 3.8.0 (2025-03-19)
+==========================
 
 Bug fixes
 ---------
 
 - Update dependency on exa-common
 
-Version 3.7 (2025-03-11)
-========================
+Version 3.7.0 (2025-03-11)
+==========================
 
 Features
 --------
 
 - Bump pulla
 
-Version 3.6 (2025-03-07)
-========================
+Version 3.6.0 (2025-03-07)
+==========================
 
 Bug fix
 -------
 
 - Fix error message formatting of server-side errors.
 
-Version 3.5 (2025-03-05)
-========================
+Version 3.5.0 (2025-03-05)
+==========================
 
 - Bump station control dependencies
 
-Version 3.4 (2025-03-05)
-========================
+Version 3.4.0 (2025-03-05)
+==========================
 
 Features
 --------
@@ -106,8 +119,8 @@ Features
 - Use HTTPStatus code names instead of numbers for better clarity. No functional changes.
 - The ``/docs`` endpoint shows relevant metadata, e.g. the package version.
 
-Version 3.3 (2025-02-28)
-========================
+Version 3.3.0 (2025-02-28)
+==========================
 
 Features
 --------
@@ -116,24 +129,24 @@ Features
   :issue:`SW-1078`
 
 
-Version 3.2 (2025-02-28)
-========================
+Version 3.2.0 (2025-02-28)
+==========================
 
 
 Bug fix
 -------
 - Bump exa-common
 
-Version 3.1 (2025-02-27)
-========================
+Version 3.1.0 (2025-02-27)
+==========================
 
 Features
 --------
 
 * Bump EXA version.
 
-Version 3.0 (2025-02-27)
-========================
+Version 3.0.0 (2025-02-27)
+==========================
 
 Breaking changes
 ****************
@@ -143,18 +156,18 @@ Breaking changes
 - Removed deprecated ``StationControlClient.get_chad`` and ``StationControlClient.get_qubit_design_properties``.
 - Removed deprecated field ``SweepDefinition.playlists`` use ``.playlist`` instead.
 
-Version 2.20 (2025-02-19)
-=========================
+Version 2.20.0 (2025-02-19)
+===========================
 
 - Bump station-control dependencies.
 
-Version 2.19 (2025-02-18)
-=========================
+Version 2.19.0 (2025-02-18)
+===========================
 
 Bump exa-data, iqm-data-definitions versions.
 
-Version 2.18 (2025-02-04)
-=========================
+Version 2.18.0 (2025-02-04)
+===========================
 
 Features
 --------
@@ -162,8 +175,8 @@ Features
 - Refactor codebase to new lint rules. No functional changes. :issue:`SW-467`
 
 
-Version 2.17 (2025-02-04)
-=========================
+Version 2.17.0 (2025-02-04)
+===========================
 
 Features
 --------
@@ -171,135 +184,135 @@ Features
 - Refactor codebase to new lint rules. No functional changes. :issue:`SW-467`
 
 
-Version 2.16 (2025-01-30)
-=========================
+Version 2.16.0 (2025-01-30)
+===========================
 
 Features
 --------
 
 - Implement callback to display progress bars for task execution :issue:`SW-881`
 
-Version 2.15 (2025-01-28)
-=========================
+Version 2.15.0 (2025-01-28)
+===========================
 
 Features
 ********
 - Support broader range of `numpy` versions and verify compatibily with ruff, see migration guide `https://numpy.org/doc/stable/numpy_2_0_migration_guide.html`.
 
-Version 2.14 (2025-01-28)
-=========================
+Version 2.14.0 (2025-01-28)
+===========================
 
 Features
 --------
 
 - Bump exa-common.
 
-Version 2.13 (2025-01-27)
-=========================
+Version 2.13.0 (2025-01-27)
+===========================
 
 Features
 --------
 
 - Bump version for an updated repo organization. No functional changes. :issue:`SW-1042`
 
-Version 2.12 (2025-01-24)
-=========================
+Version 2.12.0 (2025-01-24)
+===========================
 
 Features
 --------
 
 * Add serialisation and deserialisation for channel properties
 
-Version 2.11 (2025-01-10)
-=========================
+Version 2.11.0 (2025-01-10)
+===========================
 
 Features
 --------
 
 - Log meta.errors is station control responses automatically. :issue:`SW-514`.
 
-Version 2.10 (2025-01-08)
-=========================
+Version 2.10.0 (2025-01-08)
+===========================
 
 Features
 --------
 
 - Remove gitlab links from public pages. :issue:`SW-776`
 
-Version 2.9 (2024-12-30)
-========================
+Version 2.9.0 (2024-12-30)
+==========================
 
 Features
 --------
 
 - Minor typos fixed. :issue:`SW-776`
 
-Version 2.8 (2024-12-30)
-========================
+Version 2.8.0 (2024-12-30)
+==========================
 
 Features
 --------
 
 - Change license info to Apache 2.0. :issue:`SW-776`
 
-Version 2.7 (2024-12-17)
-========================
+Version 2.7.0 (2024-12-17)
+==========================
 
 Features
 --------
 
 - Remove hardcoded iqm-internal links from docstrings :issue:`SW-977`
 
-Version 2.6 (2024-12-12)
-========================
+Version 2.6.0 (2024-12-12)
+==========================
 
 Features
 --------
 
 - Bump exa-experiments
 
-Version 2.5 (2024-12-10)
-========================
+Version 2.5.0 (2024-12-10)
+==========================
 
 Features
 ********
 
 - Make `observation_ids` in `ObservationSetUpdate` optional. `SW-926`
 
-Version 2.4 (2024-12-09)
-========================
+Version 2.4.0 (2024-12-09)
+==========================
 
 Features
 --------
 
 Fix extlinks to MRs and issues in sphinx docs config :issue:`SW-916`
 
-Version 2.3 (2024-12-05)
-========================
+Version 2.3.0 (2024-12-05)
+==========================
 
 Features
 --------
 
 - Fix intersphinx reference paths in docs :issue:`SW-916`
 
-Version 2.2 (2024-12-05)
-========================
+Version 2.2.0 (2024-12-05)
+==========================
 
 Features
 --------
 
 - Add `characterization-set` to observation set pydantic model. `SW-845`
 
-Version 2.1 (2024-12-04)
-========================
+Version 2.1.0 (2024-12-04)
+==========================
 
 Features
 --------
 
 - Bump version for an updated repo organization. No functional changes. :issue:`SW-665`
 
-Version 2.0 (2024-11-22)
-========================
+Version 2.0.0 (2024-11-22)
+==========================
 
 Breaking changes
 ****************
@@ -315,24 +328,24 @@ Bug fixes
   This affected only when serializing list of objects at once (for example when saving multiple observations),
   endpoints dealing with single object were working as expected. :issue:`SW-865`
 
-Version 1.23 (2024-11-19)
-=========================
+Version 1.23.0 (2024-11-19)
+===========================
 
 Features
 --------
 
 - Bump version for an updated repo organization. No functional changes. :issue:`SW-774`
 
-Version 1.22 (2024-11-15)
-=========================
+Version 1.22.0 (2024-11-15)
+===========================
 
 Bug fixes
 ---------
 
 - Remove iqm-internal web links in customer docs artifacts.
 
-Version 1.21 (2024-11-12)
-=========================
+Version 1.21.0 (2024-11-12)
+===========================
 
 Features
 ********
@@ -341,16 +354,16 @@ Features
   with added attributes, and 2.) to make it possible to convert inheriting classes to ObservationDefinition without
   removing extra attributes. Part of :issue:`SW-774`.
 
-Version 1.20 (2024-11-11)
-=========================
+Version 1.20.0 (2024-11-11)
+===========================
 
 Features
 --------
 
 - Adds "gbc-set" observation set type. :issue:`GBC-672`
 
-Version 1.19 (2024-11-08)
-=========================
+Version 1.19.0 (2024-11-08)
+===========================
 
 Features
 --------

@@ -2,224 +2,237 @@
 Changelog
 =========
 
-Version 7.14 (2025-04-22)
-=========================
+Version 7.15.0 (2025-05-12)
+===========================
 
 Features
 --------
 
 - Update dependency on station-control-client
 
-Version 7.13 (2025-04-17)
-=========================
+Version 7.14.1 (2025-05-12)
+===========================
+
+- Test patch versioning, no functional changes. :issue:`SW-1429`
+
+Version 7.14.0 (2025-04-22)
+===========================
+
+Features
+--------
+
+- Update dependency on station-control-client
+
+Version 7.13.0 (2025-04-17)
+===========================
 
 Bug fixes
 ---------
 
 - Fix broken search input window and shortcut
 
-Version 7.12 (2025-04-17)
-=========================
+Version 7.12.0 (2025-04-17)
+===========================
 
 Features
 --------
 
 - Bump `iqm-client`, no functional changes.
 
-Version 7.11 (2025-04-11)
-=========================
+Version 7.11.0 (2025-04-11)
+===========================
 
 Bug fixes
 ---------
 
 - Update dependency on iqm-client
 
-Version 7.10 (2025-04-11)
-=========================
+Version 7.10.0 (2025-04-11)
+===========================
 
 Bug fixes
 ---------
 
 - Replace static station url to dynamic in line with other example notebooks.
 
-Version 7.9 (2025-04-10)
-========================
+Version 7.9.0 (2025-04-10)
+==========================
 
 Bug fixes
 ---------
 
 - Update dependency on station-control-client
 
-Version 7.8 (2025-04-10)
-========================
+Version 7.8.0 (2025-04-10)
+==========================
 
 Features
 --------
 
 - Update dependency on iqm-client
 
-Version 7.7 (2025-04-09)
-========================
+Version 7.7.0 (2025-04-09)
+==========================
 
 Bug fixes
 ---------
 
 - Update dependency on iqm-client
 
-Version 7.6 (2025-04-09)
-========================
+Version 7.6.0 (2025-04-09)
+==========================
 
 Features
 --------
 
 - Bump exa-common and iqm-pulse.
 
-Version 7.5 (2025-04-09)
-========================
+Version 7.5.0 (2025-04-09)
+==========================
 
 Bug fixes
 ---------
 
 - Update dependency on iqm-client
 
-Version 7.4 (2025-04-09)
-========================
+Version 7.4.0 (2025-04-09)
+==========================
 
 Features
 --------
 
 - Update Cortex CLI to IQM Client CLI in documentation.
 
-Version 7.3 (2025-04-07)
-========================
+Version 7.3.0 (2025-04-07)
+==========================
 
 Bug fixes
 ---------
 
 - Fix docs links to ``iqm.qiskit_iqm``.
 
-Version 7.2 (2025-04-07)
-========================
+Version 7.2.0 (2025-04-07)
+==========================
 
 Features
 --------
 
 - Enable Pulla usage with IQM Server backends
 
-Version 7.1 (2025-04-07)
-========================
+Version 7.1.0 (2025-04-07)
+==========================
 
 Features
 --------
 
 - Fix package version in published docs footers, :issue:`SW-1392`. 
 
-Version 7.0 (2025-04-04)
-========================
+Version 7.0.0 (2025-04-04)
+==========================
 
 Features
 --------
 
 - Replace the old quantum architecture with :class:`DynamicQuantumArchitecture` in :class:`IQMPullaBackend.__init__`.
 
-Version 6.19 (2025-04-03)
-=========================
+Version 6.19.0 (2025-04-03)
+===========================
 
 Feature
 *******
 
 - Enable PEP 604 in linting rules, :issue:`SW-1230`.
 
-Version 6.18 (2025-04-03)
-=========================
+Version 6.18.0 (2025-04-03)
+===========================
 
 Bug fixes
 ---------
 
 - Pulla QIR example now correctly remaps qubits
 
-Version 6.17 (2025-04-02)
-=========================
+Version 6.17.0 (2025-04-02)
+===========================
 
 Features
 ********
 
 - Update the documentation footer to display the package version.
 
-Version 6.16 (2025-04-02)
-=========================
+Version 6.16.0 (2025-04-02)
+===========================
 
 Features
 --------
 
 - Fix links to client library docs in docstrings.
 
-Version 6.15 (2025-03-28)
-=========================
+Version 6.15.0 (2025-03-28)
+===========================
 
 Changes
 -------
 
 - Bump iqm-pulse
 
-Version 6.14 (2025-03-27)
-=========================
+Version 6.14.0 (2025-03-27)
+===========================
 
 Features
 --------
 
 - Update dependency on iqm-pulse
 
-Version 6.13 (2025-03-26)
-=========================
+Version 6.13.0 (2025-03-26)
+===========================
 
 Features
 --------
 
 - Update dependency on iqm-pulse
 
-Version 6.12 (2025-03-25)
-=========================
+Version 6.12.0 (2025-03-25)
+===========================
 
 Features
 --------
 
 - Update links to ``qiskit_iqm`` documentation.
 
-Version 6.11 (2025-03-24)
-=========================
+Version 6.11.0 (2025-03-24)
+===========================
 
 Features
 --------
 
 * Update dependencies, no functional changes.
 
-Version 6.10 (2025-03-21)
-=========================
+Version 6.10.0 (2025-03-21)
+===========================
 
 Features
 --------
 
 - Bump dependencies.
 
-Version 6.9 (2025-03-19)
-========================
+Version 6.9.0 (2025-03-19)
+==========================
 
 Bug fixes
 ---------
 
 - Update dependency on station-control-client
 
-Version 6.8 (2025-03-12)
-========================
+Version 6.8.0 (2025-03-12)
+==========================
 
 Bugfix
 --------
 
 - Small issue where extra characters were left in the notebook from SW-1005. :issue:`SW-1005`
 
-Version 6.7 (2025-03-11)
-========================
+Version 6.7.0 (2025-03-11)
+==========================
 
 Bugfix
 --------
@@ -227,21 +240,21 @@ Bugfix
 - Only raise a warning when a custom QIR-profile is submitted, such that qiskit circuits
 can be converted to QIR and submitted to our devices. :issue:`SW-1005`
 
-Version 6.6 (2025-03-10)
-========================
+Version 6.6.0 (2025-03-10)
+==========================
 
 Bump dependencies.
 
-Version 6.5 (2025-03-05)
-========================
+Version 6.5.0 (2025-03-05)
+==========================
 
 Features
 --------
 
 - Bump version for an updated repo organization. No functional changes. :issue:`SW-1015`
 
-Version 6.4 (2025-03-05)
-========================
+Version 6.4.0 (2025-03-05)
+==========================
 
 Features
 --------
@@ -249,28 +262,28 @@ Features
 - Remove general RequestError and use new specific error classes instead.
 - Use HTTPStatus code names instead of numbers for better clarity. No functional changes.
 
-Version 6.3 (2025-03-04)
-========================
+Version 6.3.0 (2025-03-04)
+==========================
 
 Bug fix
 -------
 - Pulla compiler's station settings are now generated with correct paths.
 
-Version 6.2 (2025-03-03)
-========================
+Version 6.2.0 (2025-03-03)
+==========================
 
 - Bump exa-common
 
-Version 6.1 (2025-02-28)
-========================
+Version 6.1.0 (2025-02-28)
+==========================
 
 
 Bug fix
 -------
 - Bump exa-common
 
-Version 6.0 (2025-02-27)
-========================
+Version 6.0.0 (2025-02-27)
+==========================
 
 Features
 --------
@@ -278,8 +291,8 @@ Features
 - Adapt to setting tree reorganization
 - Replace deprecated usages of ``DataType.NUMBER`` with either new ``DataType.FLOAT`` or ``DataType.INT``.
 
-Version 5.28 (2025-02-25)
-=========================
+Version 5.28.0 (2025-02-25)
+===========================
 
 Features
 --------
@@ -287,32 +300,32 @@ Features
 - Fix broken Configuration and Usage guide.
 - Bump Qiskit dependencies.
 
-Version 5.27 (2025-02-24)
-=========================
+Version 5.27.0 (2025-02-24)
+===========================
 
 Bug fix
 -------
 
 - Do not attempt to apply dynamical decoupling (DD) sequences on components with virtual drive channels (e.g. computational resonators). This enables DD to be used on stations with star architectures.
 
-Version 5.26 (2025-02-24)
-=========================
+Version 5.26.0 (2025-02-24)
+===========================
 
 Features
 --------
 
 - Remove unintentional section from Quick start guide.
 
-Version 5.25 (2025-02-19)
-=========================
+Version 5.25.0 (2025-02-19)
+===========================
 
 Features
 --------
 
 - Require ``qiskit-iqm >= 17.0`` in the optional ``qiskit`` dependencies.
 
-Version 5.24 (2025-02-12)
-=========================
+Version 5.24.0 (2025-02-12)
+===========================
 
 Features
 --------
@@ -321,24 +334,24 @@ Features
   :issue:`SW-905`
 - Add example notebook for using locally created calibration set with Pulla. :issue:`SW-905`.
 
-Version 5.23 (2025-02-11)
-=========================
+Version 5.23.0 (2025-02-11)
+===========================
 
 Features
 --------
 
 - Add missing QIR example user guide to HTML rendered docs.
 
-Version 5.22 (2025-02-10)
-=========================
+Version 5.22.0 (2025-02-10)
+===========================
 
 Features
 --------
 
 - Bump ``iqm-pulse``.
 
-Version 5.21 (2025-02-04)
-=========================
+Version 5.21.0 (2025-02-04)
+===========================
 
 Features
 --------
@@ -346,8 +359,8 @@ Features
 - Refactor codebase to new lint rules. No functional changes. :issue:`SW-467`
 
 
-Version 5.20 (2025-02-04)
-=========================
+Version 5.20.0 (2025-02-04)
+===========================
 
 Features
 --------
@@ -355,21 +368,21 @@ Features
 - Refactor codebase to new lint rules. No functional changes. :issue:`SW-467`
 
 
-Version 5.19 (2025-02-03)
-=========================
+Version 5.19.0 (2025-02-03)
+===========================
 
 * Bump iqm-pulse
 
-Version 5.18 (2025-01-30)
-=========================
+Version 5.18.0 (2025-01-30)
+===========================
 
 Features
 --------
 
 - Display progress bar(s) when user sends circuit for execution using :meth:`.Pulla.execute`. :issue:`SW-881`
 
-Version 5.17 (2025-01-30)
-=========================
+Version 5.17.0 (2025-01-30)
+===========================
 
 Features
 ********
@@ -381,52 +394,52 @@ Bug fix
 
 - Fixed that modifying the calibration also modified the original calibration stored on the client-side cache.
 
-Version 5.16 (2025-01-28)
-=========================
+Version 5.16.0 (2025-01-28)
+===========================
 
 Bump iqm-pulse.
 
-Version 5.15 (2025-01-28)
-=========================
+Version 5.15.0 (2025-01-28)
+===========================
 
 Features
 ********
 - Bump `iqm-data-definitions`, no functional changes.
 
-Version 5.14 (2025-01-28)
-=========================
+Version 5.14.0 (2025-01-28)
+===========================
 
 Features
 --------
 
 - Bump exa-common and iqm-pulse.
 
-Version 5.13 (2025-01-27)
-=========================
+Version 5.13.0 (2025-01-27)
+===========================
 
 Features
 --------
 
 - Adjust dependencies.
 
-Version 5.12 (2025-01-21)
-=========================
+Version 5.12.0 (2025-01-21)
+===========================
 
 Bugfix
 --------
 
 - Make QIR program example compatible with more devices. :issue:`SW-1056`
 
-Version 5.11 (2025-01-15)
-=========================
+Version 5.11.0 (2025-01-15)
+===========================
 
 Bugfix
 --------
 
 - Replace user-given measurement keys to be safe and compatible with exa-db. :issue:`SW-897`
 
-Version 5.10 (2025-01-09)
-=========================
+Version 5.10.0 (2025-01-09)
+===========================
 
 Features
 --------
@@ -436,88 +449,88 @@ Features
 - :class:`.StationControlResult` returned by :meth:`.Pulla.execute` now contains the ``start_time`` and ``end_time``
   even if the task failed.
 
-Version 5.9 (2025-01-08)
-========================
+Version 5.9.0 (2025-01-08)
+==========================
 
 Features
 --------
 
 - Remove gitlab links from public pages. :issue:`SW-776`
 
-Version 5.8 (2025-01-07)
-========================
+Version 5.8.0 (2025-01-07)
+==========================
 
 Features
 --------
 
 - Revoke Station Control task when user aborts Pulla execution. :issue:`SW-899`
 
-Version 5.7 (2024-12-30)
-========================
+Version 5.7.0 (2024-12-30)
+==========================
 
 Features
 --------
 
 - Update licensing and bump Station Control Client and IQM Pulse dependencies. :issue:`SW-776`
 
-Version 5.6 (2024-12-12)
-========================
+Version 5.6.0 (2024-12-12)
+==========================
 
 Features
 --------
 
 - Bump exa-experiments
 
-Version 5.5 (2024-12-11)
-========================
+Version 5.5.0 (2024-12-11)
+==========================
 
 Features
 --------
 
 - Improvements in the example notebooks.
 
-Version 5.4 (2024-12-10)
-========================
+Version 5.4.0 (2024-12-10)
+==========================
 
 Bug fix
 -------
 
 - Improve documentation structure.
 
-Version 5.3 (2024-12-09)
-========================
+Version 5.3.0 (2024-12-09)
+==========================
 
 Features
 --------
 
 Fix extlinks to MRs and issues in sphinx docs config :issue:`SW-916`
 
-Version 5.2 (2024-12-05)
-========================
+Version 5.2.0 (2024-12-05)
+==========================
 
 Features
 --------
 
 - Fix intersphinx reference paths in docs :issue:`SW-916`
 
-Version 5.1 (2024-12-05)
-========================
+Version 5.1.0 (2024-12-05)
+==========================
 
 Features
 ********
 
 - Pulla now support base QIR profile as the circuit definition. :issue:`SW-865`
 
-Version 5.0 (2024-12-05)
-========================
+Version 5.0.0 (2024-12-05)
+==========================
 
 Features
 --------
 
 - Added :attr:`.StationControlResult.sweep_id` and :attr:`.StationControlResult.task_id`. :issue:`SW-807`
 
-Version 4.8 (2024-12-04)
-========================
+Version 4.8.0 (2024-12-04)
+==========================
 
 Features
 --------
@@ -525,16 +538,16 @@ Features
 - By default, :class:`iqm.pulla.cpc.Compiler` can now be initialized with calibration data failing validation.
   :issue:`SW-867`
 
-Version 4.7 (2024-12-04)
-========================
+Version 4.7.0 (2024-12-04)
+==========================
 
 Features
 --------
 
 - Bump version for an updated repo organization. No functional changes. :issue:`SW-665`
 
-Version 4.6 (2024-11-29)
-========================
+Version 4.6.0 (2024-11-29)
+==========================
 
 Features
 --------
@@ -542,32 +555,32 @@ Features
 - Adjust the conftest calibration set for NDonis to include the parameter ``detuning`` of all MOVE gate
   nodes, containing the difference of the qubit and resonator frequency.
 
-Version 4.5 (2024-11-27)
-========================
+Version 4.5.0 (2024-11-27)
+==========================
 
 Features
 --------
 
 - Added :class:`iqm.pulla.utils_qiskit.IQMPullaBackend` allowing to use Pulla as a backend in Qiskit. :issue:`SW-821`
 
-Version 4.4 (2024-11-27)
-========================
+Version 4.4.0 (2024-11-27)
+==========================
 
 Features
 --------
 
 - Implement Dynamical Decoupling as a standard compilation stage. :issue:`HCS-432`
 
-Version 4.3 (2024-11-22)
-========================
+Version 4.3.0 (2024-11-22)
+==========================
 
 Features
 ********
 
 - Update to the latest station-control-client. :issue:`SW-865`
 
-Version 4.2 (2024-11-21)
-========================
+Version 4.2.0 (2024-11-21)
+==========================
 
 Bug fix
 -------
@@ -575,8 +588,8 @@ Bug fix
 - Fix a CircuitExecutionError when submitting a batch of circuits measuring different qubits, with heralding enabled.
   :issue:`SW-880`
 
-Version 4.1 (2024-11-19)
-========================
+Version 4.1.0 (2024-11-19)
+==========================
 
 Features
 --------
