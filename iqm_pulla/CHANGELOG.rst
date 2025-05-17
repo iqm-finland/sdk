@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 7.16.0 (2025-05-16)
+===========================
+
+Features
+--------
+- task management now uses `JobStatus` instead of `SweepStatus`. :issue:`SW-948`.
+
 Version 7.15.0 (2025-05-12)
 ===========================
 

@@ -49,7 +49,8 @@ from iqm.pulse.playlist.channel import ChannelProperties, get_channel_properties
 from iqm.pulse.playlist.playlist import Playlist
 from iqm.station_control.client.station_control import StationControlClient
 from iqm.station_control.client.utils import get_progress_bar_callback
-from iqm.station_control.interface.models.sweep import SweepDefinition, SweepStatus
+from iqm.station_control.interface.models import JobStatus
+from iqm.station_control.interface.models.sweep import SweepDefinition
 
 #    ██████  ██    ██ ██      ██       █████
 #    ██   ██ ██    ██ ██      ██      ██   ██
@@ -236,36 +237,33 @@ class Pulla:
                 sweeps=[],
             )
         )
-        sweep_id = uuid.UUID(sweep_response["sweep_id"])
-        task_id = uuid.UUID(sweep_response["task_id"])
+        job_id = uuid.UUID(sweep_response["job_id"])
         try:
-            logger.info("Submitted sweep with ID: %s", sweep_id)
-            logger.info("Created task in queue with ID: %s", task_id)
-            if href := sweep_response.get("sweep_href"):
-                logger.info("Sweep link: %s", href)
-            if href := sweep_response.get("task_href"):
-                logger.info("Task link: %s", href)
+            logger.info("Created job in queue with ID: %s", job_id)
+            if href := sweep_response.get("job_href"):
+                logger.info("Job link: %s", href)
 
-            logger.info("Waiting for the sweep to finish...")
+            logger.info("Waiting for the job to finish...")
 
             while True:
-                sweep_data = self._station_control_client.get_sweep(sweep_id)
-                sc_result = StationControlResult(sweep_id=sweep_id, task_id=task_id, status=TaskStatus.PENDING)
+                sweep_data = self._station_control_client.get_sweep(job_id)
+                sc_result = StationControlResult(sweep_id=job_id, task_id=job_id, status=TaskStatus.PENDING)
 
-                if sweep_data.sweep_status in (SweepStatus.PENDING, SweepStatus.PROGRESS):
+                if sweep_data.job_status <= JobStatus.EXECUTION_START:
                     # Wait in the task queue while showing a progress bar
-                    interrupted = self._station_control_client._wait_task_completion(
-                        str(task_id), get_progress_bar_callback()
+
+                    interrupted = self._station_control_client._wait_job_completion(
+                        str(job_id), get_progress_bar_callback()
                     )
                     if interrupted:
                         raise KeyboardInterrupt
 
-                elif sweep_data.sweep_status == SweepStatus.SUCCESS:
-                    logger.info("Sweep status: %s", str(sweep_data.sweep_status))
+                elif sweep_data.job_status == JobStatus.READY:
+                    logger.info("Sweep status: %s", str(sweep_data.job_status))
 
                     sc_result.status = TaskStatus.READY
                     sc_result.result = map_sweep_results_to_logical_qubits(
-                        self._station_control_client.get_sweep_results(sweep_id),
+                        self._station_control_client.get_sweep_results(job_id),
                         context["readout_mappings"],
                         context["options"].heralding_mode,
                     )
@@ -280,37 +278,33 @@ class Pulla:
 
                     return sc_result
 
-                elif sweep_data.sweep_status == SweepStatus.FAILURE:
+                elif sweep_data.job_status == JobStatus.FAILED:
                     sc_result.status = TaskStatus.FAILED
                     sc_result.start_time = (
                         sweep_data.begin_timestamp.isoformat() if sweep_data.begin_timestamp else None
                     )
                     sc_result.end_time = sweep_data.end_timestamp.isoformat() if sweep_data.end_timestamp else None
-                    task = self._station_control_client.get_task(task_id)
-                    sc_result.message = task["task_error"] + (
-                        task["task_result"]["message"] if task["task_result"] and task["task_result"]["message"] else ""
-                    )
+                    job = self._station_control_client.get_job(job_id)
+                    sc_result.message = job["job_error"]
                     logger.error("Submission failed! Error: %s", sc_result.message)
                     return sc_result
 
-                elif sweep_data.sweep_status in (SweepStatus.REVOKED, SweepStatus.INTERRUPTED):
+                elif sweep_data.job_status == JobStatus.ABORTED:
                     sc_result.status = TaskStatus.FAILED
                     sc_result.start_time = (
                         sweep_data.begin_timestamp.isoformat() if sweep_data.begin_timestamp else None
                     )
                     sc_result.end_time = sweep_data.end_timestamp.isoformat() if sweep_data.end_timestamp else None
-                    task = self._station_control_client.get_task(task_id)
-                    sc_result.message = task["task_error"] + (
-                        task["task_result"]["message"] if task["task_result"] and task["task_result"]["message"] else ""
-                    )
+                    job = self._station_control_client.get_job(job_id)
+                    sc_result.message = job["job_error"]
                     logger.error("Submission was revoked!")
                     return sc_result
 
                 time.sleep(1)
 
         except KeyboardInterrupt as exc:
-            logger.info("Caught KeyboardInterrupt, revoking task %s", task_id)
-            self._station_control_client.revoke_sweep(sweep_id)
+            logger.info("Caught KeyboardInterrupt, revoking job %s", job_id)
+            self._station_control_client.abort_job(job_id)
             raise KeyboardInterrupt from exc
 
 

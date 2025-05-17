@@ -121,7 +121,7 @@ class StationControlResult:
 
     sweep_id: UUID
     """ID of the executed sweep"""
-    task_id: UUID
+    task_id: UUID  # TODO? Rename to job_id
     """ID of the station control task"""
     status: TaskStatus
     """Status of the station control task"""

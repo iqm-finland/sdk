@@ -113,16 +113,13 @@ def pulla_on_spark(request, monkeypatch):
             response = Response()
             response.status_code = HTTPStatus.OK
             response.json = lambda: {
-                "task_id": "c2d31ae9-e749-4835-8450-0df10be5d1c1",
-                "sweep_id": "8a28be71-b819-419d-bfcb-9ed9186b7473",
+                "job_id": "c2d31ae9-e749-4835-8450-0df10be5d1c1",
                 # TODO SW-1387: Use v1 API
-                # "task_href": f"{root_url}/station/v1/tasks/c2d31ae9-e749-4835-8450-0df10be5d1c1",
+                # "job_href": f"{root_url}/station/v1/jobs/c2d31ae9-e749-4835-8450-0df10be5d1c1",
                 # "sweep_href": f"{root_url}/station/v1/sweeps/8a28be71-b819-419d-bfcb-9ed9186b7473",
-                "task_href": f"{root_url}/station/tasks/c2d31ae9-e749-4835-8450-0df10be5d1c1",
-                "sweep_href": f"{root_url}/station/sweeps/8a28be71-b819-419d-bfcb-9ed9186b7473",
+                "job_href": f"{root_url}/station/jobs/c2d31ae9-e749-4835-8450-0df10be5d1c1",
             }
             return response
-
         return HTTPResponse(404)
 
     monkeypatch.setattr(requests, "get", mocked_requests_get)
