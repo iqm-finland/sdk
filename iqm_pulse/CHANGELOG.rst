@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 9.9.0 (2025-05-19)
+==========================
+
+Bug fixes
+---------
+
+- Add rounding for reset wait gate
+
 Version 9.8.0 (2025-05-12)
 ==========================
 

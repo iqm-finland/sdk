@@ -118,7 +118,7 @@ class Reset_Wait(GateImplementation):
         Does not block any additional components beside the locus itself.
         """
         if len(self.locus) == 1:
-            waits_box = self.builder.wait(self.locus, self.calibration_data["duration"])
+            waits_box = self.builder.wait(self.locus, self.calibration_data["duration"], rounding=True)
         else:
             prio_calibration = self.calibration_data if self.calibration_data else None
             waits_box = TimeBox.composite(
