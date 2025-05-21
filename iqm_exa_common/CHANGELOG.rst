@@ -2,6 +2,15 @@
 Changelog
 =========
 
+Version 26.19.0 (2025-05-20)
+============================
+
+Features
+--------
+
+- Bump NumPy dependency to 1.26.4.
+- Bump ``iqm-data-definitions``.
+
 Version 26.18.0 (2025-05-12)
 ============================
 
