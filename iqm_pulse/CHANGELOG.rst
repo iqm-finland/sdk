@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 9.10.0 (2025-05-21)
+===========================
+
+Features
+--------
+
+- Fix cocos path in ruff isort to run isort for cocos correctly.
+
 Version 9.9.0 (2025-05-19)
 ==========================
 

@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 7.18.0 (2025-05-21)
+===========================
+
+Features
+--------
+
+- Fix cocos path in ruff isort to run isort for cocos correctly.
+
 Version 7.17.0 (2025-05-19)
 ===========================
 
