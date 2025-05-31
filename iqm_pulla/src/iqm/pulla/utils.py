@@ -25,7 +25,7 @@ import numpy as np
 from exa.common.data.setting_node import SettingNode
 from exa.common.data.value import ObservationValue
 from exa.common.qcm_data.chip_topology import ChipTopology
-from iqm.cpc.compiler.errors import InsufficientContextError
+from iqm.cpc.compiler.errors import CalibrationError, InsufficientContextError, UnknownCircuitExecutionOptionError
 from iqm.cpc.compiler.station_settings import build_station_settings
 from iqm.cpc.interface.compiler import Circuit as CPC_Circuit
 from iqm.cpc.interface.compiler import (
@@ -417,7 +417,7 @@ def calset_to_cal_data_tree(calibration_set: CalibrationSet) -> OpCalibrationDat
         path = key.split(".")
         if path[0] == "gates":
             if len(path) < 5:
-                raise ValueError(f"Calibration observation name '{key}' is malformed.")
+                raise CalibrationError(f"Calibration observation name '{key}' is malformed.")
             # treat the locus specially
             locus = tuple(path[3].split(LOCUS_SEPARATOR))
             locus = () if locus == ("",) else locus
@@ -480,7 +480,7 @@ def _update_channel_props_from_calibration(
             if center_frequency is None:
                 center_frequency = calset.get(f"controllers.{component}.readout.local_oscillator.frequency")
             if center_frequency is None:
-                raise ValueError(
+                raise CalibrationError(
                     f"No calibration value found for the center frequency or local oscillator frequency of {component}."
                 )
             channel_name = channels["readout"]
@@ -509,7 +509,7 @@ def find_circuit_boundary(
         boundary locus components, boundary couplers
 
     Raises:
-        ValueError: unknown ``mode``
+        UnknownCircuitExecutionOptionError: unknown ``mode``
 
     """
     if mode == CircuitBoundaryMode.NEIGHBOUR:
@@ -522,7 +522,7 @@ def find_circuit_boundary(
         boundary_components = (device.qubits | device.computational_resonators) - circuit_components
         boundary_couplers = device.couplers - circuit_couplers
     else:
-        raise ValueError(f"Unknown circuit boundary mode '{str(mode)}'")
+        raise UnknownCircuitExecutionOptionError(f"Unknown circuit boundary mode '{str(mode)}'")
     return boundary_components, boundary_couplers
 
 

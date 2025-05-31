@@ -17,6 +17,7 @@ from collections.abc import Iterable, Set
 import logging
 import math
 
+from iqm.cpc.compiler.errors import ClientError
 from iqm.cpc.interface.compiler import DDStrategy, PRXSequence
 from iqm.pulla.utils import InstructionLocation, locate_instructions, replace_instruction_in_place
 from iqm.pulse.builder import ScheduleBuilder
@@ -43,6 +44,10 @@ STANDARD_DD_STRATEGY = DDStrategy(gate_sequences=[(9, "XYXYYXYX", "asap"), (5, "
 """
 
 
+class DDError(ClientError):
+    """Something was wrong in user input for dynamical decoupling."""
+
+
 def _gate_pattern_to_prx_sequence(pattern: str) -> PRXSequence:
     """Translate a gate pattern string (with gates noted as e.g. "X" and "Y") to a sequence of PRX args."""
     submitted_gates = set(pattern)
@@ -50,7 +55,7 @@ def _gate_pattern_to_prx_sequence(pattern: str) -> PRXSequence:
     unsupported_gates = submitted_gates - supported_gates
 
     if unsupported_gates:
-        raise ValueError(
+        raise DDError(
             f"There are unsupported gate(s) {unsupported_gates} present in the submitted sequence {submitted_gates}"
         )
     return [_PRX_INSTANCES[gate] for gate in pattern]
@@ -139,7 +144,7 @@ def _channel_to_component(builder: ScheduleBuilder, channel_name: str) -> str:
         if channel_name in channels.values():
             return component
 
-    raise ValueError(f"Channel {channel_name} is not associated with any QPU component.")
+    raise DDError(f"Channel {channel_name} is not associated with any QPU component.")
 
 
 def _is_drive_channel(builder: ScheduleBuilder, channel_name: str) -> bool:
@@ -232,7 +237,7 @@ def _near_split(number: int, parts: int, step: int = 1) -> list[int]:
         return [0] * parts
 
     if number < step:
-        raise ValueError(f"It is not possible to split {number}, because it is smaller than the split step {step}.")
+        raise DDError(f"It is not possible to split {number}, because it is smaller than the split step {step}.")
 
     quotient, remainder = divmod(number, parts)
     if quotient >= step:
@@ -276,7 +281,7 @@ def _create_waiting_slots(
     }
     offset = SEQUENCE_ALIGNMENT.get(alignment.lower())
     if offset is None:
-        raise ValueError(f"Unsupported single-qubit gate sequence alignment requested: {alignment}")
+        raise DDError(f"Unsupported single-qubit gate sequence alignment requested: {alignment}")
 
     # Divide the residual time in two
     even_duration_slots = round(duration_slots / 2)
@@ -320,26 +325,26 @@ def _create_dd_sequence(
 
     """
     if len(dd_segments) % 2 != 0:
-        raise ValueError("The number of DD gates in the sequence has to be even.")
+        raise DDError("The number of DD gates in the sequence has to be even.")
 
     seg_durations = [seg.duration for seg in dd_segments]
 
     if len(set(seg_durations)) != 1:
-        raise ValueError(
+        raise DDError(
             f"The durations of all the gates in the provided DD gate sequence must be equal (now {seg_durations})."
         )
 
     total_gate_duration = sum(seg_durations)
     residual_waiting_time: int = wait_duration - total_gate_duration
     if residual_waiting_time < 0:
-        raise ValueError(
+        raise DDError(
             f"The waiting time ({wait_duration} samples) cannot accomodate the {len(dd_segments)} DD gates required "
             f"(duration {total_gate_duration})."
         )
 
     residual_waiting_slots, remainder = divmod(residual_waiting_time, granularity)
     if remainder != 0:
-        raise ValueError("The (remaining) waiting time is not a multiple of the granularity!")
+        raise DDError("The (remaining) waiting time is not a multiple of the granularity!")
 
     even_waits, odd_waits = _create_waiting_slots(
         duration_slots=residual_waiting_slots,
@@ -416,7 +421,7 @@ def _find_dd_channels(
         all_components = builder.chip_topology.qubits | builder.chip_topology.computational_resonators
         diff = target_components - all_components
         if diff:
-            raise ValueError(f"Unknown target components {list(diff)}.")
+            raise DDError(f"Unknown target components {list(diff)}.")
 
         errors = []
         schedule_channels = frozenset(schedule.channels())
@@ -446,7 +451,7 @@ def _find_dd_channels(
             dd_channels[channel_name] = prx
 
         if errors:
-            raise ValueError("\n".join(errors))
+            raise DDError("\n".join(errors))
 
     return dd_channels
 

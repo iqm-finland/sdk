@@ -2,6 +2,22 @@
 Changelog
 =========
 
+Version 9.12.0 (2025-05-30)
+===========================
+
+Features
+--------
+
+- Bump NumPy to 1.26.4.
+
+Version 9.11.0 (2025-05-28)
+===========================
+
+Features
+--------
+
+Add information about raised exceptions to more docstrings.
+
 Version 9.10.0 (2025-05-21)
 ===========================
 

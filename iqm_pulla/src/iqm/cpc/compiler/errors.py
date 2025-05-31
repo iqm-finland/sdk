@@ -34,6 +34,10 @@ class UnknownHardwareComponentError(CircuitError):
     """Circuit contains a reference to an unknown hardware component."""
 
 
+class UnknownCircuitExecutionOptionError(ClientError):
+    """An unsupported value was used in circuit execution options."""
+
+
 class SettingsConventionError(ClientError):
     """While parsing Station Control settings, something breaks a structural or naming convention."""
 

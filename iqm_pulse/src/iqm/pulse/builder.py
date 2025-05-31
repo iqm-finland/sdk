@@ -841,6 +841,9 @@ class ScheduleBuilder:
         Returns:
             unresolved TimeBox that implements ``circuit``
 
+        Raises:
+            ValueError: failed to convert ``circuit`` to a TimeBox
+
         """
         # TODO for now do not force validation here
         # self.validate_quantum_circuit(circuit, require_measurements=True)

@@ -80,6 +80,8 @@ from iqm.cpc.compiler.dd import STANDARD_DD_STRATEGY, insert_dd_sequences, merge
 from iqm.cpc.compiler.errors import (
     CalibrationError,
     CircuitError,
+    ClientError,
+    UnknownCircuitExecutionOptionError,
     UnknownHardwareComponentError,
     UnknownLogicalQubitError,
 )
@@ -283,7 +285,7 @@ def _build_readout_mappings(
         # no extras on top of the measurements actually in each circuit
         final_components_to_measure = frozenset()
     else:
-        raise ValueError(f"Unknown measurement mode: {measurement_mode}")
+        raise UnknownCircuitExecutionOptionError(f"Unknown measurement mode: {measurement_mode}")
 
     for idx, c in enumerate(circuits):
         try:
@@ -595,7 +597,11 @@ def derive_readout_mappings(
 @compiler_pass
 def resolve_circuits(circuits: Iterable[Circuit_], builder: ScheduleBuilder) -> list[TimeBox]:
     """Resolve the circuits to timeboxes."""
-    return [builder.circuit_to_timebox(c.instructions, name=c.name) for c in circuits]
+    try:
+        timeboxes = [builder.circuit_to_timebox(c.instructions, name=c.name) for c in circuits]
+    except ValueError as exc:
+        raise ClientError(f"{exc}") from exc
+    return timeboxes
 
 
 # TIMEBOX-LEVEL PASSES
@@ -622,12 +628,16 @@ def prepend_heralding(
     """Add the heralding measurement timebox to all circuits."""
     if options.heralding_mode != HeraldingMode.ZEROS:
         return list(copy(timeboxes))
-    return [
-        builder.get_implementation("measure", heralded_components[circuit_idx])(key=HERALDING_KEY)
-        + builder.wait(heralded_components[circuit_idx], BUFFER_AFTER_MEASUREMENT_PROBE)
-        | box
-        for circuit_idx, box in enumerate(timeboxes)
-    ]
+    try:
+        timeboxes = [
+            builder.get_implementation("measure", heralded_components[circuit_idx])(key=HERALDING_KEY)
+            + builder.wait(heralded_components[circuit_idx], BUFFER_AFTER_MEASUREMENT_PROBE)
+            | box
+            for circuit_idx, box in enumerate(timeboxes)
+        ]
+    except ValueError as exc:
+        raise ClientError(f"{exc}") from exc
+    return timeboxes
 
 
 @compiler_pass
@@ -640,16 +650,19 @@ def prepend_reset(
     """Add a reset timebox to all circuits."""
     if "reset_wait" not in builder.calibration:  # backwards compatibility
         return timeboxes
-    new_boxes: list[TimeBox] = []
-    for box, metrics in zip(timeboxes, circuit_metrics):
-        reset_components = tuple(metrics.components)
-        if options.active_reset_cycles is None:
-            reset_box = TimeBox.composite([builder.get_implementation("reset_wait", reset_components)()])
-        else:
-            reset_box = TimeBox.composite(
-                [builder.get_implementation("reset", reset_components)()] * options.active_reset_cycles
-            )
-        new_boxes.append(reset_box + box)
+    try:
+        new_boxes: list[TimeBox] = []
+        for box, metrics in zip(timeboxes, circuit_metrics):
+            reset_components = tuple(metrics.components)
+            if options.active_reset_cycles is None:
+                reset_box = TimeBox.composite([builder.get_implementation("reset_wait", reset_components)()])
+            else:
+                reset_box = TimeBox.composite(
+                    [builder.get_implementation("reset", reset_components)()] * options.active_reset_cycles
+                )
+            new_boxes.append(reset_box + box)
+    except ValueError as exc:
+        raise ClientError(f"{exc}") from exc
     return new_boxes
 
 
@@ -670,10 +683,12 @@ def apply_dd_strategy(
         elif isinstance(options.dd_strategy, DDStrategy):
             strategy = options.dd_strategy
         else:
-            raise ValueError("Unsupported dynamical decoupling strategy submitted.")
+            raise UnknownCircuitExecutionOptionError("Unsupported dynamical decoupling strategy submitted.")
 
     else:
-        raise ValueError(f"Unsupported dynamical decoupling mode requested ({options.dd_mode}).")
+        raise UnknownCircuitExecutionOptionError(
+            f"Unsupported dynamical decoupling mode requested ({options.dd_mode})."
+        )
 
     new_schedules: list[Schedule] = []
 

@@ -30,7 +30,7 @@ from typing import TYPE_CHECKING, Any
 from opentelemetry import trace
 
 from exa.common.data.setting_node import SettingNode
-from iqm.cpc.compiler.errors import CalibrationError, InsufficientContextError
+from iqm.cpc.compiler.errors import CalibrationError, ClientError, InsufficientContextError
 from iqm.cpc.interface.compiler import (
     CircuitBoundaryMode,
     CircuitExecutionOptions,
@@ -169,7 +169,10 @@ class CompilationStage:
             try:
                 data, context = pass_function(data, context)
             except Exception as exc:
-                raise RuntimeError(f'Error in stage "{self.name}" pass "{pass_function.__name__}": {exc}') from exc
+                error_msg = f'Error in stage "{self.name}" pass "{pass_function.__name__}": {exc}'
+                if isinstance(exc, ClientError):
+                    raise type(exc)(error_msg) from exc
+                raise RuntimeError(error_msg) from exc
 
         return data, context
 

@@ -2,6 +2,22 @@
 Changelog
 =========
 
+Version 7.20.0 (2025-05-30)
+===========================
+
+Features
+--------
+
+- Update dependency on station-control-client
+
+Version 7.19.0 (2025-05-28)
+===========================
+
+Features
+--------
+
+- Raise ``ClientError`` instances instead of standard Python errors from more places where appropriate.
+
 Version 7.18.0 (2025-05-21)
 ===========================
 
