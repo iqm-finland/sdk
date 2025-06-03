@@ -249,7 +249,7 @@ class Pulla:
                 sweep_data = self._station_control_client.get_sweep(job_id)
                 sc_result = StationControlResult(sweep_id=job_id, task_id=job_id, status=TaskStatus.PENDING)
 
-                if sweep_data.job_status <= JobStatus.EXECUTION_STARTED:
+                if sweep_data.job_status <= JobStatus.EXECUTION_START:
                     # Wait in the task queue while showing a progress bar
 
                     interrupted = self._station_control_client._wait_job_completion(

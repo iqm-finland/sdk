@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 7.21.0 (2025-06-02)
+===========================
+
+Features
+--------
+
+- Update dependency to station-control-client in order to revert changes from :issue:`SW-1513`.
+
 Version 7.20.0 (2025-05-30)
 ===========================
 
