@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 26.21.0 (2025-06-10)
+============================
+
+Features
+--------
+
+- Refine error code mapping in :mod:`exa.common.errors.server_errors`. :issue:`SW-1515`
+
 Version 26.20.0 (2025-05-21)
 ============================
 

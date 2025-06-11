@@ -68,7 +68,7 @@ class ServiceUnavailableError(StationControlError):
     """Error raised when the service is unavailable."""
 
 
-ERROR_TO_STATUS_CODE_MAPPING = {
+_ERROR_TO_STATUS_CODE_MAPPING = {
     BadRequestError: HTTPStatus.BAD_REQUEST,  # 400
     UnauthorizedError: HTTPStatus.UNAUTHORIZED,  # 401
     ForbiddenError: HTTPStatus.FORBIDDEN,  # 403
@@ -79,4 +79,14 @@ ERROR_TO_STATUS_CODE_MAPPING = {
     ServiceUnavailableError: HTTPStatus.SERVICE_UNAVAILABLE,  # 503
 }
 
-STATUS_CODE_TO_ERROR_MAPPING = {value: key for key, value in ERROR_TO_STATUS_CODE_MAPPING.items()}
+_STATUS_CODE_TO_ERROR_MAPPING = {value: key for key, value in _ERROR_TO_STATUS_CODE_MAPPING.items()}
+
+
+def map_from_error_to_status_code(error: StationControlError) -> HTTPStatus:
+    """Map a StationControlError to an HTTPStatus code."""
+    return _ERROR_TO_STATUS_CODE_MAPPING.get(type(error), HTTPStatus.INTERNAL_SERVER_ERROR)
+
+
+def map_from_status_code_to_error(status_code: HTTPStatus) -> StationControlError:
+    """Map an HTTPStatus code to a StationControlError."""
+    return _STATUS_CODE_TO_ERROR_MAPPING.get(status_code, InternalServerError)
