@@ -2,6 +2,15 @@
 Changelog
 =========
 
+Version 9.13.0 (2025-06-11)
+===========================
+
+Features
+--------
+
+- Add a base class for shelved readout :class:`Shelved_Measure_CustomWaveforms` and an implementation of shelved readout
+  :class:`Shelved_Measure_Constant`. This implementations consist of ``prx_12`` + ``measure`` + ``prx_12`` gates.
+
 Version 9.12.0 (2025-05-30)
 ===========================
 

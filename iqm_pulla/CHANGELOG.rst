@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 7.22.0 (2025-06-11)
+===========================
+
+Features
+--------
+
+- Update dependency on iqm-pulse
+
 Version 7.21.0 (2025-06-02)
 ===========================
 

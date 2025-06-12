@@ -214,7 +214,7 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
         return probe_pulse, acquisition_method
 
     def probe_timebox(
-        self, key: str = "", feedback_key: str = "", do_acquisition: bool = True
+        self, key: str = "", feedback_key: str = "", do_acquisition: bool = True, **kwargs
     ) -> MultiplexedProbeTimeBox:
         """Returns a "naked" probe timebox that supports convenient multiplexing through
         ``MultiplexedProbeTimeBox.__add__``.
@@ -286,10 +286,12 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
                         label=f"{self.__class__.__name__} on {self.locus}",
                     )
             else:
+                # _skip_override used for child classes build on `Measure_CustomWaveforms` to not call `.probe_timebox`
+                # from the parent class, but from this class instead.
                 probe_timeboxes = [
                     self.builder.get_implementation(
                         self.parent.name, (c,), impl_name=self.name, priority_calibration=self._prio_calibration
-                    ).probe_timebox(key, feedback_key, do_acquisition)
+                    ).probe_timebox(key, feedback_key, do_acquisition, _skip_override=True)
                     for c in self.locus
                 ]
                 probe_timebox = functools.reduce(lambda x, y: x + y, probe_timeboxes)
@@ -377,7 +379,7 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
         args = (key, acquisition_delay, acquisition_duration, feedback_key)
         # additional caching for time traces since the acquisitions differ from the ones in _call
         if args not in self._time_traces:
-            probe_timebox = deepcopy(self.probe_timebox(key=key, feedback_key=feedback_key))
+            probe_timebox = deepcopy(self.probe_timebox(key=key, feedback_key=feedback_key, _skip_override=True))
             for probe_channel, segment in probe_timebox.atom.items():
                 readout_trigger = segment[0]
                 # TODO instead of editing the probe_timebox output contents, we should make the function itself do this
@@ -784,4 +786,69 @@ class Probe_Constant(ProbePulse_CustomWaveforms_noIntegration, wave_i=Constant, 
     """Implementation of a single-qubit projective, dispersive measurement in the Z basis.
 
     Uses a constant probe pulse.
+    """
+
+
+class Shelved_Measure_CustomWaveforms(Measure_CustomWaveforms):
+    """Base class for shelved readout.
+
+    Shelved readout applies a ``prx_12(pi)`` gate before and after a standard dispersive readout on each qubit measured.
+    The first ``prx_12(pi)`` swaps the amplitudes of the |1> and |2> states, and the second one swaps them back after
+    the measurement has (roughtly) collapsed the state. If the discriminator of the readout is calibrated such that
+    the |0> state is on one side and the |1> and |2> states are on the other, the end result is equivalent to the
+    standard readout operation but with the advantage that the population in the |2> state is less susceptible to
+    :math:`T_1` decay during the readout than the population in the |1> state.
+
+    .. note:: Mixed implementation multiplexing is not supported.
+    """
+
+    # Copied from `CompositeGate` to refresh caching after any calibration changes (in particular for the `prx_12`
+    # calibration)
+    def __call__(self, *args, **kwargs):
+        default_cache_key = tuple(args) + tuple(kwargs.items())
+        try:
+            hash(default_cache_key)
+            key_is_hashable = True
+        except TypeError:
+            key_is_hashable = False
+        if key_is_hashable:
+            if box := self.builder.composite_cache.get(self, default_cache_key):
+                return box
+        box = self._call(*args, **kwargs)
+        if key_is_hashable:
+            self.builder.composite_cache.set(self, default_cache_key, box)
+        return box
+
+    # `probe_timebox` is needed for making certain experiments work (e.g. `MeasurementQNDness`), since they call this
+    # function explicitly. However, the main functionality of this method will not work: Enabling mixed
+    # implementation multiplexing. This is because the method has to return time boxes due to the `prx_12` pulses,
+    # instead of `MultiplexedProbeTimeBox`
+    # TODO: Enable mixed implementation multiplexing for shelved readout
+    def probe_timebox(
+        self, key: str = "", feedback_key: str = "", do_acquisition: bool = True, _skip_override: bool = False
+    ) -> TimeBox:
+        # type: ignore[override]
+        if _skip_override:
+            return super().probe_timebox(key, feedback_key, do_acquisition)
+        multiplexed_timeboxes = super().probe_timebox(key, feedback_key)
+        prx_12_impl = [self.builder.get_implementation("prx_12", [q])(np.pi) for q in self.locus]
+
+        boxes = prx_12_impl + multiplexed_timeboxes + prx_12_impl
+        return boxes
+
+    def _call(self, key: str = "", feedback_key: str = "") -> TimeBox:  # type: ignore[override]
+        shelved_measure_box = TimeBox.composite(
+            self.probe_timebox(key=key, feedback_key=feedback_key), label=f"Readout on {self.locus}"
+        )
+        shelved_measure_box.neighborhood_components[0] = shelved_measure_box.children[
+            len(self.locus)
+        ].neighborhood_components[0]
+
+        return shelved_measure_box
+
+
+class Shelved_Measure_Constant(Shelved_Measure_CustomWaveforms, wave_i=Constant, wave_q=Constant):
+    """Implementation of a shelved readout.
+
+    A measure gate implemented as a constant waveform is surrounded by two `prx_12` gates.
     """
