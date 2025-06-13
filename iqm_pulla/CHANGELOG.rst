@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 7.23.0 (2025-06-12)
+===========================
+
+Features
+--------
+
+- Update dependency on station-control-client, taking updated JobExecutorStatus into use. :issue:`SW-1513`
+
 Version 7.22.0 (2025-06-11)
 ===========================
 

@@ -49,7 +49,7 @@ from iqm.pulse.playlist.channel import ChannelProperties, get_channel_properties
 from iqm.pulse.playlist.playlist import Playlist
 from iqm.station_control.client.station_control import StationControlClient
 from iqm.station_control.client.utils import get_progress_bar_callback
-from iqm.station_control.interface.models import JobStatus
+from iqm.station_control.interface.models import JobExecutorStatus
 from iqm.station_control.interface.models.sweep import SweepDefinition
 
 #    ██████  ██    ██ ██      ██       █████
@@ -249,7 +249,7 @@ class Pulla:
                 sweep_data = self._station_control_client.get_sweep(job_id)
                 sc_result = StationControlResult(sweep_id=job_id, task_id=job_id, status=TaskStatus.PENDING)
 
-                if sweep_data.job_status <= JobStatus.EXECUTION_START:
+                if sweep_data.job_status <= JobExecutorStatus.EXECUTION_STARTED:
                     # Wait in the task queue while showing a progress bar
 
                     interrupted = self._station_control_client._wait_job_completion(
@@ -258,7 +258,7 @@ class Pulla:
                     if interrupted:
                         raise KeyboardInterrupt
 
-                elif sweep_data.job_status == JobStatus.READY:
+                elif sweep_data.job_status == JobExecutorStatus.READY:
                     logger.info("Sweep status: %s", str(sweep_data.job_status))
 
                     sc_result.status = TaskStatus.READY
@@ -278,7 +278,7 @@ class Pulla:
 
                     return sc_result
 
-                elif sweep_data.job_status == JobStatus.FAILED:
+                elif sweep_data.job_status == JobExecutorStatus.FAILED:
                     sc_result.status = TaskStatus.FAILED
                     sc_result.start_time = (
                         sweep_data.begin_timestamp.isoformat() if sweep_data.begin_timestamp else None
@@ -289,7 +289,7 @@ class Pulla:
                     logger.error("Submission failed! Error: %s", sc_result.message)
                     return sc_result
 
-                elif sweep_data.job_status == JobStatus.ABORTED:
+                elif sweep_data.job_status == JobExecutorStatus.ABORTED:
                     sc_result.status = TaskStatus.FAILED
                     sc_result.start_time = (
                         sweep_data.begin_timestamp.isoformat() if sweep_data.begin_timestamp else None
