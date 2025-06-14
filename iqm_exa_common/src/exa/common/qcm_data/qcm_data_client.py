@@ -25,7 +25,7 @@ from packaging.version import Version
 import requests
 
 from exa.common.errors.exa_error import ExaError
-from exa.common.errors.server_errors import NotFoundError, ValidationError
+from exa.common.errors.station_control_errors import NotFoundError, ValidationError
 from exa.common.qcm_data.file_adapter import FileAdapter
 
 MIN_SUPPORTED_CONTENT_FORMAT_VERSION = Version("1.0")

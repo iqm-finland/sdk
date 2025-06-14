@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Errors used in the client-server communication."""
+"""Errors used in the station control client-server communication."""
 
 from http import HTTPStatus
 
@@ -19,11 +19,11 @@ from exa.common.errors.exa_error import ExaError
 
 
 class StationControlError(ExaError):
-    """Base class for station control errors used in client-server communication."""
+    """Base class for station control errors."""
 
     # TODO: StationControlError shouldn't need to inherit ExaError
     #  Some clients might still expect ExaErrors, thus inheriting here to avoid issues because of that.
-    #  Ideally, we would keep server errors (raised by station control) and any client side errors separately.
+    #  Ideally, we would keep server errors (raised by station control) and any client side errors separate.
 
 
 class BadRequestError(StationControlError):
@@ -64,8 +64,16 @@ class InternalServerError(StationControlError):
     """
 
 
+class BadGatewayError(StationControlError):
+    """Error raised when there are invalid responses from another server/proxy."""
+
+
 class ServiceUnavailableError(StationControlError):
     """Error raised when the service is unavailable."""
+
+
+class GatewayTimeoutError(StationControlError):
+    """Error raised when the gateway server did not receive a timely response."""
 
 
 _ERROR_TO_STATUS_CODE_MAPPING = {
@@ -76,7 +84,9 @@ _ERROR_TO_STATUS_CODE_MAPPING = {
     ConflictError: HTTPStatus.CONFLICT,  # 409
     ValidationError: HTTPStatus.UNPROCESSABLE_ENTITY,  # 422
     InternalServerError: HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
+    BadGatewayError: HTTPStatus.BAD_GATEWAY,  # 502
     ServiceUnavailableError: HTTPStatus.SERVICE_UNAVAILABLE,  # 503
+    GatewayTimeoutError: HTTPStatus.GATEWAY_TIMEOUT,  # 504
 }
 
 _STATUS_CODE_TO_ERROR_MAPPING = {value: key for key, value in _ERROR_TO_STATUS_CODE_MAPPING.items()}

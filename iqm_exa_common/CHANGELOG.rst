@@ -2,6 +2,15 @@
 Changelog
 =========
 
+Version 26.22.0 (2025-06-13)
+============================
+
+Features
+--------
+
+- Rename ``server_errors.py`` to ``station_control_errors.py`` for better clarity.
+- Add two new :class:`StationControlError` subclasses, :class:`BadGatewayError` and :class:`GatewayTimeoutError`.
+
 Version 26.21.0 (2025-06-10)
 ============================
 

@@ -71,7 +71,7 @@ import xarray as xr
 from exa.common.control.sweep.sweep_values import SweepValues
 from exa.common.data.base_model import BaseModel
 from exa.common.data.value import ObservationValue
-from exa.common.errors.server_errors import ValidationError
+from exa.common.errors.station_control_errors import ValidationError
 
 CastType = str | list["CastType"] | None
 
