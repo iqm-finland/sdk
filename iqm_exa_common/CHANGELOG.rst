@@ -2,6 +2,30 @@
 Changelog
 =========
 
+Version 26.25.0 (2025-06-17)
+============================
+
+Features
+--------
+
+- Add missing jinja2 requirement
+
+Version 26.24.0 (2025-06-17)
+============================
+
+Bug fixes
+---------
+
+- Bump iqm-pulse dependency. No functional changes.
+
+Version 26.23.0 (2025-06-17)
+============================
+
+Features
+--------
+
+- Improve errors in :mod:`exa.common.src.exa.common.errors.station_control_errors`.
+
 Version 26.22.0 (2025-06-13)
 ============================
 

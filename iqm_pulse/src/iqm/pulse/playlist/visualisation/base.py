@@ -22,12 +22,36 @@ import html
 import io
 import json
 from pathlib import Path
+from typing import Any
 
 from iqm.models.playlist.waveforms import Waveform
 from jinja2 import Environment, FileSystemLoader
 import numpy as np
 
 from iqm.pulse.playlist.playlist import Playlist
+
+
+def _numpy_to_builtin_types(data: list[tuple[str, Any]]):
+    """Convert selected ``numpy`` types to Python's built-in types.
+
+    This helper function is to be used for converting dataclasses into
+    dictionaries with ``asdict``.
+
+    For example, ``Playlist`` dataclasses can get converted to dictionaries to
+    be rendered as HTML/JavaScript in "playlist inspector". If such classes
+    were to contain ``numpy`` types they could not be handled by JavaScript.
+    """
+    converted_data = {}
+
+    for key, value in data:
+        if isinstance(value, np.float64):
+            converted_data[key] = float(value)
+        elif isinstance(value, np.ndarray):
+            converted_data[key] = value.tolist()
+        else:
+            converted_data[key] = value
+
+    return converted_data
 
 
 def _get_waveform(wave: Waveform, scale: float, wave_q: Waveform | None = None, scale_q: float | None = None) -> str:
@@ -74,7 +98,7 @@ def _playlist_as_a_dict(playlist: Playlist, segment_indices: Sequence[int]) -> d
                 instruction = channel_desc.instruction_table[instruction_idx]
                 instruction_dict = {}
                 instruction_dict["name"] = instruction.operation.__class__.__name__
-                params = asdict(instruction.operation)
+                params = asdict(instruction.operation, dict_factory=_numpy_to_builtin_types)
                 if instruction.operation.__class__.__name__ == "RealPulse":
                     instruction_dict["wave_img_idx"] = instruction_idx
                     if str(instruction_idx) not in waveform_dict[channel]:

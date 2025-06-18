@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 9.15.0 (2025-06-17)
+===========================
+
+Bug fixes
+---------
+
+- Convert ``numpy`` types to Python's built-in types so that playlist inspector HTML is rendered correctly. :mr:`1086`
+
 Version 9.14.0 (2025-06-13)
 ===========================
 
