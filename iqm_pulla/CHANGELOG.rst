@@ -2,6 +2,23 @@
 Changelog
 =========
 
+Version 8.1.0 (2025-06-18)
+==========================
+
+Bug fixes
+---------
+
+- Fix get calibration set
+
+Version 8.0.0 (2025-06-13)
+==========================
+
+Features
+--------
+
+- Move :func:`get_calibration_set_values` logic from Station Control to Pulla.
+- Move :func:`create_dynamic_quantum_architecture` logic from Cocos to Pulla.
+
 Version 7.23.0 (2025-06-12)
 ===========================
 

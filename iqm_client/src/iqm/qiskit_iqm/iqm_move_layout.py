@@ -15,7 +15,8 @@
 valid on the quantum architecture specification of the given backend.
 """
 
-from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
+from iqm.iqm_client import DynamicQuantumArchitecture
+from iqm.qiskit_iqm.iqm_backend import IQMBackendBase, IQMTarget
 from qiskit import QuantumCircuit
 from qiskit.circuit import Qubit
 from qiskit.dagcircuit import DAGCircuit
@@ -42,6 +43,65 @@ class IQMMoveLayout(TrivialLayout):
        It also assumes that a valid layout exists for the circuit that does not require SWAPs, which
        isn't true in general.
     """
+
+    def __init__(self, target: IQMTarget):
+        super().__init__(target)
+        self._resonator_specific_ops, self._qubit_specific_ops = self._determine_restrictions(target.iqm_dqa)
+
+    def _determine_restrictions(
+        self, dqa: DynamicQuantumArchitecture
+    ) -> tuple[dict[str, list[int]], dict[str, list[int]]]:
+        """Determine which gates are restricted to specific qubits or resonators.
+
+        Args:
+            dqa: Information about the available gates.
+
+        Returns:
+            Mapping from operation names to locus indices that must be resonators,
+            mapping from operation names to locus indices that must be qubits.
+
+        """
+        arities = {
+            g: len(dqa.gates[g].implementations[dqa.gates[g].default_implementation].loci[0]) for g in dqa.gates.keys()
+        }
+        resonator_specific_ops = {
+            gate_name: [
+                idx
+                for idx, component in enumerate(gate_info.implementations[gate_info.default_implementation].loci[0])
+                if component in dqa.computational_resonators
+            ]
+            for gate_name, gate_info in dqa.gates.items()
+        }
+        qubit_specific_ops = {
+            gate: [i for i in range(arity) if self._is_restricted_gate(gate, i, dqa.qubits, dqa)]
+            for gate, arity in arities.items()
+        }
+        return resonator_specific_ops, qubit_specific_ops
+
+    def _is_restricted_gate(
+        self,
+        gate: str,
+        index: int,
+        components: list[str],
+        dqa: DynamicQuantumArchitecture,
+    ) -> bool:
+        """Check if the gate is restricted to a specific qubit or resonator.
+
+        Args:
+            gate: Gate name to check.
+            index: Index of the locus to check.
+            components: List of qubits or resonators to check against.
+            dqa: Dynamic quantum architecture to check against.
+
+        Returns:
+            True if the gate only acts on loci specified in the given components.
+
+        """
+        gate_info = dqa.gates[gate]
+        for loci in gate_info.implementations[gate_info.default_implementation].loci:
+            if loci[index] not in components:
+                return False
+        return True
 
     def run(self, dag: DAGCircuit):
         """Creates a valid layout for the given quantum circuit.
@@ -113,8 +173,10 @@ class IQMMoveLayout(TrivialLayout):
         """
         return self.property_set["layout"]
 
-    @staticmethod
-    def _calculate_requirements(dag: DAGCircuit) -> tuple[dict[int, set[str]], set[int]]:
+    def _calculate_requirements(
+        self,
+        dag: DAGCircuit,
+    ) -> tuple[dict[int, set[str]], set[int]]:
         """Determine the requirements for each used logical qubit in the circuit.
 
         Because in the Star architecture two-qubit gates have (qubit, resonator) loci, based on them
@@ -144,26 +206,23 @@ class IQMMoveLayout(TrivialLayout):
                 )
             reqs.setdefault(log_idx, set()).add(required_type)
 
+        def _require_resonator(qubit: Qubit):
+            """Add a requirement for the given resonator."""
+            log_idx = qubit_to_idx[qubit]
+            if log_idx in reqs:
+                raise TranspilerError(
+                    f"Virtual/logical qubit {qubit} for the '{node.name}' operation must be a resonator, "
+                    f"but it is already required to be a qubit."
+                )
+            resonators.add(log_idx)
+
         for node in dag.topological_op_nodes():
-            if node.name in ("barrier",):
-                continue
-            if node.name in ("move", "cz"):
-                # In the real Star architecture, all arity-2 ops act on a (qubit, resonator) locus.
-                qubit, resonator = node.qargs
-                _require_qubit_type(qubit, node.name)
-                # resonator
-                log_idx = qubit_to_idx[resonator]
-                if log_idx in reqs:
-                    raise TranspilerError(
-                        f"Virtual/logical qubit {resonator} for the '{node.name}' operation must be a resonator, "
-                        f"but it is already required to be a qubit({reqs[log_idx]})."
-                    )
-                resonators.add(log_idx)
-            elif node.name == "measure":
-                _require_qubit_type(node.qargs[0], "measure")
-            else:
-                # all single-qubit gates are mapped to r
-                _require_qubit_type(node.qargs[0], "r")
+            if node.name in self._qubit_specific_ops:
+                for locus_idx in self._qubit_specific_ops[node.name]:
+                    _require_qubit_type(node.qargs[locus_idx], node.name)
+            if node.name in self._resonator_specific_ops:
+                for locus_idx in self._resonator_specific_ops[node.name]:
+                    _require_resonator(node.qargs[locus_idx])
 
         return reqs, resonators
 

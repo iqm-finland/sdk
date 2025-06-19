@@ -15,7 +15,7 @@
 """Utility functions for IQM Pulla."""
 
 from collections import namedtuple
-from collections.abc import Hashable, Iterable, Sequence
+from collections.abc import Hashable, Iterable, Sequence, Set
 from dataclasses import replace
 from itertools import chain
 from typing import Any
@@ -42,7 +42,6 @@ from iqm.pulse.playlist.channel import ChannelProperties
 from iqm.pulse.playlist.instructions import Instruction
 from iqm.pulse.playlist.schedule import Schedule, Segment
 from iqm.pulse.timebox import TimeBox
-from iqm.station_control.client import utils as station_control_client_utils
 from iqm.station_control.interface.models.observation import ObservationBase
 
 LOCUS_SEPARATOR = "__"  # EXA uses this, currently
@@ -494,7 +493,7 @@ def find_circuit_boundary(
     circuit_components: set[str] | frozenset[str],
     circuit_couplers: set[str],
     device: ChipTopology,
-) -> tuple[set[str], set[str]]:
+) -> tuple[Set[str], Set[str]]:
     """Determine the boundary of a circuit executed on the QPU.
 
     See :class:`.CircuitBoundaryMode` for the definitions of the circuit boundaries.
@@ -602,4 +601,4 @@ def calset_from_observations(calset_observations: Iterable[ObservationBase]) -> 
         calibration set
 
     """
-    return station_control_client_utils.calset_from_observations(calset_observations)
+    return {obs.dut_field: obs.value for obs in calset_observations}

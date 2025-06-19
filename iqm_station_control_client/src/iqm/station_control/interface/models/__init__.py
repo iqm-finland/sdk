@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,18 @@
 """Station control interface models."""
 
 from iqm.station_control.interface.models.dut import DutData, DutFieldData
+from iqm.station_control.interface.models.dynamic_quantum_architecture import (
+    DynamicQuantumArchitecture,
+    GateImplementationInfo,
+    GateInfo,
+    Locus,
+)
+from iqm.station_control.interface.models.jobs import (
+    JobData,
+    JobExecutorStatus,
+    JobResult,
+    TimelineEntry,
+)
 from iqm.station_control.interface.models.observation import (
     ObservationData,
     ObservationDefinition,
@@ -24,6 +36,8 @@ from iqm.station_control.interface.models.observation_set import (
     ObservationSetData,
     ObservationSetDefinition,
     ObservationSetUpdate,
+    ObservationSetWithObservations,
+    QualityMetrics,
 )
 from iqm.station_control.interface.models.run import RunData, RunDefinition, RunLite
 from iqm.station_control.interface.models.sequence import (
@@ -32,7 +46,8 @@ from iqm.station_control.interface.models.sequence import (
     SequenceResultData,
     SequenceResultDefinition,
 )
-from iqm.station_control.interface.models.sweep import SweepData, SweepDefinition, SweepStatus
+from iqm.station_control.interface.models.static_quantum_architecture import StaticQuantumArchitecture
+from iqm.station_control.interface.models.sweep import SweepData, SweepDefinition
 from iqm.station_control.interface.models.type_aliases import (
     DutType,
     GetObservationsMode,

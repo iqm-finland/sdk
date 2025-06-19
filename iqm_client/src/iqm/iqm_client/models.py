@@ -1011,22 +1011,41 @@ class Status(str, Enum):
 
     RECEIVED = "received"
     """Job has been received but nothing has been done about it."""
+    VALIDATION_STARTED = "validation_started"
+    """Job is being validated."""
     PROCESSING = "processing"
-    ACCEPTED = "accepted"
+    VALIDATION_ENDED = "validation_ended"
     """Job has passed initial checks and will proceed to compilation."""
-
-    PENDING_COMPILATION = "pending compilation"
-    """Job has been queued for compilation."""
-    PENDING_EXECUTION = "pending execution"
-    """Job has been compiled and is queued for execution."""
-    COMPILED = "compiled"
+    FETCH_CALIBRATION_STARTED = "fetch_calibration_started"
+    """The calibration is being fetched for the job."""
+    FETCH_CALIBRATION_ENDED = "fetch_calibration_ended"
+    """Job has been fetched for the job."""
+    COMPILATION_STARTED = "compilation_started"
+    """The job is being compiled."""
+    COMPILATION_ENDED = "compilation_ended"
     """Job has been compiled to a low-level representation."""
+    SAVE_SWEEP_METADATA_STARTED = "save_sweep_metadata_started"
+    """Metadata about the sweep is being saved to the database."""
+    SAVE_SWEEP_METADATA_ENDED = "save_sweep_metadata_ended"
+    """Metadata has been successfully saved."""
+    PENDING_EXECUTION = "pending_execution"
+    """Job has been compiled and is queued for execution."""
+    EXECUTION_STARTED = "execution_started"
+    """The job has begun execution on hardware."""
+    EXECUTION_ENDED = "execution_ended"
+    """The job has completed execution on hardware."""
+    POST_PROCESSING_PENDING = "post_processing_pending"
+    """The job has finished executing and is pending post-processing."""
+    POST_PROCESSING_STARTED = "post_processing_started"
+    """The job results is being post-processed."""
+    POST_PROCESSING_ENDED = "post_processing_ended"
+    """The job has been successfully post processed."""
     READY = "ready"
     """Job has been executed and results are available."""
     FAILED = "failed"
     """Execution or compilation failed."""
     ABORTED = "aborted"
-    """User caneceled the execution."""
+    """User cancelled the execution."""
     PENDING_DELETION = "pending deletion"
     """Job is set to be deleted."""
     DELETION_FAILED = "deletion failed"
@@ -1035,6 +1054,14 @@ class Status(str, Enum):
     """Job deleted from the database."""
     UNKNOWN = "unknown"
     """Job is in a state not recognized by this version of the client."""
+
+    @classmethod
+    def _missing_(cls, value: object) -> Any:
+        """This is a backwards compatibility fix for resonance integration. Once Resonance has fixed this, and has been
+        widely deployed, this can be removed. Ticket: QCLOUD-1311
+        """
+        if value == "pending execution":
+            return cls.PENDING_EXECUTION
 
     @classmethod
     def terminal_statuses(cls) -> set[Status]:
@@ -1063,7 +1090,7 @@ class RunResult(BaseModel):
     """
 
     status: Status = Field(...)
-    """current status of the job, in ``{'pending compilation', 'pending execution', 'ready', 'failed', 'aborted'}``"""
+    """current status of the job, in ``{'pending_compilation', 'pending_execution', 'ready', 'failed', 'aborted'}``"""
     measurements: CircuitMeasurementResultsBatch | None = Field(None)
     """if the job has finished successfully, the measurement results for the circuit(s)"""
     message: str | None = Field(None)
@@ -1096,7 +1123,7 @@ class RunStatus(BaseModel):
     """Status of a circuit execution job."""
 
     status: Status = Field(...)
-    """current status of the job, in ``{'pending compilation', 'pending execution', 'ready', 'failed', 'aborted'}``"""
+    """current status of the job, in ``{'pending_compilation', 'pending_execution', 'ready', 'failed', 'aborted'}``"""
     message: str | None = Field(None)
     """if the job failed, an error message"""
     warnings: list[str] | None = Field(None)
@@ -1149,4 +1176,3 @@ class ClientLibrary(BaseModel):
 
 
 ClientLibraryDict = TypeAdapter(dict[str, ClientLibrary])
-DictDict = TypeAdapter(dict[str, dict])

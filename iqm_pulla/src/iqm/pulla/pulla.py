@@ -47,10 +47,8 @@ from iqm.pulla.interface import (
 from iqm.pulla.utils import extract_readout_controller_result_names, map_sweep_results_to_logical_qubits
 from iqm.pulse.playlist.channel import ChannelProperties, get_channel_properties_from_station_settings
 from iqm.pulse.playlist.playlist import Playlist
-from iqm.station_control.client.station_control import StationControlClient
-from iqm.station_control.client.utils import get_progress_bar_callback
-from iqm.station_control.interface.models import JobExecutorStatus
-from iqm.station_control.interface.models.sweep import SweepDefinition
+from iqm.station_control.client.utils import get_progress_bar_callback, init_station_control
+from iqm.station_control.interface.models import JobExecutorStatus, SweepDefinition
 
 #    ██████  ██    ██ ██      ██       █████
 #    ██   ██ ██    ██ ██      ██      ██   ██
@@ -88,14 +86,15 @@ class Pulla:
 
         # SC Client to be used for fetching calibration data, submitting sweeps, and retrieving results.
         try:
-            self._station_control_client = StationControlClient.init(
+            self._station_control = init_station_control(
                 station_control_url, get_token_callback=self.get_token_callback, **kwargs
             )
+
         except Exception as e:
             logger.error("Failed to initialize Station Control Client: %s", e)
             raise ValueError("Failed to initialize Station Control Client") from e
         # Separate wrapper on top of SC Client to simplify calibration data fetching.
-        self._calibration_data_provider = CalibrationDataProvider(self._station_control_client)
+        self._calibration_data_provider = CalibrationDataProvider(self._station_control)
 
         # Data needed for the compiler.
         self._station_control_settings: SettingNode | None = None
@@ -159,9 +158,12 @@ class Pulla:
         return calibration_set
 
     def get_chip_label(self) -> str:
-        """Returns the chip label of the current quantum computer. The chip label is fetched from the Station Control API."""  # noqa: E501
+        """Returns the chip label of the current quantum computer.
+
+        The chip label is fetched from the Station Control API.
+        """
         try:
-            duts = self._station_control_client.get_duts()
+            duts = self._station_control.get_duts()
         except requests.RequestException as e:
             raise ChipLabelRetrievalException(f"Failed to retrieve the chip label: {e}") from e
 
@@ -172,7 +174,7 @@ class Pulla:
     def get_chip_topology(self) -> ChipTopology:
         """Returns chip topology that was fetched from the IQM server during Pulla initialization."""
         try:
-            record = self._station_control_client.get_chip_design_record(self.get_chip_label())
+            record = self._station_control.get_chip_design_record(self.get_chip_label())
         except Exception as e:
             raise CHADRetrievalException("Could not fetch chip design record") from e
         return ChipTopology.from_chip_design_record(record)
@@ -182,7 +184,7 @@ class Pulla:
         if self._station_control_settings is None:
             # request the station settings, cache the results
             try:
-                self._station_control_settings = self._station_control_client.get_settings()
+                self._station_control_settings = self._station_control.get_settings()
             except Exception as e:
                 raise SettingsRetrievalException("Could not fetch station settings") from e
         return self._station_control_settings
@@ -227,7 +229,7 @@ class Pulla:
                 if k == "readout":
                     readout_components.append(v)
 
-        sweep_response = self._station_control_client.sweep(
+        sweep_response = self._station_control.sweep(
             SweepDefinition(
                 sweep_id=uuid.uuid4(),
                 playlist=playlist,
@@ -246,15 +248,13 @@ class Pulla:
             logger.info("Waiting for the job to finish...")
 
             while True:
-                sweep_data = self._station_control_client.get_sweep(job_id)
+                sweep_data = self._station_control.get_sweep(job_id)
                 sc_result = StationControlResult(sweep_id=job_id, task_id=job_id, status=TaskStatus.PENDING)
 
                 if sweep_data.job_status <= JobExecutorStatus.EXECUTION_STARTED:
                     # Wait in the task queue while showing a progress bar
 
-                    interrupted = self._station_control_client._wait_job_completion(
-                        str(job_id), get_progress_bar_callback()
-                    )
+                    interrupted = self._station_control._wait_job_completion(str(job_id), get_progress_bar_callback())
                     if interrupted:
                         raise KeyboardInterrupt
 
@@ -263,7 +263,7 @@ class Pulla:
 
                     sc_result.status = TaskStatus.READY
                     sc_result.result = map_sweep_results_to_logical_qubits(
-                        self._station_control_client.get_sweep_results(job_id),
+                        self._station_control.get_sweep_results(job_id),
                         context["readout_mappings"],
                         context["options"].heralding_mode,
                     )
@@ -284,7 +284,7 @@ class Pulla:
                         sweep_data.begin_timestamp.isoformat() if sweep_data.begin_timestamp else None
                     )
                     sc_result.end_time = sweep_data.end_timestamp.isoformat() if sweep_data.end_timestamp else None
-                    job = self._station_control_client.get_job(job_id)
+                    job = self._station_control.get_job(job_id)
                     sc_result.message = job["job_error"]
                     logger.error("Submission failed! Error: %s", sc_result.message)
                     return sc_result
@@ -295,7 +295,7 @@ class Pulla:
                         sweep_data.begin_timestamp.isoformat() if sweep_data.begin_timestamp else None
                     )
                     sc_result.end_time = sweep_data.end_timestamp.isoformat() if sweep_data.end_timestamp else None
-                    job = self._station_control_client.get_job(job_id)
+                    job = self._station_control.get_job(job_id)
                     sc_result.message = job["job_error"]
                     logger.error("Submission was revoked!")
                     return sc_result
@@ -304,7 +304,7 @@ class Pulla:
 
         except KeyboardInterrupt as exc:
             logger.info("Caught KeyboardInterrupt, revoking job %s", job_id)
-            self._station_control_client.abort_job(job_id)
+            self._station_control.abort_job(job_id)
             raise KeyboardInterrupt from exc
 
 

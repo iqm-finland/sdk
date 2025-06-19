@@ -147,7 +147,7 @@ def _parse_double(value: str) -> float:
 
 
 def qir_to_pulla(  # noqa: PLR0915, PLR0912
-    pulla: Pulla, qir: str | bytes, qubit_mapping: dict[int:str] | None = None
+    pulla: Pulla, qir: str | bytes, qubit_mapping: dict[int, str] | None = None
 ) -> tuple[list[CPC_Circuit], Compiler]:
     """Convert a QIR module to a CPC circuit.
 

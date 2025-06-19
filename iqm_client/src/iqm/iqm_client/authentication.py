@@ -130,7 +130,8 @@ class TokenManager:
             )
         else:
             raise ClientConfigurationError(
-                f"Invalid combination of authentication parameters specified: {list(auth_parameters)}",
+                f"""Invalid combination of authentication parameters specified: {list(auth_parameters)},
+                Use either ['token'] or ['username', 'password'].""",
             )
 
     def get_bearer_token(self, retries: int = 1) -> str | None:
@@ -299,7 +300,7 @@ class TokenClient(TokenProviderInterface):
         if access_token is None:
             # Failed to get valid access token using username and password, raise an error
             raise ClientAuthenticationError("Getting access token from auth server failed")
-        return str(access_token)  # acces token can not be None here
+        return str(access_token)  # access token can not be None here
 
     def close(self) -> None:
         """Close authentication session"""

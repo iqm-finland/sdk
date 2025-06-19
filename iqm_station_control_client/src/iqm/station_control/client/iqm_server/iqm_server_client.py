@@ -11,23 +11,28 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""StationControlClient implementation for IQM Server"""
+"""Client implementation for IQM Server."""
 
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Iterable, Sequence
 from contextlib import contextmanager
 import dataclasses
+from importlib.metadata import version
 from io import BytesIO
 import json
 import logging
+import platform
 from time import sleep
 from typing import Any, TypeVar, cast
 import uuid
+from uuid import UUID
 
 import grpc
 from iqm.models.channel_properties import ChannelProperties
+import requests
 
 from exa.common.data.setting_node import SettingNode
 from exa.common.data.value import ObservationValue, validate_value
+from exa.common.errors.station_control_errors import map_from_status_code_to_error
 from iqm.station_control.client.iqm_server import proto
 from iqm.station_control.client.iqm_server.error import IqmServerError
 from iqm.station_control.client.iqm_server.grpc_utils import (
@@ -39,41 +44,66 @@ from iqm.station_control.client.iqm_server.grpc_utils import (
     to_datetime,
     to_proto_uuid,
 )
-from iqm.station_control.client.iqm_server.meta_class import IqmServerClientMeta
 from iqm.station_control.client.list_models import DutFieldDataList, DutList
-from iqm.station_control.client.serializers import deserialize_sweep_results, serialize_sweep_task_request
+from iqm.station_control.client.serializers import deserialize_sweep_results, serialize_sweep_job_request
 from iqm.station_control.client.serializers.channel_property_serializer import unpack_channel_properties
 from iqm.station_control.client.serializers.setting_node_serializer import deserialize_setting_node
-from iqm.station_control.client.serializers.task_serializers import deserialize_sweep_task_request
-from iqm.station_control.client.station_control import StationControlClient
+from iqm.station_control.client.serializers.task_serializers import deserialize_sweep_job_request
+from iqm.station_control.interface.list_with_meta import ListWithMeta
 from iqm.station_control.interface.models import (
     DutData,
     DutFieldData,
+    DynamicQuantumArchitecture,
+    JobData,
+    JobExecutorStatus,
+    JobResult,
+    ObservationData,
+    ObservationDefinition,
+    ObservationLite,
+    ObservationSetData,
+    ObservationSetDefinition,
+    ObservationSetUpdate,
+    ObservationUpdate,
+    QualityMetrics,
+    RunData,
+    RunDefinition,
+    RunLite,
+    SequenceMetadataData,
+    SequenceMetadataDefinition,
+    SequenceResultData,
+    SequenceResultDefinition,
+    StaticQuantumArchitecture,
     Statuses,
     SweepData,
     SweepDefinition,
     SweepResults,
-    SweepStatus,
 )
+from iqm.station_control.interface.models.jobs import JobError
 from iqm.station_control.interface.models.sweep import SweepBase
+from iqm.station_control.interface.models.type_aliases import GetObservationsMode, SoftwareVersionSet, StrUUID
+from iqm.station_control.interface.station_control import StationControlInterface
 
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
 
-class IqmServerClient(StationControlClient, metaclass=IqmServerClientMeta):
+class IqmServerClient(StationControlInterface):
     def __init__(
         self,
         root_url: str,
+        *,
         get_token_callback: Callable[[], str] | None = None,
+        client_signature: str | None = None,
         grpc_channel: grpc.Channel | None = None,
     ):
         self.root_url = root_url
         self._connection_params = parse_connection_params(root_url)
         self._cached_resources = {}
         self._latest_submitted_sweep = None
-        self._channel = grpc_channel or create_channel(self._connection_params, get_token_callback)
+        self._get_token_callback = get_token_callback
+        self._signature = self._create_signature(client_signature)
+        self._channel = grpc_channel or create_channel(self._connection_params, self._get_token_callback)
         self._current_qc = resolve_current_qc(self._channel, self._connection_params.quantum_computer)
 
     def __del__(self):
@@ -85,8 +115,17 @@ class IqmServerClient(StationControlClient, metaclass=IqmServerClientMeta):
     def get_about(self) -> dict:
         return self._get_resource("about", parse_json)
 
+    def get_health(self) -> dict:
+        raise NotImplementedError
+
     def get_configuration(self) -> dict:
         return self._get_resource("configuration", parse_json)
+
+    def get_exa_configuration(self) -> str:
+        raise NotImplementedError
+
+    def get_or_create_software_version_set(self, software_version_set: SoftwareVersionSet) -> int:
+        raise NotImplementedError
 
     def get_settings(self) -> SettingNode:
         return self._get_resource("settings", deserialize_setting_node).copy()
@@ -97,14 +136,6 @@ class IqmServerClient(StationControlClient, metaclass=IqmServerClientMeta):
     def get_channel_properties(self) -> dict[str, ChannelProperties]:
         return self._get_resource("channel-properties", unpack_channel_properties)
 
-    def get_duts(self) -> list[DutData]:
-        return self._get_resource("duts", lambda data: DutList.model_validate(parse_json(data)))
-
-    def get_dut_fields(self, dut_label: str) -> list[DutFieldData]:
-        return self._get_resource(
-            f"dut-fields/{dut_label}", lambda data: DutFieldDataList.model_validate(parse_json(data))
-        )
-
     def sweep(self, sweep_definition: SweepDefinition) -> dict:
         with wrap_error("Job submission failed"):
             jobs = proto.JobsStub(self._channel)
@@ -112,7 +143,7 @@ class IqmServerClient(StationControlClient, metaclass=IqmServerClientMeta):
                 proto.SubmitJobRequestV1(
                     qc_id=self._current_qc.id,
                     type=proto.JobType.PULSE,
-                    payload=serialize_sweep_task_request(sweep_definition, queue_name="sweeps"),
+                    payload=serialize_sweep_job_request(sweep_definition, queue_name="sweeps"),
                     use_timeslot=self._connection_params.use_timeslot,
                 )
             )
@@ -122,12 +153,14 @@ class IqmServerClient(StationControlClient, metaclass=IqmServerClientMeta):
             job_id = from_proto_uuid(job.id)
             self._latest_submitted_sweep = dataclasses.replace(sweep_definition, sweep_id=job_id)
             return {
-                "sweep_id": str(job_id),
-                "task_id": str(job_id),
+                "job_id": str(job_id),
             }
 
-    def get_sweep(self, sweep_id: uuid.UUID) -> SweepData:
+    def get_sweep(self, sweep_id: UUID) -> SweepData:
         with wrap_error("Job loading failed"):
+            if isinstance(sweep_id, str):
+                sweep_id = uuid.UUID(sweep_id)
+
             jobs = proto.JobsStub(self._channel)
             job_lookup = proto.JobLookupV1(id=to_proto_uuid(sweep_id))
             job: proto.JobV1 = jobs.GetJobV1(job_lookup)
@@ -140,38 +173,170 @@ class IqmServerClient(StationControlClient, metaclass=IqmServerClientMeta):
                 modified_timestamp=to_datetime(job.updated_at),
                 begin_timestamp=to_datetime(job.execution_started_at) if job.HasField("execution_started_at") else None,
                 end_timestamp=to_datetime(job.execution_ended_at) if job.HasField("execution_ended_at") else None,
-                sweep_status=to_sweep_status(job.status),
+                job_status=to_job_status(job.status),
                 # Sweep definition is a subclass of SweepBase so we can just copy all SweepBase fields
                 # from the input sweep to the sweep data
                 **{f.name: getattr(sweep, f.name) for f in dataclasses.fields(SweepBase)},
             )
 
-    def get_sweep_results(self, sweep_id: uuid.UUID) -> SweepResults:
+    def delete_sweep(self, sweep_id: UUID) -> None:
+        raise NotImplementedError
+
+    def get_sweep_results(self, sweep_id: UUID) -> SweepResults:
         with wrap_error("Job result loading failed"):
             jobs = proto.JobsStub(self._channel)
             data_chunks = jobs.GetJobResultsV1(proto.JobLookupV1(id=to_proto_uuid(sweep_id)))
             return deserialize_sweep_results(load_all(data_chunks))
 
-    def revoke_sweep(self, sweep_id: uuid.UUID) -> None:
-        with wrap_error("Job cancellation failed"):
-            jobs = proto.JobsStub(self._channel)
-            jobs.CancelJobV1(proto.JobLookupV1(id=to_proto_uuid(sweep_id)))
+    def run(
+        self,
+        run_definition: RunDefinition,
+        update_progress_callback: Callable[[Statuses], None] | None = None,
+        wait_job_completion: bool = True,
+    ) -> bool:
+        raise NotImplementedError
 
-    def get_task(self, task_id: uuid.UUID) -> dict:
+    def get_run(self, run_id: UUID) -> RunData:
+        raise NotImplementedError
+
+    def query_runs(self, **kwargs) -> ListWithMeta[RunLite]:
+        raise NotImplementedError
+
+    def create_observations(
+        self, observation_definitions: Sequence[ObservationDefinition]
+    ) -> ListWithMeta[ObservationData]:
+        raise NotImplementedError
+
+    def get_observations(
+        self,
+        *,
+        mode: GetObservationsMode,
+        dut_label: str | None = None,
+        dut_field: str | None = None,
+        tags: list[str] | None = None,
+        invalid: bool | None = False,
+        run_ids: list[UUID] | None = None,
+        sequence_ids: list[UUID] | None = None,
+        limit: int | None = None,
+    ) -> list[ObservationData]:
+        raise NotImplementedError
+
+    def query_observations(self, **kwargs) -> ListWithMeta[ObservationData]:
+        raise NotImplementedError
+
+    def update_observations(self, observation_updates: Sequence[ObservationUpdate]) -> list[ObservationData]:
+        raise NotImplementedError
+
+    def query_observation_sets(self, **kwargs) -> ListWithMeta[ObservationSetData]:
+        raise NotImplementedError
+
+    def create_observation_set(self, observation_set_definition: ObservationSetDefinition) -> ObservationSetData:
+        raise NotImplementedError
+
+    def get_observation_set(self, observation_set_id: UUID) -> ObservationSetData:
+        raise NotImplementedError
+
+    def update_observation_set(self, observation_set_update: ObservationSetUpdate) -> ObservationSetData:
+        raise NotImplementedError
+
+    def finalize_observation_set(self, observation_set_id: UUID) -> None:
+        raise NotImplementedError
+
+    def get_observation_set_observations(self, observation_set_id: UUID) -> list[ObservationLite]:
+        raise NotImplementedError
+
+    def get_default_calibration_set(self) -> ObservationSetData:
+        raise NotImplementedError
+
+    def get_default_calibration_set_observations(self) -> list[ObservationLite]:
+        raise NotImplementedError
+
+    def get_dynamic_quantum_architecture(self, calibration_set_id: UUID) -> DynamicQuantumArchitecture:
+        response = self._send_request(requests.get, f"api/v1/calibration/{calibration_set_id}/gates")
+        return DynamicQuantumArchitecture.model_validate_json(response.text)
+
+    def get_default_dynamic_quantum_architecture(self) -> DynamicQuantumArchitecture:
+        raise NotImplementedError
+
+    def get_default_calibration_set_quality_metrics(self) -> QualityMetrics:
+        raise NotImplementedError
+
+    def get_calibration_set_quality_metrics(self, calibration_set_id: UUID) -> QualityMetrics:
+        raise NotImplementedError
+
+    def get_duts(self) -> list[DutData]:
+        return self._get_resource("duts", lambda data: DutList.model_validate(parse_json(data)))
+
+    def get_dut_fields(self, dut_label: str) -> list[DutFieldData]:
+        return self._get_resource(
+            f"dut-fields/{dut_label}", lambda data: DutFieldDataList.model_validate(parse_json(data))
+        )
+
+    def query_sequence_metadatas(self, **kwargs) -> ListWithMeta[SequenceMetadataData]:
+        raise NotImplementedError
+
+    def create_sequence_metadata(
+        self, sequence_metadata_definition: SequenceMetadataDefinition
+    ) -> SequenceMetadataData:
+        raise NotImplementedError
+
+    def save_sequence_result(self, sequence_result_definition: SequenceResultDefinition) -> SequenceResultData:
+        raise NotImplementedError
+
+    def get_sequence_result(self, sequence_id: UUID) -> SequenceResultData:
+        raise NotImplementedError
+
+    def get_static_quantum_architecture(self, dut_label: str) -> StaticQuantumArchitecture:
+        response = self._send_request(requests.get, "api/v1/quantum-architecture")
+        return StaticQuantumArchitecture.model_validate_json(response.text)
+
+    def get_job(self, job_id: StrUUID) -> JobData:
         with wrap_error("Job loading failed"):
             jobs = proto.JobsStub(self._channel)
-            job: proto.JobV1 = jobs.GetJobV1(proto.JobLookupV1(id=to_proto_uuid(task_id)))
-            return {
-                # It would be nice to have these typed somewhere...
-                "task_id": str(from_proto_uuid(job.id)),
-                "task_status": to_task_status(job.status),
-                "task_result": {"message": ""},
-                "task_error": job.error if job.HasField("error") else "",
-                "position": job.queue_position if job.HasField("queue_position") else None,
-                "is_position_capped": False,
-            }
+            job: proto.JobV1 = jobs.GetJobV1(proto.JobLookupV1(id=to_proto_uuid(job_id)))
+            return JobData(
+                job_id=from_proto_uuid(job.id),
+                job_status=job.status,
+                job_result=JobResult(
+                    job_id=from_proto_uuid(job.id),
+                    parallel_sweep_progress=[],
+                    interrupted=False,
+                ),
+                job_error=JobError(full_error_log=job.error, user_error_message=job.error)
+                if job.HasField("error")
+                else None,
+                position=job.queue_position if job.HasField("queue_position") else None,
+            )
 
-    def _wait_task_completion(
+    def abort_job(self, job_id: StrUUID) -> None:
+        with wrap_error("Job cancellation failed"):
+            jobs = proto.JobsStub(self._channel)
+            jobs.CancelJobV1(proto.JobLookupV1(id=to_proto_uuid(job_id)))
+
+    def get_calibration_set_values(self, calibration_set_id: StrUUID) -> dict[str, ObservationValue]:
+        with wrap_error("Calibration set loading failed"):
+            calibrations = proto.CalibrationsStub(self._channel)
+            data_chunks = calibrations.GetFullCalibrationDataV1(
+                proto.CalibrationLookupV1(
+                    id=to_proto_uuid(calibration_set_id),
+                )
+            )
+            _, cal_set_values = parse_calibration_set(load_all(data_chunks))
+            return cal_set_values
+
+    def get_latest_calibration_set_id(self, dut_label: str) -> uuid.UUID:
+        with wrap_error("Calibration set metadata loading failed"):
+            calibrations = proto.CalibrationsStub(self._channel)
+            metadata: proto.CalibrationMetadataV1 = calibrations.GetLatestQuantumComputerCalibrationV1(
+                proto.LatestQuantumComputerCalibrationLookupV1(
+                    qc_id=self._current_qc.id,
+                )
+            )
+            if metadata.dut_label != dut_label:
+                raise ValueError(f"No calibration set for dut_label = {dut_label}")
+            return from_proto_uuid(metadata.id)
+
+    def _wait_job_completion(
         self,
         task_id: str,
         update_progress_callback: Callable[[Statuses], None] | None,
@@ -198,29 +363,6 @@ class IqmServerClient(StationControlClient, metaclass=IqmServerClientMeta):
             except KeyboardInterrupt:
                 return True
 
-    def get_calibration_set_values(self, calibration_set_id: uuid.UUID) -> dict[str, ObservationValue]:
-        with wrap_error("Calibration set loading failed"):
-            calibrations = proto.CalibrationsStub(self._channel)
-            data_chunks = calibrations.GetFullCalibrationDataV1(
-                proto.CalibrationLookupV1(
-                    id=to_proto_uuid(calibration_set_id),
-                )
-            )
-            _, cal_set_values = parse_calibration_set(load_all(data_chunks))
-            return cal_set_values
-
-    def get_latest_calibration_set_id(self, dut_label: str) -> uuid.UUID:
-        with wrap_error("Calibration set metadata loading failed"):
-            calibrations = proto.CalibrationsStub(self._channel)
-            metadata: proto.CalibrationMetadataV1 = calibrations.GetLatestQuantumComputerCalibrationV1(
-                proto.LatestQuantumComputerCalibrationLookupV1(
-                    qc_id=self._current_qc.id,
-                )
-            )
-            if metadata.dut_label != dut_label:
-                raise ValueError(f"No calibration set for dut_label = {dut_label}")
-            return from_proto_uuid(metadata.id)
-
     def _get_cached_sweep(self, sweep_id: uuid.UUID) -> SweepDefinition | None:
         latest_submitted = self._latest_submitted_sweep
         if latest_submitted and latest_submitted.sweep_id == sweep_id:
@@ -241,6 +383,94 @@ class IqmServerClient(StationControlClient, metaclass=IqmServerClientMeta):
             resource = deserialize(load_all(data_chunks))
             self._cached_resources[resource_name] = resource
             return resource
+
+    @staticmethod
+    def _create_signature(client_signature: str) -> str:
+        signature = f"{platform.platform(terse=True)}"
+        signature += f", python {platform.python_version()}"
+        version_string = "iqm-station-control-client"
+        signature += f", IqmServerClient {version_string} {version(version_string)}"
+        if client_signature:
+            signature += f", {client_signature}"
+        return signature
+
+    def _send_request(
+        self,
+        http_method: Callable[..., requests.Response],
+        url_path: str,
+        *,
+        json_str: str | None = None,
+        octets: bytes | None = None,
+        params: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
+        timeout: int = 120,
+    ) -> requests.Response:
+        """Send an HTTP request.
+
+        Parameters ``json_str``, ``octets`` and ``params`` are mutually exclusive.
+        The first non-None argument (in this order) will be used to construct the body of the request.
+
+        Args:
+            http_method: HTTP method to use for the request, any of requests.[post|get|put|head|delete|patch|options].
+            url_path: URL for the request.
+
+        Returns:
+            Response to the request.
+
+        Raises:
+            StationControlError: Request was not successful.
+
+        """
+        # Will raise an error if respectively an error response code is returned.
+        # http_method should be any of requests.[post|get|put|head|delete|patch|options]
+
+        request_kwargs = self._build_request_kwargs(
+            json_str=json_str, octets=octets, params=params or {}, headers=headers or {}, timeout=timeout
+        )
+        url = f"{self.root_url}/{url_path}"
+        response = http_method(url, **request_kwargs)
+        if not response.ok:
+            try:
+                response_json = response.json()
+                error_message = response_json["detail"]
+            except json.JSONDecodeError:
+                error_message = response.text
+
+            try:
+                error_class = map_from_status_code_to_error(response.status_code)
+            except KeyError:
+                raise RuntimeError(f"Unexpected response status code {response.status_code}: {error_message}")
+            raise error_class(error_message)
+        return response
+
+    def _build_request_kwargs(self, **kwargs):
+        kwargs.setdefault("headers", {"User-Agent": self._signature})
+
+        params = kwargs.get("params", {})
+        headers = kwargs["headers"]
+
+        if kwargs["json_str"] is not None:
+            # Must be able to handle JSON strings with arbitrary unicode characters, so we use an explicit
+            # encoding into bytes, and set the headers so the recipient can decode the request body correctly.
+            data = kwargs["json_str"].encode("utf-8")
+            headers["Content-Type"] = "application/json; charset=UTF-8"
+        elif kwargs["octets"] is not None:
+            data = kwargs["octets"]
+            headers["Content-Type"] = "application/octet-stream"
+        else:
+            data = None
+
+        # If token callback exists, use it to retrieve the token and add it to the headers
+        if self._get_token_callback:
+            headers["Authorization"] = self._get_token_callback()
+
+        kwargs = {
+            "params": params,
+            "data": data,
+            "headers": headers,
+            "timeout": kwargs["timeout"],
+        }
+        return _remove_empty_values(kwargs)
 
 
 def resolve_current_qc(channel: grpc.Channel, alias: str) -> proto.QuantumComputerV1:
@@ -284,28 +514,28 @@ def parse_calibration_set(cal_set_data: bytes) -> tuple[uuid.UUID, dict[str, Obs
 
 
 def payload_to_sweep(job_payload: bytes) -> SweepDefinition:
-    sweep, _ = deserialize_sweep_task_request(job_payload)
+    sweep, _ = deserialize_sweep_job_request(job_payload)
     return sweep
 
 
-def to_sweep_status(job_status: proto.JobStatus) -> SweepStatus:
+def to_job_status(job_status: proto.JobStatus) -> JobExecutorStatus:
     match job_status:
         case proto.JobStatus.IN_QUEUE:
-            return SweepStatus.PENDING
+            return JobExecutorStatus.PENDING_EXECUTION
         case proto.JobStatus.EXECUTING:
-            return SweepStatus.PROGRESS
+            return JobExecutorStatus.EXECUTION_STARTED
         case proto.JobStatus.FAILED:
-            return SweepStatus.FAILURE
+            return JobExecutorStatus.FAILED
         case proto.JobStatus.COMPLETED:
-            return SweepStatus.SUCCESS
+            return JobExecutorStatus.READY
         case proto.JobStatus.INTERRUPTED:
-            return SweepStatus.INTERRUPTED
+            return JobExecutorStatus.ABORTED
         case proto.JobStatus.CANCELLED:
-            return SweepStatus.REVOKED
+            return JobExecutorStatus.ABORTED
     raise ValueError(f"Unknown job status: '{job_status}'")
 
 
-def to_task_status(job_status: proto.JobStatus) -> str:
+def to_string_job_status(job_status: proto.JobStatus) -> str:
     match job_status:
         case proto.JobStatus.IN_QUEUE:
             return "PENDING"
@@ -330,3 +560,8 @@ def wrap_error(title: str):
         raise extract_error(e, title) from e
     except Exception as e:
         raise IqmServerError(message=f"{title}: {e}", status_code=str(grpc.StatusCode.INTERNAL.name)) from e
+
+
+def _remove_empty_values(kwargs):
+    # Remove None and {} values
+    return {key: value for key, value in kwargs.items() if value not in [None, {}]}

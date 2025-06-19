@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ from exa.common.data.setting_node import SettingNode
 from exa.common.sweep.database_serialization import decode_and_validate_sweeps, encode_nd_sweeps
 from iqm.station_control.client.serializers.datetime_serializers import deserialize_datetime, serialize_datetime
 from iqm.station_control.client.serializers.playlist_serializers import pack_playlist, unpack_playlist
-from iqm.station_control.interface.models import SweepData, SweepDefinition, SweepResults, SweepStatus
+from iqm.station_control.interface.models import JobExecutorStatus, SweepData, SweepDefinition, SweepResults
 
 
 def serialize_sweep_definition(sweep_definition: SweepDefinition) -> SweepDefinitionProto:
@@ -74,7 +74,7 @@ def serialize_sweep_data(sweep_data: SweepData) -> dict:
         "modified_timestamp": serialize_datetime(sweep_data.modified_timestamp),
         "begin_timestamp": serialize_datetime(sweep_data.begin_timestamp),
         "end_timestamp": serialize_datetime(sweep_data.end_timestamp),
-        "sweep_status": sweep_data.sweep_status.value,
+        "job_status": sweep_data.job_status.value,
     }
 
 
@@ -90,7 +90,7 @@ def deserialize_sweep_data(data: dict) -> SweepData:
         modified_timestamp=deserialize_datetime(data["modified_timestamp"]),
         begin_timestamp=deserialize_datetime(data["begin_timestamp"]),
         end_timestamp=deserialize_datetime(data["end_timestamp"]),
-        sweep_status=SweepStatus(data["sweep_status"]),
+        job_status=JobExecutorStatus(data["job_status"]),
     )
 
 

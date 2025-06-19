@@ -66,9 +66,9 @@ from iqm.iqm_client import (
     CircuitValidationError,
     DynamicQuantumArchitecture,
     Instruction,
-    IQMClient,
 )
 from iqm.iqm_client.models import GateImplementationInfo, GateInfo, Locus, _op_is_symmetric
+from iqm.iqm_client.validation import validate_circuit_moves, validate_instruction
 
 Resolution = tuple[str, str, str]
 """A (gate qubit, move qubit, resonator) triple that represents a resolution of a fictional
@@ -592,7 +592,7 @@ class _ResonatorStateTracker:
         for idx, inst in enumerate(instructions):
             locus = inst.qubits
             try:
-                IQMClient._validate_instruction(architecture=arch, instruction=inst)
+                validate_instruction(architecture=arch, instruction=inst)
                 # inst can be applied as is on locus, but we may first need to use MOVEs to make
                 # sure the locus qubits contain their states
 
@@ -780,7 +780,7 @@ def transpile_insert_moves(
         # convert to physical qubit names
         phys_instructions = _map_loci(circuit.instructions, qubit_mapping)
         try:
-            IQMClient._validate_circuit_moves(
+            validate_circuit_moves(
                 arch,
                 Circuit(name=circuit.name, instructions=phys_instructions, metadata=circuit.metadata),
             )

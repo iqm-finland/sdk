@@ -32,8 +32,9 @@ from iqm.pulla.interface import StationControlResult, TaskStatus
 from iqm.pulse.builder import CircuitOperation
 
 if TYPE_CHECKING:
+    from iqm.iqm_client import Circuit, Instruction
     from iqm.qiskit_iqm.iqm_backend import DynamicQuantumArchitecture
-    from iqm.qiskit_iqm.iqm_provider import Circuit, Instruction, IQMBackend
+    from iqm.qiskit_iqm.iqm_provider import IQMBackend
 
     from iqm.cpc.compiler.compiler import Compiler
     from iqm.pulla.pulla import Pulla

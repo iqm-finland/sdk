@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ import uuid
 
 from pydantic import ConfigDict, Field
 
+from iqm.station_control.interface.models.observation import ObservationLite
 from iqm.station_control.interface.models.type_aliases import ObservationSetType
 from iqm.station_control.interface.pydantic_base import PydanticBase
 
@@ -74,3 +75,16 @@ class ObservationSetUpdate(PydanticBase):
     """
     invalid: bool
     """Flag indicating if the object is invalid. Automated systems must not use invalid objects."""
+
+
+class ObservationSetWithObservations(ObservationSetData):
+    """The content of the observation set stored in the database, with a list of observations."""
+
+    observations: list[ObservationLite]
+    """Observations belonging to the observation set."""
+
+
+class QualityMetrics(ObservationSetWithObservations):
+    """The content of the quality metric set stored in the database, with a list of observations and calibration set."""
+
+    calibration_set: ObservationSetData

@@ -15,10 +15,10 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Iterable
 from datetime import datetime
+from functools import lru_cache
+from http import HTTPStatus
 from importlib.metadata import version
-import itertools
 import json
 import os
 import platform
@@ -27,7 +27,7 @@ from typing import Any, TypeVar
 from uuid import UUID
 import warnings
 
-from iqm.iqm_client.api import APIConfig, APIEndpoint, APIVariant
+from iqm.iqm_client.api import APIConfig, APIEndpoint
 from iqm.iqm_client.authentication import TokenManager
 from iqm.iqm_client.errors import (
     APITimeoutError,
@@ -39,19 +39,13 @@ from iqm.iqm_client.errors import (
     JobAbortionError,
 )
 from iqm.iqm_client.models import (
-    _SUPPORTED_OPERATIONS,
     CalibrationSet,
-    Circuit,
     CircuitBatch,
     CircuitCompilationOptions,
     ClientLibrary,
     ClientLibraryDict,
-    DictDict,
     DynamicQuantumArchitecture,
-    Instruction,
-    MoveGateValidationMode,
     QualityMetricSet,
-    QuantumArchitecture,
     QuantumArchitectureSpecification,
     RunCounts,
     RunRequest,
@@ -62,11 +56,17 @@ from iqm.iqm_client.models import (
     serialize_qubit_mapping,
     validate_circuit,
 )
+from iqm.iqm_client.validation import validate_circuit_instructions, validate_qubit_mapping
+from iqm.models.channel_properties import AWGProperties
 from packaging.version import parse
-from pydantic import BaseModel
-from pydantic import ValidationError as PydanticValidationError
+from pydantic import BaseModel, ValidationError
 import requests
 from requests import HTTPError
+
+from iqm.station_control.client.iqm_server.iqm_server_client import IqmServerClient
+from iqm.station_control.client.utils import init_station_control
+from iqm.station_control.interface.models import ObservationLite
+from iqm.station_control.interface.station_control import StationControlInterface
 
 T_BaseModel = TypeVar("T_BaseModel", bound=BaseModel)
 
@@ -92,8 +92,6 @@ class IQMClient:
             If ``auth_server_url`` is given also ``username`` and ``password`` must be given.
         username: Username to log in to authentication server.
         password: Password to log in to authentication server.
-        api_variant: API variant to use. Default is ``APIVariant.V1``.
-            Configurable also by environment variable ``IQM_CLIENT_API_VARIANT``.
 
     Alternatively, the user authentication related keyword arguments can also be given in
     environment variables :envvar:`IQM_TOKEN`, :envvar:`IQM_TOKENS_FILE`, :envvar:`IQM_AUTH_SERVER`,
@@ -113,7 +111,6 @@ class IQMClient:
         auth_server_url: str | None = None,
         username: str | None = None,
         password: str | None = None,
-        api_variant: APIVariant | None = None,
     ):
         if not url.startswith(("http:", "https:")):
             raise ClientConfigurationError(f"The URL schema has to be http or https. Incorrect schema in URL: {url}")
@@ -134,101 +131,29 @@ class IQMClient:
         self._static_architecture: StaticQuantumArchitecture | None = None
         self._dynamic_architectures: dict[UUID, DynamicQuantumArchitecture] = {}
 
-        if api_variant is None:
-            env_var = os.environ.get("IQM_CLIENT_API_VARIANT")
-            api_variant = APIVariant(env_var) if env_var else APIVariant.V1
-        self._api = APIConfig(api_variant, url)
+        self._station_control: StationControlInterface = init_station_control(
+            root_url=url,
+            get_token_callback=self._token_manager.get_bearer_token,
+            client_signature=client_signature,
+        )
+        self._api = APIConfig(url)
         if (version_incompatibility_msg := self._check_versions()) is not None:
             warnings.warn(version_incompatibility_msg)
 
     def __del__(self):
         try:
-            # try our best to close the auth session, doesn't matter if it fails,
+            # Try our best to close the auth session, doesn't matter if it fails
             self.close_auth_session()
         except Exception:
             pass
 
-    def _retry_request_on_error(self, request: Callable[[], requests.Response]) -> requests.Response:
-        """Temporary workaround for 502 errors.
+    def get_about(self) -> dict:
+        """Return information about the IQM client."""
+        return self._station_control.get_about()
 
-        The current implementation of the server side can run out of network connections
-        and silently drop incoming connections making IQM Client to fail with 502 errors.
-        """
-        while True:
-            result = request()
-            if result.status_code == 502:
-                time.sleep(SECONDS_BETWEEN_CALLS)
-                continue
-            break
-
-        return result
-
-    def _get_request(
-        self,
-        api_endpoint: APIEndpoint,
-        endpoint_args: tuple[str, ...] = (),
-        *,
-        timeout: float,
-        retry: bool = False,
-    ) -> requests.Response:
-        """Make a HTTP GET request to an IQM server endpoint.
-
-        Contains all the boilerplate code for making a simple GET request.
-
-        Args:
-            api_endpoint: API endpoint to GET.
-            endpoint_args: Arguments for the endpoint.
-            timeout: HTTP request timeout (in seconds).
-            retry: Iff True, keep trying if you get a 502 error.
-
-        Returns:
-            HTTP response to the request.
-
-        Raises:
-            ClientAuthenticationError: No valid authentication provided.
-            HTTPError: Various HTTP exceptions.
-
-        """
-        url = self._api.url(api_endpoint, *endpoint_args)
-
-        def request():
-            return requests.get(
-                url,
-                headers=self._default_headers(),
-                timeout=timeout,
-            )
-
-        response = self._retry_request_on_error(request) if retry else request()
-        self._check_not_found_error(response)
-        self._check_authentication_errors(response)
-        response.raise_for_status()
-        return response
-
-    def _deserialize_response(
-        self,
-        response: requests.Response,
-        model_class: type[T_BaseModel],
-    ) -> T_BaseModel:
-        """Deserialize a HTTP endpoint response.
-
-        Args:
-            response: HTTP response data.
-            model_class: Pydantic model to deserialize the data into.
-
-        Returns:
-            Deserialized endpoint response.
-
-        Raises:
-            EndpointRequestError: Did not understand the endpoint response.
-
-        """
-        try:
-            model = model_class.model_validate(response.json())
-            # TODO this would be faster but MockJsonResponse.text in our unit tests cannot handle UUID
-            # model = model_class.model_validate_json(response.text)
-        except json.decoder.JSONDecodeError as e:
-            raise EndpointRequestError(f"Invalid response: {response.text}, {e!r}") from e
-        return model
+    def get_health(self) -> dict:
+        """Return the status of the station control service."""
+        return self._station_control.get_health()
 
     def submit_circuits(
         self,
@@ -314,19 +239,20 @@ class IQMClient:
                     e.__traceback__
                 )
 
-        architecture = self.get_dynamic_quantum_architecture(calibration_set_id)
+        dynamic_quantum_architecture = self.get_dynamic_quantum_architecture(calibration_set_id)
 
-        self._validate_qubit_mapping(architecture, circuits, qubit_mapping)
-        serialized_qubit_mapping = serialize_qubit_mapping(qubit_mapping) if qubit_mapping else None
-
+        validate_qubit_mapping(dynamic_quantum_architecture, circuits, qubit_mapping)
         # validate the circuit against the calibration-dependent dynamic quantum architecture
-        self._validate_circuit_instructions(
-            architecture,
+        validate_circuit_instructions(
+            dynamic_quantum_architecture,
             circuits,
             qubit_mapping,
             validate_moves=options.move_gate_validation,
             must_close_sandwiches=False,
         )
+
+        serialized_qubit_mapping = serialize_qubit_mapping(qubit_mapping) if qubit_mapping else None
+
         return RunRequest(
             qubit_mapping=serialized_qubit_mapping,
             circuits=circuits,
@@ -354,26 +280,29 @@ class IQMClient:
             ID for the created job. This ID is needed to query the job status and the execution results.
 
         """
-        headers = {"Expect": "100-Continue", **self._default_headers()}
+        headers = {
+            "Expect": "100-Continue",
+            **self._default_headers(),
+        }
         try:
-            # check if someone is trying to profile us with OpenTelemetry
+            # Check if someone is trying to profile us with OpenTelemetry
             from opentelemetry import propagate
 
             propagate.inject(headers)
         except ImportError as _:
-            # no OpenTelemetry, no problem
+            # No OpenTelemetry, no problem
             pass
 
         if os.environ.get("IQM_CLIENT_DEBUG") == "1":
             print(f"\nIQM CLIENT DEBUGGING ENABLED\nSUBMITTING RUN REQUEST:\n{run_request}\n")
 
-        result = self._retry_request_on_error(
-            lambda: requests.post(
-                self._api.url(APIEndpoint.SUBMIT_JOB),
-                json=json.loads(run_request.model_dump_json(exclude_none=True)),
-                headers=headers,
-                timeout=REQUESTS_TIMEOUT,
-            )
+        # Use UTF-8 encoding for the JSON payload
+        result = requests.post(
+            # TODO SW-1434: Use station control client
+            self._api.url(APIEndpoint.SUBMIT_JOB),
+            data=run_request.model_dump_json(exclude_none=True).encode("utf-8"),
+            headers=headers | {"Content-Type": "application/json; charset=UTF-8"},
+            timeout=REQUESTS_TIMEOUT,
         )
 
         self._check_not_found_error(result)
@@ -392,372 +321,6 @@ class IQMClient:
         except (json.decoder.JSONDecodeError, KeyError) as e:
             raise CircuitExecutionError(f"Invalid response: {result.text}, {e}") from e
 
-    @staticmethod
-    def _validate_qubit_mapping(
-        architecture: DynamicQuantumArchitecture,
-        circuits: CircuitBatch,
-        qubit_mapping: dict[str, str] | None = None,
-    ) -> None:
-        """Validate the given qubit mapping.
-
-        Args:
-          architecture: Quantum architecture to check against.
-          circuits: Circuits to be checked.
-          qubit_mapping: Mapping of logical qubit names to physical qubit names.
-              Can be set to ``None`` if all ``circuits`` already use physical qubit names.
-              Note that the ``qubit_mapping`` is used for all ``circuits``.
-
-        Raises:
-            CircuitValidationError: There was something wrong with ``circuits``.
-
-        """
-        if qubit_mapping is None:
-            return
-
-        # check if qubit mapping is injective
-        target_qubits = set(qubit_mapping.values())
-        if not len(target_qubits) == len(qubit_mapping):
-            raise CircuitValidationError("Multiple logical qubits map to the same physical qubit.")
-
-        # check if qubit mapping covers all qubits in the circuits
-        for i, circuit in enumerate(circuits):
-            diff = circuit.all_qubits() - set(qubit_mapping)
-            if diff:
-                raise CircuitValidationError(
-                    f"The qubits {diff} in circuit '{circuit.name}' at index {i} "
-                    f"are not found in the provided qubit mapping."
-                )
-
-        # check that each mapped qubit is defined in the quantum architecture
-        for _logical, physical in qubit_mapping.items():
-            if physical not in architecture.components:
-                raise CircuitValidationError(f"Component {physical} not present in dynamic quantum architecture")
-
-    @staticmethod
-    def _validate_circuit_instructions(
-        architecture: DynamicQuantumArchitecture,
-        circuits: CircuitBatch,
-        qubit_mapping: dict[str, str] | None = None,
-        validate_moves: MoveGateValidationMode = MoveGateValidationMode.STRICT,
-        *,
-        must_close_sandwiches: bool = True,
-    ) -> None:
-        """Validate the given circuits against the given quantum architecture.
-
-        Args:
-          architecture: Quantum architecture to check against.
-          circuits: Circuits to be checked.
-          qubit_mapping: Mapping of logical qubit names to physical qubit names.
-              Can be set to ``None`` if all ``circuits`` already use physical qubit names.
-              Note that the ``qubit_mapping`` is used for all ``circuits``.
-          validate_moves: Determines how MOVE gate validation works.
-          must_close_sandwiches: Iff True, MOVE sandwiches cannot be left open when the circuit ends.
-
-        Raises:
-            CircuitValidationError: validation failed
-
-        """
-        for index, circuit in enumerate(circuits):
-            measurement_keys: set[str] = set()
-            for instr in circuit.instructions:
-                IQMClient._validate_instruction(architecture, instr, qubit_mapping)
-                # check measurement key uniqueness
-                if instr.name in {"measure", "measurement"}:
-                    key = instr.args["key"]
-                    if key in measurement_keys:
-                        raise CircuitValidationError(f"Circuit {index}: {instr!r} has a non-unique measurement key.")
-                    measurement_keys.add(key)
-            IQMClient._validate_circuit_moves(
-                architecture,
-                circuit,
-                qubit_mapping,
-                validate_moves=validate_moves,
-                must_close_sandwiches=must_close_sandwiches,
-            )
-
-    @staticmethod
-    def _validate_instruction(
-        architecture: DynamicQuantumArchitecture,
-        instruction: Instruction,
-        qubit_mapping: dict[str, str] | None = None,
-    ) -> None:
-        """Validate an instruction against the dynamic quantum quantum architecture.
-
-        Checks that the instruction uses a valid implementation, and targets a valid locus.
-
-        Args:
-          architecture: Quantum architecture to check against.
-          instruction: Instruction to check.
-          qubit_mapping: Mapping of logical qubit names to physical qubit names.
-              Can be set to ``None`` if ``instruction`` already uses physical qubit names.
-
-        Raises:
-            CircuitValidationError: validation failed
-
-        """
-        op_info = _SUPPORTED_OPERATIONS.get(instruction.name)
-        if op_info is None:
-            raise CircuitValidationError(f"Unknown quantum operation '{instruction.name}'.")
-
-        # apply the qubit mapping if any
-        mapped_qubits = tuple(qubit_mapping[q] for q in instruction.qubits) if qubit_mapping else instruction.qubits
-
-        def check_locus_components(allowed_components: Iterable[str], msg: str) -> None:
-            """Checks that the instruction locus consists of the allowed components only."""
-            for q, mapped_q in zip(instruction.qubits, mapped_qubits):
-                if mapped_q not in allowed_components:
-                    raise CircuitValidationError(
-                        f"{instruction!r}: Component {q} = {mapped_q} {msg}."
-                        if qubit_mapping
-                        else f"{instruction!r}: Component {q} {msg}."
-                    )
-
-        if op_info.no_calibration_needed:
-            # all QPU loci are allowed
-            check_locus_components(architecture.components, msg="does not exist on the QPU")
-            return
-
-        gate_info = architecture.gates.get(instruction.name)
-        if gate_info is None:
-            raise CircuitValidationError(
-                f"Operation '{instruction.name}' is not supported by the dynamic quantum architecture."
-            )
-
-        if instruction.implementation is not None:
-            # specific implementation requested
-            impl_info = gate_info.implementations.get(instruction.implementation)
-            if impl_info is None:
-                raise CircuitValidationError(
-                    f"Operation '{instruction.name}' implementation '{instruction.implementation}' "
-                    f"is not supported by the dynamic quantum architecture."
-                )
-            allowed_loci = impl_info.loci
-            instruction_name = f"{instruction.name}.{instruction.implementation}"
-        else:
-            # any implementation is fine
-            allowed_loci = gate_info.loci
-            instruction_name = f"{instruction.name}"
-
-        if op_info.factorizable:
-            # Check that all the locus components are allowed by the architecture
-            check_locus_components(
-                {q for locus in allowed_loci for q in locus}, msg=f"is not allowed as locus for '{instruction_name}'"
-            )
-            return
-
-        # Check that locus matches one of the allowed loci
-        all_loci = (
-            tuple(tuple(x) for locus in allowed_loci for x in itertools.permutations(locus))
-            if op_info.symmetric
-            else allowed_loci
-        )
-        if mapped_qubits not in all_loci:
-            raise CircuitValidationError(
-                f"{instruction.qubits} = {tuple(mapped_qubits)} is not allowed as locus for '{instruction_name}'"
-                if qubit_mapping
-                else f"{instruction.qubits} is not allowed as locus for '{instruction_name}'"
-            )
-
-    @staticmethod
-    def _validate_circuit_moves(
-        architecture: DynamicQuantumArchitecture,
-        circuit: Circuit,
-        qubit_mapping: dict[str, str] | None = None,
-        validate_moves: MoveGateValidationMode = MoveGateValidationMode.STRICT,
-        *,
-        must_close_sandwiches: bool = True,
-    ) -> None:
-        """Raise an error if the MOVE gates in the circuit are not valid in the given architecture.
-
-        Args:
-            architecture: Quantum architecture to check against.
-            circuit: Quantum circuit to validate.
-            qubit_mapping: Mapping of logical qubit names to physical qubit names.
-                Can be set to ``None`` if the ``circuit`` already uses physical qubit names.
-            validate_moves: Option for bypassing full or partial MOVE gate validation.
-            must_close_sandwiches: Iff True, MOVE sandwiches cannot be left open when the circuit ends.
-
-        Raises:
-            CircuitValidationError: validation failed
-
-        """
-        if validate_moves == MoveGateValidationMode.NONE:
-            return
-        move_gate = "move"
-        # Check if MOVE gates are allowed on this architecture
-        if move_gate not in architecture.gates:
-            if any(i.name == move_gate for i in circuit.instructions):
-                raise CircuitValidationError("MOVE instruction is not supported by the given device architecture.")
-            return
-
-        # some gates are allowed in MOVE sandwiches
-        allowed_gates = {"barrier"}
-        if validate_moves == MoveGateValidationMode.ALLOW_PRX:
-            allowed_gates.add("prx")
-
-        all_resonators = set(architecture.computational_resonators)
-        all_qubits = set(architecture.qubits)
-        if qubit_mapping:
-            reverse_mapping = {phys: log for log, phys in qubit_mapping.items()}
-            all_resonators = {reverse_mapping[q] if q in reverse_mapping else q for q in all_resonators}
-            all_qubits = {reverse_mapping[q] if q in reverse_mapping else q for q in all_qubits}
-
-        # Mapping from resonator to the qubit whose state it holds. Resonators not in the map hold no qubit state.
-        resonator_occupations: dict[str, str] = {}
-        # Qubits whose states are currently moved to a resonator
-        moved_qubits: set[str] = set()
-
-        for inst in circuit.instructions:
-            if inst.name == "move":
-                qubit, resonator = inst.qubits
-                if not (qubit in all_qubits and resonator in all_resonators):
-                    raise CircuitValidationError(
-                        f"MOVE instructions are only allowed between qubit and resonator, not {inst.qubits}."
-                    )
-
-                if (resonator_qubit := resonator_occupations.get(resonator)) is None:
-                    # Beginning MOVE: check that the qubit hasn't been moved to another resonator
-                    if qubit in moved_qubits:
-                        raise CircuitValidationError(
-                            f"MOVE instruction {inst.qubits}: state of {qubit} is "
-                            f"in another resonator: {resonator_occupations}."
-                        )
-                    resonator_occupations[resonator] = qubit
-                    moved_qubits.add(qubit)
-                else:
-                    # Ending MOVE: check that the qubit matches to the qubit that was moved to the resonator
-                    if resonator_qubit != qubit:
-                        raise CircuitValidationError(
-                            f"MOVE instruction {inst.qubits} to an already occupied resonator: {resonator_occupations}."
-                        )
-                    del resonator_occupations[resonator]
-                    moved_qubits.remove(qubit)
-            elif moved_qubits:
-                # Validate that moved qubits are not used during MOVE operations
-                if inst.name not in allowed_gates:
-                    if overlap := set(inst.qubits) & moved_qubits:
-                        raise CircuitValidationError(
-                            f"Instruction {inst.name} acts on {inst.qubits} while the state(s) of {overlap} "
-                            f"are in a resonator. Current resonator occupation: {resonator_occupations}."
-                        )
-
-        # Finally validate that all MOVE sandwiches have been ended before the circuit ends
-        if must_close_sandwiches and resonator_occupations:
-            raise CircuitValidationError(
-                f"Circuit ends while qubit state(s) are still in a resonator: {resonator_occupations}."
-            )
-
-    def _get_run_v1(self, job_id: UUID, timeout_secs: float = REQUESTS_TIMEOUT) -> RunResult:
-        """V1 API (Cocos circuit execution and Resonance) has an inefficient `GET /jobs/<id>` endpoint
-        that returns the full job status, including the result and the original request, in a single call.
-        """
-        response = self._get_request(
-            APIEndpoint.GET_JOB_RESULT,
-            (str(job_id),),
-            timeout=timeout_secs,
-            retry=True,
-        )
-        return self._deserialize_response(response, RunResult)
-
-    def _get_run_v2(self, job_id: UUID, timeout_secs: float = REQUESTS_TIMEOUT) -> RunResult:
-        """V2 API (Station-based circuit execution) has granular endpoints for job status and result."""
-        status_response = self._get_request(
-            APIEndpoint.GET_JOB_STATUS,
-            (str(job_id),),
-            timeout=timeout_secs,
-        )
-        status = status_response.json()
-        if Status(status["status"]) not in Status.terminal_statuses():
-            return RunResult.from_dict(
-                {
-                    "measurements": [],
-                    "status": status["status"],
-                    "message": "",
-                    "metadata": {
-                        "calibration_set_id": None,
-                        "circuits_batch": [],
-                        "parameters": None,
-                        "timestamps": {},
-                    },
-                }
-            )
-
-        result = self._retry_request_on_error(
-            lambda: requests.get(
-                self._api.url(APIEndpoint.GET_JOB_RESULT, str(job_id)),
-                headers=self._default_headers(),
-                timeout=timeout_secs,
-            )
-        )
-        if result.status_code != 404:
-            result.raise_for_status()
-        measurements = [] if result.status_code == 404 else result.json()
-        request_parameters = (
-            {}
-            if result.status_code == 404
-            else requests.get(
-                self._api.url(APIEndpoint.GET_JOB_REQUEST_PARAMETERS, str(job_id)),
-                headers=self._default_headers(),
-                timeout=timeout_secs,
-            ).json()
-        )
-        calibration_set_id = (
-            None
-            if result.status_code == 404
-            else requests.get(
-                self._api.url(APIEndpoint.GET_JOB_CALIBRATION_SET_ID, str(job_id)),
-                headers=self._default_headers(),
-                timeout=timeout_secs,
-            ).json()
-        )
-        circuits_batch = (
-            []
-            if result.status_code == 404
-            else requests.get(
-                self._api.url(APIEndpoint.GET_JOB_CIRCUITS_BATCH, str(job_id)),
-                headers=self._default_headers(),
-                timeout=timeout_secs,
-            ).json()
-        )
-        timeline = (
-            []
-            if result.status_code == 404
-            else requests.get(
-                self._api.url(APIEndpoint.GET_JOB_TIMELINE, str(job_id)),
-                headers=self._default_headers(),
-                timeout=timeout_secs,
-            ).json()
-        )
-        error_message_response = requests.get(
-            self._api.url(APIEndpoint.GET_JOB_ERROR_LOG, str(job_id)),
-            headers=self._default_headers(),
-            timeout=timeout_secs,
-        )
-        error_message = error_message_response.text if error_message_response.status_code == 200 else None
-        return RunResult.from_dict(
-            {
-                "measurements": measurements,
-                "status": status["status"],
-                "message": error_message,
-                "metadata": {
-                    "`": calibration_set_id,
-                    "circuits_batch": circuits_batch,
-                    "parameters": (
-                        None
-                        if result.status_code == 404
-                        else {
-                            "shots": request_parameters["shots"],
-                            "max_circuit_duration_over_t2": request_parameters["max_circuit_duration_over_t2"],
-                            "heralding_mode": request_parameters["heralding_mode"],
-                            "move_validation_mode": request_parameters["move_validation_mode"],
-                            "move_gate_frame_tracking_mode": request_parameters["move_gate_frame_tracking_mode"],
-                        }
-                    ),
-                    "timestamps": {datapoint["stage"]: datapoint["timestamp"] for datapoint in timeline},
-                },
-            }
-        )
-
     def get_run(self, job_id: UUID, *, timeout_secs: float = REQUESTS_TIMEOUT) -> RunResult:
         """Query the status and results of a submitted job.
 
@@ -773,10 +336,72 @@ class IQMClient:
             HTTPException: HTTP exceptions
 
         """
-        if self._api.variant == APIVariant.V2:
-            run_result = self._get_run_v2(job_id, timeout_secs)
+        status_response = self._get_request(
+            APIEndpoint.GET_JOB_STATUS,
+            (str(job_id),),
+            timeout=timeout_secs,
+        )
+        status = status_response.json()
+        if Status(status["status"]) not in Status.terminal_statuses():
+            return RunResult.from_dict({"status": status["status"], "metadata": {}})
+
+        result = self._get_request(APIEndpoint.GET_JOB_RESULT, (str(job_id),), timeout=timeout_secs, allow_errors=True)
+
+        error_log_response = self._get_request(
+            APIEndpoint.GET_JOB_ERROR_LOG, (str(job_id),), timeout=timeout_secs, allow_errors=True
+        )
+        if error_log_response.status_code == 200:
+            error_log = error_log_response.json()
+            if isinstance(error_log, dict) and "user_error_message" in error_log:
+                error_message = error_log["user_error_message"]
+            else:
+                # backwards compatibility for older error_log format
+                # TODO: remove when not needed anymore
+                error_message = error_log_response.text
         else:
-            run_result = self._get_run_v1(job_id, timeout_secs)
+            error_message = None
+
+        if result.status_code == 404:
+            run_result = RunResult.from_dict({"status": status["status"], "message": error_message, "metadata": {}})
+        else:
+            result.raise_for_status()
+
+            measurements = result.json()
+            request_parameters = self._get_request(
+                APIEndpoint.GET_JOB_REQUEST_PARAMETERS, (str(job_id),), timeout=timeout_secs, allow_errors=True
+            ).json()
+            calibration_set_id = self._get_request(
+                APIEndpoint.GET_JOB_CALIBRATION_SET_ID, (str(job_id),), timeout=timeout_secs, allow_errors=True
+            ).json()
+            circuits_batch = self._get_request(
+                APIEndpoint.GET_JOB_CIRCUITS_BATCH, (str(job_id),), timeout=timeout_secs, allow_errors=True
+            ).json()
+            timeline = self._get_request(
+                APIEndpoint.GET_JOB_TIMELINE, (str(job_id),), timeout=timeout_secs, allow_errors=True
+            ).json()
+
+            run_result = RunResult.from_dict(
+                {
+                    "measurements": measurements,
+                    "status": status["status"],
+                    "message": error_message,
+                    "metadata": {
+                        "calibration_set_id": calibration_set_id,
+                        "circuits_batch": circuits_batch,
+                        "parameters": {
+                            "shots": request_parameters["shots"],
+                            "max_circuit_duration_over_t2": request_parameters.get(
+                                "max_circuit_duration_over_t2", None
+                            ),
+                            "heralding_mode": request_parameters["heralding_mode"],
+                            "move_validation_mode": request_parameters["move_validation_mode"],
+                            "move_gate_frame_tracking_mode": request_parameters["move_gate_frame_tracking_mode"],
+                        },
+                        "timestamps": {datapoint["status"]: datapoint["timestamp"] for datapoint in timeline},
+                    },
+                    "warnings": status.get("warnings", []),
+                }
+            )
 
         if run_result.warnings:
             for warning in run_result.warnings:
@@ -804,7 +429,6 @@ class IQMClient:
             APIEndpoint.GET_JOB_STATUS,
             (str(job_id),),
             timeout=timeout_secs,
-            retry=True,
         )
         run_status = self._deserialize_response(response, RunStatus)
 
@@ -830,7 +454,7 @@ class IQMClient:
         start_time = datetime.now()
         while (datetime.now() - start_time).total_seconds() < timeout_secs:
             status = self.get_run_status(job_id).status
-            if status in Status.terminal_statuses() | {Status.PENDING_EXECUTION, Status.COMPILED}:
+            if status in Status.terminal_statuses() | {Status.PENDING_EXECUTION, Status.COMPILATION_ENDED}:
                 return self.get_run(job_id)
             time.sleep(SECONDS_BETWEEN_CALLS)
         raise APITimeoutError(f"The job compilation didn't finish in {timeout_secs} seconds.")
@@ -877,46 +501,13 @@ class IQMClient:
             headers=self._default_headers(),
             timeout=timeout_secs,
         )
-        if result.status_code != 200:
+        if result.status_code not in (200, 204):  # CoCos returns 200, station-control 204.
             raise JobAbortionError(result.text)
 
-    def get_quantum_architecture(self, *, timeout_secs: float = REQUESTS_TIMEOUT) -> QuantumArchitectureSpecification:
-        """Retrieve quantum architecture from server.
-
-        Caches the result and returns it on later invocations.
-
-        Args:
-            timeout_secs: Network request timeout (seconds).
-
-        Returns:
-            Quantum architecture of the server.
-
-        Raises:
-            EndpointRequestError: did not understand the endpoint response
-            ClientAuthenticationError: no valid authentication provided
-            HTTPException: HTTP exceptions
-
-        """
-        if self._architecture:
-            return self._architecture
-
-        response = self._get_request(
-            APIEndpoint.QUANTUM_ARCHITECTURE,
-            timeout=timeout_secs,
-        )
-        qa = self._deserialize_response(response, QuantumArchitecture).quantum_architecture
-
-        # Cache architecture so that later invocations do not need to query it again
-        self._architecture = qa
-        return qa
-
-    def get_static_quantum_architecture(self, *, timeout_secs: float = REQUESTS_TIMEOUT) -> StaticQuantumArchitecture:
+    def get_static_quantum_architecture(self) -> StaticQuantumArchitecture:
         """Retrieve the static quantum architecture (SQA) from the server.
 
         Caches the result and returns it on later invocations.
-
-        Args:
-            timeout_secs: Network request timeout (seconds).
 
         Returns:
             Static quantum architecture of the server.
@@ -930,25 +521,17 @@ class IQMClient:
         if self._static_architecture:
             return self._static_architecture
 
-        response = self._get_request(
-            APIEndpoint.STATIC_QUANTUM_ARCHITECTURE,
-            timeout=timeout_secs,
-        )
-        sqa = self._deserialize_response(response, StaticQuantumArchitecture)
+        dut_label = self._get_dut_label()
+        static_quantum_architecture = self._station_control.get_static_quantum_architecture(dut_label)
+        self._static_architecture = StaticQuantumArchitecture(**static_quantum_architecture.model_dump())
+        return self._static_architecture
 
-        # Cache the architecture so that later invocations do not need to query it again
-        self._static_architecture = sqa
-        return sqa
-
-    def get_quality_metric_set(
-        self, calibration_set_id: UUID | None = None, *, timeout_secs: float = REQUESTS_TIMEOUT
-    ) -> QualityMetricSet:
+    def get_quality_metric_set(self, calibration_set_id: UUID | None = None) -> QualityMetricSet:
         """Retrieve the latest quality metric set for the given calibration set from the server.
 
         Args:
             calibration_set_id: ID of the calibration set for which the quality metrics are returned.
                 If ``None``, the current default calibration set is used.
-            timeout_secs: Network request timeout (seconds).
 
         Returns:
             Requested quality metric set.
@@ -959,27 +542,53 @@ class IQMClient:
             HTTPException: HTTP exceptions
 
         """
-        if calibration_set_id is None:
-            calibration_set_id_str = "default"
+        if isinstance(self._station_control, IqmServerClient):
+            raise ValueError("'get_quality_metric_set' method is not supported for IqmServerClient.")
+
+        if not calibration_set_id:
+            quality_metrics = self._station_control.get_default_calibration_set_quality_metrics()
         else:
-            calibration_set_id_str = str(calibration_set_id)
+            quality_metrics = self._station_control.get_calibration_set_quality_metrics(calibration_set_id)
 
-        response = self._get_request(
-            APIEndpoint.QUALITY_METRICS,
-            (calibration_set_id_str,),
-            timeout=timeout_secs,
+        calibration_set = quality_metrics.calibration_set
+
+        return QualityMetricSet(
+            **{
+                "calibration_set_id": calibration_set.observation_set_id,
+                "calibration_set_dut_label": calibration_set.dut_label,
+                "calibration_set_number_of_observations": len(calibration_set.observation_ids),
+                "calibration_set_created_timestamp": str(calibration_set.created_timestamp.isoformat()),
+                "calibration_set_end_timestamp": None
+                if calibration_set.end_timestamp is None
+                else str(calibration_set.end_timestamp.isoformat()),
+                "calibration_set_is_invalid": calibration_set.invalid,
+                "quality_metric_set_id": quality_metrics.observation_set_id,
+                "quality_metric_set_dut_label": quality_metrics.dut_label,
+                "quality_metric_set_created_timestamp": str(quality_metrics.created_timestamp.isoformat()),
+                "quality_metric_set_end_timestamp": None
+                if quality_metrics.end_timestamp is None
+                else str(quality_metrics.end_timestamp.isoformat()),
+                "quality_metric_set_is_invalid": quality_metrics.invalid,
+                "metrics": {
+                    observation.dut_field: {
+                        "value": str(observation.value),
+                        "unit": observation.unit,
+                        "uncertainty": str(observation.uncertainty),
+                        # created_timestamp is the interesting one, since observations are effectively immutable
+                        "timestamp": str(observation.created_timestamp.isoformat()),
+                    }
+                    for observation in quality_metrics.observations
+                    if not observation.invalid
+                },
+            }
         )
-        return self._deserialize_response(response, QualityMetricSet)
 
-    def get_calibration_set(
-        self, calibration_set_id: UUID | None = None, *, timeout_secs: float = REQUESTS_TIMEOUT
-    ) -> CalibrationSet:
+    def get_calibration_set(self, calibration_set_id: UUID | None = None) -> CalibrationSet:
         """Retrieve the given calibration set from the server.
 
         Args:
             calibration_set_id: ID of the calibration set to retrieve.
                 If ``None``, the current default calibration set is retrieved.
-            timeout_secs: Network request timeout (seconds).
 
         Returns:
             Requested calibration set.
@@ -990,21 +599,36 @@ class IQMClient:
             HTTPException: HTTP exceptions
 
         """
-        if calibration_set_id is None:
-            calibration_set_id_str = "default"
+
+        def _observation_lite_to_json(obs: ObservationLite) -> dict[str, Any]:
+            """Convert ObservationLite to JSON serializable dictionary."""
+            json_dict = obs.model_dump()
+            json_dict["created_timestamp"] = obs.created_timestamp.isoformat(timespec="microseconds")
+            json_dict["modified_timestamp"] = obs.modified_timestamp.isoformat(timespec="microseconds")
+            return json_dict
+
+        if isinstance(self._station_control, IqmServerClient):
+            raise ValueError("'get_calibration_set' method is not supported for IqmServerClient.")
+
+        if not calibration_set_id:
+            calibration_set = self._station_control.get_default_calibration_set()
         else:
-            calibration_set_id_str = str(calibration_set_id)
+            calibration_set = self._station_control.get_observation_set(calibration_set_id)
 
-        response = self._get_request(
-            APIEndpoint.CALIBRATION,
-            (calibration_set_id_str,),
-            timeout=timeout_secs,
+        observations = self._station_control.get_observation_set_observations(calibration_set.observation_set_id)
+
+        return CalibrationSet(
+            calibration_set_id=calibration_set.observation_set_id,
+            calibration_set_dut_label=calibration_set.dut_label,
+            calibration_set_created_timestamp=str(calibration_set.created_timestamp.isoformat()),
+            calibration_set_end_timestamp=str(calibration_set.end_timestamp.isoformat()),
+            calibration_set_is_invalid=calibration_set.invalid,
+            observations={
+                observation.dut_field: _observation_lite_to_json(observation) for observation in observations
+            },
         )
-        return self._deserialize_response(response, CalibrationSet)
 
-    def get_dynamic_quantum_architecture(
-        self, calibration_set_id: UUID | None = None, *, timeout_secs: float = REQUESTS_TIMEOUT
-    ) -> DynamicQuantumArchitecture:
+    def get_dynamic_quantum_architecture(self, calibration_set_id: UUID | None = None) -> DynamicQuantumArchitecture:
         """Retrieve the dynamic quantum architecture (DQA) for the given calibration set from the server.
 
         Caches the result and returns the same result on later invocations, unless ``calibration_set_id`` is ``None``.
@@ -1014,7 +638,6 @@ class IQMClient:
         Args:
             calibration_set_id: ID of the calibration set for which the DQA is retrieved.
                 If ``None``, use current default calibration set on the server.
-            timeout_secs: Network request timeout (seconds).
 
         Returns:
             Dynamic quantum architecture corresponding to the given calibration set.
@@ -1025,34 +648,27 @@ class IQMClient:
             HTTPException: HTTP exceptions
 
         """
-        if calibration_set_id is None:
-            calibration_set_id_str = "default"
-        elif calibration_set_id in self._dynamic_architectures:
+        if calibration_set_id in self._dynamic_architectures:
             return self._dynamic_architectures[calibration_set_id]
-        else:
-            calibration_set_id_str = str(calibration_set_id)
 
-        response = self._get_request(
-            APIEndpoint.CALIBRATED_GATES,
-            (calibration_set_id_str,),
-            timeout=timeout_secs,
-        )
-        dqa = self._deserialize_response(response, DynamicQuantumArchitecture)
+        if not calibration_set_id:
+            if isinstance(self._station_control, IqmServerClient):
+                dut_label = self._get_dut_label()
+                calibration_set_id = self._station_control.get_latest_calibration_set_id(dut_label)
+            else:
+                calibration_set_id = self._station_control.get_default_calibration_set().observation_set_id
+        data = self._station_control.get_dynamic_quantum_architecture(calibration_set_id)
+        dynamic_quantum_architecture = DynamicQuantumArchitecture(**data.model_dump())
 
         # Cache architecture so that later invocations do not need to query it again
-        self._dynamic_architectures[dqa.calibration_set_id] = dqa
-        return dqa
+        self._dynamic_architectures[dynamic_quantum_architecture.calibration_set_id] = dynamic_quantum_architecture
+        return dynamic_quantum_architecture
 
-    def get_feedback_groups(self, *, timeout_secs: float = REQUESTS_TIMEOUT) -> tuple[frozenset[str], ...]:
+    def get_feedback_groups(self) -> tuple[frozenset[str], ...]:
         """Retrieve groups of qubits that can receive real-time feedback signals from each other.
 
         Real-time feedback enables conditional gates such as `cc_prx`.
         Some hardware configurations support routing real-time feedback only between certain qubits.
-
-        This method is only supported for the API variant V2.
-
-        Args:
-            timeout_secs: Network request timeout (seconds).
 
         Returns:
             Feedback groups. Within a group, any qubit can receive real-time feedback from any other qubit in
@@ -1065,16 +681,9 @@ class IQMClient:
             HTTPException: HTTP exceptions
 
         """
-        response = self._get_request(
-            APIEndpoint.CHANNEL_PROPERTIES,
-            timeout=timeout_secs,
-        )
-        try:
-            channel_properties = DictDict.validate_json(response.text)
-        except PydanticValidationError as e:
-            raise EndpointRequestError(f"Invalid response: {response.text}, {e!r}") from e
+        channel_properties = self._station_control.get_channel_properties()
 
-        all_qubits = self.get_quantum_architecture().qubits
+        all_qubits = self.get_static_quantum_architecture().qubits
         groups: dict[str, set[str]] = {}
         # All qubits that can read from the same source belong to the same group.
         # A qubit may belong to multiple groups.
@@ -1083,12 +692,69 @@ class IQMClient:
             qubit = channel_name.split("__")[0]
             if qubit not in all_qubits:
                 continue
-            for source in properties.get("fast_feedback_sources", ()):
-                groups.setdefault(source, set()).add(qubit)
+            if isinstance(properties, AWGProperties):
+                for source in properties.fast_feedback_sources:
+                    groups.setdefault(source, set()).add(qubit)
         # Merge identical groups
         unique_groups: set[frozenset[str]] = {frozenset(group) for group in groups.values()}
         # Sort by group size
         return tuple(sorted(unique_groups, key=len, reverse=True))
+
+    def get_run_counts(self, job_id: UUID, *, timeout_secs: float = REQUESTS_TIMEOUT) -> RunCounts:
+        """Query the counts of an executed job.
+
+        Args:
+            job_id: ID of the job to query.
+            timeout_secs: Network request timeout (seconds).
+
+        Returns:
+            Measurement results of the job in histogram representation.
+
+        Raises:
+            EndpointRequestError: did not understand the endpoint response
+            ClientAuthenticationError: no valid authentication provided
+            HTTPException: HTTP exceptions
+
+        """
+        response = self._get_request(
+            APIEndpoint.GET_JOB_COUNTS,
+            (str(job_id),),
+            timeout=timeout_secs,
+        )
+        return self._deserialize_response(response, RunCounts)
+
+    def get_supported_client_libraries(self, timeout_secs: float = REQUESTS_TIMEOUT) -> dict[str, ClientLibrary] | None:
+        """Retrieve information about supported client libraries from the server.
+
+        Args:
+            timeout_secs: Network request timeout (seconds).
+
+        Returns:
+            Mapping from library identifiers to their metadata.
+
+        Raises:
+            EndpointRequestError: did not understand the endpoint response
+            ClientAuthenticationError: no valid authentication provided
+            HTTPException: HTTP exceptions
+
+        """
+        # TODO: Remove "client-libraries" usage after using versioned URLs in station control
+        #  Version incompatibility shouldn't be a problem after that anymore,
+        #  so we can delete this "client-libraries" implementation and usage.
+        response = requests.get(
+            #  "/info/client-libraries" is implemented by Nginx so it won't work on locally running service.
+            #  We will simply give warning in that case, so that IQMClient can be initialized also locally.
+            #  "/station" is set by Nginx, so we will drop it to get the correct root for "/info/client-libraries".
+            self._api.station_control_url.replace("/station", "") + "/info/client-libraries",
+            headers=self._default_headers(),
+            timeout=timeout_secs,
+        )
+        if response.status_code == HTTPStatus.NOT_FOUND:
+            return None
+        try:
+            return ClientLibraryDict.validate_json(response.text)
+        except ValidationError as e:
+            raise EndpointRequestError(f"Invalid response: {response.text}, {e!r}") from e
 
     def close_auth_session(self) -> bool:
         """Terminate session with authentication server if there is one.
@@ -1143,6 +809,8 @@ class IQMClient:
         """
         try:
             libraries = self.get_supported_client_libraries()
+            if not libraries:
+                return "Got 'Not found' response from server. Couldn't check version compatibility."
             compatible_iqm_client = libraries.get(
                 "iqm-client",
                 libraries.get("iqm_client"),
@@ -1164,50 +832,73 @@ class IQMClient:
             check_error = e
         return f"Could not verify IQM Client compatibility with the server. You might encounter issues. {check_error}"
 
-    def get_run_counts(self, job_id: UUID, *, timeout_secs: float = REQUESTS_TIMEOUT) -> RunCounts:
-        """Query the counts of an executed job.
+    @lru_cache(maxsize=1)
+    def _get_dut_label(self) -> str:
+        duts = self._station_control.get_duts()
+        if len(duts) != 1:
+            raise RuntimeError(f"Expected exactly 1 DUT, but got {len(duts)}.")
+        return duts[0].label
+
+    def _get_request(
+        self,
+        api_endpoint: APIEndpoint,
+        endpoint_args: tuple[str, ...] = (),
+        *,
+        timeout: float,
+        headers: dict | None = None,
+        allow_errors: bool = False,
+    ) -> requests.Response:
+        """Make an HTTP GET request to an IQM server endpoint.
+
+        Contains all the boilerplate code for making a simple GET request.
 
         Args:
-            job_id: ID of the job to query.
-            timeout_secs: Network request timeout (seconds).
+            api_endpoint: API endpoint to GET.
+            endpoint_args: Arguments for the endpoint.
+            timeout: HTTP request timeout (in seconds).
 
         Returns:
-            Measurement results of the job in histogram representation.
+            HTTP response to the request.
 
         Raises:
-            EndpointRequestError: did not understand the endpoint response
-            ClientAuthenticationError: no valid authentication provided
-            HTTPException: HTTP exceptions
+            ClientAuthenticationError: No valid authentication provided.
+            HTTPError: Various HTTP exceptions.
 
         """
-        response = self._get_request(
-            APIEndpoint.GET_JOB_COUNTS,
-            (str(job_id),),
-            timeout=timeout_secs,
-            retry=True,
+        url = self._api.url(api_endpoint, *endpoint_args)
+        response = requests.get(
+            url,
+            headers=headers or self._default_headers(),
+            timeout=timeout,
         )
-        return self._deserialize_response(response, RunCounts)
+        if not allow_errors:
+            self._check_not_found_error(response)
+            self._check_authentication_errors(response)
+            response.raise_for_status()
+        return response
 
-    def get_supported_client_libraries(self, timeout_secs: float = REQUESTS_TIMEOUT) -> dict[str, ClientLibrary]:
-        """Retrieve information about supported client libraries from the server.
+    @staticmethod
+    def _deserialize_response(
+        response: requests.Response,
+        model_class: type[T_BaseModel],
+    ) -> T_BaseModel:
+        """Deserialize a HTTP endpoint response.
 
         Args:
-            timeout_secs: Network request timeout (seconds).
+            response: HTTP response data.
+            model_class: Pydantic model to deserialize the data into.
 
         Returns:
-            Mapping from library identifiers to their metadata.
+            Deserialized endpoint response.
 
         Raises:
-            EndpointRequestError: did not understand the endpoint response
-            ClientAuthenticationError: no valid authentication provided
-            HTTPException: HTTP exceptions
+            EndpointRequestError: Did not understand the endpoint response.
 
         """
-        response = self._get_request(
-            APIEndpoint.CLIENT_LIBRARIES,
-            timeout=timeout_secs,
-        )
         try:
-            return ClientLibraryDict.validate_json(response.text)
-        except PydanticValidationError as e:
+            model = model_class.model_validate(response.json())
+            # TODO this would be faster but MockJsonResponse.text in our unit tests cannot handle UUID
+            # model = model_class.model_validate_json(response.text)
+        except json.decoder.JSONDecodeError as e:
             raise EndpointRequestError(f"Invalid response: {response.text}, {e!r}") from e
+        return model

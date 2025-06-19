@@ -25,6 +25,7 @@ from pydantic import HttpUrl
 
 from iqm.station_control.client.iqm_server import proto
 from iqm.station_control.client.iqm_server.error import IqmServerError
+from iqm.station_control.interface.models.type_aliases import StrUUID
 
 
 class ClientCallDetails(grpc.ClientCallDetails):
@@ -43,8 +44,7 @@ class ApiTokenAuth(grpc.UnaryUnaryClientInterceptor, grpc.UnaryStreamClientInter
 
     def _add_auth_header(self, client_call_details) -> ClientCallDetails:
         details = ClientCallDetails(client_call_details)
-        token = self.get_token_callback()
-        details.metadata.append(("authorization", f"Bearer {token}"))
+        details.metadata.append(("authorization", self.get_token_callback()))
         return details
 
     def intercept_unary_stream(self, continuation, client_call_details, request):
@@ -115,7 +115,9 @@ def create_channel(
     return channel
 
 
-def to_proto_uuid(value: uuid.UUID) -> proto.Uuid:
+def to_proto_uuid(value: StrUUID) -> proto.Uuid:
+    if isinstance(value, str):
+        value = uuid.UUID(value)
     return proto.Uuid(raw=value.bytes)
 
 

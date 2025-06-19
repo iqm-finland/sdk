@@ -14,7 +14,8 @@
 """Helper functions for circuit validation."""
 
 from iqm.iqm_client import Circuit as IQMClientCircuit
-from iqm.iqm_client import IQMClient, MoveGateValidationMode
+from iqm.iqm_client import MoveGateValidationMode
+from iqm.iqm_client.validation import validate_circuit_instructions
 from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
 from iqm.qiskit_iqm.qiskit_to_iqm import serialize_instructions
 from qiskit import QuantumCircuit
@@ -35,7 +36,7 @@ def validate_circuit(
     )
     if validate_moves is None:
         validate_moves = MoveGateValidationMode.STRICT
-    IQMClient._validate_circuit_instructions(
+    validate_circuit_instructions(
         architecture=backend.architecture,
         circuits=[new_circuit],
         validate_moves=validate_moves,

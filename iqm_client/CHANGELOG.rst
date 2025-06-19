@@ -2,56 +2,216 @@
 Changelog
 =========
 
-Version 23.8 (2025-04-11)
-=========================
+Version 29.0.0 (2025-06-13)
+===========================
+
+Features
+--------
+
+- Major :class:`IQMClient` refactoring. Many methods now use :class:`StationControlClient` internally to retrieve the data,
+  instead of using direct HTTP requests to REST API. This work is going to continue in the future, and the end goal
+  is to remove all HTTP logic from :class:`IQMClient` and handle HTTP requests/responses only in :class:`StationControlClient`.
+  :issue:`SW-1084`
+
+Breaking Changes
+----------------
+
+- Remove :class:`APIVariant` from :class:`IQMClient`, it will support only one version at any given time from now on.
+  Upgrade/downgrade software if you want to use different versions of :class:`IQMClient`. :issue:`SW-1084`
+- You may have to pass a different `url` to :class:`IQMClient` than before:
+  - If you previously used :class:`APIVariant.V1`, you typically need to change `/cocos` to `/station` in the URL.
+  - If you previously used :class:`APIVariant.V2`, you typically need to add `/station` to the URL.
+  - If you previously used :class:`APIVariant.RESONANCE_COCOS_V1`, no changes are needed to the URL.
+- Support for ``timeout_secs`` parameter has been dropped from some methods (:meth:`get_static_quantum_architecture`,
+  :meth:`get_quality_metric_set`, :meth:`get_calibration_set`, :meth:`get_dynamic_quantum_architecture`, :meth:`get_feedback_groups`).
+  :class:`IQMClient` uses :class:`StationControlClient` to retrieve the data now instead of HTTP requests directly, and we have no
+  plans to support different request timeout for each endpoint separately in :class:`StationControlClient`. Instead, all
+  endpoints uses the same timeout which is currently set to default 120 seconds.
+
+Version 28.0.0 (2025-06-12)
+===========================
+
+Breaking changes
+----------------
+
+- Updated `iqm_client.models.Status` to conform with changed station-control-client job statuses. :issue:`SW-1513`.
+
+Version 27.1.0 (2025-06-09)
+===========================
+
+Bug Fixes
+---------
+
+- Added a backwards compatibility fix for Resonance. :issue:`SW-1532`
+- Made Resonance integration tests mandatory again. :issue:`SW-1532`
+
+Version 27.0.0 (2025-06-02)
+===========================
+
+Features
+--------
+
+- Revert changes from :issue:`SW-1513`.
+
+Version 26.0.0 (2025-05-30)
+===========================
+
+Features
+--------
+
+- Altered `iqm_client.models.status` to cover changed station-control-client job statuses. :issue:`SW-1513`.
+
+Version 25.5.0 (2025-05-30)
+===========================
+
+Features
+--------
+
+- Bump NumPy to 1.26.4.
+
+Version 25.4.0 (2025-05-30)
+===========================
+
+Bug fixes
+---------
+
+- Improve auth error message
+
+Version 25.3.0 (2025-05-28)
+===========================
+
+Features
+--------
+
+- Use new error log artifact format when obtaining job error message from station using V2 API.
+
+Version 25.2.0 (2025-05-23)
+===========================
+
+Features
+--------
+
+- ``IQMClient.submit_run_request`` uses UTF-8 encoding for the JSON payload.
+
+Version 25.1.0 (2025-05-21)
+===========================
+
+Features
+--------
+
+- Fix cocos path in ruff isort to run isort for cocos correctly.
+
+Version 25.0.0 (2025-05-16)
+===========================
+
+Features
+--------
+
+- Extended `iqm_client.models.status` to cover new station-control job statuses. :issue:`SW-948`.
+- Updated to work with station-control version 42.0. Earlier versions of station-control will not work.
+  :issue:`SW-948`
+
+Breaking Changes
+----------------
+- :attr:`iqm_client.models.Status.PENDING_EXECUTION` changed from "pending execution" to "pending_execution".
+  :issue:`SW-948`.
+- :attr:`iqm_client.models.status.PENDING_COMPILATION` changed from "pending compilation" to "pending_compilation".
+  :issue:`SW-948.`
+
+Version 24.3.0 (2025-05-14)
+===========================
+
+Feature
+-------
+
+- Allow the :class:`.IQMMoveLayout` transpiler to handle gates that are not in the native gateset, done by skipping the marking
+  of Circuit Qubits as either qubit or resonator when the gate is not natively supported. :issue:`SW-1390`.
+
+Version 24.2.0 (2025-05-12)
+===========================
+
+Features
+--------
+
+- Update dependency on exa-common
+
+Version 24.1.1 (2025-05-12)
+===========================
+
+- Test patch versioning, no functional changes. :issue:`SW-1429`
+
+Version 24.1.0 (2025-04-17)
+===========================
+
+Features
+--------
+
+- Support the :class:`cirq.R` reset operation in ``cirq_iqm``. :issue:`SW-795`
+
+Version 24.0.0 (2025-04-17)
+===========================
+
+Features
+--------
+
+- Add ``timeout`` argument and flag to :meth:`IQMJob.result`, :issue:`SW-1308`.
+
+Breaking changes
+----------------
+
+- Remove ``timeout_seconds`` from :class:`IQMJob` and :meth:`IQMBackend.run`.
+
+
+Version 23.8.0 (2025-04-11)
+===========================
 
 Bug fixes
 ---------
 
 - Fix broken link in docs to Cirq user guide
 
-Version 23.7 (2025-04-11)
-=========================
+Version 23.7.0 (2025-04-11)
+===========================
 
 Bug fixes
 ---------
 
 - Update license
 
-Version 23.6 (2025-04-10)
-=========================
+Version 23.6.0 (2025-04-10)
+===========================
 
 Features
 --------
 
 - fix flaky e2e tests
 
-Version 23.5 (2025-04-09)
-=========================
+Version 23.5.0 (2025-04-09)
+===========================
 
 Bug fixes
 ---------
 
 - Add STATIC_QUANTUM_ARCHITECTURE to RESONANCE_COCOS_V1 api
 
-Version 23.4 (2025-04-09)
-=========================
+Version 23.4.0 (2025-04-09)
+===========================
 
 Bug fixes
 ---------
 
 - Fix missing api docs for :mod:`iqm.qiskit_iqm` and :mod:`iqm.cirq_iqm`.
 
-Version 23.3 (2025-04-09)
-=========================
+Version 23.3.0 (2025-04-09)
+===========================
 
 Bug fixes
 ---------
 
 - Fix links in readme to be compatible with PyPI publishing.
 
-Version 23.2 (2025-04-09)
-=========================
+Version 23.2.0 (2025-04-09)
+===========================
 
 Features
 --------
@@ -59,56 +219,56 @@ Features
 - ``iqm.cortex_cli`` is moved inside ``iqm-client`` to a new submodule ``iqm.iqm_client.cli``. The corresponding ``cli``
   extra dependency can be installed as ``iqm-client[cli]``. :issue:`SW-1145`
 
-Version 23.1 (2025-04-07)
-=========================
+Version 23.1.0 (2025-04-07)
+===========================
 
 Features
 --------
 
 - Fix package version in published docs footers, :issue:`SW-1392`. 
 
-Version 23.0 (2025-04-04)
-=========================
+Version 23.0.0 (2025-04-04)
+===========================
 
 Features
 --------
 
 - Replaced the old quantum architecture in :class:`IQMBackendBase`.
 
-Version 22.16 (2025-04-03)
-==========================
+Version 22.16.0 (2025-04-03)
+============================
 
 Feature
 *******
 
 - Enable PEP 604 in linting rules, :issue:`SW-1230`.
 
-Version 22.15 (2025-04-03)
-==========================
+Version 22.15.0 (2025-04-03)
+============================
 
 Features
 --------
 
 - Add versioning for station control API. :issue:`SW-898`
 
-Version 22.14 (2025-04-02)
-==========================
+Version 22.14.0 (2025-04-02)
+============================
 
 Features
 ********
 
 - Update the documentation footer to display the package version.
 
-Version 22.13 (2025-04-02)
-==========================
+Version 22.13.0 (2025-04-02)
+============================
 
 Features
 --------
 
 - Add ``cirq_iqm`` to ``iqm-client`` distribution package as an optional feature. :issue:`SW-1145`
 
-Version 22.12 (2025-03-31)
-==========================
+Version 22.12.0 (2025-03-31)
+============================
 
 Features
 --------
@@ -116,40 +276,40 @@ Features
 - :meth:`IQMClient.get_static_quantum_architecture` added. :issue:`SW-706`
 - :class:`iqm.qiskit_iqm.fake_backends.IQMFakeBackend` uses the static quantum architecture. :issue:`SW-706`
 
-Version 22.11 (2025-03-25)
-==========================
+Version 22.11.0 (2025-03-25)
+============================
 
 Features
 --------
 
 - Improve ``qiskit_iqm`` installation instructions and update links to ``qiskit_iqm`` documentation.
 
-Version 22.10 (2025-03-24)
-==========================
+Version 22.10.0 (2025-03-24)
+============================
 
 Features
 --------
 
 - Add ``qiskit_iqm`` to ``iqm-client`` distribution package as an optional feature. :issue:`SW-1146`
 
-Version 22.9 (2025-03-17)
-=========================
+Version 22.9.0 (2025-03-17)
+===========================
 
 Features
 --------
 
 - Restore Python 3.10 support
 
-Version 22.8 (2025-03-10)
-=========================
+Version 22.8.0 (2025-03-10)
+===========================
 
 Features
 --------
 
 - IQMClient tolerates unrecognized job statuses from the server to ensure forward compatibility.
 
-Version 22.7 (2025-03-07)
-=========================
+Version 22.7.0 (2025-03-07)
+===========================
 
 Features
 --------
@@ -161,8 +321,8 @@ Bug fixes
 
 - :func:`transpile_insert_moves` now handles ``barrier`` instructions properly. :issue:`SW-1289`
 
-Version 22.6 (2025-03-07)
-=========================
+Version 22.6.0 (2025-03-07)
+===========================
 
 Features
 --------
@@ -171,8 +331,8 @@ Features
 * Remove boilerplate code in :class:`IQMClient` endpoint requests, make the error behavior more uniform.
 * Speed up the unit tests by mocking ``sleep`` calls, do not send out actual HTTP requests.
 
-Version 22.5 (2025-03-05)
-=========================
+Version 22.5.0 (2025-03-05)
+===========================
 
 Features
 --------

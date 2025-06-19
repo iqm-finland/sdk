@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,6 +30,6 @@ from iqm.station_control.client.serializers.sweep_serializers import (
     serialize_sweep_results,
 )
 from iqm.station_control.client.serializers.task_serializers import (
-    serialize_run_task_request,
-    serialize_sweep_task_request,
+    serialize_run_job_request,
+    serialize_sweep_job_request,
 )

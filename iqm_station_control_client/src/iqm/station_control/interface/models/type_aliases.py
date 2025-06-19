@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,8 +14,14 @@
 """Type hint aliases used in the station control interface."""
 
 from typing import Literal
+from uuid import UUID
 
 import numpy as np
+
+# Allow using string UUIDs in API calls directly for convenience.
+# StrUUID works if UUIDs will be serialized to strings by the client anyway,
+# and then deserialized back to UUID on the server side.
+StrUUID = str | UUID
 
 DutType = Literal["chip", "twpa"]
 GetObservationsMode = Literal["all_latest", "tags_and", "tags_or", "sequence"]

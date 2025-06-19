@@ -39,6 +39,10 @@ def resonance_example(server_url: str, api_token: str | None) -> dict[str, int]:
     # Initialize a backend
     backend = IQMProvider(server_url, token=api_token).get_backend()
 
+    # Just to make sure that "get_static_quantum_architecture" method works
+    static_quantum_architecture = backend.client.get_static_quantum_architecture()
+    print(f"static_quantum_architecture={static_quantum_architecture}")
+
     # Define a quantum circuit
     num_qb = min(backend.num_qubits, 5)  # use at most 5 qubits
     qc = QuantumCircuit(num_qb)

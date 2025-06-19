@@ -22,7 +22,7 @@ requires only the URL of the IQM quantum computer.
 
     from iqm.iqm_client import IQMClient
 
-    server_url = "https://IQM_SERVER_URL"
+    server_url = "https://STATION_CONTROL_URL"
 
     iqm_client = IQMClient(server_url)
 

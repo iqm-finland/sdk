@@ -18,6 +18,7 @@ from importlib.metadata import version
 import json
 import os
 from pathlib import Path
+from unittest.mock import Mock
 from uuid import UUID
 
 from httpx import Response as HTTPResponse
@@ -27,6 +28,7 @@ from iqm.iqm_client.models import (
     GateInfo,
 )
 from iqm.qiskit_iqm.iqm_provider import IQMBackend, IQMClient
+from mockito import ANY, mock, when
 import pytest
 import requests
 from requests import Response
@@ -80,18 +82,19 @@ def pulla_on_spark(request, monkeypatch):
         # TODO SW-1387: Use v1 API
         # if args[0] == f"{root_url}/station/v1/about":
         if args[0] == f"{root_url}/station/about":
-            response = Response()
+            response = Mock(spec=Response)
             response.status_code = HTTPStatus.OK
-            response.json = lambda: {
-                "software_versions": {"iqm-station-control-client": version("iqm-station-control-client")}
-            }
+            data = {"software_versions": {"iqm-station-control-client": version("iqm-station-control-client")}}
+            response.text = json.dumps(data)
+            response.json = lambda: data
+            response.ok = True
             return response
         # TODO SW-1387: Use v1 API
         # if args[0] == f"{root_url}/station/v1/duts":
         if args[0] == f"{root_url}/station/duts":
-            response = Response()
+            response = Mock(spec=Response)
             response.status_code = HTTPStatus.OK
-            response.json = lambda: [{"label": "M000_fake_0_0", "dut_type": "chip"}]
+            response.text = json.dumps([{"label": "M000_fake_0_0", "dut_type": "chip"}])
             return response
         # TODO SW-1387: Use v1 API
         # if args[0].startswith(f"{root_url}/station/v1/sweeps/"):
@@ -232,10 +235,13 @@ def qiskit_backend_spark(monkeypatch) -> IQMBackend:
     )
 
     monkeypatch.setattr(IQMClient, "get_dynamic_quantum_architecture", lambda self, calset_id: dqa)
-    if hasattr(IQMClient, "_check_versions"):  # _check_versions was introduced in a minor version of IQM Client
-        monkeypatch.setattr(IQMClient, "_check_versions", lambda self: None)
-    client = IQMClient(f"{root_url}/cocos", client_signature="test fixture")
-    return IQMBackend(client, calibration_set_id=calset_id)
+    monkeypatch.setattr(StationControlClient, "_check_api_versions", lambda self: None)
+    mock_about_response = mock(spec=Response)
+    when(mock_about_response).raise_for_status().thenReturn(None)
+    when(mock_about_response).json().thenReturn({})
+    when(requests).get(f"{root_url}/station/about", headers=ANY).thenReturn(mock_about_response)
+    iqm_client = IQMClient(f"{root_url}/station", client_signature="test fixture")
+    return IQMBackend(iqm_client, calibration_set_id=calset_id)
 
 
 @pytest.fixture

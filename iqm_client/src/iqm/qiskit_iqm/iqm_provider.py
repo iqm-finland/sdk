@@ -88,26 +88,21 @@ class IQMBackend(IQMBackendBase):
     def run(
         self,
         run_input: QuantumCircuit | list[QuantumCircuit],
-        *,
-        timeout_seconds: float | None = None,
         **options,
     ) -> IQMJob:
         """Run a quantum circuit or a list of quantum circuits on the IQM quantum computer represented by this backend.
 
         Args:
             run_input: The circuits to run.
-            timeout_seconds: Maximum time to wait for the job to finish, in seconds. If ``None``, use
-                the :class:`~iqm.iqm_client.iqm_client.IQMClient` default.
             options: Keyword arguments passed on to :meth:`create_run_request`, and documented there.
 
         Returns:
             Job object from which the results can be obtained once the execution has finished.
 
         """
-        timeout_seconds = options.pop("timeout_seconds", None)
         run_request = self.create_run_request(run_input, **options)
         job_id = self.client.submit_run_request(run_request)
-        job = IQMJob(self, str(job_id), shots=run_request.shots, timeout_seconds=timeout_seconds)
+        job = IQMJob(self, str(job_id), shots=run_request.shots)
         job.circuit_metadata = [c.metadata for c in run_request.circuits]
         return job
 

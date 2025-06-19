@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ from iqm.station_control.client.serializers.sweep_serializers import (
 from iqm.station_control.interface.models import RunDefinition, SweepDefinition
 
 
-def serialize_run_task_request(run_definition: RunDefinition, queue_name: str) -> bytes:
+def serialize_run_job_request(run_definition: RunDefinition, queue_name: str) -> bytes:
     """Wrap `run_definition` and `queue_name` into a protobuf message and serialize into a bitstring.
 
     Args:
@@ -42,10 +42,10 @@ def serialize_run_task_request(run_definition: RunDefinition, queue_name: str) -
 
     """
     payload = serialize_run_definition(run_definition)
-    return _serialize_task_request(payload, queue_name, run_definition.sweep_definition.sweep_id)
+    return _serialize_job_request(payload, queue_name, run_definition.sweep_definition.sweep_id)
 
 
-def serialize_sweep_task_request(sweep_definition: SweepDefinition, queue_name: str) -> bytes:
+def serialize_sweep_job_request(sweep_definition: SweepDefinition, queue_name: str) -> bytes:
     """Wrap `sweep_definition` and `queue_name` into a protobuf message and serialize into a bitstring.
 
     Args:
@@ -58,10 +58,16 @@ def serialize_sweep_task_request(sweep_definition: SweepDefinition, queue_name: 
 
     """
     payload = serialize_sweep_definition(sweep_definition)
-    return _serialize_task_request(payload, queue_name, sweep_definition.sweep_id)
+    return _serialize_job_request(payload, queue_name, sweep_definition.sweep_id)
 
 
-def deserialize_sweep_task_request(data: bytes) -> tuple[SweepDefinition, str]:
+def _serialize_job_request(payload: Any, queue_name: str, sweep_id: uuid.UUID) -> bytes:
+    sweep_job_request_proto = SweepTaskRequestProto(queue_name=queue_name, sweep_id=str(sweep_id))
+    sweep_job_request_proto.payload.Pack(payload, type_url_prefix="iqm-data-definitions")
+    return sweep_job_request_proto.SerializeToString()
+
+
+def deserialize_sweep_job_request(data: bytes) -> tuple[SweepDefinition, str]:
     """Deserializes `sweep_definition` and `queue_name` from the serialized bitstring.
 
     Args:
@@ -81,9 +87,3 @@ def deserialize_sweep_task_request(data: bytes) -> tuple[SweepDefinition, str]:
     sweep_definition = deserialize_sweep_definition(sweep_definition_proto)
     queue_name = sweep_task_request_proto.queue_name
     return sweep_definition, queue_name
-
-
-def _serialize_task_request(payload: Any, queue_name: str, sweep_id: uuid.UUID) -> bytes:
-    sweep_task_request_proto = SweepTaskRequestProto(queue_name=queue_name, sweep_id=str(sweep_id))
-    sweep_task_request_proto.payload.Pack(payload, type_url_prefix="iqm-data-definitions")
-    return sweep_task_request_proto.SerializeToString()

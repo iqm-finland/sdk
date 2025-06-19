@@ -2,6 +2,123 @@
 Changelog
 =========
 
+Version 9.0.0 (2025-06-13)
+==========================
+
+Features
+--------
+
+- Reintroduce :class:`.StationControlInterface` and make both :class:`.StationControlClient` and :class:`.IQMServerClient` inherit it
+  to implement the same interface.
+- Add new methods to :class:`StationControlInterface`, implemented by :class:`StationControlClient`. :class:`IQMServerClient` doesn't
+  implement these new methods yet, but raises ``NotImplementedError`` instead. :issue:`SW-1078`
+
+  - :meth:`get_default_calibration_set`
+  - :meth:`get_default_calibration_set_observations`
+  - :meth:`get_dynamic_quantum_architecture`
+  - :meth:`get_default_dynamic_quantum_architecture`
+  - :meth:`get_static_quantum_architecture`
+
+- Support also string UUIDs in :class:`StationControlClient` methods, instead of only :class:`UUID` objects. This always worked in
+  practice, since UUIDs were instantly serialized to strings anyway. However, it gave type warnings for the users
+  when string given. No functional changes, but no more type warnings.
+
+Breaking changes
+----------------
+
+- Remove :meth:`StationControlClient.init`, :meth:`StationControlClient.get_calibration_set_values` and
+  :meth:`StationControlClient.get_latest_calibration_set_id` methods. Those aren't REST API related
+  and needed only by Pulla for now, and they don't belong to :class:`StationControlInterface` since there is already
+  :meth:`StationControlInterface.query_observation_sets`,
+  :meth:`StationControlInterface.get_observation_set` and
+  :meth:`StationControlInterface.get_observation_set_observations`
+  which can be used for the same purpose. :class:`IQMServerClient` still has the original methods
+  and it should be later refactored to implement the same interface as :class:`StationControlClient`.
+
+Version 8.1.0 (2025-06-13)
+==========================
+
+Features
+--------
+
+- Improve docstring for `interface.models.JobExecutorStatus`.
+
+Version 8.0.0 (2025-06-12)
+==========================
+
+Breaking changes
+----------------
+
+- Rename `JobStatus` to `JobExecutorStatus` in order to reduce confusion with CoCos models.
+- Rename some `JobExecutorStatus` statuses to be more descriptive.
+
+Version 7.1.0 (2025-06-10)
+==========================
+
+Features
+--------
+
+- Update dependency on exa-common
+
+
+Version 7.0.0 (2025-06-02)
+==========================
+
+Features
+--------
+
+- Revert changes from :issue:`SW-1513`.
+
+Version 6.0.0 (2025-05-30)
+==========================
+
+Features
+--------
+
+- Rename JobStatus entries to be more descriptive. :issue:`SW-1513`
+
+Version 5.0.0 (2025-05-28)
+==========================
+
+Breaking changes
+----------------
+
+- :attr:`.JobData.job_error` now has separate fields for user error message and full error log, instead of only
+  containing the full error log. :issue:`SW-1179`
+
+Version 4.2.0 (2025-05-23)
+==========================
+
+Bug fixes
+---------
+
+- Use explicit UTF-8 encoding for JSON data in HTTP requests.
+
+Version 4.1.0 (2025-05-21)
+==========================
+
+Features
+--------
+
+- Fix cocos path in ruff isort to run isort for cocos correctly.
+
+Version 4.0.0 (2025-05-16)
+==========================
+
+Breaking changes
+----------------
+
+- Renamed two methods in station_control.client.serializers.task_serializers:
+  - `serialize_run_task_request` to `serialize_run_job_request`
+  - `serialize_sweep_task_request` to `serialize_sweep_job_request`
+- Removed `SweepStatus`
+
+Features
+--------
+
+- Reworked client methods to work with new station-control endpoints for job management.
+- Added `JobStatus` model (previously in station-control).
+
 Version 3.17.0 (2025-05-12)
 ===========================
 

@@ -1,4 +1,4 @@
-# Copyright 2020–2022 Cirq on IQM developers
+# Copyright 2020–2025 Cirq on IQM developers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Helper functions for serializing and deserializing quantum circuits between Cirq and IQM Circuit formats."""
+"""Helper functions for serializing and deserializing quantum circuits between Cirq and IQM circuit formats."""
 
 from cirq import Circuit, KeyCondition, NamedQid
 from cirq.ops import (
@@ -22,6 +22,7 @@ from cirq.ops import (
     MeasurementGate,
     Operation,
     PhasedXPowGate,
+    ResetChannel,
     XPowGate,
     YPowGate,
 )
@@ -31,13 +32,14 @@ from iqm.iqm_client import Instruction
 
 # Mapping from IQM operation names to cirq operations
 _IQM_CIRQ_OP_MAP: dict[str, tuple[type[Gate], ...]] = {
-    # XPow and YPow kept for convenience, Cirq does not know how to decompose them into PhasedX
+    # XPow and YPow kept for convenience, Cirq does not know how to decompose them into PhasedXPow
     # so we would have to add those rules...
     "prx": (PhasedXPowGate, XPowGate, YPowGate),
+    "cc_prx": (),  # cc_prx is special, it does not directly map to any single Cirq op
     "cz": (CZPowGate,),
     "move": (IQMMoveGate,),
     "measure": (MeasurementGate,),
-    "cc_prx": (PhasedXPowGate, XPowGate, YPowGate),
+    "reset": (ResetChannel,),
 }
 
 
@@ -57,16 +59,25 @@ def instruction_to_operation(instr: Instruction) -> Operation:
     if instr.name not in _IQM_CIRQ_OP_MAP:
         raise OperationNotSupportedError(f"Operation {instr.name} not supported.")
 
-    gate_type = _IQM_CIRQ_OP_MAP[instr.name][0]
-    args_map = {"angle_t": "exponent", "phase_t": "phase_exponent"}
-    args = {args_map[k]: v * 2 for k, v in instr.args.items() if k in args_map}
     qubits = [NamedQid(qubit, dimension=2) for qubit in instr.qubits]
-    if instr.name == "measure":
-        args["key"] = instr.args["key"]
-        args["num_qubits"] = len(instr.qubits)
-    elif instr.name == "cc_prx":
-        return gate_type(**args)(*qubits).with_classical_controls(instr.args["feedback_key"])
-    return gate_type(**args)(*qubits)
+
+    if instr.name == "cc_prx":
+        # special case
+        args = {"exponent": 2 * instr.args["angle_t"], "phase_exponent": 2 * instr.args["phase_t"]}
+        # ignore feedback_qubit, we currently only support 1-qubit KeyConditions so it can be
+        # added in serialize_circuit
+        return PhasedXPowGate(**args)(*qubits).with_classical_controls(instr.args["feedback_key"])
+
+    cirq_op = _IQM_CIRQ_OP_MAP[instr.name][0]
+    if instr.name == "prx":
+        args = {"exponent": 2 * instr.args["angle_t"], "phase_exponent": 2 * instr.args["phase_t"]}
+    elif instr.name == "measure":
+        args = {"num_qubits": len(qubits), "key": instr.args["key"]}
+        # ignore feedback_key, in Cirq it has to be the same as key
+    else:
+        # cz, move, reset have no args
+        args = {}
+    return cirq_op(**args)(*qubits)
 
 
 class OperationNotSupportedError(RuntimeError):
@@ -89,11 +100,11 @@ def map_operation(operation: Operation) -> Instruction:
         OperationNotSupportedError When the circuit contains an unsupported operation.
 
     """
-    qubits = [qubit.name if isinstance(qubit, NamedQid) else str(qubit) for qubit in operation.qubits]
+    locus = tuple(qubit.name if isinstance(qubit, NamedQid) else str(qubit) for qubit in operation.qubits)
     if isinstance(operation.gate, (PhasedXPowGate, XPowGate, YPowGate)):
         return Instruction(
             name="prx",
-            qubits=tuple(qubits),
+            qubits=locus,
             args={"angle_t": operation.gate.exponent / 2, "phase_t": operation.gate.phase_exponent / 2},
         )
     if isinstance(operation.gate, MeasurementGate):
@@ -102,14 +113,14 @@ def map_operation(operation: Operation) -> Instruction:
 
         return Instruction(
             name="measure",
-            qubits=tuple(qubits),
+            qubits=locus,
             args={"key": operation.gate.key},
         )
     if isinstance(operation.gate, CZPowGate):
         if operation.gate.exponent == 1.0:
             return Instruction(
                 name="cz",
-                qubits=tuple(qubits),
+                qubits=locus,
                 args={},
             )
         raise OperationNotSupportedError(
@@ -119,9 +130,12 @@ def map_operation(operation: Operation) -> Instruction:
     if isinstance(operation.gate, IQMMoveGate):
         return Instruction(
             name="move",
-            qubits=tuple(qubits),
+            qubits=locus,
             args={},
         )
+
+    if isinstance(operation.gate, ResetChannel):
+        return Instruction(name="reset", qubits=locus)
 
     if isinstance(operation, ClassicallyControlledOperation):
         if len(operation._conditions) > 1:
@@ -131,7 +145,7 @@ def map_operation(operation: Operation) -> Instruction:
         if isinstance(operation._sub_operation.gate, (PhasedXPowGate, XPowGate, YPowGate)):
             return Instruction(
                 name="cc_prx",
-                qubits=tuple(qubits),
+                qubits=locus,
                 args={
                     "angle_t": operation._sub_operation.gate.exponent / 2,
                     "phase_t": operation._sub_operation.gate.phase_exponent / 2,

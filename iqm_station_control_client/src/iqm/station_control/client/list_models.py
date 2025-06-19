@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,9 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Station control client type adapters."""
+"""Station control client list types for different models.
 
-from typing import Generic, TypeVar
+These are used mainly for easy serialization and deserialization of list of objects.
+"""
+
+from typing import Generic, TypeAlias, TypeVar
 
 from pydantic import ConfigDict, RootModel
 
@@ -53,17 +56,20 @@ class ListModel(RootModel):
     def __len__(self) -> int:
         return len(self.root)
 
+    def __str__(self) -> str:
+        return str(self.root)
+
     model_config = ConfigDict(
         ser_json_inf_nan="constants",  # Will serialize Infinity and NaN values as Infinity and NaN
     )
 
 
-DutList = ListModel[list[DutData]]  # type: ignore
-DutFieldDataList = ListModel[list[DutFieldData]]  # type: ignore
-ObservationDataList = ListModel[list[ObservationData]]  # type: ignore
-ObservationDefinitionList = ListModel[list[ObservationDefinition]]  # type: ignore
-ObservationLiteList = ListModel[list[ObservationLite]]  # type: ignore
-ObservationUpdateList = ListModel[list[ObservationUpdate]]  # type: ignore
-ObservationSetDataList = ListModel[list[ObservationSetData]]  # type: ignore
-SequenceMetadataDataList = ListModel[list[SequenceMetadataData]]  # type: ignore
-RunLiteList = ListModel[list[RunLite]]  # type: ignore
+DutList: TypeAlias = ListModel[list[DutData]]
+DutFieldDataList: TypeAlias = ListModel[list[DutFieldData]]
+ObservationDataList: TypeAlias = ListModel[list[ObservationData]]
+ObservationDefinitionList: TypeAlias = ListModel[list[ObservationDefinition]]
+ObservationLiteList: TypeAlias = ListModel[list[ObservationLite]]
+ObservationUpdateList: TypeAlias = ListModel[list[ObservationUpdate]]
+ObservationSetDataList: TypeAlias = ListModel[list[ObservationSetData]]
+SequenceMetadataDataList: TypeAlias = ListModel[list[SequenceMetadataData]]
+RunLiteList: TypeAlias = ListModel[list[RunLite]]

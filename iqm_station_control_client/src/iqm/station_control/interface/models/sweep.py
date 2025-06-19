@@ -1,4 +1,4 @@
-# Copyright 2024 IQM
+# Copyright 2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
 
 from dataclasses import dataclass
 from datetime import datetime
-from enum import Enum
 import uuid
 
 from iqm.models.playlist import Playlist
 
 from exa.common.data.setting_node import SettingNode
 from exa.common.sweep.util import NdSweep
+from iqm.station_control.interface.models.jobs import JobExecutorStatus
 
 
 @dataclass(kw_only=True)
@@ -50,23 +50,6 @@ class SweepDefinition(SweepBase):
     """A :class:`~iqm.models.playlist.Playlist` that should be uploaded to the controllers."""
 
 
-class SweepStatus(Enum):
-    """Status for sweeps."""
-
-    PENDING = "PENDING"
-    """Sweep waiting for execution or status unknown"""
-    PROGRESS = "PROGRESS"
-    """Sweep is currently being executed"""
-    SUCCESS = "SUCCESS"
-    """Sweep has succeeded, ready for result retrieval"""
-    FAILURE = "FAILURE"
-    """Sweep has failed"""
-    REVOKED = "REVOKED"
-    """Sweep was revoked from execution"""
-    INTERRUPTED = "INTERRUPTED"
-    """Sweep was interrupted during its execution"""
-
-
 @dataclass(kw_only=True)
 class SweepData(SweepBase):
     """The content of the sweep stored in the database."""
@@ -79,5 +62,5 @@ class SweepData(SweepBase):
     """Time when the sweep began in the station control."""
     end_timestamp: datetime | None
     """Time when the sweep ended in the station control."""
-    sweep_status: SweepStatus
+    job_status: JobExecutorStatus
     """Status of sweep execution."""

@@ -19,9 +19,14 @@ Mocks server calls for testing
 from importlib.metadata import version
 import json
 
+from iqm.iqm_client import IQMClient, TokenManager
+from mockito import ANY, expect, when
 from packaging.version import parse
 import pytest
+import requests
 from requests import HTTPError, Response
+
+from iqm.station_control.client.station_control import StationControlClient
 
 
 @pytest.fixture()
@@ -30,8 +35,36 @@ def base_url() -> str:
     return "https://example.com"
 
 
+@pytest.fixture(scope="function")
+def iqm_client_mock(base_url) -> IQMClient:
+    expect(requests, times=1).get(
+        f"{base_url}/info/client-libraries",
+        headers=ANY,
+        timeout=ANY,
+    ).thenReturn(mock_supported_client_libraries_response())
+    when(requests).get(f"{base_url}/about", headers=ANY).thenReturn(MockJsonResponse(200, {}))
+
+    when(StationControlClient)._check_api_versions().thenReturn(None)
+    client = IQMClient(base_url)
+    client._token_manager = TokenManager()  # Do not use authentication
+    return client
+
+
+class MockBytesResponse:
+    def __init__(self, status_code: int, content: bytes, history: list[Response] | None = None):
+        self.status_code = status_code
+        self.content = content
+        self.media_type = "application/octet-stream"
+        self.history = history
+        self.url = "https://example.com"
+
+    def raise_for_status(self):
+        if 400 <= self.status_code < 600:
+            raise HTTPError(f"{self.status_code}", response=self)
+
+
 class MockJsonResponse:
-    def __init__(self, status_code: int, json_data: dict, history: list[Response] | None = None):
+    def __init__(self, status_code: int, json_data: dict | list[dict], history: list[Response] | None = None):
         self.status_code = status_code
         self.json_data = json_data
         self.history = history
@@ -66,3 +99,7 @@ def mock_supported_client_libraries_response(
             }
         },
     )
+
+
+def mock_about_response():
+    return MockJsonResponse(200, {})

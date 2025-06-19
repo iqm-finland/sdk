@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: iqm-client
-Version: 23.8
+Version: 29.0.0
 Summary: Client library for accessing an IQM quantum computer
 Author-email: IQM Finland Oy <developers@meetiqm.com>
 License:                                  Apache License
@@ -216,19 +216,27 @@ Requires-Python: <3.13,>=3.10
 Description-Content-Type: text/x-rst
 License-File: LICENSE.txt
 License-File: AUTHORS.rst
-Requires-Dist: numpy<3.0,>=1.25.2
+Requires-Dist: iqm-station-control-client<10,>=9
+Requires-Dist: iqm-exa-common<27,>=26
+Requires-Dist: numpy<3.0,>=1.26.4
 Requires-Dist: packaging==24.1
 Requires-Dist: pydantic<3.0,>=2.9.2
 Requires-Dist: requests==2.32.3
 Provides-Extra: cirq
+Requires-Dist: iqm-station-control-client<10,>=9; extra == "cirq"
+Requires-Dist: iqm-exa-common<27,>=26; extra == "cirq"
 Requires-Dist: cirq-core[contrib]~=1.2; extra == "cirq"
 Requires-Dist: ply==3.11; extra == "cirq"
 Provides-Extra: cli
+Requires-Dist: iqm-station-control-client<10,>=9; extra == "cli"
+Requires-Dist: iqm-exa-common<27,>=26; extra == "cli"
 Requires-Dist: click<9,>=8.1.6; extra == "cli"
 Requires-Dist: jsonschema>=4.6.0; extra == "cli"
 Requires-Dist: psutil>=5.9.2; extra == "cli"
 Requires-Dist: python-daemon>=2.3.0; extra == "cli"
 Provides-Extra: qiskit
+Requires-Dist: iqm-station-control-client<10,>=9; extra == "qiskit"
+Requires-Dist: iqm-exa-common<27,>=26; extra == "qiskit"
 Requires-Dist: qiskit<1.3,>=1.0; extra == "qiskit"
 Requires-Dist: qiskit-aer<0.16,>=0.13.1; extra == "qiskit"
 

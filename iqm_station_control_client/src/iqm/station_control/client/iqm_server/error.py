@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from exa.common.errors.server_errors import StationControlError
+from exa.common.errors.station_control_errors import StationControlError
 
 
 class IqmServerError(StationControlError):

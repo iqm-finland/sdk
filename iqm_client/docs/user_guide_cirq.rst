@@ -313,6 +313,29 @@ actually entangled.
    Because classically controlled gates can currently only take feedback from one classical bit you must condition
    them on a measurement key that only measures a single qubit.
 
+Resetting qubits
+----------------
+
+The :class:`cirq.R` operation can be used to reset qubits to the :math:`|0\rangle` state.
+It is currently implemented as a (projective) measurement followed by a classically controlled X
+gate conditioned on the result, and is only available if the quantum computer supports
+classically controlled gates.
+
+.. code-block:: python
+
+    import cirq
+    q1 = cirq.NamedQubit('q1')
+    circuit = cirq.Circuit(cirq.X(q1), cirq.R(q1), cirq.measure(q1))
+    circuit
+
+::
+
+    q1: ───X───R───M───
+
+In the above example, the X gate prepares the qubit ``q1`` in a :math:`|1\rangle` state,
+and the reset then collapses it back into the :math:`|0\rangle` state.
+Executing the circuit should result in (mostly) zeros being measured.
+
 
 Running on a real quantum computer
 ----------------------------------
@@ -488,4 +511,3 @@ More examples are available in the
 of the IQM Client repository.
 
 
-.. include:: ../DEVELOPMENT.rst
