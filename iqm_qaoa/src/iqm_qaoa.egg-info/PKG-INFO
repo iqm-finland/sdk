@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: iqm-qaoa
-Version: 1.2.0
+Version: 1.3.0
 Summary: Set up and run QAOA experiments
 Author-email: IQM Finland Oy <developers@meetiqm.com>
 License: Copyright (c) 2024-2025 IQM Quantum Computers
@@ -19,11 +19,11 @@ Classifier: Programming Language :: Python :: 3
 Classifier: Topic :: Scientific/Engineering :: Physics
 Classifier: Intended Audience :: Science/Research
 Requires-Python: >=3.11
-Description-Content-Type: text/markdown
+Description-Content-Type: text/x-rst
 License-File: LICENSE.txt
 License-File: AUTHORS.rst
-Requires-Dist: iqm-client[qiskit]<30,>=29
 Requires-Dist: iqm-client<30,>=29
+Requires-Dist: iqm-client[qiskit]<30,>=29
 Requires-Dist: iqm-station-control-client<10,>=9
 Requires-Dist: iqm-exa-common<27,>=26
 Requires-Dist: cvxpy>=1.5.3
@@ -39,9 +39,62 @@ Requires-Dist: scipy>=1.11.4
 Requires-Dist: llvmlite>=0.44.0
 Requires-Dist: numba>=0.61.0
 Provides-Extra: notebook
-Requires-Dist: iqm-client[qiskit]<30,>=29; extra == "notebook"
 Requires-Dist: iqm-client<30,>=29; extra == "notebook"
+Requires-Dist: iqm-client[qiskit]<30,>=29; extra == "notebook"
 Requires-Dist: iqm-station-control-client<10,>=9; extra == "notebook"
 Requires-Dist: iqm-exa-common<27,>=26; extra == "notebook"
 Requires-Dist: nbclient~=0.5.10; extra == "notebook"
 Requires-Dist: notebook>=6.5.2; extra == "notebook"
+
+IQM QAOA
+########
+
+Installation
+============
+
+Usually it makes sense to use a new Python environment, to isolate your setup from the global Python installation. That way, you can play around without messing the rest of your system.
+
+- Using uv in terminal:
+
+  .. code-block:: bash
+
+    uv venv --python 3.11
+    source .venv/bin/activate
+
+- Using Conda in terminal:
+
+  .. code-block:: bash
+
+    conda create -n qaoa-library python=3.11
+    conda activate qaoa-library
+
+- In Visual Studio Code:
+
+  #. Open the list of commands ``Ctrl`` + ``Shift`` + ``p``.
+
+  #. Select `Python: Create Environment`.
+
+  #. Select `Venv`.
+
+  #. Select the correct Python version.
+
+
+Then run
+
+
+.. code-block:: bash
+
+    pip install iqm-qaoa
+
+
+If you have already installed the ``QAOA`` library and want to get the latest release you can add the ``--upgrade`` flag
+
+
+.. code-block:: bash
+
+    pip install iqm-qaoa --upgrade
+
+Documentation
+=============
+
+Documentation for the latest version is `available online <https://docs.meetiqm.com/iqm-qaoa/>`_.

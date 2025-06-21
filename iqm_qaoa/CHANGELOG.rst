@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 1.3.0 (2025-06-20)
+==========================
+
+Bug fixes
+---------
+
+- Fix link to readme in ``pyproject.toml`` to make project description visible in PyPI.
+
 Version 1.2.0 (2025-06-19)
 ==========================
 
