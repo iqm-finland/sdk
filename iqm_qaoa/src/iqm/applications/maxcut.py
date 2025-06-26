@@ -269,19 +269,18 @@ def maxcut_generator(
 
     """
 
-    def _generate_desired_graph(graph_family: str, n: int, p: float, d: int) -> nx.Graph:
+    def _generate_desired_graph(graph_family: str, n: int, p: float, d: int, seed: int) -> nx.Graph:
         """Wrapper helper function to encapsulate the graph generation logic."""
         if graph_family == "erdos-renyi":
-            return nx.erdos_renyi_graph(n, p)
+            return nx.erdos_renyi_graph(n, p, seed)
         if graph_family == "regular":
-            return nx.random_regular_graph(d, n)
+            return nx.random_regular_graph(d, n, seed)
         raise ValueError("Invalid random graph type. Choose either 'regular' or 'erdos-renyi'.")
-
-    np.random.seed(seed)
 
     for _ in range(n_instances):
         while True:
-            g = _generate_desired_graph(graph_family, n, p, d)
+            g = _generate_desired_graph(graph_family, n, p, d, seed)
+            seed = seed + 1  # Increment ``seed``, so that we don't keep generating the same graph over and over again.
             if nx.is_connected(g) or not enforce_connected:
                 break
         yield MaxCutInstance(g, break_z2=break_z2)

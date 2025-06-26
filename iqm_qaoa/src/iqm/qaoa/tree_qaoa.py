@@ -57,6 +57,8 @@ class TreeQAOA(QUBOQAOA):
 
     The class inherits everything from :class:`~iqm.qaoa.qubo_qaoa.QUBOQAOA`, but adds one more method
     :meth:`set_tree_angles`, which sets :attr:`~iqm.qaoa.generic_qaoa.QAOA.angles` according to the tree schedule.
+    The tree schedule uses QAOA angles precalculated numerically for a class of high-girth regular graph problems with
+    uniform Hamiltonian. For more details see :cite:`Wybo_2024`.
 
     Args:
         problem: A :class:`~iqm.applications.qubo.QUBOInstance` object describing the QUBO problem to be solved.

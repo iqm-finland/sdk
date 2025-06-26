@@ -2,6 +2,30 @@
 Changelog
 =========
 
+Version 9.3.0 (2025-06-25)
+==========================
+
+Bug fixes
+---------
+
+- Fix DQA deserialization when ``override_default_implementations`` is not empty. :issue:`SW-1625`
+
+Version 9.2.0 (2025-06-25)
+==========================
+
+Bug fixes
+---------
+
+- Fix failing type checks in mypy.
+
+Version 9.1.0 (2025-06-24)
+==========================
+
+Bug fixes
+---------
+
+- Requests now always have User-Agent header.
+
 Version 9.0.0 (2025-06-13)
 ==========================
 

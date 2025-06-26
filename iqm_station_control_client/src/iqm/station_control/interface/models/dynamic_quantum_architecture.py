@@ -13,9 +13,10 @@
 # limitations under the License.
 """Dynamic quantum architecture (DQA) related interface models."""
 
+from typing import Any
 from uuid import UUID
 
-from pydantic import Field, StrictStr
+from pydantic import Field, StrictStr, field_validator
 
 from iqm.station_control.interface.pydantic_base import PydanticBase
 
@@ -58,6 +59,26 @@ class GateInfo(PydanticBase):
         examples=[{("COMP_R", "QB2"): "crf"}],
     )
     """Mapping of loci to implementation names that override ``default_implementation`` for those loci."""
+
+    @field_validator("override_default_implementation", mode="before")
+    @classmethod
+    def override_default_implementation_validator(cls, value: Any) -> dict[Locus, str]:
+        """Converts locus keys to tuples if they are encoded as strings."""
+        new_value = {}
+        if isinstance(value, dict):
+            for k, v in value.items():
+                if isinstance(k, tuple):
+                    new_value[k] = v
+                # When Pydantic serializes a dict with tuple keys into JSON, the keys are turned into
+                # comma-separated strings (because JSON only supports string keys). Here we convert
+                # them back into tuples.
+                elif isinstance(k, str):
+                    new_k = tuple(k.split(","))
+                    new_value[new_k] = v
+                else:
+                    raise ValueError("'override_default_implementation' keys must be strings or tuples.")
+            return new_value
+        raise ValueError("'override_default_implementation' must be a dict.")
 
 
 class DynamicQuantumArchitecture(PydanticBase):

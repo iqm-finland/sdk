@@ -100,23 +100,160 @@ logger = logging.getLogger(__name__)
 TypePydanticBase = TypeVar("TypePydanticBase", bound=PydanticBase)
 
 
-class StationControlClient(StationControlInterface):
+class _StationControlClientBase(StationControlInterface):
+    """Shared functionality for StationControlClient and IqmServerClient.
+
+    Args:
+        root_url: Remote server URL.
+        get_token_callback: A callback function that returns a token
+            which will be passed in Authorization header in all requests.
+        client_signature: String that is added to the User-Agent header of requests
+            sent to the server.
+        enable_opentelemetry: Iff True, enable Jaeger/OpenTelemetry tracing.
+
+    """
+
+    def __init__(
+        self,
+        root_url: str,
+        *,
+        get_token_callback: Callable[[], str] | None = None,
+        client_signature: str | None = None,
+        enable_opentelemetry: bool = False,
+    ):
+        self.root_url = root_url
+        self._get_token_callback = get_token_callback
+        self._signature = self._create_signature(client_signature)
+        self._enable_opentelemetry = enable_opentelemetry
+
+    @classmethod
+    def _create_signature(cls, client_signature: str | None) -> str:
+        signature = f"{platform.platform(terse=True)}"
+        signature += f", python {platform.python_version()}"
+        dist_pkg_name = "iqm-station-control-client"
+        signature += f", {cls.__name__} {dist_pkg_name} {version(dist_pkg_name)}"
+        if client_signature:
+            signature += f", {client_signature}"
+        return signature
+
+    def _send_request(
+        self,
+        http_method: Callable[..., requests.Response],
+        url_path: str,
+        *,
+        headers: dict[str, str] | None = None,
+        params: dict[str, Any] | None = None,
+        json_str: str | None = None,
+        octets: bytes | None = None,
+        timeout: int = 120,
+    ) -> requests.Response:
+        """Send an HTTP request.
+
+        Parameters ``json_str`` and ``octets`` are mutually exclusive.
+        The first non-None argument (in this order) will be used to construct the body of the request.
+
+        Args:
+            http_method: HTTP method to use for the request, any of requests.[post|get|put|head|delete|patch|options].
+            url_path: URL for the request.
+            headers: Additional HTTP headers for the request. Some may be overridden.
+            params: HTTP query parameters to store in the query string of the request URL.
+            json_str: JSON string to store in the body, may contain arbitrary Unicode characters.
+            octets: Pre-serialized binary data to store in the body.
+
+        Returns:
+            Response to the request.
+
+        Raises:
+            StationControlError: Request was not successful.
+
+        """
+        # Will raise an error if respectively an error response code is returned.
+        # http_method should be any of requests.[post|get|put|head|delete|patch|options]
+
+        request_kwargs = self._build_request_kwargs(
+            headers=headers or {}, params=params or {}, json_str=json_str, octets=octets, timeout=timeout
+        )
+        url = f"{self.root_url}/{url_path}"
+        # TODO SW-1387: Use v1 API
+        # url = f"{self.root_url}/{self.version}/{url_path}"
+        response = http_method(url, **request_kwargs)
+        if not response.ok:
+            try:
+                response_json = response.json()
+                error_message = response_json["detail"]
+            except json.JSONDecodeError:
+                error_message = response.text
+
+            try:
+                error_class = map_from_status_code_to_error(response.status_code)
+            except KeyError:
+                raise RuntimeError(f"Unexpected response status code {response.status_code}: {error_message}")
+
+            raise error_class(error_message)
+        return response
+
+    def _build_request_kwargs(
+        self,
+        *,
+        headers: dict[str, str],
+        params: dict[str, Any],
+        json_str: str | None = None,
+        octets: bytes | None = None,
+        timeout: int,
+    ) -> dict[str, Any]:
+        """Prepare the keyword arguments for an HTTP request."""
+        # add default headers
+        headers["User-Agent"] = self._signature
+
+        # json_str and octets are mutually exclusive
+        data: bytes | None = None
+        if json_str is not None:
+            # Must be able to handle JSON strings with arbitrary unicode characters, so we use an explicit
+            # encoding into bytes, and set the headers so the recipient can decode the request body correctly.
+            data = json_str.encode("utf-8")
+            headers["Content-Type"] = "application/json; charset=UTF-8"
+        elif octets is not None:
+            data = octets
+            headers["Content-Type"] = "application/octet-stream"
+
+        if self._enable_opentelemetry:
+            parent_span_context = trace.set_span_in_context(trace.get_current_span())
+            propagate.inject(carrier=headers, context=parent_span_context)
+
+        # If token callback exists, use it to retrieve the token and add it to the headers
+        if self._get_token_callback:
+            headers["Authorization"] = self._get_token_callback()
+
+        kwargs = {
+            "headers": headers,
+            "params": params,
+            "data": data,
+            "timeout": timeout,
+        }
+        return _remove_empty_values(kwargs)
+
+
+class StationControlClient(_StationControlClientBase):
     """Client implementation for station control service REST API.
 
     Args:
         root_url: Remote station control service URL.
         get_token_callback: A callback function that returns a token (str)
             which will be passed in Authorization header in all requests.
+        client_signature: String that is added to the User-Agent header of requests
+            sent to the server.
 
     """
 
     def __init__(
         self, root_url: str, *, get_token_callback: Callable[[], str] | None = None, client_signature: str | None = None
     ):
-        self.root_url = root_url
-        self._enable_opentelemetry = os.environ.get("JAEGER_OPENTELEMETRY_COLLECTOR_ENDPOINT", None) is not None
-        self._get_token_callback = get_token_callback
-        self._signature = self._create_signature(client_signature)
+        super().__init__(
+            root_url,
+            get_token_callback=get_token_callback,
+            client_signature=client_signature,  # type: ignore[arg-type]
+            enable_opentelemetry=os.environ.get("JAEGER_OPENTELEMETRY_COLLECTOR_ENDPOINT", None) is not None,
+        )
         # TODO SW-1387: Remove this when using v1 API, not needed
         self._check_api_versions()
         qcm_data_url = os.environ.get("CHIP_DESIGN_RECORD_FALLBACK_URL", None)
@@ -358,16 +495,6 @@ class StationControlClient(StationControlInterface):
     def abort_job(self, job_id: StrUUID) -> None:
         self._send_request(requests.post, f"jobs/{job_id}/abort")
 
-    @staticmethod
-    def _create_signature(client_signature: str) -> str:
-        signature = f"{platform.platform(terse=True)}"
-        signature += f", python {platform.python_version()}"
-        version_string = "iqm-station-control-client"
-        signature += f", StationControlClient {version_string} {version(version_string)}"
-        if client_signature:
-            signature += f", {client_signature}"
-        return signature
-
     def _wait_job_completion(self, job_id: str, update_progress_callback: Callable[[Statuses], None] | None) -> bool:
         logger.info("Waiting for job ID: %s", job_id)
         update_progress_callback = update_progress_callback or (lambda status: None)
@@ -438,62 +565,6 @@ class StationControlClient(StationControlInterface):
         # using the \uXXXX syntax, BaseModel.model_dump_json() keeps them in the produced JSON str.
         return model.model_dump_json()
 
-    def _send_request(
-        self,
-        http_method: Callable[..., requests.Response],
-        url_path: str,
-        *,
-        json_str: str | None = None,
-        octets: bytes | None = None,
-        params: dict[str, Any] | None = None,
-        headers: dict[str, str] | None = None,
-        timeout: int = 120,
-    ) -> requests.Response:
-        """Send an HTTP request.
-
-        Parameters ``json_str``, ``octets`` and ``params`` are mutually exclusive.
-        The first non-None argument (in this order) will be used to construct the body of the request.
-
-        Args:
-            http_method: HTTP method to use for the request, any of requests.[post|get|put|head|delete|patch|options].
-            url_path: URL for the request.
-            json_str: JSON string to store in the body, may contain arbitrary Unicode characters.
-            octets: Pre-serialized binary data to store in the body.
-            params: HTTP query to store in the body.
-            headers: Additional HTTP headers for the request. Some may be overridden.
-
-        Returns:
-            Response to the request.
-
-        Raises:
-            StationControlError: Request was not successful.
-
-        """
-        # Will raise an error if respectively an error response code is returned.
-        # http_method should be any of requests.[post|get|put|head|delete|patch|options]
-
-        request_kwargs = self._build_request_kwargs(
-            json_str=json_str, octets=octets, params=params or {}, headers=headers or {}, timeout=timeout
-        )
-        url = f"{self.root_url}/{url_path}"
-        # TODO SW-1387: Use v1 API
-        # url = f"{self.root_url}/{self.version}/{url_path}"
-        response = http_method(url, **request_kwargs)
-        if not response.ok:
-            try:
-                response_json = response.json()
-                error_message = response_json["detail"]
-            except json.JSONDecodeError:
-                error_message = response.text
-
-            try:
-                error_class = map_from_status_code_to_error(response.status_code)
-            except KeyError:
-                raise RuntimeError(f"Unexpected response status code {response.status_code}: {error_message}")
-
-            raise error_class(error_message)
-        return response
-
     # TODO SW-1387: Remove this when using v1 API, not needed
     def _check_api_versions(self):
         client_api_version = self._get_client_api_version()
@@ -529,41 +600,9 @@ class StationControlClient(StationControlInterface):
     def _get_client_api_version() -> Version:
         return parse(version("iqm-station-control-client"))
 
-    def _build_request_kwargs(self, **kwargs):
-        kwargs.setdefault("headers", {"User-Agent": self._signature})
-
-        params = kwargs.get("params", {})
-        headers = kwargs["headers"]
-
-        if kwargs["json_str"] is not None:
-            # Must be able to handle JSON strings with arbitrary unicode characters, so we use an explicit
-            # encoding into bytes, and set the headers so the recipient can decode the request body correctly.
-            data = kwargs["json_str"].encode("utf-8")
-            headers["Content-Type"] = "application/json; charset=UTF-8"
-        elif kwargs["octets"] is not None:
-            data = kwargs["octets"]
-            headers["Content-Type"] = "application/octet-stream"
-        else:
-            data = None
-        if self._enable_opentelemetry:
-            parent_span_context = trace.set_span_in_context(trace.get_current_span())
-            propagate.inject(carrier=headers, context=parent_span_context)
-
-        # If token callback exists, use it to retrieve the token and add it to the headers
-        if self._get_token_callback:
-            headers["Authorization"] = self._get_token_callback()
-
-        kwargs = {
-            "params": params,
-            "data": data,
-            "headers": headers,
-            "timeout": kwargs["timeout"],
-        }
-        return _remove_empty_values(kwargs)
-
     @staticmethod
     def _clean_query_parameters(model: Any, **kwargs) -> dict[str, Any]:
-        if issubclass(model, PydanticBase) and "invalid" in model.model_fields.keys() and "invalid" not in kwargs:
+        if issubclass(model, PydanticBase) and "invalid" in model.model_fields and "invalid" not in kwargs:
             # Get only valid items by default, "invalid=None" would return also invalid ones.
             # This default has to be set on the client side, server side uses default "None".
             kwargs["invalid"] = False
@@ -572,7 +611,7 @@ class StationControlClient(StationControlInterface):
     @staticmethod
     def _deserialize_response(
         response: requests.Response,
-        model_class: type[TypePydanticBase] | type[ListModel[list[TypePydanticBase]]],
+        model_class: type[TypePydanticBase | ListModel[list[TypePydanticBase]]],
         *,
         list_with_meta: bool = False,
     ) -> TypePydanticBase | ListWithMeta[TypePydanticBase]:
@@ -590,6 +629,6 @@ class StationControlClient(StationControlInterface):
         return model
 
 
-def _remove_empty_values(kwargs):
-    # Remove None and {} values
+def _remove_empty_values(kwargs: dict[str, Any]) -> dict[str, Any]:
+    """Return a copy of the given dict without values that are None or {}."""
     return {key: value for key, value in kwargs.items() if value not in [None, {}]}

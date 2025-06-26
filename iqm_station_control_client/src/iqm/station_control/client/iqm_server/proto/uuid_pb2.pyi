@@ -23,4 +23,4 @@ class Uuid(_message.Message):
     STR_FIELD_NUMBER: _ClassVar[int]
     raw: bytes
     str: str
-    def __init__(self, raw: _Optional[bytes] = ..., str: _Optional[str] = ...) -> None: ...
+    def __init__(self, raw: _Optional[bytes] = ..., str: _Optional[str] = ...) -> None: ...# type: ignore[valid-type]

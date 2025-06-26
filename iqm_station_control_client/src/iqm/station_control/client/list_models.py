@@ -64,12 +64,12 @@ class ListModel(RootModel):
     )
 
 
-DutList: TypeAlias = ListModel[list[DutData]]
-DutFieldDataList: TypeAlias = ListModel[list[DutFieldData]]
-ObservationDataList: TypeAlias = ListModel[list[ObservationData]]
-ObservationDefinitionList: TypeAlias = ListModel[list[ObservationDefinition]]
-ObservationLiteList: TypeAlias = ListModel[list[ObservationLite]]
-ObservationUpdateList: TypeAlias = ListModel[list[ObservationUpdate]]
-ObservationSetDataList: TypeAlias = ListModel[list[ObservationSetData]]
-SequenceMetadataDataList: TypeAlias = ListModel[list[SequenceMetadataData]]
-RunLiteList: TypeAlias = ListModel[list[RunLite]]
+DutList: TypeAlias = ListModel[list[DutData]]  # type: ignore[type-arg]
+DutFieldDataList: TypeAlias = ListModel[list[DutFieldData]]  # type: ignore[type-arg]
+ObservationDataList: TypeAlias = ListModel[list[ObservationData]]  # type: ignore[type-arg]
+ObservationDefinitionList: TypeAlias = ListModel[list[ObservationDefinition]]  # type: ignore[type-arg]
+ObservationLiteList: TypeAlias = ListModel[list[ObservationLite]]  # type: ignore[type-arg]
+ObservationUpdateList: TypeAlias = ListModel[list[ObservationUpdate]]  # type: ignore[type-arg]
+ObservationSetDataList: TypeAlias = ListModel[list[ObservationSetData]]  # type: ignore[type-arg]
+SequenceMetadataDataList: TypeAlias = ListModel[list[SequenceMetadataData]]  # type: ignore[type-arg]
+RunLiteList: TypeAlias = ListModel[list[RunLite]]  # type: ignore[type-arg]

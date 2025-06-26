@@ -2,6 +2,32 @@
 Changelog
 =========
 
+Version 1.6.0 (2025-06-25)
+==========================
+
+Bug fixes
+---------
+
+- Fix ``seed`` not working in ``maxcut_generator`` (it wasn't passed over to random graph generators inside of the function).
+
+Version 1.5.0 (2025-06-23)
+==========================
+
+Bug fixes
+---------
+
+- Fix `__init__.py` docstring in `star` transpilation submodule.
+
+
+Version 1.4.0 (2025-06-23)
+==========================
+
+Features
+--------
+
+- Add a citation of Elisabeth's QAOA paper to the documentation (docstring under `TreeQAOA` class).
+
+
 Version 1.3.0 (2025-06-20)
 ==========================
 
@@ -10,6 +36,7 @@ Bug fixes
 
 - Fix link to readme in ``pyproject.toml`` to make project description visible in PyPI.
 
+
 Version 1.2.0 (2025-06-19)
 ==========================
 
@@ -17,6 +44,7 @@ Features
 --------
 
 - Bump version for an updated repo organization. No functional changes. :issue:`SW-1578`
+
 
 Version 1.1 (2025-06-06)
 ========================

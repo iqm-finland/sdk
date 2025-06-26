@@ -16,11 +16,9 @@
 from collections.abc import Callable, Iterable, Sequence
 from contextlib import contextmanager
 import dataclasses
-from importlib.metadata import version
 from io import BytesIO
 import json
 import logging
-import platform
 from time import sleep
 from typing import Any, TypeVar, cast
 import uuid
@@ -32,7 +30,6 @@ import requests
 
 from exa.common.data.setting_node import SettingNode
 from exa.common.data.value import ObservationValue, validate_value
-from exa.common.errors.station_control_errors import map_from_status_code_to_error
 from iqm.station_control.client.iqm_server import proto
 from iqm.station_control.client.iqm_server.error import IqmServerError
 from iqm.station_control.client.iqm_server.grpc_utils import (
@@ -49,6 +46,7 @@ from iqm.station_control.client.serializers import deserialize_sweep_results, se
 from iqm.station_control.client.serializers.channel_property_serializer import unpack_channel_properties
 from iqm.station_control.client.serializers.setting_node_serializer import deserialize_setting_node
 from iqm.station_control.client.serializers.task_serializers import deserialize_sweep_job_request
+from iqm.station_control.client.station_control import _StationControlClientBase
 from iqm.station_control.interface.list_with_meta import ListWithMeta
 from iqm.station_control.interface.models import (
     DutData,
@@ -81,14 +79,13 @@ from iqm.station_control.interface.models import (
 from iqm.station_control.interface.models.jobs import JobError
 from iqm.station_control.interface.models.sweep import SweepBase
 from iqm.station_control.interface.models.type_aliases import GetObservationsMode, SoftwareVersionSet, StrUUID
-from iqm.station_control.interface.station_control import StationControlInterface
 
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
 
-class IqmServerClient(StationControlInterface):
+class IqmServerClient(_StationControlClientBase):
     def __init__(
         self,
         root_url: str,
@@ -97,12 +94,10 @@ class IqmServerClient(StationControlInterface):
         client_signature: str | None = None,
         grpc_channel: grpc.Channel | None = None,
     ):
-        self.root_url = root_url
+        super().__init__(root_url, get_token_callback=get_token_callback, client_signature=client_signature)
         self._connection_params = parse_connection_params(root_url)
-        self._cached_resources = {}
+        self._cached_resources: dict[str, Any] = {}
         self._latest_submitted_sweep = None
-        self._get_token_callback = get_token_callback
-        self._signature = self._create_signature(client_signature)
         self._channel = grpc_channel or create_channel(self._connection_params, self._get_token_callback)
         self._current_qc = resolve_current_qc(self._channel, self._connection_params.quantum_computer)
 
@@ -384,94 +379,6 @@ class IqmServerClient(StationControlInterface):
             self._cached_resources[resource_name] = resource
             return resource
 
-    @staticmethod
-    def _create_signature(client_signature: str) -> str:
-        signature = f"{platform.platform(terse=True)}"
-        signature += f", python {platform.python_version()}"
-        version_string = "iqm-station-control-client"
-        signature += f", IqmServerClient {version_string} {version(version_string)}"
-        if client_signature:
-            signature += f", {client_signature}"
-        return signature
-
-    def _send_request(
-        self,
-        http_method: Callable[..., requests.Response],
-        url_path: str,
-        *,
-        json_str: str | None = None,
-        octets: bytes | None = None,
-        params: dict[str, Any] | None = None,
-        headers: dict[str, str] | None = None,
-        timeout: int = 120,
-    ) -> requests.Response:
-        """Send an HTTP request.
-
-        Parameters ``json_str``, ``octets`` and ``params`` are mutually exclusive.
-        The first non-None argument (in this order) will be used to construct the body of the request.
-
-        Args:
-            http_method: HTTP method to use for the request, any of requests.[post|get|put|head|delete|patch|options].
-            url_path: URL for the request.
-
-        Returns:
-            Response to the request.
-
-        Raises:
-            StationControlError: Request was not successful.
-
-        """
-        # Will raise an error if respectively an error response code is returned.
-        # http_method should be any of requests.[post|get|put|head|delete|patch|options]
-
-        request_kwargs = self._build_request_kwargs(
-            json_str=json_str, octets=octets, params=params or {}, headers=headers or {}, timeout=timeout
-        )
-        url = f"{self.root_url}/{url_path}"
-        response = http_method(url, **request_kwargs)
-        if not response.ok:
-            try:
-                response_json = response.json()
-                error_message = response_json["detail"]
-            except json.JSONDecodeError:
-                error_message = response.text
-
-            try:
-                error_class = map_from_status_code_to_error(response.status_code)
-            except KeyError:
-                raise RuntimeError(f"Unexpected response status code {response.status_code}: {error_message}")
-            raise error_class(error_message)
-        return response
-
-    def _build_request_kwargs(self, **kwargs):
-        kwargs.setdefault("headers", {"User-Agent": self._signature})
-
-        params = kwargs.get("params", {})
-        headers = kwargs["headers"]
-
-        if kwargs["json_str"] is not None:
-            # Must be able to handle JSON strings with arbitrary unicode characters, so we use an explicit
-            # encoding into bytes, and set the headers so the recipient can decode the request body correctly.
-            data = kwargs["json_str"].encode("utf-8")
-            headers["Content-Type"] = "application/json; charset=UTF-8"
-        elif kwargs["octets"] is not None:
-            data = kwargs["octets"]
-            headers["Content-Type"] = "application/octet-stream"
-        else:
-            data = None
-
-        # If token callback exists, use it to retrieve the token and add it to the headers
-        if self._get_token_callback:
-            headers["Authorization"] = self._get_token_callback()
-
-        kwargs = {
-            "params": params,
-            "data": data,
-            "headers": headers,
-            "timeout": kwargs["timeout"],
-        }
-        return _remove_empty_values(kwargs)
-
 
 def resolve_current_qc(channel: grpc.Channel, alias: str) -> proto.QuantumComputerV1:
     qcs = proto.QuantumComputersStub(channel)
@@ -560,8 +467,3 @@ def wrap_error(title: str):
         raise extract_error(e, title) from e
     except Exception as e:
         raise IqmServerError(message=f"{title}: {e}", status_code=str(grpc.StatusCode.INTERNAL.name)) from e
-
-
-def _remove_empty_values(kwargs):
-    # Remove None and {} values
-    return {key: value for key, value in kwargs.items() if value not in [None, {}]}
