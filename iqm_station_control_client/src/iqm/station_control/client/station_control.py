@@ -145,7 +145,7 @@ class _StationControlClientBase(StationControlInterface):
         params: dict[str, Any] | None = None,
         json_str: str | None = None,
         octets: bytes | None = None,
-        timeout: int = 120,
+        timeout: int = 600,
     ) -> requests.Response:
         """Send an HTTP request.
 
@@ -159,6 +159,7 @@ class _StationControlClientBase(StationControlInterface):
             params: HTTP query parameters to store in the query string of the request URL.
             json_str: JSON string to store in the body, may contain arbitrary Unicode characters.
             octets: Pre-serialized binary data to store in the body.
+            timeout: Timeout for the request in seconds.
 
         Returns:
             Response to the request.
