@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Cirq on IQM User Guide &#8212; IQM client 29.3.0 documentation</title>
+    <title>Cirq on IQM User Guide &#8212; IQM client 29.4.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=66d7cfee"></script>
+    <script src="_static/documentation_options.js?v=fd424ca9"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="Qiskit on IQM User Guide" href="user_guide_qiskit.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="29.3.0" />
-    <meta name="docbuild:last-update" content="2025-07-07"/>
+  <meta name="docsearch:version" content="29.4.0" />
+    <meta name="docbuild:last-update" content="2025-07-08"/>
   </head>
   
   
@@ -134,8 +134,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="IQM client 29.3.0 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM client 29.3.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM client 29.4.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM client 29.4.0 documentation - Home"/>
   
   
 </a></div>
@@ -542,8 +542,8 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2">Method 2</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decomposition">Decomposition</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#routing">Routing</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#routing">Routing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decomposition">Decomposition</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm-star-architecture">IQM Star architecture</a></li>
 </ul>
 </li>
@@ -682,23 +682,8 @@ q_1: ───H───X───M(&#39;m_1&#39;)───
 <p>After a circuit has been constructed, it can be decomposed and routed against a particular <a class="reference internal" href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice" title="iqm.cirq_iqm.devices.iqm_device.IQMDevice"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMDevice</span></code></a>.</p>
 </section>
 </section>
-<section id="decomposition">
-<h2>Decomposition<a class="headerlink" href="#decomposition" title="Link to this heading">#</a></h2>
-<p>The method <a class="reference internal" href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.decompose_circuit" title="iqm.cirq_iqm.devices.iqm_device.IQMDevice.decompose_circuit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMDevice.decompose_circuit()</span></code></a> accepts a <code class="xref py py-class docutils literal notranslate"><span class="pre">cirq.Circuit</span></code> object as an argument and
-returns the decomposed circuit containing only native operations for the corresponding device:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">decomposed_circuit</span> <span class="o">=</span> <span class="n">adonis</span><span class="o">.</span><span class="n">decompose_circuit</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">decomposed_circuit</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Alice: ───X────────────────────@───────────M(&#39;m&#39;)───
-                               │           │
-Bob: ─────Y^0.5───X───Y^-0.5───@───Y^0.5───M────────
-</pre></div>
-</div>
-<p>The Hadamard and CNOT gates are not native to Adonis, so they were decomposed to X, Y and CZ gates which are.</p>
-</section>
 <section id="routing">
-<span id="id1"></span><h2>Routing<a class="headerlink" href="#routing" title="Link to this heading">#</a></h2>
+<h2>Routing<a class="headerlink" href="#routing" title="Link to this heading">#</a></h2>
 <p>Routing means transforming a circuit such that it acts on the device qubits, and respects the
 device connectivity.
 The method <a class="reference internal" href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.route_circuit" title="iqm.cirq_iqm.devices.iqm_device.IQMDevice.route_circuit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMDevice.route_circuit()</span></code></a> accepts a <code class="xref py py-class docutils literal notranslate"><span class="pre">cirq.Circuit</span></code> object as an argument,
@@ -742,8 +727,23 @@ again after the routing, unless SWAP is a native gate for the target device.</p>
 <p>To ensure that the transpiler is restricted to a specific subset of qubits, you can provide a list
 of qubits in the <code class="docutils literal notranslate"><span class="pre">qubit_subset</span></code> argument such that ancillary qubits will not be added during
 routing. This is particularly useful when running Quantum Volume benchmarks.</p>
+</section>
+<section id="decomposition">
+<h2>Decomposition<a class="headerlink" href="#decomposition" title="Link to this heading">#</a></h2>
+<p>The method <a class="reference internal" href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.decompose_circuit" title="iqm.cirq_iqm.devices.iqm_device.IQMDevice.decompose_circuit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMDevice.decompose_circuit()</span></code></a> accepts a <code class="xref py py-class docutils literal notranslate"><span class="pre">cirq.Circuit</span></code> object as an argument and
+returns the decomposed circuit containing only native operations for the corresponding device:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">decomposed_circuit</span> <span class="o">=</span> <span class="n">adonis</span><span class="o">.</span><span class="n">decompose_circuit</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">decomposed_circuit</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Alice: ───X────────────────────@───────────M(&#39;m&#39;)───
+                               │           │
+Bob: ─────Y^0.5───X───Y^-0.5───@───Y^0.5───M────────
+</pre></div>
+</div>
+<p>The Hadamard and CNOT gates are not native to Adonis, so they were decomposed to X, Y and CZ gates which are.</p>
 <section id="iqm-star-architecture">
-<h3>IQM Star architecture<a class="headerlink" href="#iqm-star-architecture" title="Link to this heading">#</a></h3>
+<span id="id1"></span><h3>IQM Star architecture<a class="headerlink" href="#iqm-star-architecture" title="Link to this heading">#</a></h3>
 <p>Devices that have the IQM Star architecture (e.g. IQM Deneb) contain
 computational resonators in addition to qubits, and use qubit-resonator gates instead of two-qubit
 gates. These include the MOVE gate which moves qubit states to and from the resonators.
@@ -865,9 +865,9 @@ Once you have access to an IQM server you can create an <a class="reference inte
 <span class="c1"># circuit = ...</span>
 
 <span class="n">sampler</span> <span class="o">=</span> <span class="n">IQMSampler</span><span class="p">(</span><span class="n">iqm_server_url</span><span class="p">)</span>
-<span class="n">decomposed_circuit</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">decompose_circuit</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
-<span class="n">routed_circuit</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">route_circuit</span><span class="p">(</span><span class="n">decomposed_circuit</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">routed_circuit</span><span class="p">,</span> <span class="n">repetitions</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">routed_circuit</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">route_circuit</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+<span class="n">decomposed_circuit</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">device</span><span class="o">.</span><span class="n">decompose_circuit</span><span class="p">(</span><span class="n">routed_circuit</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">decomposed_circuit</span><span class="p">,</span> <span class="n">repetitions</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">measurements</span><span class="p">[</span><span class="s1">&#39;m&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -950,7 +950,7 @@ data depends on the calibration set used by the sampler, so one should usually u
 instances for different calibration sets. Alternatively, the device can be specified directly with
 the <code class="xref py py-attr docutils literal notranslate"><span class="pre">device</span></code> argument, but this is not recommended when running on a real quantum computer.</p>
 <p>When executing a circuit that uses something other than the device qubits, you need to route it first,
-as explained in the <a class="reference internal" href="#routing"><span class="std std-ref">Routing</span></a> section above.</p>
+as explained in the <a class="reference internal" href="#id1"><span class="std std-ref">IQM Star architecture</span></a> section above.</p>
 <section id="authentication">
 <h3>Authentication<a class="headerlink" href="#authentication" title="Link to this heading">#</a></h3>
 <section id="id2">
@@ -1072,8 +1072,8 @@ of the IQM Client repository.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-2">Method 2</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decomposition">Decomposition</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#routing">Routing</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#routing">Routing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#decomposition">Decomposition</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm-star-architecture">IQM Star architecture</a></li>
 </ul>
 </li>
@@ -1115,7 +1115,7 @@ By IQM client developers
 
   <p class="copyright">
     
-      © Copyright 2021-2025, IQM Finland Oy, Release 29.3.0.
+      © Copyright 2021-2025, IQM Finland Oy, Release 29.4.0.
       <br/>
     
   </p>
@@ -1124,7 +1124,7 @@ By IQM client developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-07-07.
+  Last updated on 2025-07-08.
   <br/>
 </p>
   </div>

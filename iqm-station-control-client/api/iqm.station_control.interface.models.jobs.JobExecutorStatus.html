@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>JobExecutorStatus &#8212; station-control-client 9.4.0 documentation</title>
+    <title>JobExecutorStatus &#8212; station-control-client 9.5.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=0a839020"></script>
+    <script src="../_static/documentation_options.js?v=a3c3e446"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -53,8 +53,8 @@
     <link rel="prev" title="JobError" href="iqm.station_control.interface.models.jobs.JobError.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="9.4.0" />
-    <meta name="docbuild:last-update" content="2025-07-07"/>
+  <meta name="docsearch:version" content="9.5.0" />
+    <meta name="docbuild:last-update" content="2025-07-08"/>
   </head>
   
   
@@ -133,8 +133,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 9.4.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="station-control-client 9.4.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 9.5.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="station-control-client 9.5.0 documentation - Home"/>
   
   
 </a></div>
@@ -326,6 +326,24 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.RECEIVED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.RECEIVED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.VALIDATION_STARTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.VALIDATION_STARTED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.VALIDATION_ENDED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.VALIDATION_ENDED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.FETCH_CALIBRATION_STARTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.FETCH_CALIBRATION_STARTED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.FETCH_CALIBRATION_ENDED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.FETCH_CALIBRATION_ENDED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.COMPILATION_STARTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.COMPILATION_STARTED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.COMPILATION_ENDED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.COMPILATION_ENDED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.SAVE_SWEEP_METADATA_STARTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.SAVE_SWEEP_METADATA_STARTED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.SAVE_SWEEP_METADATA_ENDED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.SAVE_SWEEP_METADATA_ENDED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.PENDING_EXECUTION"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.PENDING_EXECUTION</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.EXECUTION_STARTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.EXECUTION_STARTED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.EXECUTION_ENDED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.EXECUTION_ENDED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_PENDING"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.POST_PROCESSING_PENDING</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_STARTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.POST_PROCESSING_STARTED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_ENDED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.POST_PROCESSING_ENDED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.READY"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.READY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.FAILED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.FAILED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.ABORTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.ABORTED</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.terminal_statuses"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.terminal_statuses()</span></code></a></li>
 </ul>
 </li>
@@ -346,66 +364,67 @@
 <dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">JobExecutorStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/enum.html#enum.Enum" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
-<p>Enumeration of different states a job can be in. The ordering of these statuses is important,
-and execution logic relies on it. Thus, if a new status is added, ensure that it is slotted
+<p>Different states a job can be in.</p>
+<p>The ordering of these statuses is important, and execution logic relies on it.
+Thus, if a new status is added, ensure that it is slotted
 in at the appropriate place. See the <code class="xref py py-meth docutils literal notranslate"><span class="pre">__lt__()</span></code> implementation for further details.</p>
 <p>Module: <a class="reference internal" href="iqm.station_control.interface.models.jobs.html#module-iqm.station_control.interface.models.jobs" title="iqm.station_control.interface.models.jobs"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.station_control.interface.models.jobs</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">RECEIVED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.RECEIVED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.RECEIVED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RECEIVED</span></code></a></p></td>
+<td><p>The job has been received by the server.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">VALIDATION_STARTED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.VALIDATION_STARTED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.VALIDATION_STARTED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VALIDATION_STARTED</span></code></a></p></td>
+<td><p>The job is being validated.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">VALIDATION_ENDED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.VALIDATION_ENDED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.VALIDATION_ENDED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VALIDATION_ENDED</span></code></a></p></td>
+<td><p>The job passed validation.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">FETCH_CALIBRATION_STARTED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.FETCH_CALIBRATION_STARTED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.FETCH_CALIBRATION_STARTED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FETCH_CALIBRATION_STARTED</span></code></a></p></td>
+<td><p>Calibration data for the job is being fetched.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">FETCH_CALIBRATION_ENDED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.FETCH_CALIBRATION_ENDED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.FETCH_CALIBRATION_ENDED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FETCH_CALIBRATION_ENDED</span></code></a></p></td>
+<td><p>Calibration data for the job has been fetched.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">COMPILATION_STARTED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.COMPILATION_STARTED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.COMPILATION_STARTED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">COMPILATION_STARTED</span></code></a></p></td>
+<td><p>The job is being compiled.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">COMPILATION_ENDED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.COMPILATION_ENDED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.COMPILATION_ENDED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">COMPILATION_ENDED</span></code></a></p></td>
+<td><p>The job has been succesfully compiled.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SAVE_SWEEP_METADATA_STARTED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.SAVE_SWEEP_METADATA_STARTED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.SAVE_SWEEP_METADATA_STARTED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SAVE_SWEEP_METADATA_STARTED</span></code></a></p></td>
+<td><p>Metadata about the sweep is being stored to database.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">SAVE_SWEEP_METADATA_ENDED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.SAVE_SWEEP_METADATA_ENDED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.SAVE_SWEEP_METADATA_ENDED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SAVE_SWEEP_METADATA_ENDED</span></code></a></p></td>
+<td><p>Metadata about the sweep has been stored to database.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">PENDING_EXECUTION</span></code></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.PENDING_EXECUTION" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.PENDING_EXECUTION"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PENDING_EXECUTION</span></code></a></p></td>
+<td><p>The job is ready for execution and is waiting for its turn in the queue.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXECUTION_STARTED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.EXECUTION_STARTED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.EXECUTION_STARTED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXECUTION_STARTED</span></code></a></p></td>
+<td><p>The job has started executing on the instruments.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXECUTION_ENDED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.EXECUTION_ENDED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.EXECUTION_ENDED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EXECUTION_ENDED</span></code></a></p></td>
+<td><p>The job has finished execution on the instruments.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">POST_PROCESSING_PENDING</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_PENDING" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_PENDING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">POST_PROCESSING_PENDING</span></code></a></p></td>
+<td><p>The job has finished execution and is awaiting further processing.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">POST_PROCESSING_STARTED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_STARTED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_STARTED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">POST_PROCESSING_STARTED</span></code></a></p></td>
+<td><p>Execution artifacts are being constructed and persisted.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">POST_PROCESSING_ENDED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_ENDED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_ENDED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">POST_PROCESSING_ENDED</span></code></a></p></td>
+<td><p>Execution artifacts have been constructed and persisted.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">READY</span></code></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.READY" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.READY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">READY</span></code></a></p></td>
+<td><p>The job has completed.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">FAILED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.FAILED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.FAILED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FAILED</span></code></a></p></td>
+<td><p>The job has failed.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ABORTED</span></code></p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.ABORTED" title="iqm.station_control.interface.models.jobs.JobExecutorStatus.ABORTED"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ABORTED</span></code></a></p></td>
+<td><p>The job has been aborted.</p></td>
 </tr>
 </tbody>
 </table>
@@ -419,6 +438,114 @@ in at the appropriate place. See the <code class="xref py py-meth docutils liter
 </tbody>
 </table>
 </div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.RECEIVED">
+<span class="sig-name descname"><span class="pre">RECEIVED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'received'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.RECEIVED" title="Link to this definition">#</a></dt>
+<dd><p>The job has been received by the server.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.VALIDATION_STARTED">
+<span class="sig-name descname"><span class="pre">VALIDATION_STARTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'validation_started'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.VALIDATION_STARTED" title="Link to this definition">#</a></dt>
+<dd><p>The job is being validated.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.VALIDATION_ENDED">
+<span class="sig-name descname"><span class="pre">VALIDATION_ENDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'validation_ended'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.VALIDATION_ENDED" title="Link to this definition">#</a></dt>
+<dd><p>The job passed validation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.FETCH_CALIBRATION_STARTED">
+<span class="sig-name descname"><span class="pre">FETCH_CALIBRATION_STARTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'fetch_calibration_started'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.FETCH_CALIBRATION_STARTED" title="Link to this definition">#</a></dt>
+<dd><p>Calibration data for the job is being fetched.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.FETCH_CALIBRATION_ENDED">
+<span class="sig-name descname"><span class="pre">FETCH_CALIBRATION_ENDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'fetch_calibration_ended'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.FETCH_CALIBRATION_ENDED" title="Link to this definition">#</a></dt>
+<dd><p>Calibration data for the job has been fetched.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.COMPILATION_STARTED">
+<span class="sig-name descname"><span class="pre">COMPILATION_STARTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'compilation_started'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.COMPILATION_STARTED" title="Link to this definition">#</a></dt>
+<dd><p>The job is being compiled.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.COMPILATION_ENDED">
+<span class="sig-name descname"><span class="pre">COMPILATION_ENDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'compilation_ended'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.COMPILATION_ENDED" title="Link to this definition">#</a></dt>
+<dd><p>The job has been succesfully compiled.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.SAVE_SWEEP_METADATA_STARTED">
+<span class="sig-name descname"><span class="pre">SAVE_SWEEP_METADATA_STARTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'save_sweep_metadata_started'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.SAVE_SWEEP_METADATA_STARTED" title="Link to this definition">#</a></dt>
+<dd><p>Metadata about the sweep is being stored to database.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.SAVE_SWEEP_METADATA_ENDED">
+<span class="sig-name descname"><span class="pre">SAVE_SWEEP_METADATA_ENDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'save_sweep_metadata_ended'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.SAVE_SWEEP_METADATA_ENDED" title="Link to this definition">#</a></dt>
+<dd><p>Metadata about the sweep has been stored to database.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.PENDING_EXECUTION">
+<span class="sig-name descname"><span class="pre">PENDING_EXECUTION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pending_execution'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.PENDING_EXECUTION" title="Link to this definition">#</a></dt>
+<dd><p>The job is ready for execution and is waiting for its turn in the queue.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.EXECUTION_STARTED">
+<span class="sig-name descname"><span class="pre">EXECUTION_STARTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'execution_started'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.EXECUTION_STARTED" title="Link to this definition">#</a></dt>
+<dd><p>The job has started executing on the instruments.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.EXECUTION_ENDED">
+<span class="sig-name descname"><span class="pre">EXECUTION_ENDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'execution_ended'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.EXECUTION_ENDED" title="Link to this definition">#</a></dt>
+<dd><p>The job has finished execution on the instruments.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_PENDING">
+<span class="sig-name descname"><span class="pre">POST_PROCESSING_PENDING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'post_processing_pending'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_PENDING" title="Link to this definition">#</a></dt>
+<dd><p>The job has finished execution and is awaiting further processing.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_STARTED">
+<span class="sig-name descname"><span class="pre">POST_PROCESSING_STARTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'post_processing_started'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_STARTED" title="Link to this definition">#</a></dt>
+<dd><p>Execution artifacts are being constructed and persisted.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_ENDED">
+<span class="sig-name descname"><span class="pre">POST_PROCESSING_ENDED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'post_processing_ended'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_ENDED" title="Link to this definition">#</a></dt>
+<dd><p>Execution artifacts have been constructed and persisted.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.READY">
+<span class="sig-name descname"><span class="pre">READY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ready'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.READY" title="Link to this definition">#</a></dt>
+<dd><p>The job has completed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.FAILED">
+<span class="sig-name descname"><span class="pre">FAILED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'failed'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.FAILED" title="Link to this definition">#</a></dt>
+<dd><p>The job has failed. Error message(s) may be available.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.ABORTED">
+<span class="sig-name descname"><span class="pre">ABORTED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'aborted'</span></em><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.ABORTED" title="Link to this definition">#</a></dt>
+<dd><p>The job has been aborted.</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.station_control.interface.models.jobs.JobExecutorStatus.terminal_statuses">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">terminal_statuses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.terminal_statuses" title="Link to this definition">#</a></dt>
@@ -481,6 +608,24 @@ in at the appropriate place. See the <code class="xref py py-meth docutils liter
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.RECEIVED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.RECEIVED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.VALIDATION_STARTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.VALIDATION_STARTED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.VALIDATION_ENDED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.VALIDATION_ENDED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.FETCH_CALIBRATION_STARTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.FETCH_CALIBRATION_STARTED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.FETCH_CALIBRATION_ENDED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.FETCH_CALIBRATION_ENDED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.COMPILATION_STARTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.COMPILATION_STARTED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.COMPILATION_ENDED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.COMPILATION_ENDED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.SAVE_SWEEP_METADATA_STARTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.SAVE_SWEEP_METADATA_STARTED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.SAVE_SWEEP_METADATA_ENDED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.SAVE_SWEEP_METADATA_ENDED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.PENDING_EXECUTION"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.PENDING_EXECUTION</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.EXECUTION_STARTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.EXECUTION_STARTED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.EXECUTION_ENDED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.EXECUTION_ENDED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_PENDING"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.POST_PROCESSING_PENDING</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_STARTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.POST_PROCESSING_STARTED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.POST_PROCESSING_ENDED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.POST_PROCESSING_ENDED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.READY"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.READY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.FAILED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.FAILED</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.ABORTED"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.ABORTED</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.interface.models.jobs.JobExecutorStatus.terminal_statuses"><code class="docutils literal notranslate"><span class="pre">JobExecutorStatus.terminal_statuses()</span></code></a></li>
 </ul>
 </li>
@@ -504,7 +649,7 @@ in at the appropriate place. See the <code class="xref py py-meth docutils liter
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 9.4.0.
+      © Copyright 2019-2025, IQM Finland Oy, Release 9.5.0.
       <br/>
     
   </p>
@@ -513,7 +658,7 @@ in at the appropriate place. See the <code class="xref py py-meth docutils liter
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-07-07.
+  Last updated on 2025-07-08.
   <br/>
 </p>
   </div>
