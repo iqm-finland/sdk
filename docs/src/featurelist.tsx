@@ -73,7 +73,7 @@ const gateFeatures = [
         qiskit: {
             tutorial: "https://docs.meetiqm.com/iqm-client/user_guide_qiskit.html#classically-controlled-gates"
         },
-        qrisp: true,
+        qrisp: false,
         cirq: {
             tutorial: "https://docs.meetiqm.com/cirq-iqm/user_guide.html#classical-control"
         },
@@ -91,6 +91,7 @@ const gateFeatures = [
     {
         name: "Dynamical decoupling",
         qccsw: "3.3.0",
+        qrisp: true,
         qiskit: {
             tutorial: "https://iqm-finland.github.io/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html"
         },
@@ -103,6 +104,9 @@ const gateFeatures = [
         }> Heralding</Tooltip></div>
         , qccsw: "1.0.0",
         qiskit: {
+            tutorial: "https://iqm-finland.github.io/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.heralding_mode"
+        },
+        qrisp: {
             tutorial: "https://iqm-finland.github.io/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.heralding_mode"
         },
         cirq: {
@@ -147,6 +151,7 @@ const gateFeatures = [
     {
         name: <Tooltip content="The qubits are actively reset once more using conditional pulses feedback loops before circuit execution.">Automated active reset</Tooltip>,
         qccsw: "3.3.0",
+        qrisp: true,
         qiskit: {
             tutorial: "https://iqm-finland.github.io/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.active_reset_cycles"
         },
@@ -198,22 +203,22 @@ const pulseFeatures = [
     },
     {
         name: "Custom calibrations",
-        resonance: "Coming soon",
+        resonance: true,
         onprem: true,
     },
     {
         name: "Custom gates",
-        resonance: "Coming soon",
+        resonance: true,
         onprem: true,
     },
     {
         name: "Pulse Schedule viewer",
-        resonance: "Coming soon",
+        resonance: true,
         onprem: true,
     },
     {
         name: "Custom compiler stages",
-        resonance: "Coming soon",
+        resonance: true,
         onprem: true,
     },
     {
