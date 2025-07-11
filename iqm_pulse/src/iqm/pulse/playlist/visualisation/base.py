@@ -44,7 +44,7 @@ def _numpy_to_builtin_types(data: list[tuple[str, Any]]):
     converted_data = {}
 
     for key, value in data:
-        if isinstance(value, np.float64):
+        if isinstance(value, np.floating):
             converted_data[key] = float(value)
         elif isinstance(value, np.ndarray):
             converted_data[key] = value.tolist()
@@ -120,7 +120,10 @@ def _playlist_as_a_dict(playlist: Playlist, segment_indices: Sequence[int]) -> d
                             "probe_pulse": instruction.operation.probe_pulse.operation.__class__.__name__,
                             "entries": [
                                 json.dumps(
-                                    {"name": entry[0].operation.__class__.__name__, **asdict(entry[0].operation)},
+                                    {
+                                        "name": entry[0].operation.__class__.__name__,
+                                        **asdict(entry[0].operation, dict_factory=_numpy_to_builtin_types),
+                                    },
                                     indent=2,
                                 )
                                 for entry in instruction.operation.probe_pulse.operation.entries

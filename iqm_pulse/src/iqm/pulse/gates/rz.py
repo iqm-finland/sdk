@@ -144,7 +144,7 @@ class RZ_Virtual(GateImplementation):
         timebox.neighborhood_components[0] = set(self.locus)
         return timebox
 
-    parameters: dict[str, Parameter] = {}
+    parameters: dict[str, Parameter] = {}  # type: ignore[assignment]
 
     def duration_in_seconds(self) -> float:
         return self.duration
@@ -191,7 +191,7 @@ class RZ_ACStarkShift(GateImplementation):
         parameters["amplitude"] = Parameter("", "amplitude", "")
         parameters["phase_increment"] = Parameter("", "phase increment", "rad")
 
-        cls.parameters = {
+        cls.parameters = {  # type: ignore[assignment]
             "duration": Parameter("", "Gate duration", "s"),
         } | parameters
 
@@ -218,8 +218,8 @@ class RZ_ACStarkShift(GateImplementation):
         """
         _, phase_increment = phase_transformation(0, phase_increment)
 
-        wave_i = cls.ac_stark_waveform(n_samples=n_samples, phase=phase, **kwargs)  # type: ignore
-        wave_q = cls.ac_stark_waveform(n_samples=n_samples, phase=phase - np.pi / 2, **kwargs)  # type: ignore
+        wave_i = cls.ac_stark_waveform(n_samples=n_samples, phase=phase, **kwargs)
+        wave_q = cls.ac_stark_waveform(n_samples=n_samples, phase=phase - np.pi / 2, **kwargs)
         return IQPulse(
             n_samples,
             wave_i=wave_i,
@@ -234,11 +234,11 @@ class RZ_ACStarkShift_CosineRiseFall(RZ_ACStarkShift, ac_stark_waveform=Modulate
     """AC stark pulse implemented as a modulated cosine rise fall pulse."""
 
 
-class RZ_ACStarkShift_smoothConstant(
+class RZ_ACStarkShift_smoothConstant(  # type: ignore[call-arg]  # type: ignore[call-arg]  # type: ignore[call-arg]
     Constant_PRX_with_smooth_rise_fall,
-    rise_waveform=CosineRise,
-    main_waveform=Constant,
-    fall_waveform=CosineFall,
+    rise_waveform=CosineRise,  # type:ignore[call-arg]
+    main_waveform=Constant,  # type:ignore[call-arg]
+    fall_waveform=CosineFall,  # type:ignore[call-arg]
 ):
     """Constant AC stark pulse with cosine rise and fall padding.
     Implemented as a 3-instruction Schedule.
@@ -260,8 +260,8 @@ class RZ_PRX_Composite(CompositeGate):
         prx = self.build("prx", self.locus)
         return TimeBox.composite(
             [
-                prx.ry(np.pi / 2),
-                prx.rx(angle),
-                prx.ry(-np.pi / 2),
+                prx.ry(np.pi / 2),  # type: ignore[attr-defined]
+                prx.rx(angle),  # type: ignore[attr-defined]
+                prx.ry(-np.pi / 2),  # type: ignore[attr-defined]
             ]
         )

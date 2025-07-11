@@ -378,7 +378,7 @@ class MultiplexedProbeTimeBox(TimeBox):
         """
         schedule = {probe_channel: [readout_trigger]}
         for channel in block_channels:
-            schedule[channel] = [Block(block_duration)]
+            schedule[channel] = [Block(block_duration)]  # type: ignore[list-item]
         box = MultiplexedProbeTimeBox(
             label=label,
             locus_components=set(locus_components),

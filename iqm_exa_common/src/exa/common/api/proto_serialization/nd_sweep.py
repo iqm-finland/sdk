@@ -14,7 +14,9 @@
 
 """Convert NdSweeps to protos and back."""
 
-import iqm.data_definitions.common.v1.sweep_pb2 as spb
+from iqm.data_definitions.common.v1.sweep_pb2 import CartesianSweep as spb_CartesianSweep
+from iqm.data_definitions.common.v1.sweep_pb2 import ParallelSweep as spb_ParallelSweep
+from iqm.data_definitions.common.v1.sweep_pb2 import SingleParameterSweep as spb_SingleParameterSweep
 
 from exa.common.api.proto_serialization import sequence
 import exa.common.api.proto_serialization._parameter as param_proto
@@ -23,22 +25,22 @@ from exa.common.data.parameter import DataType, Parameter
 from exa.common.sweep.util import NdSweep
 
 
-def pack(nd_sweep: NdSweep, minimal: bool = True) -> spb.CartesianSweep:
+def pack(nd_sweep: NdSweep, minimal: bool = True) -> spb_CartesianSweep:
     """Convert an NdSweep into protobuf representation.
 
     Note: The protobuf does not make any distinction between different types of Sweeps, so the type information is lost.
     """
     parallels = []
     for parallel in nd_sweep:
-        parallel_proto = spb.ParallelSweep()
+        parallel_proto = spb_ParallelSweep()
         parallel_proto.single_parameter_sweeps.MergeFrom((_pack_single_sweep(sweep, minimal) for sweep in parallel))
         parallels.append(parallel_proto)
-    proto = spb.CartesianSweep()
+    proto = spb_CartesianSweep()
     proto.parallel_sweeps.MergeFrom(reversed(parallels))  # In data-definitions, order is outermost loop first
     return proto
 
 
-def unpack(proto: spb.CartesianSweep) -> NdSweep:
+def unpack(proto: spb_CartesianSweep) -> NdSweep:
     """Convert protobuf representation into a NdSweep. Reverse operation of :func:`.pack`."""
     nd_sweep = []
     for parallel_proto in reversed(proto.parallel_sweeps):
@@ -47,14 +49,14 @@ def unpack(proto: spb.CartesianSweep) -> NdSweep:
     return nd_sweep
 
 
-def _pack_single_sweep(sweep: Sweep, minimal: bool) -> spb.SingleParameterSweep:
-    kwargs = {"parameter_name": sweep.parameter.name, "values": sequence.pack(sweep.data)}
+def _pack_single_sweep(sweep: Sweep, minimal: bool) -> spb_SingleParameterSweep:
+    kwargs = {"parameter_name": sweep.parameter.name, "values": sequence.pack(sweep.data)}  # type: ignore[arg-type]
     if not minimal:
         kwargs["parameter"] = param_proto.pack(sweep.parameter)
-    return spb.SingleParameterSweep(**kwargs)
+    return spb_SingleParameterSweep(**kwargs)
 
 
-def _unpack_single_sweep(proto: spb.SingleParameterSweep) -> Sweep:
+def _unpack_single_sweep(proto: spb_SingleParameterSweep) -> Sweep:
     sweep_values = sequence.unpack(proto.values)
     if proto.HasField("parameter"):
         parameter = param_proto.unpack(proto.parameter)

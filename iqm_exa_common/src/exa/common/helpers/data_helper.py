@@ -13,13 +13,15 @@
 # limitations under the License.
 
 
+from collections.abc import Hashable
+
 import xarray as xr
 
 """Helper methods for data manipulation.
 """
 
 
-def add_data_array(ds: xr.Dataset, da: xr.DataArray, name: str | None = None) -> xr.Dataset:
+def add_data_array(ds: xr.Dataset, da: xr.DataArray, name: Hashable | None = None) -> xr.Dataset:
     """Add data array `da` to dataset `ds`.
 
     Unlike the default xarray command, preserves metadata of the dataset.
@@ -36,7 +38,7 @@ def add_data_array(ds: xr.Dataset, da: xr.DataArray, name: str | None = None) ->
     """
     if name is None:
         if da.name is not None:
-            name = da.name
+            name = da.name  # type: ignore[assignment]
         else:
             raise ValueError("No name was given to the dataArray.")
     # Attributes of Dataset coordinates are dropped/replaced when adding a DataArray
@@ -50,7 +52,7 @@ def add_data_array(ds: xr.Dataset, da: xr.DataArray, name: str | None = None) ->
     ds[name] = da
     for key in ds.coords:
         if attributes.get(key):
-            ds.coords[key].attrs = attributes.get(key)
+            ds.coords[key].attrs = attributes.get(key)  # type:ignore[assignment]
     for key in ds.data_vars:
         if attributes.get(key):
             ds.data_vars[key].attrs = attributes[key]

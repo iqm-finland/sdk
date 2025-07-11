@@ -76,7 +76,9 @@ def login_request(url: str, realm: str, client_id: str, username: str, password:
         Tokens dictionary
 
     """
-    data = AuthRequest(client_id=client_id, grant_type=GrantType.PASSWORD, username=username, password=password)
+    data = AuthRequest(
+        client_id=client_id, grant_type=GrantType.PASSWORD, username=username, password=password, refresh_token=None
+    )
 
     request_url = slash_join(url, f"realms/{realm}/protocol/openid-connect/token")
     result = requests.post(request_url, data=data.model_dump(exclude_none=True), timeout=AUTH_REQUESTS_TIMEOUT)
@@ -107,7 +109,9 @@ def refresh_request(url: str, realm: str, client_id: str, refresh_token: str) ->
         raise ClientAuthenticationError("Refresh token has expired")
 
     # Update tokens using existing refresh_token
-    data = AuthRequest(client_id=client_id, grant_type=GrantType.REFRESH, refresh_token=refresh_token)
+    data = AuthRequest(
+        client_id=client_id, grant_type=GrantType.REFRESH, username=None, password=None, refresh_token=refresh_token
+    )
 
     request_url = slash_join(url, f"realms/{realm}/protocol/openid-connect/token")
     result = requests.post(request_url, data=data.model_dump(exclude_none=True), timeout=AUTH_REQUESTS_TIMEOUT)
@@ -130,7 +134,7 @@ def logout_request(url: str, realm: str, client_id: str, refresh_token: str) -> 
         True if logout was successful
 
     """
-    data = AuthRequest(client_id=client_id, refresh_token=refresh_token)
+    data = AuthRequest(client_id=client_id, grant_type=None, username=None, password=None, refresh_token=refresh_token)
     request_url = slash_join(url, f"realms/{realm}/protocol/openid-connect/logout")
     result = requests.post(request_url, data=data.model_dump(exclude_none=True), timeout=AUTH_REQUESTS_TIMEOUT)
 

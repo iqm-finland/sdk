@@ -21,6 +21,14 @@ file = "LICENSE.txt"
 Documentation = "https://iqm-finland.github.io/docs/iqm-pulse/"
 Homepage = "https://pypi.org/project/iqm-pulse/"
 
+[tool.mypy]
+explicit_package_bases = true
+mypy_path = "$MYPY_CONFIG_FILE_DIR/src"
+namespace_packages = true
+[[tool.mypy.overrides]]
+module = [ "iqm.data_definitions.*", "iqm.models.*", "daemon.*", "quimb.*", "qiskit.*", "qiskit_aer.*", "grpc.*", "lmfit.*", "emukit.*", "mockito.*", "sklearn.*", "dill.*", "uncertainties.*", "GPy.*", "pythonjsonlogger.*",]
+ignore_missing_imports = true
+
 [tool.ruff]
 exclude = [ "*.ipynb", "*.rst",]
 extend-include = [ "sub-setup-py.template",]

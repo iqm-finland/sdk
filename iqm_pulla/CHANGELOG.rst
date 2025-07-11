@@ -2,6 +2,22 @@
 Changelog
 =========
 
+Version 8.3.0 (2025-07-09)
+==========================
+
+Features
+--------
+
+- Enable mypy type checking in CI and add temporary type ignores to the source code. :issue:`SW-1615`
+
+Version 8.2.0 (2025-07-02)
+==========================
+
+Bug fixes
+---------
+
+- Fix type errors raised by mypy.
+
 Version 8.1.0 (2025-06-18)
 ==========================
 

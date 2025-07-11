@@ -2,6 +2,46 @@
 Changelog
 =========
 
+Version 29.5.0 (2025-07-09)
+===========================
+
+Features
+--------
+
+- Enable mypy type checking in CI and add temporary type ignores to the source code. :issue:`SW-1615`
+
+Version 29.4.0 (2025-07-07)
+===========================
+
+Features
+--------
+
+- Bugfix: Fixed the iqm-client cirq documentation such that the instruction is to route circuits before decomposing.
+
+Version 29.3.0 (2025-07-02)
+===========================
+
+Bug fixes
+---------
+
+- Fix type errors raised by mypy.
+
+Version 29.2.0 (2025-06-30)
+===========================
+
+Features
+--------
+
+- Bugfix: Fixed case where the transpiler would sometimes replace Parameters in the circuit with another Parameter.
+
+Version 29.1.0 (2025-06-30)
+===========================
+
+Bug fixes
+---------
+
+- Add job id to APITimeoutError
+
 Version 29.0.0 (2025-06-13)
 ===========================
 

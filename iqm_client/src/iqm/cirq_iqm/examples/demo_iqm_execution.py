@@ -60,7 +60,7 @@ def demo_run_circuit() -> None:
 
     # Sampler results can be accessed several ways
     # For instance, to see the histogram of results
-    print(results.histogram(key="m", fold_func=fold_func))
+    print(results.histogram(key="m", fold_func=fold_func))  # type:ignore[arg-type]
 
     # Or the data itself
     print(results.data)

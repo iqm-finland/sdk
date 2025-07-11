@@ -55,7 +55,7 @@ class Sweep(BaseModel):
             else:
                 data = options.data
 
-        super().__init__(parameter=parameter, data=data, **kwargs)
+        super().__init__(parameter=parameter, data=data, **kwargs)  # type: ignore[call-arg]  # type: ignore[call-arg]
 
     def model_post_init(self, __context: Any) -> None:
         if not all(self.parameter.validate(value) for value in self.data):
@@ -71,7 +71,7 @@ class Sweep(BaseModel):
     def __from_start_stop(cls, parameter: Parameter, options: StartStopOptions) -> SweepValues:
         cls._validate_value(parameter, options.start, "start")
         cls._validate_value(parameter, options.stop, "stop")
-        cls._validate_value(parameter, options.step, "step")
+        cls._validate_value(parameter, options.step, "step")  # type: ignore[arg-type]
         return options.data
 
     @staticmethod

@@ -16,11 +16,11 @@
 
 from collections.abc import Sequence
 
-import iqm.data_definitions.common.v1.data_types_pb2 as dpb
+from iqm.data_definitions.common.v1.data_types_pb2 import Sequence as dpb_Sequence
 import numpy as np
 
 
-def pack(values: Sequence) -> dpb.Sequence:
+def pack(values: Sequence) -> dpb_Sequence:
     """Packs a sequence of native Python types into protobuf format.
 
     Args:
@@ -33,7 +33,7 @@ def pack(values: Sequence) -> dpb.Sequence:
         ValueError in case of unsupported value.
 
     """
-    target = dpb.Sequence()
+    target = dpb_Sequence()
     if not values:
         return target
     dtype = type(values[0])
@@ -57,7 +57,7 @@ def pack(values: Sequence) -> dpb.Sequence:
     return target
 
 
-def unpack(source: dpb.Sequence) -> list:
+def unpack(source: dpb_Sequence) -> list:
     """Unpacks protobuf to list. Reverse operation of :func:`.pack`.
 
     Args:

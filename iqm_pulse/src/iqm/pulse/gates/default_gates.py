@@ -35,7 +35,7 @@ from iqm.pulse.gates.cz import (
 from iqm.pulse.gates.delay import Delay
 from iqm.pulse.gates.flux_multiplexer import FluxMultiplexer_SampleLinear
 from iqm.pulse.gates.measure import Measure_Constant, Shelved_Measure_Constant
-from iqm.pulse.gates.move import MOVE_CRF_CRF, MOVE_TGSS_CRF
+from iqm.pulse.gates.move import MOVE_CRF_CRF, MOVE_SLEPIAN_CRF, MOVE_TGSS_CRF
 from iqm.pulse.gates.prx import (
     PRX_DRAGCosineRiseFall,
     PRX_DRAGCosineRiseFallSX,
@@ -89,7 +89,7 @@ _default_implementations = {
         "crf_acstarkcrf": CZ_CRF_ACStarkCRF,
         "slepian_acstarkcrf": CZ_Slepian_ACStarkCRF,
     },
-    "move": {"tgss_crf": MOVE_TGSS_CRF, "crf_crf": MOVE_CRF_CRF},
+    "move": {"tgss_crf": MOVE_TGSS_CRF, "crf_crf": MOVE_CRF_CRF, "slepian_crf": MOVE_SLEPIAN_CRF},
     "cc_prx": {
         "prx_composite": CCPRX_Composite,
         "prx_composite_drag_crf": CCPRX_Composite_DRAGCosineRiseFall,
@@ -115,95 +115,98 @@ _default_operations: QuantumOpTable = {
         QuantumOp(
             "barrier",
             0,
-            implementations=_default_implementations["barrier"],
+            implementations=_default_implementations["barrier"],  # type: ignore[arg-type]
             symmetric=True,
         ),
         QuantumOp(
             "delay",
             0,
             ("duration",),
-            implementations=_default_implementations["delay"],
+            implementations=_default_implementations["delay"],  # type: ignore[arg-type]
             symmetric=True,
         ),
         QuantumOp(
             "measure",
             0,
             ("key",),
-            implementations=_default_implementations["measure"],
+            implementations=_default_implementations["measure"],  # type: ignore[arg-type]
             factorizable=True,
         ),
         QuantumOp(
             "prx",
             1,
             ("angle", "phase"),
-            implementations=_default_implementations["prx"],
+            implementations=_default_implementations["prx"],  # type: ignore[arg-type]
             unitary=get_unitary_prx,
         ),
         QuantumOp(
             "prx_12",
             1,
             ("angle", "phase"),
-            implementations=_default_implementations["prx_12"],
+            implementations=_default_implementations["prx_12"],  # type: ignore[arg-type]
         ),
         QuantumOp(
             "u",
             1,
             ("theta", "phi", "lam"),
-            implementations=_default_implementations["u"],
+            implementations=_default_implementations["u"],  # type: ignore[arg-type]
             unitary=get_unitary_u,
         ),
         QuantumOp(
-            "sx", 1, implementations=_default_implementations["sx"], unitary=lambda: get_unitary_prx(np.pi / 2, 0)
+            "sx",
+            1,
+            implementations=_default_implementations["sx"],  # type: ignore[arg-type]
+            unitary=lambda: get_unitary_prx(np.pi / 2, 0),
         ),
         QuantumOp(
             "rz",
             1,
             ("angle",),
-            implementations=_default_implementations["rz"],
+            implementations=_default_implementations["rz"],  # type: ignore[arg-type]
             unitary=get_unitary_rz,
         ),
         QuantumOp(
             "rz_physical",
             1,
-            implementations=_default_implementations["rz_physical"],
+            implementations=_default_implementations["rz_physical"],  # type: ignore[arg-type]
         ),
         QuantumOp(
             "cz",
             2,
             (),
-            implementations=_default_implementations["cz"],
+            implementations=_default_implementations["cz"],  # type: ignore[arg-type]
             symmetric=True,
             unitary=lambda: np.diag([1.0, 1.0, 1.0, -1.0]),
         ),
         QuantumOp(
             "move",
             2,
-            implementations=_default_implementations["move"],
+            implementations=_default_implementations["move"],  # type: ignore[arg-type]
         ),
         QuantumOp(
             "cc_prx",
             1,
             ("angle", "phase", "feedback_qubit", "feedback_key"),
-            implementations=_default_implementations["cc_prx"],
+            implementations=_default_implementations["cc_prx"],  # type: ignore[arg-type]
         ),
         QuantumOp(
             "reset",
             0,
-            implementations=_default_implementations["reset"],
+            implementations=_default_implementations["reset"],  # type: ignore[arg-type]
             symmetric=True,
             factorizable=True,
         ),
         QuantumOp(
             "reset_wait",
             0,
-            implementations=_default_implementations["reset_wait"],
+            implementations=_default_implementations["reset_wait"],  # type: ignore[arg-type]
             symmetric=True,
             factorizable=True,
         ),
         QuantumOp(
             "flux_multiplexer",
             0,
-            implementations=_default_implementations["flux_multiplexer"],
+            implementations=_default_implementations["flux_multiplexer"],  # type: ignore[arg-type]
         ),
     ]
 }
@@ -215,95 +218,98 @@ _quantum_ops_library = {
         QuantumOp(
             "barrier",
             0,
-            implementations=_default_implementations["barrier"],
+            implementations=_default_implementations["barrier"],  # type: ignore[arg-type]
             symmetric=True,
         ),
         QuantumOp(
             "delay",
             0,
             ("duration",),
-            implementations=_default_implementations["delay"],
+            implementations=_default_implementations["delay"],  # type: ignore[arg-type]
             symmetric=True,
         ),
         QuantumOp(
             "measure",
             0,
             ("key",),
-            implementations=_default_implementations["measure"],
+            implementations=_default_implementations["measure"],  # type: ignore[arg-type]
             factorizable=True,
         ),
         QuantumOp(
             "prx",
             1,
             ("angle", "phase"),
-            implementations=_default_implementations["prx"],
+            implementations=_default_implementations["prx"],  # type: ignore[arg-type]
             unitary=get_unitary_prx,
         ),
         QuantumOp(
             "prx_12",
             1,
             ("angle", "phase"),
-            implementations=_default_implementations["prx_12"],
+            implementations=_default_implementations["prx_12"],  # type: ignore[arg-type]
         ),
         QuantumOp(
             "u",
             1,
             ("theta", "phi", "lam"),
-            implementations=_default_implementations["u"],
+            implementations=_default_implementations["u"],  # type: ignore[arg-type]
             unitary=get_unitary_u,
         ),
         QuantumOp(
-            "sx", 1, implementations=_default_implementations["sx"], unitary=lambda: get_unitary_prx(np.pi / 2, 0)
+            "sx",
+            1,
+            implementations=_default_implementations["sx"],  # type: ignore[arg-type]
+            unitary=lambda: get_unitary_prx(np.pi / 2, 0),
         ),
         QuantumOp(
             "rz",
             1,
             ("angle",),
-            implementations=_default_implementations["rz"],
+            implementations=_default_implementations["rz"],  # type: ignore[arg-type]
             unitary=get_unitary_rz,
         ),
         QuantumOp(
             "rz_physical",
             1,
-            implementations=_default_implementations["rz_physical"],
+            implementations=_default_implementations["rz_physical"],  # type: ignore[arg-type]
         ),
         QuantumOp(
             "cz",
             2,
             (),
-            implementations=_default_implementations["cz"],
+            implementations=_default_implementations["cz"],  # type: ignore[arg-type]
             symmetric=True,
             unitary=lambda: np.diag([1.0, 1.0, 1.0, -1.0]),
         ),
         QuantumOp(
             "move",
             2,
-            implementations=_default_implementations["move"],
+            implementations=_default_implementations["move"],  # type: ignore[arg-type]
         ),
         QuantumOp(
             "cc_prx",
             1,
             ("angle", "phase", "feedback_qubit", "feedback_key"),
-            implementations=_default_implementations["cc_prx"],
+            implementations=_default_implementations["cc_prx"],  # type: ignore[arg-type]
         ),
         QuantumOp(
             "reset",
             0,
-            implementations=_default_implementations["reset"],
+            implementations=_default_implementations["reset"],  # type: ignore[arg-type]
             symmetric=True,
             factorizable=True,
         ),
         QuantumOp(
             "reset_wait",
             0,
-            implementations=_default_implementations["reset_wait"],
+            implementations=_default_implementations["reset_wait"],  # type: ignore[arg-type]
             symmetric=True,
             factorizable=True,
         ),
         QuantumOp(
             "flux_multiplexer",
             0,
-            implementations=_default_implementations["flux_multiplexer"],
+            implementations=_default_implementations["flux_multiplexer"],  # type: ignore[arg-type]
         ),
     ]
 }

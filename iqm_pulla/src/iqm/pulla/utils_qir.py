@@ -111,7 +111,7 @@ def _gate_inst_to_str(inst: Call) -> CircuitOperation | None:
     try:
         qir_logger.debug("Processing %s with args: %s", operation, inst.args)
         params = operation_handlers[operation](inst.args)
-        return CircuitOperation(**params)
+        return CircuitOperation(**params)  # type: ignore[arg-type]  # type: ignore[arg-type]  # type: ignore[arg-type]  # type: ignore[arg-type]
     except (IndexError, ValueError, AttributeError) as e:
         qir_logger.error("Error processing operation %s: %s", operation, e)
         raise ValueError(f"Error processing operation {operation}: {e}") from e

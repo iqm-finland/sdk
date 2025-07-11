@@ -40,8 +40,8 @@ def create_static_quantum_architecture(chip_topology: ChipTopology) -> StaticQua
     # The components in each connection are already sorted, now we sort the connections
     connectivity = sorted(unsorted_connections, key=sort_key)
     return StaticQuantumArchitecture(
-        qubits=chip_topology.qubits_sorted,
-        computational_resonators=chip_topology.computational_resonators_sorted,
+        qubits=chip_topology.qubits_sorted,  # type: ignore[arg-type]
+        computational_resonators=chip_topology.computational_resonators_sorted,  # type: ignore[arg-type]
         connectivity=connectivity,
     )
 

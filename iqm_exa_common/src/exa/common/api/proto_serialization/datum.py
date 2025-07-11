@@ -16,13 +16,14 @@
 
 from collections.abc import Sequence
 
-import iqm.data_definitions.common.v1.data_types_pb2 as dpb
+from iqm.data_definitions.common.v1.data_types_pb2 import Complex128 as dpb_Complex128
+from iqm.data_definitions.common.v1.data_types_pb2 import Datum as dpb_Datum
 import numpy as np
 
 from exa.common.api.proto_serialization import array, sequence
 
 
-def pack(value: None | bool | str | int | float | complex | np.ndarray | Sequence) -> dpb.Datum:
+def pack(value: None | bool | str | int | float | complex | np.ndarray | Sequence) -> dpb_Datum:
     """Packs a string, numerical value, or an array thereof into protobuf format.
 
     Supported data types are:
@@ -48,25 +49,25 @@ def pack(value: None | bool | str | int | float | complex | np.ndarray | Sequenc
             f"Encoding of numpy type '{type(value)}' is not supported. Cast the value into a native type first."
         )
     if value is None:
-        return dpb.Datum(null_value=True)
+        return dpb_Datum(null_value=True)
     if isinstance(value, bool):
-        return dpb.Datum(bool_value=value)
+        return dpb_Datum(bool_value=value)
     if isinstance(value, str):
-        return dpb.Datum(string_value=value)
+        return dpb_Datum(string_value=value)
     if isinstance(value, int):
-        return dpb.Datum(sint64_value=value)
+        return dpb_Datum(sint64_value=value)
     if isinstance(value, float):
-        return dpb.Datum(float64_value=value)
+        return dpb_Datum(float64_value=value)
     if isinstance(value, complex):
-        return dpb.Datum(complex128_value=dpb.Complex128(real=value.real, imag=value.imag))
+        return dpb_Datum(complex128_value=dpb_Complex128(real=value.real, imag=value.imag))
     if isinstance(value, np.ndarray):
-        return dpb.Datum(array=array.pack(value))
+        return dpb_Datum(array=array.pack(value))
     if isinstance(value, Sequence):
-        return dpb.Datum(sequence=sequence.pack(value))
+        return dpb_Datum(sequence=sequence.pack(value))
     raise TypeError(f"Encoding of type '{type(value)}' is not supported.")
 
 
-def unpack(source: dpb.Datum) -> None | str | bool | int | float | complex | np.ndarray | list:
+def unpack(source: dpb_Datum) -> None | str | bool | int | float | complex | np.ndarray | list:
     """Unpacks a protobuf into a native Python type or a numpy array. Reverse operation of :func:`.pack`.
 
     Args:
@@ -122,19 +123,19 @@ def deserialize(source: bytes) -> None | str | bool | int | float | complex | np
           Deserialized data.
 
     """
-    proto = dpb.Datum()
+    proto = dpb_Datum()
     proto.ParseFromString(source)
     return unpack(proto)
 
 
-def _pack_complex128(value: np.complex128 | complex, target: dpb.Complex128 | None = None) -> dpb.Complex128:
+def _pack_complex128(value: np.complex128 | complex, target: dpb_Complex128 | None = None) -> dpb_Complex128:
     """Packs a numpy complex128 to the respective protobuf type."""
-    target = target or dpb.Complex128()
+    target = target or dpb_Complex128()
     target.real = value.real
     target.imag = value.imag
     return target
 
 
-def _unpack_complex128_value(complex128_value: dpb.Complex128) -> complex:
+def _unpack_complex128_value(complex128_value: dpb_Complex128) -> complex:
     """Unpack a protobuf to a native complex number."""
     return complex(complex128_value.real, complex128_value.imag)

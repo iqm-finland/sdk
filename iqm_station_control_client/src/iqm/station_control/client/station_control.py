@@ -181,12 +181,12 @@ class _StationControlClientBase(StationControlInterface):
         if not response.ok:
             try:
                 response_json = response.json()
-                error_message = response_json["detail"]
-            except json.JSONDecodeError:
+                error_message = response_json.get("message") or response_json["detail"]
+            except (json.JSONDecodeError, KeyError):
                 error_message = response.text
 
             try:
-                error_class = map_from_status_code_to_error(response.status_code)
+                error_class = map_from_status_code_to_error(response.status_code)  # type: ignore[arg-type]
             except KeyError:
                 raise RuntimeError(f"Unexpected response status code {response.status_code}: {error_message}")
 
@@ -350,14 +350,14 @@ class StationControlClient(_StationControlClientBase):
         response = self._send_request(requests.get, f"runs/{run_id}")
         return deserialize_run_data(response.json())
 
-    def query_runs(self, **kwargs) -> ListWithMeta[RunLite]:
+    def query_runs(self, **kwargs) -> ListWithMeta[RunLite]:  # type: ignore[type-arg]
         params = self._clean_query_parameters(RunData, **kwargs)
         response = self._send_request(requests.get, "runs", params=params)
         return self._deserialize_response(response, RunLiteList, list_with_meta=True)
 
     def create_observations(
         self, observation_definitions: Sequence[ObservationDefinition]
-    ) -> ListWithMeta[ObservationData]:
+    ) -> ListWithMeta[ObservationData]:  # type: ignore[type-arg]
         json_str = self._serialize_model(ObservationDefinitionList(observation_definitions))
         response = self._send_request(requests.post, "observations", json_str=json_str)
         return self._deserialize_response(response, ObservationDataList, list_with_meta=True)
@@ -370,8 +370,8 @@ class StationControlClient(_StationControlClientBase):
         dut_field: str | None = None,
         tags: list[str] | None = None,
         invalid: bool | None = False,
-        run_ids: list[StrUUID] | None = None,
-        sequence_ids: list[StrUUID] | None = None,
+        run_ids: list[StrUUID] | None = None,  # type: ignore[override]
+        sequence_ids: list[StrUUID] | None = None,  # type: ignore[override]
         limit: int | None = None,
     ) -> list[ObservationData]:
         kwargs = {
@@ -388,7 +388,7 @@ class StationControlClient(_StationControlClientBase):
         response = self._send_request(requests.get, "observations", params=params)
         return self._deserialize_response(response, ObservationDataList)
 
-    def query_observations(self, **kwargs) -> ListWithMeta[ObservationData]:
+    def query_observations(self, **kwargs) -> ListWithMeta[ObservationData]:  # type: ignore[type-arg]
         params = self._clean_query_parameters(ObservationData, **kwargs)
         response = self._send_request(requests.get, "observations", params=params)
         return self._deserialize_response(response, ObservationDataList, list_with_meta=True)
@@ -398,7 +398,7 @@ class StationControlClient(_StationControlClientBase):
         response = self._send_request(requests.patch, "observations", json_str=json_str)
         return self._deserialize_response(response, ObservationDataList)
 
-    def query_observation_sets(self, **kwargs) -> ListWithMeta[ObservationSetData]:
+    def query_observation_sets(self, **kwargs) -> ListWithMeta[ObservationSetData]:  # type: ignore[type-arg]
         params = self._clean_query_parameters(ObservationSetData, **kwargs)
         response = self._send_request(requests.get, "observation-sets", params=params)
         return self._deserialize_response(response, ObservationSetDataList, list_with_meta=True)
@@ -406,16 +406,16 @@ class StationControlClient(_StationControlClientBase):
     def create_observation_set(self, observation_set_definition: ObservationSetDefinition) -> ObservationSetData:
         json_str = self._serialize_model(observation_set_definition)
         response = self._send_request(requests.post, "observation-sets", json_str=json_str)
-        return self._deserialize_response(response, ObservationSetData)
+        return self._deserialize_response(response, ObservationSetData)  # type: ignore[return-value]
 
     def get_observation_set(self, observation_set_id: StrUUID) -> ObservationSetData:
         response = self._send_request(requests.get, f"observation-sets/{observation_set_id}")
-        return self._deserialize_response(response, ObservationSetData)
+        return self._deserialize_response(response, ObservationSetData)  # type: ignore[return-value]
 
     def update_observation_set(self, observation_set_update: ObservationSetUpdate) -> ObservationSetData:
         json_str = self._serialize_model(observation_set_update)
         response = self._send_request(requests.patch, "observation-sets", json_str=json_str)
-        return self._deserialize_response(response, ObservationSetData)
+        return self._deserialize_response(response, ObservationSetData)  # type: ignore[return-value]
 
     def finalize_observation_set(self, observation_set_id: StrUUID) -> None:
         self._send_request(requests.post, f"observation-sets/{observation_set_id}/finalize")
@@ -426,7 +426,7 @@ class StationControlClient(_StationControlClientBase):
 
     def get_default_calibration_set(self) -> ObservationSetData:
         response = self._send_request(requests.get, "calibration-sets/default")
-        return self._deserialize_response(response, ObservationSetData)
+        return self._deserialize_response(response, ObservationSetData)  # type: ignore[return-value]
 
     def get_default_calibration_set_observations(self) -> list[ObservationLite]:
         response = self._send_request(requests.get, "calibration-sets/default/observations")
@@ -434,22 +434,22 @@ class StationControlClient(_StationControlClientBase):
 
     def get_default_dynamic_quantum_architecture(self) -> DynamicQuantumArchitecture:
         response = self._send_request(requests.get, "calibration-sets/default/dynamic-quantum-architecture")
-        return self._deserialize_response(response, DynamicQuantumArchitecture)
+        return self._deserialize_response(response, DynamicQuantumArchitecture)  # type: ignore[return-value]
 
     @cache
     def get_dynamic_quantum_architecture(self, calibration_set_id: StrUUID) -> DynamicQuantumArchitecture:
         response = self._send_request(
             requests.get, f"calibration-sets/{calibration_set_id}/dynamic-quantum-architecture"
         )
-        return self._deserialize_response(response, DynamicQuantumArchitecture)
+        return self._deserialize_response(response, DynamicQuantumArchitecture)  # type: ignore[return-value]
 
     def get_default_calibration_set_quality_metrics(self) -> QualityMetrics:
         response = self._send_request(requests.get, "calibration-sets/default/metrics")
-        return self._deserialize_response(response, QualityMetrics)
+        return self._deserialize_response(response, QualityMetrics)  # type: ignore[return-value]
 
     def get_calibration_set_quality_metrics(self, calibration_set_id: StrUUID) -> QualityMetrics:
         response = self._send_request(requests.get, f"calibration-sets/{calibration_set_id}/metrics")
-        return self._deserialize_response(response, QualityMetrics)
+        return self._deserialize_response(response, QualityMetrics)  # type: ignore[return-value]
 
     def get_duts(self) -> list[DutData]:
         response = self._send_request(requests.get, "duts")
@@ -460,7 +460,7 @@ class StationControlClient(_StationControlClientBase):
         response = self._send_request(requests.get, "dut-fields", params=params)
         return self._deserialize_response(response, DutFieldDataList)
 
-    def query_sequence_metadatas(self, **kwargs) -> ListWithMeta[SequenceMetadataData]:
+    def query_sequence_metadatas(self, **kwargs) -> ListWithMeta[SequenceMetadataData]:  # type: ignore[type-arg]
         params = self._clean_query_parameters(SequenceMetadataData, **kwargs)
         response = self._send_request(requests.get, "sequence-metadatas", params=params)
         return self._deserialize_response(response, SequenceMetadataDataList, list_with_meta=True)
@@ -470,7 +470,7 @@ class StationControlClient(_StationControlClientBase):
     ) -> SequenceMetadataData:
         json_str = self._serialize_model(sequence_metadata_definition)
         response = self._send_request(requests.post, "sequence-metadatas", json_str=json_str)
-        return self._deserialize_response(response, SequenceMetadataData)
+        return self._deserialize_response(response, SequenceMetadataData)  # type: ignore[return-value]
 
     def save_sequence_result(self, sequence_result_definition: SequenceResultDefinition) -> SequenceResultData:
         # FIXME: We don't have information if the object was created or updated. Thus, server always responds 200 (OK).
@@ -478,20 +478,20 @@ class StationControlClient(_StationControlClientBase):
         response = self._send_request(
             requests.put, f"sequence-results/{sequence_result_definition.sequence_id}", json_str=json_str
         )
-        return self._deserialize_response(response, SequenceResultData)
+        return self._deserialize_response(response, SequenceResultData)  # type: ignore[return-value]
 
     def get_sequence_result(self, sequence_id: StrUUID) -> SequenceResultData:
         response = self._send_request(requests.get, f"sequence-results/{sequence_id}")
-        return self._deserialize_response(response, SequenceResultData)
+        return self._deserialize_response(response, SequenceResultData)  # type: ignore[return-value]
 
     @cache
     def get_static_quantum_architecture(self, dut_label: str) -> StaticQuantumArchitecture:
         response = self._send_request(requests.get, f"static-quantum-architectures/{dut_label}")
-        return self._deserialize_response(response, StaticQuantumArchitecture)
+        return self._deserialize_response(response, StaticQuantumArchitecture)  # type: ignore[return-value]
 
     def get_job(self, job_id: StrUUID) -> JobData:
         response = self._send_request(requests.get, f"jobs/{job_id}")
-        return self._deserialize_response(response, JobData)
+        return self._deserialize_response(response, JobData)  # type: ignore[return-value]
 
     def abort_job(self, job_id: StrUUID) -> None:
         self._send_request(requests.post, f"jobs/{job_id}/abort")
@@ -516,7 +516,7 @@ class StationControlClient(_StationControlClientBase):
         max_seen_position = 0
         while True:
             job = self._poll_job(job_id)
-            if job.job_status >= JobExecutorStatus.EXECUTION_STARTED:
+            if job.job_status >= JobExecutorStatus.EXECUTION_STARTED:  # type: ignore[operator]
                 if max_seen_position:
                     update_progress_callback([("Progress in queue", max_seen_position, max_seen_position)])
                 return job.job_status
@@ -525,8 +525,8 @@ class StationControlClient(_StationControlClientBase):
             if position == 0:
                 sleep(1)
                 continue
-            max_seen_position = max(max_seen_position, position)
-            update_progress_callback([("Progress in queue", max_seen_position - position, max_seen_position)])
+            max_seen_position = max(max_seen_position, position)  # type: ignore[type-var,assignment]
+            update_progress_callback([("Progress in queue", max_seen_position - position, max_seen_position)])  # type: ignore[operator]
             sleep(1)
 
     def _poll_job_status_until_terminal(
@@ -545,9 +545,9 @@ class StationControlClient(_StationControlClientBase):
     def _poll_job(self, job_id: str) -> JobData:
         response = self._send_request(requests.get, f"jobs/{job_id}")
         job = self._deserialize_response(response, JobData)
-        if job.job_status == JobExecutorStatus.FAILED:
-            raise InternalServerError(f"Job: {job.job_id}\n{job.job_error}")
-        return job
+        if job.job_status == JobExecutorStatus.FAILED:  # type: ignore[union-attr]
+            raise InternalServerError(f"Job: {job.job_id}\n{job.job_error}")  # type: ignore[union-attr]  # type: ignore[union-attr]
+        return job  # type: ignore[return-value]
 
     @staticmethod
     def _serialize_model(model: BaseModel) -> str:
@@ -612,22 +612,22 @@ class StationControlClient(_StationControlClientBase):
     @staticmethod
     def _deserialize_response(
         response: requests.Response,
-        model_class: type[TypePydanticBase | ListModel[list[TypePydanticBase]]],
+        model_class: type[TypePydanticBase | ListModel[list[TypePydanticBase]]],  # type: ignore[type-arg]
         *,
         list_with_meta: bool = False,
-    ) -> TypePydanticBase | ListWithMeta[TypePydanticBase]:
+    ) -> TypePydanticBase | ListWithMeta[TypePydanticBase]:  # type: ignore[type-arg]
         # Use "model_validate_json(response.text)" instead of "model_validate(response.json())".
         # This validates the provided data as a JSON string or bytes object.
         # If your incoming data is a JSON payload, this is generally considered faster.
         if list_with_meta:
-            response_with_meta = ResponseWithMeta.model_validate_json(response.text)
+            response_with_meta = ResponseWithMeta.model_validate_json(response.text)  # type: ignore[var-annotated]
             if response_with_meta.meta and response_with_meta.meta.errors:
                 logger.warning(
                     "Errors in station control response:\n  - %s", "\n  - ".join(response_with_meta.meta.errors)
                 )
-            return ListWithMeta(model_class.model_validate(response_with_meta.items), meta=response_with_meta.meta)
+            return ListWithMeta(model_class.model_validate(response_with_meta.items), meta=response_with_meta.meta)  # type: ignore[arg-type]
         model = model_class.model_validate_json(response.text)
-        return model
+        return model  # type: ignore[return-value]
 
 
 def _remove_empty_values(kwargs: dict[str, Any]) -> dict[str, Any]:

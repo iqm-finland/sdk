@@ -421,7 +421,7 @@ def calset_to_cal_data_tree(calibration_set: CalibrationSet) -> OpCalibrationDat
             locus = tuple(path[3].split(LOCUS_SEPARATOR))
             locus = () if locus == ("",) else locus
             # mypy likes this
-            set_path(tree.setdefault(path[1], {}).setdefault(path[2], {}).setdefault(locus, {}), path[4:], value)
+            set_path(tree.setdefault(path[1], {}).setdefault(path[2], {}).setdefault(locus, {}), path[4:], value)  # type: ignore[arg-type]
     return tree
 
 
@@ -483,7 +483,7 @@ def _update_channel_props_from_calibration(
                     f"No calibration value found for the center frequency or local oscillator frequency of {component}."
                 )
             channel_name = channels["readout"]
-            replacements[channel_name] = replace(channel_properties[channel_name], center_frequency=center_frequency)
+            replacements[channel_name] = replace(channel_properties[channel_name], center_frequency=center_frequency)  # type: ignore[call-arg]
 
     return channel_properties | replacements
 
@@ -518,8 +518,8 @@ def find_circuit_boundary(
         }
     elif mode == CircuitBoundaryMode.ALL:
         # maybe safer/better: all unused locus components/couplers are considered boundary
-        boundary_components = (device.qubits | device.computational_resonators) - circuit_components
-        boundary_couplers = device.couplers - circuit_couplers
+        boundary_components = (device.qubits | device.computational_resonators) - circuit_components  # type: ignore[assignment]
+        boundary_couplers = device.couplers - circuit_couplers  # type: ignore[assignment]
     else:
         raise UnknownCircuitExecutionOptionError(f"Unknown circuit boundary mode '{str(mode)}'")
     return boundary_components, boundary_couplers

@@ -51,7 +51,7 @@ class RoutingStar(Routing):
     def __init__(self, problem_bqm: BinaryQuadraticModel, qpu: StarQPU, initial_mapping: Mapping | None = None) -> None:
         super().__init__(problem_bqm, qpu, initial_mapping)
         # For star QPU, each layer contains only one operation, so no need to use a sophisticated ``Layer`` class
-        self.layers: list[tuple[str, HardQubit]] = []
+        self.layers: list[tuple[str, HardQubit]] = []  # type: ignore[assignment]
 
     def apply_move_in(self, qubit: HardQubit) -> None:
         """Apply move gate (to move a qubit into the resonator).
@@ -256,7 +256,7 @@ class RoutingStar(Routing):
                     column = (layer_index % 9) % 3
 
                     self.qpu.draw(
-                        gate_lists={gate_to_color[layer[0]]: [(0, layer[1])]},
+                        gate_lists={gate_to_color[layer[0]]: [(0, layer[1])]},  # type: ignore[list-item]
                         ax=axs[row, column],
                         mapping=mapping,
                         show=False,
@@ -275,7 +275,7 @@ class RoutingStar(Routing):
                 plt.show()
         else:
             self.qpu.draw(
-                gate_lists={gate_to_color[self.layers[0][0]]: [(0, self.layers[0][1])]} if self.layers else None,
+                gate_lists={gate_to_color[self.layers[0][0]]: [(0, self.layers[0][1])]} if self.layers else None,  # type: ignore[list-item]
                 ax=None,
                 mapping=self.initial_mapping,
                 show=True,

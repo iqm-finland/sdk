@@ -18,7 +18,7 @@ import os
 import platform
 import subprocess
 
-import pkg_resources
+import pkg_resources  # type:ignore[import-untyped]
 
 
 def _is_editable(pkg_name: str) -> bool:
@@ -30,7 +30,7 @@ def _is_editable(pkg_name: str) -> bool:
     ``importlib.metadata``, so it might break anytime.
     """
     dist = distribution(pkg_name)
-    return dist.files and dist.files[0].name.startswith("__editable__.")
+    return dist.files is not None and dist.files[0].name.startswith("__editable__.")
 
 
 def get_all_software_versions(reload_module: bool = False) -> dict[str, str]:

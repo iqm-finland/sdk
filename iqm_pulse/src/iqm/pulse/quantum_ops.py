@@ -229,7 +229,7 @@ def validate_op_calibration(calibration: OpCalibrationDataTree, ops: QuantumOpTa
 
             default_cal_data = loci.get((), {})
             for locus, cal_data in loci.items():
-                validate_locus_calibration(merge_dicts(default_cal_data, cal_data), impl, op, impl_name, locus)
+                validate_locus_calibration(merge_dicts(default_cal_data, cal_data), impl, op, impl_name, locus)  # type: ignore[arg-type]
 
 
 def validate_locus_calibration(

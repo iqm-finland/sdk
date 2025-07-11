@@ -65,7 +65,7 @@ class QUBOQAOA(QAOA):
         initial_angles: Sequence[float] | np.ndarray | None = None,
     ) -> None:
         super().__init__(problem, num_layers, betas=betas, gammas=gammas, initial_angles=initial_angles)
-        self._bqm = self._problem.bqm.spin
+        self._bqm = self._problem.bqm.spin  # type: ignore[attr-defined]
 
     @property
     def bqm(self) -> BinaryQuadraticModel:
@@ -148,6 +148,6 @@ class QUBOQAOA(QAOA):
             self._angles = local_angles
             return estimator.estimate(self)
 
-        solution = minimize(function_to_minimize, self.angles, method=min_method)
+        solution = minimize(function_to_minimize, self.angles, method=min_method)  # type: ignore[call-overload]
         self._angles = solution.x
         self._trained = True

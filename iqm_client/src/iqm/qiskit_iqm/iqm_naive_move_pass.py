@@ -72,7 +72,7 @@ class IQMNaiveResonatorMoving(TransformationPass):
         # TODO: Temporary hack to get the symbolic parameters to work: replace symbols with (inf, idx).
         # Replace symbolic parameters with indices and store the index to symbol mapping.
         symbolic_gates = {}
-        symbolic_index = 0
+        symbolic_index = 0.0
         for node in dag.topological_op_nodes():
             # This only works for prx gates because that has two parameters
             # We use one to mark that it is a symbolic gate (np.inf) and the other to store the index.
@@ -99,6 +99,7 @@ class IQMNaiveResonatorMoving(TransformationPass):
         iqm_circuit = IQMClientCircuit(
             name="Transpiling Circuit",
             instructions=tuple(serialize_instructions(circuit, self.idx_to_component)),
+            metadata=None,
         )
         try:
             routed_iqm_circuit = transpile_insert_moves(
@@ -127,7 +128,7 @@ class IQMNaiveResonatorMoving(TransformationPass):
             # This only works for prx gates because that has two parameters
             # We use one to mark that it is a symbolic gate (np.inf) and the other to store the index.
             if node.name == "r" and not np.isfinite(node.op.params[0]):
-                new_dag.substitute_node(node, RGate(*symbolic_gates[int(node.op.params[1])]))
+                new_dag.substitute_node(node, RGate(*symbolic_gates[int(np.round(node.op.params[1]))]))
 
         # Update the final_layout with the correct bits.
         if "final_layout" in self.property_set:

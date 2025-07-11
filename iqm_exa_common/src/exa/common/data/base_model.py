@@ -1,3 +1,4 @@
+from collections.abc import Mapping
 from typing import Any, Self
 
 import pydantic
@@ -24,7 +25,7 @@ class BaseModel(pydantic.BaseModel):
         frozen=True,  # This makes instances of the model potentially hashable if all the attributes are hashable
     )
 
-    def model_copy(self, *, update: dict[str, Any] | None = None, deep: bool = True) -> Self:
+    def model_copy(self, *, update: Mapping[str, Any] | None = None, deep: bool = True) -> Self:
         """Returns a copy of the model.
 
         Overrides the Pydantic default 'model_copy' to set 'deep=True' by default.

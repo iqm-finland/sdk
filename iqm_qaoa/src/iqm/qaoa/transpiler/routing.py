@@ -89,21 +89,21 @@ class Mapping:
                 initial_mapping = partial_initial_mapping
                 # The qubits not covered by the partial inital mapping get mapped arbitrarily.
                 for hard_qb, log_qb in zip(remaining_hard_qbs, remaining_log_qbs):
-                    initial_mapping[hard_qb] = log_qb
+                    initial_mapping[hard_qb] = log_qb  # type: ignore[assignment]
             else:
                 initial_mapping = partial_initial_mapping
 
-            self._hard2log = initial_mapping
+            self._hard2log = initial_mapping  # type: ignore[assignment]
 
     @property
     def hard2log(self) -> dict[HardQubit, LogQubit]:
         """The dictionary containing the mapping from hardware qubits to logical qubits."""
-        return self._hard2log
+        return self._hard2log  # type: ignore[return-value]
 
     @property
     def log2hard(self) -> dict[LogQubit, HardQubit]:
         """The dictionary :attr:`log2hard` is calculated lazily from :attr:`hard2log`."""
-        return {log_qb: hard_qb for hard_qb, log_qb in self._hard2log.items()}
+        return {log_qb: hard_qb for hard_qb, log_qb in self._hard2log.items()}  # type: ignore[misc]
 
     def swap_log(self, gate: LogEdge) -> None:
         """Swap association between a pair of logical qubits.
@@ -206,7 +206,7 @@ class Layer:
         int_gates = int_gates or set()  # If ``int_gates`` is not given, it is instantiatied as an empty set
         swap_gates = swap_gates or set()  # If ``swap_gates`` is not given, it is instantiatied as an empty set
         self.qpu = qpu
-        self.gates = nx.Graph()
+        self.gates = nx.Graph()  # type: ignore[var-annotated]
         for hard_qb0, hard_qb1 in self.qpu.hardware_graph.edges():
             self.gates.add_edge(hard_qb0, hard_qb1, swap=False, int=False)
             self.gates.nodes[hard_qb0]["blocked"] = False
@@ -344,9 +344,9 @@ class Layer:
                 gate_lists["g"].append((hard_qb0, hard_qb1))
 
         if mapping is None:
-            self.qpu.draw(gate_lists=gate_lists, ax=ax, show=show)
+            self.qpu.draw(gate_lists=gate_lists, ax=ax, show=show)  # type: ignore[arg-type]
         else:
-            self.qpu.draw(gate_lists=gate_lists, ax=ax, mapping=mapping, show=show)
+            self.qpu.draw(gate_lists=gate_lists, ax=ax, mapping=mapping, show=show)  # type: ignore[arg-type]
 
 
 class Routing:

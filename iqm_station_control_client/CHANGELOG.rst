@@ -2,6 +2,30 @@
 Changelog
 =========
 
+Version 9.7.0 (2025-07-10)
+==========================
+
+Bug fix
+-------
+
+- Better error handling when using IQM Server.
+
+Version 9.6.0 (2025-07-09)
+==========================
+
+Features
+--------
+
+- Enable mypy type checking in CI and add temporary type ignores to the source code. :issue:`SW-1615`
+
+Version 9.5.0 (2025-07-07)
+==========================
+
+Features
+--------
+
+- Improve documentation.
+
 Version 9.4.0 (2025-06-26)
 ==========================
 

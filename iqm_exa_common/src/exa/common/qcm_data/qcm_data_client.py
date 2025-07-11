@@ -62,7 +62,7 @@ class QCMDataClient:
         # Make the cache containers local to the instances so that the reference from cache to the instance
         # gets scraped off with the instance
         # https://rednafi.github.io/reflections/dont-wrap-instance-methods-with-functoolslru_cache-decorator-in-python.html
-        self._send_request = cache(self._send_request)
+        self._send_request = cache(self._send_request)  # type:ignore[method-assign]
 
     @property
     def root_url(self) -> str:

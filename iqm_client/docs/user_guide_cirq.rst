@@ -138,29 +138,6 @@ and convert it into a :class:`cirq.Circuit` object using :func:`.circuit_from_qa
 
 After a circuit has been constructed, it can be decomposed and routed against a particular :class:`.IQMDevice`.
 
-
-Decomposition
--------------
-
-The method :meth:`.IQMDevice.decompose_circuit` accepts a :class:`cirq.Circuit` object as an argument and
-returns the decomposed circuit containing only native operations for the corresponding device:
-
-.. code-block:: python
-
-    decomposed_circuit = adonis.decompose_circuit(circuit)
-    print(decomposed_circuit)
-
-::
-
-    Alice: ───X────────────────────@───────────M('m')───
-                                   │           │
-    Bob: ─────Y^0.5───X───Y^-0.5───@───Y^0.5───M────────
-
-The Hadamard and CNOT gates are not native to Adonis, so they were decomposed to X, Y and CZ gates which are.
-
-
-.. _routing:
-
 Routing
 -------
 
@@ -215,6 +192,28 @@ again after the routing, unless SWAP is a native gate for the target device.
 To ensure that the transpiler is restricted to a specific subset of qubits, you can provide a list
 of qubits in the ``qubit_subset`` argument such that ancillary qubits will not be added during
 routing. This is particularly useful when running Quantum Volume benchmarks.
+
+Decomposition
+-------------
+
+The method :meth:`.IQMDevice.decompose_circuit` accepts a :class:`cirq.Circuit` object as an argument and
+returns the decomposed circuit containing only native operations for the corresponding device:
+
+.. code-block:: python
+
+    decomposed_circuit = adonis.decompose_circuit(circuit)
+    print(decomposed_circuit)
+
+::
+
+    Alice: ───X────────────────────@───────────M('m')───
+                                   │           │
+    Bob: ─────Y^0.5───X───Y^-0.5───@───Y^0.5───M────────
+
+The Hadamard and CNOT gates are not native to Adonis, so they were decomposed to X, Y and CZ gates which are.
+
+
+.. _routing:
 
 IQM Star architecture
 ^^^^^^^^^^^^^^^^^^^^^
@@ -360,9 +359,9 @@ Once you have access to an IQM server you can create an :class:`.IQMSampler` ins
    # circuit = ...
 
    sampler = IQMSampler(iqm_server_url)
-   decomposed_circuit = sampler.device.decompose_circuit(circuit)
-   routed_circuit, _, _ = sampler.device.route_circuit(decomposed_circuit)
-   result = sampler.run(routed_circuit, repetitions=10)
+   routed_circuit, _, _ = sampler.device.route_circuit(circuit)
+   decomposed_circuit = sampler.device.decompose_circuit(routed_circuit)
+   result = sampler.run(decomposed_circuit, repetitions=10)
    print(result.measurements['m'])
 
 

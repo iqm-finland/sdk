@@ -140,7 +140,7 @@ def find_observation(
     obs_value = calibration_set.get(observation_path)
     if obs_value is None and required:
         raise CalibrationError(f"Missing calibration observation: {observation_path}")
-    return obs_value
+    return obs_value  # type: ignore[return-value]
 
 
 # TODO until station type records (defining the instrumentation for each chip component) are available,
@@ -363,28 +363,28 @@ def build_station_settings(
     # Then add the required static settings for circuit execution.
     for qubit in circuit_qubits:
         apply_observations(qubit, _per_qubit)
-        _apply_static_settings(qubit, _per_qubit_static, root)
+        _apply_static_settings(qubit, _per_qubit_static, root)  # type: ignore[arg-type]
         if qubit in flux_pulsed_qubits:
             apply_observations(qubit, _per_flux_pulsed_qubit)
-            _apply_static_settings(qubit, _per_flux_pulsed_qubit_static, root)
+            _apply_static_settings(qubit, _per_flux_pulsed_qubit_static, root)  # type: ignore[arg-type]
 
     for coupler in circuit_couplers:
         apply_observations(coupler, _per_coupler)
-        _apply_static_settings(coupler, _per_coupler_static, root)
+        _apply_static_settings(coupler, _per_coupler_static, root)  # type: ignore[arg-type]
 
     for pl in measured_probe_lines:
         apply_observations(pl, _per_probe_line)
-        _apply_static_settings(pl, _per_probe_line_static, root)
+        _apply_static_settings(pl, _per_probe_line_static, root)  # type: ignore[arg-type]
 
     for qubit in boundary_qubits:
         apply_observations(qubit, _per_boundary_qubit)
         _apply_static_settings(qubit, _per_boundary_qubit_static, root)
         if qubit in flux_pulsed_qubits:
-            _apply_static_settings(qubit, _per_boundary_flux_pulsed_qubit_static, root)
+            _apply_static_settings(qubit, _per_boundary_flux_pulsed_qubit_static, root)  # type: ignore[arg-type]
 
     for coupler in boundary_couplers:
         apply_observations(coupler, _per_boundary_coupler)
-        _apply_static_settings(coupler, _per_boundary_coupler_static, root)
+        _apply_static_settings(coupler, _per_boundary_coupler_static, root)  # type: ignore[arg-type]
 
     # QPU-wide options
     apply_observations("", _per_qpu)

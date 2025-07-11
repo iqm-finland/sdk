@@ -60,7 +60,7 @@ def _decompose_into_chains_and_loops(
     problem_graph = to_networkx_graph(problem_bqm)
 
     # Mark all nodes in the graph as NOT endnodes
-    nx.set_node_attributes(problem_graph, False, "endnode")
+    nx.set_node_attributes(problem_graph, False, "endnode")  # type: ignore[call-overload]
 
     # Find the color sets (i.e., sets of edges of the same color) and sort them by size
     color_sets, _ = find_edge_coloring(problem_graph)
@@ -125,7 +125,7 @@ def _embed_chain(chain: list[LogQubit], hardware_graph: nx.Graph) -> dict[HardQu
     """
     working_hw_graph = hardware_graph.copy()
     # Select the lowest-degree node of the graph.
-    current_node = min(working_hw_graph.nodes(), key=working_hw_graph.degree)
+    current_node = min(working_hw_graph.nodes(), key=working_hw_graph.degree)  # type: ignore[arg-type]
 
     # Start building the embedding (mapping of physical HW qubits to logical qubits).
     embedding = {current_node: chain[0]}
@@ -141,7 +141,7 @@ def _embed_chain(chain: list[LogQubit], hardware_graph: nx.Graph) -> dict[HardQu
                 "neighbors). Check if there is enough :class:`HardQubit`\s in ``hardware_graph`` or define"
                 " a custom ``embedded_chain`` method of the ``QPU`` subclass."
             )
-        new_node = min(neighbors, key=working_hw_graph.degree)
+        new_node = min(neighbors, key=working_hw_graph.degree)  # type: ignore[arg-type]
         embedding[new_node] = log_qb
         working_hw_graph.remove_node(current_node)
         current_node = new_node

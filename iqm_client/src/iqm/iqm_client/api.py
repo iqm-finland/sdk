@@ -86,5 +86,5 @@ class APIConfig:
             ValueError: If the endpoint is not supported.
 
         """
-        url = self.urls.get(endpoint)
+        url = self.urls.get(endpoint, "")
         return join(self.station_control_url, url % args)

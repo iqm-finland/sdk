@@ -95,7 +95,7 @@ def sn_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBackend) -> 
             bqm_to_be_used.add_quadratic(v1, v2, 0)
 
     # ``s`` refers to the four swap layers described in fig. 3 in the paper :cite:`Weidenfeller_2022`.
-    s = _get_s(relevant_layout)
+    s = _get_s(relevant_layout)  # type: ignore[arg-type]
 
     # The keys of ``relevant_layout`` correspond to the hardware qubit we use.
     # As initial mapping, we assign all the logical qubits to those.
@@ -264,9 +264,14 @@ def _find_rectangular_subgraph(qpu: CrystalQPUFromBackend, h: int, w: int) -> tu
 
     # Iterate over possible top-left corners, return the first one found (if any).
     for hw_qubit in qpu.hardware_graph.nodes():
-        if _fits_at(qpu.hardware_layout[hw_qubit][0], qpu.hardware_layout[hw_qubit][1], w, h):
+        if _fits_at(qpu.hardware_layout[hw_qubit][0], qpu.hardware_layout[hw_qubit][1], w, h):  # type: ignore[arg-type]
             return (hw_qubit, w, h)  # Return position and size.
-        if _fits_at(qpu.hardware_layout[hw_qubit][0], qpu.hardware_layout[hw_qubit][1], h, w):  # Check rotated case.
+        if _fits_at(
+            qpu.hardware_layout[hw_qubit][0],  # type: ignore[arg-type]
+            qpu.hardware_layout[hw_qubit][1],  # type: ignore[arg-type]
+            h,
+            w,
+        ):  # Check rotated case
             return (hw_qubit, h, w)
 
     return None  # No valid rectangle found.

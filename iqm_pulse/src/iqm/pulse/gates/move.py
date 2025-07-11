@@ -44,7 +44,7 @@ from exa.common.data.parameter import Parameter, Setting
 from iqm.pulse.gates.cz import FluxPulseGate
 from iqm.pulse.playlist.instructions import Block, Instruction, VirtualRZ, Wait
 from iqm.pulse.playlist.schedule import Schedule
-from iqm.pulse.playlist.waveforms import CosineRiseFall, TruncatedGaussianSmoothedSquare
+from iqm.pulse.playlist.waveforms import CosineRiseFall, Slepian, TruncatedGaussianSmoothedSquare
 from iqm.pulse.timebox import TimeBox
 from iqm.pulse.utils import normalize_angle
 
@@ -104,7 +104,7 @@ class MOVE_CustomWaveforms(FluxPulseGate):
 
     root_parameters: dict[str, Parameter | Setting] = {
         "duration": Parameter("", "Gate duration", "s"),
-        "rz": {
+        "rz": {  # type: ignore[dict-item]
             "*": Parameter("", "Z rotation angle", "rad"),  # wildcard parameter
         },
         "detuning": Parameter("", "Qubit - resonator detuning", "Hz"),
@@ -135,6 +135,13 @@ class MOVE_CustomWaveforms(FluxPulseGate):
 class MOVE_CRF_CRF(MOVE_CustomWaveforms, coupler_wave=CosineRiseFall, qubit_wave=CosineRiseFall):
     # type: ignore[call-arg]
     """Qubit-resonator MOVE gate using the CRF waveform for the coupler and the qubit flux pulse."""
+
+
+class MOVE_SLEPIAN_CRF(MOVE_CustomWaveforms, coupler_wave=Slepian, qubit_wave=CosineRiseFall):
+    # type: ignore[call-arg]
+    """Qubit-resonator MOVE gate using the Slepian waveform for the coupler flux pulse and the
+    CRF waveform for the qubit flux pulse.
+    """
 
 
 class MOVE_TGSS_CRF(MOVE_CustomWaveforms, coupler_wave=TruncatedGaussianSmoothedSquare, qubit_wave=CosineRiseFall):

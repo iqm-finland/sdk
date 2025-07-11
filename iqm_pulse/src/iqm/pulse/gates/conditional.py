@@ -70,10 +70,10 @@ class CCPRX_Composite(CompositeGate):
         qubit = self.locus[0]
         awg_name = self.builder.get_drive_channel(qubit)
 
-        prx_gate: PRX_SinglePulse_GateImplementation = self.build("prx", self.locus)
+        prx_gate: PRX_SinglePulse_GateImplementation = self.build("prx", self.locus)  # type: ignore[assignment]
         # FIXME assumes PRX gates only use this one implementation as the default,
         # with just a drive channel and a single IQPulse.
-        pulse = prx_gate(angle, phase).atom[prx_gate.channel][0]
+        pulse = prx_gate(angle, phase).atom[prx_gate.channel][0]  # type: ignore[union-attr,index]
         wait = Wait(pulse.duration)  # idling, can be replaced with a DD sequence later on
 
         # TODO: use the actual inputted label when the HW supports many labels per drive channel

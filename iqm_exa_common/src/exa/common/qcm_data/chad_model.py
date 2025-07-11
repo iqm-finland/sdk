@@ -17,13 +17,14 @@
 from collections.abc import Collection
 from functools import cached_property
 import re
+from typing import Any
 
 from pydantic import Field, field_validator
 
 from exa.common.qcm_data.immutable_base_model import ImmutableBaseModel
 
 
-def _natural_sort_key(name: str) -> tuple[int, ...]:
+def _natural_sort_key(name: str) -> tuple[int | str | Any, ...]:
     return tuple(int(item) if item.isdigit() else item.lower() for item in re.split(r"(\d+)", name))
 
 
@@ -76,7 +77,7 @@ class Components(ImmutableBaseModel):
 
     @cached_property
     def all(self) -> dict[str, Component]:
-        components: tuple[Qubit, Coupler, ProbeLine, Launcher, ComputationalResonator] = (
+        components: tuple[Qubit | Coupler | ProbeLine | Launcher | ComputationalResonator, ...] = (
             self.qubits + self.couplers + self.probe_lines + self.launchers + self.computational_resonators
         )
         return {component.name: component for component in components}
@@ -167,7 +168,7 @@ class CHAD(ImmutableBaseModel):
         launchers = {launcher.name: launcher for launcher in self.components.launchers}
 
         component: Qubit | Coupler
-        for component in [*self.components.qubits, *self.components.couplers]:
+        for component in [*self.components.qubits, *self.components.couplers]:  # type:ignore[assignment]
             component_type = "qubit" if isinstance(component, Qubit) else "coupler"
             if component.name in component_names:
                 for connection in component.connections:

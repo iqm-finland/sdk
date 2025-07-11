@@ -40,8 +40,8 @@ def serialize_run_definition(run_definition: RunDefinition) -> RunDefinitionProt
         username=run_definition.username,
         experiment_name=run_definition.experiment_name,
         experiment_label=run_definition.experiment_label,
-        options=serialize_struct(run_definition.options),
-        additional_run_properties=serialize_struct(run_definition.additional_run_properties),
+        options=serialize_struct(run_definition.options),  # type: ignore[arg-type]
+        additional_run_properties=serialize_struct(run_definition.additional_run_properties),  # type: ignore[arg-type]
         software_version_set_id=run_definition.software_version_set_id,
         components=run_definition.components,
         default_data_parameters=run_definition.default_data_parameters,
@@ -50,7 +50,7 @@ def serialize_run_definition(run_definition: RunDefinition) -> RunDefinitionProt
     run_definition_proto.sweep_definition_payload.Pack(
         serialize_sweep_definition(run_definition.sweep_definition), type_url_prefix="iqm-data-definitions"
     )
-    for key, sweep in run_definition.hard_sweeps.items():
+    for key, sweep in run_definition.hard_sweeps.items():  # type: ignore[union-attr]
         run_definition_proto.hard_sweeps[key].CopyFrom(proto_serialization.nd_sweep.pack(sweep, minimal=False))
     return run_definition_proto
 
@@ -94,7 +94,7 @@ def serialize_run_data(run_data: RunData) -> dict:
         "options": run_data.options,
         "additional_run_properties": run_data.additional_run_properties,
         "software_version_set_id": run_data.software_version_set_id,
-        "hard_sweeps": {key: encode_nd_sweeps(value) for key, value in run_data.hard_sweeps.items()},
+        "hard_sweeps": {key: encode_nd_sweeps(value) for key, value in run_data.hard_sweeps.items()},  # type: ignore[union-attr]
         "components": run_data.components,
         "default_data_parameters": run_data.default_data_parameters,
         "default_sweep_parameters": run_data.default_sweep_parameters,
@@ -124,8 +124,8 @@ def deserialize_run_data(data: dict) -> RunData:
         default_data_parameters=data["default_data_parameters"],
         default_sweep_parameters=data["default_sweep_parameters"],
         sweep_data=deserialize_sweep_data(data["sweep_data"]),
-        created_timestamp=deserialize_datetime(data["created_timestamp"]),
-        modified_timestamp=deserialize_datetime(data["modified_timestamp"]),
-        begin_timestamp=deserialize_datetime(data["begin_timestamp"]),
+        created_timestamp=deserialize_datetime(data["created_timestamp"]),  # type: ignore[arg-type]
+        modified_timestamp=deserialize_datetime(data["modified_timestamp"]),  # type: ignore[arg-type]
+        begin_timestamp=deserialize_datetime(data["begin_timestamp"]),  # type: ignore[arg-type]
         end_timestamp=deserialize_datetime(data["end_timestamp"]),
     )

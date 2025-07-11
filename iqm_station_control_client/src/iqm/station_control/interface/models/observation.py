@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Observation related station control interface models."""
+"""Observation related Station Control interface models."""
 
 from datetime import datetime
 from typing import Any
@@ -35,7 +35,7 @@ class ObservationBase(PydanticBase):
     uncertainty: Uncertainty | None = None
     """Uncertainty of the observation value. ``None`` means unknown."""
     invalid: bool = False
-    """Flag indicating if the object is invalid. Automated systems must not use invalid objects."""
+    """Flag indicating if the observation is invalid. Automated systems must not use invalid observations."""
 
 
 class ObservationDefinition(ObservationBase):
@@ -92,4 +92,4 @@ class ObservationUpdate(PydanticBase):
     observation_id: int
     """Unique identifier of the observation."""
     invalid: bool
-    """Flag indicating if the object is invalid. Automated systems must not use invalid objects."""
+    """Flag indicating if the observation is invalid. Automated systems must not use invalid observations."""

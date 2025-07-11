@@ -35,26 +35,22 @@ class StartStopBaseOptions(SweepOptions):
     """
 
     #: The power for the start of the interval.
-    start: int | float | complex
+    start: int | float
     #: The power for the end of the interval.
-    stop: int | float | complex
+    stop: int | float
     #: Number of values to generate. Default to
     #: :const:`exa.common.control.sweep.option.constants.DEFAULT_COUNT`.
-    count: int | None = None
+    count: int = DEFAULT_COUNT
     #: Number, that is raised to the power `start` or `stop`. Default to
     #: :const:`exa.common.control.sweep.option.constants.DEFAULT_BASE`.
-    base: int | float | None = None
+    base: int = DEFAULT_BASE
 
     def __post_init__(self):
-        if self.count is None:
-            object.__setattr__(self, "count", DEFAULT_COUNT)
-        if self.base is None:
-            object.__setattr__(self, "base", DEFAULT_BASE)
         if self.start == 0 or self.stop == 0:
             raise ValueError("Exponential range sweep start and stop values must not be zero.")
 
     @property
-    def data(self) -> list[int | float | complex]:
+    def data(self) -> list[int | float]:
         logger.debug(f"EXPONENTS: ({self.start}, {self.stop}) with base {self.base}")
         start = math.pow(self.base, self.start)
         stop = math.pow(self.base, self.stop)

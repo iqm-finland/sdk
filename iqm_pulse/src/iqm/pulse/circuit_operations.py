@@ -278,7 +278,7 @@ class CircuitOperationList(list):
             if self.table[op_name].arity:
                 self._set_specific_operation_shortcut(op_name)
 
-    def __getitem__(self, item) -> CircuitOperationList | CircuitOperation:
+    def __getitem__(self, item) -> CircuitOperationList | CircuitOperation:  # type: ignore[override]  # type: ignore[override]  # type: ignore[override]
         """For the builtin list, this method is used both for accessing a single element: ``mylist[0]`` and accessing
         a slice: ``mylist[1:3]``. The latter should generate a new CircuitOperationList, so we override the method to
         ensure that it does.

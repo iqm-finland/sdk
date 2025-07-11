@@ -412,7 +412,7 @@ class Circuit(BaseModel):
 
     name: str = Field(..., examples=["test circuit"])
     """name of the circuit"""
-    instructions: tuple[Instruction, ...] = Field(...)
+    instructions: list[Instruction] | tuple[Instruction, ...] = Field(...)
     """instructions comprising the circuit"""
     metadata: dict[str, Any] | None = Field(None)
     """arbitrary metadata associated with the circuit"""
@@ -1116,7 +1116,7 @@ class RunResult(BaseModel):
             status = Status(input_copy.pop("status"))
         except ValueError:
             status = Status.UNKNOWN
-        return RunResult(status=status, **input_copy)
+        return RunResult(status=status, **input_copy)  # type:ignore[arg-type]
 
 
 class RunStatus(BaseModel):

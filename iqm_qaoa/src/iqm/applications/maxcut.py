@@ -319,7 +319,7 @@ def greedy_max_cut(max_cut_problem: MaxCutInstance | nx.Graph) -> str:
                 abs(int(current_solution[node]) - int(current_solution[neighbor]))
                 for neighbor in max_cut_problem.neighbors(node)
             )
-            n_uncut = max_cut_problem.degree(node) - n_cut
+            n_uncut = max_cut_problem.degree(node) - n_cut  # type: ignore[operator]
             if n_cut < n_uncut:
                 current_solution[node] = "1" if current_solution[node] == "0" else "0"
                 break
@@ -371,7 +371,7 @@ def goemans_williamson(max_cut_problem: MaxCutInstance | nx.Graph) -> str:
     problem = cp.Problem(objective, constraints)
     problem.solve()
 
-    eigenvalues, eigenvectors = eigh(products.value)
+    eigenvalues, eigenvectors = eigh(products.value)  # type: ignore[arg-type]
     eigenvalues = np.maximum(eigenvalues, 0)
     diagonal_root = np.diag(np.sqrt(eigenvalues))
     assignment = diagonal_root @ eigenvectors.T

@@ -40,7 +40,7 @@ class CenterSpanOptions(SweepOptions):
     #: :const:`exa.common.control.sweep.option.constants.DEFAULT_COUNT`.
     count: int | None = None
     #: Size of spacing between values.
-    step: int | float | complex = None
+    step: int | float | complex | None = None
     #: Order of generated values. Default to ascending
     asc: bool | None = None
 

@@ -266,8 +266,8 @@ def extend_schedule_new(  # noqa: PLR0915
             _ = channels[ch].duration_to_int_samples(duration, message=f"{ch}: {iA} + {iB}: overlap duration")
 
         if isinstance(iA, Nothing) and isinstance(iB, Nothing):
-            return Nothing(duration=duration)  # type: ignore
-        return Block(duration=duration)  # type: ignore
+            return Nothing(duration=duration)  # type: ignore[arg-type]
+        return Block(duration=duration)  # type: ignore[arg-type]
 
     def find_start_time() -> float:
         """Find the earliest possible start time for schedule B."""
@@ -297,7 +297,7 @@ def extend_schedule_new(  # noqa: PLR0915
         if distance >= -TOL:
             if distance > TOL:
                 # gap, add a Nothing between A and B
-                segment_A._instructions.append(Nothing(duration=distance))  # type: ignore
+                segment_A._instructions.append(Nothing(duration=distance))  # type: ignore[arg-type]
             # add B
             segment_A._instructions.extend(pointer_B.tail())
         else:

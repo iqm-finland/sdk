@@ -14,36 +14,36 @@
 
 """Pack and unpack parameters to protos and back."""
 
-import iqm.data_definitions.common.v1.parameter_pb2 as ppb
+from iqm.data_definitions.common.v1.parameter_pb2 import Parameter as ppb_Parameter
 
 from exa.common.data.parameter import CollectionType, DataType, Parameter
 
 _COLLECTION_TYPES = {
-    CollectionType.SCALAR: ppb.Parameter.CollectionType.COLLECTION_TYPE_SCALAR,
-    CollectionType.LIST: ppb.Parameter.CollectionType.COLLECTION_TYPE_SEQUENCE,
-    CollectionType.NDARRAY: ppb.Parameter.CollectionType.COLLECTION_TYPE_ARRAY,
+    CollectionType.SCALAR: ppb_Parameter.CollectionType.COLLECTION_TYPE_SCALAR,
+    CollectionType.LIST: ppb_Parameter.CollectionType.COLLECTION_TYPE_SEQUENCE,
+    CollectionType.NDARRAY: ppb_Parameter.CollectionType.COLLECTION_TYPE_ARRAY,
 }
 _collection_types_inv = {v: k for k, v in _COLLECTION_TYPES.items()}
 
 _DATA_TYPES = {
-    DataType.ANYTHING: ppb.Parameter.DataType.DATA_TYPE_UNSPECIFIED,
-    DataType.NUMBER: ppb.Parameter.DataType.DATA_TYPE_FLOAT64,  # Deprecated
-    DataType.STRING: ppb.Parameter.DataType.DATA_TYPE_STRING,
-    DataType.COMPLEX: ppb.Parameter.DataType.DATA_TYPE_COMPLEX128,
-    DataType.BOOLEAN: ppb.Parameter.DataType.DATA_TYPE_BOOL,
-    DataType.INT: ppb.Parameter.DataType.DATA_TYPE_INT64,
-    DataType.FLOAT: ppb.Parameter.DataType.DATA_TYPE_FLOAT64,
+    DataType.ANYTHING: ppb_Parameter.DataType.DATA_TYPE_UNSPECIFIED,
+    DataType.NUMBER: ppb_Parameter.DataType.DATA_TYPE_FLOAT64,  # Deprecated
+    DataType.STRING: ppb_Parameter.DataType.DATA_TYPE_STRING,
+    DataType.COMPLEX: ppb_Parameter.DataType.DATA_TYPE_COMPLEX128,
+    DataType.BOOLEAN: ppb_Parameter.DataType.DATA_TYPE_BOOL,
+    DataType.INT: ppb_Parameter.DataType.DATA_TYPE_INT64,
+    DataType.FLOAT: ppb_Parameter.DataType.DATA_TYPE_FLOAT64,
 }
 _data_types_inv = {v: k for k, v in _DATA_TYPES.items() if k != DataType.NUMBER}
 
 
-def pack(parameter: Parameter) -> ppb.Parameter:
+def pack(parameter: Parameter) -> ppb_Parameter:
     """Convert Parameter into protobuf representation."""
-    return ppb.Parameter(
+    return ppb_Parameter(
         name=parameter.name,
         label=parameter.label,
         unit=parameter.unit,
-        data_type=_DATA_TYPES.get(parameter.data_type, ppb.Parameter.DataType.DATA_TYPE_UNSPECIFIED),
+        data_type=_DATA_TYPES.get(parameter.data_type, ppb_Parameter.DataType.DATA_TYPE_UNSPECIFIED),  # type: ignore[arg-type]
         collection_type=_COLLECTION_TYPES[parameter.collection_type],
         element_indices=parameter.element_indices,
         parent_name=parameter.parent_name,
@@ -51,21 +51,21 @@ def pack(parameter: Parameter) -> ppb.Parameter:
     )
 
 
-def unpack(proto: ppb.Parameter) -> Parameter:
+def unpack(proto: ppb_Parameter) -> Parameter:
     """Convert protobuf representation into a Parameter."""
     if not proto.element_indices:
         return Parameter(
             name=proto.name,
             label=proto.label,
             unit=proto.unit,
-            data_type=_data_types_inv.get(proto.data_type),
-            collection_type=_collection_types_inv.get(proto.collection_type),
+            data_type=_data_types_inv.get(proto.data_type),  # type: ignore[arg-type]
+            collection_type=_collection_types_inv.get(proto.collection_type),  # type: ignore[arg-type]
         )
     return Parameter(
         name=proto.parent_name,
         label=proto.parent_label,
         unit=proto.unit,
-        data_type=_data_types_inv.get(proto.data_type),
-        collection_type=_collection_types_inv.get(proto.collection_type),
+        data_type=_data_types_inv.get(proto.data_type),  # type: ignore[arg-type]
+        collection_type=_collection_types_inv.get(proto.collection_type),  # type: ignore[arg-type]
         element_indices=list(proto.element_indices),
     )

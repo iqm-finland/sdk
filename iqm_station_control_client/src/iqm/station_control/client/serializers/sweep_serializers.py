@@ -84,10 +84,10 @@ def deserialize_sweep_data(data: dict) -> SweepData:
         sweep_id=uuid.UUID(data["sweep_id"]),
         dut_label=data["dut_label"],
         settings=SettingNode(**json.loads(data["settings"])),
-        sweeps=decode_and_validate_sweeps(data["sweeps"]),
+        sweeps=decode_and_validate_sweeps(data["sweeps"]),  # type: ignore[arg-type]
         return_parameters=data["return_parameters"],
-        created_timestamp=deserialize_datetime(data["created_timestamp"]),
-        modified_timestamp=deserialize_datetime(data["modified_timestamp"]),
+        created_timestamp=deserialize_datetime(data["created_timestamp"]),  # type: ignore[arg-type]
+        modified_timestamp=deserialize_datetime(data["modified_timestamp"]),  # type: ignore[arg-type]
         begin_timestamp=deserialize_datetime(data["begin_timestamp"]),
         end_timestamp=deserialize_datetime(data["end_timestamp"]),
         job_status=JobExecutorStatus(data["job_status"]),

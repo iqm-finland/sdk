@@ -515,7 +515,7 @@ def insert_dd_sequences(
         wait_duration = wait.duration
 
         # NOTE: Duration is always calculated using "X"
-        prx_duration = _get_channel_segment(builder, prx.rx(math.pi), channel_name).duration
+        prx_duration = _get_channel_segment(builder, prx.rx(math.pi), channel_name).duration  # type: ignore[attr-defined]
         calculated_ratio = wait_duration / prx_duration
 
         cpc_logger.debug(
@@ -531,7 +531,7 @@ def insert_dd_sequences(
                 # each PRX gate in the sequence must be implementable using a single drive channel segment
                 dd_segments = []
                 for theta, phi in prx_args:
-                    seg = _get_channel_segment(builder, prx(theta, phi), channel_name)
+                    seg = _get_channel_segment(builder, prx(theta, phi), channel_name)  # type: ignore[arg-type]
                     dd_segments.append(seg)
 
                 cpc_logger.debug(

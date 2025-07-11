@@ -152,5 +152,5 @@ def extract_error(error: grpc.RpcError, title: str | None = None) -> IqmServerEr
         message=f"{title}: {message}" if title else message,
         status_code=status_code,
         error_code=error_code,
-        details=details,
+        details=details,  # type: ignore[arg-type]
     )

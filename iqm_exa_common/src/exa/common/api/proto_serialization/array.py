@@ -14,11 +14,11 @@
 
 """Convert numpy arrays to protos and back."""
 
-import iqm.data_definitions.common.v1.data_types_pb2 as dpb
+from iqm.data_definitions.common.v1.data_types_pb2 import Array as dpb_Array
 import numpy as np
 
 
-def pack(array: np.ndarray) -> dpb.Array:
+def pack(array: np.ndarray) -> dpb_Array:
     """Packs a numeric numpy array into protobuf format.
 
     Args:
@@ -28,7 +28,7 @@ def pack(array: np.ndarray) -> dpb.Array:
         A protobuf instance that encapsulates `array`.
 
     """
-    target = dpb.Array()
+    target = dpb_Array()
     target.shape.MergeFrom(array.shape)
     if not array.size:  # MergeFrom throws with 0-sized iterables
         return target
@@ -54,7 +54,7 @@ def pack(array: np.ndarray) -> dpb.Array:
     return target
 
 
-def unpack(source: dpb.Array) -> np.ndarray:
+def unpack(source: dpb_Array) -> np.ndarray:
     """Unpacks protobuf to array. Reverse operation of :func:`.pack`.
 
     Args:

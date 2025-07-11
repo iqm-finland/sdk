@@ -71,7 +71,7 @@ def ec_is_complete(graph: nx.Graph) -> bool:
         ``True`` if every edge of the graph has an attribute ``color``, ``False`` otherwise.
 
     """
-    for _, _, eattr in graph.edges.data("color"):
+    for _, _, eattr in graph.edges.data("color"):  # type: ignore[var-annotated]
         if eattr is None:
             return False
 
@@ -316,13 +316,13 @@ def find_edge_coloring(input_graph: nx.Graph) -> tuple[list[set[LogEdge]], nx.Gr
     """
     # Create a copy of the input graph, so that it's not modified in-place.
     graph = input_graph.copy()
-    graph_degree = max(graph.degree(node) for node in graph)
-    color_palette: set[Color] = set(range(graph_degree + 1))
+    graph_degree = max(graph.degree(node) for node in graph)  # type: ignore[type-var]
+    color_palette: set[Color] = set(range(graph_degree + 1))  # type: ignore[operator]
     for edge in graph.edges():
         _color_edge(graph, edge[0], edge[1], color_palette)
 
-    color_sets: list[set[frozenset[Any]]] = [set() for _ in range(graph_degree + 1)]
-    for u, v, color in graph.edges.data("color"):
+    color_sets: list[set[frozenset[Any]]] = [set() for _ in range(graph_degree + 1)]  # type: ignore[operator]
+    for u, v, color in graph.edges.data("color"):  # type: ignore[var-annotated]
         color_sets[color].add(frozenset((u, v)))
 
     return color_sets, graph

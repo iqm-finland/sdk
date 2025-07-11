@@ -232,7 +232,7 @@ def _fix_implementation_and_locus(
         inst.locus = locus
         circuit_components.update(locus)
         if op.arity == 2:
-            circuit_component_pairs.add(locus)
+            circuit_component_pairs.add(locus)  # type: ignore[arg-type]
         circuit_gate_loci.setdefault(inst.name, {}).setdefault(inst.implementation, Counter()).update([locus])
 
     return CircuitMetrics(
@@ -274,7 +274,10 @@ def _build_readout_mappings(
 
     # find out which components have measurement data
     components_that_can_be_measured = frozenset(
-        q for impl_loci in builder.calibration["measure"].values() for locus in impl_loci for q in locus
+        q
+        for impl_loci in builder.calibration["measure"].values()
+        for locus in impl_loci
+        for q in locus  # type: ignore[union-attr]
     )
 
     # Figure out which qubits should always be measured on the QPU in the final measurement.
@@ -411,22 +414,22 @@ def _get_op_calibration_errors(calibration: OpCalibrationDataTree, ops: QuantumO
                 # since OILCalibrationData can have nested dicts, we do a recursive diff
                 error = diff_dicts(merge_dicts(default_cal_data, cal_data), impl.parameters, [])
                 if error is not None:
-                    errors[(op_name, impl_name, locus)] = error
+                    errors[(op_name, impl_name, locus)] = error  # type: ignore[index]
                     continue
 
                 n_components = len(locus)
                 arity = op.arity
                 if arity == 0:
                     if n_components != 1:
-                        errors[(op_name, impl_name, locus)] = (
+                        errors[(op_name, impl_name, locus)] = (  # type: ignore[index]
                             f"{op_name}.{impl_name} at {locus}: for zero-arity operations, "
                             "calibration data must be provided for single-component loci only"
                         )
                 elif n_components != arity:
-                    errors[(op_name, impl_name, locus)] = (
+                    errors[(op_name, impl_name, locus)] = (  # type: ignore[index]
                         f"{op_name}.{impl_name} at {locus}: locus must have {arity} component(s)"
                     )
-    return errors
+    return errors  # type: ignore[return-value]
 
 
 def merge_multiplexed_timeboxes(circuit_box: TimeBox) -> TimeBox:
@@ -469,7 +472,7 @@ def merge_multiplexed_timeboxes(circuit_box: TimeBox) -> TimeBox:
             if pending:
                 if disjoint_boxes(pending, gate_box):
                     # Pending box and new candidate have disjoint loci, merge is possible.
-                    pending = pending + gate_box.children[0]
+                    pending = pending + gate_box.children[0]  # type: ignore[assignment]
                     continue
                 # Pending box collides with the new candidate, so we must place it immediately and continue with
                 # the new candidate.
@@ -480,7 +483,7 @@ def merge_multiplexed_timeboxes(circuit_box: TimeBox) -> TimeBox:
             if pending and not disjoint_boxes(pending, gate_box):
                 placed_boxes.append(pending)
                 pending = None
-            placed_boxes.append(gate_box)
+            placed_boxes.append(gate_box)  # type: ignore[arg-type]
 
     if pending:
         placed_boxes.append(pending)
@@ -540,7 +543,7 @@ def map_components(
             _map_components_in_instructions(
                 component_mapping,
                 c.instructions,
-                device_components=device_components,
+                device_components=device_components,  # type: ignore[arg-type]
             )
         except CircuitError as exc:
             raise CircuitError(f"Circuit {idx}: {exc}") from exc

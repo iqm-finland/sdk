@@ -55,7 +55,7 @@ class IQMDeviceMetadata(devices.DeviceMetadata):
         architecture: DynamicQuantumArchitecture | None = None,
     ):
         """Construct an IQMDeviceMetadata object."""
-        nx_graph = nx.Graph()
+        nx_graph = nx.Graph()  # type: ignore[var-annotated]
         for edge in connectivity:
             if len(edge) != 2:
                 raise ValueError("Connectivity must be an iterable of 2-tuples.")

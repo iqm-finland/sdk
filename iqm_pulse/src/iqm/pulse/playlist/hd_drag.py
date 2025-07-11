@@ -114,11 +114,11 @@ def solve_hd_drag_coefficients_from_suppressed_frequencies(
 
     """
     # The beta coefficients can be solved from a matrix equation A*beta = b according to Eq. (B5). Let's build A
-    suppressed_freq_arr = np.asarray(suppressed_freq_arr)
-    n_coefs = len(suppressed_freq_arr) + 1
+    suppressed_freqs = np.asarray(suppressed_freq_arr)
+    n_coefs = len(suppressed_freqs) + 1
     a_mat = np.zeros((n_coefs, n_coefs))
     a_mat[0, 0] = 1
-    a_mat[1:, :] = (-1) ** np.arange(n_coefs)[None] * (pulse_duration * suppressed_freq_arr[:, None]) ** (
+    a_mat[1:, :] = (-1) ** np.arange(n_coefs)[None] * (pulse_duration * suppressed_freqs[:, None]) ** (
         2 * np.arange(n_coefs)[None]
     )
     b_arr = np.zeros((n_coefs,))

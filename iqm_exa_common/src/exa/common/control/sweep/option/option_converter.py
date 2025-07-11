@@ -45,24 +45,24 @@ def convert_to_options(config: dict[str, Any]) -> SweepOptions:
 
     """
     config = {k.lower(): v for k, v in config.items()}
-    if {OPTIONS_TYPE.get("start"), OPTIONS_TYPE.get("stop")}.issubset(set(config)):
-        updated_config = __update_config(config, OPTIONS_TYPE.get("start_stop_list"))
+    if {OPTIONS_TYPE.get("start"), OPTIONS_TYPE.get("stop")}.issubset(set(config)):  # type:ignore[arg-type]
+        updated_config = __update_config(config, OPTIONS_TYPE.get("start_stop_list"))  # type:ignore[arg-type]
         return StartStopOptions(**updated_config)
-    elif {OPTIONS_TYPE.get("start_exp"), OPTIONS_TYPE.get("stop_exp")}.issubset(set(config)):
-        __rename_key(config, OPTIONS_TYPE.get("start_exp"), OPTIONS_TYPE.get("start"))
-        __rename_key(config, OPTIONS_TYPE.get("stop_exp"), OPTIONS_TYPE.get("stop"))
-        updated_config = __update_config(config, OPTIONS_TYPE.get("start_stop_base_list"))
+    elif {OPTIONS_TYPE.get("start_exp"), OPTIONS_TYPE.get("stop_exp")}.issubset(set(config)):  # type:ignore[arg-type]
+        __rename_key(config, OPTIONS_TYPE.get("start_exp"), OPTIONS_TYPE.get("start"))  # type:ignore[arg-type]
+        __rename_key(config, OPTIONS_TYPE.get("stop_exp"), OPTIONS_TYPE.get("stop"))  # type:ignore[arg-type]
+        updated_config = __update_config(config, OPTIONS_TYPE.get("start_stop_base_list"))  # type:ignore[arg-type]
         return StartStopBaseOptions(**updated_config)
-    elif {OPTIONS_TYPE.get("center"), OPTIONS_TYPE.get("span")}.issubset(set(config)):
-        updated_config = __update_config(config, OPTIONS_TYPE.get("center_span_list"))
+    elif {OPTIONS_TYPE.get("center"), OPTIONS_TYPE.get("span")}.issubset(set(config)):  # type:ignore[arg-type]
+        updated_config = __update_config(config, OPTIONS_TYPE.get("center_span_list"))  # type:ignore[arg-type]
         return CenterSpanOptions(**updated_config)
-    elif {OPTIONS_TYPE.get("center_exp"), OPTIONS_TYPE.get("span_exp")}.issubset(set(config)):
-        __rename_key(config, OPTIONS_TYPE.get("center_exp"), OPTIONS_TYPE.get("center"))
-        __rename_key(config, OPTIONS_TYPE.get("span_exp"), OPTIONS_TYPE.get("span"))
-        updated_config = __update_config(config, OPTIONS_TYPE.get("center_span_base_list"))
+    elif {OPTIONS_TYPE.get("center_exp"), OPTIONS_TYPE.get("span_exp")}.issubset(set(config)):  # type:ignore[arg-type]
+        __rename_key(config, OPTIONS_TYPE.get("center_exp"), OPTIONS_TYPE.get("center"))  # type:ignore[arg-type]
+        __rename_key(config, OPTIONS_TYPE.get("span_exp"), OPTIONS_TYPE.get("span"))  # type:ignore[arg-type]
+        updated_config = __update_config(config, OPTIONS_TYPE.get("center_span_base_list"))  # type:ignore[arg-type]
         return CenterSpanBaseOptions(**updated_config)
     elif OPTIONS_TYPE.get("fixed") in set(config):
-        updated_config = __update_config(config, OPTIONS_TYPE.get("fixed"))
+        updated_config = __update_config(config, OPTIONS_TYPE.get("fixed"))  # type:ignore[arg-type]
         return FixedOptions(**updated_config)
     else:
         raise ValueError(f"Config {config} cannot be converted to range options")

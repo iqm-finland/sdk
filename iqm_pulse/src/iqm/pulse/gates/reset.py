@@ -64,11 +64,11 @@ class Reset_Conditional(CompositeGate):
         )
         # try to get a qnd measurement, otherwise use default one
         try:  # TODO: should the QND measurement be its own QuantumOp instead?
-            probe_timebox = self.build("measure", resettable, impl_name="constant_qnd").probe_timebox(
+            probe_timebox = self.build("measure", resettable, impl_name="constant_qnd").probe_timebox(  # type: ignore[attr-defined]
                 RESET_MEASUREMENT_KEY, feedback_key=RESET_FEEDBACK_KEY
             )
         except (ValueError, KeyError):
-            probe_timebox = self.build("measure", resettable).probe_timebox(
+            probe_timebox = self.build("measure", resettable).probe_timebox(  # type: ignore[attr-defined]
                 RESET_MEASUREMENT_KEY, feedback_key=RESET_FEEDBACK_KEY
             )
         virtual_channels = set()
@@ -89,7 +89,7 @@ class Reset_Conditional(CompositeGate):
         probe_timebox.neighborhood_components[0] = blocks
         measure = TimeBox.composite([probe_timebox])
         measure.neighborhood_components[0] = blocks
-        return TimeBox.composite([measure, resets])
+        return TimeBox.composite([measure, resets])  # type: ignore[list-item]
 
     @classmethod
     def get_locus_mapping_name(cls, operation_name: str, implementation_name: str) -> str:
@@ -123,7 +123,7 @@ class Reset_Wait(GateImplementation):
             prio_calibration = self.calibration_data if self.calibration_data else None
             waits_box = TimeBox.composite(
                 [
-                    self.builder.get_implementation(
+                    self.builder.get_implementation(  # type: ignore[attr-defined]
                         self.parent.name, (q,), impl_name=self.name, priority_calibration=prio_calibration
                     ).wait_box()
                     for q in self.locus

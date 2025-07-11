@@ -228,7 +228,7 @@ class IQMDevice(devices.Device):
             # If the device has computational resonators, we use a modified connection graph for routing
             # by adding edges between all qubits connected to the same resonator.
             move_routing = True
-            graph = nx.Graph()
+            graph = nx.Graph()  # type: ignore[var-annotated]
             for edge in self.metadata.nx_graph.edges:
                 q, r = edge if edge[1] in self.resonators else edge[::-1]
                 if r not in self.resonators:

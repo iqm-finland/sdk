@@ -2,6 +2,54 @@
 Changelog
 =========
 
+Version 9.21.0 (2025-07-10)
+===========================
+
+Bug fixes
+---------
+
+- Fix instructions with same field names being treated as equal in building the playlist
+
+Version 9.20.0 (2025-07-09)
+===========================
+
+Features
+--------
+
+- Enable mypy type checking in CI and add temporary type ignores to the source code. :issue:`SW-1615`
+
+Version 9.19.0 (2025-07-08)
+===========================
+
+Features
+--------
+
+- Fix bug in playlist visualisation where ndarray samples were not converted for the visualizer in one particular case.
+
+Version 9.18.0 (2025-07-02)
+===========================
+
+Features
+--------
+
+- Add new MOVE implementation :class:`MOVE_SLEPIAN_CRF`.
+
+Version 9.17.0 (2025-07-01)
+===========================
+
+Features
+--------
+
+- Faster playlist creation in ScheduleBuilder
+
+Version 9.16.0 (2025-07-01)
+===========================
+
+Bug fixes
+---------
+
+- Fix type errors raised by mypy.
+
 Version 9.15.0 (2025-06-17)
 ===========================
 

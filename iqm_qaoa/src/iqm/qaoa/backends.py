@@ -93,7 +93,7 @@ class SamplerBackend(ABC):
 class EstimatorSingleLayer(EstimatorBackend):
     """The estimator class for calculating the expectation value analytically (for :math:`p=1` QAOA)."""
 
-    def estimate(self, qaoa_object: QUBOQAOA) -> float:
+    def estimate(self, qaoa_object: QUBOQAOA) -> float:  # type: ignore[override]
         """Calculates the expectation value of the Hamiltonian for :math:`p=1` QAOA.
 
         The function calculates the energy (exp. val. of the Hamiltonian) by adding the expectation values
@@ -209,11 +209,11 @@ class EstimatorStateVector(EstimatorBackend):
             The expectation value of the energy of the QAOA state using :attr:`~iqm.qaoa.generic_qaoa.QAOA.angles`.
 
         """
-        qc = qiskit_circuit(qaoa_object, measurements=False)
+        qc = qiskit_circuit(qaoa_object, measurements=False)  # type: ignore[arg-type]
         statevector = Statevector.from_instruction(qc)
         statevector = statevector.reverse_qargs()
-        observable = ham_graph_to_ham_operator(qaoa_object.hamiltonian_graph)
-        expectation_value = statevector.expectation_value(observable) + qaoa_object.bqm.offset
+        observable = ham_graph_to_ham_operator(qaoa_object.hamiltonian_graph)  # type: ignore[attr-defined]
+        expectation_value = statevector.expectation_value(observable) + qaoa_object.bqm.offset  # type: ignore[attr-defined]
         return expectation_value.real
 
 
@@ -268,7 +268,7 @@ class EstimatorFromSampler(EstimatorBackend):
 class EstimatorQUIMB(EstimatorBackend):
     """The estimator class for calculating the expectation value using the tensor network package :mod:`quimb`."""
 
-    def estimate(self, qaoa_object: QUBOQAOA) -> float:
+    def estimate(self, qaoa_object: QUBOQAOA) -> float:  # type: ignore[override]
         """Calculates the expectation value of the Hamiltonian by contracting the RCC tensor networks in :mod:`quimb`.
 
         Uses :func:`~iqm.qaoa.circuits.quimb_tn` to build a :class:`~quimb.tensor.circuit.Circuit`. This object
@@ -285,7 +285,7 @@ class EstimatorQUIMB(EstimatorBackend):
             The expectation value of the energy of the QAOA state using :attr:`~iqm.qaoa.generic_qaoa.QAOA.angles`.
 
         """
-        if np.mean(qaoa_object.bqm.degrees(array=True)) > 3:
+        if np.mean(qaoa_object.bqm.degrees(array=True)) > 3:  # type: ignore[arg-type]
             warnings.warn("The average degree is higher than 3, the :mod:`quimb`-based estimator might be very slow.")
         energy = 0
         tn = quimb_tn(qaoa_object)
@@ -351,7 +351,7 @@ class SamplerSimulation(SamplerBackend):
             A dictionary whose keys are the measured bitstrings and values their frequencies in the results.
 
         """
-        qc = qiskit_circuit(qaoa_object, measurements=True)
+        qc = qiskit_circuit(qaoa_object, measurements=True)  # type: ignore[arg-type]
         job = self.simulator.run(qc, shots=shots)
         counts_from_job = job.result().get_counts()
         # Qiskit somehow reverses the order of the bitstrings.
@@ -394,7 +394,7 @@ class SamplerResonance(SamplerBackend):
             A dictionary whose keys are the measured bitstrings and values their frequencies in the results.
 
         """
-        qc = transpiled_circuit(qaoa_object, backend=self.iqm_backend, transpiler=self.transpiler)
+        qc = transpiled_circuit(qaoa_object, backend=self.iqm_backend, transpiler=self.transpiler)  # type: ignore[arg-type]
         job = self.iqm_backend.run(qc, shots=shots)
         counts_from_job = job.result().get_counts()
         # Qiskit somehow reverses the order of the bitstrings.

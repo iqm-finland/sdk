@@ -114,7 +114,7 @@ class GateImplementation(abc.ABC):
 
     def __init__(
         self, parent: QuantumOp, name: str, locus: Locus, calibration_data: OILCalibrationData, builder: ScheduleBuilder
-    ):
+    ) -> None:
         self.parent = parent
         self.name = name
         self.locus = locus
@@ -169,7 +169,7 @@ class GateImplementation(abc.ABC):
         Inheriting classes may override this method if the default :meth:`__call__` caching (based on the args & kwargs
         in the signature) is sufficient. Any additional caching may also be implemented inside this function if needed.
         """
-        return NotImplementedError
+        return NotImplementedError  # type: ignore[return-value]
 
     def build(
         self, op_name: str, locus: Locus, impl_name: str | None = None, strict_locus: bool = False
@@ -247,12 +247,12 @@ class GateImplementation(abc.ABC):
                 return value
             if unit == "s":
 
-                def conversion(val):
+                def conversion(val: Any) -> Any:
                     return val / dur if dur > 0 else 0.0
 
             elif unit == "Hz":
 
-                def conversion(val):
+                def conversion(val: Any) -> Any:
                     return val * dur
 
             if isinstance(value, Iterable):
@@ -303,10 +303,7 @@ class GateImplementation(abc.ABC):
         def build_node(path: Iterable[str], dictionary: dict[str, Any]) -> SettingNode:
             node = SettingNode(".".join(path), path=".".join(path))
             for key, value in dictionary.items():
-                if "*" in key:
-                    wildcard_keys = [key.replace("*", q) for q in locus]
-                else:
-                    wildcard_keys = [key]
+                wildcard_keys = [key.replace("*", q) for q in locus] if "*" in key else [key]
 
                 for wkey in wildcard_keys:
                     new_path = (*tuple(path), wkey)
@@ -321,7 +318,7 @@ class GateImplementation(abc.ABC):
                                 value.parameter.model_copy(update={"name": name}), value.value, path=name
                             )
                     else:
-                        raise ValueError(f"{wkey}: value {value} is neither a Parameter, Setting nor a dict.")
+                        raise TypeError(f"{wkey}: value {value} is neither a Parameter, Setting nor a dict.")
             return node
 
         return build_node(path, cls.parameters)
@@ -394,7 +391,7 @@ class CustomIQWaveforms(GateImplementation):
 
     def __init__(
         self, parent: QuantumOp, name: str, locus: Locus, calibration_data: OILCalibrationData, builder: ScheduleBuilder
-    ):
+    ) -> None:
         super().__init__(parent, name, locus, calibration_data, builder)
         if getattr(self, "wave_i", None) is None or getattr(self, "wave_q", None) is None:
             raise ValueError(
@@ -408,7 +405,7 @@ class CustomIQWaveforms(GateImplementation):
         wave_i: type[Waveform] | None = None,
         wave_q: type[Waveform] | None = None,
         dependent_waves: bool | None = None,
-    ):
+    ) -> None:
         """Store the Waveform types used by this subclass, and their parameters.
 
         NOTE: if ``MyGate`` is a subclass of ``CustomIQWaveforms``, with some defined i and q waves, further
@@ -455,7 +452,7 @@ class CustomIQWaveforms(GateImplementation):
                 if k not in cls.excluded_parameters
             }
             if cls.dependent_waves:
-                cls.parameters = root_parameters | parameters_i
+                cls.parameters = root_parameters | parameters_i  # type: ignore[assignment]
             else:
                 parameters_q = {
                     k: v
@@ -579,7 +576,7 @@ class CompositeGate(GateImplementation):
         locus: Locus,
         calibration_data: OILCalibrationData,
         builder: ScheduleBuilder,
-    ):
+    ) -> None:
         super().__init__(parent, name, locus, calibration_data, builder)
         custom_defaults = {
             op: data.get("default_implementation") for op, data in calibration_data.items() if isinstance(data, dict)
@@ -596,9 +593,8 @@ class CompositeGate(GateImplementation):
             key_is_hashable = True
         except TypeError:
             key_is_hashable = False
-        if key_is_hashable:
-            if box := self.builder.composite_cache.get(self, default_cache_key):
-                return box
+        if key_is_hashable and (box := self.builder.composite_cache.get(self, default_cache_key)):
+            return box
         box = self._call(*args, **kwargs)
         if key_is_hashable:
             self.builder.composite_cache.set(self, default_cache_key, box)
@@ -660,7 +656,7 @@ class CompositeCache:
     data.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._cache: dict[tuple[Any, ...], TimeBox] = {}
 
     def set(

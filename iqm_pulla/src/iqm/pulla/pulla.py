@@ -251,10 +251,10 @@ class Pulla:
                 sweep_data = self._station_control.get_sweep(job_id)
                 sc_result = StationControlResult(sweep_id=job_id, task_id=job_id, status=TaskStatus.PENDING)
 
-                if sweep_data.job_status <= JobExecutorStatus.EXECUTION_STARTED:
+                if sweep_data.job_status <= JobExecutorStatus.EXECUTION_STARTED:  # type: ignore[operator]
                     # Wait in the task queue while showing a progress bar
 
-                    interrupted = self._station_control._wait_job_completion(str(job_id), get_progress_bar_callback())
+                    interrupted = self._station_control._wait_job_completion(str(job_id), get_progress_bar_callback())  # type: ignore[attr-defined]
                     if interrupted:
                         raise KeyboardInterrupt
 
@@ -285,7 +285,7 @@ class Pulla:
                     )
                     sc_result.end_time = sweep_data.end_timestamp.isoformat() if sweep_data.end_timestamp else None
                     job = self._station_control.get_job(job_id)
-                    sc_result.message = job["job_error"]
+                    sc_result.message = job["job_error"]  # type: ignore[index]
                     logger.error("Submission failed! Error: %s", sc_result.message)
                     return sc_result
 
@@ -296,7 +296,7 @@ class Pulla:
                     )
                     sc_result.end_time = sweep_data.end_timestamp.isoformat() if sweep_data.end_timestamp else None
                     job = self._station_control.get_job(job_id)
-                    sc_result.message = job["job_error"]
+                    sc_result.message = job["job_error"]  # type: ignore[index]
                     logger.error("Submission was revoked!")
                     return sc_result
 

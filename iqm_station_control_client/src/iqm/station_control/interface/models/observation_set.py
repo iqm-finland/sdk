@@ -33,7 +33,7 @@ class ObservationSetBase(PydanticBase):
     describes_id: uuid.UUID | None = Field(default=None)
     """Unique identifier of the observation set this observation set describes."""
     invalid: bool = Field(default=False)
-    """Flag indicating if the object is invalid. Automated systems must not use invalid objects."""
+    """Flag indicating if the set is invalid. Automated systems must not use invalid sets."""
 
 
 class ObservationSetDefinition(ObservationSetBase):
@@ -71,10 +71,10 @@ class ObservationSetUpdate(PydanticBase):
     """Database IDs of the observations belonging to the observation set.
 
     This will only add new observations to the observation set, deleting existing ones is not possible.
-    Setting this to `None` or omitting it will leave existing observation_ids as is with no changes.
+    Setting this to ``None`` or omitting it will leave existing :attr:`observation_ids` as is with no changes.
     """
     invalid: bool
-    """Flag indicating if the object is invalid. Automated systems must not use invalid objects."""
+    """Flag indicating if the set is invalid. Automated systems must not use invalid sets."""
 
 
 class ObservationSetWithObservations(ObservationSetData):

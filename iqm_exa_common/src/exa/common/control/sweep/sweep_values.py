@@ -28,9 +28,8 @@ def validate_sweep_values(sweep_values: Any) -> Any:
     if isinstance(sweep_values, np.ndarray):
         sweep_values = sweep_values.tolist()
     for index, value in enumerate(sweep_values):
-        if isinstance(value, dict):
-            if "__complex__" in value:
-                sweep_values[index] = complex(value["real"], value["imag"])
+        if isinstance(value, dict) and "__complex__" in value:
+            sweep_values[index] = complex(value["real"], value["imag"])
     return sweep_values
 
 
@@ -51,7 +50,7 @@ def serialize_sweep_values(sweep_values: Any) -> Any:
 
 
 SweepValues = Annotated[
-    list[Any] | np.ndarray[Any],
+    list[Any] | np.ndarray,
     PlainValidator(validate_sweep_values),
     PlainSerializer(serialize_sweep_values),
     WithJsonSchema(core_schema.any_schema()),

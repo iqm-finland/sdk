@@ -33,6 +33,7 @@ def validate_circuit(
     new_circuit = IQMClientCircuit(
         name="Validation circuit",
         instructions=tuple(serialize_instructions(circuit=circuit, qubit_index_to_name=qubit_mapping)),
+        metadata=None,
     )
     if validate_moves is None:
         validate_moves = MoveGateValidationMode.STRICT

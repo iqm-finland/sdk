@@ -194,7 +194,7 @@ class StationControlInterface(ABC):
         """Get run data from the database."""
 
     @abstractmethod
-    def query_runs(self, **kwargs) -> ListWithMeta[RunLite]:
+    def query_runs(self, **kwargs) -> ListWithMeta[RunLite]:  # type: ignore[type-arg]
         """Query runs from the database.
 
         Runs are queried by the given query parameters. Currently supported query parameters:
@@ -228,7 +228,7 @@ class StationControlInterface(ABC):
     @abstractmethod
     def create_observations(
         self, observation_definitions: Sequence[ObservationDefinition]
-    ) -> ListWithMeta[ObservationData]:
+    ) -> ListWithMeta[ObservationData]:  # type: ignore[type-arg]
         """Create observations in the database.
 
         Args:
@@ -285,7 +285,7 @@ class StationControlInterface(ABC):
         """
 
     @abstractmethod
-    def query_observations(self, **kwargs) -> ListWithMeta[ObservationData]:
+    def query_observations(self, **kwargs) -> ListWithMeta[ObservationData]:  # type: ignore[type-arg]
         """Query observations from the database.
 
         Observations are queried by the given query parameters. Currently supported query parameters:
@@ -324,7 +324,7 @@ class StationControlInterface(ABC):
         """
 
     @abstractmethod
-    def query_observation_sets(self, **kwargs) -> ListWithMeta[ObservationSetData]:
+    def query_observation_sets(self, **kwargs) -> ListWithMeta[ObservationSetData]:  # type: ignore[type-arg]
         """Query observation sets from the database.
 
         Observation sets are queried by the given query parameters. Currently supported query parameters:
@@ -455,7 +455,7 @@ class StationControlInterface(ABC):
         """Get DUT fields for the specified DUT label from the database."""
 
     @abstractmethod
-    def query_sequence_metadatas(self, **kwargs) -> ListWithMeta[SequenceMetadataData]:
+    def query_sequence_metadatas(self, **kwargs) -> ListWithMeta[SequenceMetadataData]:  # type: ignore[type-arg]
         """Query sequence metadatas from the database.
 
         Sequence metadatas are queried by the given query parameters. Currently supported query parameters:

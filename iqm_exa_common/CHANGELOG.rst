@@ -2,6 +2,30 @@
 Changelog
 =========
 
+Version 26.28.0 (2025-07-09)
+============================
+
+Features
+--------
+
+- Enable mypy type checking in CI and add temporary type ignores to the source code. :issue:`SW-1615`
+
+Version 26.27.0 (2025-07-04)
+============================
+
+Features
+--------
+
+- Setting now has a private field _source and an associated property which can be used to store e.g. the observation that is the source of the Setting's value.
+
+Version 26.26.0 (2025-07-02)
+============================
+
+Bug fixes
+---------
+
+- Fix type errors raised by mypy.
+
 Version 26.25.0 (2025-06-17)
 ============================
 

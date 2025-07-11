@@ -122,7 +122,7 @@ class FluxMultiplexer_SampleLinear(GateImplementation):
                         multiple = int(inst.duration / real_pulse_dict["duration"])
                         chopped_seg.extend(multiple * [Wait(real_pulse_dict["duration"])])
                     else:
-                        chopped_seg.append(inst)
+                        chopped_seg.append(inst)  # type: ignore[arg-type]
                 scheduled_fluxes[channel] = Segment(chopped_seg)
         max_flux_depth = next(len(seg) for ch, seg in scheduled_fluxes.items() if ch in crosstalk_channels)
         # pad the relevant flux channels not present in the schedule at all with correct number of wait tiles
@@ -157,7 +157,7 @@ class FluxMultiplexer_SampleLinear(GateImplementation):
                 if max(abs(multiplexed_samples)) < TOLERANCE:
                     multiplexed_pulse = Wait(real_pulse_dict["duration"])
                 else:
-                    multiplexed_pulse = RealPulse(
+                    multiplexed_pulse = RealPulse(  # type: ignore[assignment]
                         scale=1.0, duration=real_pulse_dict["duration"], wave=Samples(multiplexed_samples)
                     )
                 corrected_fluxes[flux_channel]._instructions[layer] = multiplexed_pulse

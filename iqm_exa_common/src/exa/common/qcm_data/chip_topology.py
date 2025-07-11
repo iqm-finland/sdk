@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# mypy: ignore-errors
+
 """Chip topology class for parsing CHAD and other QPU related data into human-usable form."""
 
 from __future__ import annotations
@@ -109,7 +111,7 @@ class ChipTopology:
             coupler: tuple(sort_components(components)) for coupler, components in couplers.items()
         }
         """Map from each coupler to all other components it connects to. The values are sorted."""
-        component_to_couplers = {}
+        component_to_couplers: dict = {}
         for coupler, components in couplers.items():
             for c in components:
                 component_to_couplers.setdefault(c, set()).add(coupler)
@@ -128,7 +130,7 @@ class ChipTopology:
         Components without connection to a probe line don't appear.
         """
 
-        self._locus_mappings: dict[Locus, dict[tuple[str, ...]]] = {
+        self._locus_mappings: dict[str, dict[Locus, tuple[str, ...]]] = {
             DEFAULT_1QB_MAPPING: {(qubit,): (qubit,) for qubit in self.qubits_sorted},
             DEFAULT_2QB_MAPPING: {
                 frozenset(comps): (coupler,)
@@ -244,7 +246,7 @@ class ChipTopology:
         """Get probelines that are connected to any of the given components."""
         return {self.component_to_probe_line[c] for c in components if c in self.component_to_probe_line}
 
-    def get_connected_coupler_map(self, components: Collection[str]) -> ComponentMap:
+    def get_connected_coupler_map(self, components: Collection[str]) -> dict[str, tuple[str, ...]]:
         """Returns a `ComponentMap`, including only the couplers between components that both are in the given subset.
 
         Args:
@@ -261,7 +263,7 @@ class ChipTopology:
         }
 
     @staticmethod
-    def limit_values(dct: ComponentMap, limit_to: Collection[str]) -> ComponentMap:
+    def limit_values(dct: ComponentMap, limit_to: Collection[str]) -> dict[str, Collection[str]]:
         """Prunes the given dictionary (e.g. a coupler-to-qubits map) to a subset of values.
 
         Used to prune e.g. :attr:`coupler_to_components` to a subset of relevant elements.
@@ -313,7 +315,7 @@ class ChipTopology:
         self._validate_locus_mapping(mapping)
         self._locus_mappings[name] = mapping
 
-    def _validate_locus_mapping(self, mapping: dict[str | tuple[str], Locus] | None = None) -> None:
+    def _validate_locus_mapping(self, mapping: dict[Locus, tuple[str, ...]]) -> None:
         """Validate that the components given in mapping are found in self and the mapping is correctly formed."""
         for locus, mapped in mapping.items():
             if not isinstance(locus, tuple) and not isinstance(locus, frozenset):
@@ -325,7 +327,7 @@ class ChipTopology:
                 if locus_component not in self.all_components:
                     raise ValueError(f"Locus component {locus_component} is not found in this ChipTopology.")
 
-    def map_locus(self, locus: Locus, name: str | None = None) -> str | tuple[str] | None:
+    def map_locus(self, locus: Locus, name: str | None = None) -> str | tuple[str, ...] | None:
         """Returns the mapped components for the given locus and the given gate.
 
         If the locus or the gate is not found from the locus mappings of self, returns None.
@@ -388,7 +390,7 @@ class ChipTopology:
                 name = DEFAULT_1QB_MAPPING
             elif default_mapping_dimension == 2:
                 name = DEFAULT_2QB_MAPPING
-        return [locus for locus in self._locus_mappings.get(name, {})]
+        return list(self._locus_mappings.get(name, {}))
 
     def get_common_computational_resonator(self, first_qubit: str, second_qubit: str) -> str:
         """Convenience method for getting the name of a computational resonator which is connected to both specified

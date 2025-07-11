@@ -195,7 +195,7 @@ def serialize_circuit(circuit: Circuit) -> iqm_client.Circuit:
                 inst.args["feedback_qubit"] = measurement.qubits[0]
                 measurement.args["feedback_key"] = feedback_key
 
-    return iqm_client.Circuit(name="Serialized from Cirq", instructions=instructions)
+    return iqm_client.Circuit(name="Serialized from Cirq", instructions=instructions, metadata=None)
 
 
 def deserialize_circuit(circuit: iqm_client.Circuit) -> Circuit:

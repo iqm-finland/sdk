@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# mypy: ignore-errors
+
 """Physical quantities and instrument settings.
 
 A basic data structure in EXA is the :class:`~exa.common.data.parameter.Parameter`, which represents
@@ -61,7 +63,7 @@ import ast
 from collections.abc import Hashable
 import copy
 from enum import IntEnum
-from typing import Any, Self
+from typing import Any, Self, TypeAlias
 import warnings
 
 import numpy as np
@@ -73,7 +75,9 @@ from exa.common.data.base_model import BaseModel
 from exa.common.data.value import ObservationValue
 from exa.common.errors.station_control_errors import ValidationError
 
-CastType = str | list["CastType"] | None
+CastType: TypeAlias = str | list["CastType"] | None
+SourceType: TypeAlias = None | BaseModel | dict[str, Any]
+"""Type for Setting sources."""
 
 
 class DataType(IntEnum):
@@ -116,7 +120,7 @@ class DataType(IntEnum):
         else:
             return False
 
-    def _cast(self, value: str) -> Any:  # noqa: PLR0911
+    def _cast(self, value: str | None) -> Any:  # noqa: PLR0911
         if value is None:
             return None
         elif self in [DataType.FLOAT, DataType.NUMBER]:
@@ -135,7 +139,7 @@ class DataType(IntEnum):
             raise TypeError("Boolean data types can only be 'false', 'true, '0' or '1' (case-insensitive)")
         elif self is DataType.STRING:
             return value
-        else:
+        else:  # TODO: can this be removed?
             try:
                 return ast.literal_eval(value)
             except (SyntaxError, ValueError):  # if the value can not be evaluated, return the original value
@@ -238,13 +242,12 @@ class Parameter(BaseModel):
                     raise ValidationError("Parameter 'element_indices' must be one or more ints.")
             object.__setattr__(self, "element_indices", idxs)
             # there may be len(idxs) num of "__" separated indices at the end, remove those to get the parent name
-            parent_name = self.name.replace("__" + "__".join([str(idx) for idx in idxs]), "")
+            seperated_indices = "__".join([str(idx) for idx in idxs])
+            parent_name = self.name.replace("__" + seperated_indices, "")
             object.__setattr__(self, "_parent_name", parent_name)
             object.__setattr__(self, "_parent_label", self.label.replace(f" {idxs}", ""))
             object.__setattr__(self, "label", f"{self._parent_label} {idxs}")
-            name = self._parent_name
-            for index in idxs:
-                name += f"__{index}"
+            name = parent_name + "__" + seperated_indices
             object.__setattr__(self, "name", name)
 
     @property
@@ -272,7 +275,7 @@ class Parameter(BaseModel):
     def build_data_set(
         variables: list[tuple[Parameter, list[Any]]],
         data: tuple[Parameter, SweepValues],
-        attributes: dict[str, Any] = None,
+        attributes: dict[str, Any] | None = None,
         extra_variables: list[tuple[str, int]] | None = None,
     ):
         """Build an xarray Dataset, where the only DataArray is given by `results` and coordinates are given by
@@ -289,9 +292,9 @@ class Parameter(BaseModel):
              extra_variables: Valueless dimensions and their sizes.
 
         """
-        variable_names = []
-        variable_sizes = []
-        variable_data_arrays = {}
+        variable_names: list[str] = []
+        variable_sizes: list[int] = []
+        variable_data_arrays: dict[str, xr.DataArray] = {}
         for variable in variables:
             variable_names.append(variable[0].name)
             variable_sizes.append(len(variable[1]))
@@ -326,9 +329,9 @@ class Parameter(BaseModel):
     def build_data_array(
         self,
         data: np.ndarray,
-        dimensions: list[Hashable] = None,
-        coords: dict[Hashable, Any] = None,
-        metadata: dict[str, Any] = None,
+        dimensions: list[str] | list[Hashable] | None = None,
+        coords: dict[Hashable, Any] | None = None,
+        metadata: dict[str, Any] | None = None,
     ) -> xr.DataArray:
         """Attach Parameter information to a numerical array.
 
@@ -365,7 +368,7 @@ class Parameter(BaseModel):
         da = xr.DataArray(name=self.name, data=data, attrs=attrs, dims=dimensions, coords=coords)
         # copying the coordinate metadata, if present, to the new DataArray coordinates
         if coords:
-            for key in [k for k in coords.keys() if isinstance(coords[k], xr.DataArray)]:
+            for key in [k for k in coords if isinstance(coords[k], xr.DataArray)]:
                 da[key].attrs = coords[key].attrs
         return da
 
@@ -408,12 +411,19 @@ class Setting(BaseModel):
     path: str = ""
     """Path in the settings tree (starting from the root ``SettingNode``) for this setting."""
 
+    _source: SourceType = None
+    """The source for this Setting value. May contain an observation (ObservationDefinition or ObservationData)
+    or a source-dict (e.g. ``{"type": "configuration_source", "configurator": "defaults_from_yml"}``). By default,
+    ``None``, which denotes the source not being specified (e.g. hardcoded defaults). The source is stored in a private
+    attribute and thus is never serialized (the source field can contain non-serializable data such as Callables)."""
+
     def __init__(
         self,
         parameter: Parameter | None = None,
         value: ObservationValue | None = None,
         read_only: bool = False,
         path: str = "",
+        source: SourceType = None,
         **kwargs,
     ) -> None:
         super().__init__(
@@ -423,6 +433,7 @@ class Setting(BaseModel):
             path=path,
             **kwargs,
         )
+        self._source = source
 
     @model_validator(mode="after")
     def validate_parameter_value_after(self) -> Self:
@@ -436,8 +447,17 @@ class Setting(BaseModel):
             raise ValidationError(f"Invalid value '{self.value}' for parameter '{self.parameter}'.")
         return self
 
-    def update(self, value: ObservationValue) -> Setting:
-        """Create a new setting object with updated `value`."""
+    def update(self, value: ObservationValue, source: SourceType = None) -> Setting:
+        """Create a new setting object with updated value and source.
+
+        Args:
+            value: New value for the setting.
+            source: New source for the setting.
+
+        Returns:
+            Copy of ``self`` with modified properties.
+
+        """
         if self.read_only:
             raise ValueError(
                 f"Can't update the value of {self.parameter.name} to {value} since the setting is read-only."
@@ -446,7 +466,7 @@ class Setting(BaseModel):
             value = np.array(value)
         # Need to create a new Setting here instead of using Pydantic model_copy().
         # model_copy() can't handle backdoor settings without errors, i.e. values with a list of 2 elements.
-        return Setting(self.parameter, value, self.read_only, self.path)
+        return Setting(self.parameter, value, self.read_only, self.path, source=source)
 
     @property
     def name(self):
@@ -474,24 +494,28 @@ class Setting(BaseModel):
         return self.parameter.unit
 
     @property
-    def element_indices(self) -> tuple[int, ...] | None:
+    def element_indices(self) -> int | list[int] | None:
         """Element-wise indices of the parameter in ``self``."""
         return self.parameter.element_indices
+
+    @property
+    def source(self) -> SourceType:
+        """Return the source for this Setting's value."""
+        return self._source
 
     @staticmethod
     def get_by_name(name: str, values: set[Setting]) -> Setting | None:
         return next((setting for setting in values if setting.parameter.name == name), None)
 
     @staticmethod
-    def remove_by_name(name: str, values: set[Setting] = None) -> set[Setting]:
-        if values is None:
-            values = set()
+    def remove_by_name(name: str, values: set[Setting]) -> set[Setting]:
         removed = copy.deepcopy(values)
-        removed.discard(Setting.get_by_name(name, values))
+        if setting := Setting.get_by_name(name, values):
+            removed.discard(setting)
         return removed
 
     @staticmethod
-    def replace(settings: Setting | list[Setting], values: set[Setting] = None) -> set[Setting]:
+    def replace(settings: Setting | list[Setting], values: set[Setting] | None = None) -> set[Setting]:
         if values is None:
             values = set()
         if not isinstance(settings, list):
@@ -518,7 +542,7 @@ class Setting(BaseModel):
         diff = first.difference(second)
         for s in first.intersection(second):
             a, b = [Setting.get_by_name(s.parameter.name, group) for group in [first, second]]
-            if a.value != b.value:
+            if a is not None and b is not None and a.value != b.value:
                 diff.add(a)
         return diff
 
@@ -555,7 +579,7 @@ class Setting(BaseModel):
     def __hash__(self):
         return hash(self.parameter)
 
-    def __eq__(self, other: Setting):
+    def __eq__(self, other: Any) -> bool:
         if not (isinstance(other, Setting) and self.parameter == other.parameter):
             return False
         if isinstance(self.value, np.ndarray):

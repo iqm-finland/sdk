@@ -133,7 +133,7 @@ class IQMClient:
 
         self._station_control: StationControlInterface = init_station_control(
             root_url=url,
-            get_token_callback=self._token_manager.get_bearer_token,
+            get_token_callback=self._token_manager.get_bearer_token,  # type:ignore[arg-type]
             client_signature=client_signature,
         )
         self._api = APIConfig(url)
@@ -457,7 +457,7 @@ class IQMClient:
             if status in Status.terminal_statuses() | {Status.PENDING_EXECUTION, Status.COMPILATION_ENDED}:
                 return self.get_run(job_id)
             time.sleep(SECONDS_BETWEEN_CALLS)
-        raise APITimeoutError(f"The job compilation didn't finish in {timeout_secs} seconds.")
+        raise APITimeoutError(f"The job {job_id} compilation didn't finish in {timeout_secs} seconds.")
 
     def wait_for_results(self, job_id: UUID, timeout_secs: float = DEFAULT_TIMEOUT_SECONDS) -> RunResult:
         """Poll results until a job is either ready, failed, aborted, or timed out.
@@ -483,7 +483,7 @@ class IQMClient:
             if status in Status.terminal_statuses():
                 return self.get_run(job_id)
             time.sleep(SECONDS_BETWEEN_CALLS)
-        raise APITimeoutError(f"The job didn't finish in {timeout_secs} seconds.")
+        raise APITimeoutError(f"The job {job_id} didn't finish in {timeout_secs} seconds.")
 
     def abort_job(self, job_id: UUID, *, timeout_secs: float = REQUESTS_TIMEOUT) -> None:
         """Abort a job that was submitted for execution.
@@ -553,7 +553,7 @@ class IQMClient:
         calibration_set = quality_metrics.calibration_set
 
         return QualityMetricSet(
-            **{
+            **{  # type:ignore[arg-type]
                 "calibration_set_id": calibration_set.observation_set_id,
                 "calibration_set_dut_label": calibration_set.dut_label,
                 "calibration_set_number_of_observations": len(calibration_set.observation_ids),
@@ -619,9 +619,11 @@ class IQMClient:
 
         return CalibrationSet(
             calibration_set_id=calibration_set.observation_set_id,
-            calibration_set_dut_label=calibration_set.dut_label,
+            calibration_set_dut_label=calibration_set.dut_label,  # type:ignore[arg-type]
             calibration_set_created_timestamp=str(calibration_set.created_timestamp.isoformat()),
-            calibration_set_end_timestamp=str(calibration_set.end_timestamp.isoformat()),
+            calibration_set_end_timestamp=""
+            if calibration_set.end_timestamp is None
+            else str(calibration_set.end_timestamp.isoformat()),
             calibration_set_is_invalid=calibration_set.invalid,
             observations={
                 observation.dut_field: _observation_lite_to_json(observation) for observation in observations

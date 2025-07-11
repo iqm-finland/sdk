@@ -42,6 +42,6 @@ class SXGate(CompositeGate):
 
     def _call(self) -> TimeBox:  # type: ignore[override]
         """Call PRX gate with angle equals to pi / 2."""
-        prx_gate: PRX_SinglePulse_GateImplementation | PRX_CustomWaveformsSX = self.build("prx", self.locus)
-        pulse = prx_gate(np.pi / 2, 0.0).atom[prx_gate.channel][0]
+        prx_gate: PRX_SinglePulse_GateImplementation | PRX_CustomWaveformsSX = self.build("prx", self.locus)  # type: ignore[assignment]
+        pulse = prx_gate(np.pi / 2, 0.0).atom[prx_gate.channel][0]  # type: ignore[union-attr,index]
         return self.to_timebox(Schedule({prx_gate.channel: [pulse]}))

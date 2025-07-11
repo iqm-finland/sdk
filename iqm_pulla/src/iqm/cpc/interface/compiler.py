@@ -16,7 +16,7 @@
 from collections import Counter
 from dataclasses import dataclass, field
 from enum import StrEnum
-from typing import Final, TypeAlias
+from typing import TypeAlias
 
 from exa.common.data.setting_node import SettingNode
 from iqm.pulse.builder import CircuitOperation, Locus
@@ -44,10 +44,10 @@ class MeasurementMode(StrEnum):
     Measurement results which are not required by the circuits to be executed are discarded.
     """
 
-    CIRCUIT: Final[str] = "circuit"
+    CIRCUIT = "circuit"
     """In each circuit separately, measure only the components that have final measurement
     operations on them."""
-    ALL: Final[str] = "all"
+    ALL = "all"
     """Measure all the components on the QPU that have measurement data in the calset.
     This is typically how measurement is calibrated."""
 
@@ -55,9 +55,9 @@ class MeasurementMode(StrEnum):
 class HeraldingMode(StrEnum):
     """Heralding mode for circuit execution."""
 
-    NONE: Final[str] = "none"
+    NONE = "none"
     """Do not do any heralding."""
-    ZEROS: Final[str] = "zeros"
+    ZEROS = "zeros"
     """Perform a heralding measurement on all the components used in each circuit (if they have
     measurement data available in the calset), only retain shots where all the components
     are measured to be in the zero state."""
@@ -66,9 +66,9 @@ class HeraldingMode(StrEnum):
 class DDMode(StrEnum):
     """Dynamical Decoupling (DD) mode for circuit execution."""
 
-    DISABLED: Final[str] = "disabled"
+    DISABLED = "disabled"
     """Do not apply dynamical decoupling."""
-    ENABLED: Final[str] = "enabled"
+    ENABLED = "enabled"
     """Apply dynamical decoupling."""
 
 
@@ -127,7 +127,7 @@ class DDStrategy:
 class CircuitBoundaryMode(StrEnum):
     """Circuit boundary mode for circuit compilation."""
 
-    NEIGHBOUR: Final[str] = "neighbour"
+    NEIGHBOUR = "neighbour"
     """
     Circuit boundary consists of those QPU elements (qubits and couplers) that
     are adjacent to the qubits and couplers used by the circuit, but do not belong to them.
@@ -136,33 +136,33 @@ class CircuitBoundaryMode(StrEnum):
     * Boundary qubits are connected to a circuit qubit by any coupler, but are not circuit qubits themselves.
     * Boundary couplers are connected to at least one circuit qubit, but are not used in the circuit themselves.
     """
-    ALL: Final[str] = "all"
+    ALL = "all"
     """Circuit boundary consists of all the QPU elements that are not used in the circuit."""
 
 
 class MoveGateValidationMode(StrEnum):
     """MOVE gate validation mode for circuit compilation."""
 
-    STRICT: Final[str] = "strict"
+    STRICT = "strict"
     """Perform standard MOVE gate validation: MOVE(qubit, resonator) gates must only
     appear in sandwiches (pairs). Inside a sandwich there must be no gates acting on the
     MOVE qubit, and no other MOVE gates acting on the resonator."""
-    ALLOW_PRX: Final[str] = "allow_prx"
+    ALLOW_PRX = "allow_prx"
     """Allow PRX gates on the MOVE qubit inside MOVE sandwiches during validation."""
-    NONE: Final[str] = "none"
+    NONE = "none"
     """Do not perform any MOVE gate validation."""
 
 
 class MoveGateFrameTrackingMode(StrEnum):
     """MOVE gate frame tracking mode for circuit compilation."""
 
-    FULL: Final[str] = "full"
+    FULL = "full"
     """Perform complete MOVE gate frame tracking, applying both the explicit z rotations
     on the resonator and the dynamic phase correction due to qubit-resonator detuning to
     the qubit at the end of a MOVE sandwich."""
-    NO_DETUNING_CORRECTION: Final[str] = "no_detuning_correction"
+    NO_DETUNING_CORRECTION = "no_detuning_correction"
     """Do not apply the detuning correction at the end of a MOVE sandwich."""
-    NONE: Final[str] = "none"
+    NONE = "none"
     """Do not perform any MOVE gate frame tracking."""
 
 

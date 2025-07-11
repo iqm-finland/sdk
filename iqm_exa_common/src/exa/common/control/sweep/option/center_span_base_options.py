@@ -57,4 +57,4 @@ class CenterSpanBaseOptions(SweepOptions):
         start = self.center - (self.span / 2)
         stop = self.center + (self.span / 2)
         (start, stop) = (start, stop) if self.asc else (stop, start)
-        return StartStopBaseOptions(start, stop, count=self.count, base=self.base).data
+        return StartStopBaseOptions(start, stop, count=self.count, base=self.base).data  # type:ignore[arg-type,return-value]

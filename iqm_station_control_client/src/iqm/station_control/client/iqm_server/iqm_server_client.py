@@ -146,7 +146,7 @@ class IqmServerClient(_StationControlClientBase):
             # right after submitting it so we can cache reference to the submitted sweep here
             # to avoid extra request to the server
             job_id = from_proto_uuid(job.id)
-            self._latest_submitted_sweep = dataclasses.replace(sweep_definition, sweep_id=job_id)
+            self._latest_submitted_sweep = dataclasses.replace(sweep_definition, sweep_id=job_id)  # type: ignore[assignment]
             return {
                 "job_id": str(job_id),
             }
@@ -194,12 +194,12 @@ class IqmServerClient(_StationControlClientBase):
     def get_run(self, run_id: UUID) -> RunData:
         raise NotImplementedError
 
-    def query_runs(self, **kwargs) -> ListWithMeta[RunLite]:
+    def query_runs(self, **kwargs) -> ListWithMeta[RunLite]:  # type: ignore[type-arg]
         raise NotImplementedError
 
     def create_observations(
         self, observation_definitions: Sequence[ObservationDefinition]
-    ) -> ListWithMeta[ObservationData]:
+    ) -> ListWithMeta[ObservationData]:  # type: ignore[type-arg]
         raise NotImplementedError
 
     def get_observations(
@@ -216,13 +216,13 @@ class IqmServerClient(_StationControlClientBase):
     ) -> list[ObservationData]:
         raise NotImplementedError
 
-    def query_observations(self, **kwargs) -> ListWithMeta[ObservationData]:
+    def query_observations(self, **kwargs) -> ListWithMeta[ObservationData]:  # type: ignore[type-arg]
         raise NotImplementedError
 
     def update_observations(self, observation_updates: Sequence[ObservationUpdate]) -> list[ObservationData]:
         raise NotImplementedError
 
-    def query_observation_sets(self, **kwargs) -> ListWithMeta[ObservationSetData]:
+    def query_observation_sets(self, **kwargs) -> ListWithMeta[ObservationSetData]:  # type: ignore[type-arg]
         raise NotImplementedError
 
     def create_observation_set(self, observation_set_definition: ObservationSetDefinition) -> ObservationSetData:
@@ -260,14 +260,15 @@ class IqmServerClient(_StationControlClientBase):
         raise NotImplementedError
 
     def get_duts(self) -> list[DutData]:
-        return self._get_resource("duts", lambda data: DutList.model_validate(parse_json(data)))
+        return self._get_resource("duts", lambda data: DutList.model_validate(parse_json(data)))  # type: ignore[arg-type,return-value]
 
     def get_dut_fields(self, dut_label: str) -> list[DutFieldData]:
         return self._get_resource(
-            f"dut-fields/{dut_label}", lambda data: DutFieldDataList.model_validate(parse_json(data))
+            f"dut-fields/{dut_label}",
+            lambda data: DutFieldDataList.model_validate(parse_json(data)),  # type: ignore[arg-type,return-value]
         )
 
-    def query_sequence_metadatas(self, **kwargs) -> ListWithMeta[SequenceMetadataData]:
+    def query_sequence_metadatas(self, **kwargs) -> ListWithMeta[SequenceMetadataData]:  # type: ignore[type-arg]
         raise NotImplementedError
 
     def create_sequence_metadata(
@@ -291,7 +292,7 @@ class IqmServerClient(_StationControlClientBase):
             job: proto.JobV1 = jobs.GetJobV1(proto.JobLookupV1(id=to_proto_uuid(job_id)))
             return JobData(
                 job_id=from_proto_uuid(job.id),
-                job_status=job.status,
+                job_status=job.status,  # type: ignore[arg-type]
                 job_result=JobResult(
                     job_id=from_proto_uuid(job.id),
                     parallel_sweep_progress=[],

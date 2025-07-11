@@ -52,10 +52,10 @@ def get_qubit_order(circuit: cirq.Circuit) -> tuple[list[cirq.Qid], int]:
         qubit order, number of measured qubits
 
     """
-    measurements = get_measurements(circuit)
+    measurements: list[tuple[int, cirq.GateOperation]] = get_measurements(circuit)
 
     # mapping from (key, index) to measured qubit, in lexical order
-    m_qubits = {(op.gate.key, index): qubit for _, op in measurements for index, qubit in enumerate(op.qubits)}
+    m_qubits = {(op.gate.key, index): qubit for _, op in measurements for index, qubit in enumerate(op.qubits)}  # type:ignore[attr-defined]
     m_qubits = dict(sorted(m_qubits.items()))
 
     qubit_order = list(m_qubits.values())
@@ -81,7 +81,7 @@ def simulate_measurement_probabilities(
         map from result to its probability, measurement keys
 
     """
-    measurements = get_measurements(circuit)
+    measurements: list[tuple[int, cirq.GateOperation]] = get_measurements(circuit)
     if not measurements:
         raise ValueError("Circuit has no measurements.")
 
@@ -95,12 +95,12 @@ def simulate_measurement_probabilities(
     state = result.state_vector()
 
     # trace out non-measured qubits, compute the probabilities of the various measurement outcomes
-    mixture = cirq.linalg.partial_trace_of_state_vector_as_mixture(state, keep_indices=range(n_measured_qubits))
+    mixture = cirq.linalg.partial_trace_of_state_vector_as_mixture(state, keep_indices=list(range(n_measured_qubits)))
     _temp = [p * np.abs(ket) ** 2 for p, ket in mixture]
     probs = np.sum(_temp, axis=0)
 
     # list the all the measurement outcomes in the matching order
-    measurement_arities = {op.gate.key: len(op.qubits) for _, op in measurements}
+    measurement_arities = {op.gate.key: len(op.qubits) for _, op in measurements}  # type:ignore[attr-defined]
     measurement_arities = dict(sorted(measurement_arities.items()))
 
     shape = np.array(2) ** list(measurement_arities.values())
@@ -178,7 +178,8 @@ def demo(device: IQMDevice, circuit: cirq.Circuit, *, use_qsim: bool = False) ->
 
     # Initialize a ket-based simulator for evaluating the circuit
     if use_qsim:
-        import qsimcirq
+        # FIXME: decide what to do with this implicit dependency to qsimcirq.
+        import qsimcirq  # type:ignore[import-not-found]
 
         sim = qsimcirq.QSimSimulator()
         print("Using qsim.")

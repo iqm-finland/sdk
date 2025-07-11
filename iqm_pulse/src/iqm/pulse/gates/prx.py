@@ -26,6 +26,7 @@ It rotates the qubit state around an axis that lies in the XY plane of the Bloch
 
 from __future__ import annotations
 
+from abc import abstractmethod
 import copy
 from functools import lru_cache
 from typing import TYPE_CHECKING
@@ -85,24 +86,25 @@ def get_unitary_prx(angle: float, phase: float) -> np.ndarray:
     )
 
 
-class PRX_GateImplementation(GateImplementation):
+class PrxGateImplementation(GateImplementation):
     """ABC for different implementations of the PRX gate."""
 
     def __init__(
         self, parent: QuantumOp, name: str, locus: Locus, calibration_data: OILCalibrationData, builder: ScheduleBuilder
-    ):
+    ) -> None:
         super().__init__(parent, name, locus, calibration_data, builder)
         self._cliffords: dict[XYGate, TimeBox] = {}
 
-    def _call(self, angle: float, phase: float = 0.0) -> TimeBox:  # type: ignore[override]
-        """Phased x rotation gate.
+    @abstractmethod
+    def _call(self, angle: float, phase: float) -> TimeBox:
+        """Phased X rotation gate.
 
         Args:
-            angle: rotation angle (in radians)
-            phase: phase angle (in radians)
+            angle: Rotation angle in radians.
+            phase: Phase angle in radians.
 
         Returns:
-            boxed instruction schedule implementing the phased x rotation gate
+            Boxed instruction schedule implementing the phased X rotation gate.
 
         """
         raise NotImplementedError
@@ -118,8 +120,8 @@ class PRX_GateImplementation(GateImplementation):
 
         """
         box = self(angle=angle, phase=0)
-        box.label = f"Rx on {self.locus[0]}"
-        return box
+        box.label = f"Rx on {self.locus[0]}"  # type: ignore[union-attr]
+        return box  # type: ignore[return-value]
 
     def ry(self, angle: float) -> TimeBox:
         """Y rotation gate.
@@ -132,8 +134,8 @@ class PRX_GateImplementation(GateImplementation):
 
         """
         box = self(angle=angle, phase=np.pi / 2)
-        box.label = f"Ry on {self.locus[0]}"
-        return box
+        box.label = f"Ry on {self.locus[0]}"  # type: ignore[union-attr]
+        return box  # type: ignore[return-value]
 
     def clifford(self, xy_gate: XYGate) -> TimeBox:
         """One-qubit XY Clifford gates.
@@ -176,8 +178,8 @@ class PRX_GateImplementation(GateImplementation):
         return SINGLE_COMPONENTS_WITH_DRIVE_LOCUS_MAPPING
 
 
-class PRX_SinglePulse_GateImplementation(SinglePulseGate, PRX_GateImplementation):
-    r"""ABC for PRX gates implemented using a single IQ pulse.
+class PRX_SinglePulse_GateImplementation(SinglePulseGate, PrxGateImplementation):
+    r"""Base class for PRX gates implemented using a single IQ pulse.
 
     This class implements phased x rotation gates on a specific qubit using an :class:`.IQPulse`
     instance, derived from the pulse calibration data provided at construction by
@@ -198,9 +200,9 @@ class PRX_SinglePulse_GateImplementation(SinglePulseGate, PRX_GateImplementation
     def _call(self, angle: float, phase: float = 0.0) -> TimeBox:  # type: ignore[override]
         scale, new_phase = _normalize_params(angle, phase)
         pulse = self.pulse.copy(
-            scale_i=scale * self.pulse.scale_i,
-            scale_q=scale * self.pulse.scale_q,
-            phase=self.pulse.phase + new_phase,
+            scale_i=scale * self.pulse.scale_i,  # type: ignore[attr-defined]
+            scale_q=scale * self.pulse.scale_q,  # type: ignore[attr-defined]
+            phase=self.pulse.phase + new_phase,  # type: ignore[attr-defined]
         )
         if self.pulse.duration > TOLERANCE:
             timebox = self.to_timebox(Schedule({self.channel: [pulse]}))
@@ -212,11 +214,11 @@ class PRX_SinglePulse_GateImplementation(SinglePulseGate, PRX_GateImplementation
     @property
     def iq_pulse(self) -> IQPulse:
         """Alias for ``self.pulse`` for backward compatibility"""
-        return self.pulse
+        return self.pulse  # type: ignore[return-value]
 
 
 class PRX_CustomWaveforms(PRX_SinglePulse_GateImplementation, CustomIQWaveforms):
-    """ABC for PRX gates implemented using a single IQ pulse and hot-swappable waveforms."""
+    """Base class for PRX gates implemented using a single IQ pulse and hot-swappable waveforms."""
 
     root_parameters: dict[str, Parameter | Setting] = {
         "duration": Parameter("", "pi pulse duration", "s"),
@@ -251,14 +253,14 @@ class PRX_CustomWaveforms(PRX_SinglePulse_GateImplementation, CustomIQWaveforms)
         )
 
 
-class PRX_DRAGGaussian(PRX_CustomWaveforms, wave_i=TruncatedGaussian, wave_q=TruncatedGaussianD):  # type: ignore
+class PRX_DRAGGaussian(PRX_CustomWaveforms, wave_i=TruncatedGaussian, wave_q=TruncatedGaussianD):  # type:ignore[call-arg]
     """PRX gate, DRAG / TruncatedGaussian IQ pulse implementation.
 
     See :class:`.PRX_CustomWaveforms`.
     """
 
 
-class PRX_DRAGCosineRiseFall(PRX_CustomWaveforms, wave_i=CosineRiseFall, wave_q=CosineRiseFallD):  # type: ignore
+class PRX_DRAGCosineRiseFall(PRX_CustomWaveforms, wave_i=CosineRiseFall, wave_q=CosineRiseFallD):  # type:ignore[call-arg]
     """PRX gate, DRAG / CosineRiseFall IQ pulse implementation.
 
     See :class:`.PRX_CustomWaveforms`.
@@ -273,7 +275,7 @@ class PRX_DRAGCosineRiseFall(PRX_CustomWaveforms, wave_i=CosineRiseFall, wave_q=
 
 
 class PRX_CustomWaveformsSX(PRX_SinglePulse_GateImplementation, CustomIQWaveforms):
-    r"""ABC for PRX gates implemented using SX gate, hot-swappable waveforms and phase manipulation.
+    r"""Base class for PRX gates implemented using SX gate, hot-swappable waveforms and phase manipulation.
 
     The schedule used to implement the PRX gate depends on the arguments:
         1. If the rotation angle :math:`\theta = \pi/2`, the timebox will consist of just the SX IQ pulse, with phase.
@@ -315,12 +317,12 @@ class PRX_CustomWaveformsSX(PRX_SinglePulse_GateImplementation, CustomIQWaveform
             timebox = self.to_timebox(Schedule({self.channel: [pulse]}))
         elif np.isclose(new_angle, np.pi / 2, atol=1e-8):
             pulse = self.pulse.copy(
-                phase=self.pulse.phase + new_phase,
+                phase=self.pulse.phase + new_phase,  # type: ignore[attr-defined]
             )
             timebox = self.to_timebox(Schedule({self.channel: [pulse]}))
         elif np.isclose(new_angle, np.pi, atol=1e-8):
             pulse = self.pulse.copy(
-                phase=self.pulse.phase + new_phase,
+                phase=self.pulse.phase + new_phase,  # type: ignore[attr-defined]
             )
             timebox = self.to_timebox(Schedule({self.channel: [pulse, pulse]}))
         else:
@@ -330,12 +332,12 @@ class PRX_CustomWaveformsSX(PRX_SinglePulse_GateImplementation, CustomIQWaveform
             phase_1, phase_increment_1 = phase_transformation(rz_a, 0)
             phase_2, phase_increment_2 = phase_transformation(rz_b, rz_c)
             pulse_1 = self.pulse.copy(
-                phase=normalize_angle(self.pulse.phase + phase_1),
-                phase_increment=normalize_angle(self.pulse.phase_increment + phase_increment_1),
+                phase=normalize_angle(self.pulse.phase + phase_1),  # type: ignore[attr-defined]
+                phase_increment=normalize_angle(self.pulse.phase_increment + phase_increment_1),  # type: ignore[attr-defined]
             )
             pulse_2 = self.pulse.copy(
-                phase=normalize_angle(self.pulse.phase + phase_2),
-                phase_increment=normalize_angle(self.pulse.phase_increment + phase_increment_2),
+                phase=normalize_angle(self.pulse.phase + phase_2),  # type: ignore[attr-defined]
+                phase_increment=normalize_angle(self.pulse.phase_increment + phase_increment_2),  # type: ignore[attr-defined]
             )
             timebox = self.to_timebox(Schedule({self.channel: [pulse_1, pulse_2]}))
 
@@ -373,15 +375,14 @@ class PRX_CustomWaveformsSX(PRX_SinglePulse_GateImplementation, CustomIQWaveform
         )
 
 
-class PRX_DRAGGaussianSX(PRX_CustomWaveformsSX, wave_i=TruncatedGaussian, wave_q=TruncatedGaussianD):
-    # type: ignore
+class PRX_DRAGGaussianSX(PRX_CustomWaveformsSX, wave_i=TruncatedGaussian, wave_q=TruncatedGaussianD):  # type:ignore[call-arg]
     """PRX gate, DRAG / Gaussian IQ pulse with VZ implementation.
 
     See :class:`.PRX_CustomWaveformsVZ`.
     """
 
 
-class PRX_DRAGCosineRiseFallSX(PRX_CustomWaveformsSX, wave_i=CosineRiseFall, wave_q=CosineRiseFallD):  # type: ignore
+class PRX_DRAGCosineRiseFallSX(PRX_CustomWaveformsSX, wave_i=CosineRiseFall, wave_q=CosineRiseFallD):  # type:ignore[call-arg]
     """PRX gate, DRAG / CosineRiseFall IQ pulse with VZ implementation.
 
     See :class:`.PRX_CustomWaveformsVZ`.
@@ -395,32 +396,28 @@ class PRX_DRAGCosineRiseFallSX(PRX_CustomWaveformsSX, wave_i=CosineRiseFall, wav
         return super()._get_pulse(**kwargs)
 
 
-class PRX_FastDragSX(PRX_CustomWaveformsSX, wave_i=FastDragI, wave_q=FastDragQ):
-    # type: ignore
+class PRX_FastDragSX(PRX_CustomWaveformsSX, wave_i=FastDragI, wave_q=FastDragQ):  # type:ignore[call-arg]
     """PRX gate, FAST DRAG IQ pulse with VZ-based SX-implementation.
 
     See :class:`.PRX_CustomWaveformsSX`.
     """
 
 
-class PRX_FastDrag(PRX_CustomWaveforms, wave_i=FastDragI, wave_q=FastDragQ):
-    # type: ignore
+class PRX_FastDrag(PRX_CustomWaveforms, wave_i=FastDragI, wave_q=FastDragQ):  # type:ignore[call-arg]
     """PRX gate, FAST DRAG IQ pulse based on amplitude scaling.
 
     See :class:`.PRX_CustomWaveforms`.
     """
 
 
-class PRX_HdDragSX(PRX_CustomWaveformsSX, wave_i=HdDragI, wave_q=HdDragQ):
-    # type: ignore
+class PRX_HdDragSX(PRX_CustomWaveformsSX, wave_i=HdDragI, wave_q=HdDragQ):  # type:ignore[call-arg]
     """PRX gate, HD DRAG IQ pulse with VZ-based SX-implementation.
 
     See :class:`.PRX_CustomWaveformsSX`.
     """
 
 
-class PRX_HdDrag(PRX_CustomWaveforms, wave_i=HdDragI, wave_q=HdDragQ):
-    # type: ignore
+class PRX_HdDrag(PRX_CustomWaveforms, wave_i=HdDragI, wave_q=HdDragQ):  # type:ignore[call-arg]
     """PRX gate, HD DRAG IQ pulse based on amplitude scaling
 
     See :class:`.PRX_CustomWaveforms`.
@@ -447,8 +444,8 @@ def _normalize_params(angle: float, phase: float) -> tuple[float, float]:
     return angle / half_turn, normalize_angle(phase)
 
 
-class ABC_Constant_smooth(PRX_GateImplementation):
-    r"""ABC class for creating gates with an arbitrarily long Constant pulses with smooth rise and fall.
+class ABC_Constant_smooth(PrxGateImplementation):
+    r"""Base class for creating gates with an arbitrarily long Constant pulses with smooth rise and fall.
     This pulse creates a :'Segment' consisting of three instructions : [rise_waveform, main_waveform, fall_waveform].
     This class is created so that one can use middle waveform as a constant, thus enabling to use arbitrarily
     long pulses, not limited by the awg memory.
@@ -485,14 +482,14 @@ class ABC_Constant_smooth(PRX_GateImplementation):
         params_for_stark["n_samples"] = max(
             int(round(params_for_stark["n_samples"] * (1 - 2 * params_for_stark["rise_time"]), 0)), 0
         )
-        self.main_waveform = self._main_pulse(**params_for_stark)
+        self.main_waveform = self._main_pulse(**params_for_stark)  # type: ignore[assignment]
 
         params_for_risefall["n_samples"] = int(
             round(params_for_risefall["n_samples"] * params_for_risefall["rise_time"], 0)
         )
 
-        self.fall_waveform = self._fall_pulse(**params_for_risefall)
-        self.rise_waveform = self._rise_pulse(**params_for_risefall)
+        self.fall_waveform = self._fall_pulse(**params_for_risefall)  # type: ignore[assignment]
+        self.rise_waveform = self._rise_pulse(**params_for_risefall)  # type: ignore[assignment]
 
         self.channel = drive_channel
         self.special_implementation = True  # DEBUG
@@ -516,7 +513,7 @@ class ABC_Constant_smooth(PRX_GateImplementation):
 
         parameters["rise_time"] = Parameter("", "gate rise time", "s")
 
-        cls.parameters = {
+        cls.parameters = {  # type: ignore[assignment]
             "duration": Parameter("", "Gate duration", "s"),
         } | parameters
 
@@ -617,8 +614,8 @@ class Constant_PRX_with_smooth_rise_fall(
     """
 
 
-class PRX_ModulatedCustomWaveForms(PRX_CustomWaveforms):  # type: ignore
-    r"""ABC for PRX gates with modulated frequency, hot-swappable waveforms.
+class PRX_ModulatedCustomWaveForms(PRX_CustomWaveforms):
+    r"""Base class for PRX gates with modulated frequency, hot-swappable waveforms.
 
     The class takes baseband I and Q waveform as input, and modulates them with frequency in the root_parameters.
     The final pulse shape after modulation is:
@@ -660,7 +657,7 @@ class PRX_ModulatedCustomWaveForms(PRX_CustomWaveforms):  # type: ignore
         )
 
 
-class PRX_ModulatedDRAGCosineRiseFall(PRX_ModulatedCustomWaveForms, wave_i=CosineRiseFall, wave_q=CosineRiseFallD):
+class PRX_ModulatedDRAGCosineRiseFall(PRX_ModulatedCustomWaveForms, wave_i=CosineRiseFall, wave_q=CosineRiseFallD):  # type:ignore[call-arg]
     """Modulated PRX pulse with cosine rise fall waveform"""
 
     excluded_parameters = ["rise_time"]

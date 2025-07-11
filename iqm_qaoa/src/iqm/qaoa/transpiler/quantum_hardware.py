@@ -261,7 +261,7 @@ class LineQPU(QPU):
             Integer index of the next qubit in the chain.
 
         """
-        yield from range(self._hardware_graph.number_of_qubits())
+        yield from range(self._hardware_graph.number_of_qubits())  # type: ignore[attr-defined]
 
 
 def _layout_of_crystal(n: int) -> dict[HardQubit, tuple[int, int]]:

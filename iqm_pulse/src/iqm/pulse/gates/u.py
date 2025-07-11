@@ -103,7 +103,9 @@ class UGate(CompositeGate):
         # the PRX implementation. This isn't safe in general, can we find a better solution?
 
         prx_gate = self.build("prx", self.locus)
-        pulse_train = prx_gate(theta, np.pi / 2).atom[prx_gate.channel]  # RY pulse
+        pulse_train = prx_gate(theta, np.pi / 2).atom[  # type: ignore[union-attr]
+            prx_gate.channel  # type: ignore[index,attr-defined]
+        ]  # RY pulse
 
         # Check if the pulse train have one or several pulses.
         if len(pulse_train) == 1:
@@ -116,7 +118,7 @@ class UGate(CompositeGate):
                 phase=normalize_angle(pulse.phase + new_phase),
                 phase_increment=normalize_angle(pulse.phase_increment + new_phase_increment),
             )
-            timebox = self.to_timebox(Schedule({prx_gate.channel: [new_pulse]}))
+            timebox = self.to_timebox(Schedule({prx_gate.channel: [new_pulse]}))  # type: ignore[attr-defined]
 
         else:
             # Assumes the PRX pulse train begins and ends with IQPulses.
@@ -139,7 +141,7 @@ class UGate(CompositeGate):
             )
             other_pulses = [pulse.copy() for pulse in pulse_train[1:-1]]
             new_pulses = [new_pulse_a] + other_pulses + [new_pulse_b]
-            timebox = self.to_timebox(Schedule({prx_gate.channel: new_pulses}))
+            timebox = self.to_timebox(Schedule({prx_gate.channel: new_pulses}))  # type: ignore[attr-defined]
 
         timebox.neighborhood_components[0] = set(self.locus)
         return timebox
