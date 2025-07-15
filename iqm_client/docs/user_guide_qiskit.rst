@@ -46,7 +46,7 @@ More ready-to-run examples can also be found at `IQM Academy <https://www.iqmaca
 On-premises device
 ~~~~~~~~~~~~~~~~~~
 
-1. Download the `bell_measure.py example file <https://raw.githubusercontent.com/iqm-finland/sdk/main/iqm-client/src/iqm/qiskit_iqm/examples/bell_measure.py>`_ (Save Page As...).
+1. Download the `bell_measure.py example file <https://raw.githubusercontent.com/iqm-finland/sdk/refs/heads/main/iqm_client/src/iqm/qiskit_iqm/examples/bell_measure.py>`_ (Save Page As...).
 2. Install Qiskit on IQM as instructed below.
 3. Install IQM Client CLI and log in as instructed in the
    `documentation <https://docs.meetiqm.com/iqm-client/user_guide_cli.html#installing-iqm-client-cli>`__

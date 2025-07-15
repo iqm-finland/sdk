@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 29.6.0 (2025-07-15)
+===========================
+
+Bug fixes
+---------
+
+- Fix broken link in Qiskit user guide.
+
 Version 29.5.0 (2025-07-09)
 ===========================
 
