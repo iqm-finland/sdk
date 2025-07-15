@@ -29,7 +29,7 @@ IQM Resonance
    your token, you have the option to regenerate it at any time. However, be aware that regenerating
    your API token will invalidate any previously generated token.
 3. Download one of the demo notebooks from `IQM Academy <https://www.iqmacademy.com/tutorials/>`_ or the
-   `resonance_example.py example file <https://raw.githubusercontent.com/iqm-finland/sdk/main/iqm-client/src/iqm/qiskit_iqm/examples/resonance_example.py>`_
+   `resonance_example.py example file <https://raw.githubusercontent.com/iqm-finland/sdk/refs/heads/main/iqm_client/src/iqm/qiskit_iqm/examples/resonance_example.py>`_
    (Save Page As...)
 4. Install Qiskit on IQM as instructed below.
 5. Add your API token to the example (either as the parameter ``token`` to the :class:`.IQMProvider`
@@ -92,7 +92,7 @@ If you are using IQM Resonance, you have two options to authenticate:
 1. Set the :envvar:`IQM_TOKEN` environment variable to the API token obtained from the Resonance dashboard.
 2. Pass the ``token`` parameter to :class:`.IQMProvider`. This will be forwarded to
    :class:`~iqm.iqm_client.iqm_client.IQMClient`. For an example, see the `resonance_example.py file
-   <https://raw.githubusercontent.com/iqm-finland/sdk/main/iqm-client/src/iqm/qiskit_iqm/examples/resonance_example.py>`_
+   <https://raw.githubusercontent.com/iqm-finland/sdk/refs/heads/main/iqm_client/src/iqm/qiskit_iqm/examples/resonance_example.py>`_
 
 On-premises devices
 ~~~~~~~~~~~~~~~~~~~
