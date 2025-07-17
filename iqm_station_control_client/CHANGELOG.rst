@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 9.8.0 (2025-07-16)
+==========================
+
+Features
+--------
+
+- Unified parsing of observation names.
+
 Version 9.7.0 (2025-07-10)
 ==========================
 
