@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>transpiled_circuit &#8212; IQM QAOA 1.8.0 documentation</title>
+    <title>transpiled_circuit &#8212; IQM QAOA 1.10.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=72d4789a"></script>
+    <script src="../_static/documentation_options.js?v=afe9812d"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -53,8 +53,8 @@
     <link rel="prev" title="quimb_tn" href="iqm.qaoa.circuits.quimb_tn.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.8.0" />
-    <meta name="docbuild:last-update" content="2025-07-21"/>
+  <meta name="docsearch:version" content="1.10.0" />
+    <meta name="docbuild:last-update" content="2025-07-22"/>
   </head>
   
   
@@ -133,8 +133,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.8.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.8.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.10.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.10.0 documentation - Home"/>
   
   
 </a></div>
@@ -154,6 +154,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../Sparse%20Maxcut.html">Sparse Maxcut</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Portfolio%20Optimization.html">Portfolio Optimization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Training%20the%20QAOA.html">Training the QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Which%20Qubits%20on%20the%20QPU%20Are%20Used.html">Which Qubits on the QPU Are Used?</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -408,7 +409,7 @@
 <h1>transpiled_circuit<a class="headerlink" href="#transpiled-circuit" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="iqm.qaoa.circuits.transpiled_circuit">
-<span class="sig-prename descclassname"><span class="pre">iqm.qaoa.circuits.</span></span><span class="sig-name descname"><span class="pre">transpiled_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qaoa</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AerSimulator('aer_simulator_statevector')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpiler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1337</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/circuits.py#L165-L277"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.circuits.transpiled_circuit" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">iqm.qaoa.circuits.</span></span><span class="sig-name descname"><span class="pre">transpiled_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qaoa</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AerSimulator('aer_simulator_statevector')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpiler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1337</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/circuits.py#L165-L285"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.circuits.transpiled_circuit" title="Link to this definition">#</a></dt>
 <dd><p>The function to return a <a class="reference external" href="https://quantum.cloud.ibm.com/docs/api/qiskit/qiskit.circuit.QuantumCircuit" title="(in Qiskit v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumCircuit</span></code></a> tailored to <code class="docutils literal notranslate"><span class="pre">backend</span></code>.</p>
 <p>This function has highly varying outputs based on which transpiler is used. If no transpiler is used,
 the perfect <a class="reference external" href="https://quantum.cloud.ibm.com/docs/api/qiskit/qiskit.circuit.QuantumCircuit" title="(in Qiskit v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumCircuit</span></code></a> is returned using <a class="reference internal" href="iqm.qaoa.circuits.qiskit_circuit.html#iqm.qaoa.circuits.qiskit_circuit" title="iqm.qaoa.circuits.qiskit_circuit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">qiskit_circuit()</span></code></a>. Otherwise,
@@ -423,6 +424,9 @@ for the transpilation.</p></li>
 of: <code class="docutils literal notranslate"><span class="pre">None</span></code>, “Default”, “HardwiredTranspiler”, “SparseTranspiler”, “SwapNetwork” or “MinimumVertexCover”.</p></li>
 <li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – A seed used for “Default” transpilation. It fixes the circuit produced by the stochastic qiskit
 transpiler. It can be used to ensure reproducibility of a transpilation.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">transpile()</span></code> used inside of
+<a class="reference internal" href="#iqm.qaoa.circuits.transpiled_circuit" title="iqm.qaoa.circuits.transpiled_circuit"><code class="xref py py-func docutils literal notranslate"><span class="pre">transpiled_circuit()</span></code></a>. For example:
+- initial_layout (list[int]): The list of hardware qubits onto which the circuit is to be laid out.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -523,7 +527,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-07-21.
+  Last updated on 2025-07-22.
   <br/>
 </p>
   </div>
