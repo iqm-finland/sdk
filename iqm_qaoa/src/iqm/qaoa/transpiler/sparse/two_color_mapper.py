@@ -124,8 +124,8 @@ def _embed_chain(chain: list[LogQubit], hardware_graph: nx.Graph) -> dict[HardQu
 
     """
     working_hw_graph = hardware_graph.copy()
-    # Select the lowest-degree node of the graph.
-    current_node = min(working_hw_graph.nodes(), key=working_hw_graph.degree)  # type: ignore[arg-type]
+    # Select the lowest-degree node of the graph. The `n` breaks ties (starting from the lowest node).
+    current_node = min(working_hw_graph.nodes(), key=lambda n: (working_hw_graph.degree[n], n))
 
     # Start building the embedding (mapping of physical HW qubits to logical qubits).
     embedding = {current_node: chain[0]}
@@ -225,7 +225,10 @@ def _get_embedding(qpu: QPU, long_chain: list[LogQubit], n: int) -> dict[HardQub
     The goal is not just to embed the chain of logical qubits on the QPU, but to embed them close to each other (so that
     not many swaps are needed). This is done in two steps. We iterate over some possible shapes of qubits close to each
     other (assuming square grid topology) using ``_subgraph_iterator``. For each such subgraph, we embed the chain in it
-    and check if it can fit into the QPU graph. If both checks pass, then this is returned as the embedding.
+    and check if it can fit into the QPU graph. If both checks pass, then this is returned as the embedding. If neither
+    subgraph passes both checks, the function defaults to a "fallback routine": It tries to find a Hamiltonian path
+    greedily through the QPU graph. If it can find a path long enough to place the `long_chain` qubits along it, it is
+    used. The qubits are possibly placed not particularly close to each other, but it's better than nothing.
 
     Args:
         qpu: A QPU whose graph we want to embed a path into.
@@ -238,7 +241,7 @@ def _get_embedding(qpu: QPU, long_chain: list[LogQubit], n: int) -> dict[HardQub
 
     Raises:
         RuntimeError: If none of the subgraphs from ``_subgraph_iterator`` passes the checks (chain can be embedded in
-            it and it fits in the QPU).
+            it and it fits in the QPU) and a Hamiltonian path through the QPU can't be found greedily.
 
     """
     for subgraph in _subgraph_iterator(n):
@@ -255,6 +258,7 @@ def _get_embedding(qpu: QPU, long_chain: list[LogQubit], n: int) -> dict[HardQub
         except RuntimeError:
             continue
         # Find a subgraph isomorphism of the subgraph into the QPU graph (if it exists).
+
         gm = nx.isomorphism.GraphMatcher(qpu.hardware_graph, subgraph)
         try:
             isomorphism = next(gm.subgraph_monomorphisms_iter())
@@ -264,7 +268,23 @@ def _get_embedding(qpu: QPU, long_chain: list[LogQubit], n: int) -> dict[HardQub
         embedding = {qpu_qb: embedding_on_subgraph[subgraph_node] for qpu_qb, subgraph_node in isomorphism.items()}
         return embedding
 
-    raise RuntimeError("No more subgraphs.")
+    try:
+        # If none of the "compact" subgraphs can be embedded on the QPU, a Hamiltonian path is embedded greedily.
+        # This is sometimes referred to as "fallback routine".
+        backup_embed = _embed_chain(long_chain, qpu.hardware_graph)
+    except RuntimeError as e:  # If the chain can't be embedded
+        raise RuntimeError(
+            "No embedding for the sparse transpiler found: 'Compact' subgraphs don't fit the QPU and no "
+            "Hamiltonian path long enough exists."
+        ) from e
+
+    # The following lines make it so that the embedding covers the full ``subgraph``.
+    unassigned_nodes = set(qpu.hardware_graph.nodes) - set(backup_embed.keys())
+    available_values = set(range(n)) - set(long_chain)
+    for key, value in zip(unassigned_nodes, available_values):
+        backup_embed[key] = value
+
+    return backup_embed
 
 
 def _subgraph_iterator(n: int) -> Iterator[nx.Graph]:
@@ -287,9 +307,10 @@ def _subgraph_iterator(n: int) -> Iterator[nx.Graph]:
     # In order for there to be any chance of an embedded path, we center the circle at the center of a 2-by-2 square.
     center_coords = np.ceil(np.sqrt(2 * n) / 2) - 0.5
     # We sort the nodes by their Euclidean distance from the center of the circle (squared).
+    # Ties are broken by the node coordinates (lowest first).
     sorted_nodes = sorted(
         list(almost_circle_graph.nodes()),
-        key=lambda x: ((x[0] - center_coords) ** 2 + (x[1] - center_coords) ** 2, x[0], x[1]),
+        key=lambda x: ((x[0] - center_coords) ** 2 + (x[1] - center_coords) ** 2, -x[0], -x[1]),
         reverse=True,
     )
     # And we keep only ``n`` nodes closest to the center.
@@ -298,14 +319,14 @@ def _subgraph_iterator(n: int) -> Iterator[nx.Graph]:
 
     yield almost_circle_graph
 
-    # Start with a larger square and then remove nodes along the "highest-order" row and column.
+    # Start with a larger square and then remove nodes along the "lowest-order" row and column.
     # For example for n = 11, the result should look like this (. are removed nodes, o are kept nodes):
     #           . . . .
     #           . o o o
     #           o o o o
     #           o o o o
     almost_square_graph = nx.grid_2d_graph(int(np.sqrt(n) + 1), int(np.sqrt(n) + 1))
-    sorted_nodes = sorted(list(almost_square_graph.nodes()), key=lambda x: (-max(x), -x[0], -x[1]))
+    sorted_nodes = sorted(list(almost_square_graph.nodes()), key=lambda x: (min(x), x[0], x[1]))
     nodes_to_remove = sorted_nodes[: len(almost_square_graph.nodes) - n]
     almost_square_graph.remove_nodes_from(nodes_to_remove)
 
@@ -313,9 +334,7 @@ def _subgraph_iterator(n: int) -> Iterator[nx.Graph]:
 
     # Same as above, except for now we remove two rows and one column (because we start with a 2-by-1 rectangle).
     almost_1_to_2_rectangle_graph = nx.grid_2d_graph(int(np.sqrt(2 * n) + 1), int(np.sqrt(n / 2) + 1))
-    sorted_nodes = sorted(
-        list(almost_1_to_2_rectangle_graph.nodes()), key=lambda x: (-max(x[0], 2 * x[1]), -x[0], x[1])
-    )
+    sorted_nodes = sorted(list(almost_1_to_2_rectangle_graph.nodes()), key=lambda x: (min(x[0], 2 * x[1]), x[0], x[1]))
     nodes_to_remove = sorted_nodes[: len(almost_1_to_2_rectangle_graph.nodes) - n]
     almost_1_to_2_rectangle_graph.remove_nodes_from(nodes_to_remove)
 

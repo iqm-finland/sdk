@@ -167,6 +167,7 @@ def transpiled_circuit(
     backend: BackendV2 = AerSimulator(method="statevector"),
     transpiler: str | None = None,
     seed: int = 1337,
+    **kwargs,
 ) -> QuantumCircuit:
     """The function to return a :class:`~qiskit.circuit.QuantumCircuit` tailored to ``backend``.
 
@@ -182,6 +183,9 @@ def transpiled_circuit(
             of: ``None``, "Default", "HardwiredTranspiler", "SparseTranspiler", "SwapNetwork" or "MinimumVertexCover".
         seed: A seed used for "Default" transpilation. It fixes the circuit produced by the stochastic qiskit
             transpiler. It can be used to ensure reproducibility of a transpilation.
+        **kwargs: Additional keyword arguments passed to :func:`~qiskit.provider.transpiler.transpile` used inside of
+            :func:`transpiled_circuit`. For example:
+            - initial_layout (list[int]): The list of hardware qubits onto which the circuit is to be laid out.
 
     Returns:
         A quantum circuit transpiled to the topology of ``backend``.
@@ -201,7 +205,7 @@ def transpiled_circuit(
     # Use the default Qiskit transpilation
     if transpiler == "Default":
         starting_circuit = qiskit_circuit(qaoa, measurements=True)
-        return transpile(starting_circuit, backend, seed_transpiler=seed)
+        return transpile(starting_circuit, backend, seed_transpiler=seed, **kwargs)
 
     if not isinstance(backend, IQMBackendBase):
         raise TypeError("Currently, only IQM backends are supported with transpilation other than 'Default' or `None`.")
@@ -220,6 +224,7 @@ def transpiled_circuit(
             routing_method="none",
             optimization_level=3,
             seed_transpiler=seed,
+            **kwargs,
         )
         return qc_hw_transpiled
 
@@ -237,6 +242,7 @@ def transpiled_circuit(
             routing_method="none",
             optimization_level=3,
             seed_transpiler=seed,
+            **kwargs,
         )
         return qc_sparse_transpiled
 
@@ -254,6 +260,7 @@ def transpiled_circuit(
             routing_method="none",
             optimization_level=3,
             seed_transpiler=seed,
+            **kwargs,
         )
         return qc_sn_transpiled
 
@@ -270,6 +277,7 @@ def transpiled_circuit(
             perform_move_routing=False,
             existing_moves_handling=handling_of_errors,
             initial_layout=[backend.qubit_name_to_index("COMPR1")] + list(range(qaoa.bqm.num_variables)),
+            **kwargs,  # Warning: Here we're passing **kwargs meant for `transpile` into `transpile_to_IQM`.
         )
 
         return qc_mvc_transpiled
