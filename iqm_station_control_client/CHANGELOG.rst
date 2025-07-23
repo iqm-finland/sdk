@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 9.9.0 (2025-07-23)
+==========================
+
+Bug fixes
+---------
+
+- Relax PyYAML and opentelemetry-exporter-otlp dependencies
+
 Version 9.8.0 (2025-07-16)
 ==========================
 
