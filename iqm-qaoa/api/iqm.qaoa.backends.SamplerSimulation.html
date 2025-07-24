@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>SamplerSimulation &#8212; IQM QAOA 1.10.0 documentation</title>
+    <title>SamplerSimulation &#8212; IQM QAOA 1.11.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=afe9812d"></script>
+    <script src="../_static/documentation_options.js?v=5333b4c1"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -53,8 +53,8 @@
     <link rel="prev" title="SamplerResonance" href="iqm.qaoa.backends.SamplerResonance.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.10.0" />
-    <meta name="docbuild:last-update" content="2025-07-23"/>
+  <meta name="docsearch:version" content="1.11.0" />
+    <meta name="docbuild:last-update" content="2025-07-24"/>
   </head>
   
   
@@ -133,8 +133,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.10.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.10.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.11.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.11.0 documentation - Home"/>
   
   
 </a></div>
@@ -412,14 +412,18 @@
 <h1>SamplerSimulation<a class="headerlink" href="#samplersimulation" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.qaoa.backends.SamplerSimulation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.backends.</span></span><span class="sig-name descname"><span class="pre">SamplerSimulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AerSimulator('aer_simulator_statevector')</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/backends.py#L329-L359"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.backends.SamplerSimulation" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.backends.</span></span><span class="sig-name descname"><span class="pre">SamplerSimulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">AerSimulator('aer_simulator_statevector')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transpiler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/backends.py#L330-L370"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.backends.SamplerSimulation" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html#iqm.qaoa.backends.SamplerBackend" title="iqm.qaoa.backends.SamplerBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">SamplerBackend</span></code></a></p>
 <p>A sampler that simulates the QAOA circuit in <a class="reference external" href="https://quantum.cloud.ibm.com/docs/api/qiskit/index#module-qiskit" title="(in Qiskit v2.1)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">qiskit</span></code></a>.</p>
 <p>Currently the only simulator we use is the <a class="reference external" href="https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html#qiskit_aer.AerSimulator" title="(in Qiskit Aer v0.17.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">AerSimulator</span></code></a>, but <a class="reference internal" href="#iqm.qaoa.backends.SamplerSimulation" title="iqm.qaoa.backends.SamplerSimulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">SamplerSimulation</span></code></a> is
-defined to allow the use of other simulators too.</p>
+defined to allow the use of other simulators too. Some simulators may need the circuit to be transpiled, so
+optionally a string describing the transpiler can be provided.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>simulator</strong> (<em>AerSimulator</em>) – A simulator, (currently) assumed to be an object of class <a class="reference external" href="https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html#qiskit_aer.AerSimulator" title="(in Qiskit Aer v0.17.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">AerSimulator</span></code></a>.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simulator</strong> (<em>BackendV2</em>) – A simulator, (currently) assumed to be an object of class <a class="reference external" href="https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html#qiskit_aer.AerSimulator" title="(in Qiskit Aer v0.17.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">AerSimulator</span></code></a>.</p></li>
+<li><p><strong>transpiler</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – A string describing the transpilation method to use (if applicable).</p></li>
+</ul>
 </dd>
 </dl>
 <p class="rubric">Methods</p>
@@ -433,7 +437,7 @@ defined to allow the use of other simulators too.</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.backends.SamplerSimulation.sample">
-<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qaoa_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/backends.py#L343-L359"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.backends.SamplerSimulation.sample" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qaoa_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/backends.py#L354-L370"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.backends.SamplerSimulation.sample" title="Link to this definition">#</a></dt>
 <dd><p>Samples from the QAOA using a simulation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -538,7 +542,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-07-23.
+  Last updated on 2025-07-24.
   <br/>
 </p>
   </div>
