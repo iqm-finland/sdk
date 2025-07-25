@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>QAOA &#8212; IQM QAOA 1.11.0 documentation</title>
+    <title>QAOA &#8212; IQM QAOA 1.12.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=5333b4c1"></script>
+    <script src="../_static/documentation_options.js?v=8d2cecb4"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -53,8 +53,8 @@
     <link rel="prev" title="iqm.qaoa.generic_qaoa" href="iqm.qaoa.generic_qaoa.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.11.0" />
-    <meta name="docbuild:last-update" content="2025-07-24"/>
+  <meta name="docsearch:version" content="1.12.0" />
+    <meta name="docbuild:last-update" content="2025-07-25"/>
   </head>
   
   
@@ -133,8 +133,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.11.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.11.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.12.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.12.0 documentation - Home"/>
   
   
 </a></div>
@@ -401,8 +401,6 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.betas"><code class="docutils literal notranslate"><span class="pre">QAOA.betas</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.gammas"><code class="docutils literal notranslate"><span class="pre">QAOA.gammas</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.angles"><code class="docutils literal notranslate"><span class="pre">QAOA.angles</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.sample"><code class="docutils literal notranslate"><span class="pre">QAOA.sample()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.estimate"><code class="docutils literal notranslate"><span class="pre">QAOA.estimate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule"><code class="docutils literal notranslate"><span class="pre">QAOA.linear_ramp_schedule()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.train"><code class="docutils literal notranslate"><span class="pre">QAOA.train()</span></code></a></li>
 </ul>
@@ -422,7 +420,7 @@
 <h1>QAOA<a class="headerlink" href="#qaoa" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.qaoa.generic_qaoa.QAOA">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.generic_qaoa.</span></span><span class="sig-name descname"><span class="pre">QAOA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_layers</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gammas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L33-L287"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.generic_qaoa.</span></span><span class="sig-name descname"><span class="pre">QAOA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_layers</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gammas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L32-L247"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
 <p>The most generic QAOA abstract base class.</p>
 <p>This abstract base class contains methods such as <code class="xref py py-meth docutils literal notranslate"><span class="pre">_internal_angle_logic()</span></code> or <a class="reference internal" href="#iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule" title="iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule"><code class="xref py py-meth docutils literal notranslate"><span class="pre">linear_ramp_schedule()</span></code></a>
@@ -472,14 +470,8 @@ with either <code class="docutils literal notranslate"><span class="pre">betas</
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_internal_angle_logic</span></code>([betas, gammas, ...])</p></td>
 <td><p>Internal method to guarantee that angles are assigned correctly.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qaoa.generic_qaoa.QAOA.estimate" title="iqm.qaoa.generic_qaoa.QAOA.estimate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate</span></code></a>(estimator)</p></td>
-<td><p>The method for taking estimates of the expected value of the Hamiltonian from the QAOA circuit.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule" title="iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linear_ramp_schedule</span></code></a>(delta_beta, delta_gamma)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule" title="iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linear_ramp_schedule</span></code></a>(delta_beta, delta_gamma)</p></td>
 <td><p>The &quot;linear ramp schedule&quot; for setting the QAOA angles.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qaoa.generic_qaoa.QAOA.sample" title="iqm.qaoa.generic_qaoa.QAOA.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a>(sampler[, shots])</p></td>
-<td><p>The method for taking samples (i.e., measurement results) from the QAOA circuit.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.generic_qaoa.QAOA.train" title="iqm.qaoa.generic_qaoa.QAOA.train"><code class="xref py py-obj docutils literal notranslate"><span class="pre">train</span></code></a>()</p></td>
 <td><p>The function that performs the training of the angles.</p></td>
@@ -532,57 +524,8 @@ with either <code class="docutils literal notranslate"><span class="pre">betas</
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="iqm.qaoa.generic_qaoa.QAOA.sample">
-<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sampler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20000</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L226-L245"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA.sample" title="Link to this definition">#</a></dt>
-<dd><p>The method for taking samples (i.e., measurement results) from the QAOA circuit.</p>
-<p>Takes a <a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html#iqm.qaoa.backends.SamplerBackend" title="iqm.qaoa.backends.SamplerBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">SamplerBackend</span></code></a> and uses it to get <code class="docutils literal notranslate"><span class="pre">shots</span></code> samples. The backend is
-responsible for building the quantum circuit and taking the measurements (or obtaining the samples some other
-way), using information from the <a class="reference internal" href="#iqm.qaoa.generic_qaoa.QAOA" title="iqm.qaoa.generic_qaoa.QAOA"><code class="xref py py-class docutils literal notranslate"><span class="pre">QAOA</span></code></a> object that is passed to its method
-<a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html#iqm.qaoa.backends.SamplerBackend.sample" title="iqm.qaoa.backends.SamplerBackend.sample"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sampler</strong> (<a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html#iqm.qaoa.backends.SamplerBackend" title="iqm.qaoa.backends.SamplerBackend"><em>SamplerBackend</em></a>) – The sampler to use to generate samples. The sampler is an instance of a subclass of
-<a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html#iqm.qaoa.backends.SamplerBackend" title="iqm.qaoa.backends.SamplerBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">SamplerBackend</span></code></a> with a <a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html#iqm.qaoa.backends.SamplerBackend.sample" title="iqm.qaoa.backends.SamplerBackend.sample"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample()</span></code></a>
-method of the appropriate signature.</p></li>
-<li><p><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of shots to be taken.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary whose keys are bitstrings representing the samples and whose values are their respective
-frequencies, so that the sum of the values of the dictionary equals to <code class="docutils literal notranslate"><span class="pre">shots</span></code>.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)">int</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.qaoa.generic_qaoa.QAOA.estimate">
-<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimator</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L247-L263"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA.estimate" title="Link to this definition">#</a></dt>
-<dd><p>The method for taking estimates of the expected value of the Hamiltonian from the QAOA circuit.</p>
-<p>Takes a <a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html#iqm.qaoa.backends.EstimatorBackend" title="iqm.qaoa.backends.EstimatorBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">EstimatorBackend</span></code></a> and uses it to get estimates of the expected value.
-The backend takes all the necessary information from the <a class="reference internal" href="#iqm.qaoa.generic_qaoa.QAOA" title="iqm.qaoa.generic_qaoa.QAOA"><code class="xref py py-class docutils literal notranslate"><span class="pre">QAOA</span></code></a> object that is passed to its method
-<a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html#iqm.qaoa.backends.EstimatorBackend.estimate" title="iqm.qaoa.backends.EstimatorBackend.estimate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">estimate()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>estimator</strong> (<a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html#iqm.qaoa.backends.EstimatorBackend" title="iqm.qaoa.backends.EstimatorBackend"><em>EstimatorBackend</em></a>) – The estimator used to get the expected value. The estimator is an instance of a subclass of
-<a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html#iqm.qaoa.backends.EstimatorBackend" title="iqm.qaoa.backends.EstimatorBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">EstimatorBackend</span></code></a> with a method
-<a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html#iqm.qaoa.backends.EstimatorBackend.estimate" title="iqm.qaoa.backends.EstimatorBackend.estimate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">estimate()</span></code></a> of the appropriate signature.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An estimate of the expectation value fo the Hamiltonian. Not normalized in any way.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule">
-<span class="sig-name descname"><span class="pre">linear_ramp_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta_beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_gamma</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L265-L283"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">linear_ramp_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta_beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_gamma</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L225-L243"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule" title="Link to this definition">#</a></dt>
 <dd><p>The “linear ramp schedule” for setting the QAOA angles.</p>
 <p>Formulas adapted from <span id="id1">[<a class="reference internal" href="../references.html#id2" title="J. A. Montanez-Barrera and Kristel Michielsen. Towards a universal QAOA protocol: evidence of a scaling advantage in solving some combinatorial optimization problems. https://arxiv.org/abs/2405.09169, May 2024.">3</a>]</span>. It can be used either instead of training the QAOA or as
 a starting set of angles. The above work uses <code class="docutils literal notranslate"><span class="pre">delta_beta</span></code> and <code class="docutils literal notranslate"><span class="pre">delta_gamma</span></code> values around 0.5, but the best
@@ -602,7 +545,7 @@ choice for these values depends on the problem Hamiltonian.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.generic_qaoa.QAOA.train">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L285-L287"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA.train" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L245-L247"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA.train" title="Link to this definition">#</a></dt>
 <dd><p>The function that performs the training of the angles.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -669,8 +612,6 @@ choice for these values depends on the problem Hamiltonian.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.betas"><code class="docutils literal notranslate"><span class="pre">QAOA.betas</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.gammas"><code class="docutils literal notranslate"><span class="pre">QAOA.gammas</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.angles"><code class="docutils literal notranslate"><span class="pre">QAOA.angles</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.sample"><code class="docutils literal notranslate"><span class="pre">QAOA.sample()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.estimate"><code class="docutils literal notranslate"><span class="pre">QAOA.estimate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule"><code class="docutils literal notranslate"><span class="pre">QAOA.linear_ramp_schedule()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.generic_qaoa.QAOA.train"><code class="docutils literal notranslate"><span class="pre">QAOA.train()</span></code></a></li>
 </ul>
@@ -708,7 +649,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-07-24.
+  Last updated on 2025-07-25.
   <br/>
 </p>
   </div>

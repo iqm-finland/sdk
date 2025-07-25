@@ -13,6 +13,7 @@ RoutingStar
 
    .. autosummary::
    
+      ~RoutingStar.layers
    
    
 

@@ -27,6 +27,8 @@ QUBOQAOA
 
    .. autosummary::
    
+      ~QUBOQAOA.estimate
+      ~QUBOQAOA.sample
       ~QUBOQAOA.train
    
    

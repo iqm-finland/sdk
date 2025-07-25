@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>QUBOQAOA &#8212; IQM QAOA 1.11.0 documentation</title>
+    <title>QUBOQAOA &#8212; IQM QAOA 1.12.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=5333b4c1"></script>
+    <script src="../_static/documentation_options.js?v=8d2cecb4"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -55,8 +55,8 @@
     <link rel="prev" title="iqm.qaoa.qubo_qaoa" href="iqm.qaoa.qubo_qaoa.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.11.0" />
-    <meta name="docbuild:last-update" content="2025-07-24"/>
+  <meta name="docsearch:version" content="1.12.0" />
+    <meta name="docbuild:last-update" content="2025-07-25"/>
   </head>
   
   
@@ -135,8 +135,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.11.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.11.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.12.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.12.0 documentation - Home"/>
   
   
 </a></div>
@@ -401,6 +401,8 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.interactions"><code class="docutils literal notranslate"><span class="pre">QUBOQAOA.interactions</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.local_fields"><code class="docutils literal notranslate"><span class="pre">QUBOQAOA.local_fields</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.train"><code class="docutils literal notranslate"><span class="pre">QUBOQAOA.train()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.sample"><code class="docutils literal notranslate"><span class="pre">QUBOQAOA.sample()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.estimate"><code class="docutils literal notranslate"><span class="pre">QUBOQAOA.estimate()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -418,7 +420,7 @@
 <h1>QUBOQAOA<a class="headerlink" href="#quboqaoa" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.qaoa.qubo_qaoa.QUBOQAOA">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.qubo_qaoa.</span></span><span class="sig-name descname"><span class="pre">QUBOQAOA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_layers</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gammas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/qubo_qaoa.py#L41-L153"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.qubo_qaoa.</span></span><span class="sig-name descname"><span class="pre">QUBOQAOA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_layers</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gammas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/qubo_qaoa.py#L41-L196"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.qaoa.generic_qaoa.QAOA.html#iqm.qaoa.generic_qaoa.QAOA" title="iqm.qaoa.generic_qaoa.QAOA"><code class="xref py py-class docutils literal notranslate"><span class="pre">QAOA</span></code></a></p>
 <p>The class for QAOA with quadratic unconstrained binary (QUBO) cost function.</p>
 <p>The class inherits a lot of functionality from its parent <a class="reference internal" href="iqm.qaoa.generic_qaoa.QAOA.html#iqm.qaoa.generic_qaoa.QAOA" title="iqm.qaoa.generic_qaoa.QAOA"><code class="xref py py-class docutils literal notranslate"><span class="pre">iqm.qaoa.generic_qaoa.QAOA</span></code></a>. One new addition is
@@ -457,6 +459,12 @@ with either <code class="docutils literal notranslate"><span class="pre">betas</
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.estimate" title="iqm.qaoa.qubo_qaoa.QUBOQAOA.estimate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate</span></code></a>(estimator)</p></td>
+<td><p>The method for taking estimates of the expected value of the Hamiltonian from the QAOA circuit.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.sample" title="iqm.qaoa.qubo_qaoa.QUBOQAOA.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a>(sampler[, shots])</p></td>
+<td><p>The method for taking samples (i.e., measurement results) from the QAOA circuit.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.train" title="iqm.qaoa.qubo_qaoa.QUBOQAOA.train"><code class="xref py py-obj docutils literal notranslate"><span class="pre">train</span></code></a>([estimator, min_method])</p></td>
 <td><p>The function that performs the training of the angles.</p></td>
 </tr>
@@ -519,6 +527,55 @@ values for the minimization.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qaoa.qubo_qaoa.QUBOQAOA.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sampler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20000</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/qubo_qaoa.py#L157-L176"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.sample" title="Link to this definition">#</a></dt>
+<dd><p>The method for taking samples (i.e., measurement results) from the QAOA circuit.</p>
+<p>Takes a <a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html#iqm.qaoa.backends.SamplerBackend" title="iqm.qaoa.backends.SamplerBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">SamplerBackend</span></code></a> and uses it to get <code class="docutils literal notranslate"><span class="pre">shots</span></code> samples. The backend is
+responsible for building the quantum circuit and taking the measurements (or obtaining the samples some other
+way), using information from the <code class="xref py py-class docutils literal notranslate"><span class="pre">QAOA</span></code> object that is passed to its method
+<a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html#iqm.qaoa.backends.SamplerBackend.sample" title="iqm.qaoa.backends.SamplerBackend.sample"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sampler</strong> (<a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html#iqm.qaoa.backends.SamplerBackend" title="iqm.qaoa.backends.SamplerBackend"><em>SamplerBackend</em></a>) – The sampler to use to generate samples. The sampler is an instance of a subclass of
+<a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html#iqm.qaoa.backends.SamplerBackend" title="iqm.qaoa.backends.SamplerBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">SamplerBackend</span></code></a> with a <a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html#iqm.qaoa.backends.SamplerBackend.sample" title="iqm.qaoa.backends.SamplerBackend.sample"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample()</span></code></a>
+method of the appropriate signature.</p></li>
+<li><p><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of shots to be taken.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary whose keys are bitstrings representing the samples and whose values are their respective
+frequencies, so that the sum of the values of the dictionary equals to <code class="docutils literal notranslate"><span class="pre">shots</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qaoa.qubo_qaoa.QUBOQAOA.estimate">
+<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimator</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/qubo_qaoa.py#L180-L196"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.estimate" title="Link to this definition">#</a></dt>
+<dd><p>The method for taking estimates of the expected value of the Hamiltonian from the QAOA circuit.</p>
+<p>Takes a <a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html#iqm.qaoa.backends.EstimatorBackend" title="iqm.qaoa.backends.EstimatorBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">EstimatorBackend</span></code></a> and uses it to get estimates of the expected value.
+The backend takes all the necessary information from the <code class="xref py py-class docutils literal notranslate"><span class="pre">QAOA</span></code> object that is passed to its method
+<a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html#iqm.qaoa.backends.EstimatorBackend.estimate" title="iqm.qaoa.backends.EstimatorBackend.estimate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">estimate()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>estimator</strong> (<a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html#iqm.qaoa.backends.EstimatorBackend" title="iqm.qaoa.backends.EstimatorBackend"><em>EstimatorBackend</em></a>) – The estimator used to get the expected value. The estimator is an instance of a subclass of
+<a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html#iqm.qaoa.backends.EstimatorBackend" title="iqm.qaoa.backends.EstimatorBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">EstimatorBackend</span></code></a> with a method
+<a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html#iqm.qaoa.backends.EstimatorBackend.estimate" title="iqm.qaoa.backends.EstimatorBackend.estimate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">estimate()</span></code></a> of the appropriate signature.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An estimate of the expectation value fo the Hamiltonian. Not normalized in any way.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -575,6 +632,8 @@ values for the minimization.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.interactions"><code class="docutils literal notranslate"><span class="pre">QUBOQAOA.interactions</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.local_fields"><code class="docutils literal notranslate"><span class="pre">QUBOQAOA.local_fields</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.train"><code class="docutils literal notranslate"><span class="pre">QUBOQAOA.train()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.sample"><code class="docutils literal notranslate"><span class="pre">QUBOQAOA.sample()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.qubo_qaoa.QUBOQAOA.estimate"><code class="docutils literal notranslate"><span class="pre">QUBOQAOA.estimate()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -610,7 +669,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-07-24.
+  Last updated on 2025-07-25.
   <br/>
 </p>
   </div>

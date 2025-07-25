@@ -31,9 +31,7 @@ QAOA
    .. autosummary::
    
       ~QAOA._internal_angle_logic
-      ~QAOA.estimate
       ~QAOA.linear_ramp_schedule
-      ~QAOA.sample
       ~QAOA.train
    
    

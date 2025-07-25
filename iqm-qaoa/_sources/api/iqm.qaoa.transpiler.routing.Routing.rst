@@ -14,6 +14,7 @@ Routing
    .. autosummary::
    
       ~Routing.active_subgraph
+      ~Routing.layers
    
    
 
