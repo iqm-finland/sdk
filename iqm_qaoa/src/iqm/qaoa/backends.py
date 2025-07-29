@@ -32,6 +32,7 @@ from typing import TYPE_CHECKING
 import warnings
 
 import numpy as np
+from qiskit.providers import BackendV2
 from qiskit.quantum_info import Statevector
 from qiskit_aer import AerSimulator
 
@@ -45,15 +46,15 @@ from iqm.qaoa.transforming_functions import ham_graph_to_ham_operator
 from iqm.qiskit_iqm.iqm_provider import IQMProvider
 
 if TYPE_CHECKING:
-    from iqm.qaoa.generic_qaoa import QAOA
     from iqm.qaoa.qubo_qaoa import QUBOQAOA
 
 
 class EstimatorBackend(ABC):
     """The :class:`~abc.ABC` for estimator backends, i.e., those calculating the expected value of the Hamiltonian."""
 
+    # Temporarily restricted to QUBOQAOA, even though it should theoretically accept QAOA too, to avoid mypy problems.
     @abstractmethod
-    def estimate(self, qaoa_object: QAOA) -> float:
+    def estimate(self, qaoa_object: QUBOQAOA) -> float:
         """The abstract method for :meth:`estimate` of backends subclassed from :class:`EstimatorBackend`.
 
         The input ``qaoa_object`` includes the training parameters (:attr:`~iqm.qaoa.generic_qaoa.QAOA.angles`), which
@@ -71,8 +72,9 @@ class EstimatorBackend(ABC):
 class SamplerBackend(ABC):
     """The :class:`~abc.ABC` for sampler backends, i.e., those returning samples from the QAOA."""
 
+    # Temporarily restricted to QUBOQAOA, even though it should theoretically accept QAOA too, to avoid mypy problems.
     @abstractmethod
-    def sample(self, qaoa_object: QAOA, shots: int) -> dict[str, int]:
+    def sample(self, qaoa_object: QUBOQAOA, shots: int) -> dict[str, int]:
         """The abstract method for :meth:`sample` of backends subclassed from :class:`SamplerBackend`.
 
         Args:
@@ -93,7 +95,7 @@ class SamplerBackend(ABC):
 class EstimatorSingleLayer(EstimatorBackend):
     """The estimator class for calculating the expectation value analytically (for :math:`p=1` QAOA)."""
 
-    def estimate(self, qaoa_object: QUBOQAOA) -> float:  # type: ignore[override]
+    def estimate(self, qaoa_object: QUBOQAOA) -> float:  # type:ignore[override]
         """Calculates the expectation value of the Hamiltonian for :math:`p=1` QAOA.
 
         The function calculates the energy (exp. val. of the Hamiltonian) by adding the expectation values
@@ -127,7 +129,7 @@ class EstimatorSingleLayer(EstimatorBackend):
             expval_ci = hi * np.sin(2 * b) * np.sin(2 * g * hi) * prod_cos
             energy += expval_ci
 
-        for i, j in qaoa_object.bqm.quadratic.keys():
+        for i, j in qaoa_object.bqm.quadratic:
             hi = qaoa_object.bqm.get_linear(i)
             hj = qaoa_object.bqm.get_linear(j)
             jij = qaoa_object.bqm.get_quadratic(i, j)
@@ -194,7 +196,7 @@ class EstimatorSingleLayer(EstimatorBackend):
 class EstimatorStateVector(EstimatorBackend):
     """The estimator class for calculating the expectation value using statevector simulation."""
 
-    def estimate(self, qaoa_object: QAOA) -> float:
+    def estimate(self, qaoa_object: QUBOQAOA) -> float:  # type:ignore[override]
         """Calculates the expectation value of the Hamiltonian from running state-vector simulation in :mod:`qiskit`.
 
         Builds a :class:`~qiskit.circuit.QuantumCircuit` for the QAOA and runs the statevector simulation of
@@ -202,14 +204,14 @@ class EstimatorStateVector(EstimatorBackend):
         a constant term (coming from the translation of a QUBO problem to a Hamiltonian).
 
         Args:
-            qaoa_object: The instance of :class:`~iqm.qaoa.generic_qaoa.QAOA` whose expectation value is to be
+            qaoa_object: The instance of :class:`~iqm.qaoa.generic_qaoa.QUBOQAOA` whose expectation value is to be
                 calculated.
 
         Returns:
             The expectation value of the energy of the QAOA state using :attr:`~iqm.qaoa.generic_qaoa.QAOA.angles`.
 
         """
-        qc = qiskit_circuit(qaoa_object, measurements=False)  # type: ignore[arg-type]
+        qc = qiskit_circuit(qaoa_object, measurements=False)
         statevector = Statevector.from_instruction(qc)
         statevector = statevector.reverse_qargs()
         observable = ham_graph_to_ham_operator(qaoa_object.hamiltonian_graph)  # type: ignore[attr-defined]
@@ -247,14 +249,14 @@ class EstimatorFromSampler(EstimatorBackend):
         else:
             self.cvar = 1  # CVaR threshold of 1 corresponds to normal average.
 
-    def estimate(self, qaoa_object: QAOA) -> float:
+    def estimate(self, qaoa_object: QUBOQAOA) -> float:
         """Calculates the expectation value of the Hamiltonian by sampling from the QAOA circuit.
 
         Uses the sampler provided at initialization to sample from the QAOA circuit and then calculates the expectation
         value from the counts.
 
         Args:
-            qaoa_object: The instance of :class:`~iqm.qaoa.generic_qaoa.QAOA` whose expectation value is to be
+            qaoa_object: The instance of :class:`~iqm.qaoa.generic_qaoa.QUBOQAOA` whose expectation value is to be
                 calculated.
 
         Returns:
@@ -268,7 +270,7 @@ class EstimatorFromSampler(EstimatorBackend):
 class EstimatorQUIMB(EstimatorBackend):
     """The estimator class for calculating the expectation value using the tensor network package :mod:`quimb`."""
 
-    def estimate(self, qaoa_object: QUBOQAOA) -> float:  # type: ignore[override]
+    def estimate(self, qaoa_object: QUBOQAOA) -> float:  # type:ignore[override]
         """Calculates the expectation value of the Hamiltonian by contracting the RCC tensor networks in :mod:`quimb`.
 
         Uses :func:`~iqm.qaoa.circuits.quimb_tn` to build a :class:`~quimb.tensor.circuit.Circuit`. This object
@@ -285,11 +287,11 @@ class EstimatorQUIMB(EstimatorBackend):
             The expectation value of the energy of the QAOA state using :attr:`~iqm.qaoa.generic_qaoa.QAOA.angles`.
 
         """
-        if np.mean(qaoa_object.bqm.degrees(array=True)) > 3:  # type: ignore[arg-type]
+        if isinstance(degrees_arr := qaoa_object.bqm.degrees(array=True), np.ndarray) and np.mean(degrees_arr) > 3:
             warnings.warn("The average degree is higher than 3, the :mod:`quimb`-based estimator might be very slow.")
         energy = 0
         tn = quimb_tn(qaoa_object)
-        for q1, q2 in qaoa_object.bqm.quadratic.keys():
+        for q1, q2 in qaoa_object.bqm.quadratic:
             to_measure = qu.pauli("Z") & qu.pauli("Z")
             energy += tn.local_expectation(to_measure, (q1, q2)) * qaoa_object.bqm.get_quadratic(q1, q2)
         for q1 in qaoa_object.bqm.variables:
@@ -301,7 +303,7 @@ class EstimatorQUIMB(EstimatorBackend):
 class SamplerRandomBitstrings(SamplerBackend):
     """A sampler that ignores the QAOA and just produces random bitstrings of the correct length."""
 
-    def sample(self, qaoa_object: QAOA, shots: int) -> dict[str, int]:
+    def sample(self, qaoa_object: QUBOQAOA, shots: int) -> dict[str, int]:
         """Produce random bitstrings to act as samples from the QAOA.
 
         The ``qaoa_object`` is used only to get the number of qubits (which corresponds to the length of
@@ -330,28 +332,38 @@ class SamplerSimulation(SamplerBackend):
     """A sampler that simulates the QAOA circuit in :mod:`qiskit`.
 
     Currently the only simulator we use is the :class:`~qiskit_aer.AerSimulator`, but :class:`SamplerSimulation` is
-    defined to allow the use of other simulators too.
+    defined to allow the use of other simulators too. Some simulators may need the circuit to be transpiled, so
+    optionally a string describing the transpiler can be provided.
 
     Args:
         simulator: A simulator, (currently) assumed to be an object of class :class:`~qiskit_aer.AerSimulator`.
+        transpiler: A string describing the transpilation method to use (if applicable).
 
     """
 
-    def __init__(self, simulator: AerSimulator = AerSimulator(method="statevector")) -> None:
+    # The type hint suggests that `simulator` can be any `BackendV2`, but it should be a simulator, not a real QC.
+    # `BackendV2` is the nearest common ancestor of `AerSimulator` and `IQMFakeBackend`, which are the two main
+    # backends that we might want use here, so it's used as a type hint.
+    def __init__(
+        self,
+        simulator: BackendV2 = AerSimulator(method="statevector"),
+        transpiler: str | None = None,
+    ) -> None:
         self.simulator = simulator
+        self.transpiler = transpiler
 
-    def sample(self, qaoa_object: QAOA, shots: int) -> dict[str, int]:
+    def sample(self, qaoa_object: QUBOQAOA, shots: int) -> dict[str, int]:  # type:ignore[override]
         """Samples from the QAOA using a simulation.
 
         Args:
-            qaoa_object: The QAOA object, to be sampled from.
+            qaoa_object: The :class:`~iqm.qaoa.generic_qaoa.QUBOQAOA` object, to be sampled from.
             shots: The number of samples (measurements) to take.
 
         Returns:
             A dictionary whose keys are the measured bitstrings and values their frequencies in the results.
 
         """
-        qc = qiskit_circuit(qaoa_object, measurements=True)  # type: ignore[arg-type]
+        qc = transpiled_circuit(qaoa_object, backend=self.simulator, transpiler=self.transpiler)  # type: ignore[arg-type]
         job = self.simulator.run(qc, shots=shots)
         counts_from_job = job.result().get_counts()
         # Qiskit somehow reverses the order of the bitstrings.
@@ -380,21 +392,21 @@ class SamplerResonance(SamplerBackend):
         self.token = token
         self.transpiler = transpiler
 
-    def sample(self, qaoa_object: QAOA, shots: int) -> dict[str, int]:
+    def sample(self, qaoa_object: QUBOQAOA, shots: int) -> dict[str, int]:  # type:ignore[override]
         """Samples from the QAOA on a quantum computer via IQM Resonance.
 
         First, it creates a :class:`~qiskit.circuit.QuantumCircuit` (using a custom transpilation approach) and then
         sends it to IQM Resonance.
 
         Args:
-            qaoa_object: The QAOA object, to be sampled from.
+            qaoa_object: The :class:`~iqm.qaoa.generic_qaoa.QUBOQAOA` object, to be sampled from.
             shots: The number of samples (measurements) to take.
 
         Returns:
             A dictionary whose keys are the measured bitstrings and values their frequencies in the results.
 
         """
-        qc = transpiled_circuit(qaoa_object, backend=self.iqm_backend, transpiler=self.transpiler)  # type: ignore[arg-type]
+        qc = transpiled_circuit(qaoa_object, backend=self.iqm_backend, transpiler=self.transpiler)
         job = self.iqm_backend.run(qc, shots=shots)
         counts_from_job = job.result().get_counts()
         # Qiskit somehow reverses the order of the bitstrings.

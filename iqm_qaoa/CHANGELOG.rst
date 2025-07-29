@@ -2,6 +2,32 @@
 Changelog
 =========
 
+Version 1.13.0 (2025-07-28)
+===========================
+
+Bug fixes
+---------
+
+- Fix type hints in `sn_router`, so that it accepts any `QPU` (it still checks if its layout has 2D integer coordinates).
+- Add a test for `sn_router` with a fake backend.
+
+Version 1.12.0 (2025-07-24)
+===========================
+
+Bug fixes
+---------
+
+- Address type checking flags.
+- Change the methods `EstimatorBackend` and `SamplerBackend` and their subclasses to accept only `QUBOQAOA`, to avoid violating Liskov Substitution Principle.
+
+Version 1.11.0 (2025-07-23)
+===========================
+
+Bug fixes
+---------
+
+- Add optional transpilation step to `SamplerSimulation`, so that it can accept more simulators than just `AerSimulator`, e.g., our `IQMFakeApollo`.
+
 Version 1.10.0 (2025-07-21)
 ===========================
 

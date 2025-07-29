@@ -29,7 +29,7 @@ strategy for fully / densely connected problems.
 from itertools import combinations
 
 from dimod import BinaryQuadraticModel
-from iqm.qaoa.transpiler.quantum_hardware import CrystalQPUFromBackend
+from iqm.qaoa.transpiler.quantum_hardware import CrystalQPUFromBackend, HardEdge
 from iqm.qaoa.transpiler.routing import Mapping, Routing
 import networkx as nx
 
@@ -213,584 +213,584 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
     route = Routing(bqm_to_be_used, qpu, initial_mapping=mapping)
 
     if bqm_to_be_used.num_variables == 4:
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
 
     elif bqm_to_be_used.num_variables == 5:
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[3]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[3]))  # type: ignore[arg-type]
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[3])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[3])))
 
     elif bqm_to_be_used.num_variables == 6:
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[13], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[4]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[3], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_swap(HardEdge((inverse_iso[13], inverse_iso[8])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[4])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[3], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
 
     elif bqm_to_be_used.num_variables == 7:
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[13], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[4]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[3], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[7]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_swap(HardEdge((inverse_iso[13], inverse_iso[8])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[4])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[3], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[7])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
 
     elif bqm_to_be_used.num_variables == 8:
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[13], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[4]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[3], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[7]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[13], inverse_iso[8])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[4])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[3], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[7])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
 
     elif bqm_to_be_used.num_variables == 9:
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[13], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[4]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[3], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[7]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[15]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[13], inverse_iso[8])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[4])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[3], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[7])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[15])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
 
     elif bqm_to_be_used.num_variables == 10:
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[13], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[4]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[3], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[7]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[15]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[5]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[13], inverse_iso[8])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[4])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[3], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[7])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[15])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[5])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
 
     elif bqm_to_be_used.num_variables == 11:
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[13], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[4]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[3], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[7]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[15]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[5]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[11]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[13], inverse_iso[8])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[4])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[3], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[7])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[15])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[5])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[11])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
 
     elif bqm_to_be_used.num_variables == 12:
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[13], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[4]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[3], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[7]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[15]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[5]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[11]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[16]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[15], inverse_iso[16]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[15]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[13], inverse_iso[8])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[4])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[3], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[7])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[15])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[5])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[11])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[16])))
+        route.apply_swap(HardEdge((inverse_iso[15], inverse_iso[16])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[15])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[15])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
 
     elif bqm_to_be_used.num_variables == 13:
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[13], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[4]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[3], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[7]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[15]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[5]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[11]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[16]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[15], inverse_iso[16]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[15]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[5], inverse_iso[6]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[11], inverse_iso[6]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[16]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[11]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[13], inverse_iso[8])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[4])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[3], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[7])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[15])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[5])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[11])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[16])))
+        route.apply_swap(HardEdge((inverse_iso[15], inverse_iso[16])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[15])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[15])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[5], inverse_iso[6])))
+        route.apply_swap(HardEdge((inverse_iso[11], inverse_iso[6])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[16])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[11])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
 
     elif bqm_to_be_used.num_variables == 14:
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[13], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[4]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[3], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[7]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[15]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[5]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[11]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[16]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[15], inverse_iso[16]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[15]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[5], inverse_iso[6]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[11], inverse_iso[6]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[16]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[11]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[12]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[7], inverse_iso[12]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[7]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[11]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[16]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[6]))  # type: ignore[arg-type]
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[13], inverse_iso[8])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[4])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[3], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[7])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[15])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[5])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[11])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[16])))
+        route.apply_swap(HardEdge((inverse_iso[15], inverse_iso[16])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[15])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[15])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[5], inverse_iso[6])))
+        route.apply_swap(HardEdge((inverse_iso[11], inverse_iso[6])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[16])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[11])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[12])))
+        route.apply_swap(HardEdge((inverse_iso[7], inverse_iso[12])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[7])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[11])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[16])))
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[6])))
 
     elif bqm_to_be_used.num_variables == 15:
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[13], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[4]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[3], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[3]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[7]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[4], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[15]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[5]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[14]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[10]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[14], inverse_iso[9]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[11]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[16]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[15], inverse_iso[16]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[15]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[5], inverse_iso[6]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[11], inverse_iso[6]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[16]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[11]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[8], inverse_iso[7]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[12]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[7], inverse_iso[12]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[7]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[11]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[16]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[6]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[3], inverse_iso[2]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[7], inverse_iso[2]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[7], inverse_iso[12]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[8], inverse_iso[7]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[13], inverse_iso[8]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[8]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[14], inverse_iso[9]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[9], inverse_iso[4]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[9], inverse_iso[10]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[15]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[10], inverse_iso[5]))  # type: ignore[arg-type]
-        route.apply_swap((inverse_iso[10], inverse_iso[11]), attempt_int=True)  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[16]))  # type: ignore[arg-type]
-        route.apply_int((inverse_iso[11], inverse_iso[6]))  # type: ignore[arg-type]
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[13], inverse_iso[8])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[4])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[3], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[7])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[4], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[15])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[5])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
+        route.apply_swap(HardEdge((inverse_iso[14], inverse_iso[9])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[11])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[16])))
+        route.apply_swap(HardEdge((inverse_iso[15], inverse_iso[16])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[15])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[15])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[5], inverse_iso[6])))
+        route.apply_swap(HardEdge((inverse_iso[11], inverse_iso[6])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[16])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[11])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[12])))
+        route.apply_swap(HardEdge((inverse_iso[7], inverse_iso[12])), attempt_int=True)
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[7])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[11])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[16])))
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[6])))
+        route.apply_int(HardEdge((inverse_iso[3], inverse_iso[2])))
+        route.apply_swap(HardEdge((inverse_iso[7], inverse_iso[2])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[7], inverse_iso[12])))
+        route.apply_swap(HardEdge((inverse_iso[8], inverse_iso[7])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[8])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
+        route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
+        route.apply_swap(HardEdge((inverse_iso[9], inverse_iso[10])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[15])))
+        route.apply_int(HardEdge((inverse_iso[10], inverse_iso[5])))
+        route.apply_swap(HardEdge((inverse_iso[10], inverse_iso[11])), attempt_int=True)
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[16])))
+        route.apply_int(HardEdge((inverse_iso[11], inverse_iso[6])))
 
     else:
         raise ValueError("The number of qubits needs to be between 4 and 15 (inclusive).")

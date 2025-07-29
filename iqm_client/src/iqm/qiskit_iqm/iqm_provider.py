@@ -21,9 +21,17 @@ from typing import Any
 from uuid import UUID
 import warnings
 
-from iqm.iqm_client import Circuit, CircuitCompilationOptions, CircuitValidationError, IQMClient, RunRequest
+from iqm.iqm_client import (
+    Circuit,
+    CircuitCompilationOptions,
+    CircuitValidationError,
+    IQMClient,
+    RunRequest,
+)
 from iqm.iqm_client.util import to_json_dict
+from iqm.qiskit_iqm import IQMFakeAphrodite, IQMFakeApollo, IQMFakeDeneb
 from iqm.qiskit_iqm.fake_backends import IQMFakeAdonis
+from iqm.qiskit_iqm.fake_backends.fake_garnet import IQMFakeGarnet
 from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
 from iqm.qiskit_iqm.iqm_job import IQMJob
 from iqm.qiskit_iqm.qiskit_to_iqm import serialize_instructions
@@ -257,26 +265,31 @@ class IQMBackend(IQMBackendBase):
         return Circuit(name=circuit.name, instructions=instructions, metadata=metadata)
 
 
+facade_names = {
+    "facade_adonis": IQMFakeAdonis(),
+    "facade_aphrodite": IQMFakeAphrodite(),
+    "facade_apollo": IQMFakeApollo(),
+    "facade_deneb": IQMFakeDeneb(),
+    "facade_garnet": IQMFakeGarnet(),
+}
+
+
 class IQMFacadeBackend(IQMBackend):
-    """Facade backend for mimicking the execution of quantum circuits on IQM quantum computers. Allows to submit a
-     circuit to the IQM server, and if the execution was successful, performs a simulation with a respective IQM noise
-     model locally, then returns the simulated results.
+    """Simulates the execution of quantum circuits on a mock IQM quantum computer.
+
+    Can be used to submit a circuit to a mock IQM server that has no real quantum hardware,
+    and if the mock execution is successful, simulates the circuit locally using an error model that
+    is representative of the mocked QPU. Finally returns the simulated results.
 
     Args:
-        client: client instance for communicating with an IQM server
-        **kwargs: optional arguments to be passed to the parent Backend initializer
+        client: Client instance for communicating with an IQM server.
+        **kwargs: Optional arguments to be passed to the parent class.
 
     """
 
     def __init__(self, client: IQMClient, **kwargs):
-        self.fake_adonis = IQMFakeAdonis()
-        target_architecture = client.get_static_quantum_architecture()
-
-        if not self.fake_adonis.validate_compatible_architecture(target_architecture):
-            raise ValueError("Quantum architecture of the remote quantum computer does not match Adonis.")
-
         super().__init__(client, **kwargs)
-        self.name = "facade_adonis"
+        self.backend = self._determine_facade_backend_from_sqa()
 
     def _validate_no_empty_cregs(self, circuit: QuantumCircuit) -> bool:
         """Returns True if given circuit has no empty (unused) classical registers, False otherwise."""
@@ -288,6 +301,12 @@ class IQMFacadeBackend(IQMBackend):
         if 0 in cregs_utilization.values():
             return False
         return True
+
+    def _determine_facade_backend_from_sqa(self) -> IQMFacadeBackend:
+        for backend in facade_names.values():
+            if backend.validate_compatible_architecture(self.client.get_static_quantum_architecture()):
+                return backend
+        raise ValueError("Quantum architecture of the remote quantum computer does not match facade input.")
 
     def run(self, run_input: QuantumCircuit | list[QuantumCircuit], **options) -> JobV1:
         circuits = [run_input] if isinstance(run_input, QuantumCircuit) else run_input
@@ -302,7 +321,7 @@ class IQMFacadeBackend(IQMBackend):
         iqm_backend_job.result()  # get and discard results
         if iqm_backend_job.status() == JobStatus.ERROR:
             raise RuntimeError("Remote execution did not succeed.")
-        return self.fake_adonis.run(run_input, **options)
+        return self.backend.run(run_input, **options)
 
 
 class IQMProvider:
@@ -336,7 +355,9 @@ class IQMProvider:
         client = IQMClient(self.url, **self.user_auth_args)
 
         if name and name.startswith("facade_"):
-            if name == "facade_adonis":
+            if name in facade_names:
+                if not facade_names[name].validate_compatible_architecture(client.get_static_quantum_architecture()):
+                    raise ValueError("Quantum architecture of the remote quantum computer does not match facade input.")
                 return IQMFacadeBackend(client)
 
             warnings.warn(f"Unknown facade backend: {name}. A regular backend associated with {self.url} will be used.")

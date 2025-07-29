@@ -38,7 +38,10 @@ import networkx as nx
 
 
 def _int_pair_distance(
-    routing: Routing, buffer_interactions: set[LogEdge], swap_pair: HardEdge | None = None, any_distance: bool = False
+    routing: Routing,
+    buffer_interactions: set[LogEdge],
+    swap_pair: HardEdge | None = None,
+    any_distance: bool = False,
 ) -> int:
     """Function for the distance between hardware qubits of interaction pairs in ``buffer_interactions``.
 
@@ -89,13 +92,16 @@ def _int_pair_distance_change(routing: Routing, buffer_interactions: set[LogEdge
 
 
 def _execute_all_possible_int_gates(
-    routing: Routing, buffer_interactions: set[LogEdge], buffer_involved_qubits: set[LogQubit], problem_graph: nx.Graph
+    routing: Routing,
+    buffer_interactions: set[LogEdge],
+    buffer_involved_qubits: set[LogQubit],
+    problem_graph: nx.Graph,
 ) -> bool:
     """As the name suggests, this executes all possible interaction gates (and then changes the buffer accordingly).
 
     Looks for all gates left over in ``routing.remaining_interactions``, finds those that can be executed, and
     executes them.
-    This function potentially modifies :class:`~iqm.qaoa.transpiler.routing.Routing`, ``buffer_interactions``,
+    This function potentially modifiess :class:`~iqm.qaoa.transpiler.routing.Routing`, ``buffer_interactions``,
     ``buffer_involved_qubits`` and ``problem_graph`` in-place.
 
     Args:
@@ -321,7 +327,7 @@ def _fallback_routine(routing: Routing, buffer_interactions: set[LogEdge], probl
 
 def _find_best_replacement(
     lq: LogQubit, buffer_involved_qubits: set[LogQubit], problem_graph: nx.Graph
-) -> tuple[float, tuple[LogQubit, LogQubit]] | tuple[float, None]:
+) -> tuple[float, tuple[LogQubit, LogQubit] | None]:
     """Finds the best qubit not in ``buffer_involved_qubits`` which has an un-realized interaction with ``lq``.
 
     Iterates over qubits with unrealized interactions with ``lq``, looks at their distance from ``lq`` on the hardware
@@ -339,13 +345,13 @@ def _find_best_replacement(
 
     """
     min_dist = math.inf
-    lq_best_pair = None
+    lq_best_pair: LogQubit
 
     for neighbor in problem_graph.neighbors(lq):
         dist = problem_graph.get_edge_data(neighbor, lq)["bias"]
         if dist < min_dist:
-            min_dist = dist
-            lq_best_pair = neighbor
+            min_dist = float(dist)
+            lq_best_pair = LogQubit(neighbor)
     if lq_best_pair not in buffer_involved_qubits:
         return min_dist, (lq, lq_best_pair)  # type: ignore[return-value]
     return math.inf, None
@@ -414,7 +420,10 @@ def _update_distances(routing: Routing, log_q: LogQubit, problem_graph: nx.Graph
 
 
 def _greedy_pair_mapper(
-    routing: Routing, buffer_interactions: set[LogEdge], buffer_involved_qubits: set[LogQubit], problem_graph: nx.Graph
+    routing: Routing,
+    buffer_interactions: set[LogEdge],
+    buffer_involved_qubits: set[LogQubit],
+    problem_graph: nx.Graph,
 ) -> None:
     """This function performs the main iteration of applying swap gates and interactions until they're all applied.
 

@@ -27,6 +27,7 @@ transpilation algorithm.
 from __future__ import annotations
 
 import copy as cp
+from typing import Any
 import warnings
 
 from dimod import BINARY, SPIN, BinaryQuadraticModel, to_networkx_graph
@@ -77,7 +78,7 @@ class Mapping:
 
         # If no partial initial mapping is provided, just map the qubits to each other arbitrarily.
         if partial_initial_mapping is None:
-            self._hard2log = dict(zip(self.hard_qbs, self.log_qbs))
+            self._hard2log: dict = dict(zip(self.hard_qbs, self.log_qbs))
 
         # If a partial inital mapping is provided, use it.
         else:
@@ -86,7 +87,7 @@ class Mapping:
             if len(partial_initial_mapping) < len(self.log_qbs):
                 remaining_hard_qbs = self.hard_qbs - set(partial_initial_mapping.keys())
                 remaining_log_qbs = self.log_qbs - set(partial_initial_mapping.values())
-                initial_mapping = partial_initial_mapping
+                initial_mapping: dict = partial_initial_mapping
                 # The qubits not covered by the partial inital mapping get mapped arbitrarily.
                 for hard_qb, log_qb in zip(remaining_hard_qbs, remaining_log_qbs):
                     initial_mapping[hard_qb] = log_qb  # type: ignore[assignment]
@@ -166,7 +167,7 @@ class Mapping:
         self._hard2log[target_qubit] = corresponding_log_qb
         del self._hard2log[source_qubit]
 
-    def update(self, layer: "Layer") -> None:
+    def update(self, layer: Layer) -> None:
         """Convenience function that updates the mapping based on the swap gates found in
         a :class:`~iqm.qaoa.transpiler.routing.Layer` object.
 
@@ -333,7 +334,7 @@ class Layer:
             show: Boolean to specift if the plot is to be shown (or e.g., processed somehow).
 
         """
-        gate_lists: dict[str, list[tuple[HardQubit, HardQubit]]] = {"y": [], "b": [], "g": []}
+        gate_lists: dict[str, list[tuple[HardQubit, ...]]] = {"y": [], "b": [], "g": []}
         for hard_qb0, hard_qb1 in self.gates.edges():
             swap_b, int_b = self.gates[hard_qb0][hard_qb1]["swap"], self.gates[hard_qb0][hard_qb1]["int"]
             if swap_b and int_b:
@@ -383,7 +384,11 @@ class Routing:
             self.initial_mapping = initial_mapping
 
         self.mapping = cp.deepcopy(self.initial_mapping)
-        self.layers = [Layer(self.qpu)]
+        self._layers: list[Layer] = [Layer(self.qpu)]
+
+    @property
+    def layers(self) -> list[Any]:
+        return self._layers
 
     @property
     def active_subgraph(self) -> nx.Graph:
@@ -417,7 +422,7 @@ class Routing:
             defined by the index ``layer_index``.
             """
             # Apply the swap gate in the correct :class:`~iqm.qaoa.transpiler.routing.Layer`.
-            self.layers[layer_index].apply_swap_gate(gate)
+            self._layers[layer_index].apply_swap_gate(gate)
             # Update the :class:`~iqm.qaoa.transpiler.routing.Mapping`.
             self.mapping.swap_hard(gate)
             if attempt_int:
@@ -426,14 +431,14 @@ class Routing:
                 if self.remaining_interactions.has_edge(log_qb0, log_qb1):
                     self.apply_int(gate)
 
-        if not self.layers[-1].swap_gate_applicable(gate):
-            self.layers.append(Layer(self.qpu))
+        if not self._layers[-1].swap_gate_applicable(gate):
+            self._layers.append(Layer(self.qpu))
             _internal_apply_swap(-1)
-        elif len(self.layers) == 1:
+        elif len(self._layers) == 1:
             _internal_apply_swap(-1)
         else:
-            for layer_index in range(len(self.layers) - 1, 0, -1):
-                if not self.layers[layer_index - 1].swap_gate_applicable(gate):
+            for layer_index in range(len(self._layers) - 1, 0, -1):
+                if not self._layers[layer_index - 1].swap_gate_applicable(gate):
                     _internal_apply_swap(layer_index)
                     break
                 if layer_index == 1:
@@ -476,22 +481,22 @@ class Routing:
             )
 
         # If it's not possible to apply in the latest layer, add a new layer.
-        if not self.layers[-1].int_gate_applicable(gate):
-            self.layers.append(Layer(self.qpu))
-            self.layers[-1].apply_int_gate(gate)
+        if not self._layers[-1].int_gate_applicable(gate):
+            self._layers.append(Layer(self.qpu))
+            self._layers[-1].apply_int_gate(gate)
             self.remaining_interactions.remove_edge(log_qb0, log_qb1)
         # If there is only a single layer, apply the interaction there.
-        elif len(self.layers) == 1:
-            self.layers[-1].apply_int_gate(gate)
+        elif len(self._layers) == 1:
+            self._layers[-1].apply_int_gate(gate)
             self.remaining_interactions.remove_edge(log_qb0, log_qb1)
         else:
-            for layer_index in range(len(self.layers) - 1, 0, -1):
+            for layer_index in range(len(self._layers) - 1, 0, -1):
                 # If the interaction isn't applicable in (layer_index - 1)th layer, apply it in the next layer.
-                if not self.layers[layer_index - 1].int_gate_applicable(gate):
-                    self.layers[layer_index].apply_int_gate(gate)
+                if not self._layers[layer_index - 1].int_gate_applicable(gate):
+                    self._layers[layer_index].apply_int_gate(gate)
                     self.remaining_interactions.remove_edge(log_qb0, log_qb1)
                     return
-            self.layers[0].apply_int_gate(gate)
+            self._layers[0].apply_int_gate(gate)
             self.remaining_interactions.remove_edge(log_qb0, log_qb1)
 
     def attempt_apply_int(self, gate: HardEdge) -> None:
@@ -514,7 +519,7 @@ class Routing:
 
     def count_swap_gates(self) -> int:
         r"""Counts the number of swap gates in all :class:`~iqm.qaoa.transpiler.routing.Layer`\s so far."""
-        layers = self.layers
+        layers = self._layers
         number_of_swaps_in_layers = 0
         for layer in layers:
             for i in layer.gates.edges(data=True):
@@ -552,7 +557,7 @@ class Routing:
         if len(betas) != len(gammas):
             raise ValueError("The lengths of ``gammas`` and ``betas`` need to be the same!")
 
-        layers = cp.deepcopy(self.layers)
+        layers = cp.deepcopy(self._layers)
         mapping = cp.deepcopy(self.initial_mapping)
         qb_register = sorted(self.mapping.hard2log.keys())
 
@@ -578,7 +583,7 @@ class Routing:
 
                 mapping.update(layer)
 
-            for hard_qb in mapping.hard2log.keys():
+            for hard_qb in mapping.hard2log:
                 log_qb = mapping.hard2log[hard_qb]
                 local_field = self.problem.get_linear(log_qb)
                 qiskit_circ.rz(2 * gamma * local_field, qb_register.index(hard_qb))
@@ -609,9 +614,9 @@ class Routing:
         - Green highlight if an interaction gate is applied.
         - No highlight (black) if nothing is happening along the edge.
         """
-        layer_count = len(self.layers)
+        layer_count = len(self._layers)
         if layer_count > 1:
-            layer_batches = [self.layers[x : x + 9] for x in range(0, len(self.layers), 9)]
+            layer_batches = [self._layers[x : x + 9] for x in range(0, len(self._layers), 9)]
             # Throughout the plotting we keep track of the mapping.
             # It is used to label the :class:`HardQubit`\s with the corresponding :class:`LogQubit` label.
             mapping = cp.deepcopy(self.initial_mapping)
@@ -629,4 +634,4 @@ class Routing:
                     layer_index += 1
                 plt.show()
         else:
-            self.layers[0].draw(mapping=self.initial_mapping)
+            self._layers[0].draw(mapping=self.initial_mapping)

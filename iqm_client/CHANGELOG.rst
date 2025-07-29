@@ -2,6 +2,15 @@
 Changelog
 =========
 
+Version 29.8.0 (2025-07-23)
+===========================
+
+Features
+--------
+
+- An update to IQMFacadeBackend such that all available IQMFakeBackends are usable for simulation, rather than
+just IQMFakeAdonis
+
 Version 29.7.0 (2025-07-15)
 ===========================
 

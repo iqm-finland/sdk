@@ -27,12 +27,12 @@ from itertools import combinations
 import math
 
 from dimod import BinaryQuadraticModel
-from iqm.qaoa.transpiler.quantum_hardware import CrystalQPUFromBackend, HardEdge, HardQubit
+from iqm.qaoa.transpiler.quantum_hardware import QPU, HardEdge, HardQubit
 from iqm.qaoa.transpiler.routing import Mapping, Routing
 import numpy as np
 
 
-def sn_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBackend) -> Routing:
+def sn_router(problem_bqm: BinaryQuadraticModel, qpu: QPU) -> Routing:
     """The function that implements the 'swap network' swapping strategies.
 
     Implements approach from :cite:`Weidenfeller_2022` adapted for rectangular QPUs, not only square. If the input BQM
@@ -59,7 +59,7 @@ def sn_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBackend) -> 
         isinstance(coords, tuple) and all(isinstance(coord, int) for coord in coords)
         for coords in qpu.hardware_layout.values()
     ):
-        raise TypeError("When using swap networks for transpilation, the QPU layout needs to use integer coordinates.")
+        raise TypeError("When using swap networks, the QPU layout needs to use 2D integer coordinates.")
 
     bqm_to_be_used = problem_bqm.copy()
 
@@ -95,7 +95,7 @@ def sn_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBackend) -> 
             bqm_to_be_used.add_quadratic(v1, v2, 0)
 
     # ``s`` refers to the four swap layers described in fig. 3 in the paper :cite:`Weidenfeller_2022`.
-    s = _get_s(relevant_layout)  # type: ignore[arg-type]
+    s = _get_s({key: (int(value[0]), int(value[1])) for key, value in relevant_layout.items()})
 
     # The keys of ``relevant_layout`` correspond to the hardware qubit we use.
     # As initial mapping, we assign all the logical qubits to those.
@@ -225,16 +225,15 @@ def _do_routing(route: Routing, s: list[set[HardEdge]], h: int, w: int) -> None:
 
 
 # pylint: disable=too-many-locals
-def _find_rectangular_subgraph(qpu: CrystalQPUFromBackend, h: int, w: int) -> tuple[HardQubit, int, int] | None:
+def _find_rectangular_subgraph(qpu: QPU, h: int, w: int) -> tuple[HardQubit, int, int] | None:
     """Finds a rectangular subgraph of a given height and width in the QPU.
 
-    Looks at the :attr:`~iqm.qaoa.transpile.quantum_hardware.CrystalQPUFromBackend.hardware_layout` of the QPU. Goes
-    over the coordinates from the layout, constructs a boolean :class:`~np.ndarray` and then applies a rectangular
-    sliding window to find the rectangle in there. Also considers the 90° rotation of the rectangle.
+    Looks at the :attr:`~iqm.qaoa.transpile.quantum_hardware.QPU.hardware_layout` of the QPU. Goes over the coordinates
+    from the layout, constructs a boolean :class:`~np.ndarray` and then applies a rectangular sliding window to find
+    the rectangle in there. Also considers the 90° rotation of the rectangle.
 
     Args:
-        qpu: The :class:`~iqm.qaoa.transpiler.quantum_hardware.CrystalQPUFromBackend` in which the function is looking
-            for the rectangle.
+        qpu: The :class:`~iqm.qaoa.transpiler.quantum_hardware.QPU` in which the function is looking for the rectangle.
         h: The height of the rectangle which we the function looks for.
         w: The width of the rectangle which we the function looks for.
 
@@ -264,14 +263,11 @@ def _find_rectangular_subgraph(qpu: CrystalQPUFromBackend, h: int, w: int) -> tu
 
     # Iterate over possible top-left corners, return the first one found (if any).
     for hw_qubit in qpu.hardware_graph.nodes():
-        if _fits_at(qpu.hardware_layout[hw_qubit][0], qpu.hardware_layout[hw_qubit][1], w, h):  # type: ignore[arg-type]
+        if _fits_at(int(qpu.hardware_layout[hw_qubit][0]), int(qpu.hardware_layout[hw_qubit][1]), w, h):
             return (hw_qubit, w, h)  # Return position and size.
         if _fits_at(
-            qpu.hardware_layout[hw_qubit][0],  # type: ignore[arg-type]
-            qpu.hardware_layout[hw_qubit][1],  # type: ignore[arg-type]
-            h,
-            w,
-        ):  # Check rotated case
+            int(qpu.hardware_layout[hw_qubit][0]), int(qpu.hardware_layout[hw_qubit][1]), h, w
+        ):  # Check rotated case.
             return (hw_qubit, h, w)
 
     return None  # No valid rectangle found.

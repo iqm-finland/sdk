@@ -14,16 +14,28 @@
 """Errors used in the station control client-server communication."""
 
 from http import HTTPStatus
+import logging
 
 from exa.common.errors.exa_error import ExaError
 
 
 class StationControlError(ExaError):
-    """Base class for station control errors."""
+    """Base class for station control errors.
+
+    Args:
+        message: Normal error message.
+        log_level: The effective log level of this error.
+            By default, the ERROR level is used. Can be lowered to hide this error from the logs.
+
+    """
 
     # TODO: StationControlError shouldn't need to inherit ExaError
     #  Some clients might still expect ExaErrors, thus inheriting here to avoid issues because of that.
     #  Ideally, we would keep server errors (raised by station control) and any client side errors separate.
+
+    def __init__(self, message: str, log_level: int = logging.ERROR):
+        self.log_level = log_level
+        super().__init__(message)
 
 
 class BadRequestError(StationControlError):

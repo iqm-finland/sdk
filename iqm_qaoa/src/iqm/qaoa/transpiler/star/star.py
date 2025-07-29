@@ -51,7 +51,11 @@ class RoutingStar(Routing):
     def __init__(self, problem_bqm: BinaryQuadraticModel, qpu: StarQPU, initial_mapping: Mapping | None = None) -> None:
         super().__init__(problem_bqm, qpu, initial_mapping)
         # For star QPU, each layer contains only one operation, so no need to use a sophisticated ``Layer`` class
-        self.layers: list[tuple[str, HardQubit]] = []  # type: ignore[assignment]
+        self._star_layers: list[tuple[str, HardQubit]] = []
+
+    @property
+    def layers(self) -> list[tuple[str, HardQubit]]:
+        return self._star_layers
 
     def apply_move_in(self, qubit: HardQubit) -> None:
         """Apply move gate (to move a qubit into the resonator).
@@ -71,7 +75,7 @@ class RoutingStar(Routing):
         if qubit not in self.mapping.hard2log:
             raise ValueError("The target qubit is not assigned a logical qubit.")
 
-        self.layers.append(("move_in", qubit))
+        self._star_layers.append(("move_in", qubit))
         self.mapping.move_hard(source_qubit=qubit, target_qubit=0)
 
     def apply_move_out(self, qubit: HardQubit) -> None:
@@ -91,7 +95,7 @@ class RoutingStar(Routing):
         if qubit in self.mapping.hard2log:
             raise ValueError("The target qubit is already occupied by a logical qubit.")
 
-        self.layers.append(("move_out", qubit))
+        self._star_layers.append(("move_out", qubit))
         self.mapping.move_hard(source_qubit=0, target_qubit=qubit)
 
     def apply_directed_int(self, target: HardQubit) -> None:
@@ -113,7 +117,7 @@ class RoutingStar(Routing):
         if target not in self.mapping.hard2log:
             raise ValueError("The target qubit is 'empty', interaction can't be applied.")
 
-        self.layers.append(("int", target))
+        self._star_layers.append(("int", target))
         log_qb0, log_qb1 = self.mapping.hard2log[0], self.mapping.hard2log[target]
         self.remaining_interactions.remove_edge(log_qb0, log_qb1)
 
@@ -128,7 +132,7 @@ class RoutingStar(Routing):
             The number of 'move_in' and 'move_out' gates in the entire routing.
 
         """
-        layers: list[tuple[str, HardQubit]] = self.layers
+        layers: list[tuple[str, HardQubit]] = self._star_layers
         number_of_moves_in_layers = 0
         for gate in layers:
             # Pylint is being dumb here, ``gate`` is definitely a tuple and therefore subscriptable.
@@ -164,7 +168,7 @@ class RoutingStar(Routing):
         if len(betas) != len(gammas):
             raise ValueError("The lengths of ``gammas`` and ``betas`` need to be the same!")
 
-        layers = cp.deepcopy(self.layers)
+        layers = cp.deepcopy(self._star_layers)
         # The mapping to be used throughout the circuit construction. It begins identical to `self.initial_mapping`.
         mapping = cp.deepcopy(self.initial_mapping)
         qb_register = sorted(self.qpu.qubits)
@@ -196,7 +200,7 @@ class RoutingStar(Routing):
                     qiskit_circ.append(MoveGate(), [qubit, 0])
                     mapping.move_hard(source_qubit=0, target_qubit=qubit)
 
-            for hard_qb in mapping.hard2log.keys():
+            for hard_qb in mapping.hard2log:
                 log_qb = mapping.hard2log[hard_qb]
                 local_field = self.problem.get_linear(log_qb)
                 qiskit_circ.rz(2 * gamma * local_field, qb_register.index(hard_qb))
@@ -235,7 +239,7 @@ class RoutingStar(Routing):
             ValueError: If the first element of the layers is neither of 'int', 'move_in' or 'move_out'.
 
         """
-        layer_count = len(self.layers)
+        layer_count = len(self._star_layers)
 
         gate_to_color = {
             "int": "g",
@@ -244,7 +248,7 @@ class RoutingStar(Routing):
         }
 
         if layer_count > 1:
-            layer_batches = [self.layers[x : x + 9] for x in range(0, len(self.layers), 9)]
+            layer_batches = [self._star_layers[x : x + 9] for x in range(0, len(self._star_layers), 9)]
             # Throughout the plotting we keep track of the mapping.
             # It is used to label the :class:`HardQubit`\s with the corresponding :class:`LogQubit` label.
             mapping = cp.deepcopy(self.initial_mapping)
@@ -256,7 +260,7 @@ class RoutingStar(Routing):
                     column = (layer_index % 9) % 3
 
                     self.qpu.draw(
-                        gate_lists={gate_to_color[layer[0]]: [(0, layer[1])]},  # type: ignore[list-item]
+                        gate_lists={gate_to_color[layer[0]]: [(0, layer[1])]},
                         ax=axs[row, column],
                         mapping=mapping,
                         show=False,
@@ -275,7 +279,9 @@ class RoutingStar(Routing):
                 plt.show()
         else:
             self.qpu.draw(
-                gate_lists={gate_to_color[self.layers[0][0]]: [(0, self.layers[0][1])]} if self.layers else None,  # type: ignore[list-item]
+                gate_lists={gate_to_color[self._star_layers[0][0]]: [(0, self._star_layers[0][1])]}
+                if self._star_layers
+                else None,
                 ax=None,
                 mapping=self.initial_mapping,
                 show=True,

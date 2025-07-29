@@ -31,7 +31,7 @@ from collections.abc import Sequence
 
 from dimod import BinaryQuadraticModel, to_networkx_graph
 from iqm.applications.qubo import ConstrainedQuadraticInstance, QUBOInstance
-from iqm.qaoa.backends import EstimatorBackend, EstimatorSingleLayer, EstimatorStateVector
+from iqm.qaoa.backends import EstimatorBackend, EstimatorSingleLayer, EstimatorStateVector, SamplerBackend
 from iqm.qaoa.generic_qaoa import QAOA
 import networkx as nx
 import numpy as np
@@ -65,7 +65,7 @@ class QUBOQAOA(QAOA):
         initial_angles: Sequence[float] | np.ndarray | None = None,
     ) -> None:
         super().__init__(problem, num_layers, betas=betas, gammas=gammas, initial_angles=initial_angles)
-        self._bqm = self._problem.bqm.spin  # type: ignore[attr-defined]
+        self._bqm = problem.bqm.spin
 
     @property
     def bqm(self) -> BinaryQuadraticModel:
@@ -151,3 +151,46 @@ class QUBOQAOA(QAOA):
         solution = minimize(function_to_minimize, self.angles, method=min_method)  # type: ignore[call-overload]
         self._angles = solution.x
         self._trained = True
+
+    # This method is temporarily moved here from QAOA since SamplerBackend was temporarily restricted to only accept
+    # QUBOQAOA
+    def sample(self, sampler: SamplerBackend, shots: int = 20000) -> dict[str, int]:
+        """The method for taking samples (i.e., measurement results) from the QAOA circuit.
+
+        Takes a :class:`~iqm.qaoa.backends.SamplerBackend` and uses it to get ``shots`` samples. The backend is
+        responsible for building the quantum circuit and taking the measurements (or obtaining the samples some other
+        way), using information from the :class:`QAOA` object that is passed to its method
+        :meth:`~iqm.qaoa.backends.SamplerBackend.sample`.
+
+        Args:
+            sampler: The sampler to use to generate samples. The sampler is an instance of a subclass of
+                :class:`~iqm.qaoa.backends.SamplerBackend` with a :meth:`~iqm.qaoa.backends.SamplerBackend.sample`
+                method of the appropriate signature.
+            shots: The number of shots to be taken.
+
+        Returns:
+            A dictionary whose keys are bitstrings representing the samples and whose values are their respective
+            frequencies, so that the sum of the values of the dictionary equals to ``shots``.
+
+        """
+        return sampler.sample(self, shots)
+
+    # This method is temporarily moved here from QAOA since EstimatorBackend was temporarily restricted to only accept
+    # QUBOQAOA
+    def estimate(self, estimator: EstimatorBackend) -> float:
+        """The method for taking estimates of the expected value of the Hamiltonian from the QAOA circuit.
+
+        Takes a :class:`~iqm.qaoa.backends.EstimatorBackend` and uses it to get estimates of the expected value.
+        The backend takes all the necessary information from the :class:`QAOA` object that is passed to its method
+        :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate`.
+
+        Args:
+            estimator: The estimator used to get the expected value. The estimator is an instance of a subclass of
+                :class:`~iqm.qaoa.backends.EstimatorBackend` with a method
+                :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate` of the appropriate signature.
+
+        Returns:
+            An estimate of the expectation value fo the Hamiltonian. Not normalized in any way.
+
+        """
+        return estimator.estimate(self)

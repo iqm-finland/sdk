@@ -112,7 +112,7 @@ def qiskit_circuit_specific_nodes(qaoa: QUBOQAOA, starting_qubits: set[int]) -> 
     qubits_generation.reverse()
 
     qc = QuantumCircuit(0, len(starting_qubits))
-    qrs = {}  # quantum registers
+    qrs: dict = {}  # quantum registers
     for qubit in qubits_generation[-1]:
         qrs[qubit] = QuantumRegister(1, str(qubit))
         qc.add_register(qrs[qubit])
@@ -214,7 +214,7 @@ def transpiled_circuit(
         # This `qpu` object is just a carrier of the QPU connectivity for `hardwired_router`.
         qpu = CrystalQPUFromBackend(backend)
         routed = hardwired_router(qaoa.bqm, qpu)
-        qc_hw = routed.build_qiskit(qaoa.betas, qaoa.gammas)  # type: ignore[arg-type]
+        qc_hw = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
         # Default layout method uses the VF2 algorithm to find an exact layout match.
         # An exact layout match is guaranteed to exist, so no further routing is needed.
         qc_hw_transpiled = transpile(
@@ -232,7 +232,7 @@ def transpiled_circuit(
         # This `qpu` object is just a carrier of the QPU connectivity for `greedy_router`.
         qpu = CrystalQPUFromBackend(backend)
         routed = greedy_router(qaoa.bqm, qpu)
-        qc_sparse = routed.build_qiskit(qaoa.betas, qaoa.gammas)  # type: ignore[arg-type]
+        qc_sparse = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
         # Default layout method uses the VF2 algorithm to find an exact layout match.
         # An exact layout match is guaranteed to exist, so no further routing is needed.
         qc_sparse_transpiled = transpile(
@@ -250,7 +250,7 @@ def transpiled_circuit(
         # This `qpu` object is just a carrier of the QPU connectivity for `sn_router`.
         qpu = CrystalQPUFromBackend(backend)
         routed = sn_router(qaoa.bqm, qpu)
-        qc_sn = routed.build_qiskit(qaoa.betas, qaoa.gammas)  # type: ignore[arg-type]
+        qc_sn = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
         # Default layout method uses the VF2 algorithm to find an exact layout match.
         # An exact layout match is guaranteed to exist, so no further routing is needed.
         qc_sn_transpiled = transpile(
@@ -265,10 +265,11 @@ def transpiled_circuit(
         return qc_sn_transpiled
 
     if transpiler == "MinimumVertexCover":
-        qpu = StarQPU(qaoa.bqm.num_variables)  # type: ignore[assignment]
-        routed = star_router(qaoa.bqm, qpu)  # type: ignore[arg-type]
+        star_qpu = StarQPU(qaoa.bqm.num_variables)
 
-        qc_mvc = routed.build_qiskit(qaoa.betas, qaoa.gammas)  # type: ignore[arg-type]
+        # Here the variable has a different name from above to avoid confusing `mypy`.
+        star_routed = star_router(qaoa.bqm, star_qpu)
+        qc_mvc = star_routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
 
         handling_of_errors = ExistingMoveHandlingOptions("keep")
         qc_mvc_transpiled = transpile_to_IQM(

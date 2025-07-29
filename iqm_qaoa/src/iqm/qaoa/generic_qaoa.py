@@ -26,7 +26,6 @@ from collections.abc import Sequence
 from copy import deepcopy
 
 from iqm.applications.applications import ProblemInstance
-from iqm.qaoa.backends import EstimatorBackend, SamplerBackend
 import numpy as np
 
 
@@ -222,45 +221,6 @@ class QAOA(ABC):
         """Setter for the :meth:`gammas`."""
         self._angles = self._internal_angle_logic(None, None, new_angles)
         self._trained = False
-
-    def sample(self, sampler: SamplerBackend, shots: int = 20000) -> dict[str, int]:
-        """The method for taking samples (i.e., measurement results) from the QAOA circuit.
-
-        Takes a :class:`~iqm.qaoa.backends.SamplerBackend` and uses it to get ``shots`` samples. The backend is
-        responsible for building the quantum circuit and taking the measurements (or obtaining the samples some other
-        way), using information from the :class:`QAOA` object that is passed to its method
-        :meth:`~iqm.qaoa.backends.SamplerBackend.sample`.
-
-        Args:
-            sampler: The sampler to use to generate samples. The sampler is an instance of a subclass of
-                :class:`~iqm.qaoa.backends.SamplerBackend` with a :meth:`~iqm.qaoa.backends.SamplerBackend.sample`
-                method of the appropriate signature.
-            shots: The number of shots to be taken.
-
-        Returns:
-            A dictionary whose keys are bitstrings representing the samples and whose values are their respective
-            frequencies, so that the sum of the values of the dictionary equals to ``shots``.
-
-        """
-        return sampler.sample(self, shots)
-
-    def estimate(self, estimator: EstimatorBackend) -> float:
-        """The method for taking estimates of the expected value of the Hamiltonian from the QAOA circuit.
-
-        Takes a :class:`~iqm.qaoa.backends.EstimatorBackend` and uses it to get estimates of the expected value.
-        The backend takes all the necessary information from the :class:`QAOA` object that is passed to its method
-        :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate`.
-
-        Args:
-            estimator: The estimator used to get the expected value. The estimator is an instance of a subclass of
-                :class:`~iqm.qaoa.backends.EstimatorBackend` with a method
-                :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate` of the appropriate signature.
-
-        Returns:
-            An estimate of the expectation value fo the Hamiltonian. Not normalized in any way.
-
-        """
-        return estimator.estimate(self)
 
     def linear_ramp_schedule(self, delta_beta: float, delta_gamma: float) -> None:
         """The "linear ramp schedule" for setting the QAOA angles.

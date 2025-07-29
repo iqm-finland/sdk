@@ -127,7 +127,7 @@ class QPU:
         self,
         mapping: Mapping | None = None,
         ax: Axes | None = None,
-        gate_lists: dict[str, list[tuple[HardQubit]]] | None = None,
+        gate_lists: dict[str, list[tuple[HardQubit] | tuple[HardQubit, HardQubit]]] | None = None,
         show: bool = True,
         **kwargs: Any,
     ) -> None:
