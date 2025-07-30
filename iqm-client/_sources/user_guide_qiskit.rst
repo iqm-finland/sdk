@@ -102,10 +102,7 @@ If the IQM server you are connecting to requires authentication, you may use
 then set the :envvar:`IQM_TOKENS_FILE` environment variable, as instructed, to point to the tokens file.
 See IQM Client CLI's `documentation <https://docs.meetiqm.com/iqm-client/user_guide_cli.html>`__ for details.
 
-You may also authenticate yourself using the :envvar:`IQM_AUTH_SERVER`,
-:envvar:`IQM_AUTH_USERNAME` and :envvar:`IQM_AUTH_PASSWORD` environment variables, or pass them as
-arguments to :class:`.IQMProvider`, however this approach is less secure and considered deprecated.
-
+You may also authenticate yourself by setting the access token in the the :envvar:`IQM_TOKEN` variable
 
 Running quantum circuits on an IQM quantum computer
 ---------------------------------------------------
@@ -156,7 +153,7 @@ circuit(s) are sampled:
     from qiskit import transpile
     from iqm.qiskit_iqm import IQMProvider
 
-    iqm_server_url = "https://demo.qc.iqm.fi/cocos/"  # Replace this with the correct URL
+    iqm_server_url = "https://demo.qc.iqm.fi"  # Replace this with the correct URL
     provider = IQMProvider(iqm_server_url)
     backend = provider.get_backend()
 
@@ -749,7 +746,7 @@ Additionally, the URL should point to a mock environment rather than a real devi
     circuit.cx(0, 1)
     circuit.measure_all()
 
-    iqm_server_url = "https://demo.qc.iqm.fi/cocos/"  # Replace this with the correct URL
+    iqm_server_url = "https://demo.qc.iqm.fi/"  # Replace this with the correct URL
     provider = IQMProvider(iqm_server_url)
     backend = provider.get_backend('facade_adonis')
     transpiled_circuit = transpile(circuit, backend=backend)

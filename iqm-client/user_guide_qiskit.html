@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Qiskit on IQM User Guide &#8212; IQM client 29.8.0 documentation</title>
+    <title>Qiskit on IQM User Guide &#8212; IQM client 29.9.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=33dd21ff"></script>
+    <script src="_static/documentation_options.js?v=cf071413"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="IQM Client CLI User Guide" href="user_guide_cli.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="29.8.0" />
-    <meta name="docbuild:last-update" content="2025-07-29"/>
+  <meta name="docsearch:version" content="29.9.0" />
+    <meta name="docbuild:last-update" content="2025-07-30"/>
   </head>
   
   
@@ -134,8 +134,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="IQM client 29.8.0 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM client 29.8.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM client 29.9.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM client 29.9.0 documentation - Home"/>
   
   
 </a></div>
@@ -625,9 +625,7 @@ from the Python Package Index (PyPI):</p>
 <a class="reference internal" href="user_guide_cli.html#user-guide-cli"><span class="std std-ref">IQM Client CLI</span></a> to retrieve and automatically refresh access tokens,
 then set the <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_TOKENS_FILE</span></code> environment variable, as instructed, to point to the tokens file.
 See IQM Client CLI’s <a class="reference external" href="https://docs.meetiqm.com/iqm-client/user_guide_cli.html">documentation</a> for details.</p>
-<p>You may also authenticate yourself using the <span class="target" id="index-3"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_AUTH_SERVER</span></code>,
-<span class="target" id="index-4"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_AUTH_USERNAME</span></code> and <span class="target" id="index-5"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_AUTH_PASSWORD</span></code> environment variables, or pass them as
-arguments to <a class="reference internal" href="api/iqm.qiskit_iqm.iqm_provider.IQMProvider.html#iqm.qiskit_iqm.iqm_provider.IQMProvider" title="iqm.qiskit_iqm.iqm_provider.IQMProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMProvider</span></code></a>, however this approach is less secure and considered deprecated.</p>
+<p>You may also authenticate yourself by setting the access token in the the <span class="target" id="index-3"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_TOKEN</span></code> variable</p>
 </section>
 </section>
 <section id="running-quantum-circuits-on-an-iqm-quantum-computer">
@@ -667,7 +665,7 @@ circuit(s) are sampled:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">transpile</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
 
-<span class="n">iqm_server_url</span> <span class="o">=</span> <span class="s2">&quot;https://demo.qc.iqm.fi/cocos/&quot;</span>  <span class="c1"># Replace this with the correct URL</span>
+<span class="n">iqm_server_url</span> <span class="o">=</span> <span class="s2">&quot;https://demo.qc.iqm.fi&quot;</span>  <span class="c1"># Replace this with the correct URL</span>
 <span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="n">iqm_server_url</span><span class="p">)</span>
 <span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
 
@@ -1169,7 +1167,7 @@ Additionally, the URL should point to a mock environment rather than a real devi
 <span class="n">circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">circuit</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
 
-<span class="n">iqm_server_url</span> <span class="o">=</span> <span class="s2">&quot;https://demo.qc.iqm.fi/cocos/&quot;</span>  <span class="c1"># Replace this with the correct URL</span>
+<span class="n">iqm_server_url</span> <span class="o">=</span> <span class="s2">&quot;https://demo.qc.iqm.fi/&quot;</span>  <span class="c1"># Replace this with the correct URL</span>
 <span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="n">iqm_server_url</span><span class="p">)</span>
 <span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;facade_adonis&#39;</span><span class="p">)</span>
 <span class="n">transpiled_circuit</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
@@ -1294,7 +1292,7 @@ By IQM client developers
 
   <p class="copyright">
     
-      © Copyright 2021-2025, IQM Finland Oy, Release 29.8.0.
+      © Copyright 2021-2025, IQM Finland Oy, Release 29.9.0.
       <br/>
     
   </p>
@@ -1303,7 +1301,7 @@ By IQM client developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-07-29.
+  Last updated on 2025-07-30.
   <br/>
 </p>
   </div>
