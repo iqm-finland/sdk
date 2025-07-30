@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 29.9.0 (2025-07-29)
+===========================
+
+Features
+--------
+
+- Remove cocos from IQM_SERVER_URL
+
 Version 29.8.0 (2025-07-23)
 ===========================
 

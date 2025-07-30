@@ -14,14 +14,14 @@
 """Demonstrates executing a quantum circuit on an IQM quantum computer.
 
 Set the STATION_CONTROL_URL environment variable before running this script.
-Also, if the server you are running against requires authentication you will also have to set
-IQM_AUTH_SERVER, and either IQM_TOKENS_FILE or both of IQM_AUTH_USERNAME and IQM_AUTH_PASSWORD.
+Also, if the server you are running against requires authentication you will also have to use
+the IQM_TOKENS_FILE or the IQM_TOKEN variable to set the access token.
 
 E.g.
 
     export STATION_CONTROL_URL="https://example.com/station"
-    export IQM_AUTH_SERVER="https://example.com/auth"
     export IQM_TOKENS_FILE="/path/to/my/tokens.json"
+    export IQM_TOKEN="<token here>"
 """
 
 import os
