@@ -45,6 +45,7 @@ from iqm.iqm_client.models import (
     ClientLibrary,
     ClientLibraryDict,
     DynamicQuantumArchitecture,
+    QIRCode,
     QualityMetricSet,
     QuantumArchitectureSpecification,
     RunCounts,
@@ -232,6 +233,8 @@ class IQMClient:
 
         for i, circuit in enumerate(circuits):
             try:
+                if isinstance(circuit, (QIRCode)):
+                    continue
                 # validate the circuit against the static information in iqm.iqm_client.models._SUPPORTED_OPERATIONS
                 validate_circuit(circuit)
             except ValueError as e:

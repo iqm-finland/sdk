@@ -24,6 +24,7 @@ import warnings
 from iqm.iqm_client import (
     DEFAULT_TIMEOUT_SECONDS,
     APITimeoutError,
+    Circuit,
     CircuitMeasurementResults,
     HeraldingMode,
     IQMClient,
@@ -79,8 +80,11 @@ class IQMJob(JobV1):
         expect_exact_shots = iqm_result.metadata.heralding_mode == HeraldingMode.NONE
 
         return [
-            (circuit.name, self._format_measurement_results(measurements, requested_shots, expect_exact_shots))
-            for measurements, circuit in zip(iqm_result.measurements, iqm_result.metadata.circuits)
+            (
+                circuit.name if isinstance(circuit, Circuit) else f"circuit_{i}",
+                self._format_measurement_results(measurements, requested_shots, expect_exact_shots),
+            )
+            for i, (measurements, circuit) in enumerate(zip(iqm_result.measurements, iqm_result.metadata.circuits))
         ]
 
     @staticmethod
@@ -194,7 +198,9 @@ class IQMJob(JobV1):
             # was created manually from a job_id. In that case retrieve circuit metadata from
             # RunResult.metadata.request.circuits[n].metadata
             if self.circuit_metadata is None and results.metadata.request is not None:
-                self.circuit_metadata = [c.metadata for c in results.metadata.circuits]
+                self.circuit_metadata = [
+                    c.metadata if isinstance(c, Circuit) else {} for c in results.metadata.circuits
+                ]
 
         result_dict = {
             "backend_name": None,

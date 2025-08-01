@@ -459,7 +459,10 @@ class Circuit(BaseModel):
         return instructions
 
 
-CircuitBatch = list[Circuit]
+QIRCode = str
+"""QIR program code in string representation"""
+
+CircuitBatch = list[Circuit | QIRCode]
 """Type that represents a list of quantum circuits to be executed together in a single batch."""
 
 
@@ -473,7 +476,12 @@ def validate_circuit(circuit: Circuit) -> None:
         pydantic.error_wrappers.ValidationError: validation failed
 
     """
-    Circuit.model_validate(circuit.__dict__)
+    if isinstance(circuit, Circuit):
+        Circuit.model_validate(circuit.__dict__)
+    elif isinstance(circuit, QIRCode):
+        pass
+    else:
+        raise ValueError("Every circuit in a batch should be of type <Circuit> or <QIRCode>")
 
 
 class SingleQubitMapping(BaseModel):

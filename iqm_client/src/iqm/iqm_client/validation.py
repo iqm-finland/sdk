@@ -18,6 +18,7 @@ from iqm.iqm_client.models import (
     DynamicQuantumArchitecture,
     Instruction,
     MoveGateValidationMode,
+    QIRCode,
 )
 
 
@@ -49,6 +50,8 @@ def validate_qubit_mapping(
 
     # check if qubit mapping covers all qubits in the circuits
     for i, circuit in enumerate(circuits):
+        if isinstance(circuit, (QIRCode)):
+            continue
         diff = circuit.all_qubits() - set(qubit_mapping)
         if diff:
             raise CircuitValidationError(
@@ -86,6 +89,9 @@ def validate_circuit_instructions(
 
     """
     for index, circuit in enumerate(circuits):
+        if isinstance(circuit, QIRCode):
+            continue
+
         measurement_keys: set[str] = set()
         for instr in circuit.instructions:
             validate_instruction(architecture, instr, qubit_mapping)

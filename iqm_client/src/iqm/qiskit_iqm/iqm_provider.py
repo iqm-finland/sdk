@@ -23,6 +23,7 @@ import warnings
 
 from iqm.iqm_client import (
     Circuit,
+    CircuitBatch,
     CircuitCompilationOptions,
     CircuitValidationError,
     IQMClient,
@@ -111,7 +112,7 @@ class IQMBackend(IQMBackendBase):
         run_request = self.create_run_request(run_input, **options)
         job_id = self.client.submit_run_request(run_request)
         job = IQMJob(self, str(job_id), shots=run_request.shots)
-        job.circuit_metadata = [c.metadata for c in run_request.circuits]
+        job.circuit_metadata = [c.metadata if isinstance(c, Circuit) else {} for c in run_request.circuits]
         return job
 
     def create_run_request(
@@ -181,7 +182,7 @@ class IQMBackend(IQMBackendBase):
         if circuit_callback:
             circuit_callback(circuits)
 
-        circuits_serialized: list[Circuit] = [self.serialize_circuit(circuit, qubit_mapping) for circuit in circuits]
+        circuits_serialized: CircuitBatch = [self.serialize_circuit(circuit, qubit_mapping) for circuit in circuits]
 
         if self._use_default_calibration_set:
             default_calset_id = self.client.get_dynamic_quantum_architecture(None).calibration_set_id
