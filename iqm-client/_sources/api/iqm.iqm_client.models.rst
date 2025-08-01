@@ -11,6 +11,7 @@ iqm.iqm\_client.models
       :toctree:
    
       Locus
+      QIRCode
       CircuitBatch
       QubitMapping
       PRXSequence
