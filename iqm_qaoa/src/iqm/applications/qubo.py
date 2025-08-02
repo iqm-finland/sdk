@@ -307,6 +307,8 @@ class ConstrainedQuadraticInstance(ProblemInstance):
         - The i,j entry above the diagonal corresponds to the interaction between the i-th and j-th variables.
         - The entries below the diagonal are empty.
         """
+        # First recalculate BQM to make sure all constraints and objectives are accounted for.
+        self._bqm = self._recalculate_bqm()
         matrix = np.zeros((self._bqm.num_variables, self._bqm.num_variables))
         lin, (row, col, quad), *_ = self._bqm.to_numpy_vectors(sort_indices=True)
         np.fill_diagonal(matrix, lin)
@@ -320,6 +322,8 @@ class ConstrainedQuadraticInstance(ProblemInstance):
         The nodes / edges of the graph have a ``bias`` parameter containing the local field / interaction strength
         of the corresponding variable(s). Variables without interaction aren't connected by edges in the graph.
         """
+        # First recalculate BQM to make sure all constraints and objectives are accounted for.
+        self._bqm = self._recalculate_bqm()
         return to_networkx_graph(self._bqm)
 
     def constraints_checker(self, bit_str: str) -> bool:

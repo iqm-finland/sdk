@@ -2,6 +2,15 @@
 Changelog
 =========
 
+Version 1.14.0 (2025-08-01)
+===========================
+
+Bug fixes
+---------
+
+- Fix `qubo_graph` and `qubo_matrix` methods of `ConstrainedQuadraticInstance` so that they re-compute the internal attribute `_bqm` everytime they're called and therefore they're up to date with the problem instance.
+- Add a small test that checks if all the QUBO representations of `ConstrainedQuadraticInstance` agree, i.e., `qubo_graph`, `qubo_matrix` and `bqm`.
+
 Version 1.13.0 (2025-07-28)
 ===========================
 
