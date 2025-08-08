@@ -39,6 +39,7 @@ iqm.iqm\_client.iqm\_client.IQMClient
       ~IQMClient.get_run_counts
       ~IQMClient.get_run_status
       ~IQMClient.get_static_quantum_architecture
+      ~IQMClient.get_structured_metrics
       ~IQMClient.get_supported_client_libraries
       ~IQMClient.submit_circuits
       ~IQMClient.submit_run_request
