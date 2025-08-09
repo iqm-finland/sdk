@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>QONMetric &#8212; station-control-client 9.11.0 documentation</title>
+    <title>QONMetric &#8212; station-control-client 9.12.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=dc0944d4"></script>
+    <script src="../_static/documentation_options.js?v=fcb8de3f"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -49,12 +49,12 @@
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="iqm.station_control.client.qon.UnknownObservationError" href="iqm.station_control.client.qon.UnknownObservationError.html" />
+    <link rel="next" title="QONMetricRegistry" href="iqm.station_control.client.qon.QONMetricRegistry.html" />
     <link rel="prev" title="QONGateParam" href="iqm.station_control.client.qon.QONGateParam.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="9.11.0" />
-    <meta name="docbuild:last-update" content="2025-08-08"/>
+  <meta name="docsearch:version" content="9.12.0" />
+    <meta name="docbuild:last-update" content="2025-08-09"/>
   </head>
   
   
@@ -133,8 +133,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 9.11.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="station-control-client 9.11.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 9.12.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="station-control-client 9.12.0 documentation - Home"/>
   
   
 </a></div>
@@ -183,8 +183,11 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QON.html">QON</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONCharacterization.html">QONCharacterization</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONControllerSetting.html">QONControllerSetting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateMetric.html">QONGateMetric</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateParam.html">QONGateParam</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">QONMetric</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONMetricRegistry.html">QONMetricRegistry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONSystemMetric.html">QONSystemMetric</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.UnknownObservationError.html">iqm.station_control.client.qon.UnknownObservationError</a></li>
 </ul>
 </details></li>
@@ -342,11 +345,8 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric"><code class="docutils literal notranslate"><span class="pre">QONMetric</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric.gate"><code class="docutils literal notranslate"><span class="pre">QONMetric.gate</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric.implementation"><code class="docutils literal notranslate"><span class="pre">QONMetric.implementation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric.locus"><code class="docutils literal notranslate"><span class="pre">QONMetric.locus</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric.metric"><code class="docutils literal notranslate"><span class="pre">QONMetric.metric</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric.suffixes"><code class="docutils literal notranslate"><span class="pre">QONMetric.suffixes</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric.domain"><code class="docutils literal notranslate"><span class="pre">QONMetric.domain</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric._parse"><code class="docutils literal notranslate"><span class="pre">QONMetric._parse()</span></code></a></li>
 </ul>
@@ -366,71 +366,25 @@
 <h1>QONMetric<a class="headerlink" href="#qonmetric" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.station_control.client.qon.QONMetric">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">QONMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implementation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffixes=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.QONMetric" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">QONMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.QONMetric" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.station_control.client.qon.QON.html#iqm.station_control.client.qon.QON" title="iqm.station_control.client.qon.QON"><code class="xref py py-class docutils literal notranslate"><span class="pre">QON</span></code></a></p>
-<p>QON representing a gate quality metric.</p>
-<p>Has the form <code class="docutils literal notranslate"><span class="pre">metrics.{method}.{method_specific_part}</span></code>.</p>
-<p>Can parse/represent e.g. the following metrics:</p>
-<p><code class="docutils literal notranslate"><span class="pre">metrics.ssro.measure.constant.QB1.fidelity:par=d1:aaa=bbb</span></code></p>
-<blockquote>
-<div><p>method: ssro
-gate: measure
-implementation: constant
-locus: QB1
-metric: fidelity
-suffixes: {“aaa”: “bbb”, “par”: “d1”}</p>
-</div></blockquote>
-<p><code class="docutils literal notranslate"><span class="pre">metrics.ssro.measure.constant.QB1.fidelity</span></code></p>
-<blockquote>
-<div><p>method: ssro
-gate: measure
-implementation: constant
-locus: QB1
-metric: fidelity
-suffixes: {}</p>
-</div></blockquote>
-<p><code class="docutils literal notranslate"><span class="pre">metrics.rb.prx.drag_crf.QB4.fidelity:par=d2</span></code></p>
-<blockquote>
-<div><p>method: rb
-gate: prx
-implementation: drag_crf
-locus: QB4
-metric: fidelity
-suffixes: {“par”: “d2”}</p>
-</div></blockquote>
-<p><code class="docutils literal notranslate"><span class="pre">metrics.ghz_state.QB1__QB2.coherence_lower_bound</span></code></p>
-<blockquote>
-<div><p>method: ghz_state
-gate: None
-implementation: None
-locus: QB1__QB2
-metric: coherence_lower_bound
-suffixes: {}</p>
-</div></blockquote>
+<p>Base class for QON representing a gate quality metric.</p>
+<p>Subclasses implement parsing and string representation for specific methods.</p>
 <p>Module: <a class="reference internal" href="iqm.station_control.client.qon.html#module-iqm.station_control.client.qon" title="iqm.station_control.client.qon"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.station_control.client.qon</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONMetric.domain" title="iqm.station_control.client.qon.QONMetric.domain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">domain</span></code></a></p></td>
-<td><p>Type/purpose of the observation.</p></td>
+<td><p>Return the QON domain for metrics.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">method</span></code></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONMetric.gate" title="iqm.station_control.client.qon.QONMetric.gate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gate</span></code></a></p></td>
-<td><p>Name of the gate/quantum operation.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONMetric.implementation" title="iqm.station_control.client.qon.QONMetric.implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">implementation</span></code></a></p></td>
-<td><p>Name of the gate implementation.</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONMetric.locus" title="iqm.station_control.client.qon.QONMetric.locus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">locus</span></code></a></p></td>
-<td><p>Sequence of names of QPU components on which the gate/operation is applied.</p></td>
+<td><p>Sequence of names of QPU components on which the gate is applied, or on which the experiment is run.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONMetric.metric" title="iqm.station_control.client.qon.QONMetric.metric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">metric</span></code></a></p></td>
 <td><p>Measured metric.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONMetric.suffixes" title="iqm.station_control.client.qon.QONMetric.suffixes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">suffixes</span></code></a></p></td>
-<td><p>Suffixes defining the metric further (if any).</p></td>
 </tr>
 </tbody>
 </table>
@@ -445,30 +399,15 @@ suffixes: {}</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
-<li><p><strong>gate</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>implementation</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – </p></li>
 <li><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
 <li><p><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
-<li><p><strong>suffixes</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – </p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="iqm.station_control.client.qon.QONMetric.gate">
-<span class="sig-name descname"><span class="pre">gate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><a class="headerlink" href="#iqm.station_control.client.qon.QONMetric.gate" title="Link to this definition">#</a></dt>
-<dd><p>Name of the gate/quantum operation.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="iqm.station_control.client.qon.QONMetric.implementation">
-<span class="sig-name descname"><span class="pre">implementation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><a class="headerlink" href="#iqm.station_control.client.qon.QONMetric.implementation" title="Link to this definition">#</a></dt>
-<dd><p>Name of the gate implementation.</p>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.station_control.client.qon.QONMetric.locus">
 <span class="sig-name descname"><span class="pre">locus</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#iqm.station_control.client.qon.QONMetric.locus" title="Link to this definition">#</a></dt>
-<dd><p>Sequence of names of QPU components on which the gate/operation is applied.</p>
+<dd><p>Sequence of names of QPU components on which the gate is applied, or on which the experiment is run.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -477,37 +416,31 @@ suffixes: {}</p>
 <dd><p>Measured metric.</p>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="iqm.station_control.client.qon.QONMetric.suffixes">
-<span class="sig-name descname"><span class="pre">suffixes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.station_control.client.qon.QONMetric.suffixes" title="Link to this definition">#</a></dt>
-<dd><p>Suffixes defining the metric further (if any).</p>
-</dd></dl>
-
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.station_control.client.qon.QONMetric.domain">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">domain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="iqm.station_control.client.qon.Domain.html#iqm.station_control.client.qon.Domain" title="iqm.station_control.client.qon.Domain"><span class="pre">Domain</span></a></em><a class="headerlink" href="#iqm.station_control.client.qon.QONMetric.domain" title="Link to this definition">#</a></dt>
-<dd><p>Type/purpose of the observation.</p>
+<dd><p>Return the QON domain for metrics.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.station_control.client.qon.QONMetric._parse">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method_specific_part</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.QONMetric._parse" title="Link to this definition">#</a></dt>
-<dd><p>Parse a gate quality metric name.</p>
+<dd><p>Parse a metric observation name using the appropriate registered subclass.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Method used to measure the gate metric.</p></li>
-<li><p><strong>method_specific_part</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Dot-separated fields specific to <code class="docutils literal notranslate"><span class="pre">method</span></code>, possibly followed by suffixes.</p></li>
+<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The method name.</p></li>
+<li><p><strong>method_specific_part</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The method-specific part of the metric observation name.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – Failed to parse <code class="docutils literal notranslate"><span class="pre">name</span></code> because it was syntactically incorrect.</p></li>
-<li><p><a class="reference internal" href="iqm.station_control.client.qon.UnknownObservationError.html#iqm.station_control.client.qon.UnknownObservationError" title="iqm.station_control.client.qon.UnknownObservationError"><strong>UnknownObservationError</strong></a> – Failed to parse <code class="docutils literal notranslate"><span class="pre">name</span></code> because it contains unknown elements.</p></li>
-</ul>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Parsed metric name.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#iqm.station_control.client.qon.QONMetric" title="iqm.station_control.client.qon.QONMetric"><em>QONMetric</em></a></p>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iqm.station_control.client.qon.UnknownObservationError.html#iqm.station_control.client.qon.UnknownObservationError" title="iqm.station_control.client.qon.UnknownObservationError"><strong>UnknownObservationError</strong></a> – <code class="docutils literal notranslate"><span class="pre">method</span></code> is not registered.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#iqm.station_control.client.qon.QONMetric" title="iqm.station_control.client.qon.QONMetric"><em>QONMetric</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -537,11 +470,11 @@ suffixes: {}</p>
       </div>
     </a>
     <a class="right-next"
-       href="iqm.station_control.client.qon.UnknownObservationError.html"
+       href="iqm.station_control.client.qon.QONMetricRegistry.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">iqm.station_control.client.qon.UnknownObservationError</p>
+        <p class="prev-next-title">QONMetricRegistry</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -563,11 +496,8 @@ suffixes: {}</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric"><code class="docutils literal notranslate"><span class="pre">QONMetric</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric.gate"><code class="docutils literal notranslate"><span class="pre">QONMetric.gate</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric.implementation"><code class="docutils literal notranslate"><span class="pre">QONMetric.implementation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric.locus"><code class="docutils literal notranslate"><span class="pre">QONMetric.locus</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric.metric"><code class="docutils literal notranslate"><span class="pre">QONMetric.metric</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric.suffixes"><code class="docutils literal notranslate"><span class="pre">QONMetric.suffixes</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric.domain"><code class="docutils literal notranslate"><span class="pre">QONMetric.domain</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONMetric._parse"><code class="docutils literal notranslate"><span class="pre">QONMetric._parse()</span></code></a></li>
 </ul>
@@ -592,7 +522,7 @@ suffixes: {}</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 9.11.0.
+      © Copyright 2019-2025, IQM Finland Oy, Release 9.12.0.
       <br/>
     
   </p>
@@ -601,7 +531,7 @@ suffixes: {}</p>
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-08-08.
+  Last updated on 2025-08-09.
   <br/>
 </p>
   </div>
