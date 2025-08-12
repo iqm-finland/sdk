@@ -103,7 +103,9 @@ class IQMNaiveResonatorMoving(TransformationPass):
         )
         try:
             routed_iqm_circuit = transpile_insert_moves(
-                iqm_circuit, self.architecture, existing_moves=self.existing_moves_handling
+                iqm_circuit,
+                self.architecture,
+                existing_moves=self.existing_moves_handling,
             )
             routed_circuit = deserialize_instructions(
                 list(routed_iqm_circuit.instructions), self.component_to_idx, layout
@@ -121,7 +123,11 @@ class IQMNaiveResonatorMoving(TransformationPass):
 
         # Create the new DAG and make sure that the qubits are properly ordered.
         ordered_qubits = [layout.get_physical_bits()[i] for i in range(len(layout.get_physical_bits()))]
-        new_dag = circuit_to_dag(routed_circuit, qubit_order=ordered_qubits, clbit_order=routed_circuit.clbits)
+        new_dag = circuit_to_dag(
+            routed_circuit,
+            qubit_order=ordered_qubits,
+            clbit_order=routed_circuit.clbits,
+        )
 
         # Reinsert the symbolic parameters.
         for node in new_dag.topological_op_nodes():
@@ -208,6 +214,11 @@ def transpile_to_IQM(  # noqa: PLR0913
 
     Works with both the Crystal and Star architectures.
 
+    Note: When transpiling a circuit with MOVE gates, you might need to set the `optimization_level` lower.
+    If the `optimization_level` is set too high, the transpiler might add single qubit gates onto the resonator,
+    which is not supported by the IQM Star architectures. If this in undesired, it is best to have the transpiler
+    add the MOVE gates automatically, rather than manually adding them to the circuit.
+
     Args:
         circuit: The circuit to be transpiled without MOVE gates.
         backend: The target backend to compile to. Does not require a resonator.
@@ -233,7 +244,7 @@ def transpile_to_IQM(  # noqa: PLR0913
         restrict_to_qubits = [backend.qubit_name_to_index(q) if isinstance(q, str) else q for q in restrict_to_qubits]
 
     if target is None:
-        if circuit.count_ops().get("move", 0) > 0:
+        if circuit.count_ops().get("move", 0) > 0 or circuit.num_qubits > backend.num_qubits:
             target = backend.target_with_resonators
             # Create a sensible initial layout if none is provided
             if initial_layout is None:
@@ -263,5 +274,10 @@ def transpile_to_IQM(  # noqa: PLR0913
             + "`ignore_barriers`, and `existing_moves_handling` arguments."
         )
     qiskit_transpiler_kwargs["scheduling_method"] = scheduling_method
-    new_circuit = transpile(circuit, target=target, initial_layout=initial_layout, **qiskit_transpiler_kwargs)
+    new_circuit = transpile(
+        circuit,
+        target=target,
+        initial_layout=initial_layout,
+        **qiskit_transpiler_kwargs,
+    )
     return new_circuit

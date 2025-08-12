@@ -377,7 +377,8 @@ def goemans_williamson(max_cut_problem: MaxCutInstance | nx.Graph) -> str:
     assignment = diagonal_root @ eigenvectors.T
 
     size = len(assignment)
-    partition = np.random.normal(size=size)
+    rng = np.random.default_rng()
+    partition = rng.standard_normal(size=size)
     projections = assignment.T @ partition
 
     sides = (np.sign(projections).astype(int) + 1) // 2

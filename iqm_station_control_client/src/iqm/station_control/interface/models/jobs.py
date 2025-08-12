@@ -81,7 +81,7 @@ class JobExecutorStatus(Enum):
     VALIDATION_ENDED = "validation_ended"
     """The job passed validation."""
 
-    # Running PulLA
+    # Running Pulla
     FETCH_CALIBRATION_STARTED = "fetch_calibration_started"
     """Calibration data for the job is being fetched."""
     FETCH_CALIBRATION_ENDED = "fetch_calibration_ended"

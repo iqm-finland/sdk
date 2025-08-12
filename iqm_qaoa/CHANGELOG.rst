@@ -2,6 +2,21 @@
 Changelog
 =========
 
+Version 1.16.0 (2025-08-08)
+===========================
+
+Bugfix
+--------
+
+- Fix where :method:`transpiled_circuit` on STAR devices could result in a transpiler error when `optimization_level` is set too large, in which case the transpiler could place single qubit gates onto the resonator. :issue:`SW-944`.
+
+Version 1.15.0 (2025-08-08)
+===========================
+
+Bug Fixes
+---------
+- Replace calls to ``numpy.random`` with creation of an RNG object and calls to its methods.
+
 Version 1.14.0 (2025-08-01)
 ===========================
 

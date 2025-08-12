@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 26.30.0 (2025-08-11)
+============================
+
+Bug fixes
+---------
+
+- Fix SettingNode.merge producing wrong paths/names in certain programmatic usage.
+
 Version 26.29.0 (2025-07-24)
 ============================
 

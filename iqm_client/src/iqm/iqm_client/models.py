@@ -714,6 +714,20 @@ class GateInfo(BaseModel):
         loci_sorted = sorted(loci_set, key=lambda locus: tuple(map(_component_sort_key, locus)))
         return tuple(loci_sorted)
 
+    def get_default_implementation(self, locus: Locus) -> str:
+        """Default implementation of this gate for the given locus.
+
+        Args:
+            locus: gate locus
+
+        Returns:
+            Name of the default implementation of this gate for ``locus``.
+
+        """
+        if (impl := self.override_default_implementation.get(locus)) is not None:
+            return impl
+        return self.default_implementation
+
 
 class DynamicQuantumArchitecture(BaseModel):
     """Dynamic quantum architecture as returned by server.

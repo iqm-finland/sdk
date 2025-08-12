@@ -65,6 +65,7 @@ import requests
 from requests import HTTPError
 
 from iqm.station_control.client.iqm_server.iqm_server_client import IqmServerClient
+from iqm.station_control.client.qon import ObservationFinder
 from iqm.station_control.client.utils import init_station_control
 from iqm.station_control.interface.models import ObservationLite
 from iqm.station_control.interface.station_control import StationControlInterface
@@ -907,3 +908,33 @@ class IQMClient:
         except json.decoder.JSONDecodeError as e:
             raise EndpointRequestError(f"Invalid response: {response.text}, {e!r}") from e
         return model
+
+    def get_structured_metrics(self, calibration_set_id: UUID | None = None) -> ObservationFinder:
+        """Retrieve the given calibration set and related quality metrics from the server.
+
+        Args:
+            calibration_set_id: ID of the calibration set to retrieve.
+                If ``None``, the current default calibration set is retrieved.
+
+        Returns:
+            Requested calibration set and related quality metrics in a searchable structure.
+
+        Raises:
+            EndpointRequestError: did not understand the endpoint response
+            ClientAuthenticationError: no valid authentication provided
+            HTTPException: HTTP exceptions
+
+        """
+        if isinstance(self._station_control, IqmServerClient):
+            raise ValueError("The get_structured_metrics method is not supported by IqmServerClient.")
+
+        if not calibration_set_id:
+            # find out the default calset id
+            default_calset = self._station_control.get_default_calibration_set()
+            calibration_set_id = default_calset.observation_set_id
+
+        calset_obs = self._station_control.get_observation_set_observations(calibration_set_id)
+        quality_metrics = self._station_control.get_calibration_set_quality_metrics(calibration_set_id)
+        qm_obs = quality_metrics.observations
+
+        return ObservationFinder(list(calset_obs) + qm_obs)

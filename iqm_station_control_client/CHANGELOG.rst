@@ -2,6 +2,35 @@
 Changelog
 =========
 
+Version 9.12.0 (2025-08-08)
+===========================
+
+Features
+--------
+
+- QON subclasses are now pydantic dataclasses.
+- Modifies typing of QON subclasses to validate some of the inputs using regex.
+- Add ``QONMetricRegistry`` to register parsing of QON metric subclasses for different methods.
+- Refactor ``QONMetric`` into a base class, with new subclasses ``QONGateMetric`` and ``QONSystemMetric`` to handle gate-related and gate-unrelated metric generation.
+- Add more strict regex validation on QON subclasses.
+- Update tests to reflect the new structure and validation rules.
+
+Version 9.11.0 (2025-08-07)
+===========================
+
+Features
+--------
+
+- Fix naming conventions related to Pulse level access as ``Pulla``.
+
+Version 9.10.0 (2025-08-07)
+===========================
+
+Features
+--------
+
+- Small improvements to QON.
+
 Version 9.9.0 (2025-07-23)
 ==========================
 

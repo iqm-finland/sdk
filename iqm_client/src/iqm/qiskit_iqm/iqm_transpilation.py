@@ -22,7 +22,11 @@ from qiskit.circuit.equivalence_library import SessionEquivalenceLibrary
 from qiskit.circuit.library import RGate, UnitaryGate
 from qiskit.dagcircuit import DAGCircuit
 from qiskit.transpiler.basepasses import TransformationPass
-from qiskit.transpiler.passes import BasisTranslator, Optimize1qGatesDecomposition, RemoveBarriers
+from qiskit.transpiler.passes import (
+    BasisTranslator,
+    Optimize1qGatesDecomposition,
+    RemoveBarriers,
+)
 from qiskit.transpiler.passmanager import PassManager
 
 TOLERANCE = 1e-10  # The tolerance for equivalence checking against zero.
@@ -73,12 +77,16 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
         for node in dag.topological_op_nodes():
             if node.name == "u":
                 # convert into PRX + RZ
-                qubit_index = dag.find_bit(node.qargs[0])[0]
+                qubit_index = dag.find_bit(node.qargs[0]).index
                 if isinstance(node.op.params[0], float) and math.isclose(node.op.params[0], 0, abs_tol=TOLERANCE):
                     dag.remove_op_node(node)
                 else:
                     dag.substitute_node(
-                        node, RGate(node.op.params[0], np.pi / 2 - node.op.params[2] - rz_angles[qubit_index])
+                        node,
+                        RGate(
+                            node.op.params[0],
+                            np.pi / 2 - node.op.params[2] - rz_angles[qubit_index],
+                        ),
                     )
                 phase = node.op.params[1] + node.op.params[2]
                 dag.global_phase += phase / 2
@@ -89,7 +97,7 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
                 # are arbitrary so we could set rz_angles to any values here, but zeroing the
                 # angles results in fewest changes to the circuit.
                 for qubit in node.qargs:
-                    rz_angles[dag.find_bit(qubit)[0]] = 0
+                    rz_angles[dag.find_bit(qubit).index] = 0
             elif node.name == "barrier":
                 # TODO barriers are meant to restrict circuit optimization, so strictly speaking
                 # we should output any accumulated ``rz_angles`` here as explicit z rotations (like
@@ -100,7 +108,10 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
                 pass
             elif node.name == "move":
                 # acts like iSWAP with RZ, moving it to the other component
-                qb, res = dag.find_bit(node.qargs[0])[0], dag.find_bit(node.qargs[1])[0]
+                qb, res = (
+                    dag.find_bit(node.qargs[0]).index,
+                    dag.find_bit(node.qargs[1]).index,
+                )
                 rz_angles[res], rz_angles[qb] = rz_angles[qb], rz_angles[res]
             elif node.name in {"cz", "delay"}:
                 pass  # commutes with RZ gates

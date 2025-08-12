@@ -79,15 +79,15 @@ def sk_generator(
         the model.
 
     """
-    np.random.seed(seed)
+    rng = np.random.default_rng(seed=seed)
     for _ in range(n_instances):
         if distribution in ("gaussian", "normal"):
-            interaction_matrix = np.triu(np.random.normal(0, 1, size=(n, n)), k=1) / np.sqrt(n)
+            interaction_matrix = np.triu(rng.standard_normal(size=(n, n)), k=1) / np.sqrt(n)
         elif distribution == "rademacher":
-            matrix = 2 * np.random.binomial(n=1, p=0.5, size=(n, n)) - np.ones(shape=(n, n))
+            matrix = 2 * rng.binomial(n=1, p=0.5, size=(n, n)) - np.ones(shape=(n, n))
             interaction_matrix = np.triu(matrix, k=1) / np.sqrt(n)
         elif distribution == "uniform":
-            interaction_matrix = np.triu(np.random.uniform(0, 1, size=(n, n)), k=1) / np.sqrt(n)
+            interaction_matrix = np.triu(rng.uniform(0, 1, size=(n, n)), k=1) / np.sqrt(n)
         else:
             raise ValueError("Invalid distribution. Choose either 'gaussian', 'rademacher' or 'uniform'.")
         yield SherringtonKirkpatrick(interaction_matrix)

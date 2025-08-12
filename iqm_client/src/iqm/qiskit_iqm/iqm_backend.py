@@ -58,9 +58,11 @@ class IQMBackendBase(BackendV2, ABC):
         # qubits, or else transpiling with optimization_level=0 will fail because of lacking resonator indices.
         qb_to_idx = {qb: idx for idx, qb in enumerate(architecture.qubits + architecture.computational_resonators)}
 
-        self._target = IQMTarget(architecture, qb_to_idx, include_resonators=False)
+        self._target = IQMTarget(architecture, component_to_idx=qb_to_idx, include_resonators=False)
         self._fake_target_with_moves = (
-            IQMTarget(architecture, qb_to_idx, include_resonators=True) if "move" in architecture.gates else None
+            IQMTarget(architecture, component_to_idx=qb_to_idx, include_resonators=True)
+            if "move" in architecture.gates
+            else None
         )
         self._qb_to_idx = qb_to_idx
         self._idx_to_qb = {v: k for k, v in qb_to_idx.items()}
@@ -135,7 +137,10 @@ class IQMBackendBase(BackendV2, ABC):
         return "iqm_default_scheduling"
 
     def restrict_to_qubits(
-        self, qubits: list[int] | list[str], include_resonators: bool = False, include_fake_czs: bool = True
+        self,
+        qubits: list[int] | list[str],
+        include_resonators: bool = False,
+        include_fake_czs: bool = True,
     ) -> IQMTarget:
         """Generated a restricted transpilation target from this backend that only contains the given qubits.
 
@@ -153,7 +158,10 @@ class IQMBackendBase(BackendV2, ABC):
 
 
 def _restrict_dqa_to_qubits(
-    architecture: DynamicQuantumArchitecture, qubits: list[str], include_resonators: bool, include_fake_czs: bool = True
+    architecture: DynamicQuantumArchitecture,
+    qubits: list[str],
+    include_resonators: bool,
+    include_fake_czs: bool = True,
 ) -> IQMTarget:
     """Generated a restricted transpilation target from this backend that only contains the given qubits.
 
@@ -170,7 +178,10 @@ def _restrict_dqa_to_qubits(
     new_gates = {}
     for gate_name, gate_info in architecture.gates.items():
         new_implementations = {}
-        for implementation_name, implementation_info in gate_info.implementations.items():
+        for (
+            implementation_name,
+            implementation_info,
+        ) in gate_info.implementations.items():
             new_loci = tuple(locus for locus in implementation_info.loci if all(q in qubits for q in locus))
             if new_loci:
                 new_implementations[implementation_name] = GateImplementationInfo(loci=new_loci)
@@ -186,7 +197,12 @@ def _restrict_dqa_to_qubits(
         computational_resonators=[q for q in qubits if q in architecture.computational_resonators],
         gates=new_gates,
     )
-    return IQMTarget(new_arch, {name: idx for idx, name in enumerate(qubits)}, include_resonators, include_fake_czs)
+    return IQMTarget(
+        new_arch,
+        component_to_idx={name: idx for idx, name in enumerate(qubits)},
+        include_resonators=include_resonators,
+        include_fake_czs=include_fake_czs,
+    )
 
 
 class IQMTarget(Target):
@@ -322,5 +338,8 @@ class IQMTarget(Target):
         """
         qubits_str = [self.iqm_idx_to_component[q] if isinstance(q, int) else str(q) for q in qubits]
         return _restrict_dqa_to_qubits(
-            self.iqm_dqa, qubits_str, self.iqm_includes_resonators, self.iqm_includes_fake_czs
+            self.iqm_dqa,
+            qubits_str,
+            self.iqm_includes_resonators,
+            self.iqm_includes_fake_czs,
         )

@@ -580,7 +580,8 @@ class SettingNode(BaseModel):
                 else:
                     new.settings[key] = item.model_copy()
         for key, item in first.subtrees.items():
-            item_copy = item.model_copy(update={"name": item.name.replace(f"{first.name}.", "")}, deep=deep_copy)
+            update = {"name": item.name.replace(f"{first.name}.", "")} if align_name else {}
+            item_copy = item.model_copy(update=update, deep=deep_copy)
             subs = new if align_name else new.subtrees
             if key in new.subtrees:
                 subs[key] = SettingNode.merge(item_copy, new[key])

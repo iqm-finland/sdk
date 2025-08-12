@@ -278,6 +278,7 @@ def transpiled_circuit(
             perform_move_routing=False,
             existing_moves_handling=handling_of_errors,
             initial_layout=[backend.qubit_name_to_index("COMPR1")] + list(range(qaoa.bqm.num_variables)),
+            optimization_level=1,  # Optimization level > 1 causes the transpiler to put SQG on the resonator
             **kwargs,  # Warning: Here we're passing **kwargs meant for `transpile` into `transpile_to_IQM`.
         )
 

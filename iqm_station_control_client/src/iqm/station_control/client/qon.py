@@ -16,10 +16,12 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from dataclasses import dataclass, field
 from enum import StrEnum
 import logging
-from typing import Any, Final, TypeAlias
+from typing import Annotated, Any, Final, TypeAlias
+
+from pydantic import Field
+from pydantic.dataclasses import dataclass
 
 from iqm.station_control.interface.models.observation import ObservationBase
 
@@ -35,8 +37,14 @@ _SUFFIX_SEPARATOR: Final[str] = ":"
 LOCUS_SEPARATOR: Final[str] = "__"
 """Separates QPU components in a locus string."""
 
+_PATTERN: Final[str] = r"^[A-Za-z_][A-Za-z0-9_]*$"
+"""Regex that most observation name parts must follow."""
+
 Locus: TypeAlias = tuple[str, ...]
 """Sequence of QPU component physical names a quantum operation acts on. The order may matter."""
+
+Suffixes: TypeAlias = dict[str, str]
+"""Suffixes in a dut_field, split into key/value pairs."""
 
 
 def locus_to_locus_str(locus: Locus) -> str:
@@ -61,7 +69,7 @@ class UnknownObservationError(RuntimeError):
     """Observation name was syntactically correct but contained unknown elements."""
 
 
-def _parse_suffixes(suffixes: Iterable[str]) -> dict[str, str]:
+def _parse_suffixes(suffixes: Iterable[str]) -> Suffixes:
     """Parse the given suffixes and return them in a sorted dictionary."""
     suffix_dict = {}
     for suffix in suffixes:
@@ -74,7 +82,7 @@ def _parse_suffixes(suffixes: Iterable[str]) -> dict[str, str]:
     return dict(sorted(suffix_dict.items()))
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, config={"extra": "forbid"})  # do not allow unknown keyword args
 class QON:
     """Qualified observation name.
 
@@ -100,7 +108,7 @@ class QON:
         raise NotImplementedError
 
     @classmethod
-    def from_str(cls, name: str) -> "QON":
+    def from_str(cls, name: str) -> QON:
         """Parse an observation name into a QON object.
 
         Args:
@@ -159,7 +167,7 @@ class QONCharacterization(QON):
         return _FIELD_SEPARATOR.join([self.domain, "model", self.component, self.quantity])
 
     @classmethod
-    def _parse(cls, rest: str) -> "QONCharacterization":
+    def _parse(cls, rest: str) -> QONCharacterization:
         """Parse a characterization observation name."""
         parts = rest.split(_FIELD_SEPARATOR, maxsplit=1)
         if len(parts) < 2:
@@ -172,8 +180,131 @@ class QONCharacterization(QON):
         )
 
 
+class QONMetricRegistry:
+    """Registry for QONMetric subclasses, mapping method names to parser classes.
+
+    Allows extensible registration of new metric parsing strategies for new methods.
+    """
+
+    _registry: dict[str, type[QONMetric]] = {}
+    """Mapping from QONMetric method name to the subclass that handles it."""
+    _inv_registry: dict[type[QONMetric], frozenset[str]] = {}
+    """Mapping from QONMetric subclass to the methods it handles."""
+
+    @classmethod
+    def register(cls, method_names: Iterable[str]):
+        """Decorator for registering a QONMetric subclass as the parser for one or more method names.
+
+        Args:
+            method_names: One or more method names to associate with the subclass.
+
+        Returns:
+            The decorator function.
+
+        """
+
+        def decorator(subclass: type[QONMetric]):
+            for name in method_names:
+                if (owner := cls._registry.get(name)) is not None:
+                    raise ValueError(f"Method {name} already registered to {owner.__name__}")
+                cls._registry[name] = subclass
+            cls._inv_registry[subclass] = frozenset(method_names)
+            return subclass
+
+        return decorator
+
+    @classmethod
+    def get_parser(cls, method_name: str) -> type[QONMetric]:
+        """Retrieve the parser class for a given method name.
+
+        Args:
+            method_name: The method name to look up.
+
+        Returns:
+            The QONMetric subclass registered for the method.
+
+        Raises:
+            UnknownObservationError: ``method_name`` is not registered.
+
+        """
+        try:
+            return cls._registry[method_name]
+        except KeyError:
+            raise UnknownObservationError("Unknown quality metric.")
+
+    @classmethod
+    def registered_methods(cls) -> list[str]:
+        """Get a list of all registered method names.
+
+        Returns:
+            List of registered method names.
+
+        """
+        return list(cls._registry.keys())
+
+
 @dataclass(frozen=True)
 class QONMetric(QON):
+    """Base class for QON representing a gate quality metric.
+
+    Subclasses implement parsing and string representation for specific methods.
+    """
+
+    method: Annotated[str, Field(pattern=_PATTERN)]
+    locus: str
+    """Sequence of names of QPU components on which the gate is applied, or on which the experiment is run."""
+    metric: Annotated[str, Field(pattern=r"^[A-Za-z_0-9][A-Za-z0-9_]*$")]
+    """Measured metric."""
+
+    def __post_init__(self):
+        if self.method not in QONMetricRegistry._inv_registry[self.__class__]:
+            raise UnknownObservationError(
+                f"{self.__class__.__name__} is not registered to handle the method {self.method}"
+            )
+
+    @property
+    def domain(self) -> Domain:
+        """Return the QON domain for metrics."""
+        return Domain.METRIC
+
+    @classmethod
+    def _parse(cls, method: str, method_specific_part: str) -> QONMetric:
+        """Parse a metric observation name using the appropriate registered subclass.
+
+        Args:
+            method: The method name.
+            method_specific_part: The method-specific part of the metric observation name.
+
+        Returns:
+            Parsed metric name.
+
+        Raises:
+            UnknownObservationError: ``method`` is not registered.
+
+        """
+        parser_cls = QONMetricRegistry.get_parser(method)
+        return parser_cls._parse(method, method_specific_part)
+
+
+@QONMetricRegistry.register(
+    [
+        "rb",
+        "irb",
+        "ssro",
+        "restless_ssro",
+        "readout_rb",
+        "qndness",
+        "msmt_qndness",
+        "npopex_echo",
+        "npopex_long",
+        "coherence_cz",
+        "ncz_swap",
+        "entanglement_coherence",
+        "conditional_reset",
+    ]
+)
+@dataclass(frozen=True)
+class QONGateMetric(QONMetric):
     """QON representing a gate quality metric.
 
     Has the form ``metrics.{method}.{method_specific_part}``.
@@ -206,97 +337,107 @@ class QONMetric(QON):
         locus: QB4
         metric: fidelity
         suffixes: {"par": "d2"}
+    """
+
+    gate: Annotated[str, Field(pattern=_PATTERN)]
+    """Name of the gate/quantum operation."""
+    implementation: Annotated[str, Field(pattern=_PATTERN)]
+    """Name of the gate implementation."""
+    suffixes: Suffixes = Field(default_factory=dict)
+    """Suffixes defining the metric further (if any)."""
+
+    def __str__(self) -> str:
+        parts = [self.domain, self.method, self.gate, self.implementation, self.locus, self.metric]
+        name = _FIELD_SEPARATOR.join(parts)
+        if self.suffixes:
+            suffix_str = _SUFFIX_SEPARATOR.join(f"{k}={v}" for k, v in sorted(self.suffixes.items()))
+            return f"{name}:{suffix_str}"
+        return name
+
+    @classmethod
+    def _parse(cls, method: str, method_specific_part: str) -> QONGateMetric:
+        """Parse a metric observation name that includes a gate and an implementation.
+
+        Args:
+            method: The method name.
+            method_specific_part: The method-specific part of the metric observation name.
+
+        Returns:
+            Parsed metric name.
+
+        Raises:
+            ValueError: Observation name is malformed.
+
+        """
+        parts, suffixes = _split_obs_name(method_specific_part, maxsplit=3)
+        if len(parts) < 4:
+            raise ValueError(f"{method} gate quality metric name has less than 6 parts")
+        gate, implementation, locus, metric = parts
+        return cls(
+            method=method,
+            gate=gate,
+            implementation=implementation,
+            locus=locus,
+            metric=metric,
+            suffixes=suffixes,
+        )
+
+
+@QONMetricRegistry.register(["ghz_state", "coherence_gef", "relaxation_ef", "simultaneous_coherence_gef", "t1_coupled"])
+@dataclass(frozen=True)
+class QONSystemMetric(QONMetric):
+    """QON representing a system quality metric.
+
+    Has the form ``metrics.{method}.{locus}.{metric}``.
+
+    Can parse/represent e.g. the following metrics:
+
+    ``metrics.irb.circuit.random_circuit.QB4.fidelity:par=d2``
+
+        method: irb
+        gate: circuit
+        implementation: random_circuit
+        locus: QB4
+        metric: fidelity
+        suffixes: {"par": "d2"}
 
     ``metrics.ghz_state.QB1__QB2.coherence_lower_bound``
 
         method: ghz_state
-        gate: None
-        implementation: None
         locus: QB1__QB2
         metric: coherence_lower_bound
-        suffixes: {}
 
+    Subclasses implement parsing and string representation for specific methods.
     """
 
-    method: str
-    gate: str | None
-    """Name of the gate/quantum operation."""
-    implementation: str | None
-    """Name of the gate implementation."""
-    locus: str
-    """Sequence of names of QPU components on which the gate/operation is applied."""
-    metric: str
-    """Measured metric."""
-    suffixes: dict[str, str] = field(default_factory=dict)
-    """Suffixes defining the metric further (if any)."""
-
-    @property
-    def domain(self) -> Domain:
-        return Domain.METRIC
-
     def __str__(self) -> str:
-        if self.method == "ghz_state":
-            parts = [self.domain, self.method, self.locus, self.metric]
-        else:
-            gate_str = self.gate if self.gate is not None else ""
-            impl_str = self.implementation if self.implementation is not None else ""
-            parts = [self.domain, self.method, gate_str, impl_str, self.locus, self.metric]
-        name = _FIELD_SEPARATOR.join(parts)
-        suffixes = _SUFFIX_SEPARATOR.join(f"{key}={value}" for key, value in self.suffixes.items())
-        if suffixes:
-            return f"{name}:{suffixes}"
-        return name
+        parts = [self.domain, self.method, self.locus, self.metric]
+        return _FIELD_SEPARATOR.join(parts)
 
     @classmethod
-    def _parse(cls, method: str, method_specific_part: str) -> "QONMetric":
-        """Parse a gate quality metric name.
+    def _parse(cls, method: str, method_specific_part: str) -> QONSystemMetric:
+        """Parse a metric observation name without a gate or an implementation.
 
         Args:
-            method: Method used to measure the gate metric.
-            method_specific_part: Dot-separated fields specific to ``method``, possibly followed by suffixes.
+            method: The method name.
+            method_specific_part: The method-specific part of the metric observation name.
+
+        Returns:
+            Parsed metric name.
 
         Raises:
-            ValueError: Failed to parse ``name`` because it was syntactically incorrect.
-            UnknownObservationError: Failed to parse ``name`` because it contains unknown elements.
+            ValueError: Observation name is malformed.
 
         """
-        # gate metrics may have suffixes, split them off
-        fragments = method_specific_part.split(_SUFFIX_SEPARATOR)
-        suffixes = _parse_suffixes(fragments[1:])
-
-        # parse the rest of the method specific part
-        fields = fragments[0]
-        if method in ("rb", "irb", "ssro"):
-            # {gate}.{implementation}.{locus_str}.{metric}"
-            parts = fields.split(_FIELD_SEPARATOR, maxsplit=3)
-            if len(parts) < 4:
-                raise ValueError(f"{method} gate quality metric name has less than 6 parts")
-            gate, implementation, locus, metric = parts
-            return cls(
-                method=method,
-                gate=gate,
-                implementation=implementation,
-                locus=locus,
-                metric=metric,
-                suffixes=suffixes,
-            )
-
-        if method == "ghz_state":
-            # {locus_str}.{metric}
-            parts = fields.split(_FIELD_SEPARATOR, maxsplit=1)
-            if len(parts) < 2:
-                raise ValueError(f"{method} gate quality metric name has less than 4 parts")
-            locus, metric = parts
-            return cls(
-                method=method,
-                gate=None,
-                implementation=None,
-                locus=locus,
-                metric=metric,
-                suffixes=suffixes,
-            )
-
-        raise UnknownObservationError("Unknown gate quality metric.")
+        parts = method_specific_part.split(_FIELD_SEPARATOR, maxsplit=1)
+        if len(parts) < 2:
+            raise ValueError(f"{method} system quality metric name has less than 4 parts")
+        locus, metric = parts
+        return cls(
+            method=method,
+            locus=locus,
+            metric=metric,
+        )
 
 
 @dataclass(frozen=True)
@@ -306,7 +447,7 @@ class QONControllerSetting(QON):
     Has the form ``controllers.{controller}[.{subcontroller}]*.{setting}``.
     """
 
-    controller: str
+    controller: Annotated[str, Field(pattern=_PATTERN)]
     """Name of the controller."""
     rest: str
     """Possible subcontroller names in a dotted structure, ending in the setting name."""
@@ -319,7 +460,7 @@ class QONControllerSetting(QON):
         return _FIELD_SEPARATOR.join([self.domain, self.controller, self.rest])
 
     @classmethod
-    def _parse(cls, controller: str, controller_specific_part: str) -> "QONControllerSetting":
+    def _parse(cls, controller: str, controller_specific_part: str) -> QONControllerSetting:
         """Parse a controller setting observation name."""
         return cls(
             controller=controller,
@@ -334,9 +475,9 @@ class QONGateParam(QON):
     Has the form ``gates.{gate}.{implementation}.{locus_str}.{parameter}``.
     """
 
-    gate: str
+    gate: Annotated[str, Field(pattern=_PATTERN)]
     """Name of the gate/quantum operation."""
-    implementation: str | None
+    implementation: Annotated[str, Field(pattern=_PATTERN)]
     """Name of the gate implementation."""
     locus: str
     """Sequence of names of QPU components on which the gate is applied."""
@@ -348,11 +489,10 @@ class QONGateParam(QON):
         return Domain.GATE_PARAMETER
 
     def __str__(self) -> str:
-        impl_str = self.implementation if self.implementation is not None else ""
-        return _FIELD_SEPARATOR.join([self.domain, self.gate, impl_str, self.locus, self.parameter])
+        return _FIELD_SEPARATOR.join([self.domain, self.gate, self.implementation, self.locus, self.parameter])
 
     @classmethod
-    def _parse(cls, gate: str, rest: str) -> "QONGateParam":
+    def _parse(cls, gate: str, rest: str) -> QONGateParam:
         """Parse a gate parameter observation name."""
         parts = rest.split(_FIELD_SEPARATOR, maxsplit=2)
         if len(parts) < 3:
@@ -366,15 +506,28 @@ class QONGateParam(QON):
         )
 
 
-def _split_obs_name(obs_name: str) -> tuple[list[str], dict[str, Any]]:
+def _split_obs_name(obs_name: str, *, maxsplit: int = -1) -> tuple[list[str], Suffixes]:
     """Split the given observation name into path elements and suffixes."""
     # some observation names may have suffixes, split them off
     fragments = obs_name.split(_SUFFIX_SEPARATOR)
     suffixes = _parse_suffixes(fragments[1:])
 
     # split the path elements
-    path = fragments[0].split(_FIELD_SEPARATOR)
+    path = fragments[0].split(_FIELD_SEPARATOR, maxsplit=maxsplit)
     return path, suffixes
+
+
+def _convert_to_float(value: Any) -> float:
+    """Attempt to convert the given value to float.
+
+    Raises:
+        ValueError: Conversion not possible.
+
+    """
+    try:
+        return float(value)  # type: ignore[arg-type]
+    except (ValueError, TypeError) as e:
+        raise ValueError(f"Cannot convert value to float: {type(value)}") from e
 
 
 GATE_FIDELITY_METHODS = {
@@ -406,8 +559,8 @@ class ObservationFinder(dict):
     """
 
     def __init__(self, observations: Iterable[ObservationBase], skip_unparseable: bool = False):
-        def parse_observation_into_dict(name: str, dictionary: dict[str, Any]) -> tuple[dict[str, Any], str]:
-            """Insert the given observation name, split into path elements, into a nested dictionary.
+        def parse_observation_into_dict(name: str, dictionary: dict[str, Any]) -> tuple[dict[str, Any], str, Suffixes]:
+            """Help insert the given observation name, split into path elements, into a nested dictionary.
 
             The returned values allow the caller to insert whatever they want under the last path element
             of ``name`` in the nested dict.
@@ -417,7 +570,8 @@ class ObservationFinder(dict):
                 dictionary: Nested dictionary in which the path elements of ``name`` are inserted.
 
             Returns:
-                The dict corresponding to the second-last path element of ``name``, last path element of ``name``.
+                The dict corresponding to the second-last path element of ``name``, last path element of ``name``,
+                suffixes in ``name``.
 
             Raises:
                 ValueError: Failed to parse ``name`` because it was syntactically incorrect.
@@ -443,12 +597,20 @@ class ObservationFinder(dict):
                     raise UnknownObservationError("Unknown observation domain.")
             for path_element in path[:-1]:
                 dictionary = dictionary.setdefault(path_element, {})
-            return dictionary, path[-1]
+            return dictionary, path[-1], suffixes
 
         for obs in observations:
             try:
-                last_dict, last_element = parse_observation_into_dict(obs.dut_field, self)
-                last_dict[last_element] = obs
+                last_dict, last_element, _ = parse_observation_into_dict(obs.dut_field, self)
+                # TODO how to handle suffixes?
+                if (existing_obs := last_dict.get(last_element)) is not None:
+                    logger.warning(
+                        "Repeated observations: using %s, ignoring %s",
+                        existing_obs.dut_field,
+                        obs.dut_field,
+                    )
+                else:
+                    last_dict[last_element] = obs
             except (ValueError, UnknownObservationError) as err:
                 message = f"{obs.dut_field}: {err}"
                 if skip_unparseable:
@@ -503,8 +665,8 @@ class ObservationFinder(dict):
                             pass  # skip this key if conversion fails
         return result
 
-    def _get_path_value(self, path: Iterable[str]) -> float:
-        """Follow ``path``, return the final value."""
+    def _follow_path(self, path: Iterable[str]) -> dict[str, Any] | ObservationBase:
+        """Follow ``path``, return the final node/value."""
         node: dict[str, Any] | ObservationBase = self
         for step in path:
             if isinstance(node, ObservationBase):
@@ -513,25 +675,18 @@ class ObservationFinder(dict):
             if next_node is None:
                 raise KeyError(f"path step '{step}' could not be found")
             node = next_node
+        return node
 
+    def _get_path_value(self, path: Iterable[str]) -> float:
+        """Follow ``path``, return the final value."""
+        node = self._follow_path(path)
         if not isinstance(node, ObservationBase):
             raise KeyError(f"path {path} does not end in an observation")
-
-        try:
-            return float(node.value)  # type: ignore[arg-type]
-        except (ValueError, TypeError) as e:
-            raise ValueError(f"Cannot convert value to float: {type(node.value)}") from e
+        return _convert_to_float(node.value)
 
     def _get_path_node(self, path: Iterable[str]) -> dict[str, Any]:
         """Follow ``path``, return the final node."""
-        node: dict[str, Any] | ObservationBase = self
-        for step in path:
-            if isinstance(node, ObservationBase):
-                raise KeyError(f"path step '{step}' could not be found")
-            next_node = node.get(step)
-            if next_node is None:
-                raise KeyError(f"path step '{step}' could not be found")
-            node = next_node
+        node = self._follow_path(path)
         if isinstance(node, ObservationBase):
             raise KeyError(f"path {path} does not end in a node")
         return node
@@ -577,14 +732,7 @@ class ObservationFinder(dict):
             node = self._get_path_node(["metrics", "ssro", gate_name, impl_name, locus_str])
             error_0_to_1 = node["error_0_to_1"].value
             error_1_to_0 = node["error_1_to_0"].value
-
-            def convert_to_float(value):
-                try:
-                    return float(value)  # type: ignore[arg-type]
-                except (ValueError, TypeError) as e:
-                    raise ValueError(f"Cannot convert value to float: {type(value)}") from e
-
-            return convert_to_float(error_0_to_1), convert_to_float(error_1_to_0)
+            return _convert_to_float(error_0_to_1), _convert_to_float(error_1_to_0)
         except KeyError:
             logger.warning("Missing errors for %s.%s.%s.", gate_name, impl_name, locus_str)
             return None
