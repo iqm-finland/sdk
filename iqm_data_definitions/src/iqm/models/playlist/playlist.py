@@ -14,6 +14,7 @@
 """ Implements the new data structure of a playlist."""
 from dataclasses import dataclass, field
 from functools import reduce
+from typing import Any
 
 from iqm.models.playlist.channel_descriptions import ChannelDescription
 from iqm.models.playlist.segment import Segment
@@ -93,3 +94,35 @@ class Playlist:
             f"Schedule info:\n {channel_descriptions}\n {segments}\n {unique_waveforms}"
             f"\n {unique_instructions}\n\n{rest}"
         )
+
+    def view(
+            self, *, filter_segments=None, filter_channels=None, kind: str = "operations") -> dict[int, dict[str, Any]]:
+        """Return operations of the playlist grouped by segments and channel names for easy inspection.
+        This method is not meant to be used for integration purposes, but rather for hands-on inspection and debugging.
+
+        Args:
+            filter_segments: List of segment indexes to filter by. If None, all segments are included.
+            filter_channels: List of channel names to filter by. If None, all channels are included.
+            type: Type of data to return in the inner dict, either "operations" or "instructions".
+
+        Returns:
+            Dict of segments, where values are dicts: keys are channels, values are lists of operations or instructions.
+        """
+        if kind not in ["operations", "instructions"]:
+            raise ValueError('Type must be either "operations" or "instructions"')
+        result = {}
+
+        segment_indexes = filter_segments or list(range(0, len(self.segments)))
+        channel_names = filter_channels or list(self.channel_descriptions.keys())
+
+        for segment_index in segment_indexes:
+            result[segment_index] = {}
+            for channel_name in channel_names:
+                result[segment_index][channel_name] = []
+                for instruction in self.channel_descriptions[channel_name].instruction_table:
+                    if kind == "operations":
+                        result[segment_index][channel_name].append(instruction.operation)
+                    elif kind == "instructions":
+                        result[segment_index][channel_name].append(instruction)
+
+        return result
