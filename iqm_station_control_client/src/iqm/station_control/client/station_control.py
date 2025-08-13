@@ -62,7 +62,7 @@ from iqm.station_control.client.serializers import (
 from iqm.station_control.client.serializers.channel_property_serializer import unpack_channel_properties
 from iqm.station_control.client.serializers.setting_node_serializer import deserialize_setting_node
 from iqm.station_control.client.serializers.sweep_serializers import deserialize_sweep_data
-from iqm.station_control.interface.list_with_meta import ListWithMeta
+from iqm.station_control.interface.list_with_meta import ListWithMeta, Meta
 from iqm.station_control.interface.models import (
     DutData,
     DutFieldData,
@@ -358,7 +358,7 @@ class StationControlClient(_StationControlClientBase):
     def create_observations(
         self, observation_definitions: Sequence[ObservationDefinition]
     ) -> ListWithMeta[ObservationData]:  # type: ignore[type-arg]
-        json_str = self._serialize_model(ObservationDefinitionList(observation_definitions))
+        json_str = self._serialize_model(ObservationDefinitionList(list(observation_definitions)))
         response = self._send_request(requests.post, "observations", json_str=json_str)
         return self._deserialize_response(response, ObservationDataList, list_with_meta=True)
 
@@ -394,7 +394,7 @@ class StationControlClient(_StationControlClientBase):
         return self._deserialize_response(response, ObservationDataList, list_with_meta=True)
 
     def update_observations(self, observation_updates: Sequence[ObservationUpdate]) -> list[ObservationData]:
-        json_str = self._serialize_model(ObservationUpdateList(observation_updates))
+        json_str = self._serialize_model(ObservationUpdateList(list(observation_updates)))
         response = self._send_request(requests.patch, "observations", json_str=json_str)
         return self._deserialize_response(response, ObservationDataList)
 
@@ -612,22 +612,23 @@ class StationControlClient(_StationControlClientBase):
     @staticmethod
     def _deserialize_response(
         response: requests.Response,
-        model_class: type[TypePydanticBase | ListModel[list[TypePydanticBase]]],  # type: ignore[type-arg]
+        model_class: type[TypePydanticBase | ListModel],
         *,
         list_with_meta: bool = False,
-    ) -> TypePydanticBase | ListWithMeta[TypePydanticBase]:  # type: ignore[type-arg]
+    ) -> TypePydanticBase | ListWithMeta:
         # Use "model_validate_json(response.text)" instead of "model_validate(response.json())".
         # This validates the provided data as a JSON string or bytes object.
         # If your incoming data is a JSON payload, this is generally considered faster.
         if list_with_meta:
-            response_with_meta = ResponseWithMeta.model_validate_json(response.text)  # type: ignore[var-annotated]
-            if response_with_meta.meta and response_with_meta.meta.errors:
-                logger.warning(
-                    "Errors in station control response:\n  - %s", "\n  - ".join(response_with_meta.meta.errors)
-                )
-            return ListWithMeta(model_class.model_validate(response_with_meta.items), meta=response_with_meta.meta)  # type: ignore[arg-type]
+            response_with_meta: ResponseWithMeta = ResponseWithMeta.model_validate_json(response.text)
+            meta = response_with_meta.meta or Meta()
+            if meta and meta.errors:
+                logger.warning("Errors in station control response:\n  - %s", "\n  - ".join(meta.errors))
+            return ListWithMeta(model_class.model_validate(response_with_meta.items), meta=meta)
         model = model_class.model_validate_json(response.text)
-        return model  # type: ignore[return-value]
+        if isinstance(model, ListModel):
+            return model.root
+        return model
 
 
 def _remove_empty_values(kwargs: dict[str, Any]) -> dict[str, Any]:

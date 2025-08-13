@@ -16,7 +16,7 @@
 These are used mainly for easy serialization and deserialization of list of objects.
 """
 
-from typing import Generic, TypeAlias, TypeVar
+from typing import Generic, TypeVar
 
 from pydantic import ConfigDict, RootModel
 
@@ -64,12 +64,37 @@ class ListModel(RootModel):
     )
 
 
-DutList: TypeAlias = ListModel[list[DutData]]  # type: ignore[type-arg]
-DutFieldDataList: TypeAlias = ListModel[list[DutFieldData]]  # type: ignore[type-arg]
-ObservationDataList: TypeAlias = ListModel[list[ObservationData]]  # type: ignore[type-arg]
-ObservationDefinitionList: TypeAlias = ListModel[list[ObservationDefinition]]  # type: ignore[type-arg]
-ObservationLiteList: TypeAlias = ListModel[list[ObservationLite]]  # type: ignore[type-arg]
-ObservationUpdateList: TypeAlias = ListModel[list[ObservationUpdate]]  # type: ignore[type-arg]
-ObservationSetDataList: TypeAlias = ListModel[list[ObservationSetData]]  # type: ignore[type-arg]
-SequenceMetadataDataList: TypeAlias = ListModel[list[SequenceMetadataData]]  # type: ignore[type-arg]
-RunLiteList: TypeAlias = ListModel[list[RunLite]]  # type: ignore[type-arg]
+class DutList(ListModel):
+    root: list[DutData]
+
+
+class DutFieldDataList(ListModel):
+    root: list[DutFieldData]
+
+
+class ObservationDataList(ListModel):
+    root: list[ObservationData]
+
+
+class ObservationDefinitionList(ListModel):
+    root: list[ObservationDefinition]
+
+
+class ObservationLiteList(ListModel):
+    root: list[ObservationLite]
+
+
+class ObservationUpdateList(ListModel):
+    root: list[ObservationUpdate]
+
+
+class ObservationSetDataList(ListModel):
+    root: list[ObservationSetData]
+
+
+class SequenceMetadataDataList(ListModel):
+    root: list[SequenceMetadataData]
+
+
+class RunLiteList(ListModel):
+    root: list[RunLite]

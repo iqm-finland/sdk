@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 9.13.0 (2025-08-12)
+===========================
+
+Features
+--------
+
+- Fix Pydantic RootModel related mypy warnings.
+
 Version 9.12.0 (2025-08-08)
 ===========================
 
