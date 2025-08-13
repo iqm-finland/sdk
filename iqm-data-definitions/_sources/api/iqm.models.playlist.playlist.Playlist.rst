@@ -28,6 +28,7 @@ Playlist
       :nosignatures:
    
       ~Playlist.add_channel
+      ~Playlist.view
    
    
 

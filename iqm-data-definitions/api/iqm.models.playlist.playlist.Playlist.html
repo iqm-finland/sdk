@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Playlist &#8212; IQM data definitions 2.13 documentation</title>
+    <title>Playlist &#8212; IQM data definitions 2.14 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=7e7672c5"></script>
+    <script src="../_static/documentation_options.js?v=eb63f014"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="playlist" href="iqm.models.playlist.playlist.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.13" />
+  <meta name="docsearch:version" content="2.14" />
     <meta name="docbuild:last-update" content="2025-08-13"/>
   </head>
   
@@ -131,8 +131,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM data definitions 2.13 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM data definitions 2.13 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM data definitions 2.14 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM data definitions 2.14 documentation - Home"/>
   
   
 </a></div>
@@ -325,6 +325,7 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.models.playlist.playlist.Playlist"><code class="docutils literal notranslate"><span class="pre">Playlist</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.models.playlist.playlist.Playlist.add_channel"><code class="docutils literal notranslate"><span class="pre">Playlist.add_channel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.models.playlist.playlist.Playlist.view"><code class="docutils literal notranslate"><span class="pre">Playlist.view()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -379,6 +380,9 @@ and waveform data.</p></li>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.models.playlist.playlist.Playlist.add_channel" title="iqm.models.playlist.playlist.Playlist.add_channel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_channel</span></code></a></p></td>
 <td><p>Adds a new channel to the Schedule.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.models.playlist.playlist.Playlist.view" title="iqm.models.playlist.playlist.Playlist.view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view</span></code></a></p></td>
+<td><p>Return operations of the playlist grouped by segments and channel names for easy inspection.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -395,6 +399,29 @@ and waveform data.</p></li>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.models.playlist.playlist.Playlist.view">
+<span class="sig-name descname"><span class="pre">view</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_segments</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'operations'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.models.playlist.playlist.Playlist.view" title="Link to this definition">#</a></dt>
+<dd><p>Return operations of the playlist grouped by segments and channel names for easy inspection.
+This method is not meant to be used for integration purposes, but rather for hands-on inspection and debugging.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filter_segments</strong> – List of segment indexes to filter by. If None, all segments are included.</p></li>
+<li><p><strong>filter_channels</strong> – List of channel names to filter by. If None, all channels are included.</p></li>
+<li><p><strong>type</strong> – Type of data to return in the inner dict, either “operations” or “instructions”.</p></li>
+<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>keys are channels, values are lists of operations or instructions.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict of segments, where values are dicts</p>
 </dd>
 </dl>
 </dd></dl>
@@ -451,6 +478,7 @@ and waveform data.</p></li>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.models.playlist.playlist.Playlist"><code class="docutils literal notranslate"><span class="pre">Playlist</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.models.playlist.playlist.Playlist.add_channel"><code class="docutils literal notranslate"><span class="pre">Playlist.add_channel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.models.playlist.playlist.Playlist.view"><code class="docutils literal notranslate"><span class="pre">Playlist.view()</span></code></a></li>
 </ul>
 </li>
 </ul>
