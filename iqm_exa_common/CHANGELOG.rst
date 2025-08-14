@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 26.31.0 (2025-08-13)
+============================
+
+Bug fixes
+---------
+
+- Catch deprecation warning for pkg resources.
+
 Version 26.30.0 (2025-08-11)
 ============================
 

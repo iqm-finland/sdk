@@ -17,8 +17,11 @@ from importlib.metadata import distribution
 import os
 import platform
 import subprocess
+import warnings
 
-import pkg_resources  # type:ignore[import-untyped]
+with warnings.catch_warnings():
+    warnings.filterwarnings("ignore", category=DeprecationWarning)
+    import pkg_resources  # type:ignore[import-untyped]
 
 
 def _is_editable(pkg_name: str) -> bool:
@@ -69,7 +72,9 @@ def get_all_software_versions(reload_module: bool = False) -> dict[str, str]:
     # TODO use of pkg_resources is discouraged, replace it with importlib.metadata below.
     # https://setuptools.pypa.io/en/latest/pkg_resources.html
     if reload_module:
-        reload(pkg_resources)
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=DeprecationWarning)
+            reload(pkg_resources)
     for pkg in pkg_resources.working_set:
         value = pkg.parsed_version.base_version
         if _is_editable(pkg.project_name):
