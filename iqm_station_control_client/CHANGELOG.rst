@@ -2,6 +2,13 @@
 Changelog
 =========
 
+Version 9.14.0 (2025-08-14)
+===========================
+
+Bug fixes
+---------
+- Fixed an issue where the `IQMServerClient` was not correctly handling the retrieval of channel properties.
+
 Version 9.13.0 (2025-08-12)
 ===========================
 

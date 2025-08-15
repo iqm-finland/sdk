@@ -25,7 +25,7 @@ import uuid
 from uuid import UUID
 
 import grpc
-from iqm.models.channel_properties import ChannelProperties
+from iqm.models.channel_properties import AWGProperties, ChannelProperties, ReadoutProperties
 import requests
 
 from exa.common.data.setting_node import SettingNode
@@ -43,7 +43,6 @@ from iqm.station_control.client.iqm_server.grpc_utils import (
 )
 from iqm.station_control.client.list_models import DutFieldDataList, DutList
 from iqm.station_control.client.serializers import deserialize_sweep_results, serialize_sweep_job_request
-from iqm.station_control.client.serializers.channel_property_serializer import unpack_channel_properties
 from iqm.station_control.client.serializers.setting_node_serializer import deserialize_setting_node
 from iqm.station_control.client.serializers.task_serializers import deserialize_sweep_job_request
 from iqm.station_control.client.station_control import _StationControlClientBase
@@ -129,7 +128,14 @@ class IqmServerClient(_StationControlClientBase):
         return self._get_resource(f"chip-design-records/{dut_label}", parse_json)
 
     def get_channel_properties(self) -> dict[str, ChannelProperties]:
-        return self._get_resource("channel-properties", unpack_channel_properties)
+        def bytes_to_dict(data: bytes) -> dict[str, ChannelProperties]:
+            """Deserialize bytes to a dictionary of channel property values."""
+            json_props: dict[str, dict] = json.loads(data.decode("utf-8"))
+            # Convert JSON representation to pythonic ChannelProperties
+            return _convert_channel_property_json_to_python(json_props)
+
+        channel_props = self._get_resource("channel-properties", bytes_to_dict)
+        return channel_props
 
     def sweep(self, sweep_definition: SweepDefinition) -> dict:
         with wrap_error("Job submission failed"):
@@ -409,6 +415,32 @@ def subscribe_to_job_events(channel: grpc.Channel, job_id: uuid.UUID) -> Iterabl
                 sleep(5)
                 continue
             raise e
+
+
+def _convert_channel_property_json_to_python(channel_property_json: dict[str, dict]) -> dict[str, ChannelProperties]:
+    """Convert the JSON representation of channel properties to a dictionary containing pythonic ChannelProperties."""
+    channel_properties: dict[str, ChannelProperties] = {}
+    for name, props in channel_property_json.items():
+        if "fast_feedback_sources" in props:
+            channel_properties[name] = AWGProperties(
+                sampling_rate=props.get("sampling_rate"),
+                instruction_duration_granularity=props.get("instruction_duration_granularity"),
+                instruction_duration_min=props.get("instruction_duration_min"),
+                fast_feedback_sources=props.get("fast_feedback_sources", []),
+                compatible_instructions=props.get("compatible_instructions", []),
+                local_oscillator=props.get("local_oscillator"),
+                mixer_correction=props.get("mixer_correction"),
+            )
+        if "integration_start_dead_time" in props:
+            channel_properties[name] = ReadoutProperties(
+                sampling_rate=props.get("sampling_rate"),
+                instruction_duration_granularity=props.get("instruction_duration_granularity"),
+                instruction_duration_min=props.get("instruction_duration_min"),
+                compatible_instructions=props.get("compatible_instructions", []),
+                integration_start_dead_time=props.get("integration_start_dead_time"),
+                integration_stop_dead_time=props.get("integration_stop_dead_time"),
+            )
+    return channel_properties
 
 
 def parse_calibration_set(cal_set_data: bytes) -> tuple[uuid.UUID, dict[str, ObservationValue]]:
