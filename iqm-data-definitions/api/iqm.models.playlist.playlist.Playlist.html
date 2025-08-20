@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Playlist &#8212; IQM data definitions 2.14 documentation</title>
+    <title>Playlist &#8212; IQM data definitions 2.15 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=eb63f014"></script>
+    <script src="../_static/documentation_options.js?v=509f7209"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -51,8 +51,8 @@
     <link rel="prev" title="playlist" href="iqm.models.playlist.playlist.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.14" />
-    <meta name="docbuild:last-update" content="2025-08-19"/>
+  <meta name="docsearch:version" content="2.15" />
+    <meta name="docbuild:last-update" content="2025-08-20"/>
   </head>
   
   
@@ -131,8 +131,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM data definitions 2.14 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM data definitions 2.14 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM data definitions 2.15 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM data definitions 2.15 documentation - Home"/>
   
   
 </a></div>
@@ -350,7 +350,7 @@
 information about the properties of the control and readout channels used
 in the Segments, as well as <a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.Instruction.html#iqm.data_definitions.common.v1.playlist_pb2.Instruction" title="iqm.data_definitions.common.v1.playlist_pb2.Instruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></a> and <a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.Waveform.html#iqm.data_definitions.common.v1.playlist_pb2.Waveform" title="iqm.data_definitions.common.v1.playlist_pb2.Waveform"><code class="xref py py-class docutils literal notranslate"><span class="pre">Waveform</span></code></a> tables.</p>
 <p>This class implements the new data structure that contains all the data necessary
-for an experiment to execute. Schedule contains information of all the channels used as
+for an experiment to execute. Playlist contains information of all the channels used as
 well as the instruction execution schedule.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -378,7 +378,7 @@ and waveform data.</p></li>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.models.playlist.playlist.Playlist.add_channel" title="iqm.models.playlist.playlist.Playlist.add_channel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_channel</span></code></a></p></td>
-<td><p>Adds a new channel to the Schedule.</p></td>
+<td><p>Adds a new channel to the Playlist.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#iqm.models.playlist.playlist.Playlist.view" title="iqm.models.playlist.playlist.Playlist.view"><code class="xref py py-obj docutils literal notranslate"><span class="pre">view</span></code></a></p></td>
 <td><p>Return operations of the playlist grouped by segments and channel names for easy inspection.</p></td>
@@ -389,7 +389,7 @@ and waveform data.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.models.playlist.playlist.Playlist.add_channel">
 <span class="sig-name descname"><span class="pre">add_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_channel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.models.playlist.playlist.Playlist.add_channel" title="Link to this definition">#</a></dt>
-<dd><p>Adds a new channel to the Schedule.</p>
+<dd><p>Adds a new channel to the Playlist.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>new_channel</strong> (<a class="reference internal" href="iqm.models.playlist.channel_descriptions.ChannelDescription.html#iqm.models.playlist.channel_descriptions.ChannelDescription" title="iqm.models.playlist.channel_descriptions.ChannelDescription"><em>ChannelDescription</em></a>) – channel to add</p>
@@ -411,17 +411,20 @@ This method is not meant to be used for integration purposes, but rather for han
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>filter_segments</strong> – List of segment indexes to filter by. If None, all segments are included.</p></li>
-<li><p><strong>filter_channels</strong> – List of channel names to filter by. If None, all channels are included.</p></li>
-<li><p><strong>type</strong> – Type of data to return in the inner dict, either “operations” or “instructions”.</p></li>
-<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>filter_segments</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>] </em><em>| </em><em>None</em>) – List of segment indexes to filter by. If None, all segments are included.</p></li>
+<li><p><strong>filter_channels</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – List of channel names to filter by. If None, all channels are included.</p></li>
+<li><p><strong>kind</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Type of data to return in the inner dict, either “operations” or “instructions”.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>keys are channels, values are lists of operations or instructions.</p>
+<dd class="field-even"><p>keys are channels, values are lists of
+operations or instructions.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Dict of segments, where values are dicts</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If kind is not “operations” or “instructions”.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -514,7 +517,7 @@ By IQM
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-08-19.
+  Last updated on 2025-08-20.
   <br/>
 </p>
   </div>
