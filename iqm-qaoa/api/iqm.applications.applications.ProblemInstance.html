@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ProblemInstance &#8212; IQM QAOA 1.16.0 documentation</title>
+    <title>ProblemInstance &#8212; IQM QAOA 1.19.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=c8a63786"></script>
+    <script src="../_static/documentation_options.js?v=d82602a5"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -55,8 +55,8 @@
     <link rel="prev" title="iqm.applications.applications" href="iqm.applications.applications.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.16.0" />
-    <meta name="docbuild:last-update" content="2025-08-20"/>
+  <meta name="docsearch:version" content="1.19.0" />
+    <meta name="docbuild:last-update" content="2025-08-21"/>
   </head>
   
   
@@ -135,8 +135,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.16.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.16.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.19.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.19.0 documentation - Home"/>
   
   
 </a></div>
@@ -429,7 +429,7 @@
 <h1>ProblemInstance<a class="headerlink" href="#probleminstance" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.applications.applications.</span></span><span class="sig-name descname"><span class="pre">ProblemInstance</span></span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L51-L397"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.applications.applications.</span></span><span class="sig-name descname"><span class="pre">ProblemInstance</span></span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L51-L427"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
 <p>The abstract base class for defining problem instances.</p>
 <p>Currently, only problems with binary variables are supported. Any possible candidate solution is therefore
@@ -616,11 +616,17 @@ comparison with QAOA results to see how close the optimization gets to the ideal
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.average_quality_counts">
-<span class="sig-name descname"><span class="pre">average_quality_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L209-L233"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.average_quality_counts" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">average_quality_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L209-L238"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.average_quality_counts" title="Link to this definition">#</a></dt>
 <dd><p>Accepts a dictionary and returns the average quality of the keys weighted by their values.</p>
-<p>The input dictionary has the format of “counts” from a <a class="reference external" href="https://quantum.cloud.ibm.com/docs/api/qiskit/index#module-qiskit" title="(in Qiskit v2.1)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">qiskit</span></code></a> experiment. The keys are bitstrings
-(representing possible solutions) and the values are their respective counts, i.e., the number of times
-that the particular string was sampled from a QAOA run. The quality is calculated by <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.quality" title="iqm.applications.applications.ProblemInstance.quality"><code class="xref py py-meth docutils literal notranslate"><span class="pre">quality()</span></code></a>.</p>
+<p>The keys of the input dictionary are bitstrings (representing possible solutions) and the values are their
+respective counts, i.e., the number of times that the particular string was sampled from a QAOA run. The quality
+is calculated by <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.quality" title="iqm.applications.applications.ProblemInstance.quality"><code class="xref py py-meth docutils literal notranslate"><span class="pre">quality()</span></code></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The bitstrings in the <cite>counts</cite> need to be ordered the same way as the variables of the problem. If you’re
+using a dictionary of counts obtained directly from a <cite>qiskit</cite> experiment, you need to reverse the order of
+the bitstrings (keys of the <cite>counts</cite> dictionary) first.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>counts</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – A dictionary whose keys are solution bitstrings and whose values are the respective counts.</p>
@@ -639,7 +645,7 @@ that the particular string was sampled from a QAOA run. The quality is calculate
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.average_quality_renormalized">
-<span class="sig-name descname"><span class="pre">average_quality_renormalized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L235-L252"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.average_quality_renormalized" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">average_quality_renormalized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L240-L262"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.average_quality_renormalized" title="Link to this definition">#</a></dt>
 <dd><p>Accepts a dictionary and returns the renormalized quality of the keys weighted by their values.</p>
 <p>Calculates the average weighted quality using <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.average_quality_counts" title="iqm.applications.applications.ProblemInstance.average_quality_counts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">average_quality_counts()</span></code></a> and renormalizes it using
 <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.best_quality" title="iqm.applications.applications.ProblemInstance.best_quality"><code class="xref py py-attr docutils literal notranslate"><span class="pre">best_quality</span></code></a> and <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.average_quality" title="iqm.applications.applications.ProblemInstance.average_quality"><code class="xref py py-attr docutils literal notranslate"><span class="pre">average_quality</span></code></a>.</p>
@@ -648,6 +654,12 @@ that the particular string was sampled from a QAOA run. The quality is calculate
 <li><p>A value of 0 corresponds to average quality.</p></li>
 <li><p>A value above/under 0 corresponds to better/worse than average quality.</p></li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The bitstrings in the <cite>counts</cite> need to be ordered the same way as the variables of the problem. If you’re
+using a dictionary of counts obtained directly from a <cite>qiskit</cite> experiment, you need to reverse the order of
+the bitstrings (keys of the <cite>counts</cite> dictionary) first.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>counts</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – A dictionary whose keys are solution bitstrings and whose values are the respective counts.</p>
@@ -663,12 +675,18 @@ that the particular string was sampled from a QAOA run. The quality is calculate
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.restore_fixed_variables">
-<span class="sig-name descname"><span class="pre">restore_fixed_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L254-L282"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.restore_fixed_variables" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">restore_fixed_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L264-L297"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.restore_fixed_variables" title="Link to this definition">#</a></dt>
 <dd><p>Postprocessing method for restoring fixed variables to the measurement bitstrings.</p>
 <p>When variables are fixed, the number of variables of the (remaining) problem is reduced. When the problem is
 solved (e.g., by a quantum computer), the solutions doesn’t include the fixed variables. This method takes
 a dictionary of solutions (e.g., the counts from a quantum computer) and modifies the keys (bitstrings) by
 inserting the fixed variables where they belong.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The bitstrings in the <cite>counts</cite> need to be ordered the same way as the variables of the problem. If you’re
+using a dictionary of counts obtained directly from a <cite>qiskit</cite> experiment, you need to reverse the order of
+the bitstrings (keys of the <cite>counts</cite> dictionary) first.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>counts</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – A dictionary whose keys are bitstrings (solutions) and whose values are integers (their respective
@@ -685,7 +703,7 @@ frequencies)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.local_bitflip_bitstring">
-<span class="sig-name descname"><span class="pre">local_bitflip_bitstring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bit_str</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L284-L312"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.local_bitflip_bitstring" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">local_bitflip_bitstring</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bit_str</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L299-L327"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.local_bitflip_bitstring" title="Link to this definition">#</a></dt>
 <dd><p>Post-processing which takes a bitstring and replaces it with its lowest-energy unit Hamming distance
 neighbor.</p>
 <p>Takes the solution bitstring and then iteratively swaps each bit in it. The function returns the lowest-energy
@@ -705,11 +723,17 @@ bitstring from all of these bitstrings (including the original bitstring).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.local_bitflip_postprocessing">
-<span class="sig-name descname"><span class="pre">local_bitflip_postprocessing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L315-L337"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.local_bitflip_postprocessing" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">local_bitflip_postprocessing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L330-L357"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.local_bitflip_postprocessing" title="Link to this definition">#</a></dt>
 <dd><p>Postprocessing method for checking a unit Hamming distance neighborhood of the dictionary of counts.</p>
 <p>When implemented naively, the time complexity of this scales cubically <span class="math notranslate nohighlight">\(\mathcal{O}(n^3)\)</span> in the number
 of variables (linear from iterating over them and quadratic from calculating the energy), but some computation
 might be saved in the calculation of the energy because it’s repeatedly calculated for very similar bitstrings.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The bitstrings in the <cite>counts</cite> need to be ordered the same way as the variables of the problem. If you’re
+using a dictionary of counts obtained directly from a <cite>qiskit</cite> experiment, you need to reverse the order of
+the bitstrings (keys of the <cite>counts</cite> dictionary) first.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>counts</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – A dictionary whose keys are bitstrings (solutions) and whose values are integers (their respective
@@ -726,12 +750,18 @@ frequencies)</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.percentile_counts">
-<span class="sig-name descname"><span class="pre">percentile_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_percentile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L339-L380"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.percentile_counts" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">percentile_counts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_percentile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L359-L405"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.percentile_counts" title="Link to this definition">#</a></dt>
 <dd><p>A method that selects only the best / worst <code class="docutils literal notranslate"><span class="pre">quantile</span></code> of given <code class="docutils literal notranslate"><span class="pre">counts</span></code>, measured by <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.quality" title="iqm.applications.applications.ProblemInstance.quality"><code class="xref py py-meth docutils literal notranslate"><span class="pre">quality()</span></code></a>.</p>
 <p>The quantile is weighted by the frequencies (counts) of the bitstrings. If multiple bitstrings around
 the <code class="docutils literal notranslate"><span class="pre">quantile</span></code> have the same quality, the order is selected arbitrarily (or rather, based on how the built-in
 <code class="docutils literal notranslate"><span class="pre">sorted</span></code> function sorts them). If a bitstring has counts that cross the <code class="docutils literal notranslate"><span class="pre">quantile</span></code>, its counts in the output
 are adjusted to match the <code class="docutils literal notranslate"><span class="pre">quantile</span></code> exactly (at least rounded to the nearest integer).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The bitstrings in the <cite>counts</cite> need to be ordered the same way as the variables of the problem. If you’re
+using a dictionary of counts obtained directly from a <cite>qiskit</cite> experiment, you need to reverse the order of
+the bitstrings (keys of the <cite>counts</cite> dictionary) first.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -755,10 +785,16 @@ should be selected.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.cvar">
-<span class="sig-name descname"><span class="pre">cvar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L382-L397"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.cvar" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">cvar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">counts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L407-L427"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.cvar" title="Link to this definition">#</a></dt>
 <dd><p>Calculates the Conditional Value at Risk (CVaR) of the given dictionary of counts at the given quantile.</p>
 <p>The CVaR is the average of the worst-case <code class="docutils literal notranslate"><span class="pre">quantile</span></code> of the data. In the case of training QAOA, it’s often
 used to calculate the average of the best <code class="docutils literal notranslate"><span class="pre">quantile</span></code> of samples.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The bitstrings in the <cite>counts</cite> need to be ordered the same way as the variables of the problem. If you’re
+using a dictionary of counts obtained directly from a <cite>qiskit</cite> experiment, you need to reverse the order of
+the bitstrings (keys of the <cite>counts</cite> dictionary) first.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -878,7 +914,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-08-20.
+  Last updated on 2025-08-21.
   <br/>
 </p>
   </div>
