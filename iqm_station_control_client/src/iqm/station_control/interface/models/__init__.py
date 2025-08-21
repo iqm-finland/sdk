@@ -27,6 +27,7 @@ from iqm.station_control.interface.models.jobs import (
     TimelineEntry,
 )
 from iqm.station_control.interface.models.observation import (
+    ObservationBase,
     ObservationData,
     ObservationDefinition,
     ObservationLite,

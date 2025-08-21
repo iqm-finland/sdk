@@ -209,9 +209,14 @@ class ProblemInstance(ABC):
     def average_quality_counts(self, counts: dict[str, int]) -> float:
         """Accepts a dictionary and returns the average quality of the keys weighted by their values.
 
-        The input dictionary has the format of "counts" from a :mod:`qiskit` experiment. The keys are bitstrings
-        (representing possible solutions) and the values are their respective counts, i.e., the number of times
-        that the particular string was sampled from a QAOA run. The quality is calculated by :meth:`quality`.
+        The keys of the input dictionary are bitstrings (representing possible solutions) and the values are their
+        respective counts, i.e., the number of times that the particular string was sampled from a QAOA run. The quality
+        is calculated by :meth:`quality`.
+
+        .. warning::
+           The bitstrings in the `counts` need to be ordered the same way as the variables of the problem. If you're
+           using a dictionary of counts obtained directly from a `qiskit` experiment, you need to reverse the order of
+           the bitstrings (keys of the `counts` dictionary) first.
 
         Args:
             counts: A dictionary whose keys are solution bitstrings and whose values are the respective counts.
@@ -242,6 +247,11 @@ class ProblemInstance(ABC):
         * A value of 0 corresponds to average quality.
         * A value above/under 0 corresponds to better/worse than average quality.
 
+        .. warning::
+           The bitstrings in the `counts` need to be ordered the same way as the variables of the problem. If you're
+           using a dictionary of counts obtained directly from a `qiskit` experiment, you need to reverse the order of
+           the bitstrings (keys of the `counts` dictionary) first.
+
         Args:
             counts: A dictionary whose keys are solution bitstrings and whose values are the respective counts.
 
@@ -258,6 +268,11 @@ class ProblemInstance(ABC):
         solved (e.g., by a quantum computer), the solutions doesn't include the fixed variables. This method takes
         a dictionary of solutions (e.g., the counts from a quantum computer) and modifies the keys (bitstrings) by
         inserting the fixed variables where they belong.
+
+        .. warning::
+           The bitstrings in the `counts` need to be ordered the same way as the variables of the problem. If you're
+           using a dictionary of counts obtained directly from a `qiskit` experiment, you need to reverse the order of
+           the bitstrings (keys of the `counts` dictionary) first.
 
         Args:
             counts: A dictionary whose keys are bitstrings (solutions) and whose values are integers (their respective
@@ -319,6 +334,11 @@ class ProblemInstance(ABC):
         of variables (linear from iterating over them and quadratic from calculating the energy), but some computation
         might be saved in the calculation of the energy because it's repeatedly calculated for very similar bitstrings.
 
+        .. warning::
+           The bitstrings in the `counts` need to be ordered the same way as the variables of the problem. If you're
+           using a dictionary of counts obtained directly from a `qiskit` experiment, you need to reverse the order of
+           the bitstrings (keys of the `counts` dictionary) first.
+
         Args:
             counts: A dictionary whose keys are bitstrings (solutions) and whose values are integers (their respective
                 frequencies)
@@ -345,6 +365,11 @@ class ProblemInstance(ABC):
         the ``quantile`` have the same quality, the order is selected arbitrarily (or rather, based on how the built-in
         ``sorted`` function sorts them). If a bitstring has counts that cross the ``quantile``, its counts in the output
         are adjusted to match the ``quantile`` exactly (at least rounded to the nearest integer).
+
+        .. warning::
+           The bitstrings in the `counts` need to be ordered the same way as the variables of the problem. If you're
+           using a dictionary of counts obtained directly from a `qiskit` experiment, you need to reverse the order of
+           the bitstrings (keys of the `counts` dictionary) first.
 
         Args:
             counts: The input dictionary of counts.
@@ -384,6 +409,11 @@ class ProblemInstance(ABC):
 
         The CVaR is the average of the worst-case ``quantile`` of the data. In the case of training QAOA, it's often
         used to calculate the average of the best ``quantile`` of samples.
+
+        .. warning::
+           The bitstrings in the `counts` need to be ordered the same way as the variables of the problem. If you're
+           using a dictionary of counts obtained directly from a `qiskit` experiment, you need to reverse the order of
+           the bitstrings (keys of the `counts` dictionary) first.
 
         Args:
             counts: The given dictionary of counts.

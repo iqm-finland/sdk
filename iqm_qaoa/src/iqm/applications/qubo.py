@@ -419,6 +419,11 @@ class ConstrainedQuadraticInstance(ProblemInstance):
         In case that multiple bitstrings get mapped to the same bitstring, their respective frequencies (values) are
         added.
 
+        .. warning::
+           The bitstrings in the `counts` need to be ordered the same way as the variables of the problem. If you're
+           using a dictionary of counts obtained directly from a `qiskit` experiment, you need to reverse the order of
+           the bitstrings (keys of the `counts` dictionary) first.
+
         Args:
             counts: The dictionary of bitstrings with their frequencies as values.
 
@@ -458,6 +463,11 @@ class ConstrainedQuadraticInstance(ProblemInstance):
     def satisfy_constraints(self, counts: dict[str, int]) -> dict[str, int]:
         """Post-processing method that takes a dictionary and removes the bitstrings which don't satisfy the
         constraints.
+
+        .. warning::
+           The bitstrings in the `counts` need to be ordered the same way as the variables of the problem. If you're
+           using a dictionary of counts obtained directly from a `qiskit` experiment, you need to reverse the order of
+           the bitstrings (keys of the `counts` dictionary) first.
 
         Args:
             counts: A dictionary of counts, with solution strings as keys and their frequencies as values.

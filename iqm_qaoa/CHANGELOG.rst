@@ -2,6 +2,31 @@
 Changelog
 =========
 
+Version 1.19.0 (2025-08-20)
+===========================
+
+Features
+--------
+
+- Update dependency on iqm-client
+
+Version 1.18.0 (2025-08-20)
+===========================
+
+Bug fixes
+---------
+
+- Add explicit cross-component requirements
+
+Version 1.17.0 (2025-08-20)
+===========================
+
+Bug fixes
+---------
+
+* All methods that take `counts` as input now have a warning not to use the raw output of counts from running a `qiskit` experiment and to reverse the order of the bitstrings instead.
+* Add clarification to the samplers that they do this reversing of the bitstrings.
+
 Version 1.16.0 (2025-08-08)
 ===========================
 

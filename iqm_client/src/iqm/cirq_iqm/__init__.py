@@ -13,16 +13,7 @@
 # limitations under the License.
 """Cirq adapter for IQM's quantum computers."""
 
-import warnings
-
 from .devices import *  # noqa: F403*
 from .extended_qasm_parser import circuit_from_qasm
 from .iqm_gates import *  # noqa: F403
 from .transpiler import transpile_insert_moves_into_circuit
-
-warnings.warn(
-    DeprecationWarning(
-        "The cirq-iqm package is deprecated and new versions of Cirq on IQM will be published as part of "
-        "iqm-client. Please uninstall cirq-iqm and install iqm-client[cirq] to get the newest version."
-    )
-)

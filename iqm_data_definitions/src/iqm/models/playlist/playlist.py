@@ -29,7 +29,7 @@ class Playlist:
     in the Segments, as well as :class:`.Instruction` and :class:`.Waveform` tables.
 
     This class implements the new data structure that contains all the data necessary
-    for an experiment to execute. Schedule contains information of all the channels used as
+    for an experiment to execute. Playlist contains information of all the channels used as
     well as the instruction execution schedule.
 
     Args:
@@ -42,7 +42,7 @@ class Playlist:
     segments: list[Segment] = field(default_factory=list)
 
     def add_channel(self, new_channel: ChannelDescription) -> None:
-        """Adds a new channel to the Schedule.
+        """Adds a new channel to the Playlist.
 
         Args:
             new_channel: channel to add
@@ -96,24 +96,33 @@ class Playlist:
         )
 
     def view(
-            self, *, filter_segments=None, filter_channels=None, kind: str = "operations") -> dict[int, dict[str, Any]]:
+        self,
+        *,
+        filter_segments: list[int] | None = None,
+        filter_channels: list[str] | None = None,
+        kind: str = "operations"
+    ) -> dict[int, dict[str, Any]]:
         """Return operations of the playlist grouped by segments and channel names for easy inspection.
         This method is not meant to be used for integration purposes, but rather for hands-on inspection and debugging.
 
         Args:
             filter_segments: List of segment indexes to filter by. If None, all segments are included.
             filter_channels: List of channel names to filter by. If None, all channels are included.
-            type: Type of data to return in the inner dict, either "operations" or "instructions".
+            kind: Type of data to return in the inner dict, either "operations" or "instructions".
 
         Returns:
-            Dict of segments, where values are dicts: keys are channels, values are lists of operations or instructions.
-        """
-        if kind not in ["operations", "instructions"]:
-            raise ValueError('Type must be either "operations" or "instructions"')
-        result = {}
+            Dict of segments, where values are dicts: keys are channels, values are lists of
+            operations or instructions.
 
-        segment_indexes = filter_segments or list(range(0, len(self.segments)))
-        channel_names = filter_channels or list(self.channel_descriptions.keys())
+        Raises:
+            ValueError: If kind is not "operations" or "instructions".
+        """
+        if kind not in ("operations", "instructions"):
+            raise ValueError(f'kind must be either "operations" or "instructions", got "{kind}"')
+
+        result = {}
+        segment_indexes = filter_segments if filter_segments is not None else list(range(len(self.segments)))
+        channel_names = filter_channels if filter_channels is not None else list(self.channel_descriptions.keys())
 
         for segment_index in segment_indexes:
             result[segment_index] = {}

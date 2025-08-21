@@ -331,9 +331,8 @@ class SamplerRandomBitstrings(SamplerBackend):
 class SamplerSimulation(SamplerBackend):
     """A sampler that simulates the QAOA circuit in :mod:`qiskit`.
 
-    Currently the only simulator we use is the :class:`~qiskit_aer.AerSimulator`, but :class:`SamplerSimulation` is
-    defined to allow the use of other simulators too. Some simulators may need the circuit to be transpiled, so
-    optionally a string describing the transpiler can be provided.
+    Some simulators may need the circuit to be transpiled, so optionally a string describing the transpiler can be
+    provided.
 
     Args:
         simulator: A simulator, (currently) assumed to be an object of class :class:`~qiskit_aer.AerSimulator`.
@@ -354,6 +353,9 @@ class SamplerSimulation(SamplerBackend):
 
     def sample(self, qaoa_object: QUBOQAOA, shots: int) -> dict[str, int]:  # type:ignore[override]
         """Samples from the QAOA using a simulation.
+
+        The dictionary of counts is obtained from `qiskit` and then the bitstrings are **reversed**, so they don't use
+        the `qiskit` convention of the first bit being on the right of the bitstring.
 
         Args:
             qaoa_object: The :class:`~iqm.qaoa.generic_qaoa.QUBOQAOA` object, to be sampled from.
@@ -396,7 +398,8 @@ class SamplerResonance(SamplerBackend):
         """Samples from the QAOA on a quantum computer via IQM Resonance.
 
         First, it creates a :class:`~qiskit.circuit.QuantumCircuit` (using a custom transpilation approach) and then
-        sends it to IQM Resonance.
+        sends it to IQM Resonance. The dictionary of counts is obtained from `qiskit` and then the bitstrings are
+        **reversed**, so they don't use the `qiskit` convention of the first bit being on the right of the bitstring.
 
         Args:
             qaoa_object: The :class:`~iqm.qaoa.generic_qaoa.QUBOQAOA` object, to be sampled from.
