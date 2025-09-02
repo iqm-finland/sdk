@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>maxcut_generator &#8212; IQM QAOA 1.19.0 documentation</title>
+    <title>maxcut_generator &#8212; IQM QAOA 1.22.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d82602a5"></script>
+    <script src="../_static/documentation_options.js?v=ad9d765f"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -55,8 +55,8 @@
     <link rel="prev" title="greedy_max_cut" href="iqm.applications.maxcut.greedy_max_cut.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.19.0" />
-    <meta name="docbuild:last-update" content="2025-09-01"/>
+  <meta name="docsearch:version" content="1.22.0" />
+    <meta name="docbuild:last-update" content="2025-09-02"/>
   </head>
   
   
@@ -135,8 +135,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.19.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.19.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.22.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.22.0 documentation - Home"/>
   
   
 </a></div>
@@ -165,6 +165,10 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.applications.ProblemInstance.html">ProblemInstance</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.graph_utils.html">iqm.applications.graph_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.applications.maxcut.html">iqm.applications.maxcut</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.goemans_williamson.html">goemans_williamson</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.greedy_max_cut.html">greedy_max_cut</a></li>
@@ -176,13 +180,13 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.mis.html">iqm.applications.mis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.bron_kerbosch.html">bron_kerbosch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.greedy_mis.html">greedy_mis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.mis_generator.html">mis_generator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.ISInstance.html">ISInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.MISInstance.html">MISInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.MaximumWeightISInstance.html">MaximumWeightISInstance</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.qubo.html">iqm.applications.qubo</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.ConstrainedQuadraticInstance.html">ConstrainedQuadraticInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.QUBOInstance.html">QUBOInstance</a></li>
 </ul>
@@ -411,7 +415,7 @@
 <h1>maxcut_generator<a class="headerlink" href="#maxcut-generator" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="iqm.applications.maxcut.maxcut_generator">
-<span class="sig-prename descclassname"><span class="pre">iqm.applications.maxcut.</span></span><span class="sig-name descname"><span class="pre">maxcut_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_instances</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_family</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'erdos-renyi'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">break_z2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1337</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enforce_connected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/maxcut.py#L236-L286"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.maxcut.maxcut_generator" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">iqm.applications.maxcut.</span></span><span class="sig-name descname"><span class="pre">maxcut_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_instances</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_family</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'erdos-renyi'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">break_z2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enforce_connected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iterations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/maxcut.py#L247-L289"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.maxcut.maxcut_generator" title="Link to this definition">#</a></dt>
 <dd><p>The generator function for generating random maxcut problem instances.</p>
 <p>The generator yields maxcut problem instances using random graphs, created according to the input parameters.
 If <code class="docutils literal notranslate"><span class="pre">enforce_connected</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, then the resulting graphs are checked for connectivity and
@@ -422,15 +426,18 @@ random regular graphs anymore.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of nodes of the graph.</p></li>
 <li><p><strong>n_instances</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of maxcut instances to generate.</p></li>
-<li><p><strong>graph_family</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – A string describing the random graph family to generate.
+<li><p><strong>graph_family</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Literal" title="(in Python v3.11)"><em>Literal</em></a><em>[</em><em>'regular'</em><em>, </em><em>'erdos-renyi'</em><em>]</em>) – A string describing the random graph family to generate.
 Possible graph families include ‘erdos-renyi’ and ‘regular’.</p></li>
 <li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – For the Erdős–Rényi graph, this is the edge probability. For other graph families, it’s ignored.</p></li>
 <li><p><strong>d</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – For the random regular graph, this is the degree of each node in the graph. For other graph families, it’s
 ignored.</p></li>
 <li><p><strong>break_z2</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Optional bool indicating whether the <span class="math notranslate nohighlight">\(\mathbb{Z}_2\)</span> symmetry should be explicitly broken
 in the problem instances.</p></li>
-<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Optional random seed for generating the problem instances.</p></li>
-<li><p><strong>enforce_connected</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – A bool stating whether it is required that the random graphs are connected.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – Optional random seed for generating the problem instances.</p></li>
+<li><p><strong>enforce_connected</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – True iff it is required that the random graphs are connected.</p></li>
+<li><p><strong>max_iterations</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – In case <code class="docutils literal notranslate"><span class="pre">enforce_connected</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the function generates random graphs in a <code class="docutils literal notranslate"><span class="pre">while</span></code>
+loop until it finds a connected one. If it doesn’t find a connected one after <code class="docutils literal notranslate"><span class="pre">max_iterations</span></code>, it raises
+an error.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Yields<span class="colon">:</span></dt>
@@ -524,7 +531,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-09-01.
+  Last updated on 2025-09-02.
   <br/>
 </p>
   </div>

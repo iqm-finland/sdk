@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ISInstance &#8212; IQM QAOA 1.19.0 documentation</title>
+    <title>ISInstance &#8212; IQM QAOA 1.22.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d82602a5"></script>
+    <script src="../_static/documentation_options.js?v=ad9d765f"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -50,11 +50,11 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="MISInstance" href="iqm.applications.mis.MISInstance.html" />
-    <link rel="prev" title="greedy_mis" href="iqm.applications.mis.greedy_mis.html" />
+    <link rel="prev" title="mis_generator" href="iqm.applications.mis.mis_generator.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.19.0" />
-    <meta name="docbuild:last-update" content="2025-09-01"/>
+  <meta name="docsearch:version" content="1.22.0" />
+    <meta name="docbuild:last-update" content="2025-09-02"/>
   </head>
   
   
@@ -133,8 +133,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.19.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.19.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.22.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.22.0 documentation - Home"/>
   
   
 </a></div>
@@ -163,6 +163,10 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.applications.ProblemInstance.html">ProblemInstance</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.graph_utils.html">iqm.applications.graph_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.maxcut.html">iqm.applications.maxcut</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.goemans_williamson.html">goemans_williamson</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.greedy_max_cut.html">greedy_max_cut</a></li>
@@ -174,13 +178,13 @@
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.applications.mis.html">iqm.applications.mis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.bron_kerbosch.html">bron_kerbosch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.greedy_mis.html">greedy_mis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.mis_generator.html">mis_generator</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">ISInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.MISInstance.html">MISInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.MaximumWeightISInstance.html">MaximumWeightISInstance</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.qubo.html">iqm.applications.qubo</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.ConstrainedQuadraticInstance.html">ConstrainedQuadraticInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.QUBOInstance.html">QUBOInstance</a></li>
 </ul>
@@ -413,7 +417,7 @@
 <h1>ISInstance<a class="headerlink" href="#isinstance" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.applications.mis.ISInstance">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.applications.mis.</span></span><span class="sig-name descname"><span class="pre">ISInstance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">penalty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/mis.py#L54-L161"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.mis.ISInstance" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.applications.mis.</span></span><span class="sig-name descname"><span class="pre">ISInstance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">penalty</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/mis.py#L62-L169"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.mis.ISInstance" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.applications.qubo.ConstrainedQuadraticInstance.html#iqm.applications.qubo.ConstrainedQuadraticInstance" title="iqm.applications.qubo.ConstrainedQuadraticInstance"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConstrainedQuadraticInstance</span></code></a></p>
 <p>The instance class for independent set problems on a graph with a custom cost function.</p>
 <p>The objective of this class of problems is selecting a subset of nodes in a graph, such that no two nodes in
@@ -452,7 +456,7 @@ formulation is transformed into QUBO.</p></li>
 <td><p>The function calculating the BQM is relatively simple for independent set problems.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.applications.mis.ISInstance.fix_variables" title="iqm.applications.mis.ISInstance.fix_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fix_variables</span></code></a>(variables)</p></td>
-<td><p>A method to fix some of the problem variables.</p></td>
+<td><p>A method to fix (assign) some of the problem variables.</p></td>
 </tr>
 </tbody>
 </table>
@@ -467,8 +471,8 @@ modifying the graph, the user should instantiate a new object of <a class="refer
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.applications.mis.ISInstance.fix_variables">
-<span class="sig-name descname"><span class="pre">fix_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/mis.py#L91-L135"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.mis.ISInstance.fix_variables" title="Link to this definition">#</a></dt>
-<dd><p>A method to fix some of the problem variables.</p>
+<span class="sig-name descname"><span class="pre">fix_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/mis.py#L99-L143"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.mis.ISInstance.fix_variables" title="Link to this definition">#</a></dt>
+<dd><p>A method to fix (assign) some of the problem variables.</p>
 <p>When a variable is fixed to 1, all of its neighboring variables are fixed to 0 (because of the constraints).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -504,12 +508,12 @@ to the variables to fix and whose values are equal to the values to fix them to 
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="iqm.applications.mis.greedy_mis.html"
+       href="iqm.applications.mis.mis_generator.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">greedy_mis</p>
+        <p class="prev-next-title">mis_generator</p>
       </div>
     </a>
     <a class="right-next"
@@ -576,7 +580,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-09-01.
+  Last updated on 2025-09-02.
   <br/>
 </p>
   </div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>QPU &#8212; IQM QAOA 1.19.0 documentation</title>
+    <title>QPU &#8212; IQM QAOA 1.22.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d82602a5"></script>
+    <script src="../_static/documentation_options.js?v=ad9d765f"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -53,8 +53,8 @@
     <link rel="prev" title="LineQPU" href="iqm.qaoa.transpiler.quantum_hardware.LineQPU.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.19.0" />
-    <meta name="docbuild:last-update" content="2025-09-01"/>
+  <meta name="docsearch:version" content="1.22.0" />
+    <meta name="docbuild:last-update" content="2025-09-02"/>
   </head>
   
   
@@ -133,8 +133,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.19.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.19.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.22.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.22.0 documentation - Home"/>
   
   
 </a></div>
@@ -163,6 +163,10 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.applications.ProblemInstance.html">ProblemInstance</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.graph_utils.html">iqm.applications.graph_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.maxcut.html">iqm.applications.maxcut</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.goemans_williamson.html">goemans_williamson</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.greedy_max_cut.html">greedy_max_cut</a></li>
@@ -174,13 +178,13 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.mis.html">iqm.applications.mis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.bron_kerbosch.html">bron_kerbosch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.greedy_mis.html">greedy_mis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.mis_generator.html">mis_generator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.ISInstance.html">ISInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.MISInstance.html">MISInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.MaximumWeightISInstance.html">MaximumWeightISInstance</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.qubo.html">iqm.applications.qubo</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.ConstrainedQuadraticInstance.html">ConstrainedQuadraticInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.QUBOInstance.html">QUBOInstance</a></li>
 </ul>
@@ -417,7 +421,7 @@
 <h1>QPU<a class="headerlink" href="#qpu" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.quantum_hardware.QPU">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.transpiler.quantum_hardware.</span></span><span class="sig-name descname"><span class="pre">QPU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hardware_graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hardware_layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/quantum_hardware.py#L62-L167"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.quantum_hardware.QPU" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.transpiler.quantum_hardware.</span></span><span class="sig-name descname"><span class="pre">QPU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hardware_graph</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hardware_layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/quantum_hardware.py#L61-L164"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.quantum_hardware.QPU" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A parent class for all QPU architectures.</p>
 <p>The main purpose of the QPU class is to store the <a class="reference internal" href="#iqm.qaoa.transpiler.quantum_hardware.QPU.hardware_graph" title="iqm.qaoa.transpiler.quantum_hardware.QPU.hardware_graph"><code class="xref py py-attr docutils literal notranslate"><span class="pre">hardware_graph</span></code></a> and the <a class="reference internal" href="#iqm.qaoa.transpiler.quantum_hardware.QPU.shortest_path" title="iqm.qaoa.transpiler.quantum_hardware.QPU.shortest_path"><code class="xref py py-attr docutils literal notranslate"><span class="pre">shortest_path</span></code></a>/s in there.
@@ -471,7 +475,7 @@ the <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.Har
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.quantum_hardware.QPU.has_edge">
-<span class="sig-name descname"><span class="pre">has_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/quantum_hardware.py#L95-L105"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.quantum_hardware.QPU.has_edge" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">has_edge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/quantum_hardware.py#L92-L102"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.quantum_hardware.QPU.has_edge" title="Link to this definition">#</a></dt>
 <dd><p>Is there an edge between the qubits involved in <code class="docutils literal notranslate"><span class="pre">gate</span></code>?</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -508,7 +512,7 @@ between the <code class="docutils literal notranslate"><span class="pre">source<
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.quantum_hardware.QPU.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_lists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/quantum_hardware.py#L126-L167"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.quantum_hardware.QPU.draw" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gate_lists</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/quantum_hardware.py#L123-L164"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.quantum_hardware.QPU.draw" title="Link to this definition">#</a></dt>
 <dd><p>A method for drawing the QPU.</p>
 <p>It displays the picture of the QPU in a pop-up window, with edges colored based on <code class="docutils literal notranslate"><span class="pre">gate_lists</span></code>.</p>
 <dl class="field-list simple">
@@ -519,7 +523,7 @@ between the <code class="docutils literal notranslate"><span class="pre">source<
 <li><p><strong>gate_lists</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><em>HardQubit</em><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><em>HardQubit</em><em>, </em><em>HardQubit</em><em>]</em><em>]</em><em>] </em><em>| </em><em>None</em>) – A dictionary whose keys are colors (as single-letter strings) and values are lists of edges
 which should be colored that color.</p></li>
 <li><p><strong>show</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Boolean which decides if the graph will be shown in a pop-up window.</p></li>
-<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – Arbitrary keyword arguments for <code class="xref py py-func docutils literal notranslate"><span class="pre">draw_networkx_edges()</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -620,7 +624,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-09-01.
+  Last updated on 2025-09-02.
   <br/>
 </p>
   </div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>iqm.applications.qubo &#8212; IQM QAOA 1.19.0 documentation</title>
+    <title>iqm.applications.qubo &#8212; IQM QAOA 1.22.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d82602a5"></script>
+    <script src="../_static/documentation_options.js?v=ad9d765f"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -49,12 +49,12 @@
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="relabel_graph_nodes" href="iqm.applications.qubo.relabel_graph_nodes.html" />
+    <link rel="next" title="ConstrainedQuadraticInstance" href="iqm.applications.qubo.ConstrainedQuadraticInstance.html" />
     <link rel="prev" title="MaximumWeightISInstance" href="iqm.applications.mis.MaximumWeightISInstance.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.19.0" />
-    <meta name="docbuild:last-update" content="2025-09-01"/>
+  <meta name="docsearch:version" content="1.22.0" />
+    <meta name="docbuild:last-update" content="2025-09-02"/>
   </head>
   
   
@@ -133,8 +133,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.19.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.19.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.22.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.22.0 documentation - Home"/>
   
   
 </a></div>
@@ -163,6 +163,10 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.applications.ProblemInstance.html">ProblemInstance</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.graph_utils.html">iqm.applications.graph_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.maxcut.html">iqm.applications.maxcut</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.goemans_williamson.html">goemans_williamson</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.greedy_max_cut.html">greedy_max_cut</a></li>
@@ -174,13 +178,13 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.mis.html">iqm.applications.mis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.bron_kerbosch.html">bron_kerbosch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.greedy_mis.html">greedy_mis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.mis_generator.html">mis_generator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.ISInstance.html">ISInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.MISInstance.html">MISInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.MaximumWeightISInstance.html">MaximumWeightISInstance</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">iqm.applications.qubo</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.ConstrainedQuadraticInstance.html">ConstrainedQuadraticInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.QUBOInstance.html">QUBOInstance</a></li>
 </ul>
@@ -416,15 +420,6 @@ structure, it is recommended to use sub-classes (children) of these classes, e.g
         <span class="c1"># Implementation</span>
 </pre></div>
 </div>
-<p class="rubric">Functions</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.applications.qubo.relabel_graph_nodes.html#iqm.applications.qubo.relabel_graph_nodes" title="iqm.applications.qubo.relabel_graph_nodes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">relabel_graph_nodes</span></code></a>(graph)</p></td>
-<td><p>Map original node labels of the <a class="reference external" href="https://networkx.org/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v3.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> to new ones between 0 and <cite>graph.number_of_nodes</cite> - 1.</p></td>
-</tr>
-</tbody>
-</table>
-</div>
 <p class="rubric">Classes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -467,11 +462,11 @@ structure, it is recommended to use sub-classes (children) of these classes, e.g
       </div>
     </a>
     <a class="right-next"
-       href="iqm.applications.qubo.relabel_graph_nodes.html"
+       href="iqm.applications.qubo.ConstrainedQuadraticInstance.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">relabel_graph_nodes</p>
+        <p class="prev-next-title">ConstrainedQuadraticInstance</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -510,7 +505,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-09-01.
+  Last updated on 2025-09-02.
   <br/>
 </p>
   </div>

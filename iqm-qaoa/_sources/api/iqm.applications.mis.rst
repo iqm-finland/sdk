@@ -17,6 +17,7 @@ iqm.applications.mis
    
       bron_kerbosch
       greedy_mis
+      mis_generator
    
    
 

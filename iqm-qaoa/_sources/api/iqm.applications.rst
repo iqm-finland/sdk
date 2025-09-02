@@ -29,6 +29,7 @@
    :recursive:
 
    ~iqm.applications.applications
+   ~iqm.applications.graph_utils
    ~iqm.applications.maxcut
    ~iqm.applications.mis
    ~iqm.applications.qubo

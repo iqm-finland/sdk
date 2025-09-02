@@ -9,14 +9,6 @@ iqm.applications.qubo
 
    
    
-   .. rubric:: Functions
-
-   .. autosummary::
-      :toctree:
-      :template: autosummary-function-template.rst
-   
-      relabel_graph_nodes
-   
    
 
    

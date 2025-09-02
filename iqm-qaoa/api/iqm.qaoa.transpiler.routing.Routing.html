@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Routing &#8212; IQM QAOA 1.19.0 documentation</title>
+    <title>Routing &#8212; IQM QAOA 1.22.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=d82602a5"></script>
+    <script src="../_static/documentation_options.js?v=ad9d765f"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -55,8 +55,8 @@
     <link rel="prev" title="Mapping" href="iqm.qaoa.transpiler.routing.Mapping.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.19.0" />
-    <meta name="docbuild:last-update" content="2025-09-01"/>
+  <meta name="docsearch:version" content="1.22.0" />
+    <meta name="docbuild:last-update" content="2025-09-02"/>
   </head>
   
   
@@ -135,8 +135,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.19.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.19.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.22.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.22.0 documentation - Home"/>
   
   
 </a></div>
@@ -165,6 +165,10 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.applications.ProblemInstance.html">ProblemInstance</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.graph_utils.html">iqm.applications.graph_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.maxcut.html">iqm.applications.maxcut</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.goemans_williamson.html">goemans_williamson</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.greedy_max_cut.html">greedy_max_cut</a></li>
@@ -176,13 +180,13 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.mis.html">iqm.applications.mis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.bron_kerbosch.html">bron_kerbosch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.greedy_mis.html">greedy_mis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.mis_generator.html">mis_generator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.ISInstance.html">ISInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.MISInstance.html">MISInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.MaximumWeightISInstance.html">MaximumWeightISInstance</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.qubo.html">iqm.applications.qubo</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.ConstrainedQuadraticInstance.html">ConstrainedQuadraticInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.QUBOInstance.html">QUBOInstance</a></li>
 </ul>
@@ -420,7 +424,7 @@
 <h1>Routing<a class="headerlink" href="#routing" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.Routing">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.transpiler.routing.</span></span><span class="sig-name descname"><span class="pre">Routing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_bqm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qpu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L353-L637"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.transpiler.routing.</span></span><span class="sig-name descname"><span class="pre">Routing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_bqm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qpu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L353-L631"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>This class represents a routing of a QAOA phase separator.</p>
 <p>A <a class="reference internal" href="#iqm.qaoa.transpiler.routing.Routing" title="iqm.qaoa.transpiler.routing.Routing"><code class="xref py py-class docutils literal notranslate"><span class="pre">Routing</span></code></a> object is intended to be directly used by a router during routing
@@ -485,7 +489,7 @@ interactions of strength 0 (e.g., because of padding), those won’t be added in
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.Routing.apply_swap">
-<span class="sig-name descname"><span class="pre">apply_swap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attempt_int</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L399-L445"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.apply_swap" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">apply_swap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attempt_int</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L398-L444"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.apply_swap" title="Link to this definition">#</a></dt>
 <dd><p>Apply swap gate at the earliest possible <a class="reference internal" href="iqm.qaoa.transpiler.routing.Layer.html#iqm.qaoa.transpiler.routing.Layer" title="iqm.qaoa.transpiler.routing.Layer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></a>, add a new layer if
 needed.</p>
 <p>Goes through the existing <a class="reference internal" href="iqm.qaoa.transpiler.routing.Layer.html#iqm.qaoa.transpiler.routing.Layer" title="iqm.qaoa.transpiler.routing.Layer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></a>s from the end and tries to apply a swap
@@ -511,7 +515,7 @@ be applied.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.Routing.apply_int">
-<span class="sig-name descname"><span class="pre">apply_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L448-L500"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.apply_int" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">apply_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L446-L498"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.apply_int" title="Link to this definition">#</a></dt>
 <dd><p>Apply interaction gate at the earliest possible <a class="reference internal" href="iqm.qaoa.transpiler.routing.Layer.html#iqm.qaoa.transpiler.routing.Layer" title="iqm.qaoa.transpiler.routing.Layer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></a>, add a new layer
 if necessary.</p>
 <p>Goes through the existing <a class="reference internal" href="iqm.qaoa.transpiler.routing.Layer.html#iqm.qaoa.transpiler.routing.Layer" title="iqm.qaoa.transpiler.routing.Layer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></a>s from the end and tries to apply
@@ -538,7 +542,7 @@ should be applied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.Routing.attempt_apply_int">
-<span class="sig-name descname"><span class="pre">attempt_apply_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L502-L518"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.attempt_apply_int" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">attempt_apply_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L500-L516"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.attempt_apply_int" title="Link to this definition">#</a></dt>
 <dd><p>This is a softer version of <a class="reference internal" href="#iqm.qaoa.transpiler.routing.Routing.apply_int" title="iqm.qaoa.transpiler.routing.Routing.apply_int"><code class="xref py py-meth docutils literal notranslate"><span class="pre">apply_int()</span></code></a>.</p>
 <p>It first checks if there is an interaction to be done and doesn’t do anything if there isn’t, as opposed to
 raising an error. This method is made for cases when it’s not clear whether an interaction has been applied
@@ -556,7 +560,7 @@ should be applied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.Routing.count_swap_gates">
-<span class="sig-name descname"><span class="pre">count_swap_gates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L520-L529"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.count_swap_gates" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">count_swap_gates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L518-L527"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.count_swap_gates" title="Link to this definition">#</a></dt>
 <dd><p>Counts the number of swap gates in all <a class="reference internal" href="iqm.qaoa.transpiler.routing.Layer.html#iqm.qaoa.transpiler.routing.Layer" title="iqm.qaoa.transpiler.routing.Layer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></a>s so far.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -567,7 +571,7 @@ should be applied.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.Routing.build_qiskit">
-<span class="sig-name descname"><span class="pre">build_qiskit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">betas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gammas</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L535-L601"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.build_qiskit" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">build_qiskit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">betas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gammas</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L529-L595"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.build_qiskit" title="Link to this definition">#</a></dt>
 <dd><p>Build the QAOA circuit from the <a class="reference internal" href="#iqm.qaoa.transpiler.routing.Routing" title="iqm.qaoa.transpiler.routing.Routing"><code class="xref py py-class docutils literal notranslate"><span class="pre">Routing</span></code></a> (<code class="docutils literal notranslate"><span class="pre">self</span></code>) in <a class="reference external" href="https://quantum.cloud.ibm.com/docs/api/qiskit/index#module-qiskit" title="(in Qiskit v2.1)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">qiskit</span></code></a>.</p>
 <p>The <a class="reference internal" href="#iqm.qaoa.transpiler.routing.Routing" title="iqm.qaoa.transpiler.routing.Routing"><code class="xref py py-class docutils literal notranslate"><span class="pre">Routing</span></code></a> (<code class="docutils literal notranslate"><span class="pre">self</span></code>) contains all the information needed to create
 the phase separator part of the QAOA circuit. This method builds the rest of the circuit from it, i.e.:</p>
@@ -598,7 +602,7 @@ the <a class="reference internal" href="#iqm.qaoa.transpiler.routing.Routing" ti
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.Routing.draw">
-<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L603-L637"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.draw" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L597-L631"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.draw" title="Link to this definition">#</a></dt>
 <dd><p>Plot all <a class="reference internal" href="iqm.qaoa.transpiler.routing.Layer.html#iqm.qaoa.transpiler.routing.Layer" title="iqm.qaoa.transpiler.routing.Layer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></a>s of the routing in batches of 9.</p>
 <p>This creates a series of plots that are shown on the screen. Each plot contains 9
 <a class="reference internal" href="iqm.qaoa.transpiler.routing.Layer.html#iqm.qaoa.transpiler.routing.Layer" title="iqm.qaoa.transpiler.routing.Layer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Layer</span></code></a>s arranged in a 3x3 grid. Each
@@ -711,7 +715,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-09-01.
+  Last updated on 2025-09-02.
   <br/>
 </p>
   </div>
