@@ -34,9 +34,6 @@ from iqm.qaoa.transpiler.routing import Mapping, Routing
 import networkx as nx
 
 
-# pylint: disable=too-many-statements
-# pylint: disable=too-many-branches
-# pylint: disable=anomalous-backslash-in-string
 def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBackend) -> Routing:  # noqa: PLR0915
     """The function that creates an optimal routing for all-to-all connected problems, designed by hand.
 

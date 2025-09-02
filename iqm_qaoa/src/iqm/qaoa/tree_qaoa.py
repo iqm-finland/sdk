@@ -51,7 +51,6 @@ def _find_nearest(array: Sequence[int | float], value: int | float) -> tuple[int
     return idx, array_as_np[idx]
 
 
-# pylint: disable=too-many-locals
 class TreeQAOA(QUBOQAOA):
     """The class for tree QAOA with QUBO cost function.
 

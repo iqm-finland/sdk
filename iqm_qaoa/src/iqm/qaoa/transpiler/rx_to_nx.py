@@ -27,7 +27,7 @@ have the other as a dependency.
 """
 
 import networkx as nx
-from rustworkx import PyDiGraph, PyGraph  # pylint: disable=no-name-in-module
+from rustworkx import PyDiGraph, PyGraph
 
 
 def rustworkx_to_networkx(graph: PyGraph | PyDiGraph) -> nx.Graph:

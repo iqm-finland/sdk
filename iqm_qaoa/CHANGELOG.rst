@@ -2,6 +2,40 @@
 Changelog
 =========
 
+Version 1.22.0 (2025-09-01)
+===========================
+
+Features
+--------
+
+* Creates a list of possible names of edge / node attributes and when a graph is used to instantiate certain problem classes, it goes through the list of names and looks for these attributes in the graph.
+* Puts the needed helper functions (and constants) into a separate module ``graph_utils.py``.
+* Move the function ``relabel_graph_nodes`` from ``qubo.py`` into ``graph_utils.py``.
+
+Version 1.21.0 (2025-09-01)
+===========================
+
+Features
+--------
+
+* Allow the ``sample`` method of ``SamplerSimulation`` and ``SamplerResonance`` to pass ``seed`` to the internal ``transpiled_circuit`` function to fix the random component of transpilation.
+* Allow the ``estimate`` method of ``EstimatorFromSampler`` to pass seed to the inner ``sample`` method of the provided sampler (or any other keyword arguments).
+
+Bug fixes
+---------
+
+* Fixes the example in the module docstring of ``maxcut.py``, which used an outdated name of a solver function.
+* Set the default seed of most function / methods to ``None``, so that when the user doesn't provide it, the outputs are random and not deterministic.
+
+Version 1.20.0 (2025-09-01)
+===========================
+
+Features
+--------
+
+* Add ``mis_generator`` function modeled on ``maxcut_generator`` to generate random instances of the ``MISInstance`` problem instance.
+* Add basic unit tests for both ``mis_generator`` and for ``maxcut_generator``.
+
 Version 1.19.0 (2025-08-20)
 ===========================
 

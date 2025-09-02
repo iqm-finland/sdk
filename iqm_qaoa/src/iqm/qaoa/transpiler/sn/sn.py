@@ -168,7 +168,6 @@ def _get_s(layout: dict[HardQubit, tuple[int, int]]) -> list[set[HardEdge]]:
     return s
 
 
-# pylint: disable=too-many-branches
 def _do_routing(route: Routing, s: list[set[HardEdge]], h: int, w: int) -> None:
     """Applies the swap and interaction gates to do the routing.
 
@@ -224,7 +223,6 @@ def _do_routing(route: Routing, s: list[set[HardEdge]], h: int, w: int) -> None:
                 route.attempt_apply_int(gate)
 
 
-# pylint: disable=too-many-locals
 def _find_rectangular_subgraph(qpu: QPU, h: int, w: int) -> tuple[HardQubit, int, int] | None:
     """Finds a rectangular subgraph of a given height and width in the QPU.
 

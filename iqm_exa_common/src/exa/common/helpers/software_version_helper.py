@@ -33,7 +33,7 @@ def _is_editable(pkg_name: str) -> bool:
     ``importlib.metadata``, so it might break anytime.
     """
     dist = distribution(pkg_name)
-    return dist.files is not None and dist.files[0].name.startswith("__editable__.")
+    return bool(dist.files) and dist.files[0].name.startswith("__editable__.")  # type:ignore[index]
 
 
 def get_all_software_versions(reload_module: bool = False) -> dict[str, str]:

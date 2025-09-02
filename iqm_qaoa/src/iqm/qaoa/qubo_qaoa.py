@@ -77,7 +77,6 @@ class QUBOQAOA(QAOA):
         """The graph whose edges / nodes have weights ``bias`` equal to the coefficients in the problem Hamiltonian."""
         return to_networkx_graph(self._bqm)
 
-    # pylint: disable=anomalous-backslash-in-string
     @property
     def interactions(self) -> np.ndarray:
         r"""Returns an upper-triangular matrix of the *ZZ* interactions between the variables.
@@ -95,7 +94,6 @@ class QUBOQAOA(QAOA):
         matrix_interactions[row, col] = quad
         return matrix_interactions
 
-    # pylint: disable=anomalous-backslash-in-string
     @property
     def local_fields(self) -> np.ndarray:
         r"""Returns a :class:`~numpy.ndarray` of the local fields of the model (*Z* coefficients).
@@ -111,7 +109,7 @@ class QUBOQAOA(QAOA):
         loc_fields, _, *_ = self._bqm.to_numpy_vectors(sort_indices=True)
         return loc_fields
 
-    def train(self, estimator: EstimatorBackend | None = None, min_method: str = "COBYLA") -> None:
+    def train(self, estimator: EstimatorBackend | None = None, min_method: str = "COBYLA", **kwargs) -> None:
         """The function that performs the training of the angles.
 
         The training modifies :attr:`~iqm.qaoa.generic_qaoa.QAOA.angles` in-place using
@@ -121,6 +119,8 @@ class QUBOQAOA(QAOA):
             estimator: An estimator :class:`~iqm.qaoa.backends.EstimatorBackend` to be used to calculating expectation
                 values for the minimization.
             min_method: The minimization method passed to the :func:`~scipy.optimize.minimize` function.
+            **kwargs: The keyword arguments to pass to the ``estimator``'s
+                :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate`.
 
         """
         if estimator is None:
@@ -146,7 +146,7 @@ class QUBOQAOA(QAOA):
 
             """
             self._angles = local_angles
-            return estimator.estimate(self)
+            return estimator.estimate(self, **kwargs)
 
         solution = minimize(function_to_minimize, self.angles, method=min_method)  # type: ignore[call-overload]
         self._angles = solution.x
@@ -154,7 +154,7 @@ class QUBOQAOA(QAOA):
 
     # This method is temporarily moved here from QAOA since SamplerBackend was temporarily restricted to only accept
     # QUBOQAOA
-    def sample(self, sampler: SamplerBackend, shots: int = 20000) -> dict[str, int]:
+    def sample(self, sampler: SamplerBackend, shots: int = 20000, **kwargs) -> dict[str, int]:
         """The method for taking samples (i.e., measurement results) from the QAOA circuit.
 
         Takes a :class:`~iqm.qaoa.backends.SamplerBackend` and uses it to get ``shots`` samples. The backend is
@@ -167,17 +167,19 @@ class QUBOQAOA(QAOA):
                 :class:`~iqm.qaoa.backends.SamplerBackend` with a :meth:`~iqm.qaoa.backends.SamplerBackend.sample`
                 method of the appropriate signature.
             shots: The number of shots to be taken.
+            **kwargs: Extra arguments to pass to the sampler. Mostly intended for ``seed_transpiler`` for samplers that
+                include :mod:`qiskit` transpilation.
 
         Returns:
             A dictionary whose keys are bitstrings representing the samples and whose values are their respective
             frequencies, so that the sum of the values of the dictionary equals to ``shots``.
 
         """
-        return sampler.sample(self, shots)
+        return sampler.sample(self, shots, **kwargs)
 
     # This method is temporarily moved here from QAOA since EstimatorBackend was temporarily restricted to only accept
     # QUBOQAOA
-    def estimate(self, estimator: EstimatorBackend) -> float:
+    def estimate(self, estimator: EstimatorBackend, **kwargs) -> float:
         """The method for taking estimates of the expected value of the Hamiltonian from the QAOA circuit.
 
         Takes a :class:`~iqm.qaoa.backends.EstimatorBackend` and uses it to get estimates of the expected value.
@@ -188,9 +190,13 @@ class QUBOQAOA(QAOA):
             estimator: The estimator used to get the expected value. The estimator is an instance of a subclass of
                 :class:`~iqm.qaoa.backends.EstimatorBackend` with a method
                 :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate` of the appropriate signature.
+            **kwargs: Optional keyword arguments to be passed to the ``estimator``. Mostly relevant for when
+                the estimators is :class:`~iqm.qaoa.backends.EstimatorFromSampler`, the sampler is
+                :class:`~iqm.qaoa.backends.SamplerResonance` and we want to specify parameters of the transpilation on
+                the Resonance QPU.
 
         Returns:
             An estimate of the expectation value fo the Hamiltonian. Not normalized in any way.
 
         """
-        return estimator.estimate(self)
+        return estimator.estimate(self, **kwargs)

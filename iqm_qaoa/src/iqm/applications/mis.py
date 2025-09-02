@@ -42,11 +42,19 @@ Example:
 
 """
 
+from collections.abc import Iterator
 from itertools import combinations
+from typing import Literal
 
 from dimod import BinaryQuadraticModel, ConstrainedQuadraticModel
 from dimod.typing import Variable
-from iqm.applications.qubo import ConstrainedQuadraticInstance, relabel_graph_nodes
+from iqm.applications.graph_utils import (
+    NODE_ATTR_PRIORITY,
+    _generate_desired_graph,
+    _get_attr_with_priority,
+    relabel_graph_nodes,
+)
+from iqm.applications.qubo import ConstrainedQuadraticInstance
 import networkx as nx
 import numpy as np
 
@@ -89,7 +97,7 @@ class ISInstance(ConstrainedQuadraticInstance):
         return self._graph
 
     def fix_variables(self, variables: list[Variable] | dict[Variable, int]) -> None:
-        """A method to fix some of the problem variables.
+        """A method to fix (assign) some of the problem variables.
 
         When a variable is fixed to 1, all of its neighboring variables are fixed to 0 (because of the constraints).
 
@@ -161,7 +169,6 @@ class ISInstance(ConstrainedQuadraticInstance):
         return induced_subgraph
 
 
-# pylint: disable=anomalous-backslash-in-string
 class MISInstance(ISInstance):
     r"""The instance class for maximum independent set problems.
 
@@ -230,7 +237,6 @@ class MISInstance(ISInstance):
         return "".join(result)
 
 
-# pylint: disable=anomalous-backslash-in-string
 class MaximumWeightISInstance(ISInstance):
     r"""The instance class for maximum-weight independent set problems.
 
@@ -253,20 +259,28 @@ class MaximumWeightISInstance(ISInstance):
     """
 
     def __init__(self, graph: nx.Graph, penalty: float | int) -> None:
-        # Check that all nodes of the graph have a correct weight assigned.
-        for node, data in graph.nodes(data=True):
-            if "weight" not in data:
-                raise ValueError(f"Node {node} is missing the 'weight' attribute.")
-            if not isinstance(data["weight"], float | int):
-                raise TypeError(
-                    f"Node {node} has a 'weight' of type {type(data['weight']).__name__}, expected"
-                    f" ``float`` or ``int``."
-                )
+        self._graph, self.orig_to_new_labels, self.new_to_orig_labels = relabel_graph_nodes(graph)
 
         # Define the objective function to minimize
-        obj_matrix = np.zeros((graph.number_of_nodes(), graph.number_of_nodes()))
-        for node in graph.nodes():
-            obj_matrix[node, node] = -graph.nodes[node]["weight"]
+        obj_matrix = np.zeros((self._graph.number_of_nodes(), self._graph.number_of_nodes()))
+
+        for node, data in self._graph.nodes(data=True):
+            value = _get_attr_with_priority(data, NODE_ATTR_PRIORITY)
+
+            if value is None:
+                raise ValueError(
+                    f"The node {self.new_to_orig_labels[node]} is missing one of the required attributes "
+                    f"({', '.join(NODE_ATTR_PRIORITY)})."
+                )
+
+            if not isinstance(value, (float, int)):
+                raise TypeError(
+                    f"The local term at node {self.new_to_orig_labels[node]} has a "
+                    f"value of type {type(value).__name__}, expected ``float`` or ``int``."
+                )
+
+            obj_matrix[node, node] = -value
+
         objective = BinaryQuadraticModel(obj_matrix, vartype="BINARY")
 
         super().__init__(graph, penalty, objective)
@@ -314,7 +328,6 @@ def greedy_mis(mis_problem: MISInstance | nx.Graph) -> str:
     return "".join(bitstring)
 
 
-# pylint: disable = line-too-long
 def bron_kerbosch(mis_problem: MISInstance | nx.Graph) -> str:
     """Bron-Kerbosch algorithm for finding the maximum independent set.
 
@@ -346,3 +359,47 @@ def bron_kerbosch(mis_problem: MISInstance | nx.Graph) -> str:
     for pos in maximum_independent_set:
         bitstring[pos] = "1"
     return "".join(bitstring)
+
+
+def mis_generator(  # noqa: PLR0913
+    n: int,
+    n_instances: int,
+    *,
+    graph_family: Literal["regular", "erdos-renyi"] = "erdos-renyi",
+    p: float = 0.5,
+    d: int = 3,
+    seed: int | None = None,
+    enforce_connected: bool = False,
+    max_iterations: int = 1000,
+    penalty: int = 1,
+) -> Iterator[MISInstance]:
+    r"""The generator function for generating random MIS problem instances.
+
+    The generator yields MIS problem instances using random graphs, created according to the input parameters. If
+    ``enforce_connected`` is set to ``True``, then the resulting graphs are checked for connectivity and regenerated if
+    the check fails. In that case, the output graphs are not strictly speaking Erdős–Rényi or uniformly random regular
+    graphs anymore.
+
+    Args:
+        n: The number of nodes of the graph.
+        n_instances: The number of MIS instances to generate.
+        graph_family: A string describing the random graph family to generate.
+            Possible graph families include 'erdos-renyi' and 'regular'.
+        p: For the Erdős–Rényi graph, this is the edge probability. For other graph families, it's ignored.
+        d: For the random regular graph, this is the degree of each node in the graph. For other graph families, it's
+            ignored.
+        seed: Optional random seed for generating the problem instances.
+        enforce_connected: A bool stating whether it is required that the random graphs are connected.
+        max_iterations: In case ``enforce_connected`` is ``True``, the function generates random graphs in a ``while``
+            loop until it finds a connected one. If it doesn't find a connected one after ``max_iterations``, it raises
+            an error.
+        penalty: The penalty to the energy for violating the independence constraint.
+
+    Yields:
+        Problem instances of :class:`MISInstance` randomly constructed in accordance to the input parameters.
+
+    """
+    for _ in range(n_instances):
+        g = _generate_desired_graph(graph_family, n, p, d, seed, enforce_connected, max_iterations)
+
+        yield MISInstance(g, penalty=penalty)

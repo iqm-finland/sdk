@@ -23,14 +23,6 @@
 Common fixtures go here.
 """
 
-# This pylint warning is disabled because "If a fixture is used in the same module in which it is defined,
-# the function name of the fixture will be shadowed by the function arg that requests the fixture."
-# Reference:
-# https://stackoverflow.com/questions/46089480/pytest-fixtures-redefining-name-from-outer-scope-pylint
-# https://docs.pytest.org/en/stable/reference/reference.html#pytest-fixture
-
-# pylint: disable=redefined-outer-name
-
 from collections.abc import Callable
 import random
 from uuid import UUID
@@ -281,7 +273,6 @@ def graphs_for_ec() -> list[nx.Graph]:
 def custom_rigged_sampler() -> SamplerBackend:
     """Returns a sampler object that always 'samples' the same bitstring."""
 
-    # pylint: disable=too-few-public-methods
     class RiggedSampler(SamplerBackend):
         """Locally defined rigged sampler, designed to solve the MIS problem on ``special_g`` defined above."""
 

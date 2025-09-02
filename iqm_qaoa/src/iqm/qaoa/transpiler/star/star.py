@@ -135,15 +135,11 @@ class RoutingStar(Routing):
         layers: list[tuple[str, HardQubit]] = self._star_layers
         number_of_moves_in_layers = 0
         for gate in layers:
-            # Pylint is being dumb here, ``gate`` is definitely a tuple and therefore subscriptable.
-            if gate[0] in {"move_in", "move_out"}:  # pylint: disable=unsubscriptable-object
+            if gate[0] in {"move_in", "move_out"}:
                 number_of_moves_in_layers += 1
 
         return number_of_moves_in_layers
 
-    # The following function builds the circuit of the QAOA. It also doesn't make much sense to split it up into smaller
-    # functions, so that's why the pylint warning is disabled.
-    # pylint: disable=too-many-locals
     def build_qiskit(self, betas: list[float], gammas: list[float]) -> QuantumCircuit:
         """Build the entire QAOA circuit in :mod:`qiskit`.
 
@@ -221,8 +217,6 @@ class RoutingStar(Routing):
 
         return qiskit_circ
 
-    # The draw method is very similar to the ``draw`` method of ``Routing``, so pylint raises a 'duplicate-code' error.
-    # pylint: disable=duplicate-code
     def draw(self) -> None:
         """Plot all layers of the routing in batches of 9.
 

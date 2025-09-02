@@ -395,7 +395,6 @@ class Routing:
         """The topology of the QPU that is being used in the routing."""
         return nx.subgraph(self.qpu.hardware_graph, self.mapping.hard2log.keys())
 
-    # pylint: disable=anomalous-backslash-in-string
     def apply_swap(self, gate: HardEdge, attempt_int: bool = False) -> None:
         r"""Apply swap gate at the earliest possible :class:`~iqm.qaoa.transpiler.routing.Layer`, add a new layer if
         needed.
@@ -444,7 +443,6 @@ class Routing:
                 if layer_index == 1:
                     _internal_apply_swap(0)
 
-    # pylint: disable=anomalous-backslash-in-string
     def apply_int(self, gate: HardEdge) -> None:
         r"""Apply interaction gate at the earliest possible :class:`~iqm.qaoa.transpiler.routing.Layer`, add a new layer
         if necessary.
@@ -528,10 +526,6 @@ class Routing:
 
         return number_of_swaps_in_layers
 
-    # The following function builds the circuit of the QAOA. I tried hard to reduce the number of local
-    # variables, but didn't manage to get under 19. It also doesn't make much sense to split it up into smaller
-    # functions, so that's why the pylint warning is disabled.
-    # pylint: disable=too-many-locals
     def build_qiskit(self, betas: list[float], gammas: list[float]) -> QuantumCircuit:
         r"""Build the QAOA circuit from the :class:`~iqm.qaoa.transpiler.routing.Routing` (``self``) in :mod:`qiskit`.
 

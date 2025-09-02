@@ -58,7 +58,6 @@ A custom type alias of :class:`frozenset` of :class:`HardQubit` to refer to inte
 """
 
 
-# pylint: disable=anomalous-backslash-in-string
 class QPU:
     r"""A parent class for all QPU architectures.
 
@@ -85,13 +84,11 @@ class QPU:
             self._hardware_layout = hardware_layout
         self._shortest_path = dict(nx.shortest_path(self._hardware_graph))
 
-    # pylint: disable=anomalous-backslash-in-string
     @property
     def qubits(self) -> set[HardQubit]:
         r"""The set of all :class:`HardQubit`\s of the QPU."""
         return set(self._hardware_graph.nodes())
 
-    # pylint: disable=anomalous-backslash-in-string
     def has_edge(self, gate: HardEdge) -> bool:
         r"""Is there an edge between the qubits involved in ``gate``?
 
@@ -141,7 +138,7 @@ class QPU:
             gate_lists: A dictionary whose keys are colors (as single-letter strings) and values are lists of edges
                 which should be colored that color.
             show: Boolean which decides if the graph will be shown in a pop-up window.
-            **kwargs: Arbitrary keyword arguments.
+            **kwargs: Arbitrary keyword arguments for :func:`~networkx.draw_networkx_edges`.
 
         """
         nx.draw_networkx_edges(self._hardware_graph, ax=ax, pos=self._hardware_layout, **kwargs)

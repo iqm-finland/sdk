@@ -39,7 +39,6 @@ import networkx as nx
 import numpy as np
 
 
-# pylint: disable=anomalous-backslash-in-string
 def _decompose_into_chains_and_loops(
     problem_bqm: BinaryQuadraticModel,
 ) -> tuple[list[list[LogQubit]], list[list[LogQubit]]]:
@@ -100,7 +99,6 @@ def _decompose_into_chains_and_loops(
     return chains, loops
 
 
-# pylint: disable=anomalous-backslash-in-string
 def _embed_chain(chain: list[LogQubit], hardware_graph: nx.Graph) -> dict[HardQubit, LogQubit]:
     r"""This function attempts to embed a chain of :class:`LogQubit`\s into an arbitrary hardware topology.
 

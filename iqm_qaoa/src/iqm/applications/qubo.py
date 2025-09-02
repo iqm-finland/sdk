@@ -45,13 +45,13 @@ Example:
 """
 
 from itertools import product
-from typing import Any
 
 from dimod import BinaryQuadraticModel, ConstrainedQuadraticModel, to_networkx_graph
 from dimod.sym import Sense
 from dimod.typing import Variable
 from dimod.utilities import new_variable_label
 from iqm.applications.applications import ProblemInstance
+from iqm.applications.graph_utils import EDGE_ATTR_PRIORITY, NODE_ATTR_PRIORITY, _get_attr_with_priority
 import networkx as nx
 import numpy as np
 
@@ -82,9 +82,35 @@ class QUBOInstance(ProblemInstance):
         elif isinstance(qubo_object, nx.Graph):
             self._bqm = BinaryQuadraticModel(qubo_object.number_of_nodes(), vartype="BINARY")
             for node in qubo_object.nodes:
-                self._bqm.add_linear(node, qubo_object.nodes[node].get("bias", 0))
+                value = _get_attr_with_priority(qubo_object.nodes[node], NODE_ATTR_PRIORITY)
+
+                if value is None:
+                    raise ValueError(
+                        f"The node {node} is missing one of the required attributes ({', '.join(NODE_ATTR_PRIORITY)})."
+                    )
+                if not isinstance(value, (float, int)):
+                    raise TypeError(
+                        f"The local term at node {node} has a "
+                        f"value of type {type(value).__name__}, expected ``float`` or ``int``."
+                    )
+
+                self._bqm.add_linear(node, value)
+
             for u, v, data in qubo_object.edges(data=True):
-                self._bqm.add_quadratic(u, v, data.get("bias", 0))
+                value = _get_attr_with_priority(data, EDGE_ATTR_PRIORITY)
+                if value is None:
+                    raise ValueError(
+                        f"The edge between nodes {u} and {v} is missing"
+                        f" one of the required attributes ({', '.join(EDGE_ATTR_PRIORITY)})."
+                    )
+
+                if not isinstance(value, (float, int)):
+                    raise TypeError(
+                        f"The edge between nodes {u} and {v} has a "
+                        f"value of type {type(value).__name__}, expected ``float`` or ``int``."
+                    )
+
+                self._bqm.add_quadratic(u, v, value)
         elif isinstance(qubo_object, BinaryQuadraticModel):
             self._bqm = qubo_object
         else:
@@ -99,7 +125,6 @@ class QUBOInstance(ProblemInstance):
         """The dimension of the problem (i.e., the number of binary variables)."""
         return self._bqm.num_variables
 
-    # pylint: disable=anomalous-backslash-in-string
     @property
     def qubo_matrix(self) -> np.ndarray:
         r"""The QUBO matrix of the problem instance.
@@ -179,7 +204,6 @@ class QUBOInstance(ProblemInstance):
         return float(energy)
 
 
-# pylint: disable=too-many-instance-attributes
 class ConstrainedQuadraticInstance(ProblemInstance):
     """A class for constrainted quadratic binary problems.
 
@@ -480,26 +504,3 @@ class ConstrainedQuadraticInstance(ProblemInstance):
         counts_to_keep = {str: counts[str] for str in counts.keys() if self.constraints_checker(str)}
 
         return counts_to_keep
-
-
-def relabel_graph_nodes(graph: nx.Graph) -> tuple[nx.Graph, dict[Any, int], dict[int, Any]]:
-    """Map original node labels of the :class:`~networkx.Graph` to new ones between 0 and `graph.number_of_nodes` - 1.
-
-    Creates two dictionaries that keep track of the mapping between original labels and new labels numbered between 0
-    and `graph.number_of_nodes` - 1.
-
-    Args:
-        graph: The graph whose nodes should be relabeled.
-
-    Returns:
-        A tuple containing the input graph with relabeled nodes and two dictionaries containing the mapping from old
-        labels to new and vice versa.
-
-    """
-    orig_to_new_labels = {orig: new for new, orig in enumerate(graph.nodes())}
-    new_to_orig_labels = dict(enumerate(graph.nodes()))
-    if set(graph.nodes) != set(range(len(graph))):
-        re_labeled_graph = nx.relabel_nodes(graph, orig_to_new_labels)
-    else:
-        re_labeled_graph = graph
-    return re_labeled_graph, orig_to_new_labels, new_to_orig_labels

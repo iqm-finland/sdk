@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 26.32.0 (2025-08-27)
+============================
+
+Bug fixes
+---------
+
+- Fix empty list of editable software packages.
+
 Version 26.31.0 (2025-08-13)
 ============================
 

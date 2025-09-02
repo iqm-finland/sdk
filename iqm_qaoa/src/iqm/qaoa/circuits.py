@@ -161,12 +161,10 @@ def quimb_tn(qaoa: QUBOQAOA) -> qtn.Circuit:
     return tn
 
 
-# pylint: disable=too-many-locals
 def transpiled_circuit(
     qaoa: QUBOQAOA,
     backend: BackendV2 = AerSimulator(method="statevector"),
     transpiler: str | None = None,
-    seed: int = 1337,
     **kwargs,
 ) -> QuantumCircuit:
     """The function to return a :class:`~qiskit.circuit.QuantumCircuit` tailored to ``backend``.
@@ -181,11 +179,10 @@ def transpiled_circuit(
             for the transpilation.
         transpiler: A string that describes which algorithm should be used for transpilation (if any). Should be one
             of: ``None``, "Default", "HardwiredTranspiler", "SparseTranspiler", "SwapNetwork" or "MinimumVertexCover".
-        seed: A seed used for "Default" transpilation. It fixes the circuit produced by the stochastic qiskit
-            transpiler. It can be used to ensure reproducibility of a transpilation.
         **kwargs: Additional keyword arguments passed to :func:`~qiskit.provider.transpiler.transpile` used inside of
             :func:`transpiled_circuit`. For example:
             - initial_layout (list[int]): The list of hardware qubits onto which the circuit is to be laid out.
+            - seed_transpiler (int): A random seed to derandomize the transpilation.
 
     Returns:
         A quantum circuit transpiled to the topology of ``backend``.
@@ -205,7 +202,7 @@ def transpiled_circuit(
     # Use the default Qiskit transpilation
     if transpiler == "Default":
         starting_circuit = qiskit_circuit(qaoa, measurements=True)
-        return transpile(starting_circuit, backend, seed_transpiler=seed, **kwargs)
+        return transpile(starting_circuit, backend, **kwargs)
 
     if not isinstance(backend, IQMBackendBase):
         raise TypeError("Currently, only IQM backends are supported with transpilation other than 'Default' or `None`.")
@@ -215,15 +212,15 @@ def transpiled_circuit(
         qpu = CrystalQPUFromBackend(backend)
         routed = hardwired_router(qaoa.bqm, qpu)
         qc_hw = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
+
         # Default layout method uses the VF2 algorithm to find an exact layout match.
         # An exact layout match is guaranteed to exist, so no further routing is needed.
+        kwargs.setdefault("optimization_level", 3)
         qc_hw_transpiled = transpile(
             qc_hw,
             backend=backend,
             layout_method="default",
             routing_method="none",
-            optimization_level=3,
-            seed_transpiler=seed,
             **kwargs,
         )
         return qc_hw_transpiled
@@ -233,15 +230,15 @@ def transpiled_circuit(
         qpu = CrystalQPUFromBackend(backend)
         routed = greedy_router(qaoa.bqm, qpu)
         qc_sparse = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
+
         # Default layout method uses the VF2 algorithm to find an exact layout match.
         # An exact layout match is guaranteed to exist, so no further routing is needed.
+        kwargs.setdefault("optimization_level", 3)
         qc_sparse_transpiled = transpile(
             qc_sparse,
             backend=backend,
             layout_method="default",
             routing_method="none",
-            optimization_level=3,
-            seed_transpiler=seed,
             **kwargs,
         )
         return qc_sparse_transpiled
@@ -251,15 +248,15 @@ def transpiled_circuit(
         qpu = CrystalQPUFromBackend(backend)
         routed = sn_router(qaoa.bqm, qpu)
         qc_sn = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
+
         # Default layout method uses the VF2 algorithm to find an exact layout match.
         # An exact layout match is guaranteed to exist, so no further routing is needed.
+        kwargs.setdefault("optimization_level", 3)
         qc_sn_transpiled = transpile(
             qc_sn,
             backend=backend,
             layout_method="default",
             routing_method="none",
-            optimization_level=3,
-            seed_transpiler=seed,
             **kwargs,
         )
         return qc_sn_transpiled
@@ -272,13 +269,14 @@ def transpiled_circuit(
         qc_mvc = star_routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
 
         handling_of_errors = ExistingMoveHandlingOptions("keep")
+        # Optimization level > 1 causes the transpiler to put SQG on the resonator
+        kwargs.setdefault("optimization_level", 1)
         qc_mvc_transpiled = transpile_to_IQM(
             qc_mvc,
             backend=backend,
             perform_move_routing=False,
             existing_moves_handling=handling_of_errors,
             initial_layout=[backend.qubit_name_to_index("COMPR1")] + list(range(qaoa.bqm.num_variables)),
-            optimization_level=1,  # Optimization level > 1 causes the transpiler to put SQG on the resonator
             **kwargs,  # Warning: Here we're passing **kwargs meant for `transpile` into `transpile_to_IQM`.
         )
 

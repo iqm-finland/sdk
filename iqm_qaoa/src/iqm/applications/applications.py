@@ -326,7 +326,6 @@ class ProblemInstance(ABC):
 
         return best_bitstring
 
-    # pylint: disable=anomalous-backslash-in-string
     def local_bitflip_postprocessing(self, counts: dict[str, int]) -> dict[str, int]:
         r"""Postprocessing method for checking a unit Hamming distance neighborhood of the dictionary of counts.
 
