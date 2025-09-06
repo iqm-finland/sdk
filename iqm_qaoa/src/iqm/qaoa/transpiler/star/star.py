@@ -34,7 +34,7 @@ from qiskit import QuantumCircuit
 
 
 class RoutingStar(Routing):
-    """This class represents a routing of a QAOA phase separator on the star topology.
+    """Routing of a QAOA phase separator on the star topology.
 
     The main difference from the parent class :class:`~iqm.qaoa.transpiler.routing.Routing` is that :class:`RoutingStar`
     doesn't use :class:`~iqm.qaoa.transpiler.routing.Layer` for its layers. The layers in :class:`RoutingStar` are much
@@ -55,6 +55,7 @@ class RoutingStar(Routing):
 
     @property
     def layers(self) -> list[tuple[str, HardQubit]]:
+        """The list of layers of the star routing object."""
         return self._star_layers
 
     def apply_move_in(self, qubit: HardQubit) -> None:
@@ -140,7 +141,9 @@ class RoutingStar(Routing):
 
         return number_of_moves_in_layers
 
-    def build_qiskit(self, betas: list[float], gammas: list[float]) -> QuantumCircuit:
+    def build_qiskit(
+        self, betas: list[float], gammas: list[float], cancel_cnots: bool = True, measurement: bool = True
+    ) -> QuantumCircuit:
         """Build the entire QAOA circuit in :mod:`qiskit`.
 
         The :class:`~iqm.qaoa.transpiler.star.star.RoutingStar` object contains all the information needed to create
@@ -156,6 +159,9 @@ class RoutingStar(Routing):
         Args:
             betas: The QAOA parameters to be used in the driver (*RX* gate).
             gammas: The QAOA parameters to be used in the phase separator (*RZ* and *RZZ* gates).
+            cancel_cnots: Ignored because it's not relevant for routing on the star (but is included for compatibility
+                with superclass).
+            measurement: Should the circuit contain a layer of measurements or not?
 
         Returns:
             A complete QAOA :class:`~qiskit.circuit.QuantumCircuit`.
@@ -174,7 +180,7 @@ class RoutingStar(Routing):
         # Prepare uniform superposition.
         qiskit_circ.h(mapping.hard2log.keys())
 
-        for gamma, beta in zip(gammas, betas):  # Each pair of ``gamma, beta`` corresponds to one QAOA layer.
+        for gamma, beta in zip(gammas, betas, strict=True):  # Each pair of ``gamma, beta`` corresponds to a QAOA layer.
             # Apply phase separator.
             for op_type, qubit in layers:
                 if op_type == "int":
@@ -212,8 +218,9 @@ class RoutingStar(Routing):
             # Apply driver.
             qiskit_circ.rx(2 * beta, mapping.hard2log.keys())
 
-        qiskit_circ.barrier()
-        qiskit_circ.measure(mapping.hard2log.keys(), range(len(mapping.hard2log)))
+        if measurement:
+            qiskit_circ.barrier()
+            qiskit_circ.measure(mapping.hard2log.keys(), range(len(mapping.hard2log)))
 
         return qiskit_circ
 
@@ -301,7 +308,8 @@ def star_router(problem_bqm: BinaryQuadraticModel, qpu: StarQPU) -> RoutingStar:
 
     # We need to create a partial initial mapping that leaves the central resonator unassigned.
     available_hard_qubits = qpu.qubits - {0}  # The central resonator isn't available as a qubit for initial mapping.
-    partial_initial_mapping = dict(zip(available_hard_qubits, bqm.variables))
+    # The zip is not ``strict`` because there might be less variables than ``available_hard_qubits`` and that's fine.
+    partial_initial_mapping = dict(zip(available_hard_qubits, bqm.variables, strict=False))
     initial_mapping = Mapping(qpu, bqm, partial_initial_mapping)
     route = RoutingStar(bqm, qpu, initial_mapping)
 

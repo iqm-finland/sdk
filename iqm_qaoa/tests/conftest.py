@@ -19,9 +19,7 @@
 # BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-"""
-Common fixtures go here.
-"""
+"""Common fixtures go here."""
 
 from collections.abc import Callable
 import random
@@ -111,8 +109,7 @@ def edge_cases_graph_generator() -> Callable[[int], tuple[nx.Graph, ...]]:
     """Fixture that returns a function for generating edge case graphs of a given size."""
 
     def graph_generator(n: int) -> tuple[nx.Graph, ...]:
-        """
-        Function that generates 4 edge-case graphs of a given size.
+        """Function that generates 4 edge-case graphs of a given size.
 
         Args:
             n: The number of nodes of all the graphs to be generated.
@@ -122,6 +119,7 @@ def edge_cases_graph_generator() -> Callable[[int], tuple[nx.Graph, ...]]:
             cycle_graph: A cycle graph (looks like a circle).
             linear_graph: A linear graph (looks like a line, obtained by deleting one edge from cycle_graph).
             disconnected_graph: A disconnected graph (no edges, just vertices).
+
         """
         complete_graph = nx.complete_graph(n)
         cycle_graph = nx.Graph()
@@ -137,30 +135,26 @@ def edge_cases_graph_generator() -> Callable[[int], tuple[nx.Graph, ...]]:
 
 @pytest.fixture
 def alpha() -> float:
-    """
-    The lower bound on the approximation ratio of the ``goemans_williamson`` algorithm.
-    """
+    """The lower bound on the approximation ratio of the ``goemans_williamson`` algorithm."""
     return 0.878
 
 
 @pytest.fixture
 def bqms() -> list[BinaryQuadraticModel]:
-    """
-    A list of quasi-random 4-regular BQMs on 36 variables.
-    """
+    """A list of quasi-random 4-regular BQMs on 36 variables."""
     return [uniform(nx.random_regular_graph(4, 36, seed=1337), "SPIN", low=0.5, high=1.0) for _ in range(10)]
 
 
 @pytest.fixture(scope="session")
 def apollo_backend() -> IQMFakeApollo:
-    """
-    Apollo backend instantiated here, so that it doesn't need to be done repeatedly.
-    """
+    """Apollo backend instantiated here, so that it doesn't need to be done repeatedly."""
     backend = IQMFakeApollo()
     return backend
 
 
 class MockBackend(IQMBackendBase):
+    """Mock backend class created to define a Sirius mock backend fixture."""
+
     def __init__(self, architecture: DynamicQuantumArchitecture, **kwargs):
         super().__init__(architecture, **kwargs)
 
@@ -169,18 +163,16 @@ class MockBackend(IQMBackendBase):
         return Options(shots=1024)
 
     @property
-    def max_circuits(self) -> int | None:
+    def max_circuits(self) -> int | None:  # noqa: D102
         return None
 
-    def run(self, run_input, **options):
+    def run(self, run_input, **options):  # noqa: D102, ANN001, ANN201
         raise NotImplementedError
 
 
 @pytest.fixture(scope="session")
 def sirius_mock_backend() -> MockBackend:
-    """
-    Sirius mock backend defined here to be shared among many tests.
-    """
+    """Sirius mock backend defined here to be shared among many tests."""
     architecture = DynamicQuantumArchitecture(
         calibration_set_id=UUID("26c5e70f-bea0-43af-bd37-6212ec7d04cb"),
         qubits=[f"QB{i + 1}" for i in range(24)],
@@ -205,25 +197,19 @@ def sirius_mock_backend() -> MockBackend:
 
 @pytest.fixture
 def square_qpu() -> QPU:
-    """
-    A 6-by-6 grid QPU.
-    """
+    """A 6-by-6 grid QPU."""
     return Grid2DQPU(6, 6)
 
 
 @pytest.fixture
 def layer(square_qpu: QPU) -> Layer:
-    """
-    Returns a layer from the QPU.
-    """
+    """Returns a layer from the QPU."""
     return Layer(square_qpu)
 
 
 @pytest.fixture
 def matching_gates(square_qpu: QPU) -> set[HardEdge]:
-    """
-    Returns a set of matching gates generated on the QPU graph.
-    """
+    """Returns a set of matching gates generated on the QPU graph."""
     g = square_qpu.hardware_graph
     matching = nx.maximal_matching(g)
     matching_gates = set()
@@ -234,9 +220,7 @@ def matching_gates(square_qpu: QPU) -> set[HardEdge]:
 
 @pytest.fixture
 def is_layer_valid() -> Callable[[Layer], bool]:
-    """
-    Fixture for a function that tests whether the layer ``input_layer`` is valid.
-    """
+    """Fixture for a function that tests whether the layer ``input_layer`` is valid."""
 
     def validity_check(input_layer: Layer) -> bool:
         for hard_qb in input_layer.gates.nodes():
@@ -255,9 +239,7 @@ def is_layer_valid() -> Callable[[Layer], bool]:
 
 @pytest.fixture
 def graphs_for_ec() -> list[nx.Graph]:
-    """
-    Contains the graphs used for testing edge coloring.
-    """
+    """Contains the graphs used for testing edge coloring."""
     complete_graph = nx.complete_graph(20)
     circle_graph = nx.cycle_graph(20)
     complete_bipartite = nx.complete_bipartite_graph(8, 12)
@@ -284,9 +266,7 @@ def custom_rigged_sampler() -> SamplerBackend:
 
 @pytest.fixture
 def samples_dict(sparse_mis_instance: MISInstance) -> dict[str, int]:
-    """
-    Returns a quasi-random dictionary of samples.
-    """
+    """Return a quasi-random dictionary of samples."""
     n = sparse_mis_instance.dim
     shots = 10000
     unique_bitstrings = 200
@@ -301,13 +281,12 @@ def samples_dict(sparse_mis_instance: MISInstance) -> dict[str, int]:
         set_of_unique_bitstrings.add(bit_str_to_add)
     list_bit_strings = list(set_of_unique_bitstrings)
 
-    return dict(zip(list_bit_strings, vals))
+    return dict(zip(list_bit_strings, vals, strict=True))
 
 
 @pytest.fixture(scope="session")
 def qpu_with_hole() -> QPU:
-    """
-    QPU with the following topology:
+    """QPU with a specific topology (7x7 square grid with a hole in the middle).
 
     +---+---+---+---+---+---+
     |   |   |   |   |   |   |

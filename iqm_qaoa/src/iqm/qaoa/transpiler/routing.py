@@ -19,9 +19,12 @@
 # BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-"""This module contains the object classes :class:`~iqm.qaoa.transpiler.routing.Mapping`,
-:class:`~iqm.qaoa.transpiler.routing.Layer` and :class:`~iqm.qaoa.transpiler.routing.Routing` to be used throughout any
-transpilation algorithm.
+"""Module containing the main object classes used throughout any routing algorithm.
+
+Specififally, there is :class:`~iqm.qaoa.transpiler.routing.Mapping`, which keeps track of the mapping between
+the logical and the hardware qubits. There is :class:`~iqm.qaoa.transpiler.routing.Routing` used to construct and save
+the routing of the phase separator of the QAOA. The routing is saved as a list of layers,
+:class:`~iqm.qaoa.transpiler.routing.Layer`.
 """
 
 from __future__ import annotations
@@ -40,7 +43,7 @@ from qiskit import QuantumCircuit
 
 
 class Mapping:
-    """This class is responsible for a mapping between logical and hardware qubits.
+    """Mapping between logical and hardware qubits.
 
     It maintains two dictionaries: :attr:`log2hard` and :attr:`hard2log` which are mappings between logical
     and hardware qubits. They are automatically kept in sync. The names for the hardware and logical qubits are
@@ -74,11 +77,14 @@ class Mapping:
         self.hard_qbs = qpu.qubits
 
         if len(self.hard_qbs) != len(self.log_qbs):
-            warnings.warn("The QPU has more qubits than the problem has variables. Some QPU qubits will not be used.")
+            warnings.warn(
+                "The QPU has more qubits than the problem has variables. Some QPU qubits will not be used.",
+                stacklevel=2,
+            )
 
         # If no partial initial mapping is provided, just map the qubits to each other arbitrarily.
         if partial_initial_mapping is None:
-            self._hard2log: dict = dict(zip(self.hard_qbs, self.log_qbs))
+            self._hard2log: dict = dict(zip(self.hard_qbs, self.log_qbs, strict=False))
 
         # If a partial inital mapping is provided, use it.
         else:
@@ -89,22 +95,22 @@ class Mapping:
                 remaining_log_qbs = self.log_qbs - set(partial_initial_mapping.values())
                 initial_mapping: dict = partial_initial_mapping
                 # The qubits not covered by the partial inital mapping get mapped arbitrarily.
-                for hard_qb, log_qb in zip(remaining_hard_qbs, remaining_log_qbs):
-                    initial_mapping[hard_qb] = log_qb  # type: ignore[assignment]
+                for hard_qb, log_qb in zip(remaining_hard_qbs, remaining_log_qbs, strict=False):
+                    initial_mapping[hard_qb] = log_qb
             else:
                 initial_mapping = partial_initial_mapping
 
-            self._hard2log = initial_mapping  # type: ignore[assignment]
+            self._hard2log = initial_mapping
 
     @property
     def hard2log(self) -> dict[HardQubit, LogQubit]:
         """The dictionary containing the mapping from hardware qubits to logical qubits."""
-        return self._hard2log  # type: ignore[return-value]
+        return self._hard2log
 
     @property
     def log2hard(self) -> dict[LogQubit, HardQubit]:
         """The dictionary :attr:`log2hard` is calculated lazily from :attr:`hard2log`."""
-        return {log_qb: hard_qb for hard_qb, log_qb in self._hard2log.items()}  # type: ignore[misc]
+        return {log_qb: hard_qb for hard_qb, log_qb in self._hard2log.items()}
 
     def swap_log(self, gate: LogEdge) -> None:
         """Swap association between a pair of logical qubits.
@@ -133,11 +139,10 @@ class Mapping:
         self._hard2log[qb0], self._hard2log[qb1] = self._hard2log[qb1], self._hard2log[qb0]
 
     def move_hard(self, source_qubit: HardQubit, target_qubit: HardQubit) -> None:
-        """Moves a logical qubit from a one hardware qubit to a different hardware qubit on the QPU which is not part of
-        the mapping.
+        """Move a logical qubit from a one hardware qubit to a an unassigned hardware qubit on the QPU.
 
-        Updates the dictionary :attr:`hard2log` (:attr:`log2hard` gets updated automatically). The dictionary is
-        changed as follows:
+        The target ``target_qubit`` must not be part of the :class:`Mapping`. Updates the dictionary :attr:`hard2log`
+        (:attr:`log2hard` gets updated automatically). The dictionary is changed as follows:
 
         * If the dictionary :attr:`hard2log` has a key ``source_qubit`` (but not ``target_qubit``), this method removes
           the key ``source_qubit``, creates a new key ``target_qubit`` and gives it the value formerly associated to
@@ -168,11 +173,10 @@ class Mapping:
         del self._hard2log[source_qubit]
 
     def update(self, layer: Layer) -> None:
-        """Convenience function that updates the mapping based on the swap gates found in
-        a :class:`~iqm.qaoa.transpiler.routing.Layer` object.
+        """Update the mapping based on the swap gates found in a :class:`~iqm.qaoa.transpiler.routing.Layer` object.
 
-        Iterates over the gates in a :class:`~iqm.qaoa.transpiler.routing.Layer` object and swaps the hardware qubits
-        corresponding to swap gates.
+        A convenience function that iterates over the gates in a :class:`~iqm.qaoa.transpiler.routing.Layer` object and
+        swaps the hardware qubits corresponding to swap gates.
 
         Args:
             layer: The layer whose swap gates are used.
@@ -207,7 +211,7 @@ class Layer:
         int_gates = int_gates or set()  # If ``int_gates`` is not given, it is instantiatied as an empty set
         swap_gates = swap_gates or set()  # If ``swap_gates`` is not given, it is instantiatied as an empty set
         self.qpu = qpu
-        self.gates = nx.Graph()  # type: ignore[var-annotated]
+        self.gates: nx.Graph = nx.Graph()
         for hard_qb0, hard_qb1 in self.qpu.hardware_graph.edges():
             self.gates.add_edge(hard_qb0, hard_qb1, swap=False, int=False)
             self.gates.nodes[hard_qb0]["blocked"] = False
@@ -351,7 +355,7 @@ class Layer:
 
 
 class Routing:
-    """This class represents a routing of a QAOA phase separator.
+    """Routing of a QAOA phase separator.
 
     A :class:`~iqm.qaoa.transpiler.routing.Routing` object is intended to be directly used by a router during routing
     (any router). To that end it maintains a list of :class:`~iqm.qaoa.transpiler.routing.Layer` objects,
@@ -388,6 +392,7 @@ class Routing:
 
     @property
     def layers(self) -> list[Any]:
+        """The list of layers of the routing object."""
         return self._layers
 
     @property
@@ -396,8 +401,7 @@ class Routing:
         return nx.subgraph(self.qpu.hardware_graph, self.mapping.hard2log.keys())
 
     def apply_swap(self, gate: HardEdge, attempt_int: bool = False) -> None:
-        r"""Apply swap gate at the earliest possible :class:`~iqm.qaoa.transpiler.routing.Layer`, add a new layer if
-        needed.
+        r"""Apply swap gate at the earliest possible layer, add a new layer if needed.
 
         Goes through the existing :class:`~iqm.qaoa.transpiler.routing.Layer`\s from the end and tries to apply a swap
         gate between the qubits defined in ``gate`` at the earliest possible
@@ -417,9 +421,7 @@ class Routing:
             raise ValueError(f"SWAP gate on hardware qubits {gate} not supported on hardware graph.")
 
         def _internal_apply_swap(layer_index: int) -> None:
-            """An internal function that applies the swap gate in the :class:`~iqm.qaoa.transpiler.routing.Layer`
-            defined by the index ``layer_index``.
-            """
+            """Applies the swap gate in the layer defined by the index ``layer_index``."""
             # Apply the swap gate in the correct :class:`~iqm.qaoa.transpiler.routing.Layer`.
             self._layers[layer_index].apply_swap_gate(gate)
             # Update the :class:`~iqm.qaoa.transpiler.routing.Mapping`.
@@ -444,8 +446,7 @@ class Routing:
                     _internal_apply_swap(0)
 
     def apply_int(self, gate: HardEdge) -> None:
-        r"""Apply interaction gate at the earliest possible :class:`~iqm.qaoa.transpiler.routing.Layer`, add a new layer
-        if necessary.
+        r"""Apply interaction gate at the earliest possible layer, add a new layer if necessary.
 
         Goes through the existing :class:`~iqm.qaoa.transpiler.routing.Layer`\s from the end and tries to apply
         an interaction gate between the qubits defined in ``gate`` at the earliest possible
@@ -498,7 +499,7 @@ class Routing:
             self.remaining_interactions.remove_edge(log_qb0, log_qb1)
 
     def attempt_apply_int(self, gate: HardEdge) -> None:
-        r"""This is a softer version of :meth:`apply_int`.
+        r"""Softer version of :meth:`apply_int`.
 
         It first checks if there is an interaction to be done and doesn't do anything if there isn't, as opposed to
         raising an error. This method is made for cases when it's not clear whether an interaction has been applied
@@ -526,7 +527,9 @@ class Routing:
 
         return number_of_swaps_in_layers
 
-    def build_qiskit(self, betas: list[float], gammas: list[float]) -> QuantumCircuit:
+    def build_qiskit(
+        self, betas: list[float], gammas: list[float], cancel_cnots: bool = True, measurement: bool = True
+    ) -> QuantumCircuit:
         r"""Build the QAOA circuit from the :class:`~iqm.qaoa.transpiler.routing.Routing` (``self``) in :mod:`qiskit`.
 
         The :class:`~iqm.qaoa.transpiler.routing.Routing` (``self``) contains all the information needed to create
@@ -543,6 +546,10 @@ class Routing:
         Args:
             betas: The QAOA parameters to be used in the driver (*RX* gate).
             gammas: The QAOA parameters to be used in the phase separator (*RZ* and *RZZ* gates).
+            cancel_cnots: The routing is likely to contain a *SWAP* gate followed by an *RZZ* gate (or vice versa). When
+                decomposed into a particular basis gate set, these contain a pair of *CNOT* gates, which can be
+                cancelled. Iff `cancel_cnots` is ``True``, those will be cancelled already in :meth:`build_qiskit`.
+            measurement: Should the circuit contain a layer of measurements or not?
 
         Returns:
             A complete QAOA :class:`~qiskit.circuit.QuantumCircuit`.
@@ -560,19 +567,30 @@ class Routing:
         # Prepare uniform superposition.
         qiskit_circ.h(range(len(qb_register)))
 
-        for gamma, beta in zip(gammas, betas):
+        for gamma, beta in zip(gammas, betas, strict=True):
             # Apply phase separator.
             for layer in layers:
+                # Iterate through the layers of the routing.
                 for i in layer.gates.edges(data=True):
                     if i[2]["int"]:
+                        # If there is an interaction, we need to figure out its strength.
                         log_qb0 = mapping.hard2log[i[0]]
                         log_qb1 = mapping.hard2log[i[1]]
                         weight = self.problem.get_quadratic(log_qb0, log_qb1)
-                        if weight != 0:
+
+                        if (
+                            weight != 0 and i[2]["swap"] and cancel_cnots
+                        ):  # The only situation in which we cancel CNOTs.
+                            qiskit_circ.cx(qb_register.index(i[0]), qb_register.index(i[1]))
+                            qiskit_circ.rz(2 * gamma * weight, qb_register.index(i[1]))
+                            qiskit_circ.cx(qb_register.index(i[1]), qb_register.index(i[0]))
+                            qiskit_circ.cx(qb_register.index(i[0]), qb_register.index(i[1]))
+
+                        elif weight != 0:
                             qiskit_circ.rzz(2 * gamma * weight, qb_register.index(i[0]), qb_register.index(i[1]))
 
-                for i in layer.gates.edges(data=True):
-                    if i[2]["swap"]:
+                    # Avoid the case when we already did the cancellation (or there is no interaction)
+                    if i[2]["swap"] and (not i[2]["int"] or not cancel_cnots):
                         qiskit_circ.swap(qb_register.index(i[0]), qb_register.index(i[1]))
 
                 mapping.update(layer)
@@ -589,8 +607,9 @@ class Routing:
 
         classical_bits = [mapping.hard2log[hard_qb] for hard_qb in qb_register]
 
-        qiskit_circ.barrier()
-        qiskit_circ.measure(np.arange(len(qb_register)), classical_bits)
+        if measurement:
+            qiskit_circ.barrier()
+            qiskit_circ.measure(np.arange(len(qb_register)), classical_bits)
 
         return qiskit_circ
 

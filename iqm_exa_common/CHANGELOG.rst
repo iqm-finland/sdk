@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 26.33.0 (2025-09-03)
+============================
+
+Features
+--------
+
+- Enable ruff rule for missing annotations and mark exemptions.
+
 Version 26.32.0 (2025-08-27)
 ============================
 

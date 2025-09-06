@@ -50,6 +50,7 @@ from dimod import BinaryQuadraticModel, ConstrainedQuadraticModel, to_networkx_g
 from dimod.sym import Sense
 from dimod.typing import Variable
 from dimod.utilities import new_variable_label
+from dimod.vartypes import VartypeLike
 from iqm.applications.applications import ProblemInstance
 from iqm.applications.graph_utils import EDGE_ATTR_PRIORITY, NODE_ATTR_PRIORITY, _get_attr_with_priority
 import networkx as nx
@@ -73,14 +74,18 @@ class QUBOInstance(ProblemInstance):
     Args:
         qubo_object: Either a square :class:`~numpy.ndarray`, a :class:`~networkx.Graph` or
             a :class:`~dimod.BinaryQuadraticModel` describing the QUBO problem.
+        vartype: An optional variable type for interpreting the input :class:`~numpy.ndarray` or
+            :class:`~networkx.Graph` as :class:`~dimod.BinaryQuadraticModel`. The default value is 'BINARY'.
 
     """
 
-    def __init__(self, qubo_object: np.ndarray | nx.Graph | BinaryQuadraticModel) -> None:
-        if isinstance(qubo_object, np.ndarray) and qubo_object.ndim == 2:
-            self._bqm = BinaryQuadraticModel(qubo_object, vartype="BINARY")
+    def __init__(
+        self, qubo_object: np.ndarray | nx.Graph | BinaryQuadraticModel, vartype: VartypeLike = "BINARY"
+    ) -> None:
+        if isinstance(qubo_object, np.ndarray) and qubo_object.ndim == 2:  # noqa: PLR2004
+            self._bqm = BinaryQuadraticModel(qubo_object, vartype=vartype)
         elif isinstance(qubo_object, nx.Graph):
-            self._bqm = BinaryQuadraticModel(qubo_object.number_of_nodes(), vartype="BINARY")
+            self._bqm = BinaryQuadraticModel(qubo_object.number_of_nodes(), vartype=vartype)
             for node in qubo_object.nodes:
                 value = _get_attr_with_priority(qubo_object.nodes[node], NODE_ATTR_PRIORITY)
 
@@ -117,6 +122,7 @@ class QUBOInstance(ProblemInstance):
             raise ValueError(
                 "The input is not a valid QUBO object. Valid objects are: 2D numpy array, networkx graph or dimod BQM."
             )
+        self._bqm = self._bqm.binary  # For consistency, we save the BQM in its binary form.
         super().__init__()
         self._original_variables = self._bqm.variables.copy()
 
@@ -436,8 +442,7 @@ class ConstrainedQuadraticInstance(ProblemInstance):
         self._best_quality = lower_bound
 
     def fix_constraint_violation(self, counts: dict[str, int]) -> dict[str, int]:
-        """Post-processing which takes a dictionary of counts and changes the bitstrings in it in some minimal way so
-        that they all satisfy the constraints.
+        """Take a dictionary and change the bitstrings in it in some minimal way so that they satisfy the constraints.
 
         Iterates through the dictionary ``counts`` and for each key calls :meth:`fix_constraint_violation_bitstring`.
         In case that multiple bitstrings get mapped to the same bitstring, their respective frequencies (values) are
@@ -465,8 +470,7 @@ class ConstrainedQuadraticInstance(ProblemInstance):
         return new_counts
 
     def fix_constraint_violation_bitstring(self, bit_str: str) -> str:
-        """Post-processing which takes a solution and changes it in some minimal way so that it satisfies the
-        constraints.
+        """Take a solution bitstring and change it in some minimal way so that it satisfies the constraints.
 
         This is not possible to do generally, so this method is not implemented for :class:ConstrainedQuadraticInstance`
         and it needs to be defined for the individual subclasses of :class:`ConstrainedQuadraticInstance` (if it's
@@ -485,8 +489,9 @@ class ConstrainedQuadraticInstance(ProblemInstance):
         )
 
     def satisfy_constraints(self, counts: dict[str, int]) -> dict[str, int]:
-        """Post-processing method that takes a dictionary and removes the bitstrings which don't satisfy the
-        constraints.
+        """Take a dictionary of counts and removes the bitstrings which don't satisfy the constraints.
+
+        If none of the counts satisfy the constraints, the returned dictionary will be empty.
 
         .. warning::
            The bitstrings in the `counts` need to be ordered the same way as the variables of the problem. If you're

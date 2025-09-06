@@ -19,7 +19,7 @@
 # BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-"""This module contains the swap strategy from :cite:`Weidenfeller_2022`."""
+"""Module containing the swap strategy from :cite:`Weidenfeller_2022`."""
 
 from __future__ import annotations
 
@@ -241,7 +241,7 @@ def _find_rectangular_subgraph(qpu: QPU, h: int, w: int) -> tuple[HardQubit, int
 
     """
     # Get min/max coordinates to create a bounded grid.
-    x_vals, y_vals = zip(*qpu.hardware_layout.values())
+    x_vals, y_vals = zip(*qpu.hardware_layout.values(), strict=True)
     x_min, x_max = min(x_vals), max(x_vals)
     y_min, y_max = min(y_vals), max(y_vals)
 

@@ -93,9 +93,11 @@ class TreeQAOA(QUBOQAOA):
             if g[i][j]["bias"] < 0:
                 raise ValueError("Only anti-ferromagnetic (i.e., positive) interactions are allowed.")
             j_av += g[i][j]["bias"]
-        j_av /= g.number_of_edges()  # Renormalize problem s.t. j_av = 1 --> is equivalent to rescaling gammas
-        if abs(j_av) < 1e-4:
-            warnings.warn(f"Warning: The average interaction strength {j_av} is very close to zero.", UserWarning)
+        j_av /= g.number_of_edges()  # Average out `j_av`
+        if abs(j_av) < 1e-4:  # noqa: PLR2004
+            warnings.warn(
+                f"Warning: The average interaction strength {j_av} is very close to zero.", UserWarning, stacklevel=2
+            )
 
         h_av = 0.0
         for i in g.nodes():
@@ -137,22 +139,26 @@ class TreeQAOA(QUBOQAOA):
         if h_av / j_av > (d_round + 2) or h_av / j_av < 0:
             warnings.warn(
                 "For this onsite field strength, the tree calculation has not been performed yet. "
-                "Angles may not give good performance."
+                "Angles may not give good performance.",
+                stacklevel=2,
             )
 
         results = getattr(angles, f"RESULTS_D{d_round - 1:d}")
 
+        max_precomputed_layers = len(results[h_close]["gammas"])  # As of 25.8.2025 this is expected to be 6.
         # Get angles:
-        if self.num_layers < 7:
+        if self.num_layers < max_precomputed_layers + 1:
             # Just take the angles obtained by the calculation
             self._angles[0::2] = np.array(results[h_close]["gammas"][self.num_layers - 1]) / (
                 np.sqrt(d_round - 1) * j_av
             )
             self._angles[1::2] = -np.array(results[h_close]["betas"][self.num_layers - 1])
-        elif self.num_layers > 6:
+        elif self.num_layers > max_precomputed_layers:
             # Interpolate between the tree angles at p = 6, x-range for these objects is [0,1]
 
-            ps_norm = (np.arange(6) + 0.5) / 6  # The QAOA layers normalized to the interval [0, 1]
+            ps_norm = (
+                np.arange(max_precomputed_layers) + 0.5
+            ) / max_precomputed_layers  # The QAOA layers normalized to the interval [0, 1]
             interpolate = [0] + list(ps_norm) + [1]  # Adding edges of the interval to the list.
 
             # We need a value for the edges of the interval (0 and 1).

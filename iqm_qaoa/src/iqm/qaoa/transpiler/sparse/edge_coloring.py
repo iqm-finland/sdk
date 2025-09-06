@@ -28,7 +28,7 @@ for external use. The function :func:`plot_edge_coloring` may be used for debugg
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 from iqm.qaoa.transpiler.quantum_hardware import LogEdge
 import networkx as nx
@@ -71,7 +71,8 @@ def ec_is_complete(graph: nx.Graph) -> bool:
         ``True`` if every edge of the graph has an attribute ``color``, ``False`` otherwise.
 
     """
-    for _, _, eattr in graph.edges.data("color"):  # type: ignore[var-annotated]
+    eattr: int | None
+    for _, _, eattr in graph.edges.data("color"):
         if eattr is None:
             return False
 
@@ -241,7 +242,7 @@ def _find_and_invert_cdpath(graph: nx.Graph, node: int, c: Color, d: Color) -> N
         current_color, other_color = other_color, current_color
 
     # Invert
-    for current_node, next_node in zip(path[:-1], path[1:]):
+    for current_node, next_node in zip(path[:-1], path[1:], strict=True):
         if graph.edges[current_node, next_node]["color"] is c:
             graph.edges[current_node, next_node]["color"] = d
         else:
@@ -263,7 +264,7 @@ def _rotate_fan(graph: nx.Graph, node: int, fan: list[int], color: Color) -> Non
         color: A color to use on the edge between ``node`` and ``fan[-1]``.
 
     """
-    for node1, node2 in zip(fan[:-1], fan[1:]):
+    for node1, node2 in zip(fan[:-1], fan[1:], strict=True):
         graph.edges[node, node1]["color"] = graph.edges[node, node2]["color"]
 
     graph.edges[node, fan[-1]]["color"] = color
@@ -299,7 +300,7 @@ def _color_edge(graph: nx.Graph, node1: int, node2: int, color_palette: set[Colo
 
 
 def find_edge_coloring(input_graph: nx.Graph) -> tuple[list[set[LogEdge]], nx.Graph]:
-    """This function finds an edge coloring for the given graph.
+    """Find an edge coloring for the given graph.
 
     It iterates over the graph edges and colors each one using elaborate helper functions. It modifies ``input_graph``
     by adding an attribute ``color`` to every edge, given by an integer number.
@@ -316,13 +317,14 @@ def find_edge_coloring(input_graph: nx.Graph) -> tuple[list[set[LogEdge]], nx.Gr
     """
     # Create a copy of the input graph, so that it's not modified in-place.
     graph = input_graph.copy()
-    graph_degree = max(graph.degree(node) for node in graph)  # type: ignore[type-var]
-    color_palette: set[Color] = set(range(graph_degree + 1))  # type: ignore[operator]
+    graph_degree = max(cast(int, graph.degree(node)) for node in graph)  # ``cast`` to satisfy type checker.
+    color_palette: set[Color] = set(range(graph_degree + 1))
     for edge in graph.edges():
         _color_edge(graph, edge[0], edge[1], color_palette)
 
-    color_sets: list[set[frozenset[Any]]] = [set() for _ in range(graph_degree + 1)]  # type: ignore[operator]
-    for u, v, color in graph.edges.data("color"):  # type: ignore[var-annotated]
+    color_sets: list[set[frozenset[Any]]] = [set() for _ in range(graph_degree + 1)]
+    color: int
+    for u, v, color in graph.edges.data("color"):
         color_sets[color].add(frozenset((u, v)))
 
     return color_sets, graph

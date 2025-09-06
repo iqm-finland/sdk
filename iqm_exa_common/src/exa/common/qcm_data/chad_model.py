@@ -32,7 +32,7 @@ class Component(ImmutableBaseModel):
     name: str
     connections: tuple[str, ...] = ()
 
-    def __lt__(self, other):
+    def __lt__(self, other):  # noqa: ANN001
         return _natural_sort_key(self.name) < _natural_sort_key(other.name)
 
     @field_validator("connections", mode="before")

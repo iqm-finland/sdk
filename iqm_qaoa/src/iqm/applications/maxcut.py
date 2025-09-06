@@ -19,7 +19,7 @@
 # BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-"""This module contains the maxcut problem instance class and related functions.
+"""Module containing the maxcut problem instance class and related functions.
 
 Contains the iterator function :func:`maxcut_generator` which yields random instances of :class:`MaxCutInstance`, useful
 for applications such as calculating the Q-score. Also contains two classical solvers for maxcut problems:
@@ -47,7 +47,7 @@ Example:
 
 from collections.abc import Iterator
 import random
-from typing import Literal
+from typing import Literal, cast
 
 import cvxpy as cp
 from dimod import BinaryQuadraticModel
@@ -133,7 +133,7 @@ class MaxCutInstance(QUBOInstance):
                 f"The input bitstring has length {len(bit_str)} whereas the graph "
                 f"has {self._graph.number_of_nodes()} nodes."
             )
-        if len(set(bit_str)) > 2:
+        if len(set(bit_str)) > 2:  # noqa: PLR2004
             raise ValueError(
                 f"The string {bit_str} contains more than 2 distinct characters, "
                 f"so it doesn't represent a partition of the graph into 2 distinct sets."
@@ -231,7 +231,7 @@ class WeightedMaxCutInstance(QUBOInstance):
                 f"The input bitstring has length {len(bit_str)} whereas the graph "
                 f"has {self._graph.number_of_nodes()} nodes."
             )
-        if len(set(bit_str)) > 2:
+        if len(set(bit_str)) > 2:  # noqa: PLR2004
             raise ValueError(
                 f"The string {bit_str} contains more than 2 distinct characters, "
                 f"so it doesn't represent a partition of the graph into 2 distinct sets."
@@ -322,7 +322,7 @@ def greedy_max_cut(max_cut_problem: MaxCutInstance | nx.Graph) -> str:
                 abs(int(current_solution[node]) - int(current_solution[neighbor]))
                 for neighbor in max_cut_problem.neighbors(node)
             )
-            n_uncut = max_cut_problem.degree(node) - n_cut  # type: ignore[operator]
+            n_uncut = cast(int, max_cut_problem.degree(node)) - n_cut  # ``cast`` to satisfy type checker.
             if n_cut < n_uncut:
                 current_solution[node] = "1" if current_solution[node] == "0" else "0"
                 break
@@ -373,7 +373,8 @@ def goemans_williamson(max_cut_problem: MaxCutInstance | nx.Graph) -> str:
     problem = cp.Problem(objective, constraints)
     problem.solve()
 
-    eigenvalues, eigenvectors = eigh(products.value)  # type: ignore[arg-type]
+    # ``mypy`` complains that this could be ``None``.
+    eigenvalues, eigenvectors = eigh(cast(np.ndarray, products.value))
     eigenvalues = np.maximum(eigenvalues, 0)
     diagonal_root = np.diag(np.sqrt(eigenvalues))
     assignment = diagonal_root @ eigenvectors.T

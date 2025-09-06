@@ -469,27 +469,27 @@ class Setting(BaseModel):
         return Setting(self.parameter, value, self.read_only, self.path, source=source)
 
     @property
-    def name(self):
+    def name(self):  # noqa: ANN201
         """Name used as identifier, same as name of :attr:`parameter`."""
         return self.parameter.name
 
     @property
-    def parent_name(self):
+    def parent_name(self):  # noqa: ANN201
         """Parent name of the parameter of ``self``."""
         return self.parameter.parent_name
 
     @property
-    def label(self):
+    def label(self):  # noqa: ANN201
         """Label used as pretty identifier for display purposes, same as label of :attr:`parameter`."""
         return self.parameter.label
 
     @property
-    def parent_label(self):
+    def parent_label(self):  # noqa: ANN201
         """Parent label of the parameter of ``self``."""
         return self.parameter.parent_label
 
     @property
-    def unit(self):
+    def unit(self):  # noqa: ANN201
         """SI unit of the :attr:`value`, if applicable, same as unit of :attr:`parameter`."""
         return self.parameter.unit
 

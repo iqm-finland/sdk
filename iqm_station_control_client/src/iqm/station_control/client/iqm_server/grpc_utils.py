@@ -29,7 +29,7 @@ from iqm.station_control.interface.models.type_aliases import StrUUID
 
 
 class ClientCallDetails(grpc.ClientCallDetails):
-    def __init__(self, details):
+    def __init__(self, details):  # noqa: ANN001
         self.method = details.method
         self.metadata = list(details.metadata or [])
         self.timeout = details.timeout
@@ -42,15 +42,15 @@ class ApiTokenAuth(grpc.UnaryUnaryClientInterceptor, grpc.UnaryStreamClientInter
     def __init__(self, get_token_callback: Callable[[], str]):
         self.get_token_callback = get_token_callback
 
-    def _add_auth_header(self, client_call_details) -> ClientCallDetails:
+    def _add_auth_header(self, client_call_details) -> ClientCallDetails:  # noqa: ANN001
         details = ClientCallDetails(client_call_details)
         details.metadata.append(("authorization", self.get_token_callback()))
         return details
 
-    def intercept_unary_stream(self, continuation, client_call_details, request):
+    def intercept_unary_stream(self, continuation, client_call_details, request):  # noqa: ANN001, ANN201
         return continuation(self._add_auth_header(client_call_details), request)
 
-    def intercept_unary_unary(self, continuation, client_call_details, request):
+    def intercept_unary_unary(self, continuation, client_call_details, request):  # noqa: ANN001, ANN201
         return continuation(self._add_auth_header(client_call_details), request)
 
 

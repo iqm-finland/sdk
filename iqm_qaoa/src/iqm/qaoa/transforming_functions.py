@@ -19,15 +19,14 @@
 # BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-"""A module for custom functions that transform data from one format to another format"""
+"""A module for custom functions that transform data from one format to another format."""
 
 import networkx as nx
 from qiskit.quantum_info import PauliList, SparsePauliOp
 
 
 def ham_graph_to_ham_operator(ham_graph: nx.Graph) -> SparsePauliOp:
-    """A function to transform Hamiltonian represented as a :class:`~networkx.Graph` into
-    a :class:`~qiskit.quantum_info.SparsePauliOp` object.
+    """A function to transform Hamiltonian represented as a graph into a :class:`~qiskit.quantum_info.SparsePauliOp`.
 
     A Hamiltonian as :class:`~qiskit.quantum_info.SparsePauliOp` may be used by :mod:`qiskit` functions that e.g.,
     calculate expectation values.

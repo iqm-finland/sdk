@@ -19,10 +19,9 @@
 # BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-"""This file contains the :func:`two_color_mapper` function which creates the initial
-:class:`~iqm.qaoa.transpiler.routing.Mapping`.
+"""Module containing the :func:`two_color_mapper` function, which creates the initial mapping.
 
-The :class:`~iqm.qaoa.transpiler.routing.Mapping` is based on the edge coloring of the graph created by
+The created :class:`~iqm.qaoa.transpiler.routing.Mapping` is based on the edge coloring of the graph created by
 the :func:`~iqm.qaoa.transpiler.sparse.edge_coloring.find_edge_coloring` function.
 """
 
@@ -30,6 +29,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 import itertools
+from typing import cast
 
 from dimod import BinaryQuadraticModel, to_networkx_graph
 from iqm.qaoa.transpiler.quantum_hardware import QPU, HardQubit, LogEdge, LogQubit
@@ -56,17 +56,18 @@ def _decompose_into_chains_and_loops(
         Two lists containing the chains and loops of :class:`LogQubit`\s defined by the two biggest colors.
 
     """
-    problem_graph = to_networkx_graph(problem_bqm)
+    problem_graph: nx.Graph = to_networkx_graph(problem_bqm)
 
-    # Mark all nodes in the graph as NOT endnodes
-    nx.set_node_attributes(problem_graph, False, "endnode")  # type: ignore[call-overload]
+    # Mark all nodes in the graph as NOT endnodes.
+    nx.set_node_attributes(G=problem_graph, values={node: False for node in problem_graph.nodes}, name="endnode")
 
-    # Find the color sets (i.e., sets of edges of the same color) and sort them by size
+    # Find the color sets (i.e., sets of edges of the same color) and sort them by size.
     color_sets, _ = find_edge_coloring(problem_graph)
     color_sets = sorted(color_sets, key=len, reverse=True)
 
-    # A list of edges of the two largest colors (remade so that they're tuples and not frozensets)
-    twocolor_edges = [tuple(edge) for edge in color_sets[0] | color_sets[1]]
+    # A list of edges of the two largest colors (remade so that they're tuples and not frozensets).
+    # Because ``edge`` is a ``frozenset``, ``mypy`` doesn't know that ``tuple(edge)`` has length 2 without the ``cast``.
+    twocolor_edges = cast(list[tuple[LogQubit, LogQubit]], [tuple(edge) for edge in color_sets[0] | color_sets[1]])
     # Create a subgraph, containing only the edges of the two largest colors.
     twocolor_graph = problem_graph.edge_subgraph(twocolor_edges)
     components = [twocolor_graph.subgraph(c).copy() for c in nx.connected_components(twocolor_graph)]
@@ -74,12 +75,12 @@ def _decompose_into_chains_and_loops(
 
     # Go through the components.
     for component in components:
-        deg = 3
+        deg: int = 3
         # For chains, find one of the endpoints, for loops just select one of its nodes.
         for node in component:
-            if component.degree(node) < deg:
+            if component.degree[node] < deg:
                 node0 = node
-                deg = component.degree(node)
+                deg = cast(int, component.degree[node])  # For some reason ``degree`` returns ``float``.
         node1 = next(component.neighbors(node0))
         lst = [node0, node1]
         # Go through all of the nodes of the component, and add them into a list in order.
@@ -93,14 +94,14 @@ def _decompose_into_chains_and_loops(
         # Based on whether the component is a loop or a chain, add the list of nodes to ``loops`` / ``chains``.
         if deg == 1:
             chains.append(lst)
-        elif deg == 2:
+        elif deg == 2:  # noqa: PLR2004
             loops.append(lst)
 
     return chains, loops
 
 
 def _embed_chain(chain: list[LogQubit], hardware_graph: nx.Graph) -> dict[HardQubit, LogQubit]:
-    r"""This function attempts to embed a chain of :class:`LogQubit`\s into an arbitrary hardware topology.
+    r"""Attempt to embed a chain of :class:`LogQubit`\s into an arbitrary hardware topology.
 
     Steps:
 
@@ -136,10 +137,10 @@ def _embed_chain(chain: list[LogQubit], hardware_graph: nx.Graph) -> dict[HardQu
         if not neighbors:
             raise RuntimeError(
                 "The greedy algorithm for embedding the chain failed (``current_node`` has no "
-                "neighbors). Check if there is enough :class:`HardQubit`\s in ``hardware_graph`` or define"
+                r"neighbors). Check if there is enough :class:`HardQubit`\s in ``hardware_graph`` or define"
                 " a custom ``embedded_chain`` method of the ``QPU`` subclass."
             )
-        new_node = min(neighbors, key=working_hw_graph.degree)  # type: ignore[arg-type]
+        new_node = min(neighbors, key=lambda n: working_hw_graph.degree[n])
         embedding[new_node] = log_qb
         working_hw_graph.remove_node(current_node)
         current_node = new_node
@@ -191,7 +192,7 @@ def two_color_mapper(problem_bqm: BinaryQuadraticModel, qpu: QPU) -> tuple[Mappi
 
     # For some cases we want to save time and attach a suitable embedding to the QPU object.
     if hasattr(qpu, "embedded_chain"):
-        embedding = dict(zip(qpu.embedded_chain(), concatenated_chains_and_loops))
+        embedding = dict(zip(qpu.embedded_chain(), concatenated_chains_and_loops, strict=False))
     else:
         # Use a helper function to find the embedding (because that depends a bit on the QPU).
         embedding = _get_embedding(qpu, concatenated_chains_and_loops, problem_bqm.num_variables)
@@ -204,14 +205,14 @@ def two_color_mapper(problem_bqm: BinaryQuadraticModel, qpu: QPU) -> tuple[Mappi
     int_layer0: list[LogEdge] = []
     int_layer1: list[LogEdge] = []
     for chain in chains:
-        for log_qb0, log_qb1 in zip(chain[::2], chain[1::2]):
+        for log_qb0, log_qb1 in zip(chain[::2], chain[1::2], strict=False):
             _append_to_layer(mapping, log_qb0, log_qb1, int_layer0)
-        for log_qb0, log_qb1 in zip(chain[1::2], chain[2::2]):
+        for log_qb0, log_qb1 in zip(chain[1::2], chain[2::2], strict=False):
             _append_to_layer(mapping, log_qb0, log_qb1, int_layer1)
     for loop in loops:
-        for log_qb0, log_qb1 in zip(loop[::2], loop[1::2]):
+        for log_qb0, log_qb1 in zip(loop[::2], loop[1::2], strict=False):
             _append_to_layer(mapping, log_qb0, log_qb1, int_layer0)
-        for log_qb0, log_qb1 in zip(loop[1::2], loop[2::2]):
+        for log_qb0, log_qb1 in zip(loop[1::2], loop[2::2], strict=False):
             _append_to_layer(mapping, log_qb0, log_qb1, int_layer1)
 
     return mapping, [int_layer0, int_layer1]
@@ -250,7 +251,7 @@ def _get_embedding(qpu: QPU, long_chain: list[LogQubit], n: int) -> dict[HardQub
             # The following lines make it so that the embedding covers the full ``subgraph``.
             unassigned_nodes = set(subgraph.nodes) - set(embedding_on_subgraph.keys())
             available_values = set(range(n)) - set(long_chain)
-            for key, value in zip(unassigned_nodes, available_values):
+            for key, value in zip(unassigned_nodes, available_values, strict=True):
                 embedding_on_subgraph[key] = value
 
         except RuntimeError:
@@ -272,14 +273,14 @@ def _get_embedding(qpu: QPU, long_chain: list[LogQubit], n: int) -> dict[HardQub
         backup_embed = _embed_chain(long_chain, qpu.hardware_graph)
     except RuntimeError as e:  # If the chain can't be embedded
         raise RuntimeError(
-            "No embedding for the sparse transpiler found: 'Compact' subgraphs don't fit the QPU and no "
+            "No embedding for the sparse transpiler found: 'compact' subgraphs don't fit the QPU and no "
             "Hamiltonian path long enough exists."
         ) from e
 
     # The following lines make it so that the embedding covers the full ``subgraph``.
     unassigned_nodes = set(qpu.hardware_graph.nodes) - set(backup_embed.keys())
     available_values = set(range(n)) - set(long_chain)
-    for key, value in zip(unassigned_nodes, available_values):
+    for key, value in zip(unassigned_nodes, available_values, strict=False):
         backup_embed[key] = value
 
     return backup_embed
@@ -307,7 +308,7 @@ def _subgraph_iterator(n: int) -> Iterator[nx.Graph]:
     # We sort the nodes by their Euclidean distance from the center of the circle (squared).
     # Ties are broken by the node coordinates (lowest first).
     sorted_nodes = sorted(
-        list(almost_circle_graph.nodes()),
+        almost_circle_graph.nodes(),
         key=lambda x: ((x[0] - center_coords) ** 2 + (x[1] - center_coords) ** 2, -x[0], -x[1]),
         reverse=True,
     )
@@ -324,7 +325,7 @@ def _subgraph_iterator(n: int) -> Iterator[nx.Graph]:
     #           o o o o
     #           o o o o
     almost_square_graph = nx.grid_2d_graph(int(np.sqrt(n) + 1), int(np.sqrt(n) + 1))
-    sorted_nodes = sorted(list(almost_square_graph.nodes()), key=lambda x: (min(x), x[0], x[1]))
+    sorted_nodes = sorted(almost_square_graph.nodes(), key=lambda x: (min(x), x[0], x[1]))
     nodes_to_remove = sorted_nodes[: len(almost_square_graph.nodes) - n]
     almost_square_graph.remove_nodes_from(nodes_to_remove)
 
@@ -332,7 +333,7 @@ def _subgraph_iterator(n: int) -> Iterator[nx.Graph]:
 
     # Same as above, except for now we remove two rows and one column (because we start with a 2-by-1 rectangle).
     almost_1_to_2_rectangle_graph = nx.grid_2d_graph(int(np.sqrt(2 * n) + 1), int(np.sqrt(n / 2) + 1))
-    sorted_nodes = sorted(list(almost_1_to_2_rectangle_graph.nodes()), key=lambda x: (min(x[0], 2 * x[1]), x[0], x[1]))
+    sorted_nodes = sorted(almost_1_to_2_rectangle_graph.nodes(), key=lambda x: (min(x[0], 2 * x[1]), x[0], x[1]))
     nodes_to_remove = sorted_nodes[: len(almost_1_to_2_rectangle_graph.nodes) - n]
     almost_1_to_2_rectangle_graph.remove_nodes_from(nodes_to_remove)
 

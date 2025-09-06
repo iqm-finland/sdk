@@ -125,7 +125,7 @@ class JobExecutorStatus(Enum):
     def __hash__(self):
         return hash(self.name)
 
-    def __eq__(self, other):
+    def __eq__(self, other):  # noqa: ANN001
         if isinstance(other, str):
             try:
                 other = JobExecutorStatus(other.lower())
@@ -135,7 +135,7 @@ class JobExecutorStatus(Enum):
             return NotImplemented
         return self.name == other.name
 
-    def __lt__(self, other):
+    def __lt__(self, other):  # noqa: ANN001
         """Comparison according to definition order.
 
         :meta public:

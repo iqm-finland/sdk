@@ -26,11 +26,11 @@ from six import BytesIO
 
 
 class FileAdapter(BaseAdapter):
-    def __init__(self, set_content_length=True):
+    def __init__(self, set_content_length=True):  # noqa: ANN001
         super(FileAdapter, self).__init__()
         self._set_content_length = set_content_length
 
-    def send(self, request, **kwargs):
+    def send(self, request, **kwargs):  # noqa: ANN001, ANN201
         """Sends PreparedRequest object. Returns Response object."""
         # Check that the method makes sense. Only support GET
         if request.method not in ("GET", "HEAD"):
@@ -60,5 +60,5 @@ class FileAdapter(BaseAdapter):
 
         return response
 
-    def close(self):
+    def close(self):  # noqa: ANN201
         pass

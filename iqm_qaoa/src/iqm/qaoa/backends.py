@@ -25,7 +25,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 import random
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 import warnings
 
 import numpy as np
@@ -88,7 +88,7 @@ class SamplerBackend(ABC):
 class EstimatorSingleLayer(EstimatorBackend):
     """The estimator class for calculating the expectation value analytically (for :math:`p=1` QAOA)."""
 
-    def estimate(self, qaoa_object: QUBOQAOA) -> float:  # type:ignore[override]
+    def estimate(self, qaoa_object: QUBOQAOA) -> float:
         """Calculates the expectation value of the Hamiltonian for :math:`p=1` QAOA.
 
         The function calculates the energy (exp. val. of the Hamiltonian) by adding the expectation values
@@ -189,7 +189,7 @@ class EstimatorSingleLayer(EstimatorBackend):
 class EstimatorStateVector(EstimatorBackend):
     """The estimator class for calculating the expectation value using statevector simulation."""
 
-    def estimate(self, qaoa_object: QUBOQAOA) -> float:  # type:ignore[override]
+    def estimate(self, qaoa_object: QUBOQAOA) -> float:
         """Calculates the expectation value of the Hamiltonian from running state-vector simulation in :mod:`qiskit`.
 
         Builds a :class:`~qiskit.circuit.QuantumCircuit` for the QAOA and runs the statevector simulation of
@@ -207,8 +207,8 @@ class EstimatorStateVector(EstimatorBackend):
         qc = qiskit_circuit(qaoa_object, measurements=False)
         statevector = Statevector.from_instruction(qc)
         statevector = statevector.reverse_qargs()
-        observable = ham_graph_to_ham_operator(qaoa_object.hamiltonian_graph)  # type: ignore[attr-defined]
-        expectation_value = statevector.expectation_value(observable) + qaoa_object.bqm.offset  # type: ignore[attr-defined]
+        observable = ham_graph_to_ham_operator(qaoa_object.hamiltonian_graph)
+        expectation_value = statevector.expectation_value(observable) + qaoa_object.bqm.offset
         return expectation_value.real
 
 
@@ -242,7 +242,7 @@ class EstimatorFromSampler(EstimatorBackend):
         else:
             self.cvar = 1  # CVaR threshold of 1 corresponds to normal average.
 
-    def estimate(self, qaoa_object: QUBOQAOA, **kwargs) -> float:
+    def estimate(self, qaoa_object: QUBOQAOA, **kwargs: Any) -> float:
         """Calculates the expectation value of the Hamiltonian by sampling from the QAOA circuit.
 
         Uses the sampler provided at initialization to sample from the QAOA circuit and then calculates the expectation
@@ -263,10 +263,13 @@ class EstimatorFromSampler(EstimatorBackend):
         return qaoa_object.problem.cvar(counts, self.cvar)
 
 
+CRIT_DEG = 3  # The maximum degree for which QUIMB runs somewhat tolerably fast.
+
+
 class EstimatorQUIMB(EstimatorBackend):
     """The estimator class for calculating the expectation value using the tensor network package :mod:`quimb`."""
 
-    def estimate(self, qaoa_object: QUBOQAOA) -> float:  # type:ignore[override]
+    def estimate(self, qaoa_object: QUBOQAOA) -> float:
         """Calculates the expectation value of the Hamiltonian by contracting the RCC tensor networks in :mod:`quimb`.
 
         Uses :func:`~iqm.qaoa.circuits.quimb_tn` to build a :class:`~quimb.tensor.circuit.Circuit`. This object
@@ -283,8 +286,14 @@ class EstimatorQUIMB(EstimatorBackend):
             The expectation value of the energy of the QAOA state using :attr:`~iqm.qaoa.generic_qaoa.QAOA.angles`.
 
         """
-        if isinstance(degrees_arr := qaoa_object.bqm.degrees(array=True), np.ndarray) and np.mean(degrees_arr) > 3:
-            warnings.warn("The average degree is higher than 3, the :mod:`quimb`-based estimator might be very slow.")
+        if (
+            isinstance(degrees_arr := qaoa_object.bqm.degrees(array=True), np.ndarray)
+            and np.mean(degrees_arr) > CRIT_DEG
+        ):
+            warnings.warn(
+                f"The average degree is higher than {CRIT_DEG}, the :mod:`quimb`-based estimator might be very slow.",
+                stacklevel=2,
+            )
         energy = 0
         tn = quimb_tn(qaoa_object)
         for q1, q2 in qaoa_object.bqm.quadratic:
@@ -341,13 +350,15 @@ class SamplerSimulation(SamplerBackend):
     # backends that we might want use here, so it's used as a type hint.
     def __init__(
         self,
-        simulator: BackendV2 = AerSimulator(method="statevector"),
+        simulator: BackendV2 | None = None,
         transpiler: str | None = None,
     ) -> None:
+        if simulator is None:
+            simulator = AerSimulator(method="statevector")
         self.simulator = simulator
         self.transpiler = transpiler
 
-    def sample(self, qaoa_object: QUBOQAOA, shots: int, **kwargs) -> dict[str, int]:  # type:ignore[override]
+    def sample(self, qaoa_object: QUBOQAOA, shots: int, **kwargs: Any) -> dict[str, int]:
         """Samples from the QAOA using a simulation.
 
         The dictionary of counts is obtained from `qiskit` and then the bitstrings are **reversed**, so they don't use
@@ -363,7 +374,7 @@ class SamplerSimulation(SamplerBackend):
             A dictionary whose keys are the measured bitstrings and values their frequencies in the results.
 
         """
-        qc = transpiled_circuit(qaoa_object, backend=self.simulator, transpiler=self.transpiler, **kwargs)  # type: ignore[arg-type]
+        qc = transpiled_circuit(qaoa_object, backend=self.simulator, transpiler=self.transpiler, **kwargs)
         job = self.simulator.run(qc, shots=shots)
         counts_from_job = job.result().get_counts()
         # Qiskit somehow reverses the order of the bitstrings.
@@ -392,7 +403,7 @@ class SamplerResonance(SamplerBackend):
         self.token = token
         self.transpiler = transpiler
 
-    def sample(self, qaoa_object: QUBOQAOA, shots: int, **kwargs) -> dict[str, int]:  # type:ignore[override]
+    def sample(self, qaoa_object: QUBOQAOA, shots: int, **kwargs: Any) -> dict[str, int]:
         """Samples from the QAOA on a quantum computer via IQM Resonance.
 
         First, it creates a :class:`~qiskit.circuit.QuantumCircuit` (using a custom transpilation approach) and then

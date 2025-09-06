@@ -19,13 +19,11 @@
 # BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-"""This module contains several functions that build various types of circuits (e.g., in :mod:`qiskit` and :mod:`quimb`)
-from the :class:`~iqm.qaoa.qubo_qaoa.QUBOQAOA` object.
-"""
+"""Functions that build various types of circuits (e.g., in :mod:`qiskit` and :mod:`quimb`) from the QAOA object."""
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 import warnings
 
 from qiskit import QuantumCircuit, QuantumRegister
@@ -128,7 +126,7 @@ def qiskit_circuit_specific_nodes(qaoa: QUBOQAOA, starting_qubits: set[int]) -> 
             if (q1 in qubits_generation[p] and q2 in qubits_generation[p + 1]) or (
                 q2 in qubits_generation[p] and q1 in qubits_generation[p + 1]
             ):
-                qc.rzz(2 * qaoa.angles[2 * p] * qaoa.bqm.get_quadratic(q1, q2), qrs[q1], qrs[q2])  # type: ignore[index]
+                qc.rzz(2 * qaoa.angles[2 * p] * qaoa.bqm.get_quadratic(q1, q2), qrs[q1], qrs[q2])
         for qubit in qubits_generation[p + 1]:
             qc.rx(2 * qaoa.angles[2 * p + 1], qrs[qubit])
     return qc
@@ -163,9 +161,9 @@ def quimb_tn(qaoa: QUBOQAOA) -> qtn.Circuit:
 
 def transpiled_circuit(
     qaoa: QUBOQAOA,
-    backend: BackendV2 = AerSimulator(method="statevector"),
+    backend: BackendV2 | None = None,
     transpiler: str | None = None,
-    **kwargs,
+    **kwargs: Any,
 ) -> QuantumCircuit:
     """The function to return a :class:`~qiskit.circuit.QuantumCircuit` tailored to ``backend``.
 
@@ -193,10 +191,13 @@ def transpiled_circuit(
         ValueError: If the provided ``transpiler`` is not one of the allowed transpilers.
 
     """
+    if backend is None:
+        backend = AerSimulator(method="statevector")
+
     # No transpilation, just the pure QAOA circuit.
     if transpiler is None:
         if backend.coupling_map is not None:
-            warnings.warn("The backend has a coupling map, but the circuit is not transpiled to it.")
+            warnings.warn("The backend has a coupling map, but the circuit is not transpiled to it.", stacklevel=2)
         return qiskit_circuit(qaoa, measurements=True)
 
     # Use the default Qiskit transpilation

@@ -19,7 +19,7 @@
 # BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-"""This module contains the abstract base class providing a template for defining problem instances.
+"""Module containing the abstract base class providing a template for defining problem instances.
 
 Example:
 
@@ -297,8 +297,7 @@ class ProblemInstance(ABC):
         return new_counts
 
     def local_bitflip_bitstring(self, bit_str: str) -> str:
-        """Post-processing which takes a bitstring and replaces it with its lowest-energy unit Hamming distance
-        neighbor.
+        """Take a bitstring and replace it with its lowest-energy unit-Hamming-distance neighbor.
 
         Takes the solution bitstring and then iteratively swaps each bit in it. The function returns the lowest-energy
         bitstring from all of these bitstrings (including the original bitstring).

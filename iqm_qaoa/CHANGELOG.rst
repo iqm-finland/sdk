@@ -2,6 +2,40 @@
 Changelog
 =========
 
+Version 1.26.0 (2025-09-05)
+===========================
+
+Bug fixes
+---------
+
+- Add an option to specify ``vartype`` when instantiating a ``QUBOInstance`` from a ``numpy`` array or a ``networkx`` graph.
+
+Version 1.25.0 (2025-09-05)
+===========================
+
+Features
+---------
+
+* Adds an optional input parameter to method ``build_qiskit`` of ``Routing`` which builds the circuit so that pairs of identical ``CNOT`` gates are cancelled.
+
+Version 1.24.0 (2025-09-04)
+===========================
+
+Bugfix
+--------
+
+- Make ``mypy`` type checking stricter by checking a couple extra optional things.
+- Make ``ruff`` linting stricter by adding a couple extra things to check.
+- Make ``ruff`` linting stricter by removing some per-file ignores.
+
+Version 1.23.0 (2025-09-03)
+===========================
+
+Features
+--------
+
+- Enable ruff rule for missing annotations and mark exemptions.
+
 Version 1.22.0 (2025-09-01)
 ===========================
 

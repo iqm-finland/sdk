@@ -50,7 +50,7 @@ class ListModel(RootModel):
     def __iter__(self):
         return iter(self.root)
 
-    def __getitem__(self, item):
+    def __getitem__(self, item):  # noqa: ANN001
         return self.root[item]
 
     def __len__(self) -> int:

@@ -30,7 +30,7 @@ class ExtraFormatter(logging.Formatter):
         self.extra_info_getter = extra_info_getter if extra_info_getter is not None else lambda: ""
         super().__init__(*args, **kwargs)
 
-    def format(self, record):
+    def format(self, record):  # noqa: ANN001, ANN201
         extra_info = self.extra_info_getter()
         record.__dict__.update(extra_info=extra_info)
         return super().format(record)

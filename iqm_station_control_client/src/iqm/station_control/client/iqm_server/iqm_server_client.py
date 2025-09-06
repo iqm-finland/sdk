@@ -493,7 +493,7 @@ def parse_json(data: bytes) -> Any:
 
 
 @contextmanager
-def wrap_error(title: str):
+def wrap_error(title: str):  # noqa: ANN201
     try:
         yield
     except grpc.RpcError as e:

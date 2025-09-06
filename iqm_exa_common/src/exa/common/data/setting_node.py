@@ -350,7 +350,7 @@ class SettingNode(BaseModel):
         if self.path and self.align_name:
             self.name = self.path
 
-    def __getattr__(self, key):
+    def __getattr__(self, key):  # noqa: ANN001
         if key == "settings":
             # Prevent infinite recursion. If settings actually exists, this method is not called anyway
             raise AttributeError
@@ -366,11 +366,11 @@ class SettingNode(BaseModel):
         """List settings and subtree names, so they occur in IPython autocomplete after ``node.<TAB>``."""
         return [name for name in list(self.settings) + list(self.subtrees) if name.isidentifier()] + super().__dir__()
 
-    def _ipython_key_completions_(self):
+    def _ipython_key_completions_(self):  # noqa: ANN202
         """List items and subtree names, so they occur in IPython autocomplete after ``node[<TAB>``"""
         return [*self.settings, *self.subtrees]
 
-    def __setattr__(self, key, value):
+    def __setattr__(self, key, value):  # noqa: ANN001
         """Overrides default attribute assignment to allow the following syntax: ``self.foo = 3`` which is
         equivalent to ``self.foo.value.update(3)`` (if ``foo`` is a :class:`.Setting`).
         """
@@ -395,7 +395,7 @@ class SettingNode(BaseModel):
         else:
             self.__dict__[key] = value
 
-    def __delattr__(self, key):
+    def __delattr__(self, key):  # noqa: ANN001
         if key in self.settings:
             del self.settings[key]
         elif key in self.subtrees:
@@ -429,7 +429,7 @@ class SettingNode(BaseModel):
                 )
             self.add_for_path({path_fragments[-1]: value}, path=".".join(path_fragments[:-1]))
 
-    def __delitem__(self, key):
+    def __delitem__(self, key):  # noqa: ANN001
         """Allows dictionary syntax."""
         self.__delattr__(key)
 
@@ -476,7 +476,7 @@ class SettingNode(BaseModel):
 
         """
 
-        def list_assign(value, array, indices_list) -> None:
+        def list_assign(value, array, indices_list) -> None:  # noqa: ANN001
             sub_array = array
             for index in indices_list[:-1]:
                 sub_array = sub_array[index]
@@ -593,7 +593,7 @@ class SettingNode(BaseModel):
                 new[key] = copy(item)
         return new
 
-    def merge_values(self, other: SettingNode, prioritize_other: bool = False):
+    def merge_values(self, other: SettingNode, prioritize_other: bool = False):  # noqa: ANN201
         """Recursively combine the values from another :class:`SettingNode` to this one.
 
         The resulting tree structure the same as that of self.
@@ -627,7 +627,7 @@ class SettingNode(BaseModel):
 
         """
 
-        def append_lines(node: SettingNode, lines: list[str], indents: list[bool]):
+        def append_lines(node: SettingNode, lines: list[str], indents: list[bool]):  # noqa: ANN202
             indent = "".join([" ║  " if i else "    " for i in indents])
             if len(indents) < levels:
                 for key, setting in node.settings.items():
@@ -808,7 +808,7 @@ class SettingNode(BaseModel):
 
         return diff
 
-    def _withsiprefix(self, val, unit):
+    def _withsiprefix(self, val, unit):  # noqa: ANN001, ANN202
         """Turn a numerical value and unit, and return rescaled value and SI prefixed unit.
 
         Unit must be a whitelisted SI base unit.
@@ -834,7 +834,7 @@ class SettingNode(BaseModel):
 
         return val, f"{pfx}{unit}"
 
-    def _repr_html_(self):
+    def _repr_html_(self):  # noqa: ANN202
         tmpl_path = pathlib.Path(__file__).parent
         jenv = jinja2.Environment(loader=jinja2.FileSystemLoader(tmpl_path), auto_reload=True)
 
@@ -1074,7 +1074,7 @@ class SettingNode(BaseModel):
             str_loci = [locus]
         return str_loci
 
-    def _get_path(self, key) -> str:
+    def _get_path(self, key) -> str:  # noqa: ANN001
         if not self.path:
             return key
         return f"{self.path}.{key}"

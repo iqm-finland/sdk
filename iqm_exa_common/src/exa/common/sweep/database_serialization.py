@@ -204,7 +204,7 @@ class _SweepDataEncoder(json.JSONEncoder):
 
         """
 
-        def _encode_tuples(item):
+        def _encode_tuples(item):  # noqa: ANN001, ANN202
             if isinstance(item, tuple):
                 return get_json_encoder()[tuple](item)
             if isinstance(item, list):

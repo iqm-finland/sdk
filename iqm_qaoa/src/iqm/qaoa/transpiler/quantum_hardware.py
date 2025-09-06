@@ -165,8 +165,7 @@ class QPU:
 
 
 class CrystalQPUFromBackend(QPU):
-    """Class for a QPU with square lattice topology, initialited from an
-    :class:`~iqm.qiskit_iqm.iqm_provider.IQMBackend` object.
+    """Class for a QPU with square lattice topology, initialited from a Qiskit backend object.
 
     Since the topology is square lattice, the qubits can be identified with 2D integer coordinates (up to a global
     shift). However, it appears difficult to calculate these coordinates just from the topology graph, so instead
@@ -211,7 +210,9 @@ class Grid2DQPU(QPU):
         super().__init__(hardware_graph, hardware_layout)
 
     def embedded_chain(self) -> Iterator[HardQubit]:
-        """Embeds a chain in the grid QPU (by going around like a snake)::
+        """Embeds a chain in the grid QPU (by going around like a snake).
+
+        .. code-block:: text
 
             -----------------╷
             ╷----------------╵
@@ -258,7 +259,7 @@ class LineQPU(QPU):
             Integer index of the next qubit in the chain.
 
         """
-        yield from range(self._hardware_graph.number_of_qubits())  # type: ignore[attr-defined]
+        yield from range(self._hardware_graph.number_of_nodes())
 
 
 def _layout_of_crystal(n: int) -> dict[HardQubit, tuple[int, int]]:

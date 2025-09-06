@@ -19,7 +19,7 @@
 # BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
-"""This module contains "hard-wired" routing.
+"""Module containing "hard-wired" routing.
 
 For problem sizes from 4 to 15, this creates the optimal :class:`~iqm.qaoa.transpiler.routing.Routing` so that all
 2-qubit interactions can be executed and the number of swaps is minimized. We believe this is the optimal routing
@@ -70,7 +70,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
             bqm_to_be_used.add_quadratic(v1, v2, 0)
 
     # This is the graph of interactions of the hardwired transpiler.
-    underlying_graph = nx.Graph()  # type: ignore[var-annotated]
+    underlying_graph: nx.Graph = nx.Graph()
     # Based on the size of the problem, the underlying graph will be different.
     dict_of_sets_of_edges = {
         4: {(13, 8), (13, 14), (14, 9), (9, 8)},
@@ -209,7 +209,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
     # Use ``mapping`` to construct the initial ``Routing``.
     route = Routing(bqm_to_be_used, qpu, initial_mapping=mapping)
 
-    if bqm_to_be_used.num_variables == 4:
+    if bqm_to_be_used.num_variables == 4:  # noqa: PLR2004
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
@@ -217,7 +217,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
 
-    elif bqm_to_be_used.num_variables == 5:
+    elif bqm_to_be_used.num_variables == 5:  # noqa: PLR2004
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[8])))
@@ -229,7 +229,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
         route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
         route.apply_int(HardEdge((inverse_iso[8], inverse_iso[3])))
 
-    elif bqm_to_be_used.num_variables == 6:
+    elif bqm_to_be_used.num_variables == 6:  # noqa: PLR2004
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
@@ -246,7 +246,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
 
-    elif bqm_to_be_used.num_variables == 7:
+    elif bqm_to_be_used.num_variables == 7:  # noqa: PLR2004
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
@@ -269,7 +269,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
         route.apply_int(HardEdge((inverse_iso[14], inverse_iso[9])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[4])))
 
-    elif bqm_to_be_used.num_variables == 8:
+    elif bqm_to_be_used.num_variables == 8:  # noqa: PLR2004
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
@@ -299,7 +299,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[10])))
         route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
 
-    elif bqm_to_be_used.num_variables == 9:
+    elif bqm_to_be_used.num_variables == 9:  # noqa: PLR2004
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
@@ -337,7 +337,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
         route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
 
-    elif bqm_to_be_used.num_variables == 10:
+    elif bqm_to_be_used.num_variables == 10:  # noqa: PLR2004
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
@@ -384,7 +384,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
         route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
         route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
 
-    elif bqm_to_be_used.num_variables == 11:
+    elif bqm_to_be_used.num_variables == 11:  # noqa: PLR2004
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
@@ -441,7 +441,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
         route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
 
-    elif bqm_to_be_used.num_variables == 12:
+    elif bqm_to_be_used.num_variables == 12:  # noqa: PLR2004
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
@@ -509,7 +509,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
         route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
 
-    elif bqm_to_be_used.num_variables == 13:
+    elif bqm_to_be_used.num_variables == 13:  # noqa: PLR2004
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
@@ -589,7 +589,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
         route.apply_int(HardEdge((inverse_iso[3], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[8], inverse_iso[7])))
 
-    elif bqm_to_be_used.num_variables == 14:
+    elif bqm_to_be_used.num_variables == 14:  # noqa: PLR2004
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))
@@ -682,7 +682,7 @@ def hardwired_router(problem_bqm: BinaryQuadraticModel, qpu: CrystalQPUFromBacke
         route.apply_int(HardEdge((inverse_iso[11], inverse_iso[16])))
         route.apply_int(HardEdge((inverse_iso[11], inverse_iso[6])))
 
-    elif bqm_to_be_used.num_variables == 15:
+    elif bqm_to_be_used.num_variables == 15:  # noqa: PLR2004
         route.apply_int(HardEdge((inverse_iso[13], inverse_iso[14])))
         route.apply_int(HardEdge((inverse_iso[9], inverse_iso[8])))
         route.apply_int(HardEdge((inverse_iso[4], inverse_iso[3])))

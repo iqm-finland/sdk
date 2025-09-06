@@ -28,6 +28,7 @@ the backend classes from the module :mod:`~iqm.qaoa.backends`.
 """
 
 from collections.abc import Sequence
+from typing import Any, Literal
 
 from dimod import BinaryQuadraticModel, to_networkx_graph
 from iqm.applications.qubo import ConstrainedQuadraticInstance, QUBOInstance
@@ -109,7 +110,43 @@ class QUBOQAOA(QAOA):
         loc_fields, _, *_ = self._bqm.to_numpy_vectors(sort_indices=True)
         return loc_fields
 
-    def train(self, estimator: EstimatorBackend | None = None, min_method: str = "COBYLA", **kwargs) -> None:
+    def train(
+        self,
+        estimator: EstimatorBackend | None = None,
+        min_method: Literal[
+            "Nelder-Mead",
+            "nelder-mead",
+            "Powell",
+            "powell",
+            "CG",
+            "cg",
+            "BFGS",
+            "bfgs",
+            "Newton-CG",
+            "newton-cg",
+            "L-BFGS-B",
+            "l-bfgs-b",
+            "TNC",
+            "tnc",
+            "COBYLA",
+            "cobyla",
+            "COBYQA",
+            "cobyqa",
+            "SLSQP",
+            "slsqp",
+            "Trust-Constr",
+            "trust-constr",
+            "Dogleg",
+            "dogleg",
+            "Trust-NCG",
+            "trust-ncg",
+            "Trust-Exact",
+            "trust-exact",
+            "Trust-Krylov",
+            "trust-krylov",
+        ] = "COBYLA",
+        **kwargs: Any,
+    ) -> None:
         """The function that performs the training of the angles.
 
         The training modifies :attr:`~iqm.qaoa.generic_qaoa.QAOA.angles` in-place using
@@ -148,13 +185,13 @@ class QUBOQAOA(QAOA):
             self._angles = local_angles
             return estimator.estimate(self, **kwargs)
 
-        solution = minimize(function_to_minimize, self.angles, method=min_method)  # type: ignore[call-overload]
+        solution = minimize(function_to_minimize, x0=self.angles, method=min_method)
         self._angles = solution.x
         self._trained = True
 
     # This method is temporarily moved here from QAOA since SamplerBackend was temporarily restricted to only accept
     # QUBOQAOA
-    def sample(self, sampler: SamplerBackend, shots: int = 20000, **kwargs) -> dict[str, int]:
+    def sample(self, sampler: SamplerBackend, shots: int = 20000, **kwargs: Any) -> dict[str, int]:
         """The method for taking samples (i.e., measurement results) from the QAOA circuit.
 
         Takes a :class:`~iqm.qaoa.backends.SamplerBackend` and uses it to get ``shots`` samples. The backend is
@@ -179,7 +216,7 @@ class QUBOQAOA(QAOA):
 
     # This method is temporarily moved here from QAOA since EstimatorBackend was temporarily restricted to only accept
     # QUBOQAOA
-    def estimate(self, estimator: EstimatorBackend, **kwargs) -> float:
+    def estimate(self, estimator: EstimatorBackend, **kwargs: Any) -> float:
         """The method for taking estimates of the expected value of the Hamiltonian from the QAOA circuit.
 
         Takes a :class:`~iqm.qaoa.backends.EstimatorBackend` and uses it to get estimates of the expected value.

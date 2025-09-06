@@ -567,7 +567,7 @@ class StationControlClient(_StationControlClientBase):
         return model.model_dump_json()
 
     # TODO SW-1387: Remove this when using v1 API, not needed
-    def _check_api_versions(self):
+    def _check_api_versions(self):  # noqa: ANN202
         client_api_version = self._get_client_api_version()
         # Parse versions using standard packaging.version implementation.
         # For that purpose, we need to convert our custom " (local editable)" to follow packaging.version syntax.

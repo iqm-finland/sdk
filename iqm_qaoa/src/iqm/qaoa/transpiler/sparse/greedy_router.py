@@ -115,7 +115,7 @@ def _execute_all_possible_int_gates(
         Bool indicating whether any gate was executed.
 
     """
-    int_graph = nx.Graph()  # type: ignore[var-annotated]
+    int_graph: nx.Graph = nx.Graph()
     # This bool tracks if any gate was executed at all
     gate_executed = False
 
@@ -260,7 +260,7 @@ def _decrease_int_pair_distance(routing: Routing, buffer_interactions: set[LogEd
     """
     gate_executed = False
     for _ in range(len(routing.mapping.hard2log)):
-        swap_graph = nx.Graph()  # type: ignore[var-annotated]
+        swap_graph: nx.Graph = nx.Graph()
         for hard_qb0, hard_qb1 in routing.active_subgraph.edges():
             swap_gate = HardEdge((hard_qb0, hard_qb1))
             if routing.layers[-1].swap_gate_applicable(swap_gate):
@@ -353,7 +353,7 @@ def _find_best_replacement(
             min_dist = float(dist)
             lq_best_pair = LogQubit(neighbor)
     if lq_best_pair not in buffer_involved_qubits:
-        return min_dist, (lq, lq_best_pair)  # type: ignore[return-value]
+        return min_dist, (lq, lq_best_pair)
     return math.inf, None
 
 
@@ -425,7 +425,7 @@ def _greedy_pair_mapper(
     buffer_involved_qubits: set[LogQubit],
     problem_graph: nx.Graph,
 ) -> None:
-    """This function performs the main iteration of applying swap gates and interactions until they're all applied.
+    """Perform the main iteration of applying swap gates and interactions until they're all applied.
 
     As long as there are interactions to be executed (in :meth:`remaining_interactions`), this loops through
     executing gates, updating the gate buffer and applying swaps to decrease the 'distances' between interactions
@@ -498,7 +498,7 @@ def _get_initial_objects(
     route = Routing(problem_bqm, qpu, initial_mapping=initial_mapping)
 
     # Produce problem graph for virtual interactions, with distance included as edge bias.
-    problem_graph = nx.Graph()  # type: ignore[var-annotated]
+    problem_graph: nx.Graph = nx.Graph()
     for q1, q2 in route.remaining_interactions.edges:
         hard1, hard2 = route.mapping.log2hard[q1], route.mapping.log2hard[q2]
         # The distance of the interaction in terms of number of swaps needed to be able to execute the interaction.
@@ -512,7 +512,7 @@ def _get_initial_objects(
         problem_graph.remove_edge(log1, log2)
 
     initial_buffer = nx.maximal_matching(problem_graph)
-    initial_buffer = set(LogEdge(edge) for edge in initial_buffer)
+    initial_buffer = {LogEdge(edge) for edge in initial_buffer}
     initial_involved_qubits = set()
     for log1, log2 in initial_buffer:
         initial_involved_qubits.add(log1)

@@ -63,40 +63,40 @@ class _MockChannel(grpc.Channel):
     def __init__(self, mock: IqmServerMockBase):
         self._mock = mock
 
-    def subscribe(self, callback, try_to_connect=False):
+    def subscribe(self, callback, try_to_connect=False):  # noqa: ANN001, ANN202
         pass
 
-    def unsubscribe(self, callback):
+    def unsubscribe(self, callback):  # noqa: ANN001, ANN202
         pass
 
-    def unary_unary(self, method, *args, **kwargs):
+    def unary_unary(self, method, *args, **kwargs):  # noqa: ANN001, ANN202
         return self._create_callable(method)
 
-    def unary_stream(self, method, *args, **kwargs):
+    def unary_stream(self, method, *args, **kwargs):  # noqa: ANN001, ANN202
         return self._create_callable(method)
 
-    def stream_unary(self, method, *args, **kwargs):
+    def stream_unary(self, method, *args, **kwargs):  # noqa: ANN001, ANN202
         return self._create_callable(method)
 
-    def stream_stream(self, method, *args, **kwargs):
+    def stream_stream(self, method, *args, **kwargs):  # noqa: ANN001, ANN202
         return self._create_callable(method)
 
-    def close(self):
+    def close(self):  # noqa: ANN202
         pass
 
-    def _create_callable(self, fq_method: str):
+    def _create_callable(self, fq_method: str):  # noqa: ANN202
         _, fn_name = fq_method.lstrip("/").split("/")
         f = getattr(self._mock, fn_name)
 
-        def callable(request):
+        def callable(request):  # noqa: ANN001, ANN202
             return f(request, _MockContext())
 
         return callable
 
 
 class _MockContext:
-    def set_code(self, code):
+    def set_code(self, code):  # noqa: ANN001, ANN202
         pass
 
-    def set_details(self, details):
+    def set_details(self, details):  # noqa: ANN001, ANN202
         pass

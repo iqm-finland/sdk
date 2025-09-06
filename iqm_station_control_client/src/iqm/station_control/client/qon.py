@@ -203,7 +203,7 @@ class QONMetricRegistry:
 
         """
 
-        def decorator(subclass: type[QONMetric]):
+        def decorator(subclass: type[QONMetric]):  # noqa: ANN202
             for name in method_names:
                 if (owner := cls._registry.get(name)) is not None:
                     raise ValueError(f"Method {name} already registered to {owner.__name__}")
