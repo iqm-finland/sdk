@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>QUBOInstance &#8212; IQM QAOA 1.24.0 documentation</title>
+    <title>QUBOInstance &#8212; IQM QAOA 1.26.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=cad2c0f4"></script>
+    <script src="../_static/documentation_options.js?v=e817ad6d"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
@@ -55,8 +55,8 @@
     <link rel="prev" title="ConstrainedQuadraticInstance" href="iqm.applications.qubo.ConstrainedQuadraticInstance.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.24.0" />
-    <meta name="docbuild:last-update" content="2025-09-05"/>
+  <meta name="docsearch:version" content="1.26.0" />
+    <meta name="docbuild:last-update" content="2025-09-06"/>
   </head>
   
   
@@ -135,8 +135,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.24.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.24.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.26.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM QAOA 1.26.0 documentation - Home"/>
   
   
 </a></div>
@@ -423,7 +423,7 @@
 <h1>QUBOInstance<a class="headerlink" href="#quboinstance" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.applications.qubo.QUBOInstance">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.applications.qubo.</span></span><span class="sig-name descname"><span class="pre">QUBOInstance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubo_object</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/qubo.py#L59-L204"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.qubo.QUBOInstance" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.applications.qubo.</span></span><span class="sig-name descname"><span class="pre">QUBOInstance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubo_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vartype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'BINARY'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/qubo.py#L60-L210"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.qubo.QUBOInstance" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.applications.applications.ProblemInstance.html#iqm.applications.applications.ProblemInstance" title="iqm.applications.applications.ProblemInstance"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProblemInstance</span></code></a></p>
 <p>A problem instance class for generic QUBO problems.</p>
 <p>This problem instance class should only be used for problems without any structure beyond having a QUBO
@@ -437,8 +437,12 @@ represented as the <code class="docutils literal notranslate"><span class="pre">
 <code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryQuadraticModel</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>qubo_object</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><em>ndarray</em></a><em> | </em><a class="reference external" href="https://networkx.org/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v3.5)"><em>Graph</em></a><em> | </em><a class="reference external" href="https://docs.dwavequantum.com/en/latest/ocean/api_ref_dimod/models.html#dimod.binary.BinaryQuadraticModel" title="(in Python v8.4.0)"><em>BinaryQuadraticModel</em></a>) – Either a square <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, a <a class="reference external" href="https://networkx.org/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v3.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> or
-a <code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryQuadraticModel</span></code> describing the QUBO problem.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>qubo_object</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><em>ndarray</em></a><em> | </em><a class="reference external" href="https://networkx.org/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v3.5)"><em>Graph</em></a><em> | </em><a class="reference external" href="https://docs.dwavequantum.com/en/latest/ocean/api_ref_dimod/models.html#dimod.binary.BinaryQuadraticModel" title="(in Python v8.4.0)"><em>BinaryQuadraticModel</em></a>) – Either a square <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a>, a <a class="reference external" href="https://networkx.org/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v3.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> or
+a <code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryQuadraticModel</span></code> describing the QUBO problem.</p></li>
+<li><p><strong>vartype</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Literal" title="(in Python v3.11)"><em>Literal</em></a><em>[</em><em>Vartype.SPIN</em><em>, </em><em>'SPIN'</em><em>, </em><em>Vartype.BINARY</em><em>, </em><em>'BINARY'</em><em>, </em><em>Vartype.INTEGER</em><em>, </em><em>'INTEGER'</em><em>, </em><em>Vartype.REAL</em><em>, </em><em>'REAL'</em><em>]</em>) – An optional variable type for interpreting the input <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a> or
+<a class="reference external" href="https://networkx.org/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v3.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> as <code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryQuadraticModel</span></code>. The default value is ‘BINARY’.</p></li>
+</ul>
 </dd>
 </dl>
 <p class="rubric">Attributes</p>
@@ -511,7 +515,7 @@ of the corresponding variable(s). Variable pairs without interaction aren’t co
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.applications.qubo.QUBOInstance.fix_variables">
-<span class="sig-name descname"><span class="pre">fix_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/qubo.py#L167-L190"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.qubo.QUBOInstance.fix_variables" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">fix_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/qubo.py#L173-L196"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.qubo.QUBOInstance.fix_variables" title="Link to this definition">#</a></dt>
 <dd><p>Fixes (assigns) some of the problem variables.</p>
 <p>Warning: For problems that come from a graph (such as maxcut), this doesn’t change the original graph,
 only the derived QUBO formulation (i.e., the BQM variable)!</p>
@@ -531,7 +535,7 @@ to the variables to fix and whose values are equal to the values to fix them to 
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.applications.qubo.QUBOInstance.quality">
-<span class="sig-name descname"><span class="pre">quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bit_str</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/qubo.py#L192-L204"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.qubo.QUBOInstance.quality" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bit_str</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/qubo.py#L198-L210"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.qubo.QUBOInstance.quality" title="Link to this definition">#</a></dt>
 <dd><p>Accepts a bitstring (representing a solution) and returns that solution’s quality / energy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -638,7 +642,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-09-05.
+  Last updated on 2025-09-06.
   <br/>
 </p>
   </div>

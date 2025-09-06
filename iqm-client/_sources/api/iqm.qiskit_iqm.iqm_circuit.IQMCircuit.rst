@@ -16,8 +16,6 @@ iqm.qiskit\_iqm.iqm\_circuit.IQMCircuit
       ~IQMCircuit.name
       ~IQMCircuit.qregs
       ~IQMCircuit.cregs
-      ~IQMCircuit.duration
-      ~IQMCircuit.unit
    
    
 
