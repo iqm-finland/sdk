@@ -2,6 +2,30 @@
 Changelog
 =========
 
+Version 1.29.0 (2025-09-12)
+===========================
+
+Features
+--------
+
+- Update dependency on station-control
+
+Version 1.28.0 (2025-09-12)
+===========================
+
+Features
+--------
+
+- Update dependency on iqm-client
+
+Version 1.27.0 (2025-09-11)
+===========================
+
+Features
+--------
+
+- Bump dependencies. :issue:`SW-1663`
+
 Version 1.26.0 (2025-09-05)
 ===========================
 
