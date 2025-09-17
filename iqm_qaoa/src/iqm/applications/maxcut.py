@@ -252,10 +252,13 @@ def maxcut_generator(  # noqa: PLR0913
     p: float = 0.5,
     d: int = 3,
     break_z2: bool = False,
-    seed: int | None = None,
+    seed: int | None | np.random.Generator = None,
     enforce_connected: bool = False,
     max_iterations: int = 1000,
-) -> Iterator[MaxCutInstance]:
+    weighted: bool = False,
+    distribution_of_weights: Literal["uniform", "integers"] = "uniform",
+    maximum: int | float = 1.0,
+) -> Iterator[MaxCutInstance | WeightedMaxCutInstance]:
     r"""The generator function for generating random maxcut problem instances.
 
     The generator yields maxcut problem instances using random graphs, created according to the input parameters.
@@ -274,19 +277,40 @@ def maxcut_generator(  # noqa: PLR0913
         break_z2: Optional bool indicating whether the :math:`\mathbb{Z}_2` symmetry should be explicitly broken
             in the problem instances.
         seed: Optional random seed for generating the problem instances.
-        enforce_connected: True iff it is required that the random graphs are connected.
+        enforce_connected: ``True`` iff it is required that the random graphs are connected.
         max_iterations: In case ``enforce_connected`` is ``True``, the function generates random graphs in a ``while``
             loop until it finds a connected one. If it doesn't find a connected one after ``max_iterations``, it raises
             an error.
+        weighted: ``True`` iff we want to generate weighted maxcut instances (as opposed to unweighted maxcut).
+        distribution_of_weights: A string describing the distribution of the random weights in case weighted maxcu is
+            generated. Otherwise ignored.
+        maximum: A parameter of the distribution used if the distribution is "uniform" or "integers", otherwise it's
+            ignored.
 
     Yields:
-        Problem instances of :class:`MaxCutInstance` randomly constructed in accordance to the input parameters.
+        Problem instances of :class:`MaxCutInstance` randomly constructed in accordance to the input parameters. Or
+        instances of :class:`WeightedMaxCutInstance` if ``weighted`` is ``True``.
 
     """
+    rng = np.random.default_rng(seed=seed)
     for _ in range(n_instances):
-        g = _generate_desired_graph(graph_family, n, p, d, seed, enforce_connected, max_iterations)
+        g = _generate_desired_graph(graph_family, n, p, d, rng, enforce_connected, max_iterations)
 
-        yield MaxCutInstance(g, break_z2=break_z2)
+        if weighted:
+            if distribution_of_weights == "uniform":
+                for u, v in g.edges():
+                    # Converted to standard Python ``float`` to avoid typing headaches.
+                    g[u][v]["weight"] = float(rng.uniform(0, maximum))
+            elif distribution_of_weights == "integers":
+                for u, v in g.edges():
+                    # Converted to standard Python ``int`` to avoid typing headaches.
+                    g[u][v]["weight"] = int(rng.integers(1, int(maximum)))
+            else:
+                raise ValueError("Invalid distribution of weights. Choose either 'uniform' or 'integers'.")
+            yield WeightedMaxCutInstance(g)
+
+        else:
+            yield MaxCutInstance(g, break_z2=break_z2)
 
 
 def greedy_max_cut(max_cut_problem: MaxCutInstance | nx.Graph) -> str:

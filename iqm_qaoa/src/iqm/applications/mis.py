@@ -368,7 +368,7 @@ def mis_generator(  # noqa: PLR0913
     graph_family: Literal["regular", "erdos-renyi"] = "erdos-renyi",
     p: float = 0.5,
     d: int = 3,
-    seed: int | None = None,
+    seed: int | None | np.random.Generator = None,
     enforce_connected: bool = False,
     max_iterations: int = 1000,
     penalty: int = 1,
@@ -389,7 +389,7 @@ def mis_generator(  # noqa: PLR0913
         d: For the random regular graph, this is the degree of each node in the graph. For other graph families, it's
             ignored.
         seed: Optional random seed for generating the problem instances.
-        enforce_connected: A bool stating whether it is required that the random graphs are connected.
+        enforce_connected: ``True`` iff it is required that the random graphs are connected.
         max_iterations: In case ``enforce_connected`` is ``True``, the function generates random graphs in a ``while``
             loop until it finds a connected one. If it doesn't find a connected one after ``max_iterations``, it raises
             an error.

@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 1.30.0 (2025-09-16)
+===========================
+
+Features
+--------
+
+- Add a couple of options to ``maxcut_generator`` to enable it to generate ``WeightedMaxCutInstance`` with two basic distributions of weights.
+
 Version 1.29.0 (2025-09-12)
 ===========================
 

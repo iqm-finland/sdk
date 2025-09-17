@@ -56,7 +56,7 @@ class SherringtonKirkpatrick(QUBOInstance):
 
 
 def sk_generator(
-    n: int, n_instances: int, distribution: str = "gaussian", seed: int | None = None
+    n: int, n_instances: int, distribution: str = "gaussian", seed: int | None | np.random.Generator = None
 ) -> Iterator[SherringtonKirkpatrick]:
     """The generator function for generating random SK model problem instances.
 

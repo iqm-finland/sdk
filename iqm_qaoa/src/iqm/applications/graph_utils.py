@@ -80,7 +80,7 @@ def _generate_desired_graph(
     n: int,
     p: float,
     d: int,
-    seed: int | None,
+    seed: int | None | np.random.Generator = None,
     enforce_connected: bool = False,
     max_iterations: int = 1000,
 ) -> nx.Graph:
