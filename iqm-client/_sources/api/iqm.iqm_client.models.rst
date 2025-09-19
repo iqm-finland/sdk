@@ -42,7 +42,6 @@ iqm.iqm\_client.models
       :template: autosummary-class-template.rst
    
       CalibrationSet
-      Circuit
       CircuitCompilationOptions
       ClientLibrary
       Counts
@@ -52,12 +51,10 @@ iqm.iqm\_client.models
       GateImplementationInfo
       GateInfo
       HeraldingMode
-      Instruction
       JobParameters
       Metadata
       MoveGateFrameTrackingMode
       MoveGateValidationMode
-      NativeOperation
       QualityMetricSet
       QuantumArchitecture
       QuantumArchitectureSpecification

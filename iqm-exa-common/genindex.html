@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; exa-common 26.33.0 documentation</title>
+    <title>Index &#8212; exa-common 27.0.0 documentation</title>
   
   
   
@@ -15,42 +15,38 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=63862cf7" />
   
-  <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=421e625f"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/documentation_options.js?v=7e59302c"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
     <link rel="icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="26.33.0" />
     <meta name="docbuild:last-update" content="2025-09-19"/>
   </head>
   
@@ -67,8 +63,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -76,6 +83,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -83,8 +91,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -102,8 +110,7 @@
       
         
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -132,18 +139,22 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="exa-common 26.33.0 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="exa-common 26.33.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="exa-common 27.0.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="exa-common 27.0.0 documentation - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
@@ -206,14 +217,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -232,9 +238,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -262,16 +268,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 
 </div></div>
       
@@ -562,27 +576,6 @@
 </li>
       </ul></li>
       <li>
-    exa.common.control.sweep.exponential_sweep
-
-      <ul>
-        <li><a href="api/exa.common.control.sweep.exponential_sweep.html#module-exa.common.control.sweep.exponential_sweep">module</a>
-</li>
-      </ul></li>
-      <li>
-    exa.common.control.sweep.fixed_sweep
-
-      <ul>
-        <li><a href="api/exa.common.control.sweep.fixed_sweep.html#module-exa.common.control.sweep.fixed_sweep">module</a>
-</li>
-      </ul></li>
-      <li>
-    exa.common.control.sweep.linear_sweep
-
-      <ul>
-        <li><a href="api/exa.common.control.sweep.linear_sweep.html#module-exa.common.control.sweep.linear_sweep">module</a>
-</li>
-      </ul></li>
-      <li>
     exa.common.control.sweep.option
 
       <ul>
@@ -687,8 +680,6 @@
         <li><a href="api/exa.common.data.setting_node.html#module-exa.common.data.setting_node">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     exa.common.data.value
 
@@ -696,6 +687,8 @@
         <li><a href="api/exa.common.data.value.html#module-exa.common.data.value">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     exa.common.errors
 
@@ -845,8 +838,6 @@
       </ul></li>
       <li><a href="api/exa.common.errors.exa_error.ExaError.html#exa.common.errors.exa_error.ExaError">ExaError</a>
 </li>
-      <li><a href="api/exa.common.control.sweep.exponential_sweep.ExponentialSweep.html#exa.common.control.sweep.exponential_sweep.ExponentialSweep">ExponentialSweep (class in exa.common.control.sweep.exponential_sweep)</a>
-</li>
       <li><a href="api/exa.common.logger.logger.ExtraFormatter.html#exa.common.logger.logger.ExtraFormatter">ExtraFormatter (class in exa.common.logger.logger)</a>
 </li>
   </ul></td>
@@ -865,11 +856,9 @@
 </li>
       <li><a href="api/exa.common.control.sweep.option.fixed_options.FixedOptions.html#exa.common.control.sweep.option.fixed_options.FixedOptions.fixed">fixed (FixedOptions attribute)</a>
 </li>
-      <li><a href="api/exa.common.control.sweep.option.fixed_options.FixedOptions.html#exa.common.control.sweep.option.fixed_options.FixedOptions">FixedOptions (class in exa.common.control.sweep.option.fixed_options)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/exa.common.control.sweep.fixed_sweep.FixedSweep.html#exa.common.control.sweep.fixed_sweep.FixedSweep">FixedSweep (class in exa.common.control.sweep.fixed_sweep)</a>
+      <li><a href="api/exa.common.control.sweep.option.fixed_options.FixedOptions.html#exa.common.control.sweep.option.fixed_options.FixedOptions">FixedOptions (class in exa.common.control.sweep.option.fixed_options)</a>
 </li>
       <li><a href="api/exa.common.errors.station_control_errors.ForbiddenError.html#exa.common.errors.station_control_errors.ForbiddenError">ForbiddenError</a>
 </li>
@@ -957,8 +946,6 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/exa.common.errors.exa_error.InvalidSweepOptionsTypeError.html#exa.common.errors.exa_error.InvalidSweepOptionsTypeError">InvalidSweepOptionsTypeError</a>
-</li>
       <li><a href="api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology.is_computational_resonator">is_computational_resonator() (ChipTopology method)</a>
 </li>
       <li><a href="api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology.is_coupler">is_coupler() (ChipTopology method)</a>
@@ -981,13 +968,11 @@
       </ul></li>
       <li><a href="api/exa.common.qcm_data.chad_model.Launcher.html#exa.common.qcm_data.chad_model.Launcher">Launcher (class in exa.common.qcm_data.chad_model)</a>
 </li>
-      <li><a href="api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology.limit_values">limit_values() (ChipTopology static method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/exa.common.sweep.util.linear_index_sweep.html#exa.common.sweep.util.linear_index_sweep">linear_index_sweep() (in module exa.common.sweep.util)</a>
+      <li><a href="api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology.limit_values">limit_values() (ChipTopology static method)</a>
 </li>
-      <li><a href="api/exa.common.control.sweep.linear_sweep.LinearSweep.html#exa.common.control.sweep.linear_sweep.LinearSweep">LinearSweep (class in exa.common.control.sweep.linear_sweep)</a>
+      <li><a href="api/exa.common.sweep.util.linear_index_sweep.html#exa.common.sweep.util.linear_index_sweep">linear_index_sweep() (in module exa.common.sweep.util)</a>
 </li>
       <li><a href="api/exa.common.data.parameter.CollectionType.html#exa.common.data.parameter.CollectionType.LIST">LIST (CollectionType attribute)</a>
 </li>
@@ -1026,15 +1011,9 @@
 </li>
         <li><a href="api/exa.common.qcm_data.chad_model.Coupler.html#exa.common.qcm_data.chad_model.Coupler.model_config">(Coupler attribute)</a>
 </li>
-        <li><a href="api/exa.common.control.sweep.exponential_sweep.ExponentialSweep.html#exa.common.control.sweep.exponential_sweep.ExponentialSweep.model_config">(ExponentialSweep attribute)</a>
-</li>
-        <li><a href="api/exa.common.control.sweep.fixed_sweep.FixedSweep.html#exa.common.control.sweep.fixed_sweep.FixedSweep.model_config">(FixedSweep attribute)</a>
-</li>
         <li><a href="api/exa.common.qcm_data.immutable_base_model.ImmutableBaseModel.html#exa.common.qcm_data.immutable_base_model.ImmutableBaseModel.model_config">(ImmutableBaseModel attribute)</a>
 </li>
         <li><a href="api/exa.common.qcm_data.chad_model.Launcher.html#exa.common.qcm_data.chad_model.Launcher.model_config">(Launcher attribute)</a>
-</li>
-        <li><a href="api/exa.common.control.sweep.linear_sweep.LinearSweep.html#exa.common.control.sweep.linear_sweep.LinearSweep.model_config">(LinearSweep attribute)</a>
 </li>
         <li><a href="api/exa.common.data.parameter.Parameter.html#exa.common.data.parameter.Parameter.model_config">(Parameter attribute)</a>
 </li>
@@ -1070,12 +1049,6 @@
         <li><a href="api/exa.common.control.html#module-exa.common.control">exa.common.control</a>
 </li>
         <li><a href="api/exa.common.control.sweep.html#module-exa.common.control.sweep">exa.common.control.sweep</a>
-</li>
-        <li><a href="api/exa.common.control.sweep.exponential_sweep.html#module-exa.common.control.sweep.exponential_sweep">exa.common.control.sweep.exponential_sweep</a>
-</li>
-        <li><a href="api/exa.common.control.sweep.fixed_sweep.html#module-exa.common.control.sweep.fixed_sweep">exa.common.control.sweep.fixed_sweep</a>
-</li>
-        <li><a href="api/exa.common.control.sweep.linear_sweep.html#module-exa.common.control.sweep.linear_sweep">exa.common.control.sweep.linear_sweep</a>
 </li>
         <li><a href="api/exa.common.control.sweep.option.html#module-exa.common.control.sweep.option">exa.common.control.sweep.option</a>
 </li>
@@ -1419,7 +1392,7 @@
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 26.33.0.
+      © Copyright 2019-2025, IQM Finland Oy, Release 27.0.0.
       <br/>
     
   </p>
@@ -1446,8 +1419,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

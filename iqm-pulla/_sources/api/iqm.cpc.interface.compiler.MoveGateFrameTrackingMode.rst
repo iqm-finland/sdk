@@ -26,8 +26,10 @@ iqm.cpc.interface.compiler.MoveGateFrameTrackingMode
 
    .. autosummary::
    
-      ~MoveGateFrameTrackingMode.__format__
+      ~MoveGateFrameTrackingMode._generate_next_value_
       ~MoveGateFrameTrackingMode.__new__
+      ~MoveGateFrameTrackingMode.__format__
       ~MoveGateFrameTrackingMode.__str__
+      ~MoveGateFrameTrackingMode.__new_member__
    
    

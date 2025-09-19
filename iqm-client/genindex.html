@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; IQM client 29.14.0 documentation</title>
+    <title>Index &#8212; IQM client 31.4.0 documentation</title>
   
   
   
@@ -15,41 +15,37 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
   
-  <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=d7fac691"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/documentation_options.js?v=ba1eafe2"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
     <link rel="icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="29.14.0" />
     <meta name="docbuild:last-update" content="2025-09-19"/>
   </head>
   
@@ -66,8 +62,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -75,6 +82,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -82,8 +90,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -101,8 +109,7 @@
       
         
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -131,23 +138,70 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="IQM client 29.14.0 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM client 29.14.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM client 31.4.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM client 31.4.0 documentation - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">IQM Client</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.cirq_iqm.html">iqm.cirq_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cirq_iqm.devices.html">iqm.cirq_iqm.devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.devices.adonis.html">iqm.cirq_iqm.devices.adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.devices.aphrodite.html">iqm.cirq_iqm.devices.aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.devices.apollo.html">iqm.cirq_iqm.devices.apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.devices.iqm_device.html">iqm.cirq_iqm.devices.iqm_device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.devices.iqm_device_metadata.html">iqm.cirq_iqm.devices.iqm_device_metadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cirq_iqm.extended_qasm_parser.html">iqm.cirq_iqm.extended_qasm_parser</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm.html">iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cirq_iqm.iqm_gates.html">iqm.cirq_iqm.iqm_gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.iqm_gates.IQMMoveGate.html">iqm.cirq_iqm.iqm_gates.IQMMoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cirq_iqm.iqm_sampler.html">iqm.cirq_iqm.iqm_sampler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.iqm_sampler.IQMResult.html">iqm.cirq_iqm.iqm_sampler.IQMResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.iqm_sampler.IQMSampler.html">iqm.cirq_iqm.iqm_sampler.IQMSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.iqm_sampler.ResultMetadata.html">iqm.cirq_iqm.iqm_sampler.ResultMetadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cirq_iqm.optimizers.html">iqm.cirq_iqm.optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.optimizers.simplify_circuit.html">iqm.cirq_iqm.optimizers.simplify_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement.html">iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates.html">iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cirq_iqm.serialize.html">iqm.cirq_iqm.serialize</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.serialize.circuit_operation_to_operation.html">iqm.cirq_iqm.serialize.circuit_operation_to_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.serialize.deserialize_circuit.html">iqm.cirq_iqm.serialize.deserialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.serialize.operation_to_circuit_operation.html">iqm.cirq_iqm.serialize.operation_to_circuit_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.serialize.serialize_circuit.html">iqm.cirq_iqm.serialize.serialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.serialize.OperationNotSupportedError.html">iqm.cirq_iqm.serialize.OperationNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cirq_iqm.transpiler.html">iqm.cirq_iqm.transpiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit.html">iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.iqm_client.html">iqm.iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.iqm_client.api.html">iqm.iqm_client.api</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.api.APIConfig.html">iqm.iqm_client.api.APIConfig</a></li>
@@ -156,7 +210,6 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.iqm_client.authentication.html">iqm.iqm_client.authentication</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.authentication.ExternalToken.html">iqm.iqm_client.authentication.ExternalToken</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.authentication.TokenClient.html">iqm.iqm_client.authentication.TokenClient</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.authentication.TokenManager.html">iqm.iqm_client.authentication.TokenManager</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.authentication.TokenProviderInterface.html">iqm.iqm_client.authentication.TokenProviderInterface</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.authentication.TokensFileReader.html">iqm.iqm_client.authentication.TokensFileReader</a></li>
@@ -196,7 +249,6 @@
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.serialize_qubit_mapping.html">iqm.iqm_client.models.serialize_qubit_mapping</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.validate_circuit.html">iqm.iqm_client.models.validate_circuit</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.CalibrationSet.html">iqm.iqm_client.models.CalibrationSet</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.Circuit.html">iqm.iqm_client.models.Circuit</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.CircuitCompilationOptions.html">iqm.iqm_client.models.CircuitCompilationOptions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.ClientLibrary.html">iqm.iqm_client.models.ClientLibrary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.Counts.html">iqm.iqm_client.models.Counts</a></li>
@@ -206,12 +258,10 @@
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.GateImplementationInfo.html">iqm.iqm_client.models.GateImplementationInfo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.GateInfo.html">iqm.iqm_client.models.GateInfo</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.HeraldingMode.html">iqm.iqm_client.models.HeraldingMode</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.Instruction.html">iqm.iqm_client.models.Instruction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.JobParameters.html">iqm.iqm_client.models.JobParameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.Metadata.html">iqm.iqm_client.models.Metadata</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.MoveGateFrameTrackingMode.html">iqm.iqm_client.models.MoveGateFrameTrackingMode</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.MoveGateValidationMode.html">iqm.iqm_client.models.MoveGateValidationMode</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.NativeOperation.html">iqm.iqm_client.models.NativeOperation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.QualityMetricSet.html">iqm.iqm_client.models.QualityMetricSet</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.QuantumArchitecture.html">iqm.iqm_client.models.QuantumArchitecture</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.QuantumArchitectureSpecification.html">iqm.iqm_client.models.QuantumArchitectureSpecification</a></li>
@@ -264,7 +314,6 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_backend.html">iqm.qiskit_iqm.iqm_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html">iqm.qiskit_iqm.iqm_backend.IQMBackendBase</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_backend.IQMTarget.html">iqm.qiskit_iqm.iqm_backend.IQMTarget</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_circuit.html">iqm.qiskit_iqm.iqm_circuit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -293,6 +342,12 @@
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html">iqm.qiskit_iqm.iqm_provider.IQMBackend</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend.html">iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_provider.IQMProvider.html">iqm.qiskit_iqm.iqm_provider.IQMProvider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_target.html">iqm.qiskit_iqm.iqm_target</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_target.Locus.html">iqm.qiskit_iqm.iqm_target.Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_target.LocusIdx.html">iqm.qiskit_iqm.iqm_target.LocusIdx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_target.IQMTarget.html">iqm.qiskit_iqm.iqm_target.IQMTarget</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_transpilation.html">iqm.qiskit_iqm.iqm_transpilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -353,14 +408,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -379,9 +429,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -409,16 +459,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 
 </div></div>
       
@@ -487,29 +545,21 @@
         <li><a href="api/iqm.iqm_client.models.RunRequest.html#iqm.iqm_client.models.RunRequest.active_reset_cycles">(iqm.iqm_client.models.RunRequest attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/iqm.iqm_client.models.Circuit.html#iqm.iqm_client.models.Circuit.all_qubits">all_qubits() (iqm.iqm_client.models.Circuit method)</a>
+      <li><a href="api/iqm.cirq_iqm.devices.adonis.Adonis.html#iqm.cirq_iqm.devices.adonis.Adonis">Adonis (class in iqm.cirq_iqm.devices.adonis)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.MoveGateValidationMode.html#iqm.iqm_client.models.MoveGateValidationMode.ALLOW_PRX">ALLOW_PRX (iqm.iqm_client.models.MoveGateValidationMode attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cirq_iqm.devices.aphrodite.Aphrodite.html#iqm.cirq_iqm.devices.aphrodite.Aphrodite">Aphrodite (class in iqm.cirq_iqm.devices.aphrodite)</a>
 </li>
       <li><a href="api/iqm.iqm_client.api.APIConfig.html#iqm.iqm_client.api.APIConfig">APIConfig (class in iqm.iqm_client.api)</a>
 </li>
       <li><a href="api/iqm.iqm_client.api.APIEndpoint.html#iqm.iqm_client.api.APIEndpoint">APIEndpoint (class in iqm.iqm_client.api)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.iqm_client.errors.APITimeoutError.html#iqm.iqm_client.errors.APITimeoutError">APITimeoutError</a>
 </li>
-      <li><a href="api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html#iqm.qiskit_iqm.iqm_backend.IQMBackendBase.architecture">architecture (iqm.qiskit_iqm.iqm_backend.IQMBackendBase attribute)</a>
-</li>
-      <li><a href="api/iqm.iqm_client.models.Instruction.html#iqm.iqm_client.models.Instruction.args">args (iqm.iqm_client.models.Instruction attribute)</a>
-</li>
-      <li><a href="api/iqm.iqm_client.models.NativeOperation.html#iqm.iqm_client.models.NativeOperation.args_not_required">args_not_required (iqm.iqm_client.models.NativeOperation attribute)</a>
-</li>
-      <li><a href="api/iqm.iqm_client.models.NativeOperation.html#iqm.iqm_client.models.NativeOperation.args_required">args_required (iqm.iqm_client.models.NativeOperation attribute)</a>
-</li>
-      <li><a href="api/iqm.iqm_client.models.Instruction.html#iqm.iqm_client.models.Instruction.args_validator">args_validator() (iqm.iqm_client.models.Instruction class method)</a>
-</li>
-      <li><a href="api/iqm.iqm_client.models.NativeOperation.html#iqm.iqm_client.models.NativeOperation.arity">arity (iqm.iqm_client.models.NativeOperation attribute)</a>
+      <li><a href="api/iqm.cirq_iqm.devices.apollo.Apollo.html#iqm.cirq_iqm.devices.apollo.Apollo">Apollo (class in iqm.cirq_iqm.devices.apollo)</a>
 </li>
       <li><a href="api/iqm.iqm_client.cli.auth.AuthRequest.html#iqm.iqm_client.cli.auth.AuthRequest">AuthRequest (class in iqm.iqm_client.cli.auth)</a>
 </li>
@@ -545,9 +595,11 @@
         <li><a href="api/iqm.iqm_client.models.QualityMetricSet.html#iqm.iqm_client.models.QualityMetricSet.calibration_set_end_timestamp">(iqm.iqm_client.models.QualityMetricSet attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/iqm.iqm_client.models.CalibrationSet.html#iqm.iqm_client.models.CalibrationSet.calibration_set_id">calibration_set_id (iqm.iqm_client.models.CalibrationSet attribute)</a>
+      <li><a href="api/iqm.cirq_iqm.iqm_sampler.ResultMetadata.html#iqm.cirq_iqm.iqm_sampler.ResultMetadata.calibration_set_id">calibration_set_id (iqm.cirq_iqm.iqm_sampler.ResultMetadata attribute)</a>
 
       <ul>
+        <li><a href="api/iqm.iqm_client.models.CalibrationSet.html#iqm.iqm_client.models.CalibrationSet.calibration_set_id">(iqm.iqm_client.models.CalibrationSet attribute)</a>
+</li>
         <li><a href="api/iqm.iqm_client.models.DynamicQuantumArchitecture.html#iqm.iqm_client.models.DynamicQuantumArchitecture.calibration_set_id">(iqm.iqm_client.models.DynamicQuantumArchitecture attribute)</a>
 </li>
         <li><a href="api/iqm.iqm_client.models.Metadata.html#iqm.iqm_client.models.Metadata.calibration_set_id">(iqm.iqm_client.models.Metadata attribute)</a>
@@ -569,9 +621,13 @@
 </li>
       <li><a href="api/iqm.qiskit_iqm.iqm_job.IQMJob.html#iqm.qiskit_iqm.iqm_job.IQMJob.cancel">cancel() (iqm.qiskit_iqm.iqm_job.IQMJob method)</a>
 </li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.check_qubit_connectivity">check_qubit_connectivity() (iqm.cirq_iqm.devices.iqm_device.IQMDevice method)</a>
+</li>
       <li><a href="api/iqm.iqm_client.cli.token_manager.check_token_manager.html#iqm.iqm_client.cli.token_manager.check_token_manager">check_token_manager() (in module iqm.iqm_client.cli.token_manager)</a>
 </li>
-      <li><a href="api/iqm.iqm_client.models.Circuit.html#iqm.iqm_client.models.Circuit">Circuit (class in iqm.iqm_client.models)</a>
+      <li><a href="api/iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm.html#iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm">circuit_from_qasm() (in module iqm.cirq_iqm.extended_qasm_parser)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.serialize.circuit_operation_to_operation.html#iqm.cirq_iqm.serialize.circuit_operation_to_operation">circuit_operation_to_operation() (in module iqm.cirq_iqm.serialize)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.CircuitBatch.html#iqm.iqm_client.models.CircuitBatch">CircuitBatch (in module iqm.iqm_client.models)</a>
 </li>
@@ -595,10 +651,10 @@
 </li>
       <li><a href="api/iqm.iqm_client.errors.CircuitValidationError.html#iqm.iqm_client.errors.CircuitValidationError">CircuitValidationError</a>
 </li>
-      <li><a href="api/iqm.iqm_client.cli.cli.ClickLoggingHandler.html#iqm.iqm_client.cli.cli.ClickLoggingHandler">ClickLoggingHandler (class in iqm.iqm_client.cli.cli)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.iqm_client.cli.cli.ClickLoggingHandler.html#iqm.iqm_client.cli.cli.ClickLoggingHandler">ClickLoggingHandler (class in iqm.iqm_client.cli.cli)</a>
+</li>
       <li><a href="api/iqm.iqm_client.cli.auth.AuthRequest.html#iqm.iqm_client.cli.auth.AuthRequest.client_id">client_id (iqm.iqm_client.cli.auth.AuthRequest attribute)</a>
 </li>
       <li><a href="api/iqm.iqm_client.cli.auth.ClientAccountSetupError.html#iqm.iqm_client.cli.auth.ClientAccountSetupError">ClientAccountSetupError</a>
@@ -612,8 +668,6 @@
       <li><a href="api/iqm.iqm_client.authentication.ExternalToken.html#iqm.iqm_client.authentication.ExternalToken.close">close() (iqm.iqm_client.authentication.ExternalToken method)</a>
 
       <ul>
-        <li><a href="api/iqm.iqm_client.authentication.TokenClient.html#iqm.iqm_client.authentication.TokenClient.close">(iqm.iqm_client.authentication.TokenClient method)</a>
-</li>
         <li><a href="api/iqm.iqm_client.authentication.TokenManager.html#iqm.iqm_client.authentication.TokenManager.close">(iqm.iqm_client.authentication.TokenManager method)</a>
 </li>
         <li><a href="api/iqm.iqm_client.authentication.TokenProviderInterface.html#iqm.iqm_client.authentication.TokenProviderInterface.close">(iqm.iqm_client.authentication.TokenProviderInterface method)</a>
@@ -623,8 +677,12 @@
       </ul></li>
       <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.close_auth_session">close_auth_session() (iqm.iqm_client.iqm_client.IQMClient method)</a>
 </li>
-      <li><a href="api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend.close_client">close_client() (iqm.qiskit_iqm.iqm_provider.IQMBackend method)</a>
+      <li><a href="api/iqm.cirq_iqm.iqm_sampler.IQMSampler.html#iqm.cirq_iqm.iqm_sampler.IQMSampler.close_client">close_client() (iqm.cirq_iqm.iqm_sampler.IQMSampler method)</a>
+
+      <ul>
+        <li><a href="api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend.close_client">(iqm.qiskit_iqm.iqm_provider.IQMBackend method)</a>
 </li>
+      </ul></li>
       <li><a href="api/iqm.iqm_client.models.Metadata.html#iqm.iqm_client.models.Metadata.cocos_version">cocos_version (iqm.iqm_client.models.Metadata attribute)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.QuantumArchitectureSpecification.html#iqm.iqm_client.models.QuantumArchitectureSpecification.compare_operations">compare_operations() (iqm.iqm_client.models.QuantumArchitectureSpecification static method)</a>
@@ -655,9 +713,11 @@
 </li>
       <li><a href="api/iqm.iqm_client.models.RunCounts.html#iqm.iqm_client.models.RunCounts.counts_batch">counts_batch (iqm.iqm_client.models.RunCounts attribute)</a>
 </li>
-      <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.create_run_request">create_run_request() (iqm.iqm_client.iqm_client.IQMClient method)</a>
+      <li><a href="api/iqm.cirq_iqm.iqm_sampler.IQMSampler.html#iqm.cirq_iqm.iqm_sampler.IQMSampler.create_run_request">create_run_request() (iqm.cirq_iqm.iqm_sampler.IQMSampler method)</a>
 
       <ul>
+        <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.create_run_request">(iqm.iqm_client.iqm_client.IQMClient method)</a>
+</li>
         <li><a href="api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend.create_run_request">(iqm.qiskit_iqm.iqm_provider.IQMBackend method)</a>
 </li>
       </ul></li>
@@ -689,9 +749,13 @@
       </ul></li>
       <li><a href="api/iqm.iqm_client.models.DDMode.html#iqm.iqm_client.models.DDMode">DDMode (class in iqm.iqm_client.models)</a>
 </li>
+      <li><a href="api/iqm.iqm_client.models.DDStrategy.html#iqm.iqm_client.models.DDStrategy">DDStrategy (class in iqm.iqm_client.models)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.decompose_circuit">decompose_circuit() (iqm.cirq_iqm.devices.iqm_device.IQMDevice method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.iqm_client.models.DDStrategy.html#iqm.iqm_client.models.DDStrategy">DDStrategy (class in iqm.iqm_client.models)</a>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.decompose_operation">decompose_operation() (iqm.cirq_iqm.devices.iqm_device.IQMDevice method)</a>
 </li>
       <li><a href="api/iqm.iqm_client.util.IQMJSONEncoder.html#iqm.iqm_client.util.IQMJSONEncoder.default">default() (iqm.iqm_client.util.IQMJSONEncoder method)</a>
 </li>
@@ -701,9 +765,15 @@
 </li>
       <li><a href="api/iqm.iqm_client.models.Status.html#iqm.iqm_client.models.Status.DELETION_FAILED">DELETION_FAILED (iqm.iqm_client.models.Status attribute)</a>
 </li>
+      <li><a href="api/iqm.cirq_iqm.serialize.deserialize_circuit.html#iqm.cirq_iqm.serialize.deserialize_circuit">deserialize_circuit() (in module iqm.cirq_iqm.serialize)</a>
+</li>
       <li><a href="api/iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions.html#iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions">deserialize_instructions() (in module iqm.qiskit_iqm.qiskit_to_iqm)</a>
 </li>
+      <li><a href="api/iqm.cirq_iqm.iqm_sampler.IQMSampler.html#iqm.cirq_iqm.iqm_sampler.IQMSampler.device">device (iqm.cirq_iqm.iqm_sampler.IQMSampler property)</a>
+</li>
       <li><a href="api/iqm.iqm_client.models.DDMode.html#iqm.iqm_client.models.DDMode.DISABLED">DISABLED (iqm.iqm_client.models.DDMode attribute)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement.html#iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement">DropRZBeforeMeasurement (class in iqm.cirq_iqm.optimizers)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.DynamicQuantumArchitecture.html#iqm.iqm_client.models.DynamicQuantumArchitecture">DynamicQuantumArchitecture (class in iqm.iqm_client.models)</a>
 </li>
@@ -723,17 +793,11 @@
     environment variable
 
       <ul>
-        <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#index-4">IQM_AUTH_PASSWORD</a>, <a href="integration_guide.html#index-4">[1]</a>, <a href="user_guide_cirq.html#index-4">[2]</a>
+        <li><a href="integration_guide.html#index-4">IQM_CLIENT_DEBUG=1</a>, <a href="user_guide_cirq.html#index-2">[1]</a>
 </li>
-        <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#index-2">IQM_AUTH_SERVER</a>, <a href="integration_guide.html#index-2">[1]</a>, <a href="user_guide_cirq.html#index-2">[2]</a>
+        <li><a href="integration_guide.html#index-2">IQM_CLIENT_REQUESTS_TIMEOUT</a>
 </li>
-        <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#index-3">IQM_AUTH_USERNAME</a>, <a href="integration_guide.html#index-3">[1]</a>, <a href="user_guide_cirq.html#index-3">[2]</a>
-</li>
-        <li><a href="integration_guide.html#index-7">IQM_CLIENT_DEBUG=1</a>, <a href="user_guide_cirq.html#index-5">[1]</a>
-</li>
-        <li><a href="integration_guide.html#index-5">IQM_CLIENT_REQUESTS_TIMEOUT</a>
-</li>
-        <li><a href="integration_guide.html#index-6">IQM_CLIENT_SECONDS_BETWEEN_CALLS</a>
+        <li><a href="integration_guide.html#index-3">IQM_CLIENT_SECONDS_BETWEEN_CALLS</a>
 </li>
         <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#index-0">IQM_TOKEN</a>, <a href="integration_guide.html#index-1">[1]</a>, <a href="user_guide_cirq.html#index-0">[2]</a>, <a href="user_guide_qiskit.html#index-0">[3]</a>, <a href="user_guide_qiskit.html#index-1">[4]</a>, <a href="user_guide_qiskit.html#index-3">[5]</a>
 </li>
@@ -760,19 +824,21 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.iqm_client.models.NativeOperation.html#iqm.iqm_client.models.NativeOperation.factorizable">factorizable (iqm.iqm_client.models.NativeOperation attribute)</a>
-</li>
       <li><a href="api/iqm.iqm_client.models.Status.html#iqm.iqm_client.models.Status.FAILED">FAILED (iqm.iqm_client.models.Status attribute)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.Status.html#iqm.iqm_client.models.Status.FETCH_CALIBRATION_ENDED">FETCH_CALIBRATION_ENDED (iqm.iqm_client.models.Status attribute)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.Status.html#iqm.iqm_client.models.Status.FETCH_CALIBRATION_STARTED">FETCH_CALIBRATION_STARTED (iqm.iqm_client.models.Status attribute)</a>
 </li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.html#iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.from_architecture">from_architecture() (iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata class method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey.html#iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey.from_clbit">from_clbit() (iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey class method)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.RunResult.html#iqm.iqm_client.models.RunResult.from_dict">from_dict() (iqm.iqm_client.models.RunResult static method)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.html#iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.from_qubit_indices">from_qubit_indices() (iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata class method)</a>
 </li>
       <li><a href="api/iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey.html#iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey.from_string">from_string() (iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey class method)</a>
 </li>
@@ -792,6 +858,8 @@
 </li>
       <li><a href="api/iqm.iqm_client.models.DynamicQuantumArchitecture.html#iqm.iqm_client.models.DynamicQuantumArchitecture.gates">gates (iqm.iqm_client.models.DynamicQuantumArchitecture attribute)</a>
 </li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.html#iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.gateset">gateset (iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata property)</a>
+</li>
       <li><a href="api/iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout.html#iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout">generate_initial_layout() (in module iqm.qiskit_iqm.iqm_move_layout)</a>
 </li>
       <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.get_about">get_about() (iqm.iqm_client.iqm_client.IQMClient method)</a>
@@ -799,6 +867,8 @@
       <li><a href="api/iqm.qiskit_iqm.iqm_provider.IQMProvider.html#iqm.qiskit_iqm.iqm_provider.IQMProvider.get_backend">get_backend() (iqm.qiskit_iqm.iqm_provider.IQMProvider method)</a>
 </li>
       <li><a href="api/iqm.iqm_client.authentication.TokenManager.html#iqm.iqm_client.authentication.TokenManager.get_bearer_token">get_bearer_token() (iqm.iqm_client.authentication.TokenManager method)</a>
+</li>
+      <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.get_calibration_quality_metrics">get_calibration_quality_metrics() (iqm.iqm_client.iqm_client.IQMClient method)</a>
 </li>
       <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.get_calibration_set">get_calibration_set() (iqm.iqm_client.iqm_client.IQMClient method)</a>
 </li>
@@ -810,11 +880,15 @@
 </li>
       <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.get_health">get_health() (iqm.iqm_client.iqm_client.IQMClient method)</a>
 </li>
-      <li><a href="api/iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout.html#iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout.get_initial_layout">get_initial_layout() (iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout.html#iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout.get_initial_layout">get_initial_layout() (iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout method)</a>
+</li>
       <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.get_quality_metric_set">get_quality_metric_set() (iqm.iqm_client.iqm_client.IQMClient method)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.get_qubit">get_qubit() (iqm.cirq_iqm.devices.iqm_device.IQMDevice method)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.get_qubit_index">get_qubit_index() (iqm.cirq_iqm.devices.iqm_device.IQMDevice class method)</a>
 </li>
       <li><a href="api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html#iqm.qiskit_iqm.iqm_backend.IQMBackendBase.get_real_target">get_real_target() (iqm.qiskit_iqm.iqm_backend.IQMBackendBase method)</a>
 </li>
@@ -828,15 +902,11 @@
 </li>
       <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.get_static_quantum_architecture">get_static_quantum_architecture() (iqm.iqm_client.iqm_client.IQMClient method)</a>
 </li>
-      <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.get_structured_metrics">get_structured_metrics() (iqm.iqm_client.iqm_client.IQMClient method)</a>
-</li>
       <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.get_supported_client_libraries">get_supported_client_libraries() (iqm.iqm_client.iqm_client.IQMClient method)</a>
 </li>
       <li><a href="api/iqm.iqm_client.authentication.ExternalToken.html#iqm.iqm_client.authentication.ExternalToken.get_token">get_token() (iqm.iqm_client.authentication.ExternalToken method)</a>
 
       <ul>
-        <li><a href="api/iqm.iqm_client.authentication.TokenClient.html#iqm.iqm_client.authentication.TokenClient.get_token">(iqm.iqm_client.authentication.TokenClient method)</a>
-</li>
         <li><a href="api/iqm.iqm_client.authentication.TokenProviderInterface.html#iqm.iqm_client.authentication.TokenProviderInterface.get_token">(iqm.iqm_client.authentication.TokenProviderInterface method)</a>
 </li>
         <li><a href="api/iqm.iqm_client.authentication.TokensFileReader.html#iqm.iqm_client.authentication.TokensFileReader.get_token">(iqm.iqm_client.authentication.TokensFileReader method)</a>
@@ -856,6 +926,10 @@
 </li>
       <li><a href="api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html#iqm.qiskit_iqm.iqm_backend.IQMBackendBase.has_resonators">has_resonators() (iqm.qiskit_iqm.iqm_backend.IQMBackendBase method)</a>
 </li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.has_valid_operation_targets">has_valid_operation_targets() (iqm.cirq_iqm.devices.iqm_device.IQMDevice method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.heralding_mode">heralding_mode (iqm.iqm_client.models.CircuitCompilationOptions attribute)</a>
 
       <ul>
@@ -864,8 +938,6 @@
         <li><a href="api/iqm.iqm_client.models.RunRequest.html#iqm.iqm_client.models.RunRequest.heralding_mode">(iqm.iqm_client.models.RunRequest attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.iqm_client.models.HeraldingMode.html#iqm.iqm_client.models.HeraldingMode">HeraldingMode (class in iqm.iqm_client.models)</a>
 </li>
   </ul></td>
@@ -874,22 +946,103 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.iqm_client.models.Instruction.html#iqm.iqm_client.models.Instruction.implementation">implementation (iqm.iqm_client.models.Instruction attribute)</a>
-</li>
-      <li><a href="api/iqm.iqm_client.models.Instruction.html#iqm.iqm_client.models.Instruction.implementation_validator">implementation_validator() (iqm.iqm_client.models.Instruction class method)</a>
-</li>
       <li><a href="api/iqm.iqm_client.models.GateInfo.html#iqm.iqm_client.models.GateInfo.implementations">implementations (iqm.iqm_client.models.GateInfo attribute)</a>
 </li>
       <li><a href="api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html#iqm.qiskit_iqm.iqm_backend.IQMBackendBase.index_to_qubit_name">index_to_qubit_name() (iqm.qiskit_iqm.iqm_backend.IQMBackendBase method)</a>
 </li>
-      <li><a href="api/iqm.iqm_client.models.Instruction.html#iqm.iqm_client.models.Instruction">Instruction (class in iqm.iqm_client.models)</a>
-</li>
       <li><a href="api/iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError.html#iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError">InstructionNotSupportedError</a>
 </li>
-      <li><a href="api/iqm.iqm_client.models.Circuit.html#iqm.iqm_client.models.Circuit.instructions">instructions (iqm.iqm_client.models.Circuit attribute)</a>
+      <li>
+    iqm.cirq_iqm
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.html#module-iqm.cirq_iqm">module</a>
 </li>
-      <li><a href="api/iqm.iqm_client.models.Circuit.html#iqm.iqm_client.models.Circuit.instructions_validator">instructions_validator() (iqm.iqm_client.models.Circuit class method)</a>
+      </ul></li>
+      <li>
+    iqm.cirq_iqm.devices
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.devices.html#module-iqm.cirq_iqm.devices">module</a>
 </li>
+      </ul></li>
+      <li>
+    iqm.cirq_iqm.devices.adonis
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.devices.adonis.html#module-iqm.cirq_iqm.devices.adonis">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cirq_iqm.devices.aphrodite
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.devices.aphrodite.html#module-iqm.cirq_iqm.devices.aphrodite">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cirq_iqm.devices.apollo
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.devices.apollo.html#module-iqm.cirq_iqm.devices.apollo">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cirq_iqm.devices.iqm_device
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.devices.iqm_device.html#module-iqm.cirq_iqm.devices.iqm_device">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cirq_iqm.devices.iqm_device_metadata
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.devices.iqm_device_metadata.html#module-iqm.cirq_iqm.devices.iqm_device_metadata">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cirq_iqm.extended_qasm_parser
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.extended_qasm_parser.html#module-iqm.cirq_iqm.extended_qasm_parser">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cirq_iqm.iqm_gates
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.iqm_gates.html#module-iqm.cirq_iqm.iqm_gates">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cirq_iqm.iqm_sampler
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.iqm_sampler.html#module-iqm.cirq_iqm.iqm_sampler">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cirq_iqm.optimizers
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.optimizers.html#module-iqm.cirq_iqm.optimizers">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cirq_iqm.serialize
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.serialize.html#module-iqm.cirq_iqm.serialize">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cirq_iqm.transpiler
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.transpiler.html#module-iqm.cirq_iqm.transpiler">module</a>
+</li>
+      </ul></li>
       <li>
     iqm.iqm_client
 
@@ -1037,6 +1190,8 @@
         <li><a href="api/iqm.qiskit_iqm.fake_backends.fake_adonis.html#module-iqm.qiskit_iqm.fake_backends.fake_adonis">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     iqm.qiskit_iqm.fake_backends.fake_aphrodite
 
@@ -1065,8 +1220,6 @@
         <li><a href="api/iqm.qiskit_iqm.fake_backends.fake_garnet.html#module-iqm.qiskit_iqm.fake_backends.fake_garnet">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     iqm.qiskit_iqm.fake_backends.iqm_fake_backend
 
@@ -1124,6 +1277,13 @@
 </li>
       </ul></li>
       <li>
+    iqm.qiskit_iqm.iqm_target
+
+      <ul>
+        <li><a href="api/iqm.qiskit_iqm.iqm_target.html#module-iqm.qiskit_iqm.iqm_target">module</a>
+</li>
+      </ul></li>
+      <li>
     iqm.qiskit_iqm.iqm_transpilation
 
       <ul>
@@ -1151,17 +1311,11 @@
         <li><a href="api/iqm.qiskit_iqm.transpiler_plugins.html#module-iqm.qiskit_iqm.transpiler_plugins">module</a>
 </li>
       </ul></li>
-      <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#index-4">IQM_AUTH_PASSWORD</a>, <a href="integration_guide.html#index-4">[1]</a>, <a href="user_guide_cirq.html#index-4">[2]</a>
+      <li><a href="integration_guide.html#index-4">IQM_CLIENT_DEBUG=1</a>, <a href="user_guide_cirq.html#index-2">[1]</a>
 </li>
-      <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#index-2">IQM_AUTH_SERVER</a>, <a href="integration_guide.html#index-2">[1]</a>, <a href="user_guide_cirq.html#index-2">[2]</a>
+      <li><a href="integration_guide.html#index-2">IQM_CLIENT_REQUESTS_TIMEOUT</a>
 </li>
-      <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#index-3">IQM_AUTH_USERNAME</a>, <a href="integration_guide.html#index-3">[1]</a>, <a href="user_guide_cirq.html#index-3">[2]</a>
-</li>
-      <li><a href="integration_guide.html#index-7">IQM_CLIENT_DEBUG=1</a>, <a href="user_guide_cirq.html#index-5">[1]</a>
-</li>
-      <li><a href="integration_guide.html#index-5">IQM_CLIENT_REQUESTS_TIMEOUT</a>
-</li>
-      <li><a href="integration_guide.html#index-6">IQM_CLIENT_SECONDS_BETWEEN_CALLS</a>
+      <li><a href="integration_guide.html#index-3">IQM_CLIENT_SECONDS_BETWEEN_CALLS</a>
 </li>
       <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#index-0">IQM_TOKEN</a>, <a href="integration_guide.html#index-1">[1]</a>, <a href="user_guide_cirq.html#index-0">[2]</a>, <a href="user_guide_qiskit.html#index-0">[3]</a>, <a href="user_guide_qiskit.html#index-1">[4]</a>, <a href="user_guide_qiskit.html#index-3">[5]</a>
 </li>
@@ -1178,6 +1332,10 @@
       <li><a href="api/iqm.iqm_client.cli.cli.IQMClientCliCommand.html#iqm.iqm_client.cli.cli.IQMClientCliCommand">IQMClientCliCommand (class in iqm.iqm_client.cli.cli)</a>
 </li>
       <li><a href="api/iqm.qiskit_iqm.transpiler_plugins.IQMDefaultSchedulingPlugin.html#iqm.qiskit_iqm.transpiler_plugins.IQMDefaultSchedulingPlugin">IQMDefaultSchedulingPlugin (class in iqm.qiskit_iqm.transpiler_plugins)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice">IQMDevice (class in iqm.cirq_iqm.devices.iqm_device)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.html#iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata">IQMDeviceMetadata (class in iqm.cirq_iqm.devices.iqm_device_metadata)</a>
 </li>
       <li><a href="api/iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMErrorProfile.html#iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMErrorProfile">IQMErrorProfile (class in iqm.qiskit_iqm.fake_backends.iqm_fake_backend)</a>
 </li>
@@ -1199,6 +1357,8 @@
 </li>
       <li><a href="api/iqm.iqm_client.util.IQMJSONEncoder.html#iqm.iqm_client.util.IQMJSONEncoder">IQMJSONEncoder (class in iqm.iqm_client.util)</a>
 </li>
+      <li><a href="api/iqm.cirq_iqm.iqm_gates.IQMMoveGate.html#iqm.cirq_iqm.iqm_gates.IQMMoveGate">IQMMoveGate (class in iqm.cirq_iqm.iqm_gates)</a>
+</li>
       <li><a href="api/iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout.html#iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout">IQMMoveLayout (class in iqm.qiskit_iqm.iqm_move_layout)</a>
 </li>
       <li><a href="api/iqm.qiskit_iqm.iqm_naive_move_pass.IQMNaiveResonatorMoving.html#iqm.qiskit_iqm.iqm_naive_move_pass.IQMNaiveResonatorMoving">IQMNaiveResonatorMoving (class in iqm.qiskit_iqm.iqm_naive_move_pass)</a>
@@ -1209,9 +1369,15 @@
 </li>
       <li><a href="api/iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass.html#iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass">IQMReplaceGateWithUnitaryPass (class in iqm.qiskit_iqm.iqm_transpilation)</a>
 </li>
+      <li><a href="api/iqm.cirq_iqm.iqm_sampler.IQMResult.html#iqm.cirq_iqm.iqm_sampler.IQMResult">IQMResult (class in iqm.cirq_iqm.iqm_sampler)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.iqm_sampler.IQMSampler.html#iqm.cirq_iqm.iqm_sampler.IQMSampler">IQMSampler (class in iqm.cirq_iqm.iqm_sampler)</a>
+</li>
       <li><a href="api/iqm.qiskit_iqm.transpiler_plugins.IQMSchedulingPlugin.html#iqm.qiskit_iqm.transpiler_plugins.IQMSchedulingPlugin">IQMSchedulingPlugin (class in iqm.qiskit_iqm.transpiler_plugins)</a>
 </li>
-      <li><a href="api/iqm.qiskit_iqm.iqm_backend.IQMTarget.html#iqm.qiskit_iqm.iqm_backend.IQMTarget">IQMTarget (class in iqm.qiskit_iqm.iqm_backend)</a>
+      <li><a href="api/iqm.qiskit_iqm.iqm_target.IQMTarget.html#iqm.qiskit_iqm.iqm_target.IQMTarget">IQMTarget (class in iqm.qiskit_iqm.iqm_target)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.is_native_operation">is_native_operation() (iqm.cirq_iqm.devices.iqm_device.IQMDevice method)</a>
 </li>
       <li><a href="api/iqm.iqm_client.api.APIConfig.html#iqm.iqm_client.api.APIConfig.is_supported">is_supported() (iqm.iqm_client.api.APIConfig method)</a>
 </li>
@@ -1221,10 +1387,12 @@
 <h2 id="J">J</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.iqm_client.errors.JobAbortionError.html#iqm.iqm_client.errors.JobAbortionError">JobAbortionError</a>
+      <li><a href="api/iqm.cirq_iqm.iqm_sampler.ResultMetadata.html#iqm.cirq_iqm.iqm_sampler.ResultMetadata.job_id">job_id (iqm.cirq_iqm.iqm_sampler.ResultMetadata attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.iqm_client.errors.JobAbortionError.html#iqm.iqm_client.errors.JobAbortionError">JobAbortionError</a>
+</li>
       <li><a href="api/iqm.iqm_client.models.JobParameters.html#iqm.iqm_client.models.JobParameters">JobParameters (class in iqm.iqm_client.models)</a>
 </li>
   </ul></td>
@@ -1248,9 +1416,17 @@
 </li>
       </ul></li>
       <li><a href="api/iqm.iqm_client.models.Locus.html#iqm.iqm_client.models.Locus">Locus (in module iqm.iqm_client.models)</a>
+
+      <ul>
+        <li><a href="api/iqm.qiskit_iqm.iqm_target.Locus.html#iqm.qiskit_iqm.iqm_target.Locus">(in module iqm.qiskit_iqm.iqm_target)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.qiskit_iqm.iqm_target.IQMTarget.html#iqm.qiskit_iqm.iqm_target.IQMTarget.locus_to_idx">locus_to_idx() (iqm.qiskit_iqm.iqm_target.IQMTarget method)</a>
+</li>
+      <li><a href="api/iqm.qiskit_iqm.iqm_target.LocusIdx.html#iqm.qiskit_iqm.iqm_target.LocusIdx">LocusIdx (in module iqm.qiskit_iqm.iqm_target)</a>
+</li>
       <li><a href="api/iqm.iqm_client.models.SingleQubitMapping.html#iqm.iqm_client.models.SingleQubitMapping.logical_name">logical_name (iqm.iqm_client.models.SingleQubitMapping attribute)</a>
 </li>
       <li><a href="api/iqm.iqm_client.cli.auth.login_request.html#iqm.iqm_client.cli.auth.login_request">login_request() (in module iqm.iqm_client.cli.auth)</a>
@@ -1283,6 +1459,8 @@
 </li>
       <li><a href="api/iqm.iqm_client.models.DDStrategy.html#iqm.iqm_client.models.DDStrategy.merge_contiguous_waits">merge_contiguous_waits (iqm.iqm_client.models.DDStrategy attribute)</a>
 </li>
+      <li><a href="api/iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates.html#iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates">MergeOneParameterGroupGates (class in iqm.cirq_iqm.optimizers)</a>
+</li>
       <li><a href="api/iqm.iqm_client.models.RunResult.html#iqm.iqm_client.models.RunResult.message">message (iqm.iqm_client.models.RunResult attribute)</a>
 
       <ul>
@@ -1291,7 +1469,7 @@
       </ul></li>
       <li><a href="api/iqm.iqm_client.models.Metadata.html#iqm.iqm_client.models.Metadata">Metadata (class in iqm.iqm_client.models)</a>
 </li>
-      <li><a href="api/iqm.iqm_client.models.Circuit.html#iqm.iqm_client.models.Circuit.metadata">metadata (iqm.iqm_client.models.Circuit attribute)</a>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.metadata">metadata (iqm.cirq_iqm.devices.iqm_device.IQMDevice property)</a>
 
       <ul>
         <li><a href="api/iqm.iqm_client.models.RunResult.html#iqm.iqm_client.models.RunResult.metadata">(iqm.iqm_client.models.RunResult attribute)</a>
@@ -1308,8 +1486,6 @@
 </li>
         <li><a href="api/iqm.iqm_client.models.CalibrationSet.html#iqm.iqm_client.models.CalibrationSet.model_config">(iqm.iqm_client.models.CalibrationSet attribute)</a>
 </li>
-        <li><a href="api/iqm.iqm_client.models.Circuit.html#iqm.iqm_client.models.Circuit.model_config">(iqm.iqm_client.models.Circuit attribute)</a>
-</li>
         <li><a href="api/iqm.iqm_client.models.ClientLibrary.html#iqm.iqm_client.models.ClientLibrary.model_config">(iqm.iqm_client.models.ClientLibrary attribute)</a>
 </li>
         <li><a href="api/iqm.iqm_client.models.Counts.html#iqm.iqm_client.models.Counts.model_config">(iqm.iqm_client.models.Counts attribute)</a>
@@ -1321,8 +1497,6 @@
         <li><a href="api/iqm.iqm_client.models.GateImplementationInfo.html#iqm.iqm_client.models.GateImplementationInfo.model_config">(iqm.iqm_client.models.GateImplementationInfo attribute)</a>
 </li>
         <li><a href="api/iqm.iqm_client.models.GateInfo.html#iqm.iqm_client.models.GateInfo.model_config">(iqm.iqm_client.models.GateInfo attribute)</a>
-</li>
-        <li><a href="api/iqm.iqm_client.models.Instruction.html#iqm.iqm_client.models.Instruction.model_config">(iqm.iqm_client.models.Instruction attribute)</a>
 </li>
         <li><a href="api/iqm.iqm_client.models.JobParameters.html#iqm.iqm_client.models.JobParameters.model_config">(iqm.iqm_client.models.JobParameters attribute)</a>
 </li>
@@ -1351,6 +1525,32 @@
     module
 
       <ul>
+        <li><a href="api/iqm.cirq_iqm.html#module-iqm.cirq_iqm">iqm.cirq_iqm</a>
+</li>
+        <li><a href="api/iqm.cirq_iqm.devices.html#module-iqm.cirq_iqm.devices">iqm.cirq_iqm.devices</a>
+</li>
+        <li><a href="api/iqm.cirq_iqm.devices.adonis.html#module-iqm.cirq_iqm.devices.adonis">iqm.cirq_iqm.devices.adonis</a>
+</li>
+        <li><a href="api/iqm.cirq_iqm.devices.aphrodite.html#module-iqm.cirq_iqm.devices.aphrodite">iqm.cirq_iqm.devices.aphrodite</a>
+</li>
+        <li><a href="api/iqm.cirq_iqm.devices.apollo.html#module-iqm.cirq_iqm.devices.apollo">iqm.cirq_iqm.devices.apollo</a>
+</li>
+        <li><a href="api/iqm.cirq_iqm.devices.iqm_device.html#module-iqm.cirq_iqm.devices.iqm_device">iqm.cirq_iqm.devices.iqm_device</a>
+</li>
+        <li><a href="api/iqm.cirq_iqm.devices.iqm_device_metadata.html#module-iqm.cirq_iqm.devices.iqm_device_metadata">iqm.cirq_iqm.devices.iqm_device_metadata</a>
+</li>
+        <li><a href="api/iqm.cirq_iqm.extended_qasm_parser.html#module-iqm.cirq_iqm.extended_qasm_parser">iqm.cirq_iqm.extended_qasm_parser</a>
+</li>
+        <li><a href="api/iqm.cirq_iqm.iqm_gates.html#module-iqm.cirq_iqm.iqm_gates">iqm.cirq_iqm.iqm_gates</a>
+</li>
+        <li><a href="api/iqm.cirq_iqm.iqm_sampler.html#module-iqm.cirq_iqm.iqm_sampler">iqm.cirq_iqm.iqm_sampler</a>
+</li>
+        <li><a href="api/iqm.cirq_iqm.optimizers.html#module-iqm.cirq_iqm.optimizers">iqm.cirq_iqm.optimizers</a>
+</li>
+        <li><a href="api/iqm.cirq_iqm.serialize.html#module-iqm.cirq_iqm.serialize">iqm.cirq_iqm.serialize</a>
+</li>
+        <li><a href="api/iqm.cirq_iqm.transpiler.html#module-iqm.cirq_iqm.transpiler">iqm.cirq_iqm.transpiler</a>
+</li>
         <li><a href="api/iqm.iqm_client.html#module-iqm.iqm_client">iqm.iqm_client</a>
 </li>
         <li><a href="api/iqm.iqm_client.api.html#module-iqm.iqm_client.api">iqm.iqm_client.api</a>
@@ -1417,6 +1617,8 @@
 </li>
         <li><a href="api/iqm.qiskit_iqm.iqm_provider.html#module-iqm.qiskit_iqm.iqm_provider">iqm.qiskit_iqm.iqm_provider</a>
 </li>
+        <li><a href="api/iqm.qiskit_iqm.iqm_target.html#module-iqm.qiskit_iqm.iqm_target">iqm.qiskit_iqm.iqm_target</a>
+</li>
         <li><a href="api/iqm.qiskit_iqm.iqm_transpilation.html#module-iqm.qiskit_iqm.iqm_transpilation">iqm.qiskit_iqm.iqm_transpilation</a>
 </li>
         <li><a href="api/iqm.qiskit_iqm.move_gate.html#module-iqm.qiskit_iqm.move_gate">iqm.qiskit_iqm.move_gate</a>
@@ -1472,27 +1674,7 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.iqm_client.models.Circuit.html#iqm.iqm_client.models.Circuit.name">name (iqm.iqm_client.models.Circuit attribute)</a>
-
-      <ul>
-        <li><a href="api/iqm.iqm_client.models.Instruction.html#iqm.iqm_client.models.Instruction.name">(iqm.iqm_client.models.Instruction attribute)</a>
-</li>
-        <li><a href="api/iqm.iqm_client.models.NativeOperation.html#iqm.iqm_client.models.NativeOperation.name">(iqm.iqm_client.models.NativeOperation attribute)</a>
-</li>
-        <li><a href="api/iqm.iqm_client.models.QuantumArchitectureSpecification.html#iqm.iqm_client.models.QuantumArchitectureSpecification.name">(iqm.iqm_client.models.QuantumArchitectureSpecification attribute)</a>
-</li>
-      </ul></li>
-      <li><a href="api/iqm.iqm_client.models.Circuit.html#iqm.iqm_client.models.Circuit.name_validator">name_validator() (iqm.iqm_client.models.Circuit class method)</a>
-
-      <ul>
-        <li><a href="api/iqm.iqm_client.models.Instruction.html#iqm.iqm_client.models.Instruction.name_validator">(iqm.iqm_client.models.Instruction class method)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.iqm_client.models.NativeOperation.html#iqm.iqm_client.models.NativeOperation">NativeOperation (class in iqm.iqm_client.models)</a>
-</li>
-      <li><a href="api/iqm.iqm_client.models.NativeOperation.html#iqm.iqm_client.models.NativeOperation.no_calibration_needed">no_calibration_needed (iqm.iqm_client.models.NativeOperation attribute)</a>
+      <li><a href="api/iqm.iqm_client.models.QuantumArchitectureSpecification.html#iqm.iqm_client.models.QuantumArchitectureSpecification.name">name (iqm.iqm_client.models.QuantumArchitectureSpecification attribute)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.MoveGateFrameTrackingMode.html#iqm.iqm_client.models.MoveGateFrameTrackingMode.NO_DETUNING_CORRECTION">NO_DETUNING_CORRECTION (iqm.iqm_client.models.MoveGateFrameTrackingMode attribute)</a>
 </li>
@@ -1504,6 +1686,10 @@
         <li><a href="api/iqm.iqm_client.models.MoveGateValidationMode.html#iqm.iqm_client.models.MoveGateValidationMode.NONE">(iqm.iqm_client.models.MoveGateValidationMode attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cirq_iqm.iqm_gates.IQMMoveGate.html#iqm.cirq_iqm.iqm_gates.IQMMoveGate.num_qubits">num_qubits() (iqm.cirq_iqm.iqm_gates.IQMMoveGate method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1518,12 +1704,24 @@
 </li>
       <li><a href="api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationIgnoreBarriersPlugin.html#iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationIgnoreBarriersPlugin">OnlyRZOptimizationIgnoreBarriersPlugin (class in iqm.qiskit_iqm.transpiler_plugins)</a>
 </li>
+      <li><a href="api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin.html#iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin">OnlyRZOptimizationPlugin (class in iqm.qiskit_iqm.transpiler_plugins)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.operation_decomposer">operation_decomposer() (iqm.cirq_iqm.devices.iqm_device.IQMDevice method)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.serialize.operation_to_circuit_operation.html#iqm.cirq_iqm.serialize.operation_to_circuit_operation">operation_to_circuit_operation() (in module iqm.cirq_iqm.serialize)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin.html#iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin">OnlyRZOptimizationPlugin (class in iqm.qiskit_iqm.transpiler_plugins)</a>
+      <li><a href="api/iqm.cirq_iqm.serialize.OperationNotSupportedError.html#iqm.cirq_iqm.serialize.OperationNotSupportedError">OperationNotSupportedError</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.QuantumArchitectureSpecification.html#iqm.iqm_client.models.QuantumArchitectureSpecification.operations">operations (iqm.iqm_client.models.QuantumArchitectureSpecification attribute)</a>
 </li>
+      <li><a href="api/iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement.html#iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement.optimization_at">optimization_at() (iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement method)</a>
+
+      <ul>
+        <li><a href="api/iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates.html#iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates.optimization_at">(iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates method)</a>
+</li>
+      </ul></li>
       <li><a href="api/iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates.html#iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates">optimize_single_qubit_gates() (in module iqm.qiskit_iqm.iqm_transpilation)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.GateInfo.html#iqm.iqm_client.models.GateInfo.override_default_implementation">override_default_implementation (iqm.iqm_client.models.GateInfo attribute)</a>
@@ -1557,7 +1755,7 @@
       <li><a href="api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html#iqm.qiskit_iqm.iqm_backend.IQMBackendBase.physical_qubits">physical_qubits (iqm.qiskit_iqm.iqm_backend.IQMBackendBase property)</a>
 
       <ul>
-        <li><a href="api/iqm.qiskit_iqm.iqm_backend.IQMTarget.html#iqm.qiskit_iqm.iqm_backend.IQMTarget.physical_qubits">(iqm.qiskit_iqm.iqm_backend.IQMTarget property)</a>
+        <li><a href="api/iqm.qiskit_iqm.iqm_target.IQMTarget.html#iqm.qiskit_iqm.iqm_target.IQMTarget.physical_qubits">(iqm.qiskit_iqm.iqm_target.IQMTarget property)</a>
 </li>
       </ul></li>
       <li><a href="api/iqm.iqm_client.models.Status.html#iqm.iqm_client.models.Status.POST_PROCESSING_ENDED">POST_PROCESSING_ENDED (iqm.iqm_client.models.Status attribute)</a>
@@ -1592,13 +1790,15 @@
 </li>
       <li><a href="api/iqm.iqm_client.models.QuantumArchitecture.html#iqm.iqm_client.models.QuantumArchitecture">QuantumArchitecture (class in iqm.iqm_client.models)</a>
 </li>
-      <li><a href="api/iqm.iqm_client.models.QuantumArchitectureSpecification.html#iqm.iqm_client.models.QuantumArchitectureSpecification">QuantumArchitectureSpecification (class in iqm.iqm_client.models)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.iqm_client.models.QuantumArchitectureSpecification.html#iqm.iqm_client.models.QuantumArchitectureSpecification">QuantumArchitectureSpecification (class in iqm.iqm_client.models)</a>
+</li>
       <li><a href="api/iqm.iqm_client.models.QuantumArchitectureSpecification.html#iqm.iqm_client.models.QuantumArchitectureSpecification.qubit_connectivity">qubit_connectivity (iqm.iqm_client.models.QuantumArchitectureSpecification attribute)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.RunRequest.html#iqm.iqm_client.models.RunRequest.qubit_mapping">qubit_mapping (iqm.iqm_client.models.RunRequest attribute)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.html#iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.QUBIT_NAME_PREFIX">QUBIT_NAME_PREFIX (iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata attribute)</a>
 </li>
       <li><a href="api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html#iqm.qiskit_iqm.iqm_backend.IQMBackendBase.qubit_name_to_index">qubit_name_to_index() (iqm.qiskit_iqm.iqm_backend.IQMBackendBase method)</a>
 </li>
@@ -1607,15 +1807,11 @@
       <li><a href="api/iqm.iqm_client.models.DynamicQuantumArchitecture.html#iqm.iqm_client.models.DynamicQuantumArchitecture.qubits">qubits (iqm.iqm_client.models.DynamicQuantumArchitecture attribute)</a>
 
       <ul>
-        <li><a href="api/iqm.iqm_client.models.Instruction.html#iqm.iqm_client.models.Instruction.qubits">(iqm.iqm_client.models.Instruction attribute)</a>
-</li>
         <li><a href="api/iqm.iqm_client.models.QuantumArchitectureSpecification.html#iqm.iqm_client.models.QuantumArchitectureSpecification.qubits">(iqm.iqm_client.models.QuantumArchitectureSpecification attribute)</a>
 </li>
         <li><a href="api/iqm.iqm_client.models.StaticQuantumArchitecture.html#iqm.iqm_client.models.StaticQuantumArchitecture.qubits">(iqm.iqm_client.models.StaticQuantumArchitecture attribute)</a>
 </li>
       </ul></li>
-      <li><a href="api/iqm.iqm_client.models.Instruction.html#iqm.iqm_client.models.Instruction.qubits_validator">qubits_validator() (iqm.iqm_client.models.Instruction class method)</a>
-</li>
       <li><a href="api/iqm.qiskit_iqm.iqm_job.IQMJob.html#iqm.qiskit_iqm.iqm_job.IQMJob.queue_position">queue_position() (iqm.qiskit_iqm.iqm_job.IQMJob method)</a>
 </li>
   </ul></td>
@@ -1638,27 +1834,33 @@
 </li>
       <li><a href="api/iqm.iqm_client.transpile.ExistingMoveHandlingOptions.html#iqm.iqm_client.transpile.ExistingMoveHandlingOptions.REMOVE">REMOVE (iqm.iqm_client.transpile.ExistingMoveHandlingOptions attribute)</a>
 </li>
-      <li><a href="api/iqm.iqm_client.models.NativeOperation.html#iqm.iqm_client.models.NativeOperation.renamed_to">renamed_to (iqm.iqm_client.models.NativeOperation attribute)</a>
+      <li><a href="api/iqm.cirq_iqm.iqm_sampler.ResultMetadata.html#iqm.cirq_iqm.iqm_sampler.ResultMetadata.request">request (iqm.cirq_iqm.iqm_sampler.ResultMetadata attribute)</a>
+
+      <ul>
+        <li><a href="api/iqm.iqm_client.models.Metadata.html#iqm.iqm_client.models.Metadata.request">(iqm.iqm_client.models.Metadata attribute)</a>
 </li>
-      <li><a href="api/iqm.iqm_client.models.Metadata.html#iqm.iqm_client.models.Metadata.request">request (iqm.iqm_client.models.Metadata attribute)</a>
-</li>
+      </ul></li>
       <li><a href="api/iqm.iqm_client.transpile.Resolution.html#iqm.iqm_client.transpile.Resolution">Resolution (in module iqm.iqm_client.transpile)</a>
 </li>
       <li><a href="api/iqm.iqm_client.cli.cli.ResolvedPath.html#iqm.iqm_client.cli.cli.ResolvedPath">ResolvedPath (class in iqm.iqm_client.cli.cli)</a>
 </li>
       <li><a href="api/iqm.qiskit_iqm.examples.resonance_example.resonance_example.html#iqm.qiskit_iqm.examples.resonance_example.resonance_example">resonance_example() (in module iqm.qiskit_iqm.examples.resonance_example)</a>
 </li>
-      <li><a href="api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html#iqm.qiskit_iqm.iqm_backend.IQMBackendBase.restrict_to_qubits">restrict_to_qubits() (iqm.qiskit_iqm.iqm_backend.IQMBackendBase method)</a>
-
-      <ul>
-        <li><a href="api/iqm.qiskit_iqm.iqm_backend.IQMTarget.html#iqm.qiskit_iqm.iqm_backend.IQMTarget.restrict_to_qubits">(iqm.qiskit_iqm.iqm_backend.IQMTarget method)</a>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.html#iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.RESONATOR_DIMENSION">RESONATOR_DIMENSION (iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata attribute)</a>
 </li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.html#iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata.resonator_set">resonator_set (iqm.cirq_iqm.devices.iqm_device_metadata.IQMDeviceMetadata property)</a>
+</li>
+      <li><a href="api/iqm.qiskit_iqm.iqm_target.IQMTarget.html#iqm.qiskit_iqm.iqm_target.IQMTarget.restrict_to_qubits">restrict_to_qubits() (iqm.qiskit_iqm.iqm_target.IQMTarget method)</a>
+</li>
       <li><a href="api/iqm.qiskit_iqm.iqm_job.IQMJob.html#iqm.qiskit_iqm.iqm_job.IQMJob.result">result() (iqm.qiskit_iqm.iqm_job.IQMJob method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cirq_iqm.iqm_sampler.ResultMetadata.html#iqm.cirq_iqm.iqm_sampler.ResultMetadata">ResultMetadata (class in iqm.cirq_iqm.iqm_sampler)</a>
+</li>
       <li><a href="api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend.retrieve_job">retrieve_job() (iqm.qiskit_iqm.iqm_provider.IQMBackend method)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.route_circuit">route_circuit() (iqm.cirq_iqm.devices.iqm_device.IQMDevice method)</a>
 </li>
       <li><a href="api/iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMFakeBackend.html#iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMFakeBackend.run">run() (iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMFakeBackend method)</a>
 
@@ -1676,6 +1878,12 @@
         <li><a href="api/iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass.html#iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass.run">(iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass method)</a>
 </li>
       </ul></li>
+      <li><a href="api/iqm.cirq_iqm.iqm_sampler.IQMSampler.html#iqm.cirq_iqm.iqm_sampler.IQMSampler.run_iqm_batch">run_iqm_batch() (iqm.cirq_iqm.iqm_sampler.IQMSampler method)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.iqm_sampler.IQMSampler.html#iqm.cirq_iqm.iqm_sampler.IQMSampler.run_sweep">run_sweep() (iqm.cirq_iqm.iqm_sampler.IQMSampler method)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.iqm_sampler.IQMSampler.html#iqm.cirq_iqm.iqm_sampler.IQMSampler.run_sweep_async">run_sweep_async() (iqm.cirq_iqm.iqm_sampler.IQMSampler method)</a>
+</li>
       <li><a href="api/iqm.iqm_client.models.RunCounts.html#iqm.iqm_client.models.RunCounts">RunCounts (class in iqm.iqm_client.models)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.RunRequest.html#iqm.iqm_client.models.RunRequest">RunRequest (class in iqm.iqm_client.models)</a>
@@ -1696,8 +1904,12 @@
 </li>
       <li><a href="api/iqm.iqm_client.cli.cli.save_tokens_file.html#iqm.iqm_client.cli.cli.save_tokens_file">save_tokens_file() (in module iqm.iqm_client.cli.cli)</a>
 </li>
-      <li><a href="api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend.serialize_circuit">serialize_circuit() (iqm.qiskit_iqm.iqm_provider.IQMBackend method)</a>
+      <li><a href="api/iqm.cirq_iqm.serialize.serialize_circuit.html#iqm.cirq_iqm.serialize.serialize_circuit">serialize_circuit() (in module iqm.cirq_iqm.serialize)</a>
+
+      <ul>
+        <li><a href="api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend.serialize_circuit">(iqm.qiskit_iqm.iqm_provider.IQMBackend method)</a>
 </li>
+      </ul></li>
       <li><a href="api/iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions.html#iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions">serialize_instructions() (in module iqm.qiskit_iqm.qiskit_to_iqm)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.serialize_qubit_mapping.html#iqm.iqm_client.models.serialize_qubit_mapping">serialize_qubit_mapping() (in module iqm.iqm_client.models)</a>
@@ -1710,16 +1922,18 @@
       </ul></li>
       <li><a href="api/iqm.iqm_client.transpile.simplify_architecture.html#iqm.iqm_client.transpile.simplify_architecture">simplify_architecture() (in module iqm.iqm_client.transpile)</a>
 </li>
+      <li><a href="api/iqm.cirq_iqm.optimizers.simplify_circuit.html#iqm.cirq_iqm.optimizers.simplify_circuit">simplify_circuit() (in module iqm.cirq_iqm.optimizers)</a>
+</li>
       <li><a href="api/iqm.iqm_client.models.SingleQubitMapping.html#iqm.iqm_client.models.SingleQubitMapping">SingleQubitMapping (class in iqm.iqm_client.models)</a>
 </li>
       <li><a href="api/iqm.iqm_client.models.DDStrategy.html#iqm.iqm_client.models.DDStrategy.skip_leading_wait">skip_leading_wait (iqm.iqm_client.models.DDStrategy attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.iqm_client.models.DDStrategy.html#iqm.iqm_client.models.DDStrategy.skip_trailing_wait">skip_trailing_wait (iqm.iqm_client.models.DDStrategy attribute)</a>
 </li>
       <li><a href="api/iqm.iqm_client.cli.auth.slash_join.html#iqm.iqm_client.cli.auth.slash_join">slash_join() (in module iqm.iqm_client.cli.auth)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.iqm_client.models.STANDARD_DD_STRATEGY.html#iqm.iqm_client.models.STANDARD_DD_STRATEGY">STANDARD_DD_STRATEGY (in module iqm.iqm_client.models)</a>
 </li>
       <li><a href="api/iqm.iqm_client.cli.token_manager.start_token_manager.html#iqm.iqm_client.cli.token_manager.start_token_manager">start_token_manager() (in module iqm.iqm_client.cli.token_manager)</a>
@@ -1745,8 +1959,6 @@
       <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.submit_circuits">submit_circuits() (iqm.iqm_client.iqm_client.IQMClient method)</a>
 </li>
       <li><a href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.submit_run_request">submit_run_request() (iqm.iqm_client.iqm_client.IQMClient method)</a>
-</li>
-      <li><a href="api/iqm.iqm_client.models.NativeOperation.html#iqm.iqm_client.models.NativeOperation.symmetric">symmetric (iqm.iqm_client.models.NativeOperation attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1778,8 +1990,6 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.iqm_client.authentication.TokenClient.html#iqm.iqm_client.authentication.TokenClient">TokenClient (class in iqm.iqm_client.authentication)</a>
-</li>
       <li><a href="api/iqm.iqm_client.authentication.TokenManager.html#iqm.iqm_client.authentication.TokenManager">TokenManager (class in iqm.iqm_client.authentication)</a>
 </li>
       <li><a href="api/iqm.iqm_client.authentication.TokenProviderInterface.html#iqm.iqm_client.authentication.TokenProviderInterface">TokenProviderInterface (class in iqm.iqm_client.authentication)</a>
@@ -1791,6 +2001,8 @@
       <li><a href="api/iqm.qiskit_iqm.examples.transpile_example.transpile_example.html#iqm.qiskit_iqm.examples.transpile_example.transpile_example">transpile_example() (in module iqm.qiskit_iqm.examples.transpile_example)</a>
 </li>
       <li><a href="api/iqm.iqm_client.transpile.transpile_insert_moves.html#iqm.iqm_client.transpile.transpile_insert_moves">transpile_insert_moves() (in module iqm.iqm_client.transpile)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit.html#iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit">transpile_insert_moves_into_circuit() (in module iqm.cirq_iqm.transpiler)</a>
 </li>
       <li><a href="api/iqm.iqm_client.transpile.transpile_remove_moves.html#iqm.iqm_client.transpile.transpile_remove_moves">transpile_remove_moves() (in module iqm.iqm_client.transpile)</a>
 </li>
@@ -1823,16 +2035,24 @@
       <ul>
         <li><a href="api/iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit.html#iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit">(in module iqm.qiskit_iqm.iqm_circuit_validation)</a>
 </li>
+        <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.validate_circuit">(iqm.cirq_iqm.devices.iqm_device.IQMDevice method)</a>
+</li>
       </ul></li>
       <li><a href="api/iqm.iqm_client.validation.validate_circuit_instructions.html#iqm.iqm_client.validation.validate_circuit_instructions">validate_circuit_instructions() (in module iqm.iqm_client.validation)</a>
 </li>
       <li><a href="api/iqm.iqm_client.validation.validate_circuit_moves.html#iqm.iqm_client.validation.validate_circuit_moves">validate_circuit_moves() (in module iqm.iqm_client.validation)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMFakeBackend.html#iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMFakeBackend.validate_compatible_architecture">validate_compatible_architecture() (iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMFakeBackend method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.iqm_client.validation.validate_instruction.html#iqm.iqm_client.validation.validate_instruction">validate_instruction() (in module iqm.iqm_client.validation)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.validate_move">validate_move() (iqm.cirq_iqm.devices.iqm_device.IQMDevice method)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.validate_moves">validate_moves() (iqm.cirq_iqm.devices.iqm_device.IQMDevice method)</a>
+</li>
+      <li><a href="api/iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice.validate_operation">validate_operation() (iqm.cirq_iqm.devices.iqm_device.IQMDevice method)</a>
 </li>
       <li><a href="api/iqm.iqm_client.validation.validate_qubit_mapping.html#iqm.iqm_client.validation.validate_qubit_mapping">validate_qubit_mapping() (in module iqm.iqm_client.validation)</a>
 </li>
@@ -1909,7 +2129,7 @@ By IQM client developers
 
   <p class="copyright">
     
-      © Copyright 2021-2025, IQM Finland Oy, Release 29.14.0.
+      © Copyright 2021-2025, IQM Finland Oy, Release 31.4.0.
       <br/>
     
   </p>
@@ -1936,8 +2156,8 @@ By IQM client developers
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

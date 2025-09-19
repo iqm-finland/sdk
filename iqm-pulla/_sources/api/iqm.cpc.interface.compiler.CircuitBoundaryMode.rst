@@ -25,8 +25,10 @@ iqm.cpc.interface.compiler.CircuitBoundaryMode
 
    .. autosummary::
    
-      ~CircuitBoundaryMode.__format__
+      ~CircuitBoundaryMode._generate_next_value_
       ~CircuitBoundaryMode.__new__
+      ~CircuitBoundaryMode.__format__
       ~CircuitBoundaryMode.__str__
+      ~CircuitBoundaryMode.__new_member__
    
    

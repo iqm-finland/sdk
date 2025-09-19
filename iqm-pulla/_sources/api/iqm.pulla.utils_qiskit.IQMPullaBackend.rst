@@ -14,7 +14,6 @@ iqm.pulla.utils\_qiskit.IQMPullaBackend
    .. autosummary::
    
       ~IQMPullaBackend.max_circuits
-      ~IQMPullaBackend.architecture
       ~IQMPullaBackend.name
       ~IQMPullaBackend.description
       ~IQMPullaBackend.online_date

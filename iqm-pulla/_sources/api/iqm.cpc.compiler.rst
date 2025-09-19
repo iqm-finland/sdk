@@ -28,7 +28,6 @@ iqm.cpc.compiler
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.cpc.compiler.circuit_compilation_request_handler
    ~iqm.cpc.compiler.compiler
    ~iqm.cpc.compiler.dd
    ~iqm.cpc.compiler.errors

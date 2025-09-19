@@ -25,8 +25,10 @@ iqm.cpc.interface.compiler.MeasurementMode
 
    .. autosummary::
    
-      ~MeasurementMode.__format__
+      ~MeasurementMode._generate_next_value_
       ~MeasurementMode.__new__
+      ~MeasurementMode.__format__
       ~MeasurementMode.__str__
+      ~MeasurementMode.__new_member__
    
    

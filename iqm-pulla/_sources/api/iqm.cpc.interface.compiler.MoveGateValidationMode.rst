@@ -26,8 +26,10 @@ iqm.cpc.interface.compiler.MoveGateValidationMode
 
    .. autosummary::
    
-      ~MoveGateValidationMode.__format__
+      ~MoveGateValidationMode._generate_next_value_
       ~MoveGateValidationMode.__new__
+      ~MoveGateValidationMode.__format__
       ~MoveGateValidationMode.__str__
+      ~MoveGateValidationMode.__new_member__
    
    

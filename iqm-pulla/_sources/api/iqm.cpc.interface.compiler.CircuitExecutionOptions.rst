@@ -21,6 +21,7 @@ iqm.cpc.interface.compiler.CircuitExecutionOptions
       ~CircuitExecutionOptions.move_gate_validation
       ~CircuitExecutionOptions.move_gate_frame_tracking
       ~CircuitExecutionOptions.active_reset_cycles
+      ~CircuitExecutionOptions.convert_terminal_measurements
    
    
 

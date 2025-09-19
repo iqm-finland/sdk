@@ -46,14 +46,11 @@ iqm.iqm\_client.models.Status
 
    .. autosummary::
    
-      ~Status._generate_next_value_
-      ~Status._missing_
-      ~Status.terminal_statuses
-      ~Status._new_member_
-      ~Status._value_repr_
-      ~Status.__format__
       ~Status.__new__
       ~Status.__repr__
       ~Status.__str__
+      ~Status.__format__
+      ~Status.terminal_statuses
+      ~Status._missing_
    
    

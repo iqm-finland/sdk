@@ -25,12 +25,9 @@ iqm.iqm\_client.models.HeraldingMode
 
    .. autosummary::
    
-      ~HeraldingMode._generate_next_value_
-      ~HeraldingMode._new_member_
-      ~HeraldingMode._value_repr_
-      ~HeraldingMode.__format__
       ~HeraldingMode.__new__
       ~HeraldingMode.__repr__
       ~HeraldingMode.__str__
+      ~HeraldingMode.__format__
    
    

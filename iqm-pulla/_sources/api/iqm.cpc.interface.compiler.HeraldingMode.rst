@@ -25,8 +25,10 @@ iqm.cpc.interface.compiler.HeraldingMode
 
    .. autosummary::
    
-      ~HeraldingMode.__format__
+      ~HeraldingMode._generate_next_value_
       ~HeraldingMode.__new__
+      ~HeraldingMode.__format__
       ~HeraldingMode.__str__
+      ~HeraldingMode.__new_member__
    
    

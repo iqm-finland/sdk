@@ -18,6 +18,7 @@ iqm.pulla.pulla.Pulla
 
    .. autosummary::
    
+      ~Pulla._get_result_of_started_job
       ~Pulla._get_station_control_settings
       ~Pulla.execute
       ~Pulla.fetch_calibration_set_by_id
@@ -25,6 +26,7 @@ iqm.pulla.pulla.Pulla
       ~Pulla.get_channel_properties
       ~Pulla.get_chip_label
       ~Pulla.get_chip_topology
+      ~Pulla.get_execution_result
       ~Pulla.get_standard_compiler
    
    

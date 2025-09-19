@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Changelog &#8212; exa-common 26.33.0 documentation</title>
+    <title>Changelog &#8212; exa-common 27.0.0 documentation</title>
   
   
   
@@ -16,35 +16,32 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=63862cf7" />
   
-  <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=421e625f"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/documentation_options.js?v=7e59302c"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'changelog';</script>
     <link rel="icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
@@ -53,7 +50,6 @@
     <link rel="prev" title="exa.common.sweep.util.linear_index_sweep" href="api/exa.common.sweep.util.linear_index_sweep.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="26.33.0" />
     <meta name="docbuild:last-update" content="2025-09-19"/>
   </head>
   
@@ -70,8 +66,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -79,6 +86,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -86,8 +94,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -103,8 +111,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -133,18 +140,22 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="exa-common 26.33.0 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="exa-common 26.33.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="exa-common 27.0.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="exa-common 27.0.0 documentation - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
@@ -207,14 +218,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -233,9 +239,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -263,19 +269,27 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -296,6 +310,10 @@
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-27-0-0-2025-09-12">Version 27.0.0 (2025-09-12)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes">Breaking changes</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-26-33-0-2025-09-03">Version 26.33.0 (2025-09-03)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a></li>
 </ul>
@@ -422,81 +440,81 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-26-0-0-2025-02-27">Version 26.0.0 (2025-02-27)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id48">Features</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes">Breaking changes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id49">Breaking changes</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id51">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id52">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-34-0-2025-02-06">Version 25.34.0 (2025-02-06)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id52">Bug fixes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id53">Bug fixes</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-33-0-2025-02-04">Version 25.33.0 (2025-02-04)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id53">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id54">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-32-0-2025-02-04">Version 25.32.0 (2025-02-04)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id56">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id57">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-31-0-2025-01-28">Version 25.31.0 (2025-01-28)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-30-0-2025-01-28">Version 25.30.0 (2025-01-28)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id59">Bug Fixes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id60">Bug Fixes</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-29-0-2025-01-27">Version 25.29.0 (2025-01-27)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id60">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id61">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-28-0-2025-01-08">Version 25.28.0 (2025-01-08)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id63">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id64">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-27-0-2024-12-19">Version 25.27.0 (2024-12-19)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-26-0-2024-12-12">Version 25.26.0 (2024-12-12)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id66">Features</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-25-0-2024-12-11">Version 25.25.0 (2024-12-11)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id67">Features</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-25-0-2024-12-11">Version 25.25.0 (2024-12-11)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id68">Features</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-24-0-2024-12-11">Version 25.24.0 (2024-12-11)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id70">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id71">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-23-0-2024-12-09">Version 25.23.0 (2024-12-09)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id73">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id74">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-22-0-2024-12-05">Version 25.22.0 (2024-12-05)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id76">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id77">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-21-0-2024-12-04">Version 25.21.0 (2024-12-04)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-20-0-2024-12-04">Version 25.20.0 (2024-12-04)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id79">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id80">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-19-0-2024-11-29">Version 25.19.0 (2024-11-29)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id82">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id83">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-18-0-2024-11-27">Version 25.18.0 (2024-11-27)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id85">Features</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-17-0-2024-11-19">Version 25.17.0 (2024-11-19)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id86">Features</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-17-0-2024-11-19">Version 25.17.0 (2024-11-19)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id87">Features</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-16-0-2024-11-15">Version 25.16.0 (2024-11-15)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id89">Bug fixes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id90">Bug fixes</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-15-0-2024-11-08">Version 25.15.0 (2024-11-08)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id90">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id91">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-14-2024-10-30">Version 25.14 (2024-10-30)</a></li>
@@ -506,35 +524,35 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-10-2024-10-02">Version 25.10 (2024-10-02)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-9-2024-09-23">Version 25.9 (2024-09-23)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-8-2024-09-10">Version 25.8 (2024-09-10)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id95">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id96">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-7-2024-08-23">Version 25.7 (2024-08-23)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id96">Bug fix</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-6-2024-08-16">Version 25.6 (2024-08-16)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id97">Bug fix</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-6-2024-08-16">Version 25.6 (2024-08-16)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id98">Bug fix</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-5-2024-08-15">Version 25.5 (2024-08-15)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id98">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id99">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-4-2024-07-12">Version 25.4 (2024-07-12)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id101">Features</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-3-2024-07-05">Version 25.3 (2024-07-05)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id102">Features</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-3-2024-07-05">Version 25.3 (2024-07-05)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id103">Features</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-2-2024-07-04">Version 25.2 (2024-07-04)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id105">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id106">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-1-2024-06-27">Version 25.1 (2024-06-27)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id108">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id109">Features</a></li>
 </ul>
 </li>
 </ul>
@@ -550,6 +568,15 @@
                   
   <section id="changelog">
 <span id="changes"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
+<section id="version-27-0-0-2025-09-12">
+<h2>Version 27.0.0 (2025-09-12)<a class="headerlink" href="#version-27-0-0-2025-09-12" title="Link to this heading">#</a></h2>
+<section id="breaking-changes">
+<h3>Breaking changes<a class="headerlink" href="#breaking-changes" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Remove deprecated sweeps.</p></li>
+</ul>
+</section>
+</section>
 <section id="version-26-33-0-2025-09-03">
 <h2>Version 26.33.0 (2025-09-03)<a class="headerlink" href="#version-26-33-0-2025-09-03" title="Link to this heading">#</a></h2>
 <section id="features">
@@ -855,12 +882,12 @@ of qubits but to the chip it’s trying to “minimize” instead, like “cryst
 <h2>Version 26.0.0 (2025-02-27)<a class="headerlink" href="#version-26-0-0-2025-02-27" title="Link to this heading">#</a></h2>
 <section id="id48">
 <h3>Features<a class="headerlink" href="#id48" title="Link to this heading">#</a></h3>
-<section id="breaking-changes">
-<h4>Breaking changes<a class="headerlink" href="#breaking-changes" title="Link to this heading">#</a></h4>
+<section id="id49">
+<h4>Breaking changes<a class="headerlink" href="#id49" title="Link to this heading">#</a></h4>
 <ul>
 <li><p>Remove Pydantic based <code class="docutils literal notranslate"><span class="pre">ParameterModel</span></code>, <code class="docutils literal notranslate"><span class="pre">SettingModel</span></code>, <code class="docutils literal notranslate"><span class="pre">SettingNodeModel</span></code>, and <code class="docutils literal notranslate"><span class="pre">SweepModel</span></code>,
 and inherit <code class="docutils literal notranslate"><span class="pre">Parameter</span></code>, <code class="docutils literal notranslate"><span class="pre">Setting</span></code>, <code class="docutils literal notranslate"><span class="pre">SettingNode</span></code>, and <code class="docutils literal notranslate"><span class="pre">Sweep</span></code> from Pydantic model directly.
-As a result, the signature of usage has changed. <a href="#id49"><span class="problematic" id="id50">:issue:`SW-798`</span></a></p>
+As a result, the signature of usage has changed. <a href="#id50"><span class="problematic" id="id51">:issue:`SW-798`</span></a></p>
 <blockquote>
 <div><ul class="simple">
 <li><p>Instead of <code class="docutils literal notranslate"><span class="pre">copy</span></code>, <code class="docutils literal notranslate"><span class="pre">model_copy</span></code> (with an optional <code class="docutils literal notranslate"><span class="pre">update</span></code> parameter) should be used.</p></li>
@@ -883,8 +910,8 @@ of a node with its path, but there is an attribute <code class="docutils literal
 </ul>
 </section>
 </section>
-<section id="id51">
-<h3>Features<a class="headerlink" href="#id51" title="Link to this heading">#</a></h3>
+<section id="id52">
+<h3>Features<a class="headerlink" href="#id52" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Settings can now be declared read-only by setting <code class="docutils literal notranslate"><span class="pre">read_only</span> <span class="pre">=</span> <span class="pre">True</span></code> when
 initialising the setting.</p></li>
@@ -905,8 +932,8 @@ deprecated alias for <code class="docutils literal notranslate"><span class="pre
 </section>
 <section id="version-25-34-0-2025-02-06">
 <h2>Version 25.34.0 (2025-02-06)<a class="headerlink" href="#version-25-34-0-2025-02-06" title="Link to this heading">#</a></h2>
-<section id="id52">
-<h3>Bug fixes<a class="headerlink" href="#id52" title="Link to this heading">#</a></h3>
+<section id="id53">
+<h3>Bug fixes<a class="headerlink" href="#id53" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Bump mechanize test dependency.</p></li>
 </ul>
@@ -914,19 +941,19 @@ deprecated alias for <code class="docutils literal notranslate"><span class="pre
 </section>
 <section id="version-25-33-0-2025-02-04">
 <h2>Version 25.33.0 (2025-02-04)<a class="headerlink" href="#version-25-33-0-2025-02-04" title="Link to this heading">#</a></h2>
-<section id="id53">
-<h3>Features<a class="headerlink" href="#id53" title="Link to this heading">#</a></h3>
+<section id="id54">
+<h3>Features<a class="headerlink" href="#id54" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Refactor codebase to new lint rules. No functional changes. <a href="#id54"><span class="problematic" id="id55">:issue:`SW-467`</span></a></p></li>
+<li><p>Refactor codebase to new lint rules. No functional changes. <a href="#id55"><span class="problematic" id="id56">:issue:`SW-467`</span></a></p></li>
 </ul>
 </section>
 </section>
 <section id="version-25-32-0-2025-02-04">
 <h2>Version 25.32.0 (2025-02-04)<a class="headerlink" href="#version-25-32-0-2025-02-04" title="Link to this heading">#</a></h2>
-<section id="id56">
-<h3>Features<a class="headerlink" href="#id56" title="Link to this heading">#</a></h3>
+<section id="id57">
+<h3>Features<a class="headerlink" href="#id57" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Refactor codebase to new lint rules. No functional changes. <a href="#id57"><span class="problematic" id="id58">:issue:`SW-467`</span></a></p></li>
+<li><p>Refactor codebase to new lint rules. No functional changes. <a href="#id58"><span class="problematic" id="id59">:issue:`SW-467`</span></a></p></li>
 </ul>
 </section>
 </section>
@@ -938,8 +965,8 @@ deprecated alias for <code class="docutils literal notranslate"><span class="pre
 </section>
 <section id="version-25-30-0-2025-01-28">
 <h2>Version 25.30.0 (2025-01-28)<a class="headerlink" href="#version-25-30-0-2025-01-28" title="Link to this heading">#</a></h2>
-<section id="id59">
-<h3>Bug Fixes<a class="headerlink" href="#id59" title="Link to this heading">#</a></h3>
+<section id="id60">
+<h3>Bug Fixes<a class="headerlink" href="#id60" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Method <code class="docutils literal notranslate"><span class="pre">ChipTopology.get_all_common_resonators</span></code> can never return a set containing components which are not
 computational resonators.</p></li>
@@ -948,19 +975,19 @@ computational resonators.</p></li>
 </section>
 <section id="version-25-29-0-2025-01-27">
 <h2>Version 25.29.0 (2025-01-27)<a class="headerlink" href="#version-25-29-0-2025-01-27" title="Link to this heading">#</a></h2>
-<section id="id60">
-<h3>Features<a class="headerlink" href="#id60" title="Link to this heading">#</a></h3>
+<section id="id61">
+<h3>Features<a class="headerlink" href="#id61" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Bump version for an updated repo organization. No functional changes. <a href="#id61"><span class="problematic" id="id62">:issue:`SW-1042`</span></a></p></li>
+<li><p>Bump version for an updated repo organization. No functional changes. <a href="#id62"><span class="problematic" id="id63">:issue:`SW-1042`</span></a></p></li>
 </ul>
 </section>
 </section>
 <section id="version-25-28-0-2025-01-08">
 <h2>Version 25.28.0 (2025-01-08)<a class="headerlink" href="#version-25-28-0-2025-01-08" title="Link to this heading">#</a></h2>
-<section id="id63">
-<h3>Features<a class="headerlink" href="#id63" title="Link to this heading">#</a></h3>
+<section id="id64">
+<h3>Features<a class="headerlink" href="#id64" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Remove gitlab links from public pages. <a href="#id64"><span class="problematic" id="id65">:issue:`SW-776`</span></a></p></li>
+<li><p>Remove gitlab links from public pages. <a href="#id65"><span class="problematic" id="id66">:issue:`SW-776`</span></a></p></li>
 </ul>
 </section>
 </section>
@@ -972,8 +999,8 @@ computational resonators.</p></li>
 </section>
 <section id="version-25-26-0-2024-12-12">
 <h2>Version 25.26.0 (2024-12-12)<a class="headerlink" href="#version-25-26-0-2024-12-12" title="Link to this heading">#</a></h2>
-<section id="id66">
-<h3>Features<a class="headerlink" href="#id66" title="Link to this heading">#</a></h3>
+<section id="id67">
+<h3>Features<a class="headerlink" href="#id67" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Bump exa-experiments</p></li>
 </ul>
@@ -981,35 +1008,35 @@ computational resonators.</p></li>
 </section>
 <section id="version-25-25-0-2024-12-11">
 <h2>Version 25.25.0 (2024-12-11)<a class="headerlink" href="#version-25-25-0-2024-12-11" title="Link to this heading">#</a></h2>
-<section id="id67">
-<h3>Features<a class="headerlink" href="#id67" title="Link to this heading">#</a></h3>
+<section id="id68">
+<h3>Features<a class="headerlink" href="#id68" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Fix public PyPI publishing. <a href="#id68"><span class="problematic" id="id69">:issue:`SW-776`</span></a></p></li>
+<li><p>Fix public PyPI publishing. <a href="#id69"><span class="problematic" id="id70">:issue:`SW-776`</span></a></p></li>
 </ul>
 </section>
 </section>
 <section id="version-25-24-0-2024-12-11">
 <h2>Version 25.24.0 (2024-12-11)<a class="headerlink" href="#version-25-24-0-2024-12-11" title="Link to this heading">#</a></h2>
-<section id="id70">
-<h3>Features<a class="headerlink" href="#id70" title="Link to this heading">#</a></h3>
+<section id="id71">
+<h3>Features<a class="headerlink" href="#id71" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Change license info to Apache 2.0. <a href="#id71"><span class="problematic" id="id72">:issue:`SW-776`</span></a></p></li>
+<li><p>Change license info to Apache 2.0. <a href="#id72"><span class="problematic" id="id73">:issue:`SW-776`</span></a></p></li>
 </ul>
 </section>
 </section>
 <section id="version-25-23-0-2024-12-09">
 <h2>Version 25.23.0 (2024-12-09)<a class="headerlink" href="#version-25-23-0-2024-12-09" title="Link to this heading">#</a></h2>
-<section id="id73">
-<h3>Features<a class="headerlink" href="#id73" title="Link to this heading">#</a></h3>
-<p>Fix extlinks to MRs and issues in sphinx docs config <a href="#id74"><span class="problematic" id="id75">:issue:`SW-916`</span></a></p>
+<section id="id74">
+<h3>Features<a class="headerlink" href="#id74" title="Link to this heading">#</a></h3>
+<p>Fix extlinks to MRs and issues in sphinx docs config <a href="#id75"><span class="problematic" id="id76">:issue:`SW-916`</span></a></p>
 </section>
 </section>
 <section id="version-25-22-0-2024-12-05">
 <h2>Version 25.22.0 (2024-12-05)<a class="headerlink" href="#version-25-22-0-2024-12-05" title="Link to this heading">#</a></h2>
-<section id="id76">
-<h3>Features<a class="headerlink" href="#id76" title="Link to this heading">#</a></h3>
+<section id="id77">
+<h3>Features<a class="headerlink" href="#id77" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Fix intersphinx reference paths in docs <a href="#id77"><span class="problematic" id="id78">:issue:`SW-916`</span></a></p></li>
+<li><p>Fix intersphinx reference paths in docs <a href="#id78"><span class="problematic" id="id79">:issue:`SW-916`</span></a></p></li>
 </ul>
 </section>
 </section>
@@ -1021,27 +1048,27 @@ computational resonators.</p></li>
 </section>
 <section id="version-25-20-0-2024-12-04">
 <h2>Version 25.20.0 (2024-12-04)<a class="headerlink" href="#version-25-20-0-2024-12-04" title="Link to this heading">#</a></h2>
-<section id="id79">
-<h3>Features<a class="headerlink" href="#id79" title="Link to this heading">#</a></h3>
+<section id="id80">
+<h3>Features<a class="headerlink" href="#id80" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Bump version for an updated repo organization. No functional changes. <a href="#id80"><span class="problematic" id="id81">:issue:`SW-665`</span></a></p></li>
+<li><p>Bump version for an updated repo organization. No functional changes. <a href="#id81"><span class="problematic" id="id82">:issue:`SW-665`</span></a></p></li>
 </ul>
 </section>
 </section>
 <section id="version-25-19-0-2024-11-29">
 <h2>Version 25.19.0 (2024-11-29)<a class="headerlink" href="#version-25-19-0-2024-11-29" title="Link to this heading">#</a></h2>
-<section id="id82">
-<h3>Features<a class="headerlink" href="#id82" title="Link to this heading">#</a></h3>
+<section id="id83">
+<h3>Features<a class="headerlink" href="#id83" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Include computational resonators as possible locus components for <cite>DEFAULT_2QB_MAPPING</cite>, which is used for slow CZ
-gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`GBC-589`</span></a>.</p></li>
+gates, required for <a href="#id84"><span class="problematic" id="id85">:issue:`GBC-589`</span></a>.</p></li>
 </ul>
 </section>
 </section>
 <section id="version-25-18-0-2024-11-27">
 <h2>Version 25.18.0 (2024-11-27)<a class="headerlink" href="#version-25-18-0-2024-11-27" title="Link to this heading">#</a></h2>
-<section id="id85">
-<h3>Features<a class="headerlink" href="#id85" title="Link to this heading">#</a></h3>
+<section id="id86">
+<h3>Features<a class="headerlink" href="#id86" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Expand allowed CHEDDAR versions in <cite>qcm_data_client</cite> to include versions 2.x.</p></li>
 </ul>
@@ -1049,17 +1076,17 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
 </section>
 <section id="version-25-17-0-2024-11-19">
 <h2>Version 25.17.0 (2024-11-19)<a class="headerlink" href="#version-25-17-0-2024-11-19" title="Link to this heading">#</a></h2>
-<section id="id86">
-<h3>Features<a class="headerlink" href="#id86" title="Link to this heading">#</a></h3>
+<section id="id87">
+<h3>Features<a class="headerlink" href="#id87" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Bump version for an updated repo organization. No functional changes. <a href="#id87"><span class="problematic" id="id88">:issue:`SW-774`</span></a></p></li>
+<li><p>Bump version for an updated repo organization. No functional changes. <a href="#id88"><span class="problematic" id="id89">:issue:`SW-774`</span></a></p></li>
 </ul>
 </section>
 </section>
 <section id="version-25-16-0-2024-11-15">
 <h2>Version 25.16.0 (2024-11-15)<a class="headerlink" href="#version-25-16-0-2024-11-15" title="Link to this heading">#</a></h2>
-<section id="id89">
-<h3>Bug fixes<a class="headerlink" href="#id89" title="Link to this heading">#</a></h3>
+<section id="id90">
+<h3>Bug fixes<a class="headerlink" href="#id90" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Remove iqm-internal web links in customer docs artifacts.</p></li>
 </ul>
@@ -1067,17 +1094,17 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
 </section>
 <section id="version-25-15-0-2024-11-08">
 <h2>Version 25.15.0 (2024-11-08)<a class="headerlink" href="#version-25-15-0-2024-11-08" title="Link to this heading">#</a></h2>
-<section id="id90">
-<h3>Features<a class="headerlink" href="#id90" title="Link to this heading">#</a></h3>
+<section id="id91">
+<h3>Features<a class="headerlink" href="#id91" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>New changelog workflow, no functional changes. <a href="#id91"><span class="problematic" id="id92">:issue:`SW-774`</span></a></p></li>
+<li><p>New changelog workflow, no functional changes. <a href="#id92"><span class="problematic" id="id93">:issue:`SW-774`</span></a></p></li>
 </ul>
 </section>
 </section>
 <section id="version-25-14-2024-10-30">
 <h2>Version 25.14 (2024-10-30)<a class="headerlink" href="#version-25-14-2024-10-30" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Bump Pydantic to version 2.9.2, <a href="#id93"><span class="problematic" id="id94">:issue:`SW-804`</span></a>.</p></li>
+<li><p>Bump Pydantic to version 2.9.2, <a href="#id94"><span class="problematic" id="id95">:issue:`SW-804`</span></a>.</p></li>
 </ul>
 </section>
 <section id="version-25-13-2024-10-28">
@@ -1112,8 +1139,8 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
 </section>
 <section id="version-25-8-2024-09-10">
 <h2>Version 25.8 (2024-09-10)<a class="headerlink" href="#version-25-8-2024-09-10" title="Link to this heading">#</a></h2>
-<section id="id95">
-<h3>Features<a class="headerlink" href="#id95" title="Link to this heading">#</a></h3>
+<section id="id96">
+<h3>Features<a class="headerlink" href="#id96" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">EmptyComponentListError</span></code>.</p></li>
 </ul>
@@ -1121,8 +1148,8 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
 </section>
 <section id="version-25-7-2024-08-23">
 <h2>Version 25.7 (2024-08-23)<a class="headerlink" href="#version-25-7-2024-08-23" title="Link to this heading">#</a></h2>
-<section id="id96">
-<h3>Bug fix<a class="headerlink" href="#id96" title="Link to this heading">#</a></h3>
+<section id="id97">
+<h3>Bug fix<a class="headerlink" href="#id97" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Fix <code class="xref py py-meth docutils literal notranslate"><span class="pre">Setting.__eq__()</span></code> not working between values of type <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code> and <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 </ul>
@@ -1130,8 +1157,8 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
 </section>
 <section id="version-25-6-2024-08-16">
 <h2>Version 25.6 (2024-08-16)<a class="headerlink" href="#version-25-6-2024-08-16" title="Link to this heading">#</a></h2>
-<section id="id97">
-<h3>Bug fix<a class="headerlink" href="#id97" title="Link to this heading">#</a></h3>
+<section id="id98">
+<h3>Bug fix<a class="headerlink" href="#id98" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Fix <cite>QCMDataClient.get_chip_design_record</cite> not working on remote targets.</p></li>
 </ul>
@@ -1139,10 +1166,10 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
 </section>
 <section id="version-25-5-2024-08-15">
 <h2>Version 25.5 (2024-08-15)<a class="headerlink" href="#version-25-5-2024-08-15" title="Link to this heading">#</a></h2>
-<section id="id98">
-<h3>Features<a class="headerlink" href="#id98" title="Link to this heading">#</a></h3>
+<section id="id99">
+<h3>Features<a class="headerlink" href="#id99" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Add <cite>QCMDataClient.get_chip_design_record</cite>. Can be used in place of <cite>get_chad</cite>. <a href="#id99"><span class="problematic" id="id100">:issue:`EXA-2077`</span></a></p></li>
+<li><p>Add <cite>QCMDataClient.get_chip_design_record</cite>. Can be used in place of <cite>get_chad</cite>. <a href="#id100"><span class="problematic" id="id101">:issue:`EXA-2077`</span></a></p></li>
 <li><p>Deprecate <cite>QCMDataClient.get_qubit_design_properties</cite> as the chip design_record (CHEDDAR) contains the same data.</p></li>
 <li><p>Add more utility methods to <cite>ChipTopology</cite>.</p></li>
 </ul>
@@ -1150,8 +1177,8 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
 </section>
 <section id="version-25-4-2024-07-12">
 <h2>Version 25.4 (2024-07-12)<a class="headerlink" href="#version-25-4-2024-07-12" title="Link to this heading">#</a></h2>
-<section id="id101">
-<h3>Features<a class="headerlink" href="#id101" title="Link to this heading">#</a></h3>
+<section id="id102">
+<h3>Features<a class="headerlink" href="#id102" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Add an optional fallback URL to <cite>QCMDataClient</cite>.</p></li>
 </ul>
@@ -1159,29 +1186,29 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
 </section>
 <section id="version-25-3-2024-07-05">
 <h2>Version 25.3 (2024-07-05)<a class="headerlink" href="#version-25-3-2024-07-05" title="Link to this heading">#</a></h2>
-<section id="id102">
-<h3>Features<a class="headerlink" href="#id102" title="Link to this heading">#</a></h3>
+<section id="id103">
+<h3>Features<a class="headerlink" href="#id103" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Add <cite>_repr_html_</cite> method for <code class="xref py py-class docutils literal notranslate"><span class="pre">SettingNode</span></code>. This method overrides the</p></li>
 </ul>
 <blockquote>
-<div><p>default <cite>repr</cite> in notebooks. <a href="#id103"><span class="problematic" id="id104">:issue:`EXA-1975`</span></a></p>
+<div><p>default <cite>repr</cite> in notebooks. <a href="#id104"><span class="problematic" id="id105">:issue:`EXA-1975`</span></a></p>
 </div></blockquote>
 </section>
 </section>
 <section id="version-25-2-2024-07-04">
 <h2>Version 25.2 (2024-07-04)<a class="headerlink" href="#version-25-2-2024-07-04" title="Link to this heading">#</a></h2>
-<section id="id105">
-<h3>Features<a class="headerlink" href="#id105" title="Link to this heading">#</a></h3>
+<section id="id106">
+<h3>Features<a class="headerlink" href="#id106" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Add couplers to data components of <code class="xref py py-class docutils literal notranslate"><span class="pre">ChipTopology</span></code>. <a href="#id106"><span class="problematic" id="id107">:issue:`EXA-2056`</span></a></p></li>
+<li><p>Add couplers to data components of <code class="xref py py-class docutils literal notranslate"><span class="pre">ChipTopology</span></code>. <a href="#id107"><span class="problematic" id="id108">:issue:`EXA-2056`</span></a></p></li>
 </ul>
 </section>
 </section>
 <section id="version-25-1-2024-06-27">
 <h2>Version 25.1 (2024-06-27)<a class="headerlink" href="#version-25-1-2024-06-27" title="Link to this heading">#</a></h2>
-<section id="id108">
-<h3>Features<a class="headerlink" href="#id108" title="Link to this heading">#</a></h3>
+<section id="id109">
+<h3>Features<a class="headerlink" href="#id109" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>First changelog for exa-common. No functional changes.</p></li>
 </ul>
@@ -1225,8 +1252,7 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1235,6 +1261,10 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-27-0-0-2025-09-12">Version 27.0.0 (2025-09-12)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes">Breaking changes</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-26-33-0-2025-09-03">Version 26.33.0 (2025-09-03)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a></li>
 </ul>
@@ -1361,81 +1391,81 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-26-0-0-2025-02-27">Version 26.0.0 (2025-02-27)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id48">Features</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#breaking-changes">Breaking changes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id49">Breaking changes</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id51">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id52">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-34-0-2025-02-06">Version 25.34.0 (2025-02-06)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id52">Bug fixes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id53">Bug fixes</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-33-0-2025-02-04">Version 25.33.0 (2025-02-04)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id53">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id54">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-32-0-2025-02-04">Version 25.32.0 (2025-02-04)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id56">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id57">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-31-0-2025-01-28">Version 25.31.0 (2025-01-28)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-30-0-2025-01-28">Version 25.30.0 (2025-01-28)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id59">Bug Fixes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id60">Bug Fixes</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-29-0-2025-01-27">Version 25.29.0 (2025-01-27)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id60">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id61">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-28-0-2025-01-08">Version 25.28.0 (2025-01-08)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id63">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id64">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-27-0-2024-12-19">Version 25.27.0 (2024-12-19)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-26-0-2024-12-12">Version 25.26.0 (2024-12-12)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id66">Features</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-25-0-2024-12-11">Version 25.25.0 (2024-12-11)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id67">Features</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-25-0-2024-12-11">Version 25.25.0 (2024-12-11)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id68">Features</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-24-0-2024-12-11">Version 25.24.0 (2024-12-11)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id70">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id71">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-23-0-2024-12-09">Version 25.23.0 (2024-12-09)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id73">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id74">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-22-0-2024-12-05">Version 25.22.0 (2024-12-05)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id76">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id77">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-21-0-2024-12-04">Version 25.21.0 (2024-12-04)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-20-0-2024-12-04">Version 25.20.0 (2024-12-04)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id79">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id80">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-19-0-2024-11-29">Version 25.19.0 (2024-11-29)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id82">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id83">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-18-0-2024-11-27">Version 25.18.0 (2024-11-27)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id85">Features</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-17-0-2024-11-19">Version 25.17.0 (2024-11-19)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id86">Features</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-17-0-2024-11-19">Version 25.17.0 (2024-11-19)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id87">Features</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-16-0-2024-11-15">Version 25.16.0 (2024-11-15)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id89">Bug fixes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id90">Bug fixes</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-15-0-2024-11-08">Version 25.15.0 (2024-11-08)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id90">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id91">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-14-2024-10-30">Version 25.14 (2024-10-30)</a></li>
@@ -1445,35 +1475,35 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-10-2024-10-02">Version 25.10 (2024-10-02)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-9-2024-09-23">Version 25.9 (2024-09-23)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-8-2024-09-10">Version 25.8 (2024-09-10)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id95">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id96">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-7-2024-08-23">Version 25.7 (2024-08-23)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id96">Bug fix</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-6-2024-08-16">Version 25.6 (2024-08-16)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id97">Bug fix</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-6-2024-08-16">Version 25.6 (2024-08-16)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id98">Bug fix</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-5-2024-08-15">Version 25.5 (2024-08-15)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id98">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id99">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-4-2024-07-12">Version 25.4 (2024-07-12)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id101">Features</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-3-2024-07-05">Version 25.3 (2024-07-05)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id102">Features</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-3-2024-07-05">Version 25.3 (2024-07-05)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id103">Features</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-2-2024-07-04">Version 25.2 (2024-07-04)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id105">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id106">Features</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-25-1-2024-06-27">Version 25.1 (2024-06-27)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id108">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id109">Features</a></li>
 </ul>
 </li>
 </ul>
@@ -1496,7 +1526,7 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 26.33.0.
+      © Copyright 2019-2025, IQM Finland Oy, Release 27.0.0.
       <br/>
     
   </p>
@@ -1523,8 +1553,8 @@ gates, required for <a href="#id83"><span class="problematic" id="id84">:issue:`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

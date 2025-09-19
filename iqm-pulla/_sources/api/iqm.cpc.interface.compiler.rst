@@ -29,7 +29,6 @@ iqm.cpc.interface.compiler
       :toctree:
       :template: autosummary-class-template.rst
    
-      Circuit
       CircuitBoundaryMode
       CircuitCompilationResult
       CircuitExecutionOptions

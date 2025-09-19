@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Using ScheduleBuilder &#8212; iqm.pulse 9.21.0 documentation</title>
+    <title>Using ScheduleBuilder &#8212; iqm.pulse 12.2.0 documentation</title>
   
   
   
@@ -16,44 +16,40 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=63862cf7" />
   
-  <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=ebf1cebe"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/documentation_options.js?v=4956975f"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'using_builder';</script>
     <link rel="icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Custom gate implementations" href="custom_gates.html" />
-    <link rel="prev" title="Concepts and Classes" href="concepts.html" />
+    <link rel="prev" title="Concepts and classes" href="concepts.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="9.21.0" />
     <meta name="docbuild:last-update" content="2025-09-19"/>
   </head>
   
@@ -70,8 +66,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -79,6 +86,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -86,8 +94,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -103,8 +111,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -133,26 +140,30 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="iqm.pulse 9.21.0 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="iqm.pulse 9.21.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.2.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="concepts.html">Concepts and Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Concepts and classes</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Using ScheduleBuilder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom_gates.html">Custom gate implementations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pulse_timing.html">Pulse timing</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.pulse.html">pulse</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.base_utils.html">base_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.base_utils.merge_dicts.html">iqm.pulse.base_utils.merge_dicts</a></li>
@@ -171,6 +182,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.circuit_operations.get_unitary_from_op.html">iqm.pulse.circuit_operations.get_unitary_from_op</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.circuit_operations.reorder.html">iqm.pulse.circuit_operations.reorder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.circuit_operations.reshape_unitary.html">iqm.pulse.circuit_operations.reshape_unitary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.circuit_operations.Circuit.html">Circuit</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.circuit_operations.CircuitOperationList.html">CircuitOperationList</a></li>
 </ul>
 </details></li>
@@ -186,6 +198,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_FLUX_AWG_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_FLUX_AWG_LOCUS_MAPPING</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.PROBE_LINES_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.PROBE_LINES_LOCUS_MAPPING</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.get_waveform_parameters.html">iqm.pulse.gate_implementation.get_waveform_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.init_subclass_composite.html">iqm.pulse.gate_implementation.init_subclass_composite</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.CompositeCache.html">CompositeCache</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.CompositeGate.html">CompositeGate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.CustomIQWaveforms.html">CustomIQWaveforms</a></li>
@@ -197,6 +210,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.expose_implementation.html">iqm.pulse.gates.expose_implementation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.get_implementation_class.html">iqm.pulse.gates.get_implementation_class</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.register_implementation.html">iqm.pulse.gates.register_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.register_operation.html">iqm.pulse.gates.register_operation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.barrier.html">barrier</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.conditional.html">conditional</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.cz.html">cz</a></li>
@@ -282,14 +296,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -308,9 +317,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -338,19 +347,27 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -389,11 +406,15 @@
                   
   <section id="using-schedulebuilder">
 <h1>Using ScheduleBuilder<a class="headerlink" href="#using-schedulebuilder" title="Link to this heading">#</a></h1>
-<p>This section describes how to use <a class="reference internal" href="api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="iqm.pulse.builder.ScheduleBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code></a> to compose pulse schedules.
-ScheduleBuilder encapsulates registered QuantumOps, the calibration information for them, QPU components and their
-topology, and control channel properties.</p>
+<p>This section describes how to use <a class="reference internal" href="api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="iqm.pulse.builder.ScheduleBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code></a> to compose instruction schedules.
+ScheduleBuilder encapsulates the registered <a class="reference internal" href="api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOps</span></code></a> and <a class="reference internal" href="api/iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><code class="xref py py-class docutils literal notranslate"><span class="pre">GateImplementations</span></code></a>, their calibration
+information, the <a class="reference external" href="../iqm-exa-common/api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology" title="(in exa-common v26.33.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QPU</span> <span class="pre">components</span> <span class="pre">and</span> <span class="pre">their</span> <span class="pre">topology</span></code></a>,
+and the <a class="reference internal" href="api/iqm.pulse.playlist.channel.ChannelProperties.html#iqm.pulse.playlist.channel.ChannelProperties" title="iqm.pulse.playlist.channel.ChannelProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">control</span> <span class="pre">channel</span> <span class="pre">properties</span></code></a>, i.e.
+all you need to construct <a class="reference internal" href="api/iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><code class="xref py py-class docutils literal notranslate"><span class="pre">Schedules</span></code></a> and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Playlists</span></code>.</p>
 <p>In the context of IQM Pulla and EXA, an instance of ScheduleBuilder is given by the framework,
-and it contains all the necessary information to execute against a particular quantum computer instance.
+and it contains all the necessary information to produce schedules that execute against a particular
+quantum computer instance.
 Here, we assume that user has an instance of ScheduleBuilder <code class="docutils literal notranslate"><span class="pre">builder</span></code> to work with.</p>
 <section id="creating-timeboxes">
 <h2>Creating TimeBoxes<a class="headerlink" href="#creating-timeboxes" title="Link to this heading">#</a></h2>
@@ -418,12 +439,12 @@ Any gate which is registered in the runtime can be requested this way.</p>
 </div>
 <p>Notice how the number of qubits matches the operation: CZ acts on 2 qubits, while PRX acts on only one.
 Measure can act on any number of qubits.</p>
-<p>There might be several available implementations for an operation.
-<code class="docutils literal notranslate"><span class="pre">get_implementation</span></code> gives the implementation that is set as the default, unless a specific implementation is
-requested with a keyword argument.</p>
-<p>To instantiate some concrete TimeBoxes, we call time implementation with the logical parameters of the operations, as
-defined by the QuantumOps.
-PRX has 2 parameters: the 2 angles of a phased rotation.
+<p>There might be several different implementations available for an operation.
+<code class="docutils literal notranslate"><span class="pre">get_implementation</span></code> gives the implementation that is set as the default (for that locus),
+unless a specific implementation is requested with a keyword argument.</p>
+<p>To instantiate some concrete TimeBoxes, we call the implementation with the arguments of the operation,
+defined in the QuantumOp instance it implements.
+PRX has 2 parameters: the two angles of a phased rotation.
 CZ does not have any parameters.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="n">x180</span> <span class="o">=</span> <span class="n">prx_gate_impl</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -436,18 +457,18 @@ CZ does not have any parameters.</p>
 <span class="n">y90</span> <span class="o">=</span> <span class="n">prx_gate_impl</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>One important method is the <a class="reference internal" href="api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder.wait" title="iqm.pulse.builder.ScheduleBuilder.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wait()</span></code></a>, which blocks the control channels of the given components for a certain time:</p>
+<p>Another important method is the <a class="reference internal" href="api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder.wait" title="iqm.pulse.builder.ScheduleBuilder.wait"><code class="xref py py-meth docutils literal notranslate"><span class="pre">wait()</span></code></a>, which blocks the control channels of the given components for a certain time:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">wait</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">qubits</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">100e-9</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Duration in seconds</span>
 </pre></div>
 </div>
-<p>In all of the examples above, the TimeBoxes are atomic, which can be organized into composite TimeBoxes to decide
-their relative order.</p>
+<p>In all of the examples above, the resulting TimeBoxes are atomic. They can be organized into composite
+TimeBoxes to define their relative order.</p>
 </section>
 <section id="composing-timeboxes">
 <h2>Composing TimeBoxes<a class="headerlink" href="#composing-timeboxes" title="Link to this heading">#</a></h2>
 <p>TimeBoxes can be concatenated with the following rules:</p>
 <ul class="simple">
-<li><p>Addition (<code class="docutils literal notranslate"><span class="pre">+</span></code>) concatenates the children of the operands into a single TimeBox.
+<li><p>Addition (<code class="docutils literal notranslate"><span class="pre">+</span></code>) concatenates the children of the operands into the children of a single composite TimeBox.
 Use addition to allow gates on disjoint loci to execute simultaneously, for example doing a PRX on all qubits.</p></li>
 <li><p>The pipe operation (<code class="docutils literal notranslate"><span class="pre">|</span></code>) groups two TimeBoxes together without concatenating.
 This results in composite TimeBox with two children, the operands, which are scheduled separately.
@@ -498,21 +519,23 @@ The rules are:</p>
 related to that component.</p></li>
 <li><p>A composite TimeBox acts on the union of its children’s locus components.</p></li>
 <li><p>A TimeBox blocks all channels related to any component it acts on.</p></li>
-<li><p>When scheduling two TimeBoxes, the instructions will not overlap in time if the TimeBoxes block overlapping channels.</p></li>
+<li><p>When scheduling two TimeBoxes, their instructions will not overlap in time if the TimeBoxes share
+at least one locus component.</p></li>
 </ul>
-<p>In addition to blocking the channels actually present in a TimeBox, it is possible to block neighbouring channels
-as well (for example in order to limit cross-talk).
+<p>In addition to blocking all the channels of components whose channels are actually used in a TimeBox,
+it is possible to block channels of neighbouring components as well (for example in order to limit cross-talk).
 The applied neighbourhood is specified in <a class="reference internal" href="api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder.resolve_timebox" title="iqm.pulse.builder.ScheduleBuilder.resolve_timebox"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ScheduleBuilder.resolve_timebox()</span></code></a>.
-The neighbourhood is defined as an integer such that 0 means “block only the involved channels”,
-1 means “block the involved channels and the channels of any neighbouring couplers”,
-2 means “the same as in (1) but in addition block all channels connected by those couplers”, and so on.
-The blocking rules do not add actual Wait or Block instructions are added to the neighbourhood channels, and two
+The neighbourhood is defined as an integer such that 0 means “block only the channels of involved components”,
+1 means “same as 0, but also block the channels of all couplers neighboring the involved components”,
+2 means “same as 1, but also block the channels of all components connected to those couplers”, and so on.
+The blocking rules do not add actual Wait or Block instructions to the neighbourhood channels, and two
 overlapping neighbourhoods do not block each other.
 The blocking comes in question only when actual content would be added to those neighbourhood channels.</p>
 <p>In practice, the rules and default GateImplementations ensure that the user can concatenate arbitrary gates
 without worrying that the gates have an adverse effect on each other.
-For example, the pulse of a PRX gate playing at the same time as a CZ gate or a measurement would ruin both operations.
-If overlapping of such gates is desired, the best way is to arrange the Instructions on the Schedule level and wrap the
+For example, the pulse of a PRX gate playing at the same time as a CZ gate or a measurement on the same locus
+would ruin both operations.
+If such overlapping of gates is desired, the best way is to arrange the Instructions on the Schedule level and wrap the
 schedule into an atomic TimeBox.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -598,7 +621,7 @@ to give:</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Concepts and Classes</p>
+        <p class="prev-next-title">Concepts and classes</p>
       </div>
     </a>
     <a class="right-next"
@@ -617,8 +640,7 @@ to give:</p>
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -652,7 +674,7 @@ to give:</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 9.21.0.
+      © Copyright 2019-2025, IQM Finland Oy, Release 12.2.0.
       <br/>
     
   </p>
@@ -679,8 +701,8 @@ to give:</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

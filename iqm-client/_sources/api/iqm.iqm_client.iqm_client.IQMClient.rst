@@ -24,12 +24,14 @@ iqm.iqm\_client.iqm\_client.IQMClient
       ~IQMClient._check_versions
       ~IQMClient._default_headers
       ~IQMClient._deserialize_response
+      ~IQMClient._get_calibration_quality_metrics
       ~IQMClient._get_dut_label
       ~IQMClient._get_request
       ~IQMClient.abort_job
       ~IQMClient.close_auth_session
       ~IQMClient.create_run_request
       ~IQMClient.get_about
+      ~IQMClient.get_calibration_quality_metrics
       ~IQMClient.get_calibration_set
       ~IQMClient.get_dynamic_quantum_architecture
       ~IQMClient.get_feedback_groups
@@ -39,7 +41,6 @@ iqm.iqm\_client.iqm\_client.IQMClient
       ~IQMClient.get_run_counts
       ~IQMClient.get_run_status
       ~IQMClient.get_static_quantum_architecture
-      ~IQMClient.get_structured_metrics
       ~IQMClient.get_supported_client_libraries
       ~IQMClient.submit_circuits
       ~IQMClient.submit_run_request

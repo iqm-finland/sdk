@@ -14,6 +14,7 @@ iqm.pulla.utils\_qir
    .. autosummary::
       :toctree:
    
+      generate_qiskit_qir_qubit_mapping
       qir_to_pulla
    
    

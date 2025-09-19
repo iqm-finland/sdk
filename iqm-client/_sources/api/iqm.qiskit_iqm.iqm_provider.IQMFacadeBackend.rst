@@ -13,7 +13,6 @@ iqm.qiskit\_iqm.iqm\_provider.IQMFacadeBackend
 
    .. autosummary::
    
-      ~IQMFacadeBackend.architecture
       ~IQMFacadeBackend.name
       ~IQMFacadeBackend.description
       ~IQMFacadeBackend.online_date
@@ -28,7 +27,6 @@ iqm.qiskit\_iqm.iqm\_provider.IQMFacadeBackend
 
    .. autosummary::
    
-      ~IQMFacadeBackend._determine_facade_backend_from_sqa
       ~IQMFacadeBackend._validate_no_empty_cregs
       ~IQMFacadeBackend.run
    

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>iqm.cpc.interface.compiler &#8212; IQM Pulla 8.3.0 documentation</title>
+    <title>iqm.cpc.interface.compiler &#8212; IQM Pulla 11.6.0 documentation</title>
   
   
   
@@ -16,35 +16,32 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a035219d"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=514462f3"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.cpc.interface.compiler';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -53,7 +50,6 @@
     <link rel="prev" title="iqm.cpc.interface" href="iqm.cpc.interface.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="8.3.0" />
     <meta name="docbuild:last-update" content="2025-09-19"/>
   </head>
   
@@ -70,8 +66,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -79,6 +86,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -86,8 +94,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -103,8 +111,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -133,18 +140,22 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Pulla 8.3.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="IQM Pulla 8.3.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Pulla 11.6.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 11.6.0 documentation - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
@@ -171,7 +182,6 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.cpc.html">iqm.cpc</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cpc.compiler.html">iqm.cpc.compiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.circuit_compilation_request_handler.html">iqm.cpc.compiler.circuit_compilation_request_handler</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.compiler.html">iqm.cpc.compiler.compiler</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.dd.html">iqm.cpc.compiler.dd</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.errors.html">iqm.cpc.compiler.errors</a></li>
@@ -194,8 +204,6 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CircuitMeasurementResults.html">iqm.pulla.interface.CircuitMeasurementResults</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CircuitMeasurementResultsBatch.html">iqm.pulla.interface.CircuitMeasurementResultsBatch</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE.html">iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.Circuit.html">iqm.pulla.interface.Circuit</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.Instruction.html">iqm.pulla.interface.Instruction</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.StationControlResult.html">iqm.pulla.interface.StationControlResult</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.TaskStatus.html">iqm.pulla.interface.TaskStatus</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CHADRetrievalException.html">iqm.pulla.interface.CHADRetrievalException</a></li>
@@ -243,6 +251,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_qir.html">iqm.pulla.utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping.html">iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qir.qir_to_pulla.html">iqm.pulla.utils_qir.qir_to_pulla</a></li>
 </ul>
 </details></li>
@@ -273,14 +282,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -299,9 +303,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -377,16 +381,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 
 </div></div>
       
@@ -436,59 +448,55 @@
 <p class="rubric">Classes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.Circuit.html#iqm.cpc.interface.compiler.Circuit" title="iqm.cpc.interface.compiler.Circuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Circuit</span></code></a>(name, instructions)</p></td>
-<td><p>Quantum circuit to be executed.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.CircuitBoundaryMode.html#iqm.cpc.interface.compiler.CircuitBoundaryMode" title="iqm.cpc.interface.compiler.CircuitBoundaryMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CircuitBoundaryMode</span></code></a>(value[, names, module, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.CircuitBoundaryMode.html#iqm.cpc.interface.compiler.CircuitBoundaryMode" title="iqm.cpc.interface.compiler.CircuitBoundaryMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CircuitBoundaryMode</span></code></a>(value[, names, module, ...])</p></td>
 <td><p>Circuit boundary mode for circuit compilation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.CircuitCompilationResult.html#iqm.cpc.interface.compiler.CircuitCompilationResult" title="iqm.cpc.interface.compiler.CircuitCompilationResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CircuitCompilationResult</span></code></a>(playlist, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.CircuitCompilationResult.html#iqm.cpc.interface.compiler.CircuitCompilationResult" title="iqm.cpc.interface.compiler.CircuitCompilationResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CircuitCompilationResult</span></code></a>(playlist, ...)</p></td>
 <td><p>Compiled circuit and associated settings returned by CPC to Cocos.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.CircuitExecutionOptions.html#iqm.cpc.interface.compiler.CircuitExecutionOptions" title="iqm.cpc.interface.compiler.CircuitExecutionOptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CircuitExecutionOptions</span></code></a>(measurement_mode, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.CircuitExecutionOptions.html#iqm.cpc.interface.compiler.CircuitExecutionOptions" title="iqm.cpc.interface.compiler.CircuitExecutionOptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CircuitExecutionOptions</span></code></a>(measurement_mode, ...)</p></td>
 <td><p>Various discrete options for quantum circuit execution.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.CircuitMetrics.html#iqm.cpc.interface.compiler.CircuitMetrics" title="iqm.cpc.interface.compiler.CircuitMetrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CircuitMetrics</span></code></a>(components, ...[, gate_loci, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.CircuitMetrics.html#iqm.cpc.interface.compiler.CircuitMetrics" title="iqm.cpc.interface.compiler.CircuitMetrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CircuitMetrics</span></code></a>(components, ...[, gate_loci, ...])</p></td>
 <td><p>Metrics describing a circuit and its compilation result.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.DDMode.html#iqm.cpc.interface.compiler.DDMode" title="iqm.cpc.interface.compiler.DDMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DDMode</span></code></a>(value[, names, module, qualname, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.DDMode.html#iqm.cpc.interface.compiler.DDMode" title="iqm.cpc.interface.compiler.DDMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DDMode</span></code></a>(value[, names, module, qualname, ...])</p></td>
 <td><p>Dynamical Decoupling (DD) mode for circuit execution.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.DDStrategy.html#iqm.cpc.interface.compiler.DDStrategy" title="iqm.cpc.interface.compiler.DDStrategy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DDStrategy</span></code></a>([merge_contiguous_waits, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.DDStrategy.html#iqm.cpc.interface.compiler.DDStrategy" title="iqm.cpc.interface.compiler.DDStrategy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DDStrategy</span></code></a>([merge_contiguous_waits, ...])</p></td>
 <td><p>Describes a particular dynamical decoupling strategy.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.HeraldingMode.html#iqm.cpc.interface.compiler.HeraldingMode" title="iqm.cpc.interface.compiler.HeraldingMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HeraldingMode</span></code></a>(value[, names, module, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.HeraldingMode.html#iqm.cpc.interface.compiler.HeraldingMode" title="iqm.cpc.interface.compiler.HeraldingMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HeraldingMode</span></code></a>(value[, names, module, ...])</p></td>
 <td><p>Heralding mode for circuit execution.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.MeasurementMode.html#iqm.cpc.interface.compiler.MeasurementMode" title="iqm.cpc.interface.compiler.MeasurementMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MeasurementMode</span></code></a>(value[, names, module, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.MeasurementMode.html#iqm.cpc.interface.compiler.MeasurementMode" title="iqm.cpc.interface.compiler.MeasurementMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MeasurementMode</span></code></a>(value[, names, module, ...])</p></td>
 <td><p>Measurement mode for circuit execution.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.MoveGateFrameTrackingMode.html#iqm.cpc.interface.compiler.MoveGateFrameTrackingMode" title="iqm.cpc.interface.compiler.MoveGateFrameTrackingMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MoveGateFrameTrackingMode</span></code></a>(value[, names, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.MoveGateFrameTrackingMode.html#iqm.cpc.interface.compiler.MoveGateFrameTrackingMode" title="iqm.cpc.interface.compiler.MoveGateFrameTrackingMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MoveGateFrameTrackingMode</span></code></a>(value[, names, ...])</p></td>
 <td><p>MOVE gate frame tracking mode for circuit compilation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.MoveGateValidationMode.html#iqm.cpc.interface.compiler.MoveGateValidationMode" title="iqm.cpc.interface.compiler.MoveGateValidationMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MoveGateValidationMode</span></code></a>(value[, names, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.interface.compiler.MoveGateValidationMode.html#iqm.cpc.interface.compiler.MoveGateValidationMode" title="iqm.cpc.interface.compiler.MoveGateValidationMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MoveGateValidationMode</span></code></a>(value[, names, ...])</p></td>
 <td><p>MOVE gate validation mode for circuit compilation.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-9a0b06dc4fdee317b7bc07d85f411b80db8955d8.png" alt="Inheritance diagram of iqm.cpc.interface.compiler" usemap="#inheritance89c4d889c3" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-54bf6fa7b6a75697fd8a7f88261089ddb3891e1f.png" alt="Inheritance diagram of iqm.cpc.interface.compiler" usemap="#inheritance89c4d889c3" class="inheritance graphviz" /></div>
 <map id="inheritance89c4d889c3" name="inheritance89c4d889c3">
-<area shape="rect" id="node1" href="iqm.cpc.interface.compiler.Circuit.html#iqm.cpc.interface.compiler.Circuit" target="_top" title="Quantum circuit to be executed." alt="" coords="61,252,133,277"/>
-<area shape="rect" id="node2" href="iqm.cpc.interface.compiler.CircuitBoundaryMode.html#iqm.cpc.interface.compiler.CircuitBoundaryMode" target="_top" title="Circuit boundary mode for circuit compilation." alt="" coords="529,79,691,104"/>
-<area shape="rect" id="node3" href="https://docs.python.org/3.11/library/enum.html#enum.StrEnum" target="_top" title="Enum where members are also (and must be) strings" alt="" coords="375,203,452,228"/>
-<area shape="rect" id="node7" href="iqm.cpc.interface.compiler.DDMode.html#iqm.cpc.interface.compiler.DDMode" target="_top" title="Dynamical Decoupling (DD) mode for circuit execution." alt="" coords="571,128,649,153"/>
-<area shape="rect" id="node10" href="iqm.cpc.interface.compiler.HeraldingMode.html#iqm.cpc.interface.compiler.HeraldingMode" target="_top" title="Heralding mode for circuit execution." alt="" coords="549,177,671,203"/>
-<area shape="rect" id="node11" href="iqm.cpc.interface.compiler.MeasurementMode.html#iqm.cpc.interface.compiler.MeasurementMode" target="_top" title="Measurement mode for circuit execution." alt="" coords="536,227,684,252"/>
-<area shape="rect" id="node12" href="iqm.cpc.interface.compiler.MoveGateFrameTrackingMode.html#iqm.cpc.interface.compiler.MoveGateFrameTrackingMode" target="_top" title="MOVE gate frame tracking mode for circuit compilation." alt="" coords="500,276,720,301"/>
-<area shape="rect" id="node13" href="iqm.cpc.interface.compiler.MoveGateValidationMode.html#iqm.cpc.interface.compiler.MoveGateValidationMode" target="_top" title="MOVE gate validation mode for circuit compilation." alt="" coords="515,325,705,351"/>
-<area shape="rect" id="node4" href="iqm.cpc.interface.compiler.CircuitCompilationResult.html#iqm.cpc.interface.compiler.CircuitCompilationResult" target="_top" title="Compiled circuit and associated settings returned by CPC to Cocos." alt="" coords="5,153,189,179"/>
-<area shape="rect" id="node5" href="iqm.cpc.interface.compiler.CircuitExecutionOptions.html#iqm.cpc.interface.compiler.CircuitExecutionOptions" target="_top" title="Various discrete options for quantum circuit execution." alt="" coords="9,104,186,129"/>
-<area shape="rect" id="node6" href="iqm.cpc.interface.compiler.CircuitMetrics.html#iqm.cpc.interface.compiler.CircuitMetrics" target="_top" title="Metrics describing a circuit and its compilation result." alt="" coords="41,55,153,80"/>
-<area shape="rect" id="node8" href="iqm.cpc.interface.compiler.DDStrategy.html#iqm.cpc.interface.compiler.DDStrategy" target="_top" title="Describes a particular dynamical decoupling strategy." alt="" coords="49,5,146,31"/>
-<area shape="rect" id="node9" href="https://docs.python.org/3.11/library/enum.html#enum.Enum" target="_top" title="Create a collection of name/value pairs." alt="" coords="61,203,133,228"/>
-<area shape="rect" id="node14" href="https://docs.python.org/3.11/library/enum.html#enum.ReprEnum" target="_top" title="Only changes the repr(), leaving str() and format() to the mixed&#45;in type." alt="" coords="237,203,327,228"/>
+<area shape="rect" id="node1" href="iqm.cpc.interface.compiler.CircuitBoundaryMode.html#iqm.cpc.interface.compiler.CircuitBoundaryMode" target="_top" title="Circuit boundary mode for circuit compilation." alt="" coords="529,79,691,104"/>
+<area shape="rect" id="node2" href="https://docs.python.org/3.11/library/enum.html#enum.StrEnum" target="_top" title="Enum where members are also (and must be) strings" alt="" coords="375,203,452,228"/>
+<area shape="rect" id="node6" href="iqm.cpc.interface.compiler.DDMode.html#iqm.cpc.interface.compiler.DDMode" target="_top" title="Dynamical Decoupling (DD) mode for circuit execution." alt="" coords="571,128,649,153"/>
+<area shape="rect" id="node9" href="iqm.cpc.interface.compiler.HeraldingMode.html#iqm.cpc.interface.compiler.HeraldingMode" target="_top" title="Heralding mode for circuit execution." alt="" coords="549,177,671,203"/>
+<area shape="rect" id="node10" href="iqm.cpc.interface.compiler.MeasurementMode.html#iqm.cpc.interface.compiler.MeasurementMode" target="_top" title="Measurement mode for circuit execution." alt="" coords="536,227,684,252"/>
+<area shape="rect" id="node11" href="iqm.cpc.interface.compiler.MoveGateFrameTrackingMode.html#iqm.cpc.interface.compiler.MoveGateFrameTrackingMode" target="_top" title="MOVE gate frame tracking mode for circuit compilation." alt="" coords="500,276,720,301"/>
+<area shape="rect" id="node12" href="iqm.cpc.interface.compiler.MoveGateValidationMode.html#iqm.cpc.interface.compiler.MoveGateValidationMode" target="_top" title="MOVE gate validation mode for circuit compilation." alt="" coords="515,325,705,351"/>
+<area shape="rect" id="node3" href="iqm.cpc.interface.compiler.CircuitCompilationResult.html#iqm.cpc.interface.compiler.CircuitCompilationResult" target="_top" title="Compiled circuit and associated settings returned by CPC to Cocos." alt="" coords="5,153,189,179"/>
+<area shape="rect" id="node4" href="iqm.cpc.interface.compiler.CircuitExecutionOptions.html#iqm.cpc.interface.compiler.CircuitExecutionOptions" target="_top" title="Various discrete options for quantum circuit execution." alt="" coords="9,104,186,129"/>
+<area shape="rect" id="node5" href="iqm.cpc.interface.compiler.CircuitMetrics.html#iqm.cpc.interface.compiler.CircuitMetrics" target="_top" title="Metrics describing a circuit and its compilation result." alt="" coords="41,55,153,80"/>
+<area shape="rect" id="node7" href="iqm.cpc.interface.compiler.DDStrategy.html#iqm.cpc.interface.compiler.DDStrategy" target="_top" title="Describes a particular dynamical decoupling strategy." alt="" coords="49,5,146,31"/>
+<area shape="rect" id="node8" href="https://docs.python.org/3.11/library/enum.html#enum.Enum" target="_top" title="Create a collection of name/value pairs." alt="" coords="61,203,133,228"/>
+<area shape="rect" id="node13" href="https://docs.python.org/3.11/library/enum.html#enum.ReprEnum" target="_top" title="Only changes the repr(), leaving str() and format() to the mixed&#45;in type." alt="" coords="237,203,327,228"/>
 </map></section>
 
 
@@ -546,7 +554,7 @@ By IQM Pulla developers
 
   <p class="copyright">
     
-      © Copyright 2024-2025, IQM Finland Oy, Release 8.3.0.
+      © Copyright 2024-2025, IQM Finland Oy, Release 11.6.0.
       <br/>
     
   </p>
@@ -573,8 +581,8 @@ By IQM Pulla developers
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

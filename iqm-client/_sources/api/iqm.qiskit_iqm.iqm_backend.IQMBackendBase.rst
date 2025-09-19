@@ -16,7 +16,6 @@ iqm.qiskit\_iqm.iqm\_backend.IQMBackendBase
       ~IQMBackendBase.physical_qubits
       ~IQMBackendBase.target
       ~IQMBackendBase.target_with_resonators
-      ~IQMBackendBase.architecture
       ~IQMBackendBase.name
       ~IQMBackendBase.description
       ~IQMBackendBase.online_date
@@ -36,6 +35,5 @@ iqm.qiskit\_iqm.iqm\_backend.IQMBackendBase
       ~IQMBackendBase.has_resonators
       ~IQMBackendBase.index_to_qubit_name
       ~IQMBackendBase.qubit_name_to_index
-      ~IQMBackendBase.restrict_to_qubits
    
    

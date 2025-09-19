@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>cz &#8212; iqm.pulse 9.21.0 documentation</title>
+    <title>cz &#8212; iqm.pulse 12.2.0 documentation</title>
   
   
   
@@ -16,46 +16,42 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=384b581d" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=ebf1cebe"></script>
-    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/documentation_options.js?v=4956975f"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>window.MathJax = {"TeX": {"Macros": {"I": "\\mathbb{I}", "R": "\\mathbb{R}", "C": "\\mathbb{C}", "tr": "\\text{Tr}", "diag": "\\text{diag}", "ket": ["\\left| #1 \\right\\rangle", 1], "bra": ["\\left\\langle #1 \\right|", 1]}}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.gates.cz';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="CZ_CRF" href="iqm.pulse.gates.cz.CZ_CRF.html" />
+    <link rel="next" title="iqm.pulse.gates.cz.round_to_granularity" href="iqm.pulse.gates.cz.round_to_granularity.html" />
     <link rel="prev" title="CCPRX_Composite_DRAGGaussian" href="iqm.pulse.gates.conditional.CCPRX_Composite_DRAGGaussian.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="9.21.0" />
     <meta name="docbuild:last-update" content="2025-09-19"/>
   </head>
   
@@ -72,8 +68,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -81,6 +88,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -88,8 +96,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -105,8 +113,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -135,26 +142,30 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 9.21.0 documentation - Home"/>
-    <img src="../_static/logo.png" class="logo__image only-dark pst-js-only" alt="iqm.pulse 9.21.0 documentation - Home"/>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.2.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts and Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts and classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../using_builder.html">Using ScheduleBuilder</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../custom_gates.html">Custom gate implementations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../pulse_timing.html">Pulse timing</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.pulse.html">pulse</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.base_utils.html">base_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.base_utils.merge_dicts.html">iqm.pulse.base_utils.merge_dicts</a></li>
@@ -173,6 +184,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.get_unitary_from_op.html">iqm.pulse.circuit_operations.get_unitary_from_op</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.reorder.html">iqm.pulse.circuit_operations.reorder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.reshape_unitary.html">iqm.pulse.circuit_operations.reshape_unitary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.Circuit.html">Circuit</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.CircuitOperationList.html">CircuitOperationList</a></li>
 </ul>
 </details></li>
@@ -188,6 +200,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_FLUX_AWG_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_FLUX_AWG_LOCUS_MAPPING</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.PROBE_LINES_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.PROBE_LINES_LOCUS_MAPPING</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.get_waveform_parameters.html">iqm.pulse.gate_implementation.get_waveform_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.init_subclass_composite.html">iqm.pulse.gate_implementation.init_subclass_composite</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.CompositeCache.html">CompositeCache</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.CompositeGate.html">CompositeGate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.CustomIQWaveforms.html">CustomIQWaveforms</a></li>
@@ -199,6 +212,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.expose_implementation.html">iqm.pulse.gates.expose_implementation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.get_implementation_class.html">iqm.pulse.gates.get_implementation_class</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.register_implementation.html">iqm.pulse.gates.register_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.register_operation.html">iqm.pulse.gates.register_operation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.barrier.html">barrier</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.conditional.html">conditional</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">cz</a></li>
@@ -284,14 +298,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -310,9 +319,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -340,16 +349,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 
 </div></div>
       
@@ -383,6 +400,18 @@ It can be represented by the unitary matrix</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\text{CZ} = \begin{pmatrix} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; -1 \end{pmatrix}\end{split}\]</div>
 <p>Full path: iqm.pulse.gates.cz</p>
+<p class="rubric">Functions</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.cz.round_to_granularity.html#iqm.pulse.gates.cz.round_to_granularity" title="iqm.pulse.gates.cz.round_to_granularity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round_to_granularity</span></code></a>(value, granularity[, ...])</p></td>
+<td><p>Round a value to the nearest multiple of granularity.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.cz.split_flat_top_part_into_granular_parts.html#iqm.pulse.gates.cz.split_flat_top_part_into_granular_parts" title="iqm.pulse.gates.cz.split_flat_top_part_into_granular_parts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">split_flat_top_part_into_granular_parts</span></code></a>(...)</p></td>
+<td><p>To save waveform memory, a (long) flat-top pulse, which is defined by its duration, full_width and rise_time, is divided into three consecutive parts (rise, flat, and fall), all of which conform to the granularity of the device.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p class="rubric">Classes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -416,28 +445,44 @@ It can be represented by the unitary matrix</p>
 <tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.cz.FluxPulseGate_CRF_CRF.html#iqm.pulse.gates.cz.FluxPulseGate_CRF_CRF" title="iqm.pulse.gates.cz.FluxPulseGate_CRF_CRF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FluxPulseGate_CRF_CRF</span></code></a></p></td>
 <td><p>CZ gate using a CosineRiseFall flux pulse on the coupler and on the qubit.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.cz.FluxPulseGate_TGSS_CRF.html#iqm.pulse.gates.cz.FluxPulseGate_TGSS_CRF" title="iqm.pulse.gates.cz.FluxPulseGate_TGSS_CRF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FluxPulseGate_TGSS_CRF</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.cz.FluxPulseGate_SmoothConstant.html#iqm.pulse.gates.cz.FluxPulseGate_SmoothConstant" title="iqm.pulse.gates.cz.FluxPulseGate_SmoothConstant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FluxPulseGate_SmoothConstant</span></code></a></p></td>
+<td><p>Flux pulse gate implementation realized as a 3-part pulse sequence, consisting of <a href="#id1"><span class="problematic" id="id2">|cosine rise|Constant|cosine fall|</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.cz.FluxPulseGate_TGSS_CRF.html#iqm.pulse.gates.cz.FluxPulseGate_TGSS_CRF" title="iqm.pulse.gates.cz.FluxPulseGate_TGSS_CRF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FluxPulseGate_TGSS_CRF</span></code></a></p></td>
 <td><p>CZ gate using a TruncatedGaussianSmoothedSquare flux pulse on the coupler and a CosineRiseFall flux pulse on the qubit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.cz.FluxPulse_SmoothConstant_SmoothConstant.html#iqm.pulse.gates.cz.FluxPulse_SmoothConstant_SmoothConstant" title="iqm.pulse.gates.cz.FluxPulse_SmoothConstant_SmoothConstant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FluxPulse_SmoothConstant_SmoothConstant</span></code></a></p></td>
+<td><p>Constant flux pulse on both qubit and coupler with smooth rise/fall.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.cz.FluxPulse_SmoothConstant_coupler.html#iqm.pulse.gates.cz.FluxPulse_SmoothConstant_coupler" title="iqm.pulse.gates.cz.FluxPulse_SmoothConstant_coupler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FluxPulse_SmoothConstant_coupler</span></code></a></p></td>
+<td><p>Constant flux pulse on coupler with smooth rise/fall.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.cz.FluxPulse_SmoothConstant_qubit.html#iqm.pulse.gates.cz.FluxPulse_SmoothConstant_qubit" title="iqm.pulse.gates.cz.FluxPulse_SmoothConstant_qubit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FluxPulse_SmoothConstant_qubit</span></code></a></p></td>
+<td><p>Constant flux pulse on qubit with smooth rise/fall</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-e213c3a9c2c1e13e50bae9e3696c81e6d385fc65.png" alt="Inheritance diagram of iqm.pulse.gates.cz" usemap="#inheritancecbad8c2f32" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-d886edac1fbb88234c8654d559608e110bb1ba39.png" alt="Inheritance diagram of iqm.pulse.gates.cz" usemap="#inheritancecbad8c2f32" class="inheritance graphviz" /></div>
 <map id="inheritancecbad8c2f32" name="inheritancecbad8c2f32">
-<area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="4,223,62,244"/>
-<area shape="rect" id="node11" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" target="_top" title="ABC for implementing quantum gates and other quantum operations using instruction schedules." alt="" coords="101,223,228,244"/>
-<area shape="rect" id="node2" href="iqm.pulse.gates.cz.CZ_CRF.html#iqm.pulse.gates.cz.CZ_CRF" target="_top" title="CZ gate using a CosineRiseFall flux pulse on the coupler." alt="" coords="621,4,680,25"/>
-<area shape="rect" id="node3" href="iqm.pulse.gates.cz.FluxPulseGate.html#iqm.pulse.gates.cz.FluxPulseGate" target="_top" title="Discrete two locus component gate implemented using flux pulses, virtual RZs," alt="" coords="336,144,429,164"/>
-<area shape="rect" id="node6" href="iqm.pulse.gates.cz.CZ_GaussianSmoothedSquare.html#iqm.pulse.gates.cz.CZ_GaussianSmoothedSquare" target="_top" title="CZ gate using a GaussianSmoothedSquare flux pulse on the coupler." alt="" coords="562,44,738,64"/>
-<area shape="rect" id="node7" href="iqm.pulse.gates.cz.CZ_Slepian.html#iqm.pulse.gates.cz.CZ_Slepian" target="_top" title="CZ gate using a Slepian flux pulse on the coupler." alt="" coords="612,84,689,104"/>
-<area shape="rect" id="node9" href="iqm.pulse.gates.cz.CZ_Slepian_CRF.html#iqm.pulse.gates.cz.CZ_Slepian_CRF" target="_top" title="CZ gate using a Slepian flux pulse on the coupler and a CosineRiseFall flux pulse on the qubit." alt="" coords="599,124,702,144"/>
-<area shape="rect" id="node10" href="iqm.pulse.gates.cz.CZ_TruncatedGaussianSmoothedSquare.html#iqm.pulse.gates.cz.CZ_TruncatedGaussianSmoothedSquare" target="_top" title="CZ gate using a TruncatedGaussianSmoothedSquare flux pulse on the coupler." alt="" coords="537,163,764,184"/>
-<area shape="rect" id="node12" href="iqm.pulse.gates.cz.FluxPulseGate_CRF_CRF.html#iqm.pulse.gates.cz.FluxPulseGate_CRF_CRF" target="_top" title="CZ gate using a CosineRiseFall flux pulse on the coupler and on the qubit." alt="" coords="577,203,724,223"/>
-<area shape="rect" id="node13" href="iqm.pulse.gates.cz.FluxPulseGate_TGSS_CRF.html#iqm.pulse.gates.cz.FluxPulseGate_TGSS_CRF" target="_top" title="CZ gate using a TruncatedGaussianSmoothedSquare flux pulse on the coupler and a CosineRiseFall" alt="" coords="574,243,727,263"/>
-<area shape="rect" id="node4" href="iqm.pulse.gates.cz.CZ_CRF_ACStarkCRF.html#iqm.pulse.gates.cz.CZ_CRF_ACStarkCRF" target="_top" title="Controlled&#45;Z two&#45;qubit gate." alt="" coords="586,282,714,303"/>
-<area shape="rect" id="node5" href="iqm.pulse.gates.cz.CouplerFluxPulseQubitACStarkPulseGate.html#iqm.pulse.gates.cz.CouplerFluxPulseQubitACStarkPulseGate" target="_top" title="Base class for CZ gates with coupler flux pulse and a qubit AC Stark pulse." alt="" coords="266,282,498,303"/>
-<area shape="rect" id="node8" href="iqm.pulse.gates.cz.CZ_Slepian_ACStarkCRF.html#iqm.pulse.gates.cz.CZ_Slepian_ACStarkCRF" target="_top" title="Controlled&#45;Z two&#45;qubit gate." alt="" coords="578,322,723,343"/>
+<area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="3,176,45,191"/>
+<area shape="rect" id="node11" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" target="_top" title="ABC for implementing quantum gates and other quantum operations using instruction schedules." alt="" coords="73,176,165,191"/>
+<area shape="rect" id="node2" href="iqm.pulse.gates.cz.CZ_CRF.html#iqm.pulse.gates.cz.CZ_CRF" target="_top" title="CZ gate using a CosineRiseFall flux pulse on the coupler." alt="" coords="450,3,493,18"/>
+<area shape="rect" id="node3" href="iqm.pulse.gates.cz.FluxPulseGate.html#iqm.pulse.gates.cz.FluxPulseGate" target="_top" title="Discrete two locus component gate implemented using flux pulses, virtual RZs," alt="" coords="243,118,311,133"/>
+<area shape="rect" id="node6" href="iqm.pulse.gates.cz.CZ_GaussianSmoothedSquare.html#iqm.pulse.gates.cz.CZ_GaussianSmoothedSquare" target="_top" title="CZ gate using a GaussianSmoothedSquare flux pulse on the coupler." alt="" coords="407,32,535,47"/>
+<area shape="rect" id="node7" href="iqm.pulse.gates.cz.CZ_Slepian.html#iqm.pulse.gates.cz.CZ_Slepian" target="_top" title="CZ gate using a Slepian flux pulse on the coupler." alt="" coords="444,61,499,75"/>
+<area shape="rect" id="node9" href="iqm.pulse.gates.cz.CZ_Slepian_CRF.html#iqm.pulse.gates.cz.CZ_Slepian_CRF" target="_top" title="CZ gate using a Slepian flux pulse on the coupler and a CosineRiseFall flux pulse on the qubit." alt="" coords="434,89,508,104"/>
+<area shape="rect" id="node10" href="iqm.pulse.gates.cz.CZ_TruncatedGaussianSmoothedSquare.html#iqm.pulse.gates.cz.CZ_TruncatedGaussianSmoothedSquare" target="_top" title="CZ gate using a TruncatedGaussianSmoothedSquare flux pulse on the coupler." alt="" coords="389,118,553,133"/>
+<area shape="rect" id="node12" href="iqm.pulse.gates.cz.FluxPulseGate_CRF_CRF.html#iqm.pulse.gates.cz.FluxPulseGate_CRF_CRF" target="_top" title="CZ gate using a CosineRiseFall flux pulse on the coupler and on the qubit." alt="" coords="418,147,524,162"/>
+<area shape="rect" id="node13" href="iqm.pulse.gates.cz.FluxPulseGate_SmoothConstant.html#iqm.pulse.gates.cz.FluxPulseGate_SmoothConstant" target="_top" title="Flux pulse gate implementation realized as a 3&#45;part pulse sequence," alt="" coords="404,176,538,191"/>
+<area shape="rect" id="node14" href="iqm.pulse.gates.cz.FluxPulseGate_TGSS_CRF.html#iqm.pulse.gates.cz.FluxPulseGate_TGSS_CRF" target="_top" title="CZ gate using a TruncatedGaussianSmoothedSquare flux pulse on the coupler and a CosineRiseFall" alt="" coords="416,205,527,219"/>
+<area shape="rect" id="node4" href="iqm.pulse.gates.cz.CZ_CRF_ACStarkCRF.html#iqm.pulse.gates.cz.CZ_CRF_ACStarkCRF" target="_top" title="Controlled&#45;Z two&#45;qubit gate." alt="" coords="425,233,517,248"/>
+<area shape="rect" id="node5" href="iqm.pulse.gates.cz.CouplerFluxPulseQubitACStarkPulseGate.html#iqm.pulse.gates.cz.CouplerFluxPulseQubitACStarkPulseGate" target="_top" title="Base class for CZ gates with coupler flux pulse and a qubit AC Stark pulse." alt="" coords="193,233,361,248"/>
+<area shape="rect" id="node8" href="iqm.pulse.gates.cz.CZ_Slepian_ACStarkCRF.html#iqm.pulse.gates.cz.CZ_Slepian_ACStarkCRF" target="_top" title="Controlled&#45;Z two&#45;qubit gate." alt="" coords="419,262,524,277"/>
+<area shape="rect" id="node15" href="iqm.pulse.gates.cz.FluxPulse_SmoothConstant_SmoothConstant.html#iqm.pulse.gates.cz.FluxPulse_SmoothConstant_SmoothConstant" target="_top" title="Constant flux pulse on both qubit and coupler with smooth rise/fall." alt="" coords="581,147,765,162"/>
+<area shape="rect" id="node16" href="iqm.pulse.gates.cz.FluxPulse_SmoothConstant_coupler.html#iqm.pulse.gates.cz.FluxPulse_SmoothConstant_coupler" target="_top" title="Constant flux pulse on coupler with smooth rise/fall." alt="" coords="599,176,747,191"/>
+<area shape="rect" id="node17" href="iqm.pulse.gates.cz.FluxPulse_SmoothConstant_qubit.html#iqm.pulse.gates.cz.FluxPulse_SmoothConstant_qubit" target="_top" title="Constant flux pulse on qubit with smooth rise/fall" alt="" coords="603,205,743,219"/>
 </map></section>
 
 
@@ -461,11 +506,11 @@ It can be represented by the unitary matrix</p>
       </div>
     </a>
     <a class="right-next"
-       href="iqm.pulse.gates.cz.CZ_CRF.html"
+       href="iqm.pulse.gates.cz.round_to_granularity.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">CZ_CRF</p>
+        <p class="prev-next-title">iqm.pulse.gates.cz.round_to_granularity</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -491,7 +536,7 @@ It can be represented by the unitary matrix</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 9.21.0.
+      © Copyright 2019-2025, IQM Finland Oy, Release 12.2.0.
       <br/>
     
   </p>
@@ -518,8 +563,8 @@ It can be represented by the unitary matrix</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

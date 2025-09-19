@@ -14,7 +14,6 @@ iqm.qiskit\_iqm.iqm\_provider.IQMBackend
    .. autosummary::
    
       ~IQMBackend.max_circuits
-      ~IQMBackend.architecture
       ~IQMBackend.name
       ~IQMBackend.description
       ~IQMBackend.online_date

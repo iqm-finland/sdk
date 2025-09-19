@@ -20,7 +20,6 @@ iqm.iqm\_client.authentication
       :template: autosummary-class-template.rst
    
       ExternalToken
-      TokenClient
       TokenManager
       TokenProviderInterface
       TokensFileReader

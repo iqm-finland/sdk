@@ -27,8 +27,10 @@ iqm.pulla.interface.TaskStatus
 
    .. autosummary::
    
-      ~TaskStatus.__format__
+      ~TaskStatus._generate_next_value_
       ~TaskStatus.__new__
+      ~TaskStatus.__format__
       ~TaskStatus.__str__
+      ~TaskStatus.__new_member__
    
    

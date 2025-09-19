@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; station-control-client 9.18.0 documentation</title>
+    <title>Index &#8212; station-control-client 10.2.0 documentation</title>
   
   
   
@@ -15,42 +15,38 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=384b581d" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=63862cf7" />
   
-  <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=3f1d8045"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/documentation_options.js?v=80c937d7"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
     <link rel="icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="9.18.0" />
     <meta name="docbuild:last-update" content="2025-09-19"/>
   </head>
   
@@ -67,8 +63,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -76,6 +83,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search..."
          aria-label="Search..."
          autocomplete="off"
@@ -83,8 +91,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -102,8 +110,7 @@
       
         
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -132,18 +139,22 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="station-control-client 9.18.0 documentation - Home"/>
-    <img src="_static/logo.png" class="logo__image only-dark pst-js-only" alt="station-control-client 9.18.0 documentation - Home"/>
+    <img src="_static/logo.png" class="logo__image only-light" alt="station-control-client 10.2.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="station-control-client 10.2.0 documentation - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
@@ -254,14 +265,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -280,9 +286,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -310,16 +316,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 
 </div></div>
       
@@ -380,12 +394,20 @@
 </li>
       <li><a href="api/iqm.station_control.client.qon.ObservationFinder.html#iqm.station_control.client.qon.ObservationFinder._follow_path">_follow_path() (ObservationFinder method)</a>
 </li>
+      <li><a href="api/iqm.station_control.client.qon.Domain.html#iqm.station_control.client.qon.Domain._generate_next_value_">_generate_next_value_() (Domain method)</a>
+
+      <ul>
+        <li><a href="api/iqm.station_control.interface.models.observation_set.ObservationSetType.html#iqm.station_control.interface.models.observation_set.ObservationSetType._generate_next_value_">(ObservationSetType method)</a>
+</li>
+      </ul></li>
       <li><a href="api/iqm.station_control.client.qon.ObservationFinder.html#iqm.station_control.client.qon.ObservationFinder._get_path_node">_get_path_node() (ObservationFinder method)</a>
 </li>
       <li><a href="api/iqm.station_control.client.qon.ObservationFinder.html#iqm.station_control.client.qon.ObservationFinder._get_path_value">_get_path_value() (ObservationFinder method)</a>
 </li>
       <li><a href="api/iqm.station_control.client.qon.QONMetricRegistry.html#iqm.station_control.client.qon.QONMetricRegistry._inv_registry">_inv_registry (QONMetricRegistry attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.station_control.client.qon.QONCharacterization.html#iqm.station_control.client.qon.QONCharacterization._parse">_parse() (QONCharacterization class method)</a>
 
       <ul>
@@ -400,8 +422,6 @@
         <li><a href="api/iqm.station_control.client.qon.QONSystemMetric.html#iqm.station_control.client.qon.QONSystemMetric._parse">(QONSystemMetric class method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.station_control.client.qon.QONMetricRegistry.html#iqm.station_control.client.qon.QONMetricRegistry._registry">_registry (QONMetricRegistry attribute)</a>
 </li>
       <li><a href="api/iqm.station_control.client.station_control.StationControlClient.html#iqm.station_control.client.station_control.StationControlClient._serialize_model">_serialize_model() (StationControlClient static method)</a>
@@ -452,6 +472,8 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.station_control.interface.models.observation_set.ObservationSetType.html#iqm.station_control.interface.models.observation_set.ObservationSetType.CALIBRATION_SET">CALIBRATION_SET (ObservationSetType attribute)</a>
+</li>
       <li><a href="api/iqm.station_control.interface.models.dynamic_quantum_architecture.DynamicQuantumArchitecture.html#iqm.station_control.interface.models.dynamic_quantum_architecture.DynamicQuantumArchitecture.calibration_set_id">calibration_set_id (DynamicQuantumArchitecture attribute)</a>
 </li>
       <li><a href="api/iqm.station_control.client.iqm_server.proto.calibration_pb2_grpc.Calibrations.html#iqm.station_control.client.iqm_server.proto.calibration_pb2_grpc.Calibrations">Calibrations (class in iqm.station_control.client.iqm_server.proto.calibration_pb2_grpc)</a>
@@ -465,6 +487,8 @@
       <li><a href="api/iqm.station_control.client.iqm_server.testing.iqm_server_mock.IqmServerMockBase.html#iqm.station_control.client.iqm_server.testing.iqm_server_mock.IqmServerMockBase.channel">channel() (IqmServerMockBase method)</a>
 </li>
       <li><a href="api/iqm.station_control.client.qon.Domain.html#iqm.station_control.client.qon.Domain.CHARACTERIZATION">CHARACTERIZATION (Domain attribute)</a>
+</li>
+      <li><a href="api/iqm.station_control.interface.models.observation_set.ObservationSetType.html#iqm.station_control.interface.models.observation_set.ObservationSetType.CHARACTERIZATION_SET">CHARACTERIZATION_SET (ObservationSetType attribute)</a>
 </li>
       <li><a href="api/iqm.station_control.client.iqm_server.testing.iqm_server_mock.IqmServerMockBase.html#iqm.station_control.client.iqm_server.testing.iqm_server_mock.IqmServerMockBase.chunk_stream">chunk_stream() (IqmServerMockBase static method)</a>
 </li>
@@ -486,10 +510,10 @@
       </ul></li>
       <li><a href="api/iqm.station_control.client.iqm_server.grpc_utils.ConnectionParameters.html#iqm.station_control.client.iqm_server.grpc_utils.ConnectionParameters">ConnectionParameters (class in iqm.station_control.client.iqm_server.grpc_utils)</a>
 </li>
-      <li><a href="api/iqm.station_control.interface.models.static_quantum_architecture.StaticQuantumArchitecture.html#iqm.station_control.interface.models.static_quantum_architecture.StaticQuantumArchitecture.connectivity">connectivity (StaticQuantumArchitecture attribute)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.station_control.interface.models.static_quantum_architecture.StaticQuantumArchitecture.html#iqm.station_control.interface.models.static_quantum_architecture.StaticQuantumArchitecture.connectivity">connectivity (StaticQuantumArchitecture attribute)</a>
+</li>
       <li><a href="api/iqm.station_control.client.qon.QONControllerSetting.html#iqm.station_control.client.qon.QONControllerSetting.controller">controller (QONControllerSetting attribute)</a>
 </li>
       <li><a href="api/iqm.station_control.client.qon.Domain.html#iqm.station_control.client.qon.Domain.CONTROLLER_SETTING">CONTROLLER_SETTING (Domain attribute)</a>
@@ -693,6 +717,8 @@
       <li><a href="api/iqm.station_control.interface.models.dynamic_quantum_architecture.GateInfo.html#iqm.station_control.interface.models.dynamic_quantum_architecture.GateInfo">GateInfo (class in iqm.station_control.interface.models.dynamic_quantum_architecture)</a>
 </li>
       <li><a href="api/iqm.station_control.interface.models.dynamic_quantum_architecture.DynamicQuantumArchitecture.html#iqm.station_control.interface.models.dynamic_quantum_architecture.DynamicQuantumArchitecture.gates">gates (DynamicQuantumArchitecture attribute)</a>
+</li>
+      <li><a href="api/iqm.station_control.interface.models.observation_set.ObservationSetType.html#iqm.station_control.interface.models.observation_set.ObservationSetType.GENERIC_SET">GENERIC_SET (ObservationSetType attribute)</a>
 </li>
       <li><a href="api/iqm.station_control.client.iqm_server.iqm_server_client.IqmServerClient.html#iqm.station_control.client.iqm_server.iqm_server_client.IqmServerClient.get_about">get_about() (IqmServerClient method)</a>
 
@@ -947,6 +973,8 @@
 </li>
       </ul></li>
       <li><a href="api/iqm.station_control.interface.models.dynamic_quantum_architecture.GateInfo.html#iqm.station_control.interface.models.dynamic_quantum_architecture.GateInfo.implementations">implementations (GateInfo attribute)</a>
+</li>
+      <li><a href="api/iqm.station_control.interface.models.jobs.JobExecutorStatus.html#iqm.station_control.interface.models.jobs.JobExecutorStatus.in_progress_statuses">in_progress_statuses() (JobExecutorStatus class method)</a>
 </li>
       <li><a href="api/iqm.station_control.client.utils.init_station_control.html#iqm.station_control.client.utils.init_station_control">init_station_control() (in module iqm.station_control.client.utils)</a>
 </li>
@@ -1640,6 +1668,8 @@
 </li>
       <li><a href="api/iqm.station_control.interface.models.observation_set.ObservationSetDefinition.html#iqm.station_control.interface.models.observation_set.ObservationSetDefinition">ObservationSetDefinition (class in iqm.station_control.interface.models.observation_set)</a>
 </li>
+      <li><a href="api/iqm.station_control.interface.models.observation_set.ObservationSetType.html#iqm.station_control.interface.models.observation_set.ObservationSetType">ObservationSetType (class in iqm.station_control.interface.models.observation_set)</a>
+</li>
       <li><a href="api/iqm.station_control.interface.models.observation_set.ObservationSetUpdate.html#iqm.station_control.interface.models.observation_set.ObservationSetUpdate">ObservationSetUpdate (class in iqm.station_control.interface.models.observation_set)</a>
 </li>
       <li><a href="api/iqm.station_control.interface.models.observation_set.ObservationSetWithObservations.html#iqm.station_control.interface.models.observation_set.ObservationSetWithObservations">ObservationSetWithObservations (class in iqm.station_control.interface.models.observation_set)</a>
@@ -1722,6 +1752,8 @@
 </li>
       <li><a href="api/iqm.station_control.client.qon.QONSystemMetric.html#iqm.station_control.client.qon.QONSystemMetric">QONSystemMetric (class in iqm.station_control.client.qon)</a>
 </li>
+      <li><a href="api/iqm.station_control.interface.models.observation_set.ObservationSetType.html#iqm.station_control.interface.models.observation_set.ObservationSetType.QUALITY_METRIC_SET">QUALITY_METRIC_SET (ObservationSetType attribute)</a>
+</li>
       <li><a href="api/iqm.station_control.interface.models.observation_set.QualityMetrics.html#iqm.station_control.interface.models.observation_set.QualityMetrics">QualityMetrics (class in iqm.station_control.interface.models.observation_set)</a>
 </li>
       <li><a href="api/iqm.station_control.client.qon.QONCharacterization.html#iqm.station_control.client.qon.QONCharacterization.quantity">quantity (QONCharacterization attribute)</a>
@@ -1732,14 +1764,14 @@
 </li>
       <li><a href="api/iqm.station_control.client.iqm_server.proto.qc_pb2_grpc.QuantumComputersStub.html#iqm.station_control.client.iqm_server.proto.qc_pb2_grpc.QuantumComputersStub">QuantumComputersStub (class in iqm.station_control.client.iqm_server.proto.qc_pb2_grpc)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.station_control.interface.models.dynamic_quantum_architecture.DynamicQuantumArchitecture.html#iqm.station_control.interface.models.dynamic_quantum_architecture.DynamicQuantumArchitecture.qubits">qubits (DynamicQuantumArchitecture attribute)</a>
 
       <ul>
         <li><a href="api/iqm.station_control.interface.models.static_quantum_architecture.StaticQuantumArchitecture.html#iqm.station_control.interface.models.static_quantum_architecture.StaticQuantumArchitecture.qubits">(StaticQuantumArchitecture attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.station_control.client.iqm_server.iqm_server_client.IqmServerClient.html#iqm.station_control.client.iqm_server.iqm_server_client.IqmServerClient.query_observation_sets">query_observation_sets() (IqmServerClient method)</a>
 
       <ul>
@@ -2053,7 +2085,7 @@
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 9.18.0.
+      © Copyright 2019-2025, IQM Finland Oy, Release 10.2.0.
       <br/>
     
   </p>
@@ -2080,8 +2112,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

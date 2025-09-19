@@ -26,12 +26,9 @@ iqm.iqm\_client.models.MoveGateFrameTrackingMode
 
    .. autosummary::
    
-      ~MoveGateFrameTrackingMode._generate_next_value_
-      ~MoveGateFrameTrackingMode._new_member_
-      ~MoveGateFrameTrackingMode._value_repr_
-      ~MoveGateFrameTrackingMode.__format__
       ~MoveGateFrameTrackingMode.__new__
       ~MoveGateFrameTrackingMode.__repr__
       ~MoveGateFrameTrackingMode.__str__
+      ~MoveGateFrameTrackingMode.__format__
    
    

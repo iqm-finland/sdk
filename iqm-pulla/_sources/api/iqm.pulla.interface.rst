@@ -28,8 +28,6 @@ iqm.pulla.interface
       :toctree:
       :template: autosummary-class-template.rst
    
-      Circuit
-      Instruction
       StationControlResult
       TaskStatus
    
