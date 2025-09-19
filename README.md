@@ -13,8 +13,8 @@ This GitHub repository is a read-only mirror that isn't used for accepting contr
 
 ---
 
-If you need to access an older version of documentation of some package, you can build it locally as follows:
+If you need to access an older version of some package's documentation, build it locally as follows:
 
-1. Download the source distribution, e.g. `pip download --no-deps --no-binary=:all: iqm-pulse`.
-2. Unarchive the downloaded file `tar -xzf iqm_pulse-12.2.0.tar.gz`.
-3. `cd` into the directory and build docs with `python -m sphinx docs build/docs`. The rendered docs are now in `build/docs`
+1. Download the source distribution with an explicit version, e.g. `pip download --no-deps --no-binary=:all: iqm-pulse==11.2.0`.
+2. Unarchive the downloaded file `tar -xzf iqm_pulse-11.2.0.tar.gz`.
+3. `cd` into the directory and build docs with `python -m sphinx docs build/docs`. The rendered docs are saved to `build/docs`.
