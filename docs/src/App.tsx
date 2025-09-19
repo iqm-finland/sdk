@@ -59,15 +59,15 @@ function App() {
 
   const docLinks = [
     { href: "./iqm-pulla", title: "IQM Pulla", description: "Pulse-level access library for compiling quantum circuits." },
-    { href: "./iqm-benchmarks/", title: "IQM Benchmarks", description: "Quantum Characterization, Verification, and Validation (QCVV) tools for quantum computing." },
+    { href: "https://iqm-finland.github.io/iqm-benchmarks/", title: "IQM Benchmarks", description: "Quantum Characterization, Verification, and Validation (QCVV) tools for quantum computing." },
     { href: "./iqm-pulse", title: "IQM Pulse", description: "Interface and implementations for control pulses." },
     { href: "./iqm-qaoa", title: "IQM QAOA", description: "Easily set up and run different flavours of QAOA." },
     { href: "./iqm-client/", title: "IQM Client", description: "Python client for remote access to quantum computers for circuit-level access (e.g. via Qiskit, Cirq)." },
     { href: "./iqm-station-control-client", title: "IQM Station Control Client", description: "Python client for remote access to quantum computers for pulse-level access." },
     { href: "./iqm-exa-common", title: "IQM EXA Common", description: "Abstract interfaces, helpers, utility classes, etc." },
     { href: "./iqm-data-definitions", title: "IQM Data Definitions", description: "A common place for data definitions shared inside IQM." },
-    { href: "https://qrisp.eu/reference/index.html", 
-      title: "Qrisp", 
+    { href: "https://qrisp.eu/reference/index.html",
+      title: "Qrisp",
       description: "Use Eclipse Qrisp to run your circuits on IQM hardware.",
     image: QrispLogo },
   ];

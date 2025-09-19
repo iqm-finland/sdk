@@ -47,6 +47,10 @@ intersphinx_mapping.update(
             "../iqm-client",
             "https://docs.meetiqm.com/iqm-client/objects.inv",
         ),
+        "iqm.cirq_iqm": (
+            "../iqm-client",
+            "https://docs.meetiqm.com/iqm-client/objects.inv",
+        ),
 
         "iqm.applications": (
             "../iqm-qaoa",
