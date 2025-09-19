@@ -15,13 +15,11 @@
 """Base immutable class for sweeps specifications."""
 
 from typing import Any
-import warnings
 
-from exa.common.control.sweep.option import CenterSpanOptions, StartStopOptions, SweepOptions
+from exa.common.control.sweep.option import CenterSpanOptions, StartStopOptions
 from exa.common.control.sweep.sweep_values import SweepValues
 from exa.common.data.base_model import BaseModel
 from exa.common.data.parameter import Parameter
-from exa.common.errors.exa_error import InvalidSweepOptionsTypeError
 
 
 class Sweep(BaseModel):
@@ -32,30 +30,6 @@ class Sweep(BaseModel):
 
     data: SweepValues
     """List of values for :attr:`parameter`"""
-
-    def __init__(
-        self, parameter: Parameter, options: SweepOptions | None = None, *, data: SweepValues | None = None, **kwargs
-    ) -> None:
-        if options is None and data is None:
-            raise ValueError("Either 'options' or 'data' is required.")
-        if options is not None and data is not None:
-            raise ValueError(
-                "Can't use both 'options' and 'data' at the same time, give only either of the parameters."
-            )
-        if options is not None:
-            warnings.warn("'options' attribute is deprecated, use 'data' instead.", DeprecationWarning)
-
-            if not isinstance(options, SweepOptions):
-                raise InvalidSweepOptionsTypeError(str(type(options)))
-
-            if isinstance(options, StartStopOptions):
-                data = self.__from_start_stop(parameter, options)
-            elif isinstance(options, CenterSpanOptions):
-                data = self.__from_center_span(parameter, options)
-            else:
-                data = options.data
-
-        super().__init__(parameter=parameter, data=data, **kwargs)  # type: ignore[call-arg]  # type: ignore[call-arg]
 
     def model_post_init(self, __context: Any) -> None:
         if not all(self.parameter.validate(value) for value in self.data):
@@ -75,6 +49,6 @@ class Sweep(BaseModel):
         return options.data
 
     @staticmethod
-    def _validate_value(parameter: Parameter, value: int | float | complex | str | bool, value_label: str):
+    def _validate_value(parameter: Parameter, value: complex | str | bool, value_label: str) -> None:
         if not parameter.validate(value):
             raise ValueError(f"Invalid {value_label} value {value} for parameter type {parameter.data_type}.")

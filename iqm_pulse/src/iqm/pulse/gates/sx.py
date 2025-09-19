@@ -38,7 +38,7 @@ if TYPE_CHECKING:  # pragma: no cover
 class SXGate(CompositeGate):
     """SX gate implementation based on PRX gate, by limiting the angle to pi / 2."""
 
-    registered_gates = ["prx"]
+    registered_gates = ("prx",)
 
     def _call(self) -> TimeBox:  # type: ignore[override]
         """Call PRX gate with angle equals to pi / 2."""

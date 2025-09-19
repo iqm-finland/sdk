@@ -18,6 +18,7 @@ Mocks server calls for testing
 
 from importlib.metadata import version
 import json
+import os
 
 from iqm.iqm_client import IQMClient, TokenManager
 from mockito import ANY, expect, when
@@ -27,6 +28,7 @@ import requests
 from requests import HTTPError, Response
 
 from iqm.station_control.client.station_control import StationControlClient
+from iqm.station_control.interface import models
 
 
 @pytest.fixture()
@@ -47,7 +49,62 @@ def iqm_client_mock(base_url) -> IQMClient:
     when(StationControlClient)._check_api_versions().thenReturn(None)
     client = IQMClient(base_url)
     client._token_manager = TokenManager()  # Do not use authentication
+    when(client._token_manager).get_bearer_token().thenReturn(None)
     return client
+
+
+@pytest.fixture
+def crystal_5_calibration_set():
+    path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
+        "tests/iqm_client/resources/crystal_5_calibration_set.json",
+    )
+    with open(path, "r", encoding="utf-8") as data:
+        return json.load(data)
+
+        # return models.ObservationSetData(
+        #     observation_set_type="calibration-set",
+        #     observation_ids=[obs["observation_id"] for obs in calset],
+        # )
+
+
+@pytest.fixture
+def crystal_5_quality_metrics(crystal_5_calibration_set):
+    path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
+        "tests/iqm_client/resources/crystal_5_quality_metric_set.json",
+    )
+    with open(path, "r", encoding="utf-8") as data:
+        quality_metric_set = json.load(data)
+
+    calibration_set_data = models.ObservationSetData(
+        observation_set_type="calibration-set",
+        # Extract all observation IDs from the list of observations
+        observation_ids=[obs["observation_id"] for obs in crystal_5_calibration_set if "observation_id" in obs],
+        # Use metadata from the quality metric set as it's the context
+        describes_id=quality_metric_set["describes_id"],
+        invalid=quality_metric_set["invalid"],
+        dut_label=quality_metric_set["dut_label"],
+        observation_set_id=quality_metric_set["observation_set_id"],
+        created_timestamp=quality_metric_set["created_timestamp"],
+        end_timestamp=quality_metric_set["end_timestamp"],
+    )
+
+    # Convert the list of observation dicts to a list of ObservationLite model instances
+    observations_models = [models.ObservationLite.model_construct(**obs) for obs in quality_metric_set["observations"]]
+
+    return models.QualityMetrics(
+        observation_set_type=quality_metric_set["observation_set_type"],
+        observation_ids=quality_metric_set["observation_ids"],
+        describes_id=quality_metric_set["describes_id"],
+        invalid=quality_metric_set["invalid"],
+        dut_label=quality_metric_set["dut_label"],
+        observation_set_id=quality_metric_set["observation_set_id"],
+        created_timestamp=quality_metric_set["created_timestamp"],
+        end_timestamp=quality_metric_set["end_timestamp"],
+        calibration_set=calibration_set_data,
+        observations=observations_models,
+    )
 
 
 class MockBytesResponse:

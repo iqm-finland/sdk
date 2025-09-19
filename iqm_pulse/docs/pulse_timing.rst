@@ -6,19 +6,19 @@ Measure and ReadoutTrigger
 
 The :class:`~iqm.pulse.playlist.instructions.ReadoutTrigger` Instruction responsible of qubit readout has several
 timing-related attributes.
-The ``measure.constant`` gate implementation produces the lower-level ReadoutTrigger instruction
-from a simplified set of settings.
-The figure below shows how the settings relate to the more flexible attributes of the instruction.
+The ``measure.constant`` gate implementation produces a ReadoutTrigger instruction
+from a simplified set of parameters.
+The figure below shows how these parameters relate to the more flexible attributes of the instruction.
 
 .. image:: /_static/images/readout_timing.svg
 
 Fast feedback timing
 --------------------
 
-With conditional Instructions, we specify how the information from readout operations should affect Instructions at
-runtime.
+With conditional instructions, we can specify how the output from readout operations should affect
+other instructions in the same Segment.
 Usually, the goal is use the information as soon as possible, but it takes a finite time to propagate from the
-acquisition unit to the drive channels that execute the Instructions conditionally.
+acquisition unit to the AWG that execute the Instructions conditionally.
 
 .. note::
 
@@ -31,7 +31,7 @@ To facilitate efficient timing of the feedback signals, IQM Pulse uses virtual c
 (the source of the signals) and drive channels (the destinations).
 Block instructions on the virtual channel represent the travel time of the signals.
 
-:class:`.CCPRX_Composite` is GateImplementation of the ``cc_prx`` (classically controlled PRX) that outputs two
+:class:`.CCPRX_Composite` is a GateImplementation of the ``cc_prx`` (classically controlled PRX) gate that outputs two
 TimeBoxes:
 the first one to represent the travel time, and the second one with the actual :class:`.ConditionalInstruction`.
 In typical use, both should be scheduled in the same order, to ensure the Conditionalinstrucion starts when the
@@ -62,7 +62,7 @@ The equaivalent code would be
 
 
 Instructions are spaced out in time only for visual clarity. When scheduled ASAP, they would be left-aligned
-such that the ConditionalInstructions start right after the associated `control_delay` has passed.
+such that the ConditionalInstructions start right after the associated ``control_delay`` has passed.
 
 The bottom of the image illustrates an alternative use of ``CCPRX_Composite`` to have more freedom in the timing.
 There, the optional delay TimeBox is not used for scheduling the Instructions on QB4.
@@ -85,7 +85,7 @@ complex number or a bit, corresponding to a particular qubit in a particular seg
 In the figure, one of the AWGs has been selected as the trigger master, which means it sends trigger pulses to
 start the execution on the slave devices.
 As shown in the picture, different delays caused by the travel time of signals can be compensated for by
-adjusting the `trigger_delay` setting of each device.
+adjusting the ``trigger_delay`` setting of each device.
 
 
 .. image:: /_static/images/pulse_timing.svg
@@ -120,4 +120,4 @@ Other notes:
 * Pipeline delays are delays between the execution of a command and the pulse actually getting outputted
   from a device. This delay is caused by the hardware and cannot be changed.
   In practice, it can be thought as being part of the cable delays, and thus can be compensated with
-  ``trigger_delay`` setting.
+  the ``trigger_delay`` setting.

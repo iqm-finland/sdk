@@ -14,13 +14,26 @@
 """Observation set related station control interface models."""
 
 from datetime import datetime
+import enum
 import uuid
 
 from pydantic import ConfigDict, Field
 
 from iqm.station_control.interface.models.observation import ObservationLite
-from iqm.station_control.interface.models.type_aliases import ObservationSetType
 from iqm.station_control.interface.pydantic_base import PydanticBase
+
+
+class ObservationSetType(enum.StrEnum):
+    """Different types of observation sets."""
+
+    GENERIC_SET = "generic-set"
+    """For human users."""
+    CALIBRATION_SET = "calibration-set"
+    """Describes an operating point of a quantum computer."""
+    QUALITY_METRIC_SET = "quality-metric-set"
+    """Describes the quality of a calibration set at a certain point in time."""
+    CHARACTERIZATION_SET = "characterization-set"
+    """Starting point for a calibration procedure."""
 
 
 class ObservationSetBase(PydanticBase):

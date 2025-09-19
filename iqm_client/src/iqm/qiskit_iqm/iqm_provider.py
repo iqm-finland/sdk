@@ -22,7 +22,6 @@ from uuid import UUID
 import warnings
 
 from iqm.iqm_client import (
-    Circuit,
     CircuitBatch,
     CircuitCompilationOptions,
     CircuitValidationError,
@@ -30,7 +29,7 @@ from iqm.iqm_client import (
     RunRequest,
 )
 from iqm.iqm_client.util import to_json_dict
-from iqm.qiskit_iqm import IQMFakeAphrodite, IQMFakeApollo, IQMFakeDeneb
+from iqm.qiskit_iqm import IQMFakeAphrodite, IQMFakeApollo, IQMFakeBackend, IQMFakeDeneb
 from iqm.qiskit_iqm.fake_backends import IQMFakeAdonis
 from iqm.qiskit_iqm.fake_backends.fake_garnet import IQMFakeGarnet
 from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
@@ -38,6 +37,8 @@ from iqm.qiskit_iqm.iqm_job import IQMJob
 from iqm.qiskit_iqm.qiskit_to_iqm import serialize_instructions
 from qiskit import QuantumCircuit
 from qiskit.providers import JobStatus, JobV1, Options
+
+from iqm.pulse import Circuit
 
 try:
     __version__ = version("qiskit-iqm")
@@ -51,20 +52,32 @@ class IQMBackend(IQMBackendBase):
     """Backend for executing quantum circuits on IQM quantum computers.
 
     Args:
-        client: client instance for communicating with an IQM server
+        client: Client instance for communicating with an IQM server.
         calibration_set_id: ID of the calibration set the backend will use.
             ``None`` means the IQM server will be queried for the current default
             calibration set.
-        kwargs: optional arguments to be passed to the parent Backend initializer
+        use_metrics: If True, the backend will query the server for calibration data and related
+            quality metrics, and pass these to the transpilation target(s). The default value is set
+            to False until quality metrics become available on the Resonance API.
+        kwargs: Optional arguments to be passed to the parent Backend initializer.
 
     """
 
-    def __init__(self, client: IQMClient, *, calibration_set_id: str | UUID | None = None, **kwargs):
+    def __init__(
+        self,
+        client: IQMClient,
+        *,
+        calibration_set_id: str | UUID | None = None,
+        use_metrics: bool = False,
+        **kwargs,
+    ):
         if calibration_set_id is not None and not isinstance(calibration_set_id, UUID):
             calibration_set_id = UUID(calibration_set_id)
+
         self._use_default_calibration_set = calibration_set_id is None
         architecture = client.get_dynamic_quantum_architecture(calibration_set_id)
-        super().__init__(architecture, **kwargs)
+        metrics = client._get_calibration_quality_metrics(architecture.calibration_set_id) if use_metrics else None
+        super().__init__(architecture, metrics=metrics, **kwargs)
         self.client: IQMClient = client
         self._max_circuits: int | None = None
         self.name = "IQM Backend"
@@ -266,10 +279,10 @@ class IQMBackend(IQMBackendBase):
         return Circuit(name=circuit.name, instructions=instructions, metadata=metadata)
 
 
-facade_names = {
+facade_names: dict[str, IQMFakeBackend] = {
     "facade_adonis": IQMFakeAdonis(),
-    "facade_aphrodite": IQMFakeAphrodite(),
     "facade_apollo": IQMFakeApollo(),
+    "facade_aphrodite": IQMFakeAphrodite(),
     "facade_deneb": IQMFakeDeneb(),
     "facade_garnet": IQMFakeGarnet(),
 }
@@ -280,17 +293,38 @@ class IQMFacadeBackend(IQMBackend):
 
     Can be used to submit a circuit to a mock IQM server that has no real quantum hardware,
     and if the mock execution is successful, simulates the circuit locally using an error model that
-    is representative of the mocked QPU. Finally returns the simulated results.
+    is broadly representative of the mocked QPU. Finally returns the *simulated results*.
+
+    .. note::
+
+       There is usually no point in using a facade backend with a real quantum computer, since the computation
+       results will be replaced with a local simulation.
 
     Args:
         client: Client instance for communicating with an IQM server.
-        **kwargs: Optional arguments to be passed to the parent class.
+        name: Name of the fake backend (simulator instance) to use. If None, will be determined automatically based
+            on the static quantum architecture of the server.
+        kwargs: Optional arguments to be passed to the parent class.
 
     """
 
-    def __init__(self, client: IQMClient, **kwargs):
+    def __init__(self, client: IQMClient, *, name: str | None = None, **kwargs):
         super().__init__(client, **kwargs)
-        self.backend = self._determine_facade_backend_from_sqa()
+        sqa = self.client.get_static_quantum_architecture()
+        if name is None:
+            # use a fake backend (local simulator) that matches the server
+            for backend in facade_names.values():
+                if backend.validate_compatible_architecture(sqa):
+                    self._fake_backend = backend
+                    return
+            raise ValueError("Quantum architecture of the server does not match any known IQMFakeBackend.")
+        else:
+            if name not in facade_names:
+                raise ValueError(f"Unknown facade backend: {name}")
+            backend = facade_names[name]
+            if not backend.validate_compatible_architecture(sqa):
+                raise ValueError("Quantum architecture of the server does not match the requested IQMFakeBackend.")
+            self._fake_backend = backend
 
     def _validate_no_empty_cregs(self, circuit: QuantumCircuit) -> bool:
         """Returns True if given circuit has no empty (unused) classical registers, False otherwise."""
@@ -303,26 +337,20 @@ class IQMFacadeBackend(IQMBackend):
             return False
         return True
 
-    def _determine_facade_backend_from_sqa(self) -> IQMFacadeBackend:
-        for backend in facade_names.values():
-            if backend.validate_compatible_architecture(self.client.get_static_quantum_architecture()):
-                return backend
-        raise ValueError("Quantum architecture of the remote quantum computer does not match facade input.")
-
     def run(self, run_input: QuantumCircuit | list[QuantumCircuit], **options) -> JobV1:
         circuits = [run_input] if isinstance(run_input, QuantumCircuit) else run_input
         circuits_validated_cregs: list[bool] = [self._validate_no_empty_cregs(circuit) for circuit in circuits]
         if not all(circuits_validated_cregs):
             raise ValueError(
-                "One or more circuits contain unused classical registers. This is not allowed for Facade simulation, "
-                "see user guide."
+                "One or more circuits contain unused classical registers. This is not allowed for facade simulation, "
+                "see the user guide."
             )
 
         iqm_backend_job = super().run(run_input, **options)
         iqm_backend_job.result()  # get and discard results
         if iqm_backend_job.status() == JobStatus.ERROR:
             raise RuntimeError("Remote execution did not succeed.")
-        return self.backend.run(run_input, **options)
+        return self._fake_backend.run(run_input, **options)
 
 
 class IQMProvider:
@@ -334,33 +362,38 @@ class IQMProvider:
     through to :class:`~iqm.iqm_client.iqm_client.IQMClient` as is, and are documented there.
 
     Args:
-        url: URL of the IQM server (e.g. https://cocos.resonance.meetiqm.com/garnet)
+        url: URL of the IQM server (e.g. "https://cocos.resonance.meetiqm.com/garnet")
 
     """
 
-    def __init__(self, url: str, **user_auth_args):  # contains keyword args auth_server_url, username, password
+    def __init__(self, url: str, **user_auth_args):  # contains keyword args token or tokens_file
         self.url = url
         self.user_auth_args = user_auth_args
 
     def get_backend(
-        self, name: str | None = None, calibration_set_id: UUID | None = None
-    ) -> IQMBackend | IQMFacadeBackend:
-        """An IQMBackend instance associated with this provider.
+        self,
+        name: str | None = None,
+        calibration_set_id: UUID | None = None,
+        *,
+        use_metrics: bool = False,
+    ) -> IQMBackend:
+        """IQMBackend instance associated with this provider.
 
         Args:
-            name: optional name of a custom facade backend
-            calibration_set_id: ID of the calibration set used to create the transpilation target of the backend.
+            name: Optional name of a facade backend to request, see :class:`IQMFacadeBackend`.
+            calibration_set_id: ID of the calibration set to be used with the backend.
+                Affects both the transpilation target and the circuit execution.
                 If None, the server default calibration set will be used.
+            use_metrics: If True, the backend will provide calibration data and related quality metrics
+                to the transpilation target to improve the transpilation. The default value is set to False
+                until quality metrics become available on the Resonance API.
+
+        Returns:
+            Backend instance for connecting to a quantum computer.
 
         """
         client = IQMClient(self.url, **self.user_auth_args)
 
         if name and name.startswith("facade_"):
-            if name in facade_names:
-                if not facade_names[name].validate_compatible_architecture(client.get_static_quantum_architecture()):
-                    raise ValueError("Quantum architecture of the remote quantum computer does not match facade input.")
-                return IQMFacadeBackend(client)
-
-            warnings.warn(f"Unknown facade backend: {name}. A regular backend associated with {self.url} will be used.")
-
-        return IQMBackend(client, calibration_set_id=calibration_set_id)
+            return IQMFacadeBackend(client, name=name, calibration_set_id=calibration_set_id, use_metrics=use_metrics)
+        return IQMBackend(client, calibration_set_id=calibration_set_id, use_metrics=use_metrics)

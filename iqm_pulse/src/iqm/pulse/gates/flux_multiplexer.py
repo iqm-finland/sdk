@@ -9,7 +9,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 from copy import deepcopy
 
 from iqm.models.playlist.waveforms import Samples
@@ -170,7 +170,7 @@ class FluxMultiplexer_SampleLinear(GateImplementation):
 
     @classmethod
     def get_custom_locus_mapping(
-        cls, chip_topology: ChipTopology, component_to_channels: dict[str, Iterable[str]]
+        cls, chip_topology: ChipTopology, component_to_channels: Mapping[str, Iterable[str]]
     ) -> dict[tuple[str, ...] | frozenset[str], tuple[str, ...]] | None:
         """Locus is "global" (the whole QPU) represented by an empty tuple for now."""
         # pylint: disable=unused-argument

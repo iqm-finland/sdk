@@ -15,6 +15,9 @@
 
 from importlib.metadata import PackageNotFoundError, version
 
+from iqm.pulse.builder import CircuitOperation
+from iqm.pulse.circuit_operations import Circuit
+
 try:
     DIST_NAME = "iqm-pulse"
     __version__ = version(DIST_NAME)

@@ -1,4 +1,4 @@
-Concepts and Classes
+Concepts and classes
 ####################
 
 This section gives an overview of the main concepts and terminology in IQM Pulse.
@@ -20,7 +20,7 @@ The assembly of a Playlist, or a batch of quantum circuits, can be summarized as
   assumed to be preserved. A quantum circuit corresponds to one segment.
 * What is executed during a segment is determined by a **Schedule**.
 * A Schedule is a set of hardware control channels, each with a strictly timed sequence of **Instructions**.
-* A Schedule is formed by scheduling a **Timebox**.
+* A Schedule is formed by scheduling a number of **Timeboxes**.
 * A TimeBox can contain other TimeBoxes without precise relative timing,
   or it can be atomic, in which case it contains a single **Schedule**.
 
@@ -68,7 +68,7 @@ Instead, the magic happens on the client side so that it is transparent to the u
 Schedules
 ---------
 
-:class:`~iqm.pulse.playlist.schedule.Schedule` contains a number of control channels, each with a lists of Instructions.
+:class:`~iqm.pulse.playlist.schedule.Schedule` contains a number of control channels, each with a list of Instructions.
 All channels in a Schedule start executing at the same instant, and the timing is defined by the duration of the
 individual Instructions.
 Schedules can be thought of as a fixed block that occupies some interval on a timeline of some channels.
@@ -87,7 +87,7 @@ Whereas a Schedule is a container with strict relative timing, a :class:`.TimeBo
 relative timing.
 Each TimeBox can be labeled using a human-readable label describing it, and operates on a number
 of *locus components*, using some of their control channels.
-A composite TimeBox contains other TimeBoxes as children, whereas atomic TimeBoxes contain a Schedule.
+A composite TimeBox contains other TimeBoxes as children, whereas atomic TimeBoxes contain a single Schedule.
 
 TimeBoxes are the main language in which users define the order and relative alignment of execution elements, be it
 gates, Schedules, or larger TimeBoxes.
@@ -95,10 +95,10 @@ gates, Schedules, or larger TimeBoxes.
 A key process is the scheduling, in which TimeBoxes are resolved recursively into a fixed Schedule.
 When resolving, all Schedules inside the TimeBox are concatenated and are either left-aligned (ASAP) or right-aligned
 (ALAP), respecting the hardware constraints.
-Importantly, if some TimeBoxes have content on disjoint channels, the Schedules are allowed to happen simultaneously.
+Importantly, if some TimeBoxes have content on disjoint channels, their Schedules are allowed to happen simultaneously.
 If they have content on partly overlapping channels, the Schedules are concatenated while preserving their internal
 timing.
-Any interval that does not have explicit instructions is filled with Wait Instructions.
+Any interval that does not have explicit instructions is filled with Wait instructions.
 The figure above demonstrates how TimeBoxes are resolved.
 
 The syntax and rules are explained in more detail in :doc:`using_builder`.
@@ -106,53 +106,57 @@ The syntax and rules are explained in more detail in :doc:`using_builder`.
 QuantumOps
 ----------
 
-A higher-level concept, a :class:`.QuantumOp` can represent a unitary quantum gate,
-or for example a measurement operation (not all QuantumOps necessarily represent a unitary gate).
-QuantumOps are simple, abstract, self-contained actions one can execute on a station as parts of a quantum circuit.
-They include quantum gates like PRX, CZ, and measurements and resets.
-Whereas Schedules and Instructions act on control channels, QuantumOps act on named components on the QPU, such as
-qubits or computational resonators.
+A higher-level concept, a :class:`.QuantumOp` (quantum operation) can represent a unitary quantum gate like PRX or CZ,
+or a nonunitary operation like a measurement or a reset.
+QuantumOps are simple, abstract, self-contained actions one can apply on the quantum state of the QPU
+as parts of a quantum circuit.
+Whereas Schedules and Instructions act on control channels, QuantumOps act on *loci* which are ordered sequences of
+QPU components, such as qubits or computational resonators.
 
-A QuantumOp has unambiguous definition in terms of its *intended* effect on the computational subspace of the
-QPU component, but it can be *implemented* in various ways.
+A QuantumOp has an unambiguous definition in terms of its *intended* effect on the computational subspace of its
+locus components, but it can be *implemented* on a station in various ways.
 Each implementation is represented as a GateImplementation.
 
 The list of available QuantumOps at runtime can be obtained with :func:`iqm.pulse.builder.build_quantum_ops`.
-A new QuantumOp can be registered at runtime, together with an implementation, with
-:func:`iqm.pulse.gates.register_implementation`.
+A new QuantumOp can be registered at runtime using :func:`iqm.pulse.gates.register_operation`.
 
 GateImplementations
 -------------------
 
 A :class:`.GateImplementation` bridges the gap between QuantumOps and TimeBoxes.
+It represents the concrete control signals sent to the station in order to apply a QuantumOp.
+Despite the name, GateImplementations are used to implement all QuantumOps, not just unitary quantum gates.
+
 When a user requests a QuantumOp from :class:`.ScheduleBuilder` with specific parameters and locus components, the
 chosen GateImplementation (usually the default) for the operation is used to produce a TimeBox.
 This TimeBox, usually atomic, contains a Schedule on the appropriate control channels.
-The Instructions within are constructed following the calibration values from the ScheduleBuilder.
+The Instructions within are constructed using the calibration values for that operation, implementation and locus
+from the ScheduleBuilder.
 
 All gate implementations are listed in :mod:`iqm.pulse.gates`.
 Section :doc:`custom_gates` explains how to add more implementations.
-
+A new GateImplementation can be added to a known (registered) QuantumOp using
+:func:`iqm.pulse.gates.register_implementation`.
 
 Playlists
 ---------
 
 Once all TimeBoxes are scheduled into large Schedules, one for each segment/circuit,
-the Schedules are collected into a :class:`.Playlist`.
+the Schedules are collected into a :class:`~iqm.models.playlist.playlist.Playlist`.
 The Playlist is the final product that is sent to Station Control.
 Its contents are compressed by indexing all unique Instructions and waveforms on each channel,
 and representing the control channels in each segment as lists of Instruction indices.
 
 During execution, the segments in the Playlist are executed in order, and the whole sequence is repeated
-a number of times equal to the number of repetitions (shots).
+a number of times equal to the number of repetitions (shots) requested.
 
 Segments are separated in time by **end delay**, a parameter outside the Playlist.
 A long end delay can be used to prevent quantum information carrying from one segment to the next,
 thus resetting the qubits.
 Alternatively, the reset can be encoded in each segment as a long Wait instruction or using some active reset scheme.
 
-Station Control aims to execute all segments together, but sometimes this is not possible due to various memory
-constraints.
+Station Control aims to execute all segments one after another in one go, but sometimes this is not
+possible due to various memory constraints.
 In case the whole Playlist does not fit in memory, the segments are split into chunks which are executed separately.
 The delay between chunks is undefined.
 Therefore, the time between segments is guaranteed to be at least the duration of the end delay, but can be much larger.

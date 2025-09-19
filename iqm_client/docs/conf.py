@@ -160,15 +160,22 @@ intersphinx_mapping = {
     "numpy": ("https://numpy.org/doc/stable", None),
     "scipy": ("https://docs.scipy.org/doc/scipy", None),
     "qiskit": ("https://docs.quantum.ibm.com/api/qiskit", None),
+    "iqm.pulse": ("../iqm-pulse", "../../iqm-pulse/build/sphinx/objects.inv"),
 }
 
+# update intersphinx_mapping so it reads inventory from gitlab pages, but
+# generate links to the pages under local file path
+# this is used only in `docs with generated links to local target` ci\cd job
 use_local_target = os.getenv("USE_LOCAL_TARGET", "").lower()
-if use_local_target != "true":
+if use_local_target == "true":
+    intersphinx_mapping.update(
+        {"iqm.pulse": ("../iqm-pulse", "https://iqm.gitlab-pages.iqm.fi/qccsw/exa/exa-repo/iqm-pulse/objects.inv")}
+    )
+else:
     extlinks = {
         "issue": ("https://jira.iqm.fi/browse/%s", "issue %s"),
         "mr": ("https://gitlab.iqm.fi/iqm/qccsw/exa/exa-repo/-/merge_requests/%s", "MR %s"),
     }
-
 
 # -- Options for sphinxcontrib.bibtex -------------------------------------------------
 

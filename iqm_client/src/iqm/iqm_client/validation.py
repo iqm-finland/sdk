@@ -13,13 +13,13 @@ import itertools
 from iqm.iqm_client.errors import CircuitValidationError
 from iqm.iqm_client.models import (
     _SUPPORTED_OPERATIONS,
-    Circuit,
     CircuitBatch,
     DynamicQuantumArchitecture,
-    Instruction,
     MoveGateValidationMode,
     QIRCode,
 )
+
+from iqm.pulse import Circuit, CircuitOperation
 
 
 def validate_qubit_mapping(
@@ -52,7 +52,7 @@ def validate_qubit_mapping(
     for i, circuit in enumerate(circuits):
         if isinstance(circuit, (QIRCode)):
             continue
-        diff = circuit.all_qubits() - set(qubit_mapping)
+        diff = circuit.all_locus_components() - set(qubit_mapping)
         if diff:
             raise CircuitValidationError(
                 f"The qubits {diff} in circuit '{circuit.name}' at index {i} "
@@ -112,7 +112,7 @@ def validate_circuit_instructions(
 
 def validate_instruction(
     architecture: DynamicQuantumArchitecture,
-    instruction: Instruction,
+    instruction: CircuitOperation,
     qubit_mapping: dict[str, str] | None = None,
 ) -> None:
     """Validate an instruction against the dynamic quantum architecture.
@@ -134,11 +134,11 @@ def validate_instruction(
         raise CircuitValidationError(f"Unknown quantum operation '{instruction.name}'.")
 
     # apply the qubit mapping if any
-    mapped_qubits = tuple(qubit_mapping[q] for q in instruction.qubits) if qubit_mapping else instruction.qubits
+    mapped_qubits = tuple(qubit_mapping[q] for q in instruction.locus) if qubit_mapping else instruction.locus
 
     def check_locus_components(allowed_components: Iterable[str], msg: str) -> None:
         """Checks that the instruction locus consists of the allowed components only."""
-        for q, mapped_q in zip(instruction.qubits, mapped_qubits):
+        for q, mapped_q in zip(instruction.locus, mapped_qubits):
             if mapped_q not in allowed_components:
                 raise CircuitValidationError(
                     f"{instruction!r}: Component {q} = {mapped_q} {msg}."
@@ -146,10 +146,14 @@ def validate_instruction(
                     else f"{instruction!r}: Component {q} {msg}."
                 )
 
-    if op_info.no_calibration_needed:
-        # all QPU loci are allowed
-        check_locus_components(architecture.components, msg="does not exist on the QPU")
-        return
+    impl_name = instruction.implementation or _SUPPORTED_OPERATIONS[
+        instruction.name
+    ].get_default_implementation_for_locus(instruction.locus)
+    if (impl := op_info.implementations.get(impl_name)) is not None:
+        if not impl.needs_calibration():
+            # all QPU loci are allowed
+            check_locus_components(architecture.components, msg="does not exist on the QPU")
+            return
 
     gate_info = architecture.gates.get(instruction.name)
     if gate_info is None:
@@ -187,13 +191,13 @@ def validate_instruction(
     )
     if mapped_qubits not in all_loci:
         raise CircuitValidationError(
-            f"{instruction.qubits} = {tuple(mapped_qubits)} is not allowed as locus for '{instruction_name}'"
+            f"{instruction.locus} = {tuple(mapped_qubits)} is not allowed as locus for '{instruction_name}'"
             if qubit_mapping
-            else f"{instruction.qubits} is not allowed as locus for '{instruction_name}'"
+            else f"{instruction.locus} is not allowed as locus for '{instruction_name}'"
         )
 
 
-def validate_circuit_moves(
+def validate_circuit_moves(  # noqa: PLR0912
     architecture: DynamicQuantumArchitecture,
     circuit: Circuit,
     qubit_mapping: dict[str, str] | None = None,
@@ -243,17 +247,17 @@ def validate_circuit_moves(
 
     for inst in circuit.instructions:
         if inst.name == "move":
-            qubit, resonator = inst.qubits
+            qubit, resonator = inst.locus
             if not (qubit in all_qubits and resonator in all_resonators):
                 raise CircuitValidationError(
-                    f"MOVE instructions are only allowed between qubit and resonator, not {inst.qubits}."
+                    f"MOVE instructions are only allowed between qubit and resonator, not {inst.locus}."
                 )
 
             if (resonator_qubit := resonator_occupations.get(resonator)) is None:
                 # Beginning MOVE: check that the qubit hasn't been moved to another resonator
                 if qubit in moved_qubits:
                     raise CircuitValidationError(
-                        f"MOVE instruction {inst.qubits}: state of {qubit} is "
+                        f"MOVE instruction {inst.locus}: state of {qubit} is "
                         f"in another resonator: {resonator_occupations}."
                     )
                 resonator_occupations[resonator] = qubit
@@ -262,16 +266,16 @@ def validate_circuit_moves(
                 # Ending MOVE: check that the qubit matches to the qubit that was moved to the resonator
                 if resonator_qubit != qubit:
                     raise CircuitValidationError(
-                        f"MOVE instruction {inst.qubits} to an already occupied resonator: {resonator_occupations}."
+                        f"MOVE instruction {inst.locus} to an already occupied resonator: {resonator_occupations}."
                     )
                 del resonator_occupations[resonator]
                 moved_qubits.remove(qubit)
         elif moved_qubits:
             # Validate that moved qubits are not used during MOVE operations
             if inst.name not in allowed_gates:
-                if overlap := set(inst.qubits) & moved_qubits:
+                if overlap := set(inst.locus) & moved_qubits:
                     raise CircuitValidationError(
-                        f"Instruction {inst.name} acts on {inst.qubits} while the state(s) of {overlap} "
+                        f"Instruction {inst.name} acts on {inst.locus} while the state(s) of {overlap} "
                         f"are in a resonator. Current resonator occupation: {resonator_occupations}."
                     )
 

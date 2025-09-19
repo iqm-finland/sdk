@@ -2,6 +2,30 @@
 Changelog
 =========
 
+Version 10.2.0 (2025-09-17)
+===========================
+
+Bug fixes
+---------
+
+- Abort pending jobs on SC restart
+
+Version 10.1.0 (2025-09-12)
+===========================
+
+Features
+--------
+
+- Update dependency on exa-common
+
+Version 10.0.0 (2025-09-12)
+===========================
+
+Breaking changes
+----------------
+
+- ObservationSetType is now ``StrEnum`` instead of the old ``Literal``.
+
 Version 9.18.0 (2025-09-03)
 ===========================
 

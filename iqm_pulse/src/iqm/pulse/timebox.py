@@ -23,7 +23,7 @@ import enum
 from functools import reduce
 
 from iqm.pulse.playlist.instructions import Block, ReadoutTrigger
-from iqm.pulse.playlist.schedule import Schedule
+from iqm.pulse.playlist.schedule import Schedule, Segment
 
 
 class SchedulingAlgorithm(enum.Enum):
@@ -164,8 +164,8 @@ class TimeBox:
             scheduling_algorithm=scheduling_algorithm,
         )
 
-    @staticmethod
-    def atomic(schedule: Schedule, *, locus_components: Iterable[str], label: str) -> TimeBox:
+    @classmethod
+    def atomic(cls, schedule: Schedule, *, locus_components: Iterable[str], label: str) -> TimeBox:
         """Build an atomic timebox from a schedule.
 
         Args:
@@ -177,7 +177,7 @@ class TimeBox:
             atomic timebox containing ``schedule``
 
         """
-        return TimeBox(label=label, locus_components=set(locus_components), atom=schedule, children=())
+        return cls(label=label, locus_components=set(locus_components), atom=schedule, children=())
 
     def validate(self, path: tuple[str, ...] = ()) -> None:
         """Validate the contents of the TimeBox.
@@ -227,6 +227,9 @@ class TimeBox:
             A new instance containing the children of both boxes.
 
         """
+        if issubclass(type(other), TimeBox) and type(other) is not TimeBox:  # strict subclass
+            # allow subclasses to override __add__ such that __radd__ also works consistent with that logic
+            return other.__radd__(self)  # type: ignore[union-attr]
         if isinstance(other, TimeBox):
             left = self.children if self.atom is None else (self,)
             right = other.children if other.atom is None else (other,)
@@ -243,7 +246,9 @@ class TimeBox:
         except TypeError as err:
             raise TypeError(f"Cannot add a TimeBox and a {type(other)}.") from err
 
-    def __radd__(self, other: Iterable[TimeBox]) -> TimeBox:
+    def __radd__(self, other: TimeBox | Iterable[TimeBox]) -> TimeBox:
+        if isinstance(other, TimeBox):
+            return self.__add__(other)
         it = iter(other)
         try:
             first = next(it)
@@ -312,21 +317,25 @@ class MultiplexedProbeTimeBox(TimeBox):
     A ``MultiplexedProbeTimeBox``'s atom contains exactly one ``ReadoutTrigger`` for each probe channel.
     """
 
+    def _multiplex(self, other_atom: Schedule) -> dict[str, Segment]:
+        new_segments = dict(self.atom.copy().items())  # type: ignore[union-attr]
+        for channel, segment in other_atom.items():
+            if channel not in new_segments:
+                new_segments[channel] = segment
+            elif isinstance(segment[0], ReadoutTrigger) and isinstance(new_segments[channel][0], ReadoutTrigger):
+                # multiplex the readout triggers together
+                new_segments[channel]._instructions[0] = new_segments[channel][0] + segment[0]
+            else:
+                new_segments[channel].extend(iter(segment))
+        return new_segments
+
     def __add__(self, other: TimeBox | Iterable[TimeBox]) -> TimeBox:
         """Override ``__add__`` for two atomic ``MultiplexedProbeTimeBox`` instances such that ``ReadoutTrigger``s
         belonging to the same probe channel are multiplexed together. Otherwise, behaves exactly like
         ``TimeBox.__add__``, returning a normal ``TimeBox``.
         """
         if isinstance(other, MultiplexedProbeTimeBox) and self.atom is not None and other.atom is not None:
-            new_segments = dict(self.atom.copy().items())
-            for channel, segment in other.atom.items():
-                if channel not in new_segments:
-                    new_segments[channel] = segment
-                elif isinstance(segment[0], ReadoutTrigger) and isinstance(new_segments[channel][0], ReadoutTrigger):
-                    # multiplex the readout triggers together
-                    new_segments[channel]._instructions[0] = new_segments[channel][0] + segment[0]
-                else:
-                    new_segments[channel].extend(iter(segment))
+            new_segments = self._multiplex(other.atom)
             locus_components = self.locus_components.union(other.locus_components)
             max_nb = max(
                 max(self.neighborhood_components, default=-1),
@@ -341,7 +350,7 @@ class MultiplexedProbeTimeBox(TimeBox):
                     neighborhood_components[nb] = self.neighborhood_components[nb].union(
                         other.neighborhood_components[nb]
                     )
-            return MultiplexedProbeTimeBox(
+            return type(self)(
                 label=f"MultiplexedProbeTimeBox on {locus_components}",
                 locus_components=locus_components,
                 atom=Schedule(new_segments),
@@ -388,3 +397,6 @@ class MultiplexedProbeTimeBox(TimeBox):
             scheduling_algorithm=SchedulingAlgorithm.HARD_BOUNDARY,
         )
         return box
+
+    def __radd__(self, other: TimeBox | Iterable[TimeBox]) -> TimeBox:
+        return self.__add__(other)

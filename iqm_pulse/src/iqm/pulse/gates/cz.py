@@ -22,24 +22,34 @@ It can be represented by the unitary matrix
 from __future__ import annotations
 
 from dataclasses import replace
+import logging
 from typing import TYPE_CHECKING
 
 import numpy as np
 
 from exa.common.data.parameter import Parameter, Setting
 from exa.common.qcm_data.chip_topology import DEFAULT_2QB_MAPPING
-from iqm.pulse.gate_implementation import GateImplementation, Locus, OILCalibrationData, get_waveform_parameters
+from iqm.pulse.gate_implementation import (
+    CompositeGate,
+    GateImplementation,
+    Locus,
+    OILCalibrationData,
+    get_waveform_parameters,
+    init_subclass_composite,
+)
 from iqm.pulse.playlist.instructions import Block, FluxPulse, Instruction, IQPulse, VirtualRZ
 from iqm.pulse.playlist.schedule import Schedule
 from iqm.pulse.playlist.waveforms import (
+    Constant,
+    CosineFallFlex,
     CosineRiseFall,
+    CosineRiseFlex,
     GaussianSmoothedSquare,
     ModulatedCosineRiseFall,
     Slepian,
     TruncatedGaussianSmoothedSquare,
     Waveform,
 )
-from iqm.pulse.timebox import TimeBox
 from iqm.pulse.utils import phase_transformation
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -79,9 +89,9 @@ class FluxPulseGate(GateImplementation):
     """Flux pulse Waveform to be played in the coupler flux AWG."""
     qubit_wave: type[Waveform] | None
     """Flux pulse Waveform to be played in the qubit flux AWG."""
-    root_parameters: dict[str, Parameter | Setting] = {
+    root_parameters: dict[str, Parameter | Setting | dict] = {
         "duration": Parameter("", "Gate duration", "s"),
-        "rz": {  # type: ignore[dict-item]
+        "rz": {
             "*": Parameter("", "Z rotation angle", "rad"),  # wildcard parameter
         },
     }
@@ -100,7 +110,7 @@ class FluxPulseGate(GateImplementation):
         builder: ScheduleBuilder,
     ):
         super().__init__(parent, name, locus, calibration_data, builder)
-        duration = calibration_data["duration"]
+        duration = calibration_data["duration"]  # shared between all pulses
         flux_pulses = {}
 
         def build_flux_pulse(waveform_class: type[Waveform], component_name: str, cal_node_name: str) -> None:
@@ -110,14 +120,11 @@ class FluxPulseGate(GateImplementation):
                 calibration_data[cal_node_name],
                 self.parameters[cal_node_name],  # type: ignore[arg-type]
                 builder.channels[flux_channel],
-                duration,
+                duration=duration,
             )
-            # TODO convert_calibration_data should be able to do this too
-            n_samples = builder.channels[flux_channel].duration_to_int_samples(duration) if duration > 0 else 0
-            params["n_samples"] = n_samples
             amplitude = params.pop("amplitude")
             flux_pulses[flux_channel] = FluxPulse(
-                duration=n_samples,
+                duration=params["n_samples"],
                 wave=waveform_class(**params),
                 scale=amplitude,
             )
@@ -200,6 +207,8 @@ class FluxPulseGate(GateImplementation):
             parameters["qubit"]["amplitude"] = Parameter("", "Qubit flux pulse amplitude", "")
 
         cls.parameters = root_parameters | {k: v for k, v in parameters.items() if k not in cls.excluded_parameters}
+        if issubclass(cls, CompositeGate):
+            init_subclass_composite(cls)
 
     def _call(self) -> TimeBox:
         timebox = self.to_timebox(self._schedule)
@@ -264,9 +273,9 @@ class CouplerFluxPulseQubitACStarkPulseGate(GateImplementation):
     qubit_drive_wave: type[Waveform] | None
     """Qubit drive pulse waveform to be played in the qubit drive AWG."""
 
-    root_parameters: dict[str, Parameter | Setting] = {
+    root_parameters: dict[str, Parameter | Setting | dict] = {
         "duration": Parameter("", "Gate duration", "s"),
-        "rz": {  # type: ignore[dict-item]
+        "rz": {
             "*": Parameter("", "Z rotation angle", "rad"),
         },
     }
@@ -283,8 +292,7 @@ class CouplerFluxPulseQubitACStarkPulseGate(GateImplementation):
         builder: ScheduleBuilder,
     ):
         super().__init__(parent, name, locus, calibration_data, builder)
-
-        duration = calibration_data["duration"]
+        duration = calibration_data["duration"]  # shared between all pulses
         flux_pulses = {}
         qubit_drive_pulses = {}
         rz = calibration_data["rz"]
@@ -296,13 +304,11 @@ class CouplerFluxPulseQubitACStarkPulseGate(GateImplementation):
                 calibration_data[cal_node_name],
                 self.parameters[cal_node_name],  # type: ignore[arg-type]
                 builder.channels[flux_channel],
-                duration,
+                duration=duration,
             )
-            n_samples = builder.channels[flux_channel].duration_to_int_samples(duration) if duration > 0 else 0
-            params["n_samples"] = n_samples
             amplitude = params.pop("amplitude")
             flux_pulses[flux_channel] = FluxPulse(
-                duration=n_samples,
+                duration=params["n_samples"],
                 wave=waveform_class(**params),
                 scale=amplitude,
             )
@@ -314,10 +320,8 @@ class CouplerFluxPulseQubitACStarkPulseGate(GateImplementation):
                 calibration_data[cal_node_name],
                 self.parameters[cal_node_name],  # type: ignore[arg-type]
                 builder.channels[drive_channel],
-                duration,
+                duration=duration,
             )
-            n_samples = builder.channels[drive_channel].duration_to_int_samples(duration) if duration > 0 else 0
-            params["n_samples"] = n_samples
             params["phase_increment"] = rz[component_name]
             qubit_drive_pulses[drive_channel] = self._ac_stark_pulse(**params)
 
@@ -434,3 +438,303 @@ class CZ_CRF_ACStarkCRF(
     CZ gate implemented using a cosine rise fall flux pulse for the coupler and a modulated
     cosine rise fall (CRF) AC Stark pulse on one qubit.
     """
+
+
+def round_to_granularity(value: float, granularity: float, precision: float = 1e-15) -> float:
+    """Round a value to the nearest multiple of granularity.
+    If the value is within a given precision of a multiple, round to that multiple.
+    Otherwise, round down to the nearest lower multiple.
+
+    Args:
+        value:
+        granularity: granularity
+        precision: rounding precision.
+
+    Returns:
+        value rounded to a granularity.
+
+    """
+    return np.floor(value / granularity + precision) * granularity
+
+
+def split_flat_top_part_into_granular_parts(
+    duration: float, full_width: float, rise_time: float, granularity: float, precision: float = 1e-10
+) -> tuple[float, float, float, float]:
+    """To save waveform memory, a (long) flat-top pulse, which is defined by its duration, full_width and rise_time,
+    is divided into three consecutive parts (rise, flat, and fall),
+    all of which conform to the granularity of the device.
+
+    Args:
+        duration: pulse duration in seconds.
+        full_width: full width of the pulse.
+        rise_time: rise time of the pulse.
+        granularity: minimum allowed pulse duration.
+        precision: precision of rounding to granularity,
+
+
+    Returns:
+        A tuple containing:
+        - flat part duration
+        - rise (or fall) part duration
+        - rise time
+        - flat part's non-granular leftover, which is transferred to the rise and fall parts
+
+    Raises:
+        ValueError: Error is raised if duration is not a multiple of granularity.
+        ValueError: Error is raised if pulse parameters do not obey duration >= full_width >= 2*rise_time.
+
+    """
+    # Check if the number of samples is within 0.005 samples of an integer number, considered safe.
+    if not round(duration / granularity, ndigits=2).is_integer():
+        raise ValueError("Duration must be a multiple of granularity.")
+
+    if (duration >= full_width) & (full_width >= 2 * rise_time):
+        plateau_width = full_width - 2 * rise_time
+
+        plateau_width_granular = round_to_granularity(plateau_width, granularity)
+        rise_duration = (duration - plateau_width_granular) / 2
+
+        if np.abs(rise_duration - np.round(rise_duration / granularity) * granularity) > precision:
+            plateau_width_granular -= granularity
+            rise_duration = (duration - plateau_width_granular) / 2
+
+        flat_part = duration - 2 * rise_duration
+        plateau_leftover = (full_width - 2 * rise_time - flat_part) / 2
+
+        return plateau_width_granular, rise_duration, rise_time, plateau_leftover
+    else:
+        raise ValueError(
+            f"Current pulse parameters (duration {duration}, full_width {full_width}, rise_time {rise_time}) "
+            f"are impossible, please use duration >= full_width >= 2*rise_time."
+        )
+
+
+class FluxPulseGate_SmoothConstant(FluxPulseGate):
+    """Flux pulse gate implementation realized as a 3-part pulse sequence,
+    consisting of |cosine rise|Constant|cosine fall|. Otherwise, works similar to FluxPulseGate.
+
+    Args:
+        flux_pulses: mapping from flux channel name to its flux pulse
+        rz: mapping from drive channel name to the virtual z rotation angle, in radians, that should be performed on it
+
+    """
+
+    coupler_wave: Constant | None
+    """Flux pulse Waveform to be played in the coupler flux AWG. Can be only Constant or None"""
+    qubit_wave: Constant | None
+    """Flux pulse Waveform to be played in the qubit flux AWG. Can be only Constant or None"""
+    rise_wave: type[Waveform] = CosineRiseFlex
+    """Waveform, rise part of the 3-pulse sequence to be played with qubit and coupler gates."""
+    fall_wave: type[Waveform] = CosineFallFlex
+    """Waveform, fall part of the 3-pulse sequence to be played with qubit and coupler gates."""
+
+    root_parameters: dict[str, Parameter | Setting | dict] = {
+        "duration": Parameter("", "Gate duration", "s"),
+        "qubit": {
+            "rise_time": Parameter("", "Qubit pulse rise time", "s"),
+            "full_width": Parameter("", "Qubit pulse full width", "s"),
+            "amplitude": Parameter("", "Qubit pulse amplitude", ""),
+        },
+        "coupler": {
+            "rise_time": Parameter("", "Coupler pulse rise time", "s"),
+            "full_width": Parameter("", "Coupler pulse full width", "s"),
+            "amplitude": Parameter("", "Coupler pulse amplitude", ""),
+        },
+        "rz": {
+            "*": Parameter("", "Z rotation angle", "rad"),
+        },
+    }
+
+    def __init__(
+        self,
+        parent: QuantumOp,
+        name: str,
+        locus: Locus,
+        calibration_data: OILCalibrationData,
+        builder: ScheduleBuilder,
+    ) -> None:
+        GateImplementation.__init__(self, parent, name, locus, calibration_data, builder)
+        duration = calibration_data["duration"]
+
+        flux_pulses = {}
+        rise_pulses = {}
+        fall_pulses = {}
+
+        def build_flux_pulse(waveform_class: type[Waveform], component_name: str, cal_node_name: str) -> None:
+            """Uses a part of the gate calibration data to prepare a flux pulse for the given component."""
+            flux_channel = builder.get_flux_channel(component_name)
+
+            granularity = builder.channels[flux_channel].duration_to_seconds(
+                builder.channels[flux_channel].instruction_duration_min
+            )
+
+            data = calibration_data[cal_node_name]
+            calibration_data_constant = data.copy()
+            calibration_data_rise = data.copy()
+
+            plateau_width_granular, rise_duration, rise_time, plateau_leftover = (
+                split_flat_top_part_into_granular_parts(duration, data["full_width"], data["rise_time"], granularity)
+            )
+            calibration_data_rise["rise_time"] = rise_time
+            calibration_data_constant["duration"] = plateau_width_granular
+            calibration_data_rise["duration"] = rise_duration
+            calibration_data_rise["full_width"] = plateau_leftover + rise_time
+
+            if plateau_width_granular > 0:
+                params_for_flux_pulses = self.convert_calibration_data(
+                    calibration_data=calibration_data_constant,
+                    params=self.parameters[cal_node_name],  # type: ignore[arg-type]
+                    channel_props=builder.channels[flux_channel],
+                    duration=plateau_width_granular,
+                )
+            else:
+                params_for_flux_pulses = {"n_samples": 0, "amplitude": calibration_data_constant["amplitude"]}
+
+            params_for_risefall = self.convert_calibration_data(
+                calibration_data=calibration_data_rise,
+                params=self.parameters[cal_node_name],  # type: ignore[arg-type]
+                channel_props=builder.channels[flux_channel],
+                duration=rise_duration,
+            )
+
+            params_for_flux_pulses["n_samples"] = (
+                builder.channels[flux_channel].duration_to_int_samples(plateau_width_granular)
+                if plateau_width_granular > 0
+                else 0
+            )
+
+            params_for_risefall["n_samples"] = (
+                builder.channels[flux_channel].duration_to_int_samples(rise_duration) if rise_duration > 0 else 0
+            )
+
+            amplitude = params_for_flux_pulses.pop("amplitude")
+            params_for_risefall.pop("amplitude")
+
+            flux_pulses[flux_channel] = (
+                FluxPulse(
+                    duration=params_for_flux_pulses["n_samples"],
+                    wave=waveform_class(n_samples=params_for_flux_pulses["n_samples"]),
+                    scale=amplitude,
+                )
+                if params_for_flux_pulses["n_samples"] > 0
+                else None
+            )
+
+            if params_for_risefall["n_samples"] > 0:
+                rise_pulses[flux_channel] = FluxPulse(
+                    duration=params_for_risefall["n_samples"],
+                    wave=self.rise_wave(**params_for_risefall),
+                    scale=amplitude,
+                )
+                fall_pulses[flux_channel] = FluxPulse(
+                    duration=params_for_risefall["n_samples"],
+                    wave=self.fall_wave(**params_for_risefall),
+                    scale=amplitude,
+                )
+            else:
+                rise_pulses[flux_channel] = None  # type: ignore[assignment]
+                fall_pulses[flux_channel] = None  # type: ignore[assignment]
+
+        if self.coupler_wave is not None:
+            build_flux_pulse(self.coupler_wave, builder.chip_topology.get_coupler_for(*locus), "coupler")
+
+        if self.qubit_wave is not None:
+            # the pulsed qubit is always the first one of the locus
+            build_flux_pulse(self.qubit_wave, locus[0], "qubit")
+
+        rz = calibration_data["rz"]
+        for c in locus:
+            if c not in rz:
+                raise ValueError(
+                    f"{parent.name}.{name}: {locus}: Calibration is missing an RZ angle for locus component {c}."
+                )
+        rz_locus = {builder.get_drive_channel(c): angle for c, angle in rz.items() if c in locus}
+        rz_not_locus = tuple((builder.get_drive_channel(c), angle) for c, angle in rz.items() if c not in locus)
+
+        schedule: dict[str, list[Instruction]] = {
+            channel: [
+                VirtualRZ(
+                    duration=builder.channels[channel].duration_to_int_samples(duration),
+                    phase_increment=-angle,
+                )
+            ]
+            for channel, angle in rz_locus.items()
+        }
+        vzs_inserted = False  # insert the long-distance Vzs to the first flux pulse (whatever that is)
+        for channel, flux_pulse in flux_pulses.items():
+            if rz_not_locus and not vzs_inserted and flux_pulse:
+                schedule[channel] = [replace(flux_pulse, rzs=rz_not_locus)]
+                vzs_inserted = True
+            elif duration > 0:
+                schedule[channel] = [
+                    v for v in [rise_pulses[channel], flux_pulse, fall_pulses[channel]] if v is not None
+                ]
+            else:
+                schedule[channel] = []
+        affected_components = set(locus)
+        affected_components.add(builder.chip_topology.get_coupler_for(*locus))
+        self._affected_components = affected_components
+        self._schedule = Schedule(schedule if duration > 0 else {c: [Block(0)] for c in schedule}, duration=duration)
+
+    def __init_subclass__(
+        cls,
+        /,
+        coupler_wave: type[Waveform] | None = None,
+        qubit_wave: type[Waveform] | None = None,
+        rise_wave: type[Waveform] = CosineRiseFlex,
+        fall_wave: type[Waveform] = CosineFallFlex,
+    ):
+        if coupler_wave is None and qubit_wave is None and hasattr(cls, "coupler_wave") and hasattr(cls, "qubit_wave"):
+            return
+        if coupler_wave and (coupler_wave != Constant):
+            logging.getLogger(__name__).warning(
+                "Forcing coupler wave to be Constant",
+            )
+            coupler_wave = Constant
+        if qubit_wave and (qubit_wave != Constant):
+            logging.getLogger(__name__).warning(
+                "Forcing qubit wave to be Constant",
+            )
+            qubit_wave = Constant
+
+        cls.coupler_wave = coupler_wave
+        cls.qubit_wave = qubit_wave
+        cls.symmetric = cls.qubit_wave is None
+        cls.fall_wave = fall_wave
+        cls.rise_wave = rise_wave
+
+        root_parameters = {k: v for k, v in cls.root_parameters.items() if k not in cls.excluded_parameters}
+        parameters = {}
+        if coupler_wave is not None:
+            parameters["coupler"] = (
+                get_waveform_parameters(rise_wave, label_prefix="Coupler flux pulse ")
+                | get_waveform_parameters(fall_wave, label_prefix="Coupler flux pulse ")
+                | get_waveform_parameters(coupler_wave, label_prefix="Coupler flux pulse ")
+            )
+            parameters["coupler"]["amplitude"] = Parameter("", "Coupler flux pulse amplitude", "")
+            parameters["coupler"]["rise_time"] = Parameter("", "Coupler flux pulse rise time", "s")
+            parameters["coupler"]["full_width"] = Parameter("", "Coupler flux pulse full width", "s")
+
+        if qubit_wave is not None:
+            parameters["qubit"] = (
+                get_waveform_parameters(rise_wave, label_prefix="Qubit flux pulse ")
+                | get_waveform_parameters(fall_wave, label_prefix="Qubit flux pulse ")
+                | get_waveform_parameters(qubit_wave, label_prefix="Qubit flux pulse ")
+            )
+            parameters["qubit"]["amplitude"] = Parameter("", "Qubit flux pulse amplitude", "")
+            parameters["qubit"]["rise_time"] = Parameter("", "Qubit flux pulse rise time", "s")
+            parameters["qubit"]["full_width"] = Parameter("", "Qubit flux pulse full width", "s")
+
+        cls.parameters = root_parameters | {k: v for k, v in parameters.items() if k not in cls.excluded_parameters}
+
+
+class FluxPulse_SmoothConstant_qubit(FluxPulseGate_SmoothConstant, qubit_wave=Constant):
+    """Constant flux pulse on qubit with smooth rise/fall"""
+
+
+class FluxPulse_SmoothConstant_coupler(FluxPulseGate_SmoothConstant, coupler_wave=Constant):
+    """Constant flux pulse on coupler with smooth rise/fall."""
+
+
+class FluxPulse_SmoothConstant_SmoothConstant(FluxPulseGate_SmoothConstant, coupler_wave=Constant, qubit_wave=Constant):
+    """Constant flux pulse on both qubit and coupler with smooth rise/fall."""

@@ -2,7 +2,7 @@ IQM Pulla
 #########
 
 Pulla (pulse-level access) is a client-side software which allows the user to control the generation and
-execution of pulse schedules on a quantum computer. Within the existing IQM QCCSW stack, PulLA is somewhere between
+execution of pulse schedules on a quantum computer. Within the existing IQM QCCSW stack, Pulla is somewhere between
 circuit-level execution and EXA-experiment.
 
 An interactive user guide is available as a Jupyter notebook in the `docs` folder.

@@ -26,9 +26,9 @@ from typing import cast
 
 import cirq
 from cirq import devices, ops, protocols
-from cirq.contrib.routing.router import nx
 from iqm.cirq_iqm.iqm_gates import IQMMoveGate
 from iqm.cirq_iqm.transpiler import transpile_insert_moves_into_circuit
+import networkx as nx
 
 from .iqm_device_metadata import IQMDeviceMetadata
 
@@ -364,5 +364,5 @@ class IQMDevice(devices.Device):
             if len(qubits_updated) != 0:
                 raise ValueError(f"Circuit ends with a qubit state in the resonator {res!r}.")
 
-    def __eq__(self, other):
+    def __eq__(self, other):  # noqa: ANN001
         return self.__class__ == other.__class__ and self._metadata == other._metadata

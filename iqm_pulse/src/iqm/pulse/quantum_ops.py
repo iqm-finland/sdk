@@ -27,7 +27,7 @@ import numpy as np
 from iqm.pulse.base_utils import merge_dicts
 
 if TYPE_CHECKING:  # pragma: no cover
-    from iqm.pulse.gate_implementation import GateImplementation, OILCalibrationData, OpCalibrationDataTree
+    from iqm.pulse.gate_implementation import GateImplementation, Locus, OILCalibrationData, OpCalibrationDataTree
 
 
 @dataclass(frozen=True)
@@ -73,13 +73,15 @@ class QuantumOp:
 
     name: str
     """Unique name of the operation."""
-    arity: int
+    arity: int = 1
     """Number of locus components the operation acts on.
     Each locus component corresponds to a quantum subsystem in the definition of the operation.
     The computational subspace always consists of the lowest two levels of the subsystem.
     Zero means the operation can be applied on any number of locus components."""
-    params: tuple[str, ...] = ()
-    """Names of required operation parameters, if any."""
+    params: dict[str, tuple[type, ...]] = field(default_factory=dict)
+    """Maps names of required operation parameters to their allowed types."""
+    optional_params: dict[str, tuple[type, ...]] = field(default_factory=dict)
+    """Maps names of optional operation parameters to their allowed types."""
     implementations: dict[str, type[GateImplementation]] = field(default_factory=dict)
     """Maps implementation names to :class:`.GateImplementation` classes that provide them.
     Each such class should describe the implementation in detail in its docstring.
@@ -92,7 +94,7 @@ class QuantumOp:
     """True iff the operation is always factorizable to independent single-subsystem operations, which
     is also how it is implemented, for example parallel single-qubit measurements.
     In this case the operation calibration data is for individual subsystems as well."""
-    defaults_for_locus: dict[tuple[str, ...], str] = field(default_factory=dict)
+    defaults_for_locus: dict[Locus, str] = field(default_factory=dict)
     """Optionally define the implementation default individually per each locus. Maps the locus to the default
     gate implementation name. If a locus is not found in this dict (by default, the dict is empty), falls back to the
     global order defined in ``implementations``. The implementations must be first registered in ``implementations``."""
@@ -100,7 +102,8 @@ class QuantumOp:
     """Unitary matrix that represents the effect of this quantum operation in the computational basis, or ``None``
     if the quantum operation is not unitary or the exact unitary is not known.
     The Callable needs to take exactly the arguments given in :attr:`params`, for example if
-    ``params=('angle','phase')``, the function must have signature ``f(angle:float, phase: float) -> np.ndarray``.
+    ``params={'angle': (float,), 'phase': (float,)}``, the function must have signature 
+    ``f(angle: float, phase: float) -> np.ndarray``.
     For operations acting on more than 1 qubit, unitary should be given in the big-endian order, i.e. in the basis
     ``np.kron(first_qubit_basis_ket, second_qubit_basis_ket)``."""
 
@@ -140,7 +143,6 @@ class QuantumOp:
             ValueError: ``default`` is unknown or is a special implementation.
 
         """
-        # breakpoint()
         if (impl := self.implementations.get(default)) is None:
             raise ValueError(f"Operation '{self.name}' has no implementation named '{default}'.")
 
@@ -233,7 +235,7 @@ def validate_op_calibration(calibration: OpCalibrationDataTree, ops: QuantumOpTa
 
 
 def validate_locus_calibration(
-    cal_data: OILCalibrationData, impl: type[GateImplementation], op: QuantumOp, impl_name: str, locus: tuple[str, ...]
+    cal_data: OILCalibrationData, impl: type[GateImplementation], op: QuantumOp, impl_name: str, locus: Locus
 ) -> None:
     """Validates calibration for a particular gate implementation at particular locus.
 
@@ -250,17 +252,14 @@ def validate_locus_calibration(
     """
     if not locus:
         return  # default cal data for all loci
-    # Remove registered gates from calibration so that validation has a chance to succeed for composite gates.
-    # This validation is done anyway when constructing the registered gates themselves, so it is not necessary
-    # to do it twice.
-    cal_data_copy = cal_data.copy()
-    if hasattr(impl, "registered_gates"):
-        registered_gates = impl.registered_gates
-        for gate in registered_gates:
-            if gate in cal_data_copy:
-                del cal_data_copy[gate]
-    # since OILCalibrationData can have nested dicts, we do a recursive diff
-    _diff_dicts(cal_data_copy, impl.parameters, [], op.name, impl_name, locus)
+
+    # Some implementations have optional calibration parameters which we ignore here,
+    # e.g. customizable member gate cal data for CompositeGates.
+    # Since OILCalibrationData can have nested dicts, we do a recursive diff.
+    try:
+        _diff_dicts(cal_data, impl.parameters, set(impl.optional_calibration_keys()), [])
+    except ValueError as exc:
+        raise ValueError(f"{op.name}.{impl_name} at {locus}: {exc}") from exc
 
     n_components = len(locus)
     arity = op.arity
@@ -274,29 +273,31 @@ def validate_locus_calibration(
         raise ValueError(f"{op.name}.{impl_name} at {locus}: locus must have {arity} component(s)")
 
 
-def _diff_dicts(cal_data: dict[str, Any], impl_parameters: dict[str, Any], path, op_name, impl_name, locus) -> None:
-    """Compare the calibration"""
-    full = set(impl_parameters)
+def _diff_dicts(
+    cal_data: dict[str, Any], impl_parameters: dict[str, Any], ignored_keys: set[str], path: list[str]
+) -> None:
+    """Compare calibration data to the expected parameters."""
+    all_parameters = set(impl_parameters)
+    # some gate params have default values
     defaults = {k: v.value for k, v in impl_parameters.items() if hasattr(v, "value")}
+    # FIXME what is the defaults logic below? is it correct? needs a comment
     have = {k for k, v in cal_data.items() if v is not None or (k in defaults and defaults[k] is None)}
-    need = set(impl_parameters) - set(defaults)
+    need = all_parameters - set(defaults)
     if need == {"*"}:
-        return
-    if diff := have - full:
-        raise ValueError(f"Unknown calibration data for {op_name}.{impl_name} at {locus}: {'.'.join(path)} {diff}")
+        return  # wildcard parameters are optional at any level
+    if diff := have - all_parameters - ignored_keys:
+        raise ValueError(f"Unknown calibration data {'.'.join(path)}.{diff}")
     if diff := need - have:
-        raise ValueError(f"Missing calibration data for {op_name}.{impl_name} at {locus}: {'.'.join(path)} {diff}")
+        raise ValueError(f"Missing calibration data {'.'.join(path)}.{diff}")
     for key, data in cal_data.items():
+        if key in ignored_keys:
+            continue
         required_value = impl_parameters[key]
         new_path = path + [key]
         if isinstance(required_value, dict):
             if isinstance(data, dict):
-                _diff_dicts(data, required_value, new_path, op_name, impl_name, locus)
+                _diff_dicts(data, required_value, set(), new_path)
             else:
-                raise ValueError(
-                    f"Calibration data for {op_name}.{impl_name} at {locus}: '{'.'.join(new_path)}' should be a dict"
-                )
+                raise ValueError(f"Calibration data item '{'.'.join(new_path)}' should be a dict")
         elif isinstance(data, dict):
-            raise ValueError(
-                f"Calibration data for {op_name}.{impl_name} at {locus}: '{'.'.join(new_path)}' should be a scalar"
-            )
+            raise ValueError(f"Calibration data item '{'.'.join(new_path)}' should be a scalar")

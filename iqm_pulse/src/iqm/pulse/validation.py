@@ -126,7 +126,7 @@ class AWGScheduleValidationError(Exception):
 class InvalidInstructionError(Exception):
     """Error raised when encountering an invalid instruction."""
 
-    def __init__(self, instruction, issue_string="unknown reason"):
+    def __init__(self, instruction, issue_string="unknown reason"):  # noqa: ANN001
         self.issue_string = issue_string
         self.instruction = instruction
         super().__init__(issue_string)
@@ -135,7 +135,7 @@ class InvalidInstructionError(Exception):
         return f"{self.issue_string} (in {self.instruction})"
 
 
-def validate_instruction_and_wf_length(instruction: Instruction):
+def validate_instruction_and_wf_length(instruction: Instruction):  # noqa: ANN201
     """Validate that instruction and waveform lengths match
 
     Args:
@@ -156,7 +156,7 @@ def validate_instruction_and_wf_length(instruction: Instruction):
             raise InvalidInstructionError(instruction, "scale not in -1..1")
 
 
-def validate_awg_and_schedule_compatibility(
+def validate_awg_and_schedule_compatibility(  # noqa: ANN201
     channel_description: ChannelDescription, device_constraints: AWGScheduleValidationData
 ):
     """Validates that the given playlist is compatible with the provided AWG data.

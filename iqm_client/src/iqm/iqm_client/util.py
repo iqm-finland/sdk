@@ -14,17 +14,15 @@
 """Helpful utilities that can be used together with IQMClient."""
 
 from json import JSONEncoder, dumps, loads
-from typing import Any, TypeVar
+from typing import Any
 
 import numpy as np
-
-T = TypeVar("T")
 
 
 class IQMJSONEncoder(JSONEncoder):
     """JSONEncoder that that adds support for some non-JSON datatypes"""
 
-    def default(self, o: Any):
+    def default(self, o: Any):  # noqa: ANN201
         if isinstance(o, np.ndarray):
             return o.tolist()
         return JSONEncoder.default(self, o)

@@ -20,6 +20,7 @@ from functools import lru_cache
 from http import HTTPStatus
 from importlib.metadata import version
 import json
+import logging
 import os
 import platform
 import time
@@ -77,6 +78,9 @@ DEFAULT_TIMEOUT_SECONDS = 900
 SECONDS_BETWEEN_CALLS = float(os.environ.get("IQM_CLIENT_SECONDS_BETWEEN_CALLS", 1.0))
 
 
+logger = logging.getLogger(__name__)
+
+
 class IQMClient:
     """Provides access to IQM quantum computers.
 
@@ -90,39 +94,22 @@ class IQMClient:
             If ``token`` is given no other user authentication parameters should be given.
         tokens_file: Path to a tokens file used for authentication.
             If ``tokens_file`` is given no other user authentication parameters should be given.
-        auth_server_url: Base URL of the authentication server.
-            If ``auth_server_url`` is given also ``username`` and ``password`` must be given.
-        username: Username to log in to authentication server.
-        password: Password to log in to authentication server.
 
     Alternatively, the user authentication related keyword arguments can also be given in
-    environment variables :envvar:`IQM_TOKEN`, :envvar:`IQM_TOKENS_FILE`, :envvar:`IQM_AUTH_SERVER`,
-    :envvar:`IQM_AUTH_USERNAME` and :envvar:`IQM_AUTH_PASSWORD`. All parameters must be given either
-    as keyword arguments or as environment variables. Same combination restrictions apply
-    for values given as environment variables as for keyword arguments.
+    environment variables :envvar:`IQM_TOKEN`, :envvar:`IQM_TOKENS_FILE`.
+
+    All parameters must be given either as keyword arguments or as environment variables.
+    Same combination restrictions apply for values given as environment variables as for
+    keyword arguments.
 
     """
 
     def __init__(
-        self,
-        url: str,
-        *,
-        client_signature: str | None = None,
-        token: str | None = None,
-        tokens_file: str | None = None,
-        auth_server_url: str | None = None,
-        username: str | None = None,
-        password: str | None = None,
+        self, url: str, *, client_signature: str | None = None, token: str | None = None, tokens_file: str | None = None
     ):
         if not url.startswith(("http:", "https:")):
             raise ClientConfigurationError(f"The URL schema has to be http or https. Incorrect schema in URL: {url}")
-        self._token_manager = TokenManager(
-            token,
-            tokens_file,
-            auth_server_url,
-            username,
-            password,
-        )
+        self._token_manager = TokenManager(token, tokens_file)
         version_string = "iqm-client"
         self._signature = f"{platform.platform(terse=True)}"
         self._signature += f", python {platform.python_version()}"
@@ -239,7 +226,7 @@ class IQMClient:
                 # validate the circuit against the static information in iqm.iqm_client.models._SUPPORTED_OPERATIONS
                 validate_circuit(circuit)
             except ValueError as e:
-                raise CircuitValidationError(f"The circuit at index {i} failed the validation").with_traceback(
+                raise CircuitValidationError(f"The circuit at index {i} failed the validation: {e}").with_traceback(
                     e.__traceback__
                 )
 
@@ -907,10 +894,17 @@ class IQMClient:
             # model = model_class.model_validate_json(response.text)
         except json.decoder.JSONDecodeError as e:
             raise EndpointRequestError(f"Invalid response: {response.text}, {e!r}") from e
+
         return model
 
-    def get_structured_metrics(self, calibration_set_id: UUID | None = None) -> ObservationFinder:
+    def get_calibration_quality_metrics(self, calibration_set_id: UUID | None = None) -> ObservationFinder:
         """Retrieve the given calibration set and related quality metrics from the server.
+
+        .. warning::
+
+           This method is an experimental interface to the quality metrics and calibration data.
+           The API may change considerably in the next versions *with no backwards compatibility*,
+           including the API of the ObservationFinder class.
 
         Args:
             calibration_set_id: ID of the calibration set to retrieve.
@@ -925,8 +919,16 @@ class IQMClient:
             HTTPException: HTTP exceptions
 
         """
+        logger.warning(
+            "IQMClient.get_calibration_quality_metrics is an experimental method, and the API will likely change "
+            "in the future with no backwards compatibility."
+        )
+        return self._get_calibration_quality_metrics(calibration_set_id)
+
+    def _get_calibration_quality_metrics(self, calibration_set_id: UUID | None = None) -> ObservationFinder:
+        """See :meth:`get_calibration_quality_metrics`."""
         if isinstance(self._station_control, IqmServerClient):
-            raise ValueError("The get_structured_metrics method is not supported by IqmServerClient.")
+            raise ValueError("The _get_calibration_quality_metrics method is not supported by IqmServerClient.")
 
         if not calibration_set_id:
             # find out the default calset id
@@ -936,5 +938,4 @@ class IQMClient:
         calset_obs = self._station_control.get_observation_set_observations(calibration_set_id)
         quality_metrics = self._station_control.get_calibration_set_quality_metrics(calibration_set_id)
         qm_obs = quality_metrics.observations
-
-        return ObservationFinder(list(calset_obs) + qm_obs)
+        return ObservationFinder(calset_obs + qm_obs)

@@ -20,7 +20,7 @@ can be executed by the IQM server on quantum hardware.
 
 from __future__ import annotations
 
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Collection, Iterable
 from copy import deepcopy
 import functools
 import inspect
@@ -28,8 +28,10 @@ import logging
 from typing import TYPE_CHECKING, Any
 
 from opentelemetry import trace
+from typing_extensions import deprecated
 
 from exa.common.data.setting_node import SettingNode
+from exa.common.helpers.deprecation import format_deprecated
 from iqm.cpc.compiler.errors import CalibrationError, ClientError, InsufficientContextError
 from iqm.cpc.interface.compiler import (
     CircuitBoundaryMode,
@@ -49,7 +51,7 @@ from iqm.pulla.utils import (
 )
 from iqm.pulse.builder import ScheduleBuilder
 from iqm.pulse.gate_implementation import GateImplementation, Locus
-from iqm.pulse.gates import register_implementation
+from iqm.pulse.gates import register_implementation, register_operation
 
 # from iqm.pulse.gates.move import apply_move_gate_phase_corrections, validate_move_instructions
 from iqm.pulse.quantum_ops import QuantumOp
@@ -71,6 +73,7 @@ STANDARD_CIRCUIT_EXECUTION_OPTIONS_DICT = {
     "move_gate_frame_tracking": MoveGateFrameTrackingMode.FULL,
     "move_gate_validation": MoveGateValidationMode.STRICT,
     "active_reset_cycles": None,
+    "convert_terminal_measurements": True,
 }
 
 STANDARD_CIRCUIT_EXECUTION_OPTIONS = CircuitExecutionOptions(**STANDARD_CIRCUIT_EXECUTION_OPTIONS_DICT)  # type: ignore
@@ -93,7 +96,7 @@ def pass_function_idempotent(function: PassFunction) -> PassFunction:
     return pass_with_idempotency
 
 
-def compiler_pass(function) -> PassFunction:
+def compiler_pass(function) -> PassFunction:  # noqa: ANN001
     """Convenience wrapper to create a valid compiler pass.
 
     When the wrapped function is called, the compilation data (e.g. circuits) is passed as the first argument.
@@ -186,13 +189,16 @@ class Compiler:
     Args:
         calibration_set: Calibration data.
         chip_topology: Physical layout and connectivity of the quantum chip.
-        channel_properties: Channel properties.
-        component_channels: Mapping between components and their control channels.
-        component_mapping: Custom mapping of components. Defaults to None.
+        channel_properties: Control channel properties for the station.
+        component_channels: Mapping from QPU component name to a mapping from ``('drive', 'flux', 'readout')``
+            to the name of the control channel responsible for that function of the component.
+        component_mapping: Mapping of logical QPU component names to physical QPU component names.
+            ``None`` means the identity mapping.
         options: Circuit execution options.
             Defaults to STANDARD_CIRCUIT_EXECUTION_OPTIONS.
-        stages: List of compilation stages. Defaults to None.
-            Note that in the absence of stages, the compiler will not be ready to compile circuits.
+        stages: Compilation stages to use. ``None`` means none.
+            Note that meaningful circuit compilation requires at least some stages.
+        pp_stages: Post-processing stages to use. ``None`` means none.
         strict: If True, raises CalibrationError on calibration validation failures.
             If False, only logs warnings. Defaults to False.
 
@@ -201,7 +207,7 @@ class Compiler:
 
     """
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         *,
         calibration_set: CalibrationSet,
@@ -210,13 +216,15 @@ class Compiler:
         component_channels: dict[str, dict[str, str]],
         component_mapping: dict[str, str] | None = None,
         options: CircuitExecutionOptions = STANDARD_CIRCUIT_EXECUTION_OPTIONS,
-        stages: list[CompilationStage] | None = None,
+        stages: Collection[CompilationStage] | None = None,
+        pp_stages: Collection[CompilationStage] | None = None,
         strict: bool = False,  # consider extending to e.g. errors: Literal["raise", "warning", "ignore"] = "warning"
     ):
         self._calibration_set = calibration_set
         self.component_mapping = component_mapping
         self.options = options
         self.stages = stages or []
+        self.pp_stages = pp_stages or []
 
         self.builder: ScheduleBuilder = initialize_schedule_builder(
             calibration_set, chip_topology, channel_properties, component_channels
@@ -323,46 +331,45 @@ class Compiler:
         self,
         op_name: str,
         impl_name: str,
-        implementation: type[GateImplementation],
+        impl_class: type[GateImplementation],
         *,
         set_as_default: bool = False,
         overwrite: bool = False,
-        quantum_op_specs: QuantumOp | dict | None = None,
+        quantum_op: QuantumOp | None = None,
     ) -> None:
-        """Adds a new implementation of a quantum operation (gate).
+        """Adds a new implementation for a quantum operation (gate).
 
         Refreshes the compiler after adding a new implementation.
 
         Args:
-            op_name: The gate name for which to register a new implementation.
-            impl_name: The "human-readable" name with which the new gate implementation will be found e.g. in settings.
-            implementation: The python class of the new gate implementation to be added.
-            set_as_default: Whether to set the new implementation as the default implementation for the gate.
-            overwrite: If True, allows replacing any existing implementation of the same name.
-            quantum_op_specs: The quantum operation this gate represents. If a QuantumOp is given, it is used as is.
+            op_name: The name of the quantum operation for which to register a new implementation.
+            impl_name: The "human-readable" name with which the new implementation will be found e.g. in settings.
+            impl_class: The class of the new implementation to be added.
+            set_as_default: Whether to set the new implementation as the default implementation for the operation.
+            overwrite: If True, replaces any existing implementation of the same name for the operation.
+            quantum_op: The quantum operation this gate represents. If a QuantumOp is given, it is used as is.
                 If None is given and the same gate has been registered before, the previously registered properties are
-                used.
-                Otherwise, the given dict values are given to the constructor of
-                :class:`~iqm.pulse.quantum_ops.QuantumOp`.
-                For any missing constructor values, some defaults suitable for a 1-QB gate are used.
+                used. Existing operations cannot be replaced or modified.
 
         """
+        if quantum_op is not None:
+            register_operation(self.builder.op_table, quantum_op)
         register_implementation(
             operations=self.builder.op_table,
-            gate_name=op_name,
+            op_name=op_name,
             impl_name=impl_name,
-            impl_class=implementation,
+            impl_class=impl_class,
             set_as_default=set_as_default,
             overwrite=overwrite,
-            quantum_op_specs=quantum_op_specs,
         )
         self._refresh()
 
+    @deprecated(format_deprecated(old="`ready`", new=None, since="12.08.2025"))
     def ready(self) -> bool:
         """Check if the compiler is ready to compile circuits. The compiler is ready if at least one stage is defined, and
         all the stages are non-empty.
         """  # noqa: E501
-        if len(self.stages) == 0:
+        if not self.stages:
             return False
         for stage in self.stages:
             if not stage.ready():
@@ -395,7 +402,7 @@ class Compiler:
             full: Iff True, also print the docstring of each pass function.
 
         """
-        if len(self.stages) == 0:
+        if not self.stages:
             print("No stages defined.")
             return
 
@@ -410,7 +417,10 @@ class Compiler:
             print()
 
     def compiler_context(self) -> dict[str, Any]:
-        """Return initial compiler context dictionary. Used automatically by :meth:`Compiler.compile`."""
+        """Return initial compiler context dictionary.
+
+        Used automatically by :meth:`compile`.
+        """
         return {
             "calibration_set": self._calibration_set,
             "builder": self.builder,
@@ -423,27 +433,66 @@ class Compiler:
     def compile(
         self, data: Iterable[Any], context: dict[str, Any] | None = None
     ) -> tuple[Iterable[Any], dict[str, Any]]:
-        """Run all compiler stages. Initial context will be derived from :meth:`Compiler.compiler_context` unless a custom
+        """Run all compiler stages.
+
+            Initial context will be derived using :meth:`compiler_context` unless a custom
+            context dictionary is provided.
+
+        Args:
+            data: Circuits to be compiled.
+            context: Custom initial compiler context dictionary.
+
+        Returns:
+            Compiled ``data``, final context.
+
+        """
+        cpc_logger.info("Running compilation stages...")
+        return self.run_stages(self.stages, data, context or self.compiler_context())
+
+    def postprocess(
+        self, data: Iterable[Any], context: dict[str, Any] | None = None
+    ) -> tuple[Iterable[Any], dict[str, Any]]:
+        """Run all post-processing stages.
+
+        Initial context will be derived using :meth:`compiler_context` unless a custom
         context dictionary is provided.
 
         Args:
-            data: An iterable of circuits to be compiled.
+            data: Any data, e.g. execution results derived from :meth:`Pulla.execute`
             context: Custom initial compiler context dictionary.
 
+        Returns:
+            Postprocessed ``data``, final context.
+
         """  # noqa: E501
-        if not self.ready():
-            raise RuntimeError("Compiler is not ready: no stages defined, or some stages have zero passes.")
+        cpc_logger.info("Running postprocessing stages...")
+        return self.run_stages(self.pp_stages, data, context or self.compiler_context())
 
-        # Dictionary of context to be passed through all the passes
-        if context is None:
-            context = self.compiler_context()
+    def run_stages(
+        self, stages: Collection[CompilationStage], data: Iterable[Any], context: dict[str, Any]
+    ) -> tuple[Iterable[Any], dict[str, Any]]:
+        """Run the given stages in given order on the given data.
 
-        # Run the stages
+        Args:
+            stages: Stages to run on ``data``.
+            data: The data to be processed.
+            context: Additional information that is passed to the first stage.
+                Each stage may make modifications to ``context`` before it is passed to the next stage.
+
+        Returns:
+            Processed data, final context.
+
+        """
+        if not stages:
+            raise RuntimeError("No stages defined.")
         for stage in self.stages:
+            if not stage.ready():
+                raise RuntimeError(f"Stage {stage.name} is not ready.")
+
+        for stage in stages:
             cpc_logger.info('Running stage "%s"...', stage.name)
             data, context = stage.run(data, context)
 
-        cpc_logger.info("Compilation finished.")
         return data, context
 
     def build_settings(self, context: dict[str, Any], shots: int) -> tuple[SettingNode, dict[str, Any]]:

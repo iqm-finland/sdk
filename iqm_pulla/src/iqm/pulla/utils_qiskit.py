@@ -26,13 +26,10 @@ from qiskit import QuantumCircuit
 from qiskit.providers import JobStatus, JobV1, Options
 from qiskit.result import Counts, Result
 
-from iqm.cpc.interface.compiler import Circuit as CPC_Circuit
-from iqm.cpc.interface.compiler import CircuitExecutionOptions, HeraldingMode
+from iqm.cpc.interface.compiler import Circuit, CircuitExecutionOptions, HeraldingMode
 from iqm.pulla.interface import StationControlResult, TaskStatus
-from iqm.pulse.builder import CircuitOperation
 
 if TYPE_CHECKING:
-    from iqm.iqm_client import Circuit, Instruction
     from iqm.qiskit_iqm.iqm_backend import DynamicQuantumArchitecture
     from iqm.qiskit_iqm.iqm_provider import IQMBackend
 
@@ -40,29 +37,11 @@ if TYPE_CHECKING:
     from iqm.pulla.pulla import Pulla
 
 
-def _instruction_to_dataclass(instruction: Instruction) -> CircuitOperation:
-    """Convert the iqm-client model to an iqm-pulse dataclass."""
-    return CircuitOperation(
-        name=instruction.name,
-        implementation=instruction.implementation,
-        locus=instruction.qubits,
-        args=instruction.args,
-    )
-
-
-def _circuit_to_dataclass(circuit: Circuit) -> CPC_Circuit:
-    """Convert the iqm-client model to a CPC dataclass."""
-    return CPC_Circuit(
-        name=circuit.name,
-        instructions=tuple(_instruction_to_dataclass(instruction) for instruction in circuit.instructions),
-    )
-
-
 def qiskit_circuits_to_pulla(
     qiskit_circuits: QuantumCircuit | Sequence[QuantumCircuit],
     qubit_idx_to_name: dict[int, str],
     custom_gates: Collection[str] = (),
-) -> list[CPC_Circuit]:
+) -> list[Circuit]:
     """Convert Qiskit quantum circuits into IQM Pulse quantum circuits.
 
     Lower-level method, you may want to use :func:`qiskit_to_pulla` instead.
@@ -82,17 +61,14 @@ def qiskit_circuits_to_pulla(
         qiskit_circuits = [qiskit_circuits]
 
     return [
-        CPC_Circuit(
+        Circuit(
             name=qiskit_circuit.name,
             instructions=tuple(
-                map(
-                    _instruction_to_dataclass,
-                    serialize_instructions(
-                        qiskit_circuit,
-                        qubit_idx_to_name,
-                        custom_gates,
-                    ),
-                )
+                serialize_instructions(
+                    qiskit_circuit,
+                    qubit_idx_to_name,
+                    custom_gates,
+                ),
             ),
         )
         for qiskit_circuit in qiskit_circuits
@@ -103,7 +79,7 @@ def qiskit_to_pulla(
     pulla: Pulla,
     backend: IQMBackend,
     qiskit_circuits: QuantumCircuit | Sequence[QuantumCircuit],
-) -> tuple[list[CPC_Circuit], Compiler]:
+) -> tuple[list[Circuit], Compiler]:
     """Convert transpiled Qiskit quantum circuits to IQM Pulse quantum circuits.
 
     Also provides the Compiler object for compiling them, with the correct
@@ -137,7 +113,9 @@ def qiskit_to_pulla(
         else {m.logical_name: m.physical_name for m in run_request.qubit_mapping}
     )
 
-    circuits = [_circuit_to_dataclass(c) for c in run_request.circuits]
+    # We can be certain run_request contains only Circuit objects, because we created it
+    # right in this method with qiskit.QuantumCircuit objects
+    circuits: list[Circuit] = [c for c in run_request.circuits if isinstance(c, Circuit)]
     return circuits, compiler
 
 
@@ -227,7 +205,7 @@ class IQMPullaBackend(IQMBackendBase):
         self.name = "IQMPullaBackend"
         self.compiler = compiler
 
-    def run(self, run_input, **options):
+    def run(self, run_input, **options):  # noqa: ANN001, ANN201
         # Convert Qiskit circuits to Pulla circuits
         pulla_circuits = qiskit_circuits_to_pulla(run_input, self._idx_to_qb)
 
@@ -262,15 +240,15 @@ class DummyJob(JobV1):
     The ``job_id`` is the same as the ``sweep_id`` of the ``StationControlResult``.
     """
 
-    def __init__(self, backend, qiskit_result):
+    def __init__(self, backend, qiskit_result):  # noqa: ANN001
         super().__init__(backend=backend, job_id=qiskit_result.job_id)
         self.qiskit_result = qiskit_result
 
-    def result(self):
+    def result(self):  # noqa: ANN201
         return self.qiskit_result
 
-    def status(self):
+    def status(self):  # noqa: ANN201
         return JobStatus.DONE
 
-    def submit(self):
+    def submit(self):  # noqa: ANN201
         return None

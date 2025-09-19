@@ -181,3 +181,12 @@ class JobExecutorStatus(Enum):
     def terminal_statuses(cls) -> set[JobExecutorStatus]:
         """Statuses from which the execution can't continue."""
         return {cls.ABORTED, cls.FAILED, cls.READY}
+
+    @classmethod
+    def in_progress_statuses(cls) -> set[JobExecutorStatus]:
+        """Statuses representing jobs that should be cleaned up on restart.
+
+        Returns all non-terminal statuses.
+        """
+        all_statuses = set(cls)
+        return all_statuses - cls.terminal_statuses()

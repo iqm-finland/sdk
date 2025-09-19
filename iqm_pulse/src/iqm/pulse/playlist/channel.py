@@ -272,7 +272,7 @@ class ChannelDescription:
             self.waveform_table.append(wave)
         return idx
 
-    def _lookup_or_insert_instruction(self, instruction) -> int:
+    def _lookup_or_insert_instruction(self, instruction) -> int:  # noqa: ANN001
         new_idx = len(self.instruction_table)
         idx = self._reverse_instruction_index.setdefault(instruction, new_idx)
         if idx == new_idx:

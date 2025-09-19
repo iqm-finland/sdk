@@ -103,7 +103,7 @@ class RealPulse(Instruction):
     scale: float
     """Scaling factor for the waveform."""
 
-    def validate(self):
+    def validate(self):  # noqa: ANN201
         super().validate()
         if abs(self.scale) > 1.0:
             raise ValueError(f"RealPulse.scale {self.scale} not in [-1, 1].")
@@ -136,20 +136,20 @@ class IQPulse(Instruction):
     scale_q: float = 0.0
     """Scaling factor for the Q quadrature."""
     phase: float = 0.0
-    """Phase of the pulse relative to the channel frequency, in radians."""
+    """Phase of the pulse relative to the channel upconversion oscillator ("carrier wave"), in radians."""
     modulation_frequency: float = 0.0
     """Modulation frequency of the waveforms, in units of the sampling rate.
-    This modulation is additional to the channel frequency.
+    This modulation is additional to the channel upconversion frequency.
     The default value of 0.0 does not modulate.
     Note that the phase of this modulation resets for every instruction, that is, successive instances of the same
     modulated pulse are not phase coherent.
     """
     phase_increment: float = 0.0
-    """Relative phase increment to the phase in the carrier frequency of this pulse and all pulses that
-    are played after it. Unit: rad.
+    """Phase increment for the channel upconversion oscillator ("carrier wave"), affecting this pulse and
+    all pulses that are played after it on the channel, in radians.
     """
 
-    def validate(self):
+    def validate(self):  # noqa: ANN201
         super().validate()
         if abs(self.scale_i) > 1.0:
             raise ValueError(f"IQPulse.scale_i {self.scale_i} not in [-1, 1].")
@@ -165,11 +165,11 @@ class ConditionalInstruction(Instruction):
     """Choice between multiple Instructions, depending on a condition."""
 
     condition: str
-    """can be evaluated to an integer >= 0"""
+    """Can be evaluated to an integer >= 0 representing an outcome."""
     outcomes: tuple[Instruction, ...]
-    """maps possible outcomes of the condition to the corresponding instructions"""
+    """Maps possible outcomes of the condition to the corresponding instructions."""
 
-    def validate(self):
+    def validate(self):  # noqa: ANN201
         super().validate()
         if not self.outcomes:
             raise ValueError("There must be at least one outcome.")
@@ -186,7 +186,7 @@ class ConditionalInstruction(Instruction):
 
 @dataclass(frozen=True)
 class MultiplexedIQPulse(Instruction):
-    """Instruction to simultaneously play multiple IQ pulses.
+    """Play the sum of multiple IQ pulses.
 
     Each component pulse can have an arbitrary delay from the beginning of this instruction.
     Outside the interval of the MultiplexedIQPulse, the component pulses are truncated.
@@ -210,6 +210,10 @@ class AcquisitionMethod:
     """Identifier for the returned data, like ``QB1__readout.time_trace``."""
     delay_samples: int
     """Delay from beginning of probe pulse to beginning of acquisition window, in samples."""
+    implementation: str | None
+    """Measure operation and implementation that created this AcquisitionMethod, in the format
+    ``<operation name>.<implementation name>``. If the acquisition is not originated from a
+    gate implementation, this should be ``None``."""
 
 
 @dataclass(frozen=True)

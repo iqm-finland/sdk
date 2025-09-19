@@ -61,14 +61,14 @@ from collections.abc import Collection, Iterable, Sequence
 from enum import Enum
 
 from iqm.iqm_client import (
-    Circuit,
     CircuitTranspilationError,
     CircuitValidationError,
     DynamicQuantumArchitecture,
-    Instruction,
 )
 from iqm.iqm_client.models import GateImplementationInfo, GateInfo, Locus, _op_is_symmetric
 from iqm.iqm_client.validation import validate_circuit_moves, validate_instruction
+
+from iqm.pulse import Circuit, CircuitOperation
 
 Resolution = tuple[str, str, str]
 """A (gate qubit, move qubit, resonator) triple that represents a resolution of a fictional
@@ -93,10 +93,10 @@ class ExistingMoveHandlingOptions(str, Enum):
 
 
 def _map_loci(
-    instructions: Iterable[Instruction],
+    instructions: Iterable[CircuitOperation],
     qubit_mapping: dict[str, str],
     inverse: bool = False,
-) -> tuple[Instruction, ...]:
+) -> tuple[CircuitOperation, ...]:
     """Map the loci of the given instructions using the given qubit mapping, or its inverse.
 
     Args:
@@ -111,7 +111,13 @@ def _map_loci(
     if inverse:
         qubit_mapping = {phys: log for log, phys in qubit_mapping.items()}
     return tuple(
-        inst.model_copy(update={"qubits": tuple(qubit_mapping[q] for q in inst.qubits)}) for inst in instructions
+        CircuitOperation(
+            name=inst.name,
+            locus=tuple(qubit_mapping[q] for q in inst.locus),
+            args=inst.args,
+            implementation=inst.implementation,
+        )
+        for inst in instructions
     )
 
 
@@ -212,7 +218,7 @@ class _ResonatorStateTracker:
         return cls.from_instructions(circuit.instructions)
 
     @classmethod
-    def from_instructions(cls, instructions: Iterable[Instruction]) -> _ResonatorStateTracker:
+    def from_instructions(cls, instructions: Iterable[CircuitOperation]) -> _ResonatorStateTracker:
         """Constructor to make the _ResonatorStateTracker from a sequence of instructions.
 
         Infers the resonator connectivity from the MOVE gates.
@@ -227,7 +233,7 @@ class _ResonatorStateTracker:
         qr_gates: dict[str, dict[str, set[str]]] = {}
         for i in instructions:
             if i.name in cls.qr_gate_names:
-                q, r = i.qubits
+                q, r = i.locus
                 qr_gates.setdefault(i.name, {}).setdefault(q, set()).add(r)
         return cls(qr_gates)
 
@@ -270,7 +276,7 @@ class _ResonatorStateTracker:
         self,
         qubit: str,
         resonator: str,
-    ) -> Iterable[Instruction]:
+    ) -> Iterable[CircuitOperation]:
         """MOVE instruction(s) to move the state of the given qubit into the given resonator,
         or back to the qubit.
 
@@ -292,7 +298,7 @@ class _ResonatorStateTracker:
         if owner not in [qubit, resonator]:
             locus = (owner, resonator)
             self.apply_move(*locus)
-            yield Instruction(name=self.move_gate, qubits=locus, args={})
+            yield CircuitOperation(name=self.move_gate, locus=locus, args={})
 
         # if the qubit does not hold its own state, restore it, unless it's in the resonator
         # find where the qubit state is (it can be in at most one resonator)
@@ -300,17 +306,17 @@ class _ResonatorStateTracker:
         if res and (holder := res[0]) != resonator:
             locus = (qubit, holder)
             self.apply_move(*locus)
-            yield Instruction(name=self.move_gate, qubits=locus, args={})
+            yield CircuitOperation(name=self.move_gate, locus=locus, args={})
 
         # move qubit state to resonator, or back to the qubit
         locus = (qubit, resonator)
         self.apply_move(*locus)
-        yield Instruction(name=self.move_gate, qubits=locus, args={})
+        yield CircuitOperation(name=self.move_gate, locus=locus, args={})
 
     def restore_as_move_instructions(
         self,
         resonators: Iterable[str] | None = None,
-    ) -> list[Instruction]:
+    ) -> list[CircuitOperation]:
         """MOVE instructions that move the states held in the given resonators back to their qubits.
 
         Applies the returned MOVE instructions on the tracker state.
@@ -327,13 +333,13 @@ class _ResonatorStateTracker:
         if resonators is None:
             resonators = self.resonators
 
-        instructions: list[Instruction] = []
+        instructions: list[CircuitOperation] = []
         for r in resonators:
             q = self.res_state_owner[r]
             # if the state in r does not belong to r, restore it to its owner
             if q != r:
                 locus = (q, r)
-                instructions.append(Instruction(name=self.move_gate, qubits=locus, args={}))
+                instructions.append(CircuitOperation(name=self.move_gate, locus=locus, args={}))
                 self.apply_move(*locus)
         return instructions
 
@@ -367,7 +373,7 @@ class _ResonatorStateTracker:
         """
         return tuple(self.res_state_owner.get(q, q) for q in locus)
 
-    def find_resolutions(self, inst: Instruction) -> list[Resolution]:
+    def find_resolutions(self, inst: CircuitOperation) -> list[Resolution]:
         """Find all the possible resolutions for the given fictional qubit-qubit gate.
 
         Given a fictional gate G acting on qubits (a, b), finds all resonators r for which the current DQA
@@ -390,10 +396,10 @@ class _ResonatorStateTracker:
             return gate_q2r.get(g, set()) & self.move_q2r.get(m, set())
 
         # G is assumed symmetric, hence we may reverse the locus order for more resolutions
-        a, b = inst.qubits
+        a, b = inst.locus
         return [(a, b, r) for r in get_resonators(a, b)] + [(b, a, r) for r in get_resonators(b, a)]
 
-    def find_best_resolution(self, inst: Instruction, lookahead: Iterable[Instruction]) -> Resolution | None:
+    def find_best_resolution(self, inst: CircuitOperation, lookahead: Iterable[CircuitOperation]) -> Resolution | None:
         """Find the best resolution for the fictional qubit-qubit gate instruction ``inst``
         using the available native qubit-resonator gates.
 
@@ -419,12 +425,12 @@ class _ResonatorStateTracker:
         # but that would scale exponentially in n. Instead we do some heuristics:
         # Look ahead until we find the instructions that target the locus qubits next, and include
         # their costs in the badness calculation.
-        followers: dict[str, Instruction] = {}
+        followers: dict[str, CircuitOperation] = {}
         for follower in lookahead:
             if len(followers) == 2:
                 break  # found a follower for both locus qubits
-            for q in follower.qubits:
-                if q in inst.qubits:
+            for q in follower.locus:
+                if q in inst.locus:
                     followers.setdefault(q, follower)
 
         def get_badness(res: Resolution, g_holder: str, m_holder: str, r_owner: str) -> int:
@@ -499,7 +505,7 @@ class _ResonatorStateTracker:
                     else:
                         # follower needs to use same resonator but different move qubit
                         badness += 2
-                elif len(m_follower.qubits) == 1:
+                elif len(m_follower.locus) == 1:
                     # Not a resolvable QR gate. For 1q gates on m, state must be restored.
                     badness += 1
 
@@ -529,7 +535,7 @@ class _ResonatorStateTracker:
         # return the best option
         return min(options, key=lambda x: x[1])[0]
 
-    def get_sequence(self, resolution: Resolution, inst: Instruction) -> list[Instruction]:
+    def get_sequence(self, resolution: Resolution, inst: CircuitOperation) -> list[CircuitOperation]:
         """Apply a fictional two-qubit gate using a sequence of native qubit-resonator gates.
 
         See :mod:`~iqm.iqm_client.transpile`.
@@ -547,7 +553,7 @@ class _ResonatorStateTracker:
 
         """
         g, m, r = resolution
-        seq: list[Instruction] = []
+        seq: list[CircuitOperation] = []
         # does m state need to be moved to the resonator?
         m_holder = self.qubit_state_holder.get(m, m)
         if m_holder != r:
@@ -557,14 +563,14 @@ class _ResonatorStateTracker:
         if g_holder != g:
             seq += self.restore_as_move_instructions([g_holder])
         # apply G(g, r)
-        seq.append(inst.model_copy(update={"qubits": (g, r)}))
+        seq.append(CircuitOperation(name=inst.name, locus=(g, r), args=inst.args, implementation=inst.implementation))
         return seq
 
     def insert_moves(
         self,
-        instructions: Sequence[Instruction],
+        instructions: Sequence[CircuitOperation],
         arch: DynamicQuantumArchitecture,
-    ) -> list[Instruction]:
+    ) -> list[CircuitOperation]:
         """Convert a simplified architecture circuit into a equivalent Star architecture circuit with
         resonators and MOVE gates.
 
@@ -587,10 +593,10 @@ class _ResonatorStateTracker:
         """
         # This method can handle real single- and two-qubit gates, real q-r gates including MOVE,
         # and fictional two-qubit gates which it decomposes into real q-r gates.
-        new_instructions: list[Instruction] = []
+        new_instructions: list[CircuitOperation] = []
 
         for idx, inst in enumerate(instructions):
-            locus = inst.qubits
+            locus = inst.locus
             try:
                 validate_instruction(architecture=arch, instruction=inst)
                 # inst can be applied as is on locus, but we may first need to use MOVEs to make
@@ -828,11 +834,11 @@ def transpile_remove_moves(circuit: Circuit) -> Circuit:
     for inst in circuit.instructions:
         if inst.name == tracker.move_gate:
             # update the state tracking, drop the MOVE
-            tracker.apply_move(*inst.qubits)
+            tracker.apply_move(*inst.locus)
         else:
             # map the instruction locus
-            new_qubits = tracker.map_resonators_in_locus(inst.qubits)
+            new_locus = tracker.map_resonators_in_locus(inst.locus)
             new_instructions.append(
-                Instruction(name=inst.name, implementation=inst.implementation, qubits=new_qubits, args=inst.args)
+                CircuitOperation(name=inst.name, implementation=inst.implementation, locus=new_locus, args=inst.args)
             )
     return Circuit(name=circuit.name, instructions=tuple(new_instructions), metadata=circuit.metadata)

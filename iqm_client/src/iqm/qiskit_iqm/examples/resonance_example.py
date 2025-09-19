@@ -36,7 +36,7 @@ def resonance_example(server_url: str, api_token: str | None) -> dict[str, int]:
     """
     SHOTS = 1000
 
-    # Initialize a backend
+    # Initialize a backend without metrics as IQMClient._get_calibration_quality_metrics is not supported by resonance
     backend = IQMProvider(server_url, token=api_token).get_backend()
 
     # Just to make sure that "get_static_quantum_architecture" method works

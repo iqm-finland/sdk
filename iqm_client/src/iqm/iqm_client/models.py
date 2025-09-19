@@ -11,350 +11,216 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""This module contains the data models used by IQMClient."""
+r"""This module contains the data models used by IQMClient.
+
+We currently support the following native operations for circuit execution,
+represented by :class:`iqm.pulse.CircuitOperation`:
+
+================ =========== ======================================= ===========
+name             # of qubits args                                    description
+================ =========== ======================================= ===========
+measure          >= 1        ``key: str``, ``feedback_key: str``     Measurement in the Z basis.
+prx              1           ``angle: float``, ``phase: float``      Phased x-rotation gate.
+cc_prx           1           ``angle: float``, ``phase: float``,
+                             ``feedback_qubit: str``,
+                             ``feedback_key: str``                   Classically controlled PRX gate.
+reset            >= 1                                                Reset the qubit(s) to :math:`|0\rangle`.
+cz               2                                                   Controlled-Z gate.
+move             2                                                   Move a qubit state between a qubit and a
+                                                                     computational resonator, as long as
+                                                                     at least one of the components is
+                                                                     in the :math:`|0\rangle` state.
+barrier          >= 1                                                Execution barrier.
+delay            >= 1        ``duration: float``                     Force a delay between circuit operations.
+================ =========== ======================================= ===========
+
+Measure
+-------
+
+:mod:`iqm.pulse.gates.measure`
+
+Measurement in the computational (Z) basis. The measurement results are the output of the circuit.
+Takes two string arguments: ``key``, denoting the measurement key the returned results are labeled with,
+and ``feedback_key``, which is only needed if the measurement result is used for classical control
+within the circuit.
+All the measurement keys and feedback keys used in a circuit must be unique (but the two groups of
+keys are independent namespaces).
+Each qubit may be measured multiple times, i.e. mid-circuit measurements are allowed.
+
+.. code-block:: python
+    :caption: Example
+
+    CircuitOperation(name='measure', locus=('alice', 'bob', 'charlie'), args={'key': 'm1'})
+
+PRX
+---
+
+:mod:`iqm.pulse.gates.prx`
+
+Phased x-rotation gate, i.e. an x-rotation conjugated by a z-rotation.
+Takes two arguments, the rotation angle ``angle`` and the phase angle ``phase``,
+both measured in units of radians.
+The gate is represented in the standard computational basis by the matrix
+
+.. math::
+    \text{PRX}(\theta, \phi) = \exp(-i (X \cos (\phi) + Y \sin (\phi)) \: \theta/2)
+    = \text{RZ}(\phi) \: \text{RX}(\theta) \: \text{RZ}^\dagger(\phi),
+
+where :math:`\theta` = ``angle``, :math:`\phi` = ``phase``,
+and :math:`X` and :math:`Y` are Pauli matrices.
+
+.. code-block:: python
+    :caption: Example
+
+    CircuitOperation(name='prx', locus=('bob',), args={'angle': 1.4 * pi, 'phase': 0.5 * pi})
+
+CC_PRX
+------
+
+:mod:`iqm.pulse.gates.conditional`
+
+Classically controlled PRX gate. Takes four arguments. ``angle`` and ``phase`` are exactly as in PRX.
+``feedback_key`` is a string that identifies the ``measure`` instruction whose result controls
+the gate (the one that shares the feedback key).
+``feedback_qubit`` is the name of the physical qubit within the ``measure`` instruction that produces the feedback.
+If the measurement result is 1, the PRX gate is applied. If it is 0, an identity gate of similar time
+duration gate is applied instead.
+The measurement instruction must precede the classically controlled gate instruction in the quantum circuit.
+
+Reset
+-----
+
+:mod:`iqm.pulse.gates.reset`
+
+Resets the qubit(s) non-unitarily to the :math:`|0\rangle` state.
+
+.. code-block:: python
+    :caption: Example
+
+    CircuitOperation(name='reset', locus=('alice', 'bob'), args={})
+
+.. note:: Currently inherits its calibration from ``cc_prx`` and is only available when ``cc_prx`` is.
+
+CZ
+--
+
+:mod:`iqm.pulse.gates.cz`
+
+Controlled-Z gate. Represented in the standard computational basis by the matrix
+
+.. math:: \text{CZ} = \text{diag}(1, 1, 1, -1).
+
+It is symmetric wrt. the qubits it's acting on, and takes no arguments.
+
+.. code-block:: python
+    :caption: Example
+
+    CircuitOperation(name='cz', locus=('alice', 'bob'), args={})
+
+MOVE
+----
+
+:mod:`iqm.pulse.gates.move`
+
+The MOVE operation is a unitary population exchange operation between a qubit and a resonator.
+Its effect is only defined in the invariant subspace :math:`S = \text{span}\{|00\rangle, |01\rangle, |10\rangle\}`,
+where it swaps the populations of the states :math:`|01\rangle` and :math:`|10\rangle`.
+Its effect on the orthogonal subspace is undefined.
+
+MOVE has the following presentation in the subspace :math:`S`:
+
+.. math:: \text{MOVE}_S = |00\rangle \langle 00| + a |10\rangle \langle 01| + a^{-1} |01\rangle \langle 10|,
+
+where :math:`a` is an undefined complex phase that is canceled when the MOVE gate is applied a second time.
+
+To ensure that the state of the qubit and resonator has no overlap with :math:`|11\rangle`, it is
+recommended that no single qubit gates are applied to the qubit in between a
+pair of MOVE operations.
+
+.. code-block:: python
+    :caption: Example
+
+    CircuitOperation(name='move', locus=('alice', 'resonator'), args={})
+
+.. note:: MOVE is only available in quantum computers with the IQM Star architecture.
+
+Barrier
+-------
+
+:mod:`iqm.pulse.gates.barrier`
+
+Affects the physical execution order of the instructions elsewhere in the
+circuit that act on qubits spanned by the barrier.
+It ensures that any such instructions that succeed the barrier are only executed after
+all such instructions that precede the barrier have been completed.
+Hence it can be used to guarantee a specific causal order for the other instructions.
+It takes no arguments, and has no other effect.
+
+.. code-block:: python
+    :caption: Example
+
+    CircuitOperation(name='barrier', locus=('alice', 'bob'), args={})
+
+.. note::
+
+   One-qubit barriers will not have any effect on circuit's compilation and execution. Higher layers
+   that sit on top of IQM Client can make actual use of one-qubit barriers (e.g. during circuit optimization),
+   therefore having them is allowed.
+
+Delay
+-----
+
+:mod:`iqm.pulse.gates.delay`
+
+Forces a delay between the preceding and following circuit operations.
+It can be applied to any number of qubits. Takes one argument, ``duration``, which is the minimum
+duration of the delay in seconds. It will be rounded up to the nearest possible duration the
+hardware can handle.
+
+.. code-block:: python
+    :caption: Example
+
+    CircuitOperation(name='delay', locus=('alice', 'bob'), args={'duration': 80e-9})
+
+
+.. note::
+
+   We can only guarantee that the delay is *at least* of the requested duration, due to both
+   hardware and practical constraints, but could be much more depending on the other operations
+   in the circuit. To see why, consider e.g. the circuit
+
+   .. code-block:: python
+
+      (
+          CircuitOperation(name='cz', locus=('alice', 'bob'), args={}),
+          CircuitOperation(name='delay', locus=('alice',), args={'duration': 1e-9}),
+          CircuitOperation(name='delay', locus=('bob',), args={'duration': 100e-9}),
+          CircuitOperation(name='cz', locus=('alice', 'bob'), args={}),
+      )
+
+   In this case the actual delay between the two CZ gates will be 100 ns rounded up to
+   hardware granularity, even though only 1 ns was requested for `alice`.
+
+"""
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 from functools import cached_property
 import re
-from typing import Any
+from typing import Any, TypeAlias
 from uuid import UUID
 
 from pydantic import BaseModel, Field, StrictStr, TypeAdapter, field_validator
-from pydantic_core.core_schema import ValidationInfo
 
+from iqm.pulse import Circuit
+from iqm.pulse.builder import build_quantum_ops
 
-@dataclass(frozen=True)
-class NativeOperation:
-    """Describes a native operation on the quantum computer."""
+_SUPPORTED_OPERATIONS = build_quantum_ops({})
 
-    name: str
-    """Name of the operation."""
-    arity: int
-    """Number of locus components (usually qubits) the operation acts on.
-    Zero means the operation can be applied on any number of locus components."""
-    args_required: dict[str, tuple[type, ...]] = field(default_factory=dict)
-    """Maps names of required operation parameters to their allowed types."""
-    args_not_required: dict[str, tuple[type, ...]] = field(default_factory=dict)
-    """Maps names of optional operation parameters to their allowed types."""
-    symmetric: bool = False
-    """True iff the effect of operation is symmetric in the locus components it acts on.
-    Only meaningful if :attr:`arity` != 1."""
-    renamed_to: str = ""
-    """If nonempty, indicates that this operation name is deprecated, and IQM client will
-    auto-rename it to the new name."""
-    factorizable: bool = False
-    """Iff True, any multi-component instance of this operation can be broken down to
-    single-component instances, and calibration data is specific to single-component loci."""
-    no_calibration_needed: bool = False
-    """Iff true, the operation is always allowed on all QPU loci regardless of calibration state.
-    Typically a metaoperation like barrier."""
-
-
-_SUPPORTED_OPERATIONS: dict[str, NativeOperation] = {
-    op.name: op
-    for op in [
-        NativeOperation("barrier", 0, symmetric=True, no_calibration_needed=True),
-        NativeOperation("delay", 0, {"duration": (float,)}, symmetric=True, no_calibration_needed=True),
-        NativeOperation("measure", 0, {"key": (str,)}, args_not_required={"feedback_key": (str,)}, factorizable=True),
-        NativeOperation(
-            "prx",
-            1,
-            {
-                "angle_t": (float, int),
-                "phase_t": (float, int),
-            },
-        ),
-        NativeOperation(
-            "cc_prx",
-            1,
-            {
-                "angle_t": (float, int),
-                "phase_t": (float, int),
-                "feedback_key": (str,),
-                "feedback_qubit": (str,),
-            },
-        ),
-        # TODO reset does need calibration, but it inherits it from cc_prx and does not yet appear in the DQA itself.
-        NativeOperation("reset", 0, symmetric=True, factorizable=True, no_calibration_needed=True),
-        NativeOperation("cz", 2, symmetric=True),
-        NativeOperation("move", 2),
-    ]
-}
-
-Locus = tuple[StrictStr, ...]
+Locus: TypeAlias = tuple[StrictStr, ...]
 """Names of the QPU components (typically qubits) a quantum operation instance is acting on, e.g. `("QB1", "QB2")`."""
-
-
-class Instruction(BaseModel):
-    r"""Native quantum operation instance with particular arguments and locus.
-
-    This class represents a native quantum operation
-    acting on :attr:`qubits`, with the arguments :attr:`args`.
-    The operation is determined by :attr:`name`.
-
-    We currently support the following native operations:
-
-    ================ =========== ======================================= ===========
-    name             # of qubits args                                    description
-    ================ =========== ======================================= ===========
-    measure          >= 1        ``key: str``, ``feedback_key: str``     Measurement in the Z basis.
-    prx              1           ``angle_t: float``, ``phase_t: float``  Phased x-rotation gate.
-    cc_prx           1           ``angle_t: float``, ``phase_t: float``,
-                                 ``feedback_qubit: str``,
-                                 ``feedback_key: str``                   Classically controlled PRX gate.
-    reset            >= 1                                                Reset the qubit(s) to :math:`|0\rangle`.
-    cz               2                                                   Controlled-Z gate.
-    move             2                                                   Move a qubit state between a qubit and a
-                                                                         computational resonator, as long as
-                                                                         at least one of the components is
-                                                                         in the :math:`|0\rangle` state.
-    barrier          >= 1                                                Execution barrier.
-    delay            >= 1        ``duration: float``                     Force a delay between circuit operations.
-    ================ =========== ======================================= ===========
-
-    For each Instruction you may also optionally specify :attr:`~Instruction.implementation`,
-    which contains the name of an implementation of the operation to use.
-    Support for multiple implementations is currently experimental and in normal use the
-    field should be omitted, this selects the default implementation for the operation for that locus.
-
-    Measure
-    -------
-
-    Measurement in the computational (Z) basis. The measurement results are the output of the circuit.
-    Takes two string arguments: ``key``, denoting the measurement key the returned results are labeled with,
-    and ``feedback_key``, which is only needed if the measurement result is used for classical control
-    within the circuit.
-    All the measurement keys and feedback keys used in a circuit must be unique (but the two groups of
-    keys are independent namespaces).
-    Each qubit may be measured multiple times, i.e. mid-circuit measurements are allowed.
-
-    .. code-block:: python
-        :caption: Example
-
-        Instruction(name='measure', qubits=('alice', 'bob', 'charlie'), args={'key': 'm1'})
-
-    PRX
-    ---
-
-    Phased x-rotation gate, i.e. an x-rotation conjugated by a z-rotation.
-    Takes two arguments, the rotation angle ``angle_t`` and the phase angle ``phase_t``,
-    both measured in units of full turns (:math:`2\pi` radians).
-    The gate is represented in the standard computational basis by the matrix
-
-    .. math::
-        \text{PRX}(\theta, \phi) = \exp(-i (X \cos (2 \pi \; \phi) + Y \sin (2 \pi \; \phi)) \: \pi \; \theta)
-        = \text{RZ}(\phi) \: \text{RX}(\theta) \: \text{RZ}^\dagger(\phi),
-
-    where :math:`\theta` = ``angle_t``, :math:`\phi` = ``phase_t``,
-    and :math:`X` and :math:`Y` are Pauli matrices.
-
-    .. code-block:: python
-        :caption: Example
-
-        Instruction(name='prx', qubits=('bob',), args={'angle_t': 0.7, 'phase_t': 0.25})
-
-    CC_PRX
-    ------
-
-    Classically controlled PRX gate. Takes four arguments. ``angle_t`` and ``phase_t`` are exactly as in PRX.
-    ``feedback_key`` is a string that identifies the ``measure`` instruction whose result controls
-    the gate (the one that shares the feedback key).
-    ``feedback_qubit`` is the name of the physical qubit within the ``measure`` instruction that produces the feedback.
-    If the measurement result is 1, the PRX gate is applied. If it is 0, an identity gate of similar time
-    duration gate is applied instead.
-    The measurement instruction must precede the classically controlled gate instruction in the quantum circuit.
-
-    Reset
-    -----
-
-    Resets the qubit(s) non-unitarily to the :math:`|0\rangle` state.
-
-    .. code-block:: python
-        :caption: Example
-
-        Instruction(name='reset', qubits=('alice', 'bob'), args={})
-
-    .. note:: Currently inherits its calibration from ``cc_prx`` and is only available when ``cc_prx`` is.
-
-    CZ
-    --
-
-    Controlled-Z gate. Represented in the standard computational basis by the matrix
-
-    .. math:: \text{CZ} = \text{diag}(1, 1, 1, -1).
-
-    It is symmetric wrt. the qubits it's acting on, and takes no arguments.
-
-    .. code-block:: python
-        :caption: Example
-
-        Instruction(name='cz', qubits=('alice', 'bob'), args={})
-
-    MOVE
-    ----
-
-    The MOVE operation is a unitary population exchange operation between a qubit and a resonator.
-    Its effect is only defined in the invariant subspace :math:`S = \text{span}\{|00\rangle, |01\rangle, |10\rangle\}`,
-    where it swaps the populations of the states :math:`|01\rangle` and :math:`|10\rangle`.
-    Its effect on the orthogonal subspace is undefined.
-
-    MOVE has the following presentation in the subspace :math:`S`:
-
-    .. math:: \text{MOVE}_S = |00\rangle \langle 00| + a |10\rangle \langle 01| + a^{-1} |01\rangle \langle 10|,
-
-    where :math:`a` is an undefined complex phase that is canceled when the MOVE gate is applied a second time.
-
-    To ensure that the state of the qubit and resonator has no overlap with :math:`|11\rangle`, it is
-    recommended that no single qubit gates are applied to the qubit in between a
-    pair of MOVE operations.
-
-    .. code-block:: python
-        :caption: Example
-
-        Instruction(name='move', qubits=('alice', 'resonator'), args={})
-
-    .. note:: MOVE is only available in quantum computers with the IQM Star architecture.
-
-    Barrier
-    -------
-
-    Affects the physical execution order of the instructions elsewhere in the
-    circuit that act on qubits spanned by the barrier.
-    It ensures that any such instructions that succeed the barrier are only executed after
-    all such instructions that precede the barrier have been completed.
-    Hence it can be used to guarantee a specific causal order for the other instructions.
-    It takes no arguments, and has no other effect.
-
-    .. code-block:: python
-        :caption: Example
-
-        Instruction(name='barrier', qubits=('alice', 'bob'), args={})
-
-    .. note::
-
-       One-qubit barriers will not have any effect on circuit's compilation and execution. Higher layers
-       that sit on top of IQM Client can make actual use of one-qubit barriers (e.g. during circuit optimization),
-       therefore having them is allowed.
-
-    Delay
-    -----
-
-    Forces a delay between the preceding and following circuit operations.
-    It can be applied to any number of qubits. Takes one argument, ``duration``, which is the minimum
-    duration of the delay in seconds. It will be rounded up to the nearest possible duration the
-    hardware can handle.
-
-    .. code-block:: python
-        :caption: Example
-
-        Instruction(name='delay', qubits=('alice', 'bob'), args={'duration': 80e-9})
-
-
-    .. note::
-
-       We can only guarantee that the delay is *at least* of the requested duration, due to both
-       hardware and practical constraints, but could be much more depending on the other operations
-       in the circuit. To see why, consider e.g. the circuit
-
-       .. code-block:: python
-
-          [
-              Instruction(name='cz', qubits=('alice', 'bob'), args={}),
-              Instruction(name='delay', qubits=('alice',), args={'duration': 1e-9}),
-              Instruction(name='delay', qubits=('bob',), args={'duration': 100e-9}),
-              Instruction(name='cz', qubits=('alice', 'bob'), args={}),
-          ]
-
-       In this case the actual delay between the two CZ gates will be 100 ns rounded up to
-       hardware granularity, even though only 1 ns was requested for `alice`.
-    """
-
-    name: str = Field(examples=["measure"])
-    """name of the quantum operation"""
-    implementation: StrictStr | None = Field(None)
-    """name of the implementation, for experimental use only"""
-    qubits: Locus = Field(examples=[("alice",)])
-    """names of the locus components (typically qubits) the operation acts on"""
-    args: dict[str, Any] = Field(default_factory=dict, examples=[{"key": "m"}])
-    """arguments for the operation"""
-
-    def __init__(self, **data):
-        super().__init__(**data)
-        # Auto-convert name if a deprecated name is used
-        self.name = _op_current_name(self.name)
-
-    @field_validator("name")
-    @classmethod
-    def name_validator(cls, value):
-        """Check if the name of instruction is set to one of the supported quantum operations."""
-        name = value
-        if name not in _SUPPORTED_OPERATIONS:
-            message = ", ".join(_SUPPORTED_OPERATIONS)
-            raise ValueError(f'Unknown operation "{name}". Supported operations are "{message}"')
-        return name
-
-    @field_validator("implementation")
-    @classmethod
-    def implementation_validator(cls, value):
-        """Check if the implementation of the instruction is set to a non-empty string."""
-        implementation = value
-        if isinstance(implementation, str):
-            if not implementation:
-                raise ValueError("Implementation of the instruction should be None, or a non-empty string")
-        return implementation
-
-    @field_validator("qubits")
-    @classmethod
-    def qubits_validator(cls, value, info: ValidationInfo):
-        """Check if the instruction has the correct number of qubits for its operation."""
-        qubits = value
-        name = info.data.get("name")
-        if not name:
-            raise ValueError("Could not validate qubits because the name of the instruction did not pass validation")
-        arity = _SUPPORTED_OPERATIONS[name].arity
-        if (0 < arity) and (arity != len(qubits)):
-            raise ValueError(f'The "{name}" operation acts on {arity} qubit(s), but {len(qubits)} were given: {qubits}')
-        return qubits
-
-    @field_validator("args")
-    @classmethod
-    def args_validator(cls, value, info: ValidationInfo):
-        """Check argument names and types for a given instruction"""
-        args = value
-        name = info.data.get("name")
-        if not name:
-            raise ValueError("Could not validate args because the name of the instruction did not pass validation")
-
-        # Check argument names
-        submitted_arg_names = set(args)
-        required_arg_names = set(_SUPPORTED_OPERATIONS[name].args_required)
-        allowed_arg_types = _SUPPORTED_OPERATIONS[name].args_required | _SUPPORTED_OPERATIONS[name].args_not_required
-        allowed_arg_names = set(allowed_arg_types)
-        if not required_arg_names <= submitted_arg_names:
-            raise ValueError(
-                f'The operation "{name}" requires '
-                f"{tuple(required_arg_names)} argument(s), "
-                f"but {tuple(submitted_arg_names)} were given"
-            )
-        if not submitted_arg_names <= allowed_arg_names:
-            message = tuple(allowed_arg_names) if allowed_arg_names else "no"
-            raise ValueError(
-                f'The operation "{name}" allows {message} argument(s), but {tuple(submitted_arg_names)} were given'
-            )
-
-        # Check argument types
-        for arg_name, arg_value in args.items():
-            allowed_types = allowed_arg_types[arg_name]
-            if not isinstance(arg_value, allowed_types):
-                raise TypeError(
-                    f'The argument "{arg_name}" should be of one of the following supported types'
-                    f" {allowed_types}, but ({type(arg_value)}) was given"
-                )
-
-        return value
 
 
 def _op_is_symmetric(name: str) -> bool:
@@ -388,96 +254,25 @@ def _op_arity(name: str) -> int:
     return _SUPPORTED_OPERATIONS[name].arity
 
 
-def _op_current_name(name: str) -> str:
-    """Checks if the operation name has been deprecated and returns the new name if it is;
-    otherwise, just returns the name as-is.
-
-    Args:
-        name: name of the operation
-
-    Returns:
-        current name of the operation
-    Raises:
-        KeyError: ``name`` is unknown
-
-    """
-    return _SUPPORTED_OPERATIONS[name].renamed_to or name
-
-
-class Circuit(BaseModel):
-    """Quantum circuit to be executed.
-
-    Consists of native quantum operations, each represented by an instance of the :class:`Instruction` class.
-    """
-
-    name: str = Field(..., examples=["test circuit"])
-    """name of the circuit"""
-    instructions: list[Instruction] | tuple[Instruction, ...] = Field(...)
-    """instructions comprising the circuit"""
-    metadata: dict[str, Any] | None = Field(None)
-    """arbitrary metadata associated with the circuit"""
-
-    def all_qubits(self) -> set[str]:
-        """Return the names of all qubits in the circuit."""
-        qubits: set[str] = set()
-        for instruction in self.instructions:
-            qubits.update(instruction.qubits)
-        return qubits
-
-    @field_validator("name")
-    @classmethod
-    def name_validator(cls, value):
-        """Check if the circuit name is a non-empty string"""
-        name = value
-        if len(name) == 0:
-            raise ValueError("A circuit should have a non-empty string for a name.")
-        return name
-
-    @field_validator("instructions")
-    @classmethod
-    def instructions_validator(cls, value):
-        """Check the container of instructions and each instruction within"""
-        instructions = value
-
-        # Check container type
-        if not isinstance(instructions, (list, tuple)):
-            raise ValueError("Instructions of a circuit should be packed in a tuple")
-
-        # Check if any instructions are present
-        if len(value) == 0:
-            raise ValueError("Each circuit should have at least one instruction.")
-
-        # Check each instruction explicitly, because automatic validation for Instruction
-        # is only called when we create a new instance of Instruction, but not if we modify
-        # an existing instance.
-        for instruction in instructions:
-            if isinstance(instruction, Instruction):
-                Instruction.model_validate(instruction.__dict__)
-            else:
-                raise ValueError("Every instruction in a circuit should be of type <Instruction>")
-
-        return instructions
-
-
-QIRCode = str
+QIRCode: TypeAlias = str
 """QIR program code in string representation"""
 
-CircuitBatch = list[Circuit | QIRCode]
+CircuitBatch: TypeAlias = list[Circuit | QIRCode]
 """Type that represents a list of quantum circuits to be executed together in a single batch."""
 
 
 def validate_circuit(circuit: Circuit) -> None:
-    """Validates a submitted quantum circuit using Pydantic tooling.
+    """Validates a submitted quantum circuit.
 
     Args:
         circuit: a circuit that needs validation
 
     Raises:
-        pydantic.error_wrappers.ValidationError: validation failed
+        ValueError: validation failed
 
     """
     if isinstance(circuit, Circuit):
-        Circuit.model_validate(circuit.__dict__)
+        circuit.validate(_SUPPORTED_OPERATIONS)
     elif isinstance(circuit, QIRCode):
         pass
     else:
@@ -531,14 +326,10 @@ class QuantumArchitectureSpecification(BaseModel):
             qubit_connectivity = data.get("qubit_connectivity")
             # add all possible loci for the ops
             data["operations"] = {
-                _op_current_name(op): (
-                    qubit_connectivity if _op_arity(_op_current_name(op)) == 2 else [[qb] for qb in qubits]
-                )
-                for op in operations
+                op: (qubit_connectivity if _op_arity(op) == 2 else [[qb] for qb in qubits]) for op in operations
             }
 
         super().__init__(**data)
-        self.operations = {_op_current_name(k): v for k, v in self.operations.items()}
 
     def has_equivalent_operations(self, other: QuantumArchitectureSpecification) -> bool:
         """Compares the given operation sets defined by the quantum architecture against
@@ -668,7 +459,7 @@ class GateInfo(BaseModel):
     default_implementation: str = Field(...)
     """default implementation for the gate, used unless overridden by :attr:`override_default_implementation`
     or unless the user requests a specific implementation for a particular gate in the circuit using
-    :attr:`.Instruction.implementation`"""
+    :attr:`iqm.pulse.CircuitOperation.implementation`"""
     override_default_implementation: dict[Locus, str] = Field(...)
     """mapping of loci to implementation names that override ``default_implementation`` for those loci"""
 

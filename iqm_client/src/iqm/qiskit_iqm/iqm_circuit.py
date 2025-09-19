@@ -22,7 +22,7 @@ from qiskit import QuantumCircuit
 class IQMCircuit(QuantumCircuit):
     """Extends the QuantumCircuit class, adding a shortcut for applying the MOVE gate."""
 
-    def move(self, qubit: int, resonator: int):
+    def move(self, qubit: int, resonator: int):  # noqa: ANN201
         """Applies the MOVE gate to the circuit.
 
         Note: at this point the circuit layout is only guaranteed to work if the order

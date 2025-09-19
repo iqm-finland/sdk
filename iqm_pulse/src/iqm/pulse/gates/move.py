@@ -102,9 +102,9 @@ class MOVE_CustomWaveforms(FluxPulseGate):
     The phases are calculated and applied on the qubits using :func:`.apply_move_gate_phase_corrections`.
     """
 
-    root_parameters: dict[str, Parameter | Setting] = {
+    root_parameters: dict[str, Parameter | Setting | dict] = {
         "duration": Parameter("", "Gate duration", "s"),
-        "rz": {  # type: ignore[dict-item]
+        "rz": {
             "*": Parameter("", "Z rotation angle", "rad"),  # wildcard parameter
         },
         "detuning": Parameter("", "Qubit - resonator detuning", "Hz"),

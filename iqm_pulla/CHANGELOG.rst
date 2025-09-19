@@ -2,6 +2,161 @@
 Changelog
 =========
 
+Version 11.6.0 (2025-09-19)
+===========================
+
+Bug fixes
+---------
+
+- Bump iqm client dependency
+
+Version 11.5.0 (2025-09-17)
+===========================
+
+Features
+--------
+
+- Update dependency on iqm-pulse
+
+Version 11.4.0 (2025-09-12)
+===========================
+
+Features
+--------
+
+- Update dependency on exa-common
+
+Version 11.3.0 (2025-09-12)
+===========================
+
+Features
+--------
+
+- Update dependency on station-control-client
+
+Version 11.2.0 (2025-09-12)
+===========================
+
+Features
+--------
+
+- Allow executing jobs in async fashion
+
+Version 11.1.0 (2025-09-12)
+===========================
+
+Features
+--------
+
+- Postprocessing stages.
+
+Version 11.0.0 (2025-09-11)
+===========================
+
+Breaking changes
+----------------
+
+- Replace :class:`iqm.cpc.interface.compiler.Circuit` with :class:`iqm.pulse.Circuit`.
+  :issue:`SW-1663`
+- Remove ``Instruction`` and ``Circuit`` models from ``iqm.pulla.interface``. :issue:`SW-1663`
+
+Version 10.1.0 (2025-09-08)
+===========================
+
+Features
+--------
+
+- bump iqm-pulse version
+
+Version 10.0.0 (2025-09-08)
+===========================
+
+Features
+--------
+
+- Pulla compiler converts the terminal measurements into "measure_fidelity"
+  - new circuit execution option ``"convert_terminal_measurements"`` controls this behavior (by default ``True``)
+
+Version 9.9.0 (2025-09-03)
+==========================
+
+Features
+--------
+
+- Enable ruff rule for missing annotations and mark exemptions.
+
+Version 9.8.0 (2025-08-21)
+==========================
+
+Bug fixes
+---------
+
+- FIx Pulla.execute crashing when there are jobs in the queue
+
+Version 9.7.0 (2025-08-20)
+==========================
+
+Features
+--------
+
+Fix qiskit-to-pulla tests so they don't initialize IQMBackend with metrics :issue:`SW-769`.
+
+Version 9.6.0 (2025-08-20)
+==========================
+
+Bug fixes
+---------
+
+- Add explicit cross-component requirements
+
+Version 9.5.0 (2025-08-11)
+==========================
+
+Feature
+-------
+
+- bump exa-experiments and iqm-pulse
+
+Version 9.4.0 (2025-08-07)
+==========================
+
+Features
+--------
+
+- Fix naming conventions related to Pulse level access as ``Pulla``.
+
+Version 9.3.0 (2025-08-05)
+==========================
+
+Features
+--------
+
+- Require compiler instead of Pulla in qir_to_pulla
+
+Version 9.2.0 (2025-07-31)
+==========================
+
+Features
+--------
+
+- Support iqm-client with QIR support
+
+Version 9.1.0 (2025-07-30)
+==========================
+
+Features
+--------
+
+- Require compiler instead of Pulla in qir_to_pulla
+
+Version 9.0.0 (2025-07-16)
+==========================
+
+Breaking changes
+----------------
+
+- :meth:`Compiler.add_implementation` signature has slightly changed.
+
 Version 8.3.0 (2025-07-09)
 ==========================
 

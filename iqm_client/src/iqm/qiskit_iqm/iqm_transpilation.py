@@ -129,7 +129,7 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
 
         return dag
 
-    def _validate_ops(self, dag: DAGCircuit):
+    def _validate_ops(self, dag: DAGCircuit):  # noqa: ANN202
         valid_ops = self._basis + ["measure", "reset", "delay", "barrier"]
         for node in dag.op_nodes():
             if node.name not in valid_ops:
@@ -184,7 +184,7 @@ class IQMReplaceGateWithUnitaryPass(TransformationPass):
         self.gate = gate
         self.unitary = unitary
 
-    def run(self, dag):
+    def run(self, dag):  # noqa: ANN001, ANN201
         for node in dag.op_nodes():
             if node.name == self.gate:
                 dag.substitute_node(node, UnitaryGate(self.unitary))

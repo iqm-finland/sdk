@@ -44,5 +44,4 @@ def IQMFakeAdonis() -> IQMFakeBackend:
         },
         name="sample-chip",
     )
-
     return IQMFakeBackend(architecture, error_profile, name="IQMFakeAdonisBackend")

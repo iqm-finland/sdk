@@ -15,7 +15,8 @@ r"""Projective measurement in the Z basis."""
 
 from __future__ import annotations
 
-from copy import deepcopy
+from collections.abc import Iterable
+from copy import copy, deepcopy
 from dataclasses import replace
 import functools
 from typing import TYPE_CHECKING
@@ -26,6 +27,7 @@ from exa.common.data.parameter import CollectionType, DataType, Parameter, Setti
 from iqm.pulse.gate_implementation import (
     PROBE_LINES_LOCUS_MAPPING,
     SINGLE_COMPONENTS_WITH_READOUT_LOCUS_MAPPING,
+    CompositeGate,
     CustomIQWaveforms,
     Locus,
     OILCalibrationData,
@@ -33,6 +35,7 @@ from iqm.pulse.gate_implementation import (
 from iqm.pulse.playlist.channel import ProbeChannelProperties
 from iqm.pulse.playlist.instructions import (
     AcquisitionMethod,
+    Block,
     ComplexIntegration,
     IQPulse,
     MultiplexedIQPulse,
@@ -41,7 +44,7 @@ from iqm.pulse.playlist.instructions import (
     TimeTrace,
 )
 from iqm.pulse.playlist.waveforms import Constant, Samples
-from iqm.pulse.timebox import MultiplexedProbeTimeBox, TimeBox
+from iqm.pulse.timebox import MultiplexedProbeTimeBox, SchedulingStrategy, TimeBox
 
 if TYPE_CHECKING:  # pragma: no cover
     from iqm.pulse.builder import ScheduleBuilder
@@ -61,11 +64,11 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
     ``class MyGate(Measure_CustomWaveforms, i_wave=Something, q_wave=SomethingElse)``.
 
     The ``measure`` operation is factorizable, and its :attr:`arity` is 0, which together mean that it can operate
-    on loci of any dimensionality, but is calibrated only on single component loci. When the gate is constructed in the
-    ``len(locus) > 1``, case (e.g. ``builder.get_implementation('measure', ('QB1', 'QB2', 'QB3'))()``) the resulting
-    :class:`.TimeBox` is constructed from the calibrated single-component gates.
+    on loci of any length, but is calibrated only on single component loci. When the gate is constructed in the
+    ``len(locus) > 1`` case (e.g. ``builder.get_implementation('measure', ('QB1', 'QB2', 'QB3'))()``), the resulting
+    :class:`.TimeBox` is constructed from the calibrated single-component implementations.
 
-    For each measured component, the readout ``IQPulse`` will be modulated with the
+    For each measured component, the readout :class:`.IQPulse` will be modulated with the
     intermediate frequency (IF), computed as the difference between the readout
     frequency of that component and the probe line center frequency, and offset in phase
     by the readout phase of the component.
@@ -80,6 +83,7 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
         "frequency": Parameter("", "Readout pulse frequency", "Hz"),
         "phase": Parameter("", "Readout pulse phase", "rad"),
         "amplitude_i": Parameter("", "Readout channel I amplitude", ""),
+        # TODO do we really need these defaults? are they used anywhere?
         "amplitude_q": Setting(Parameter("", "Readout channel Q amplitude", ""), 0.0),
         "integration_length": Parameter("", "Integration length", "s"),
         "integration_weights_I": Setting(
@@ -100,41 +104,46 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
     ):
         super().__init__(parent, name, locus, calibration_data, builder)
 
-        self._multiplexed_timeboxes: dict[tuple[str, str, bool], MultiplexedProbeTimeBox] = {}
+        self._multiplexed_timeboxes: dict[tuple[str, str, bool], TimeBox] = {}
         """Cache for :meth:`probe_timebox`."""
         self._time_traces: dict[tuple[str, float | None, float | None, str], TimeBox] = {}
         """Cache for :meth:`time_trace`."""
+        self._neighborhood_components: set[str] = set(self.locus) | set(
+            self.builder.chip_topology.component_to_probe_line[q] for q in self.locus
+        )
 
-        if len(locus) == 1:  # factorizable gates only need calibration on 1-loci
-            self._probe_line: ProbeChannelProperties = self.builder.channels[  # type: ignore[assignment]
-                self.builder.get_probe_channel(self.locus[0])
+        if len(locus) == 1:
+            # prepare the single-component measurement
+            probe_line: ProbeChannelProperties = builder.channels[  # type: ignore[assignment]
+                builder.get_probe_channel(locus[0])
             ]
-            c_freq = self._probe_line.center_frequency
-            if_freq = (calibration_data["frequency"] - c_freq) / self._probe_line.sample_rate
+            # readout duration is determined by the acquisition, probe pulses are truncated to fit this window
             self._duration = (
-                self._probe_line.duration_to_int_samples(
-                    self._probe_line.round_duration_to_granularity(
+                probe_line.duration_to_int_samples(
+                    probe_line.round_duration_to_granularity(
                         calibration_data["acquisition_delay"] + calibration_data["integration_length"]
                     )
                 )
-                + self._probe_line.integration_stop_dead_time
+                + probe_line.integration_stop_dead_time
             )
-
+            self._probe_offset = probe_line.integration_start_dead_time
+            # "duration" is only used by the probe pulse
             waveform_params = self.convert_calibration_data(
                 calibration_data,
-                {k: v for k, v in self.parameters.items() if k not in self.root_parameters or k == "duration"},
-                self._probe_line,
+                {k: v for k, v in self.parameters.items() if k not in self.root_parameters},
+                probe_line,
             )
+            # unconverted cal data that corresponds to a root param (not duration)
             root_params = {k: v for k, v in calibration_data.items() if k in self.root_parameters and k != "duration"}
+            # do some conversions TODO are these consistent?
+            root_params["integration_length"] = probe_line.duration_to_int_samples(root_params["integration_length"])
+            root_params["acquisition_delay"] = round(probe_line.duration_to_samples(root_params["acquisition_delay"]))
 
-            probe_instruction, acquisition_method = self._build_instructions(waveform_params, root_params, if_freq)
-            self._probe_instruction = probe_instruction
-            self._acquisition_method = acquisition_method
-            self._prio_calibration: OILCalibrationData | None = None
-        else:
-            # we need to store the possible cal_data == priority calibration in order to propagate it to the factored
-            # single-component measure calls in :meth:`probe_timebox`
-            self._prio_calibration = calibration_data or None
+            if_freq = (calibration_data["frequency"] - probe_line.center_frequency) / probe_line.sample_rate
+
+            self._probe_instruction, self._acquisition_method = self._build_instructions(
+                waveform_params, root_params, if_freq
+            )
 
     def _build_instructions(
         self, waveform_params: OILCalibrationData, root_params: OILCalibrationData, if_freq: float
@@ -160,7 +169,7 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
             modulation_frequency=if_freq,
         )
 
-        integration_length = self._probe_line.duration_to_int_samples(root_params["integration_length"])
+        integration_length = root_params["integration_length"]
         weights_i = root_params.get("integration_weights_I")
         weights_q = root_params.get("integration_weights_Q")
         if weights_i is not None and weights_i.size and weights_q is not None and weights_q.size:
@@ -195,27 +204,29 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
             )
 
         acquisition_type = root_params.get("acquisition_type", self.root_parameters["acquisition_type"].value)  # type: ignore[union-attr]
-        acquisition_delay = round(self._probe_line.duration_to_samples(root_params["acquisition_delay"]))
         acquisition_label = "TO_BE_REPLACED"
+        op_and_implementation = f"{self.parent.name}.{self.name}"
         if acquisition_type == "complex":
             acquisition_method = ComplexIntegration(
-                label=acquisition_label, delay_samples=acquisition_delay, weights=weights
+                label=acquisition_label,
+                delay_samples=root_params["acquisition_delay"],
+                weights=weights,
+                implementation=op_and_implementation,
             )
         elif acquisition_type == "threshold":
             acquisition_method = ThresholdStateDiscrimination(
                 label=acquisition_label,
-                delay_samples=acquisition_delay,
+                delay_samples=root_params["acquisition_delay"],
                 weights=weights,
                 threshold=root_params["integration_threshold"],
+                implementation=op_and_implementation,
             )
         else:
             raise ValueError(f"Unknown acquisition type {acquisition_type}")
 
         return probe_pulse, acquisition_method
 
-    def probe_timebox(
-        self, key: str = "", feedback_key: str = "", do_acquisition: bool = True, **kwargs
-    ) -> MultiplexedProbeTimeBox:
+    def probe_timebox(self, key: str = "", feedback_key: str = "", do_acquisition: bool = True, **kwargs) -> TimeBox:
         """Returns a "naked" probe timebox that supports convenient multiplexing through
         ``MultiplexedProbeTimeBox.__add__``.
 
@@ -243,12 +254,11 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
                 replacements = {"label": f"{self.locus[0]}__{label_key}"}
                 if feedback_key and isinstance(self._acquisition_method, ThresholdStateDiscrimination):
                     # TODO: use the actual ``feedback_key`` when AWGs support multiple feedback labels
-                    feedback_bit = f"{self.locus[0]}__{FEEDBACK_KEY}"
-                    replacements["feedback_signal_label"] = feedback_bit
+                    replacements["feedback_signal_label"] = f"{self.locus[0]}__{FEEDBACK_KEY}"
                 acquisitions = (replace(self._acquisition_method, **replacements),) if do_acquisition else ()  # type: ignore[arg-type]
                 multiplexed_iq = MultiplexedIQPulse(
-                    duration=self._probe_instruction.duration + self._probe_line.integration_start_dead_time,
-                    entries=((self._probe_instruction, self._probe_line.integration_start_dead_time),),
+                    duration=self._probe_instruction.duration + self._probe_offset,
+                    entries=((self._probe_instruction, self._probe_offset),),
                 )
                 readout_trigger = ReadoutTrigger(
                     duration=self._duration, probe_pulse=multiplexed_iq, acquisitions=acquisitions
@@ -286,18 +296,12 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
                         label=f"{self.__class__.__name__} on {self.locus}",
                     )
             else:
-                # _skip_override used for child classes build on `Measure_CustomWaveforms` to not call `.probe_timebox`
-                # from the parent class, but from this class instead.
                 probe_timeboxes = [
-                    self.builder.get_implementation(  # type: ignore[attr-defined]
-                        self.parent.name, (c,), impl_name=self.name, priority_calibration=self._prio_calibration
-                    ).probe_timebox(key, feedback_key, do_acquisition, _skip_override=True)
+                    self.sub_implementations[c].probe_timebox(key, feedback_key, do_acquisition)  # type: ignore[attr-defined]
                     for c in self.locus
                 ]
                 probe_timebox = functools.reduce(lambda x, y: x + y, probe_timeboxes)
-            probe_timebox.neighborhood_components[0] = set(
-                self.locus + (self.builder.chip_topology.component_to_probe_line[self.locus[0]],)
-            )
+            probe_timebox.neighborhood_components[0] = copy(self._neighborhood_components)
             if feedback_key:
                 # Block all the virtual channels from the probes involved in self.locus as we cannot know what AWG
                 # might be listening to the sent bits. NOTE: No Waits are added, the channels are just blocked in
@@ -346,6 +350,11 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
         final_box.neighborhood_components[0] = final_box.children[0].neighborhood_components[0]
         return final_box
 
+    def _get_probe_timebox_for_time_trace(self, key: str = "", feedback_key: str = "") -> TimeBox:
+        """Utility method that can be overridden in subclasses if they have a return type `.probe_pulse`."""
+        # FIXME: not needed once we align the return types of all these measure gates
+        return self.probe_timebox(key=key, feedback_key=feedback_key)
+
     def time_trace(
         self,
         key: str = "",
@@ -379,12 +388,16 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
         args = (key, acquisition_delay, acquisition_duration, feedback_key)
         # additional caching for time traces since the acquisitions differ from the ones in _call
         if args not in self._time_traces:
-            probe_timebox = deepcopy(self.probe_timebox(key=key, feedback_key=feedback_key, _skip_override=True))
+            probe_timebox = deepcopy(self._get_probe_timebox_for_time_trace(key, feedback_key))
             for probe_channel, segment in probe_timebox.atom.items():  # type: ignore[union-attr]
-                readout_trigger = segment[0]
+                readout_trigger = None
+                for inst in segment:
+                    if isinstance(inst, ReadoutTrigger):
+                        readout_trigger = inst
+                        break
                 # TODO instead of editing the probe_timebox output contents, we should make the function itself do this
                 # so we would not need to blindly search through the channels
-                if not isinstance(readout_trigger, ReadoutTrigger):
+                if readout_trigger is None:
                     continue
 
                 probe_line = self.builder.channels[probe_channel]
@@ -406,6 +419,7 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
                     label=f"{probe_name}__{label_key}",
                     delay_samples=delay_samples,
                     duration_samples=duration_samples,
+                    implementation=f"{self.parent.name}.{self.name}",
                 )
                 trigger_with_trace = replace(readout_trigger, acquisitions=readout_trigger.acquisitions + (time_trace,))
                 segment._instructions[0] = trigger_with_trace
@@ -446,10 +460,14 @@ class ProbePulse_CustomWaveforms(CustomIQWaveforms):
     With given :class:`.Waveform` waveform definitions ``Something`` and ``SomethingElse``,
     you may define a measurement implementation that uses them as follows:
     ``class MyGate(ProbePulse_CustomWaveforms, i_wave=Something, q_wave=SomethingElse)``.
+    The measurement :class:`.IQPulse` instruction will not be automatically modulated
+    by any frequency, so any modulations should be included in the I and Q waveforms themselves.
+
+    Due to device limitations this implementation also has to integrate the readout signal
+    (using arbitrary weights), even though it does not make much sense.
 
     Contrary to the ``Measure_CustomWaveforms`` class, this implementation acts on proble lines directly (i.e. its
-    ``locus`` is a single probe line). The measurement ``IQPulse`` instruction will not be automatically modulated
-    by any frequency, so any modulations should be included in the I and Q waveforms themselves.
+    ``locus`` is a single probe line).
     """
 
     root_parameters = {
@@ -465,8 +483,8 @@ class ProbePulse_CustomWaveforms(CustomIQWaveforms):
         self, parent: QuantumOp, name: str, locus: Locus, calibration_data: OILCalibrationData, builder: ScheduleBuilder
     ):
         super().__init__(parent, name, locus, calibration_data, builder)
-        self._probe_line: ProbeChannelProperties = self.builder.channels[  # type: ignore[assignment]
-            self.builder.component_channels[self.locus[0]]["readout"]
+        self._probe_line: ProbeChannelProperties = builder.channels[  # type: ignore[assignment]
+            builder.component_channels[locus[0]]["readout"]
         ]
         self._duration = (
             self._probe_line.duration_to_int_samples(
@@ -479,7 +497,7 @@ class ProbePulse_CustomWaveforms(CustomIQWaveforms):
 
         waveform_params = self.convert_calibration_data(
             calibration_data,
-            {k: v for k, v in self.parameters.items() if k not in self.root_parameters or k == "duration"},
+            {k: v for k, v in self.parameters.items() if k not in self.root_parameters},
             self._probe_line,
         )
         root_params = {k: v for k, v in calibration_data.items() if k in self.root_parameters and k != "duration"}
@@ -515,7 +533,10 @@ class ProbePulse_CustomWaveforms(CustomIQWaveforms):
         acquisition_delay = round(self._probe_line.duration_to_samples(root_params["acquisition_delay"]))
         time_trace_label = "TO_BE_REPLACED"
         time_trace_acquisition = TimeTrace(
-            label=time_trace_label, delay_samples=acquisition_delay, duration_samples=integration_length
+            label=time_trace_label,
+            delay_samples=acquisition_delay,
+            duration_samples=integration_length,
+            implementation=f"{self.parent.name}.{self.name}",
         )
 
         # TODO: due to device limitations, we need to integrate always, even though it does not make much sense here
@@ -531,7 +552,10 @@ class ProbePulse_CustomWaveforms(CustomIQWaveforms):
         )
         integration_label = "dummy__integration"
         integration_acquisition = ComplexIntegration(
-            label=integration_label, delay_samples=acquisition_delay, weights=weights
+            label=integration_label,
+            delay_samples=acquisition_delay,
+            weights=weights,
+            implementation=f"{self.parent.name}.{self.name}",
         )
         return probe_pulse, (integration_acquisition, time_trace_acquisition)
 
@@ -602,8 +626,8 @@ class ProbePulse_CustomWaveforms_noIntegration(CustomIQWaveforms):
         """Cache for :meth:`probe_timebox`."""
 
         if len(locus) == 1:  # factorizable gates only need calibration on 1-loci
-            self._probe_line: ProbeChannelProperties = self.builder.channels[  # type: ignore[assignment]
-                self.builder.get_probe_channel(self.locus[0])
+            self._probe_line: ProbeChannelProperties = builder.channels[  # type: ignore[assignment]
+                builder.get_probe_channel(locus[0])
             ]
             c_freq = self._probe_line.center_frequency
             if_freq = (calibration_data["frequency"] - c_freq) / self._probe_line.sample_rate
@@ -790,62 +814,181 @@ class Probe_Constant(ProbePulse_CustomWaveforms_noIntegration, wave_i=Constant, 
     """
 
 
-class Shelved_Measure_CustomWaveforms(Measure_CustomWaveforms):
+class ShelvedMeasureTimeBox(TimeBox):
+    """TimeBox representing a shelved measurement (ReadoutTrigger sandwiched between two PRX_12 operations).
+
+    ShelvedMeasureTimeBox is a composite TimeBox containing two children:
+    * first one being the first PRX_12 operation for the locus components of the measure
+    * second one being the ReadoutTrigger (MultiplexedProbeTimeBox) that includes the second PRX_12 operation.
+
+    Multiplexing is achieved so that ShelvedMeasureTimeBoxes support ``__add__`` and ``__radd__`` operations with other
+    boxes of the same type and MultiplexedProbeTimeBoxes. The multiplexing operation is defined such that the
+    initial PRX_12 boxes are added together (in case one of the multiplexed boxes is a MultiplexedProbeTimeBoxes, the
+    initial PRX_12 is considered empty), and the probe boxes are multiplexed together via the logic defined in
+    ``MultiplexedProbeTimeBoxes.__add__``. This behaviour results in the correct timings of the associated pulses
+    after the multiplexing.
+
+    """
+
+    def __post_init__(self):
+        if len(self.children) != 2:
+            raise ValueError(
+                "ShelvedMeasureTimeBox must have exactly two children: the first one corresponding to the "
+                "initial prx_12 operations, and the second one to the ReadoutTrigger and the final prx_12"
+            )
+        if self.children[1].atom is None or not isinstance(self.children[1], MultiplexedProbeTimeBox):
+            raise ValueError("The second child must be an atomic MultiplexedProbeTimeBox.")
+
+    @property
+    def prx_12_box(self) -> TimeBox:
+        return self.children[0]
+
+    @property
+    def trigger_box(self) -> TimeBox:
+        return self.children[1]
+
+    def __add__(self, other: TimeBox | Iterable[TimeBox]) -> TimeBox:
+        """Add the initial PRX_12 boxes together via the ``TimeBox``"""
+        if isinstance(other, (ShelvedMeasureTimeBox, MultiplexedProbeTimeBox)):
+            if isinstance(other, ShelvedMeasureTimeBox):
+                prx_12_box = self.prx_12_box + other.prx_12_box
+                trigger_box = self.trigger_box + other.trigger_box
+            else:
+                prx_12_box = self.prx_12_box
+                trigger_box = self.trigger_box + other
+            locus_components = self.locus_components.union(other.locus_components)
+            multiplexed = ShelvedMeasureTimeBox(
+                label=f"Shelved measure on {locus_components}",
+                locus_components=locus_components,
+                atom=None,
+                children=(prx_12_box, trigger_box),
+                scheduling=self.scheduling,
+                scheduling_algorithm=self.scheduling_algorithm,
+            )
+            # neighborhood components by the trigger_box
+            multiplexed.neighborhood_components[0] = trigger_box.neighborhood_components[0]
+            return multiplexed
+        return super().__add__(other)
+
+    def __radd__(self, other: TimeBox | Iterable[TimeBox]) -> TimeBox:
+        return self.__add__(other)
+
+
+SHELVED_OFFSET_TOLERANCE = 1e-12
+"""Tolerance for the absolute value of shelved measure ``second_prx_12_offset`` calibration value 
+being considered zero."""
+
+
+class Shelved_Measure_CustomWaveforms(Measure_CustomWaveforms, CompositeGate):
     """Base class for shelved readout.
 
     Shelved readout applies a ``prx_12(pi)`` gate before and after a standard dispersive readout on each qubit measured.
     The first ``prx_12(pi)`` swaps the amplitudes of the |1> and |2> states, and the second one swaps them back after
-    the measurement has (roughtly) collapsed the state. If the discriminator of the readout is calibrated such that
+    the measurement has (roughly) collapsed the state. If the discriminator of the readout is calibrated such that
     the |0> state is on one side and the |1> and |2> states are on the other, the end result is equivalent to the
     standard readout operation but with the advantage that the population in the |2> state is less susceptible to
     :math:`T_1` decay during the readout than the population in the |1> state.
 
-    .. note:: Mixed implementation multiplexing is not supported.
     """
 
-    # Copied from `CompositeGate` to refresh caching after any calibration changes (in particular for the `prx_12`
-    # calibration)
-    def __call__(self, *args, **kwargs):
-        default_cache_key = tuple(args) + tuple(kwargs.items())
-        try:
-            hash(default_cache_key)
-            key_is_hashable = True
-        except TypeError:
-            key_is_hashable = False
-        if key_is_hashable:
-            if box := self.builder.composite_cache.get(self, default_cache_key):
-                return box
-        box = self._call(*args, **kwargs)
-        if key_is_hashable:
-            self.builder.composite_cache.set(self, default_cache_key, box)
-        return box
+    root_parameters = Measure_CustomWaveforms.root_parameters | {
+        "second_prx_12_offset": Setting(
+            Parameter(
+                "second_prx_12_offset", "Offset of the second PRX_12 pulse from the end the ReadoutTrigger", unit="s"
+            ),
+            0.0,
+        ),
+        "do_prx_12": Setting(
+            Parameter(
+                "do_prx_12",
+                "Whether to do the prx_12 flips in the measure operation",
+                unit="",
+                data_type=DataType.BOOLEAN,
+            ),
+            True,
+        ),
+    }
+    registered_gates = ("prx_12",)
 
-    # `probe_timebox` is needed for making certain experiments work (e.g. `MeasurementQNDness`), since they call this
-    # function explicitly. However, the main functionality of this method will not work: Enabling mixed
-    # implementation multiplexing. This is because the method has to return time boxes due to the `prx_12` pulses,
-    # instead of `MultiplexedProbeTimeBox`
-    # TODO: Enable mixed implementation multiplexing for shelved readout
-    def probe_timebox(  # type: ignore[override]
-        self, key: str = "", feedback_key: str = "", do_acquisition: bool = True, _skip_override: bool = False
-    ) -> TimeBox:
-        if _skip_override:
-            return super().probe_timebox(key, feedback_key, do_acquisition)
-        multiplexed_timeboxes = super().probe_timebox(key, feedback_key)
-        prx_12_impl = [self.builder.get_implementation("prx_12", [q])(np.pi) for q in self.locus]
+    def probe_timebox(self, key: str = "", feedback_key: str = "", do_acquisition: bool = True, **kwargs) -> TimeBox:  # type: ignore[union-attr, override]
+        """Returns a "naked" probe timebox that supports convenient multiplexing through
+        ``ShelvedMeasureTimeBox.__add__``.
 
-        boxes = prx_12_impl + multiplexed_timeboxes + prx_12_impl  # type: ignore[operator]
-        return boxes
+        This method can be used if the user wants to control the multiplexing explicitly. Supports adding together
+        boxes of type :class:`.ShelvedMeasureTimeBox` and/or :class:`.MultiplexedProbeTimeBox`. See
+        :meth:`.ShelvedMeasureTimeBox.__add__` for more information on the logic.
 
-    def _call(self, key: str = "", feedback_key: str = "") -> TimeBox:  # type: ignore[override]
-        shelved_measure_box = TimeBox.composite(
-            self.probe_timebox(key=key, feedback_key=feedback_key),  # type: ignore[arg-type]
-            label=f"Readout on {self.locus}",
+        Args:
+            key: The readout results generated on this trigger will be assigned to
+                ``f"{qubit}__{key}"``, where ``qubit`` goes over the component names in ``self.locus``. If empty,
+                the key `"readout.result"` will be used to maintain backwards compatibility.
+            feedback_key: The signals generated by this measure operation are routed using this key for
+                fast feedback purposes. See :meth:`__call__`.
+            do_acquisition: if False, no acquisitions are added.
+
+        Returns:
+            ShelvedMeasureTimeBox containing the ReadoutTrigger instruction.
+
+        """
+        args = (key, feedback_key, do_acquisition)
+        if args not in self._multiplexed_timeboxes:
+            if len(self.locus) == 1:
+                probe_timebox = super().probe_timebox(key, feedback_key, do_acquisition, **kwargs)
+                shelved_box = probe_timebox
+                prx_12_box = TimeBox.composite(
+                    [self.build("prx_12", self.locus)(np.pi)], scheduling=SchedulingStrategy.ALAP
+                )
+                if self.calibration_data["do_prx_12"]:
+                    shelved_box = probe_timebox + prx_12_box  # type: ignore[operator, assignment, override]
+                # schedule the shelved box to get an atomic schedule
+                shelved_atom = deepcopy(self.builder.resolve_timebox(shelved_box, neighborhood=0))
+                offset = self.calibration_data["second_prx_12_offset"]
+                if self.calibration_data["do_prx_12"] and abs(offset) > SHELVED_OFFSET_TOLERANCE:
+                    drive_channel_name = self.builder.get_drive_channel(self.locus[0])
+                    drive_channel = self.builder.channels[drive_channel_name]
+                    offset_sign = offset / abs(offset)
+                    offset_in_samples = offset_sign * drive_channel.duration_to_int_samples(abs(offset))
+                    trigger_block = shelved_atom[drive_channel_name][0]
+                    block_with_offset = Block(trigger_block.duration + offset_in_samples)
+                    shelved_atom[drive_channel_name]._instructions[0] = block_with_offset
+                trigger_box = MultiplexedProbeTimeBox(
+                    label=f"{self.__class__.__name__} on {self.locus}",
+                    locus_components=probe_timebox.locus_components,
+                    atom=shelved_atom,
+                )
+                trigger_box.neighborhood_components[0] = probe_timebox.neighborhood_components[0]
+                pre_box = prx_12_box if self.calibration_data["do_prx_12"] else TimeBox.composite([])
+                final_box = ShelvedMeasureTimeBox(
+                    label=f"Shelved Measure on {self.locus}",
+                    locus_components=set(self.locus),
+                    atom=None,
+                    children=(pre_box, trigger_box),
+                )
+                final_box.neighborhood_components[0] = probe_timebox.neighborhood_components[0]
+            else:
+                # NOTE: the super call can be a bit misleading; it is actually calling the `self.probe_timebox` of len 1
+                # in this class inside, via the factorizable gate's sub_implementations
+                final_box = super().probe_timebox(key, feedback_key)  # type: ignore[assignment]
+            self._multiplexed_timeboxes[args] = final_box
+        return self._multiplexed_timeboxes[args]
+
+    def _get_probe_timebox_for_time_trace(self, key: str = "", feedback_key: str = "") -> TimeBox:
+        """Utility method that can be overridden in subclasses if they have a return type `.probe_pulse`.
+
+        The ``ShelvedMeasureTimeBox`` resulting from :meth:`.probe_timebox` is first scheduled to obtain an atomic
+        ``MultiplexedProbeTimeBox`` which is wrapped into a TimeBox.
+        """
+        # FIXME: not needed once we align the return types of all these measure gates
+        probe_timebox = self.probe_timebox(key=key, feedback_key=feedback_key)
+        # resolve the box to get an atomic time_box.
+        probe_schedule = self.builder.resolve_timebox(probe_timebox, neighborhood=0)
+        atomic_probe_box = MultiplexedProbeTimeBox.atomic(
+            probe_schedule,
+            label=f"Time Trace atomic probe box of {self.__class__.__name__} on {self.locus}",
+            locus_components=probe_timebox.locus_components,
         )
-        shelved_measure_box.neighborhood_components[0] = shelved_measure_box.children[
-            len(self.locus)
-        ].neighborhood_components[0]
-
-        return shelved_measure_box
+        atomic_probe_box.neighborhood_components[0] = probe_timebox.neighborhood_components[0]
+        return atomic_probe_box
 
 
 class Shelved_Measure_Constant(Shelved_Measure_CustomWaveforms, wave_i=Constant, wave_q=Constant):  # type:ignore[call-arg]

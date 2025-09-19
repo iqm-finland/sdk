@@ -58,7 +58,7 @@ class ClickLoggingHandler(logging.Handler):
         super().__init__(level=logging.NOTSET)
         self.formatter = logging.Formatter("%(message)s")
 
-    def emit(self, record):
+    def emit(self, record):  # noqa: ANN001, ANN201
         click.echo(self.format(record))
 
 
@@ -463,7 +463,7 @@ def auth() -> None:
     help="Location of the configuration file to be used.",
 )
 @click.option("-v", "--verbose", is_flag=True, help="Print extra information.")
-def status(config_file, verbose) -> None:
+def status(config_file, verbose) -> None:  # noqa: ANN001
     """Check status of authentication."""
     _set_log_level_by_verbosity(verbose)
 
@@ -503,7 +503,7 @@ def status(config_file, verbose) -> None:
         click.echo(f"Token manager: {click.style('NOT RUNNING', fg='red')}")
 
 
-def _validate_iqm_client_cli_auth_login(no_daemon, no_refresh, config_file) -> ConfigFile:
+def _validate_iqm_client_cli_auth_login(no_daemon, no_refresh, config_file) -> ConfigFile:  # noqa: ANN001
     """Checks if provided combination of auth login options is valid:
        - no_daemon and no_refresh are mutually exclusive
        - config file should pass validation

@@ -91,7 +91,7 @@ class UGate(CompositeGate):
     Assumes the chosen PRX implementation uses resonant driving, and that the virtual RZ technique can be used.
     """
 
-    registered_gates = ["prx"]
+    registered_gates = ("prx",)
 
     def _call(self, theta: float, phi: float = 0.0, lam: float = 0.0) -> TimeBox:  # type: ignore[override]
         r"""Convert pulses into timebox, via Euler decomposition.

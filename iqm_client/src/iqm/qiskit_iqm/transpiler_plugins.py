@@ -187,8 +187,8 @@ class OnlyRZOptimizationPlugin(IQMSchedulingPlugin):
 
     def __init__(
         self,
-        drop_final_rz=True,
-        ignore_barriers=False,
+        drop_final_rz=True,  # noqa: ANN001
+        ignore_barriers=False,  # noqa: ANN001
     ):
         super().__init__(False, True, drop_final_rz, ignore_barriers, None)
 

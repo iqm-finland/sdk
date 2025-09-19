@@ -183,6 +183,7 @@ intersphinx_mapping = {
     "scipy": ("https://docs.scipy.org/doc/scipy-1.6.3/reference", None),
     "xarray": ("https://docs.xarray.dev/en/stable", None),
     "exa.common": ("../exa-common", "../../exa-common/build/sphinx/objects.inv"),
+    "iqm.models": ("../iqm-data-definitions", "https://iqm.gitlab-pages.iqm.fi/qccsw/iqm-data-definitions/objects.inv"),
 }
 
 use_local_target = os.getenv("USE_LOCAL_TARGET", "").lower()

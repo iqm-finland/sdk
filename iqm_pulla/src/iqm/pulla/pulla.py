@@ -210,6 +210,7 @@ class Pulla:
         context: dict[str, Any],
         settings: SettingNode,
         verbose: bool = True,
+        wait_completion: bool = True,
     ) -> StationControlResult:
         """Executes a quantum circuit on the remote quantum computer.
 
@@ -218,6 +219,7 @@ class Pulla:
             context: Context object of the successful compiler run, containing the readout mappings.
             settings: Station settings.
             verbose: Whether to print results.
+            wait_completion: If True, returns immediately with job ID. If False, waits for completion.
 
         Returns:
             results of the execution
@@ -240,72 +242,130 @@ class Pulla:
             )
         )
         job_id = uuid.UUID(sweep_response["job_id"])
-        try:
-            logger.info("Created job in queue with ID: %s", job_id)
-            if href := sweep_response.get("job_href"):
-                logger.info("Job link: %s", href)
 
-            logger.info("Waiting for the job to finish...")
+        logger.info("Created job in queue with ID: %s", job_id)
+        if href := sweep_response.get("job_href"):
+            logger.info("Job link: %s", href)
+
+        if wait_completion:
+            return self.get_execution_result(job_id, context, verbose, wait_completion=True)
+        else:
+            return StationControlResult(sweep_id=job_id, task_id=job_id, status=TaskStatus.PENDING)
+
+    def get_execution_result(
+        self,
+        job_id: uuid.UUID,
+        context: dict[str, Any],
+        verbose: bool = True,
+        wait_completion: bool = True,
+    ) -> StationControlResult:
+        """Get execution results.
+
+        Args:
+            job_id: The ID of the job to process.
+            context: Context object of the successful compiler run, containing the readout mappings.
+            verbose: Whether to print results.
+            wait_completion: If True, waits for job completion. If False, returns current status.
+
+        Returns:
+            The processed station control result.
+
+        """
+        sc_result = StationControlResult(sweep_id=job_id, task_id=job_id, status=TaskStatus.PENDING)
+
+        try:
+            if wait_completion:
+                logger.info("Waiting for the job to finish...")
 
             while True:
-                sweep_data = self._station_control.get_sweep(job_id)
-                sc_result = StationControlResult(sweep_id=job_id, task_id=job_id, status=TaskStatus.PENDING)
+                job_data = self._station_control.get_job(job_id)
+                sc_result.status = TaskStatus.PENDING
 
-                if sweep_data.job_status <= JobExecutorStatus.EXECUTION_STARTED:  # type: ignore[operator]
-                    # Wait in the task queue while showing a progress bar
-
-                    interrupted = self._station_control._wait_job_completion(str(job_id), get_progress_bar_callback())  # type: ignore[attr-defined]
-                    if interrupted:
-                        raise KeyboardInterrupt
-
-                elif sweep_data.job_status == JobExecutorStatus.READY:
-                    logger.info("Sweep status: %s", str(sweep_data.job_status))
-
-                    sc_result.status = TaskStatus.READY
-                    sc_result.result = map_sweep_results_to_logical_qubits(
-                        self._station_control.get_sweep_results(job_id),
-                        context["readout_mappings"],
-                        context["options"].heralding_mode,
+                if job_data.job_status <= JobExecutorStatus.EXECUTION_STARTED:  # type: ignore[operator]
+                    if wait_completion:
+                        # Wait in the task queue while showing a progress bar
+                        interrupted = self._station_control._wait_job_completion(  # type: ignore[attr-defined]
+                            str(job_id), get_progress_bar_callback()
+                        )
+                        if interrupted:
+                            raise KeyboardInterrupt
+                    else:
+                        # Non-blocking check - return current status
+                        sc_result.status = (
+                            TaskStatus.PROGRESS
+                            if job_data.job_status == JobExecutorStatus.EXECUTION_STARTED
+                            else TaskStatus.PENDING
+                        )
+                        return sc_result
+                else:
+                    # job is not in queue or executing, so we can query the sweep
+                    result_or_nothing = self._get_result_of_started_job(
+                        context, job_data, job_id, sc_result, wait_completion, verbose
                     )
-                    sc_result.start_time = (
-                        sweep_data.begin_timestamp.isoformat() if sweep_data.begin_timestamp else None
-                    )
-                    sc_result.end_time = sweep_data.end_timestamp.isoformat() if sweep_data.end_timestamp else None
+                    if result_or_nothing is not None:
+                        return result_or_nothing
 
-                    if verbose:
-                        # TODO: Consider using just 'logger.debug' here and remove 'verbose'
-                        logger.info(sc_result.result)
-
-                    return sc_result
-
-                elif sweep_data.job_status == JobExecutorStatus.FAILED:
-                    sc_result.status = TaskStatus.FAILED
-                    sc_result.start_time = (
-                        sweep_data.begin_timestamp.isoformat() if sweep_data.begin_timestamp else None
-                    )
-                    sc_result.end_time = sweep_data.end_timestamp.isoformat() if sweep_data.end_timestamp else None
-                    job = self._station_control.get_job(job_id)
-                    sc_result.message = job["job_error"]  # type: ignore[index]
-                    logger.error("Submission failed! Error: %s", sc_result.message)
-                    return sc_result
-
-                elif sweep_data.job_status == JobExecutorStatus.ABORTED:
-                    sc_result.status = TaskStatus.FAILED
-                    sc_result.start_time = (
-                        sweep_data.begin_timestamp.isoformat() if sweep_data.begin_timestamp else None
-                    )
-                    sc_result.end_time = sweep_data.end_timestamp.isoformat() if sweep_data.end_timestamp else None
-                    job = self._station_control.get_job(job_id)
-                    sc_result.message = job["job_error"]  # type: ignore[index]
-                    logger.error("Submission was revoked!")
-                    return sc_result
-
-                time.sleep(1)
+                if wait_completion:
+                    time.sleep(1)
+                else:
+                    break
 
         except KeyboardInterrupt as exc:
-            logger.info("Caught KeyboardInterrupt, revoking job %s", job_id)
-            self._station_control.abort_job(job_id)
+            if wait_completion:
+                logger.info("Caught KeyboardInterrupt, revoking job %s", job_id)
+                self._station_control.abort_job(job_id)
             raise KeyboardInterrupt from exc
+
+        return sc_result
+
+    def _get_result_of_started_job(
+        self,
+        context: dict[str, Any],
+        job_data: Any,
+        job_id: uuid.UUID,
+        sc_result: StationControlResult,
+        wait_completion: bool,
+        verbose: bool,
+    ) -> StationControlResult | None:
+        sweep_data = self._station_control.get_sweep(job_id)
+        if job_data.job_status == JobExecutorStatus.READY:
+            if wait_completion:
+                logger.info("Sweep status: %s", str(sweep_data.job_status))
+
+            sc_result.status = TaskStatus.READY
+            sc_result.result = map_sweep_results_to_logical_qubits(
+                self._station_control.get_sweep_results(job_id),
+                context["readout_mappings"],
+                context["options"].heralding_mode,
+            )
+            sc_result.start_time = sweep_data.begin_timestamp.isoformat() if sweep_data.begin_timestamp else None
+            sc_result.end_time = sweep_data.end_timestamp.isoformat() if sweep_data.end_timestamp else None
+
+            if verbose and wait_completion:
+                # TODO: Consider using just 'logger.debug' here and remove 'verbose'
+                logger.info(sc_result.result)
+
+            return sc_result
+
+        if job_data.job_status == JobExecutorStatus.FAILED:
+            sc_result.status = TaskStatus.FAILED
+            sc_result.start_time = sweep_data.begin_timestamp.isoformat() if sweep_data.begin_timestamp else None
+            sc_result.end_time = sweep_data.end_timestamp.isoformat() if sweep_data.end_timestamp else None
+            sc_result.message = str(job_data.job_error)
+            if wait_completion:
+                logger.error("Submission failed! Error: %s", sc_result.message)
+            return sc_result
+
+        if job_data.job_status == JobExecutorStatus.ABORTED:
+            sc_result.status = TaskStatus.FAILED
+            sc_result.start_time = sweep_data.begin_timestamp.isoformat() if sweep_data.begin_timestamp else None
+            sc_result.end_time = sweep_data.end_timestamp.isoformat() if sweep_data.end_timestamp else None
+            sc_result.message = str(job_data.job_error)
+            if wait_completion:
+                logger.error("Submission was revoked!")
+            return sc_result
+
+        return None
 
 
 init_loggers({"iqm": "INFO"})

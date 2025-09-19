@@ -17,14 +17,15 @@ from __future__ import annotations
 
 from collections.abc import Collection
 from dataclasses import dataclass
+from math import pi
 import re
 
-from iqm.iqm_client import Instruction
 from iqm.qiskit_iqm.move_gate import MoveGate
-import numpy as np
 from qiskit import QuantumCircuit as QiskitQuantumCircuit
 from qiskit.circuit import ClassicalRegister, Clbit, QuantumRegister
 from qiskit.transpiler.layout import Layout
+
+from iqm.pulse import CircuitOperation
 
 
 class InstructionNotSupportedError(RuntimeError):
@@ -94,7 +95,7 @@ class MeasurementKey:
 
 def serialize_instructions(  # noqa: PLR0912, PLR0915
     circuit: QiskitQuantumCircuit, qubit_index_to_name: dict[int, str], allowed_nonnative_gates: Collection[str] = ()
-) -> list[Instruction]:
+) -> list[CircuitOperation]:
     """Serialize a quantum circuit into the IQM data transfer format.
 
     This is IQM's internal helper for :meth:`.IQMBackend.serialize_circuit` that gives slightly more control.
@@ -116,32 +117,32 @@ def serialize_instructions(  # noqa: PLR0912, PLR0915
         ValueError: circuit contains an unsupported instruction or is not transpiled in general
 
     """
-    instructions: list[Instruction] = []
+    instructions: list[CircuitOperation] = []
     # maps clbits to the latest "measure" instruction to store its result there
-    clbit_to_measure: dict[Clbit, Instruction] = {}
+    clbit_to_measure: dict[Clbit, CircuitOperation] = {}
     for circuit_instruction in circuit.data:
         instruction = circuit_instruction.operation
-        qubit_names = [qubit_index_to_name[circuit.find_bit(qubit).index] for qubit in circuit_instruction.qubits]
+        qubit_names = tuple(qubit_index_to_name[circuit.find_bit(qubit).index] for qubit in circuit_instruction.qubits)
         if instruction.name == "r":
-            angle_t = float(instruction.params[0] / (2 * np.pi))
-            phase_t = float(instruction.params[1] / (2 * np.pi))
-            native_inst = Instruction(name="prx", qubits=qubit_names, args={"angle_t": angle_t, "phase_t": phase_t})
+            angle = float(instruction.params[0])
+            phase = float(instruction.params[1])
+            native_inst = CircuitOperation(name="prx", locus=qubit_names, args={"angle": angle, "phase": phase})
         elif instruction.name == "x":
-            native_inst = Instruction(name="prx", qubits=qubit_names, args={"angle_t": 0.5, "phase_t": 0.0})
+            native_inst = CircuitOperation(name="prx", locus=qubit_names, args={"angle": pi, "phase": 0.0})
         elif instruction.name == "rx":
-            angle_t = float(instruction.params[0] / (2 * np.pi))
-            native_inst = Instruction(name="prx", qubits=qubit_names, args={"angle_t": angle_t, "phase_t": 0.0})
+            angle = float(instruction.params[0])
+            native_inst = CircuitOperation(name="prx", locus=qubit_names, args={"angle": angle, "phase": 0.0})
         elif instruction.name == "y":
-            native_inst = Instruction(name="prx", qubits=qubit_names, args={"angle_t": 0.5, "phase_t": 0.25})
+            native_inst = CircuitOperation(name="prx", locus=qubit_names, args={"angle": pi, "phase": 0.5 * pi})
         elif instruction.name == "ry":
-            angle_t = float(instruction.params[0] / (2 * np.pi))
-            native_inst = Instruction(name="prx", qubits=qubit_names, args={"angle_t": angle_t, "phase_t": 0.25})
+            angle = float(instruction.params[0])
+            native_inst = CircuitOperation(name="prx", locus=qubit_names, args={"angle": angle, "phase": 0.5 * pi})
         elif instruction.name == "cz":
-            native_inst = Instruction(name="cz", qubits=qubit_names, args={})
+            native_inst = CircuitOperation(name="cz", locus=qubit_names, args={})
         elif instruction.name == "move":
-            native_inst = Instruction(name="move", qubits=qubit_names, args={})
+            native_inst = CircuitOperation(name="move", locus=qubit_names, args={})
         elif instruction.name == "barrier":
-            native_inst = Instruction(name="barrier", qubits=qubit_names, args={})
+            native_inst = CircuitOperation(name="barrier", locus=qubit_names, args={})
         elif instruction.name == "delay":
             duration = float(instruction.params[0])
             # convert duration to seconds
@@ -160,7 +161,7 @@ def serialize_instructions(  # noqa: PLR0912, PLR0915
                 duration *= 1e-12
             else:
                 raise ValueError(f"Delay: Unsupported unit '{unit}'")
-            native_inst = Instruction(name="delay", qubits=qubit_names, args={"duration": duration})
+            native_inst = CircuitOperation(name="delay", locus=qubit_names, args={"duration": duration})
         elif instruction.name == "measure":
             if len(circuit_instruction.clbits) != 1:
                 raise ValueError(
@@ -168,15 +169,15 @@ def serialize_instructions(  # noqa: PLR0912, PLR0915
                 )
             clbit = circuit_instruction.clbits[0]  # always a single-qubit measurement
             mk = str(MeasurementKey.from_clbit(clbit, circuit))
-            native_inst = Instruction(name="measure", qubits=qubit_names, args={"key": mk})
+            native_inst = CircuitOperation(name="measure", locus=qubit_names, args={"key": mk})
             clbit_to_measure[clbit] = native_inst
         elif instruction.name == "reset":
-            native_inst = Instruction(name="reset", qubits=qubit_names, args={})
+            native_inst = CircuitOperation(name="reset", locus=qubit_names, args={})
         elif instruction.name == "id":
             continue
         elif instruction.name in allowed_nonnative_gates:
             args = {f"p{i}": param for i, param in enumerate(instruction.params)}
-            native_inst = Instruction.model_construct(name=instruction.name, qubits=tuple(qubit_names), args=args)
+            native_inst = CircuitOperation(name=instruction.name, locus=qubit_names, args=args)
         else:
             raise ValueError(
                 f"Instruction '{instruction.name}' in the circuit '{circuit.name}' is not natively supported. "
@@ -211,7 +212,7 @@ def serialize_instructions(  # noqa: PLR0912, PLR0915
             measure_inst = clbit_to_measure[clbit]
             feedback_key = measure_inst.args["key"]
             measure_inst.args["feedback_key"] = feedback_key  # this measure is used to provide feedback
-            physical_qubit_name = measure_inst.qubits[0]  # single-qubit measurement
+            physical_qubit_name = measure_inst.locus[0]  # single-qubit measurement
             native_inst.args["feedback_key"] = feedback_key
             native_inst.args["feedback_qubit"] = physical_qubit_name
 
@@ -220,7 +221,7 @@ def serialize_instructions(  # noqa: PLR0912, PLR0915
 
 
 def deserialize_instructions(
-    instructions: list[Instruction], qubit_name_to_index: dict[str, int], layout: Layout
+    instructions: list[CircuitOperation], qubit_name_to_index: dict[str, int], layout: Layout
 ) -> QiskitQuantumCircuit:
     """Helper function to turn a list of IQM Instructions into a Qiskit QuantumCircuit.
 
@@ -276,11 +277,11 @@ def deserialize_instructions(
         *(cl_regs.get(i, ClassicalRegister(0)) for i in range(max(cl_regs) + 1 if cl_regs else 0)),
     )
     for instr in instructions:
-        locus = [index_to_qiskit_qubit[qubit_name_to_index[q]] for q in instr.qubits]
+        locus = [index_to_qiskit_qubit[qubit_name_to_index[q]] for q in instr.locus]
         if instr.name == "prx":
-            angle_t = instr.args["angle_t"] * 2 * np.pi
-            phase_t = instr.args["phase_t"] * 2 * np.pi
-            circuit.r(angle_t, phase_t, locus[0])
+            angle = instr.args["angle"]
+            phase = instr.args["phase"]
+            circuit.r(angle, phase, locus[0])
         elif instr.name == "cz":
             circuit.cz(*locus)
         elif instr.name == "move":
@@ -294,11 +295,11 @@ def deserialize_instructions(
             duration = instr.args["duration"]
             circuit.delay(duration, locus, unit="s")  # native delay instructions always use seconds
         elif instr.name == "cc_prx":
-            angle_t = instr.args["angle_t"] * 2 * np.pi
-            phase_t = instr.args["phase_t"] * 2 * np.pi
+            angle = instr.args["angle"]
+            phase = instr.args["phase"]
             feedback_key = instr.args["feedback_key"]
             # NOTE: 'feedback_qubit' is not needed, because in Qiskit you only have single-qubit measurements.
-            circuit.r(angle_t, phase_t, locus[0]).c_if(fk_to_clbit[feedback_key], 1)
+            circuit.r(angle, phase, locus[0]).c_if(fk_to_clbit[feedback_key], 1)
         elif instr.name == "reset":
             for qubit in locus:
                 circuit.reset(qubit)

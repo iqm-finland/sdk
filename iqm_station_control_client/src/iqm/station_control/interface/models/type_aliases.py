@@ -25,7 +25,6 @@ StrUUID = str | UUID
 
 DutType = Literal["chip", "twpa"]
 GetObservationsMode = Literal["all_latest", "tags_and", "tags_or", "sequence"]
-ObservationSetType = Literal["calibration-set", "characterization-set", "generic-set", "quality-metric-set"]
 SoftwareVersionSet = dict[str, str]
 Statuses = list[tuple[str, int, int]]
 SweepResults = dict[str, list[np.ndarray]]

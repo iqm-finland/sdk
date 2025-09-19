@@ -2,6 +2,124 @@
 Changelog
 =========
 
+Version 12.2.0 (2025-09-17)
+===========================
+
+Features
+--------
+
+- Improvements to Shelved_Measure_CustomWaveforms
+  - Calibration parameter `second_prx_12_offset` that allows performing the last pre_12 operation during the ReadoutTrigger (defaults to 0s -- i.e. perform the pulse immediately after the ReadoutTrigger)
+  - Shelved_Measure_CustomWaveforms.probe_timebox now allows multiplexing. The results from this method are multiplexable with the ones coming from the base class
+  - Shelved_Measure_CustomWaveforms.time_trace works
+
+Version 12.1.0 (2025-09-12)
+===========================
+
+Features
+--------
+
+- Update dependency on exa-common
+
+Version 12.0.0 (2025-09-11)
+===========================
+
+Breaking changes
+----------------
+
+- :attr:`.QuantumOp.params` is now a dictionary mapping parameter names to their allowed types instead of a tuple of
+  parameter names. :issue:`SW-1663`
+- :meth:`.CircuitOperation.validate` is more strict about allowed values. For example, the types of
+  :attr:`.CircuitOperation.args` are now checked. :issue:`SW-1663`
+
+Features
+--------
+
+- Add :class:`.Circuit` and :attr:`.QuantumOp.optional_params`. :issue:`SW-1663`
+
+Version 11.2.0 (2025-09-10)
+===========================
+
+Features
+--------
+
+- Add ``PiecewiseConstant`` waveform.
+
+Version 11.1.0 (2025-09-08)
+===========================
+
+Features
+--------
+
+- ScheduleBuilder.timeboxes_to_front_padded_playlist now returns also the used measure implementations per readout label
+
+Version 11.0.0 (2025-09-08)
+===========================
+
+Features
+--------
+
+- Split the measure QuantumOp into measure (QND mid-circuit-measure) and measure_fidelity (terminal measure that might not be QND)
+
+Version 10.5.0 (2025-09-03)
+===========================
+
+Features
+--------
+
+- Enable ruff rule for missing annotations and mark exemptions.
+
+Version 10.4.0 (2025-08-12)
+===========================
+
+Features
+--------
+
+- Allow deprecating quantum operations and/or their implementations while still preserving them in the quantum operation
+  library (the names of deprecated canonical operations are still reserved).
+
+Version 10.3.0 (2025-08-11)
+===========================
+
+Feature
+-------
+
+- Added ``FluxPulse_SmoothConstant_SmoothConstant `` which automatically splits pulses into three parts: rise, Constant, and fall.
+- Changed Flux pulse argument ``parameter`` type to remove ignores all over the code.
+
+Version 10.2.0 (2025-08-08)
+===========================
+
+Features
+--------
+
+- Modifies typing of CircuitOperation to use Locus directly. No other functional changes.
+
+Version 10.1.0 (2025-07-18)
+===========================
+
+Features
+--------
+- Add a new "prx" implementation :class:`PRX_Cosine`, using a cosine pulse for both I and Q components.
+- Add a new waveform :class:`PolynomialCosine`, which is a polynomial function of a cosine,
+  :math:`f(n) = \sum_{k=0}^m a_k \cos^k(2 \pi f n)`, where :math:`n` is the sample index.
+
+Bug Fixes
+---------
+- In the waveform :class:`Cosine` add ``phase`` to :attr:`non_timelike_attributes`.
+
+Version 10.0.0 (2025-07-16)
+===========================
+
+Breaking changes
+----------------
+
+- :class:`.CompositeGate` subclasses must now include all their member gates in :attr:`.CompositeGate.registered_gates`.
+  The subclasses should apply the member gates using :meth:`.CompositeGate.build`.
+- Removed the :meth:`.PRX_SinglePulse_GateImplementation.iq_pulse` alias, use ``.pulse`` instead.
+- :func:`.register_implementation` no longer can register or define a QuantumOp.
+  :func:`.register_operation` is introduced for that purpose.
+
 Version 9.21.0 (2025-07-10)
 ===========================
 
@@ -200,7 +318,7 @@ Version 8.12.0 (2025-04-03)
 ===========================
 
 Feature
-*******
+-------
 
 - Format code and enable PEP 604 in linting rules, :issue:`SW-1230`.
 
@@ -217,7 +335,7 @@ Version 8.10.0 (2025-04-02)
 ===========================
 
 Features
-********
+--------
 
 - Update the documentation footer to display the package version.
 

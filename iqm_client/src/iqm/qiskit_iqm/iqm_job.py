@@ -24,7 +24,6 @@ import warnings
 from iqm.iqm_client import (
     DEFAULT_TIMEOUT_SECONDS,
     APITimeoutError,
-    Circuit,
     CircuitMeasurementResults,
     HeraldingMode,
     IQMClient,
@@ -37,6 +36,8 @@ from iqm.qiskit_iqm.qiskit_to_iqm import MeasurementKey
 import numpy as np
 from qiskit.providers import JobStatus, JobV1
 from qiskit.result import Counts, Result
+
+from iqm.pulse import Circuit
 
 if TYPE_CHECKING:
     from iqm.qiskit_iqm.iqm_provider import IQMBackend
@@ -140,7 +141,7 @@ class IQMJob(JobV1):
             for s in range(shots)
         ]
 
-    def submit(self):
+    def submit(self):  # noqa: ANN201
         raise NotImplementedError(
             "You should never have to submit jobs by calling this method. When running circuits through "
             "RemoteIQMBackend, the submission will happen under the hood. The job instance that you get is only for "

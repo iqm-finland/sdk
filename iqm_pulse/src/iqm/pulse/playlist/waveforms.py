@@ -145,7 +145,79 @@ class Cosine(Waveform):
 
     @staticmethod
     def non_timelike_attributes() -> dict[str, str]:
-        return {"frequency": "Hz"}
+        return {"frequency": "Hz", "phase": "rad"}
+
+
+@dataclass(frozen=True)
+class PolynomialCosine(Waveform):
+    r"""Polynomial of a periodic sinusoidal waveform which defaults to cosine.
+
+    .. math::
+        f(t) = P(\cos(2\pi \: f \: t + \phi))
+
+    where :math:`P(x)` is a polynomial, :math:`f` is the frequency, and :math:`\phi` the phase of the wave.
+
+    Args:
+        frequency: frequency of the wave, in units of inverse sampling window duration
+        phase: phase of the wave, in radians
+
+    """
+
+    frequency: float
+    coefficients: np.ndarray
+    phase: float = 0.0
+
+    def _sample(self, sample_coords: np.ndarray) -> np.ndarray:
+        cosine = np.cos(2 * np.pi * self.frequency * sample_coords + self.phase)
+        return np.polynomial.polynomial.polyval(cosine, self.coefficients)
+
+    @staticmethod
+    def non_timelike_attributes() -> dict[str, str]:
+        return {"frequency": "Hz", "phase": "rad", "coefficients": ""}
+
+
+@dataclass(frozen=True)
+class PiecewiseConstant(Waveform):
+    r"""Piecewise constant waveform.
+
+    The values are assumed to be in the range :math:`[-1, 1]`, and the changepoints are
+    assumed to be in the Nyquist-zone of the duration,
+    i.e. in the range [-`duration`/2, `duration`/2]
+
+    Args:
+        changepoints: Array of the changepoints of the piecewise constant function.
+        values: Array of the values of the piecewise constant function.
+        Must have one more element than ``changepoints``.
+
+    """
+
+    changepoints: np.ndarray
+    values: np.ndarray
+
+    def __post_init__(self):
+        if len(self.values) != len(self.changepoints) + 1:
+            raise ValueError("The number of values must be one more than the number of changepoints.")
+
+    @staticmethod
+    def non_timelike_attributes() -> dict[str, str]:
+        return {
+            "values": "",
+        }
+
+    def _sample(self, sample_coords: np.ndarray) -> np.ndarray:
+        condlist = []
+        # Before first changepoint
+        condlist.append(sample_coords < self.changepoints[0])
+
+        for i in range(len(self.changepoints) - 1):
+            condlist.append((sample_coords >= self.changepoints[i]) & (sample_coords < self.changepoints[i + 1]))
+
+        condlist.append(sample_coords >= self.changepoints[-1])
+
+        funclist = (
+            [self.values[0]] + [self.values[i + 1] for i in range(len(self.changepoints) - 1)] + [self.values[-1]]
+        )
+        return np.piecewise(sample_coords, condlist, funclist)
 
 
 @dataclass(frozen=True)
@@ -336,7 +408,7 @@ class Chirp(Waveform):
     alpha: float = 0.05
     phase: float = 0
 
-    def _sample(self, sample_coords):
+    def _sample(self, sample_coords):  # noqa: ANN001, ANN202
         chirpfreq = np.linspace(self.freq_start, self.freq_stop, len(sample_coords))
         chirpphase = 2 * np.pi * np.cumsum(chirpfreq) + self.phase
         wave = np.exp(1j * chirpphase) * ss.windows.tukey(len(sample_coords), self.alpha)
@@ -470,3 +542,95 @@ class CosineFall(Waveform):
 
     def _sample(self, sample_coords: np.ndarray) -> np.ndarray:
         return 0.5 - 0.5 * np.sin(np.pi * sample_coords)
+
+
+@dataclass(frozen=True)
+class CosineRiseFlex(Waveform):
+    r"""Cosine Rise waveform with an extra duration buffer.
+
+    The waveform is a piecewise function: |buffer|cosine rise|flat plateau|, where:
+    - buffer is a 'leftover' constant signal with amplitude = 0, with duration of duration - full_width
+    - cosine rise is a cosine rise pulse with a duration of rise_time
+    - flat plateau is a constant signal with amplitude = 1, with duration of full_width - rise_time
+
+    Args:
+        rise_time: rise time of the waveform
+        full_width: combined duration of the cosine rise time and the flat plateau
+
+    Raises:
+        ValueError: Error is raised if full_width or rise_time is more than duration
+
+    """
+
+    rise_time: float
+    full_width: float
+
+    def _sample(self, sample_coords: np.ndarray) -> np.ndarray:
+        flat_part_duration = np.abs(self.full_width) - np.abs(self.rise_time)
+        rise_time_duration = np.abs(self.rise_time)
+        dead_wait_time = 1 - np.abs(self.full_width)
+
+        if dead_wait_time >= 0:
+            return np.piecewise(
+                sample_coords,
+                [
+                    sample_coords <= 0.5 - flat_part_duration - rise_time_duration,
+                    sample_coords > 0.5 - flat_part_duration - rise_time_duration,
+                    sample_coords >= 0.5 - flat_part_duration,  # flat carry-over from the Constant
+                ],
+                [
+                    0,
+                    lambda oc: 0.5 - 0.5 * np.cos(np.pi / rise_time_duration * (oc - dead_wait_time + 0.5)),
+                    1,
+                ],
+            )
+        elif (flat_part_duration + dead_wait_time > 0) and (1 - rise_time_duration >= 0):
+            raise ValueError("Full width is more than duration")
+        else:
+            raise ValueError("Rise time is more than duration")
+
+
+@dataclass(frozen=True)
+class CosineFallFlex(Waveform):
+    r"""Cosine fall waveform with an extra duration buffer.
+
+    The waveform is a piecewise function: |flat plateau|cosine fall|buffer|, where:
+    - buffer is a 'leftover' constant signal with amplitude = 0, generally with duration of duration - full_width
+    - cosine fall is a cosine fall pulse with a duration of rise_time
+    - flat plateau is a constant signal with amplitude = 1, generally with duration of full_width - rise_time
+
+    Args:
+        rise_time: rise time of the waveform
+        full_width: combined duration of the cosine fall time and the flat plateau
+
+    Raises:
+        ValueError: Error is raised if full_width or rise_time is more than duration
+
+    """
+
+    rise_time: float
+    full_width: float
+
+    def _sample(self, sample_coords: np.ndarray) -> np.ndarray:
+        flat_part_duration = max(np.abs(self.full_width) - np.abs(self.rise_time), 0)
+        rise_time_duration = np.abs(self.rise_time)
+        dead_wait_time = 1 - flat_part_duration - rise_time_duration
+
+        if dead_wait_time >= 0:
+            return np.piecewise(
+                sample_coords,
+                [
+                    sample_coords <= -0.5 + flat_part_duration,  # flat corry-over from the Constant
+                    sample_coords > -0.5 + flat_part_duration,
+                    sample_coords >= -0.5 + flat_part_duration + rise_time_duration,
+                ],
+                [
+                    1,
+                    lambda oc: 0.5 + 0.5 * np.cos(np.pi / rise_time_duration * (oc - flat_part_duration + 0.5)),
+                    0,
+                ],
+            )
+        elif (flat_part_duration + dead_wait_time > 0) and (1 - rise_time_duration >= 0):
+            raise ValueError("Full width is more than duration")
+        else:
+            raise ValueError("Rise time is more than duration")

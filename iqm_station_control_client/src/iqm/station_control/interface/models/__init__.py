@@ -36,6 +36,7 @@ from iqm.station_control.interface.models.observation import (
 from iqm.station_control.interface.models.observation_set import (
     ObservationSetData,
     ObservationSetDefinition,
+    ObservationSetType,
     ObservationSetUpdate,
     ObservationSetWithObservations,
     QualityMetrics,
@@ -52,7 +53,6 @@ from iqm.station_control.interface.models.sweep import SweepData, SweepDefinitio
 from iqm.station_control.interface.models.type_aliases import (
     DutType,
     GetObservationsMode,
-    ObservationSetType,
     SoftwareVersionSet,
     Statuses,
     SweepResults,

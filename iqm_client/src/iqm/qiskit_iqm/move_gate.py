@@ -53,12 +53,12 @@ class MoveGate(Gate):
        order ``[qubit, resonator]``, regardless of which component is currently holding the state.
     """
 
-    def __init__(self, label=None):
+    def __init__(self, label=None):  # noqa: ANN001
         """Initializes the move gate"""
         super().__init__("move", 2, [], label=label)
         self.unitary = qi.Operator(MOVE_GATE_UNITARY)
 
-    def _define(self):
+    def _define(self):  # noqa: ANN202
         """This function is purposefully not defined so that that the Qiskit transpiler cannot accidentally
         decompose the MOVE gate into a sequence of other gates, instead it will throw an error.
         """

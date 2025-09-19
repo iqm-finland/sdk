@@ -31,7 +31,7 @@ import numpy as np
 from iqm.pulse.playlist.playlist import Playlist
 
 
-def _numpy_to_builtin_types(data: list[tuple[str, Any]]):
+def _numpy_to_builtin_types(data: list[tuple[str, Any]]):  # noqa: ANN202
     """Convert selected ``numpy`` types to Python's built-in types.
 
     This helper function is to be used for converting dataclasses into
@@ -57,7 +57,7 @@ def _numpy_to_builtin_types(data: list[tuple[str, Any]]):
 def _get_waveform(wave: Waveform, scale: float, wave_q: Waveform | None = None, scale_q: float | None = None) -> str:
     import matplotlib.pyplot as plt
 
-    def fig_to_base64(fig):
+    def fig_to_base64(fig):  # noqa: ANN001, ANN202
         img = io.BytesIO()
         fig.savefig(img, format="png", bbox_inches="tight")
         img.seek(0)

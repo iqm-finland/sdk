@@ -14,26 +14,9 @@
 """IQM Circuit to Pulse Compiler.
 
 IQM Circuit to Pulse Compiler is a Python-based library for converting quantum circuits
-into :class:`instruction schedules <exa.pulse.pulse_schedule.PulseSchedule>`
-(which map ``Station Control`` controller names to their pulse playlists) and Station Control settings
+into :class:`instruction schedules <iqm.pulse.playlist.schedule.Schedule>`
+(which map ``Station Control`` controller names to lists of hardware instructions) and Station Control settings
 required for circuit execution, using the calibration data it is given.
 The generated schedules and settings can be sent to Station Control
 for execution on real or simulated quantum hardware.
-
-CPC is normally only accessed indirectly through Cocos or its reference client
-`IQM client <https://docs.meetiqm.com/iqm-client/index.html>`_,
-or a frontend such as
-`Cirq on IQM <https://docs.meetiqm.com/iqm-client/user_guide_cirq.html>`_ or
-`Qiskit on IQM <https://docs.meetiqm.com/iqm-client/user_guide_qiskit.html>`_.
 """
-
-# from importlib.metadata import PackageNotFoundError, version
-
-# try:
-#     # Change here if project is renamed and does not equal the package name
-#     DIST_NAME = "iqm-cocos"
-#     __version__ = version(DIST_NAME)
-# except PackageNotFoundError:  # pragma: no cover
-#     __version__ = "unknown"
-# finally:
-#     del version, PackageNotFoundError

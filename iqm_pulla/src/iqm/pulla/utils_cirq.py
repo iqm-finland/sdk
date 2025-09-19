@@ -15,6 +15,6 @@
 """Utilities for working with Cirq objects."""
 
 
-def cirq_to_cpc():
+def cirq_to_cpc():  # noqa: ANN201
     """Convert a Cirq Circuit to an IQM CPC Circuit."""
     raise NotImplementedError("Cirq to IQM conversion is not yet implemented.")

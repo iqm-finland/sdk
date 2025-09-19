@@ -34,11 +34,12 @@ from pyqir import (
     required_num_results,
     result_id,
 )
+from qiskit import QuantumCircuit
+from qiskit.providers import BackendV2
 
 from iqm.cpc.compiler.compiler import Compiler
 from iqm.cpc.interface.compiler import Circuit as CPC_Circuit
-from iqm.pulla.pulla import Pulla
-from iqm.pulse.builder import CircuitOperation
+from iqm.pulse import CircuitOperation
 
 qir_logger = logging.getLogger(__name__)
 
@@ -117,14 +118,14 @@ def _gate_inst_to_str(inst: Call) -> CircuitOperation | None:
         raise ValueError(f"Error processing operation {operation}: {e}") from e
 
 
-def _find_arg_by_type(args, type_check_func):
+def _find_arg_by_type(args, type_check_func):  # noqa: ANN001, ANN202
     for arg in args:
         if type_check_func(arg.type):
             return arg
     raise ValueError(f"Expected exactly one argument of type {type_check_func}")
 
 
-def _find_args_by_type(args, type_check_func):
+def _find_args_by_type(args, type_check_func):  # noqa: ANN001, ANN202
     matches = []
     for arg in args:
         if type_check_func(arg.type):
@@ -132,7 +133,7 @@ def _find_args_by_type(args, type_check_func):
     return matches
 
 
-def _find_double_args(args):
+def _find_double_args(args):  # noqa: ANN001, ANN202
     """Return non-qubit, non-result arguments which should be doubles."""
     return [arg for arg in args if arg.type.is_double]
 
@@ -147,19 +148,20 @@ def _parse_double(value: str) -> float:
 
 
 def qir_to_pulla(  # noqa: PLR0915, PLR0912
-    pulla: Pulla, qir: str | bytes, qubit_mapping: dict[int, str] | None = None
+    compiler: Compiler, qir: str | bytes, qubit_mapping: dict[str, str] | None = None
 ) -> tuple[list[CPC_Circuit], Compiler]:
     """Convert a QIR module to a CPC circuit.
 
     Args:
-        pulla: The Pulla instance to get compiler from.
+        compiler: compiler to use
         qir: The QIR source or bitcode to convert to a circuit.
         qubit_mapping: A dictionary mapping QIR qubit indexes to physical qubit names,
                        None will assume opaque pointers match physical names.
 
     Returns:
         str: The QIR program name,
-        tuple[CircuitOperation, ...]: The circuit operations extracted from the QIR code.
+        tuple[list[Circuit], Compiler]:
+            Circuits extracted from the QIR module and the compiler with updated component_mapping
 
     Raises:
         ValueError: If the QIR program has more than one basic block.
@@ -240,14 +242,11 @@ def qir_to_pulla(  # noqa: PLR0915, PLR0912
     circuits = [CPC_Circuit(name=name, instructions=circuit_instructions)]
     qir_logger.debug("Converted circuit: %s", circuits)
 
-    # Create a compiler containing all the required station information
-    compiler = pulla.get_standard_compiler()
-
     if qubit_mapping:
         # QIR programs reference to qubits as opaque pointer indexes,
         # however, for example qiskit is using logical names for qubits,
         # so we need to map these indexes to physical qubit names
-        compiler.component_mapping = {f"{i}": qubit_mapping[i] for i in range(_required_num_qubits)}
+        compiler.component_mapping = {f"{i}": qubit_mapping[str(i)] for i in range(_required_num_qubits)}
     else:
         # QIR programs reference to qubits as opaque pointer indexes,
         # we expect these indexes to match physical qubit names,
@@ -256,3 +255,33 @@ def qir_to_pulla(  # noqa: PLR0915, PLR0912
         compiler.component_mapping = {f"{i}": f"QB{i + 1}" for i in range(_required_num_qubits)}
 
     return circuits, compiler
+
+
+def generate_qiskit_qir_qubit_mapping(qiskit_circuit: QuantumCircuit, qiskit_backend: BackendV2) -> dict[str, str]:
+    """qiskit-qir has a bug, which causes qubit pointers to not be generated correctly
+    according to the final_layout. So we replicate this logic here and generate a new mapping.
+    Then we assign qiskit-qir index to the qiskit logic qubit idx.
+
+    Args:
+        qiskit_circuit: The Qiskit circuit to generate the mapping for.
+        qiskit_backend: The Qiskit backend object to be used for qubit name generation.
+
+    Returns:
+        A dictionary mapping Qiskit qubit indices to QIR qubit pointers.
+
+    """
+    # For simplicity, reverse the mapping
+    layout_reverse_mapping = {bit: idx for idx, bit in qiskit_circuit.layout.final_layout.get_physical_bits().items()}
+    qiskit_qir_mapping: dict[int, int] = {}
+
+    # Replicate qiskit-qir logic for defining qubit pointer indices
+    for register in qiskit_circuit.qregs:
+        qiskit_qir_mapping.update(
+            {layout_reverse_mapping[bit]: n + len(qiskit_qir_mapping) for n, bit in enumerate(register)}
+        )
+
+    # In the generated QIR qubit pointers will use qiskit-qir qubit labels,
+    # but we already know how to map them to IQM physical qubits, through qiskit logical qubit indices.
+    return {
+        str(qiskit_qir_mapping[i]): str(qiskit_backend.index_to_qubit_name(i)) for i in range(qiskit_circuit.num_qubits)
+    }

@@ -452,12 +452,6 @@ If the IQM server you are connecting to requires authentication, you may use
 then set the :envvar:`IQM_TOKENS_FILE` environment variable, as instructed, to point to the tokens file.
 See IQM Client CLI's `documentation <https://docs.meetiqm.com/iqm-client/user_guide_cli.html>`__ for details.
 
-Alternatively, you may authenticate yourself using the :envvar:`IQM_AUTH_SERVER`,
-:envvar:`IQM_AUTH_USERNAME` and :envvar:`IQM_AUTH_PASSWORD` environment variables, or pass them as
-arguments to :class:`.IQMSampler`, but this approach is less secure and
-considered deprecated.
-
-
 Batch execution
 ^^^^^^^^^^^^^^^
 

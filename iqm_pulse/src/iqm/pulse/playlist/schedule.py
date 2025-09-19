@@ -78,7 +78,7 @@ class Segment:
     def __len__(self) -> int:
         return len(self._instructions)
 
-    def __getitem__(self, key):
+    def __getitem__(self, key):  # noqa: ANN001
         return self._instructions[key]
 
     def __reversed__(self):
@@ -229,7 +229,7 @@ class Schedule:
             s += "|\n"
         return s
 
-    def items(self):
+    def items(self):  # noqa: ANN201
         """Iterator over the schedule channel names and segments."""
         return self._contents.items()
 
@@ -313,7 +313,7 @@ class Schedule:
             }
         return self
 
-    def front_pad_in_seconds(self, to_duration: float, channel_properties: dict[str, ChannelProperties]):
+    def front_pad_in_seconds(self, to_duration: float, channel_properties: dict[str, ChannelProperties]):  # noqa: ANN201
         """Modifies the schedule in place by front-padding it with :class:`.Wait` instructions.
 
         The new duration is given in seconds, and this method works also with variable sample rates.

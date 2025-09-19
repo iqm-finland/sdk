@@ -200,7 +200,7 @@ def _get_scheduling_method(
 def transpile_to_IQM(  # noqa: PLR0913
     circuit: QuantumCircuit,
     backend: IQMBackendBase,
-    target: IQMTarget | None = None,
+    *,
     initial_layout: Layout | dict | list | None = None,
     perform_move_routing: bool = True,
     optimize_single_qubits: bool = True,
@@ -214,16 +214,14 @@ def transpile_to_IQM(  # noqa: PLR0913
 
     Works with both the Crystal and Star architectures.
 
-    Note: When transpiling a circuit with MOVE gates, you might need to set the `optimization_level` lower.
-    If the `optimization_level` is set too high, the transpiler might add single qubit gates onto the resonator,
+    Note: When transpiling a circuit with MOVE gates, you might need to set ``optimization_level`` lower.
+    If ``optimization_level`` is set too high, the transpiler might add single qubit gates onto the resonator,
     which is not supported by the IQM Star architectures. If this in undesired, it is best to have the transpiler
     add the MOVE gates automatically, rather than manually adding them to the circuit.
 
     Args:
-        circuit: The circuit to be transpiled without MOVE gates.
-        backend: The target backend to compile to. Does not require a resonator.
-        target: An alternative target to compile to than the backend, using this option requires intimate knowledge
-            of the transpiler and thus it is not recommended to use.
+        circuit: The circuit to transpile.
+        backend: The backend to transpile to.
         initial_layout: The initial layout to use for the transpilation, same as :func:`~qiskit.compiler.transpile`.
         perform_move_routing: Whether to perform MOVE gate routing.
         optimize_single_qubits: Whether to optimize single qubit gates away.
@@ -233,29 +231,34 @@ def transpile_to_IQM(  # noqa: PLR0913
         existing_moves_handling: How to handle existing MOVE gates in the circuit, required if the circuit contains
             MOVE gates.
         restrict_to_qubits: Restrict the transpilation to only use these specific physical qubits. Note that you will
-            have to pass this information to the ``backend.run`` method as well as a dictionary.
+            also have to pass this information to :meth:`.IQMBackend.run` using the ``qubit_mapping`` parameter.
         qiskit_transpiler_kwargs: Arguments to be passed to the Qiskit transpiler.
 
     Returns:
         Transpiled circuit ready for running on the backend.
 
     """
+    circuit_has_moves = circuit.count_ops().get("move", 0) > 0
+    # get the target from the backend
+    if circuit_has_moves:
+        target = backend.target_with_resonators
+        if perform_move_routing and existing_moves_handling is None:
+            raise ValueError("The circuit contains MOVE gates but existing_moves_handling is not set.")
+    else:
+        target = backend.target
+
     if restrict_to_qubits is not None:
+        # qubit names to qiskit indices
         restrict_to_qubits = [backend.qubit_name_to_index(q) if isinstance(q, str) else q for q in restrict_to_qubits]
-
-    if target is None:
-        if circuit.count_ops().get("move", 0) > 0 or circuit.num_qubits > backend.num_qubits:
-            target = backend.target_with_resonators
-            # Create a sensible initial layout if none is provided
-            if initial_layout is None:
-                initial_layout = generate_initial_layout(backend, circuit, restrict_to_qubits)
-            if perform_move_routing and existing_moves_handling is None:
-                raise ValueError("The circuit contains MOVE gates but existing_moves_handling is not set.")
-        else:
-            target = backend.target
-
-    if restrict_to_qubits is not None:
         target = target.restrict_to_qubits(restrict_to_qubits)
+
+    if circuit_has_moves and initial_layout is None:
+        # Create a sensible initial layout if none is provided, since
+        # the standard Qiskit transpile function does not do this well with resonators.
+        real_target = backend.get_real_target()
+        if restrict_to_qubits is not None:
+            real_target = real_target.restrict_to_qubits(restrict_to_qubits)
+        initial_layout = generate_initial_layout(real_target, circuit)
 
     # Determine which scheduling method to use
     scheduling_method = qiskit_transpiler_kwargs.pop("scheduling_method", None)

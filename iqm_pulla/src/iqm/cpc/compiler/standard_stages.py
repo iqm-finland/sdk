@@ -248,6 +248,7 @@ def _build_readout_mappings(
     builder: ScheduleBuilder,
     measurement_mode: MeasurementMode,
     heralding_mode: HeraldingMode,
+    convert_terminal_measurements: bool,
 ) -> tuple[tuple[ReadoutMapping, ...], tuple[tuple[str, ...], ...]]:
     """Create a readout mapping for each circuit, add required measurement instructions.
 
@@ -264,6 +265,8 @@ def _build_readout_mappings(
         builder: schedule builder object, encapsulating station properties and gate calibration data
         measurement_mode: measurement mode to be used
         heralding_mode: type of heralding used
+        convert_terminal_measurements: whether to convert terminal measurements into the ``"measure_fidelity"``
+            operation.
 
     Returns:
         readout mappings, heralded components
@@ -323,13 +326,21 @@ def _build_readout_mappings(
                         final_measurements.append(inst)
                 eclipsed_qubits.update(inst.locus)
 
+            if convert_terminal_measurements:
+                final_measurements_name = "measure_fidelity"
+                for measurement in final_measurements:
+                    measurement.name = final_measurements_name
+            else:
+                final_measurements_name = "measure"
             # Add a single final measurement instruction for qubits that still need to be measured
             # (order does not matter). this measurement instruction is not reflected in circuit_metrics,
             # nor are the results returned by SC. NOTE we assume that iqm-pulse is clever enough to
             # combine the separate final measurement instructions into simultaneous ReadoutTriggers.
             if missing := final_components_to_measure - set(q for inst in final_measurements for q in inst.locus):
                 # TODO which implementation to use? Now we leave it to None.
-                c.instructions += (CircuitOperation("measure", tuple(missing), {"key": MEASUREMENT_MODE_KEY}),)
+                c.instructions += (
+                    CircuitOperation(final_measurements_name, tuple(missing), {"key": MEASUREMENT_MODE_KEY}),
+                )
 
             if heralding_mode != HeraldingMode.NONE:
                 # heralding must return results for the components used in the circuit, if they can be measured
@@ -364,7 +375,7 @@ def _get_op_calibration_errors(calibration: OpCalibrationDataTree, ops: QuantumO
 
     """
 
-    def diff_dicts(cal_data: dict[str, Any], impl_parameters: dict[str, Any], path) -> None | str:
+    def diff_dicts(cal_data: dict[str, Any], impl_parameters: dict[str, Any], path) -> None | str:  # noqa: ANN001
         """Compare the calibration"""
         full = set(impl_parameters)
         have = set(cal_data)
@@ -498,7 +509,7 @@ def merge_multiplexed_timeboxes(circuit_box: TimeBox) -> TimeBox:
 # Passes of the standard stages
 # CIRCUIT-LEVEL PASSES
 @compiler_pass
-def validate_execution_options(circuits: Iterable[Circuit_], options: CircuitExecutionOptions):
+def validate_execution_options(circuits: Iterable[Circuit_], options: CircuitExecutionOptions):  # noqa: ANN201
     """Validate the circuit execution options (only some combinations make sense)."""
     if options.move_gate_frame_tracking == MoveGateFrameTrackingMode.FULL and options.move_gate_validation not in [
         MoveGateValidationMode.STRICT,
@@ -510,7 +521,7 @@ def validate_execution_options(circuits: Iterable[Circuit_], options: CircuitExe
 
 
 @compiler_pass
-def map_old_operations(circuits: Iterable[Circuit_]):
+def map_old_operations(circuits: Iterable[Circuit_]):  # noqa: ANN201
     """Map backwards-compatible aliases for quantum operation names into the current name."""
     for c in circuits:
         _map_old_operation_names(c.instructions)
@@ -519,7 +530,7 @@ def map_old_operations(circuits: Iterable[Circuit_]):
 
 
 @compiler_pass
-def validate_circuits(circuits: Iterable[Circuit_], builder: ScheduleBuilder):
+def validate_circuits(circuits: Iterable[Circuit_], builder: ScheduleBuilder):  # noqa: ANN201
     """Validate the contents of the quantum circuits."""
     for idx, c in enumerate(circuits):
         try:
@@ -530,7 +541,7 @@ def validate_circuits(circuits: Iterable[Circuit_], builder: ScheduleBuilder):
 
 
 @compiler_pass
-def map_components(
+def map_components(  # noqa: ANN201
     circuits: Iterable[Circuit_],
     builder: ScheduleBuilder,
     component_mapping: dict[str, str],
@@ -591,7 +602,12 @@ def derive_readout_mappings(
 ) -> tuple[list[Circuit_], dict[str, Any]]:
     """Derive mapping between station acquisition labels and user's measurement keys."""
     readout_mappings, heralded_components = _build_readout_mappings(
-        circuits, tuple(circuit_metrics), builder, options.measurement_mode, options.heralding_mode
+        circuits,
+        tuple(circuit_metrics),
+        builder,
+        options.measurement_mode,
+        options.heralding_mode,
+        options.convert_terminal_measurements,
     )
     return list(circuits), {"readout_mappings": readout_mappings, "heralded_components": heralded_components}
 
@@ -609,7 +625,7 @@ def resolve_circuits(circuits: Iterable[Circuit_], builder: ScheduleBuilder) -> 
 
 # TIMEBOX-LEVEL PASSES
 @compiler_pass
-def multiplex_readout(timeboxes: Iterable[TimeBox]):
+def multiplex_readout(timeboxes: Iterable[TimeBox]):  # noqa: ANN201
     """Merge any MultiplexedProbeTimeBoxes inside a TimeBox representing a circuit."""
     return [merge_multiplexed_timeboxes(circuit_box) for circuit_box in timeboxes]
 
@@ -747,7 +763,7 @@ def clean_schedule(schedules: Iterable[Schedule], builder: ScheduleBuilder) -> l
 @compiler_pass
 def build_playlist(schedules: Iterable[Schedule], builder: ScheduleBuilder) -> tuple[Playlist, dict[str, Any]]:
     """Build the playlist from the schedules."""
-    playlist = builder.build_playlist(schedules)
+    playlist = builder.build_playlist(schedules)[0]
     return playlist, {"schedules": schedules}  # save the schedules for building settings, debugging, etc
 
 

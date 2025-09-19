@@ -51,6 +51,7 @@ def start_token_manager(cycle: int, config: ConfigFile, single_run: bool = False
     """Refresh tokens periodically.
 
     For each refresh cycle new tokens are requested from auth server.
+
     - If refresh is successful next refresh is attempted in the next cycle.
     - If auth server does not respond refresh is attempted repeatedly until it succeeds or
       the existing refresh token expires.
@@ -104,11 +105,10 @@ def refresh_tokens(config: ConfigFile, current_tokens: dict, cycle: int) -> tupl
         cycle: refresh cycle length in seconds
 
     Returns:
-        Tuple[Optional[dict], bool, int] = (tokens, status, sleep_time)
-        tokens: dict containing new tokens or current tokens if auth server could not be connected or
-                None if auth server refused to provide new tokens.
-        status: bool, True if tokens were refreshed successfully, False otherwise
-        sleep_time: time to sleep before next refresh attempt
+        * dict containing new tokens or current tokens if auth server could not be connected or
+          None if auth server refused to provide new tokens
+        * bool, True if tokens were refreshed successfully, False otherwise
+        * time to sleep before next refresh attempt
 
     """
     access_token = current_tokens.get("access_token", "")

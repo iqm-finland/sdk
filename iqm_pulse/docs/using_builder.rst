@@ -1,12 +1,16 @@
 Using ScheduleBuilder
 #####################
 
-This section describes how to use :class:`.ScheduleBuilder` to compose pulse schedules.
-ScheduleBuilder encapsulates registered QuantumOps, the calibration information for them, QPU components and their
-topology, and control channel properties.
+This section describes how to use :class:`.ScheduleBuilder` to compose instruction schedules.
+ScheduleBuilder encapsulates the registered :class:`QuantumOps <.QuantumOp>` and :class:`GateImplementations <.GateImplementation>`, their calibration
+information, the :class:`QPU components and their topology <exa.common.qcm_data.chip_topology.ChipTopology>`,
+and the :class:`control channel properties <.ChannelProperties>`, i.e.
+all you need to construct :class:`Schedules <.Schedule>` and
+:class:`Playlists <iqm.models.playlist.playlist.Playlist>`.
 
 In the context of IQM Pulla and EXA, an instance of ScheduleBuilder is given by the framework,
-and it contains all the necessary information to execute against a particular quantum computer instance.
+and it contains all the necessary information to produce schedules that execute against a particular
+quantum computer instance.
 Here, we assume that user has an instance of ScheduleBuilder ``builder`` to work with.
 
 Creating TimeBoxes
@@ -38,13 +42,13 @@ Any gate which is registered in the runtime can be requested this way.
 Notice how the number of qubits matches the operation: CZ acts on 2 qubits, while PRX acts on only one.
 Measure can act on any number of qubits.
 
-There might be several available implementations for an operation.
-``get_implementation`` gives the implementation that is set as the default, unless a specific implementation is
-requested with a keyword argument.
+There might be several different implementations available for an operation.
+``get_implementation`` gives the implementation that is set as the default (for that locus),
+unless a specific implementation is requested with a keyword argument.
 
-To instantiate some concrete TimeBoxes, we call time implementation with the logical parameters of the operations, as
-defined by the QuantumOps.
-PRX has 2 parameters: the 2 angles of a phased rotation.
+To instantiate some concrete TimeBoxes, we call the implementation with the arguments of the operation,
+defined in the QuantumOp instance it implements.
+PRX has 2 parameters: the two angles of a phased rotation.
 CZ does not have any parameters.
 
 .. code-block:: python
@@ -59,21 +63,21 @@ CZ does not have any parameters.
     x180 = prx_gate_impl.rx(np.pi)
     y90 = prx_gate_impl.ry(np.pi/2)
 
-One important method is the :meth:`.wait`, which blocks the control channels of the given components for a certain time:
+Another important method is the :meth:`.wait`, which blocks the control channels of the given components for a certain time:
 
 .. code-block:: python
 
     wait = builder.wait(qubits, duration=100e-9, rounding=True)  # Duration in seconds
 
-In all of the examples above, the TimeBoxes are atomic, which can be organized into composite TimeBoxes to decide
-their relative order.
+In all of the examples above, the resulting TimeBoxes are atomic. They can be organized into composite
+TimeBoxes to define their relative order.
 
 Composing TimeBoxes
 -------------------
 
 TimeBoxes can be concatenated with the following rules:
 
-* Addition (``+``) concatenates the children of the operands into a single TimeBox.
+* Addition (``+``) concatenates the children of the operands into the children of a single composite TimeBox.
   Use addition to allow gates on disjoint loci to execute simultaneously, for example doing a PRX on all qubits.
 * The pipe operation (``|``) groups two TimeBoxes together without concatenating.
   This results in composite TimeBox with two children, the operands, which are scheduled separately.
@@ -134,22 +138,24 @@ The rules are:
   related to that component.
 * A composite TimeBox acts on the union of its children's locus components.
 * A TimeBox blocks all channels related to any component it acts on.
-* When scheduling two TimeBoxes, the instructions will not overlap in time if the TimeBoxes block overlapping channels.
+* When scheduling two TimeBoxes, their instructions will not overlap in time if the TimeBoxes share
+  at least one locus component.
 
-In addition to blocking the channels actually present in a TimeBox, it is possible to block neighbouring channels
-as well (for example in order to limit cross-talk).
+In addition to blocking all the channels of components whose channels are actually used in a TimeBox,
+it is possible to block channels of neighbouring components as well (for example in order to limit cross-talk).
 The applied neighbourhood is specified in :meth:`.ScheduleBuilder.resolve_timebox`.
-The neighbourhood is defined as an integer such that 0 means "block only the involved channels",
-1 means "block the involved channels and the channels of any neighbouring couplers",
-2 means "the same as in (1) but in addition block all channels connected by those couplers", and so on.
-The blocking rules do not add actual Wait or Block instructions are added to the neighbourhood channels, and two
+The neighbourhood is defined as an integer such that 0 means "block only the channels of involved components",
+1 means "same as 0, but also block the channels of all couplers neighboring the involved components",
+2 means "same as 1, but also block the channels of all components connected to those couplers", and so on.
+The blocking rules do not add actual Wait or Block instructions to the neighbourhood channels, and two
 overlapping neighbourhoods do not block each other.
 The blocking comes in question only when actual content would be added to those neighbourhood channels.
 
 In practice, the rules and default GateImplementations ensure that the user can concatenate arbitrary gates
 without worrying that the gates have an adverse effect on each other.
-For example, the pulse of a PRX gate playing at the same time as a CZ gate or a measurement would ruin both operations.
-If overlapping of such gates is desired, the best way is to arrange the Instructions on the Schedule level and wrap the
+For example, the pulse of a PRX gate playing at the same time as a CZ gate or a measurement on the same locus
+would ruin both operations.
+If such overlapping of gates is desired, the best way is to arrange the Instructions on the Schedule level and wrap the
 schedule into an atomic TimeBox.
 
 .. note::

@@ -92,7 +92,7 @@ class MergeOneParameterGroupGates(circuits.PointOptimizer):
     GATE_MERGING_TOLERANCE = 1e-10
 
     @classmethod
-    def _normalize_par(cls, par):
+    def _normalize_par(cls, par):  # noqa: ANN001
         """Normalizes the given parameter value to (-period/2, period/2]."""
         shift = cls.PERIOD / 2
         return operator.mod(par - shift, -cls.PERIOD) + shift

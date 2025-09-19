@@ -21,7 +21,7 @@ from iqm.qiskit_iqm.qiskit_to_iqm import serialize_instructions
 from qiskit import QuantumCircuit
 
 
-def validate_circuit(
+def validate_circuit(  # noqa: ANN201
     circuit: QuantumCircuit,
     backend: IQMBackendBase,
     validate_moves: MoveGateValidationMode | None = None,

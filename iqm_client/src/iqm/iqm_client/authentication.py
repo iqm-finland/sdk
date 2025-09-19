@@ -21,7 +21,6 @@ import time
 from typing import Any
 
 from iqm.iqm_client.errors import ClientAuthenticationError, ClientConfigurationError
-import requests
 
 AUTH_CLIENT_ID = "iqm_client"
 AUTH_REALM = "cortex"
@@ -35,13 +34,10 @@ class TokenManager:
     Args:
         token: Long-lived IQM token in plain text format
         tokens_file: Path to a tokens file used for authentication
-        auth_server_url: Base URL of the authentication server
-        username: Username to log in to authentication server
-        password: Password to log in to authentication server
 
-    The parameters can also be read from the environment variables IQM_TOKEN, IQM_TOKENS_FILE,
-    IQM_AUTH_SERVER, IQM_AUTH_USERNAME, IQM_AUTH_PASSWORD. Environment variables can not be
-    mixed with initialisation arguments. All parameters must come from the same source.
+    The parameters can also be read from the environment variables IQM_TOKEN or IQM_TOKENS_FILE.
+    Environment variables can not be mixed with initialisation arguments.
+    All parameters must come from the same source.
 
     """
 
@@ -66,36 +62,17 @@ class TokenManager:
         except (UnicodeDecodeError, json.decoder.JSONDecodeError, ValueError, TypeError):
             return 0
 
-    def __init__(
-        self,
-        token: str | None = None,
-        tokens_file: str | None = None,
-        auth_server_url: str | None = None,
-        username: str | None = None,
-        password: str | None = None,
-    ):
+    def __init__(self, token: str | None = None, tokens_file: str | None = None):
         def _format_names(variable_names: list[str]) -> str:
             """Format a list of variable names"""
             return ", ".join(f'"{name}"' for name in variable_names)
 
         auth_parameters: dict[str, str] = {}
 
-        init_parameters = {
-            "token": token,
-            "tokens_file": tokens_file,
-            "auth_server_url": auth_server_url,
-            "username": username,
-            "password": password,
-        }
+        init_parameters = {"token": token, "tokens_file": tokens_file}
         init_params_given = [key for key, value in init_parameters.items() if value]
 
-        env_variables = {
-            "token": "IQM_TOKEN",
-            "tokens_file": "IQM_TOKENS_FILE",
-            "auth_server_url": "IQM_AUTH_SERVER",
-            "username": "IQM_AUTH_USERNAME",
-            "password": "IQM_AUTH_PASSWORD",
-        }
+        env_variables = {"token": "IQM_TOKEN", "tokens_file": "IQM_TOKENS_FILE"}
         env_vars_given = [name for name in env_variables.values() if os.environ.get(name)]
 
         if init_params_given and env_vars_given:
@@ -121,17 +98,9 @@ class TokenManager:
             self._token_provider = ExternalToken(auth_parameters["token"])
         elif set(auth_parameters) == {"tokens_file"}:
             self._token_provider = TokensFileReader(auth_parameters["tokens_file"])
-        elif set(auth_parameters) == {"auth_server_url", "username", "password"}:
-            self._token_provider = TokenClient(
-                auth_parameters["auth_server_url"],
-                AUTH_REALM,
-                auth_parameters["username"],
-                auth_parameters["password"],
-            )
         else:
             raise ClientConfigurationError(
-                f"""Invalid combination of authentication parameters specified: {list(auth_parameters)},
-                Use either ['token'] or ['username', 'password'].""",
+                f"Missing authentication parameters, neither token or tokens_file is available, {list(auth_parameters)}"
             )
 
     def get_bearer_token(self, retries: int = 1) -> str | None:
@@ -238,78 +207,3 @@ class TokensFileReader(TokenProviderInterface):
     def close(self) -> None:
         self._path = None
         raise ClientAuthenticationError("Can not close externally managed auth session")
-
-
-class TokenClient(TokenProviderInterface):
-    """Requests new token from an authentication server"""
-
-    PASSWORD_GRANT_TYPE = "password"
-    REFRESH_TOKEN_GRANT_TYPE = "refresh_token"
-
-    def __init__(self, auth_server_url: str, realm: str, username: str, password: str):
-        """Initialize the client"""
-        self._token_url = f"{auth_server_url}/realms/{realm}/protocol/openid-connect/token"
-        self._logout_url = f"{auth_server_url}/realms/{realm}/protocol/openid-connect/logout"
-        self._username = username
-        self._password = password
-        self._refresh_token: str | None = None
-
-    def _get_access_token_from_server(self, grant_type: str) -> str | None:
-        """Get new access token from the server and update refresh token."""
-        if grant_type == TokenClient.REFRESH_TOKEN_GRANT_TYPE:
-            # Update tokens using existing refresh_token
-            data = {
-                "client_id": AUTH_CLIENT_ID,
-                "grant_type": TokenClient.REFRESH_TOKEN_GRANT_TYPE,
-                "refresh_token": str(self._refresh_token),
-            }
-        else:
-            # There is no valid refresh token or refresh token has expired, start a new session
-            data = {
-                "client_id": AUTH_CLIENT_ID,
-                "grant_type": TokenClient.PASSWORD_GRANT_TYPE,
-                "username": self._username,
-                "password": self._password,
-            }
-
-        # Request new tokens from the server
-        access_token: str | None = None
-        result = requests.post(self._token_url, data=data, timeout=AUTH_REQUESTS_TIMEOUT)
-        if result.status_code == 200:
-            tokens = result.json()
-            self._refresh_token = tokens.get("refresh_token")
-            if TokenManager.time_left_seconds(self._refresh_token) <= 0:
-                self._refresh_token = None
-            access_token = tokens.get("access_token")
-            if TokenManager.time_left_seconds(access_token) <= 0:
-                access_token = None
-        return access_token
-
-    def get_token(self) -> str:
-        """Get new access token and refresh token from the server"""
-        if not self._token_url:
-            raise ClientConfigurationError("No auth server configured")
-
-        access_token: str | None = None
-        if TokenManager.time_left_seconds(self._refresh_token) > REFRESH_MARGIN_SECONDS:
-            # There is a valid refresh token, try to update tokens using it
-            access_token = self._get_access_token_from_server(TokenClient.REFRESH_TOKEN_GRANT_TYPE)
-        if access_token is None:
-            # Failed to get valid access token using refresh token, start a new session
-            access_token = self._get_access_token_from_server(TokenClient.PASSWORD_GRANT_TYPE)
-        if access_token is None:
-            # Failed to get valid access token using username and password, raise an error
-            raise ClientAuthenticationError("Getting access token from auth server failed")
-        return str(access_token)  # access token can not be None here
-
-    def close(self) -> None:
-        """Close authentication session"""
-        if not self._refresh_token:
-            raise ClientAuthenticationError("No auth session active")
-
-        data = {"client_id": AUTH_CLIENT_ID, "refresh_token": self._refresh_token}
-        self._refresh_token = None
-
-        result = requests.post(self._logout_url, data=data, timeout=AUTH_REQUESTS_TIMEOUT)
-        if result.status_code not in [200, 204]:
-            raise ClientAuthenticationError(f"Logout failed, {result.text}")

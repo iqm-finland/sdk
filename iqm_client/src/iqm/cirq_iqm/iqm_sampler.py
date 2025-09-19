@@ -58,7 +58,7 @@ class IQMSampler(cirq.work.Sampler):
         calibration_set_id: UUID | None = None,
         run_sweep_timeout: int | None = None,
         compiler_options: CircuitCompilationOptions | None = None,
-        **user_auth_args,  # contains keyword args auth_server_url, username and password
+        **user_auth_args,  # contains keyword args token or tokens_file
     ):
         self._client = IQMClient(url, **user_auth_args)
         dqa = self._client.get_dynamic_quantum_architecture(calibration_set_id)
@@ -85,7 +85,7 @@ class IQMSampler(cirq.work.Sampler):
         """Returns the device used by the sampler."""
         return self._device
 
-    def close_client(self):
+    def close_client(self):  # noqa: ANN201
         """Close IQMClient's session with the user authentication server. Discard the client."""
         if not self._client:
             return

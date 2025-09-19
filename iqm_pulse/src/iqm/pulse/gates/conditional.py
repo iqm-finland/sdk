@@ -32,6 +32,8 @@ class CCPRX_Composite(CompositeGate):
     Uses the default implementation of PRX underneath, so no extra calibration is needed.
     """
 
+    registered_gates = ("prx",)
+
     parameters = {"control_delays": Parameter("", "Control delays", "s", collection_type=CollectionType.NDARRAY)}
     """``control_delays`` contains the times it takes for the classical control signal from each
     probe line (readout instrument) to become usable for the drive AWG implementing the PRX gate.
@@ -81,7 +83,7 @@ class CCPRX_Composite(CompositeGate):
         pulse_instruction = ConditionalInstruction(
             duration=pulse.duration, condition=default_label, outcomes=(wait, pulse)
         )
-        delays = self.builder.get_calibration(self.parent.name, self.name, self.locus)["control_delays"]
+        delays = self.calibration_data["control_delays"]
         if len(delays) == 0:
             raise ValueError(f"'control_delays' for '{self.name}' on {qubit} is empty (not calibrated).")
 

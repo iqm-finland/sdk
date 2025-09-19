@@ -19,9 +19,9 @@ from collections.abc import Iterable
 
 import cirq
 from cirq import Gate, NamedQid, devices, ops
-from cirq.contrib.routing.router import nx
 from iqm.cirq_iqm.serialize import _IQM_CIRQ_OP_MAP
 from iqm.iqm_client import DynamicQuantumArchitecture
+import networkx as nx
 
 
 @cirq.value.value_equality
@@ -166,5 +166,5 @@ class IQMDeviceMetadata(devices.DeviceMetadata):
         """Returns the ``cirq.Gateset`` of supported gates on this device."""
         return self._gateset
 
-    def _value_equality_values_(self):
+    def _value_equality_values_(self):  # noqa: ANN202
         return *super()._value_equality_values_(), self._gateset

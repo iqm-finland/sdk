@@ -42,6 +42,7 @@ class GrantType(str, Enum):
 
 class AuthRequest(BaseModel):
     """Request sent to authentication server for access token and refresh token, or for terminating the session.
+
     * Token request with grant type ``'password'`` starts a new session in the authentication server.
       It uses fields ``client_id``, ``grant_type``, ``username`` and ``password``.
     * Token request with grant type ``'refresh_token'`` is used for maintaining an existing session.

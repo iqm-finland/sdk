@@ -2,6 +2,88 @@
 Changelog
 =========
 
+Version 31.4.0 (2025-09-19)
+===========================
+
+Bug fixes
+---------
+
+- Fix networkx import statement for cirq
+
+Version 31.3.0 (2025-09-17)
+===========================
+
+Features
+--------
+
+- Remove old way of authenticating
+
+Version 31.2.0 (2025-09-12)
+===========================
+
+Features
+--------
+
+- Update dependency on exa-common
+
+Version 31.1.0 (2025-09-12)
+===========================
+
+Features
+--------
+
+- Update dependency on station-control-client
+
+Version 31.0.0 (2025-09-11)
+===========================
+
+Breaking changes
+----------------
+
+- Use :class:`iqm.pulse.Circuit` and :class:`iqm.pulse.CircuitOperation` as the new
+  circuit and instruction formats. The old :class:`Circuit`, :class:`Instruction` and :class:`NativeOperation` models defined in
+  :mod:`iqm.iqm_client.models` are removed. :issue:`SW-1663`
+- The quantum operation parameters ``angle_t`` and ``phase_t`` (in units of full turns) are no longer supported.
+  Use ``angle`` and ``phase`` (in units of radians) instead. :issue:`SW-1663`
+- :func:`iqm.cirq_iqm.serialize.instruction_to_operation` renamed to :func:`iqm.cirq_iqm.serialize.circuit_operation_to_operation`.
+- :func:`iqm.cirq_iqm.serialize.map_operation` renamed to :func:`iqm.cirq_iqm.serialize.operation_to_circuit_operation`.
+
+Version 30.2.0 (2025-09-03)
+===========================
+
+Features
+--------
+
+- Enable ruff rule for missing annotations and mark exemptions.
+
+Version 30.1.0 (2025-08-28)
+===========================
+
+Bug fixes
+---------
+
+- fix initialization of backends on resonance
+
+Version 30.0.0 (2025-08-20)
+===========================
+
+Features
+--------
+
+- Add the experimental :meth:`IQMClient.get_calibration_quality_metrics` method to retrieve calibration set
+  and related quality metrics from the server.
+- Select calibration and quality metric data are now available in :class:`IQMTarget`,
+  :class:`IQMBackend`, and :class:`IQMBackendBase` for transpilation and querying. :issue:`SW-769`.
+  This data includes the gate durations. :issue:`SW-1321`
+- :func:`transpile_to_IQM` no longer has the ``target`` parameter, the transpilation target is always
+  obtained from ``backend``.
+- :class:`IQMTarget` moved into its own module.
+- :class:`IQMFacadeBackend` can be given the name of the :class:`IQMFakeBackend` instance to use.
+
+Breaking Changes
+----------------
+- :func:`generate_initial_layout` takes an :class:`IQMTarget` as an input argument instead of :class:`IQMBackend`.
+
 Version 29.14.0 (2025-08-20)
 ============================
 
@@ -32,7 +114,7 @@ Version 29.11.0 (2025-08-07)
 Features
 --------
 
-- Added :meth:`IQMClient.get_structured_metrics` for obtaining quality metric information.
+- Added :meth:`IQMClient._get_calibration_quality_metrics` for obtaining quality metric and calibration information.
 
 Version 29.10.0 (2025-07-31)
 ============================
@@ -57,7 +139,7 @@ Features
 --------
 
 - An update to IQMFacadeBackend such that all available IQMFakeBackends are usable for simulation, rather than
-just IQMFakeAdonis
+  just IQMFakeAdonis.
 
 Version 29.7.0 (2025-07-15)
 ===========================
@@ -352,7 +434,7 @@ Version 22.16.0 (2025-04-03)
 ============================
 
 Feature
-*******
+-------
 
 - Enable PEP 604 in linting rules, :issue:`SW-1230`.
 
@@ -368,7 +450,7 @@ Version 22.14.0 (2025-04-02)
 ============================
 
 Features
-********
+--------
 
 - Update the documentation footer to display the package version.
 

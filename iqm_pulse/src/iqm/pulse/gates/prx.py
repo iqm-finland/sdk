@@ -50,6 +50,7 @@ from iqm.pulse.playlist.instructions import Block, IQPulse
 from iqm.pulse.playlist.schedule import TOLERANCE, Schedule
 from iqm.pulse.playlist.waveforms import (
     Constant,
+    Cosine,
     CosineFall,
     CosineRise,
     CosineRiseFall,
@@ -210,11 +211,6 @@ class PRX_SinglePulse_GateImplementation(SinglePulseGate, PrxGateImplementation)
             timebox = self.to_timebox(Schedule({self.channel: [Block(0)]}))
         timebox.neighborhood_components[0] = set(self.locus)
         return timebox
-
-    @property
-    def iq_pulse(self) -> IQPulse:
-        """Alias for ``self.pulse`` for backward compatibility"""
-        return self.pulse  # type: ignore[return-value]
 
 
 class PRX_CustomWaveforms(PRX_SinglePulse_GateImplementation, CustomIQWaveforms):
@@ -419,6 +415,13 @@ class PRX_HdDragSX(PRX_CustomWaveformsSX, wave_i=HdDragI, wave_q=HdDragQ):  # ty
 
 class PRX_HdDrag(PRX_CustomWaveforms, wave_i=HdDragI, wave_q=HdDragQ):  # type:ignore[call-arg]
     """PRX gate, HD DRAG IQ pulse based on amplitude scaling
+
+    See :class:`.PRX_CustomWaveforms`.
+    """
+
+
+class PRX_Cosine(PRX_CustomWaveforms, wave_i=Cosine, wave_q=Cosine):  # type:ignore[call-arg]
+    """Special modulated pulse resulting in two frequency sidebands.
 
     See :class:`.PRX_CustomWaveforms`.
     """
