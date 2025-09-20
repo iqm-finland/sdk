@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 27.1.0 (2025-09-19)
+===========================
+
+Features
+--------
+
+- Add chip layout to hold the coordinates of the chip design record.
+
 Version 27.0.0 (2025-09-12)
 ===========================
 
