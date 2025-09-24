@@ -58,7 +58,7 @@ const Features: React.FC = () => {
                                     <th className="py-2 px-4 border-b">FEATURE</th>
                                     <th className="py-2 px-4 border-b">
                                         <div className="flex items-center">
-                                           <Tooltip content={<>Earliest version of the Quantum Computer Software Stack needed to support this feature.</>}>QCCSW</Tooltip> 
+                                           <Tooltip content={<>Earliest version of the Quantum Computer Software Stack needed to support this feature.</>}>IQM OS</Tooltip> 
                                         </div>
                                     </th>
                                     <th className="py-2 px-4 border-b"><Tooltip content="For supported versions check the quantum computer detail page.">Qiskit</Tooltip></th>
