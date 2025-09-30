@@ -11,7 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" Implements the new data structure of a playlist."""
+"""Implements the new data structure of a playlist."""
+
 from dataclasses import dataclass, field
 from functools import reduce
 from typing import Any
@@ -36,6 +37,7 @@ class Playlist:
         channel_descriptions: Controller name mapped to channel and channel specific instruction
             and waveform data.
         segments: Contains all the segments in the order of execution.
+
     """
 
     channel_descriptions: dict[str, ChannelDescription] = field(default_factory=dict)
@@ -48,6 +50,7 @@ class Playlist:
             new_channel: channel to add
         Raises:
             ValueError: channel with that name already exists, and has different properties
+
         """
         name = new_channel.controller_name
         if (old_channel := self.channel_descriptions.get(name)) and old_channel != new_channel:
@@ -100,7 +103,7 @@ class Playlist:
         *,
         filter_segments: list[int] | None = None,
         filter_channels: list[str] | None = None,
-        kind: str = "operations"
+        kind: str = "operations",
     ) -> dict[int, dict[str, Any]]:
         """Return operations of the playlist grouped by segments and channel names for easy inspection.
         This method is not meant to be used for integration purposes, but rather for hands-on inspection and debugging.
@@ -116,11 +119,12 @@ class Playlist:
 
         Raises:
             ValueError: If kind is not "operations" or "instructions".
+
         """
         if kind not in ("operations", "instructions"):
             raise ValueError(f'kind must be either "operations" or "instructions", got "{kind}"')
 
-        result = {}
+        result: dict[int, dict[str, Any]] = {}
         segment_indexes = filter_segments if filter_segments is not None else list(range(len(self.segments)))
         channel_names = filter_channels if filter_channels is not None else list(self.channel_descriptions.keys())
 

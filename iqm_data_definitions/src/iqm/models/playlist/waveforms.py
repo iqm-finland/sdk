@@ -16,8 +16,8 @@
 # pylint: disable=no-name-in-module
 from __future__ import annotations
 
-import logging
 from dataclasses import dataclass
+import logging
 from typing import Any
 
 import numpy as np
@@ -84,6 +84,7 @@ class Waveform:
 
         Returns:
             ``self`` sampled in the window [-1/2, 1/2]
+
         """
         # midpoint sampling
         half_sample_duration = 0.5 / self.n_samples
@@ -99,6 +100,7 @@ class Waveform:
 
         Returns:
             array of samples (same shape as ``sample_coords``, ``dtype == float``)
+
         """
         raise NotImplementedError
 
@@ -166,6 +168,7 @@ class Gaussian(CanonicalWaveform):
     Args:
         sigma: gaussian standard deviation
         center_offset: center offset
+
     """
 
     sigma: float
@@ -192,6 +195,7 @@ class GaussianDerivative(CanonicalWaveform):
     Args:
         sigma: gaussian standard deviation
         center_offset: center offset
+
     """
 
     sigma: float
@@ -228,6 +232,7 @@ class TruncatedGaussian(CanonicalWaveform):
     Args:
         full_width: Duration of the support of the pulse, >= 0.
         center_offset: The waveform is centered at this offset from the midpoint of the sampling window.
+
     """
 
     full_width: float
@@ -268,6 +273,7 @@ class TruncatedGaussianDerivative(CanonicalWaveform):
     Args:
         full_width: Duration of the support of the pulse, >= 0.
         center_offset: The waveform is centered at this offset from the midpoint of the sampling window.
+
     """
 
     full_width: float
@@ -317,6 +323,7 @@ class GaussianSmoothedSquare(CanonicalWaveform):
         square_width: square pulse width
         gaussian_sigma: gaussian pulse standard deviation
         center_offset: The waveform is centered at this offset from the midpoint of the sampling window.
+
     """
 
     square_width: float
@@ -385,6 +392,7 @@ class TruncatedGaussianSmoothedSquare(CanonicalWaveform):
         full_width: Duration of the support of the pulse, from start of the rising to the end of the falling segment.
         rise_time: Duration of the rising and falling segments.
         center_offset: The waveform is centered at this offset from the midpoint of the sampling window.
+
     """
 
     full_width: float
@@ -440,6 +448,7 @@ class CosineRiseFall(CanonicalWaveform):
         full_width: Duration of the support of the pulse, >= 2 * :attr:`rise_time`.
         rise_time: Duration of the sinusoidal rise (and fall) part of the waveform, >= 0.
         center_offset: The waveform is centered at this offset from the midpoint of the sampling window.
+
     """
 
     full_width: float
@@ -493,7 +502,7 @@ class CosineRiseFall(CanonicalWaveform):
         return waveform
 
 
-def is_canonical(waveform: type[Waveform]) -> bool:
+def is_canonical(waveform: Waveform) -> bool:
     """Returns ``True`` if ``waveform`` is a canonical waveform else ``False``"""
     return type(waveform) in _CANONICAL_WAVEFORMS
 
@@ -505,6 +514,7 @@ def to_canonical(waveform: Waveform) -> CanonicalWaveform:
 
     Returns:
         canonical version of the waveform
+
     """
     if is_canonical(waveform):
         return waveform

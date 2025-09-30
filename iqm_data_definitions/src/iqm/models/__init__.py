@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Python-native representation of the protos in ``iqm.data_definitions``, recognized by IQM Station Control."""
+
 from importlib.metadata import PackageNotFoundError, version
 
 # Change here if project is renamed and does not equal the package name

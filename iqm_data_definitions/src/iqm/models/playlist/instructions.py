@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Instruction definitions."""
+
 from __future__ import annotations
 
 # pylint: disable=unused-import
@@ -19,6 +20,7 @@ from dataclasses import dataclass
 from typing import Generic, TypeVar
 
 from iqm.models.playlist.waveforms import CanonicalWaveform
+
 
 @dataclass(frozen=True)
 class Wait:
@@ -130,7 +132,8 @@ class ComplexIntegration(AcquisitionMethod):
 @dataclass(frozen=True)
 class ThresholdStateDiscrimination(ComplexIntegration):
     """Perform a weighted integration of the IQ raw signal and compares the real part of the result against a
-    threshold value, resulting in a single bit."""
+    threshold value, resulting in a single bit.
+    """
 
     threshold: float
     """The real part of the integration result is compared against this."""

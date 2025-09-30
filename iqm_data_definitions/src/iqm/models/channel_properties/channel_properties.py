@@ -15,8 +15,9 @@
 
 from dataclasses import dataclass, field
 
-from iqm.models.playlist.instructions import Instruction
 import numpy as np
+
+from iqm.models.playlist.instructions import Instruction
 
 
 @dataclass()
@@ -53,6 +54,7 @@ class ChannelProperties:
 
         Returns:
             ``duration`` in samples
+
         """
         return duration * self.sampling_rate
 
@@ -64,6 +66,7 @@ class ChannelProperties:
 
         Returns:
             ``duration`` in seconds
+
         """
         return duration / self.sampling_rate
 
@@ -86,6 +89,7 @@ class ChannelProperties:
         Raises:
             ValueError: ``duration`` is not close to an integer number of samples, or is
                 otherwise unacceptable to the channel
+
         """
         message += f" ({duration} s at {self.sampling_rate} Hz sample rate)"
         # Do rounding to account for floating point issues, so we only need to specify a reasonable number of decimals.
@@ -118,6 +122,7 @@ class ChannelProperties:
 
         Returns:
             ``duration`` rounded to channel granularity, in seconds
+
         """
         granularity = self.instruction_duration_granularity / self.sampling_rate
         n_granularity = np.ceil(duration / granularity) if round_up else round(duration / granularity)
@@ -128,10 +133,10 @@ class ChannelProperties:
         return rounded
 
 
-
 @dataclass(kw_only=True)
 class AWGProperties(ChannelProperties):
-    "Channel properties of an AWG channel."
+    """Channel properties of an AWG channel."""
+
     fast_feedback_sources: list[str] = field(default_factory=list)
     """Defines compatible fast feedback sources"""
     local_oscillator: bool = False
@@ -143,6 +148,7 @@ class AWGProperties(ChannelProperties):
 @dataclass(kw_only=True)
 class ReadoutProperties(ChannelProperties):
     """Channel properties of a QA channel."""
+
     integration_start_dead_time: int
     """ Minimum delay for probe pulse entries inside a ReadoutTrigger in samples."""
     integration_stop_dead_time: int

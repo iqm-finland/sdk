@@ -11,7 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" Channel Description and Channel Configuration definitions."""
+"""Channel Description and Channel Configuration definitions."""
+
 from dataclasses import dataclass, field
 
 from iqm.models.playlist.instructions import (
@@ -72,6 +73,7 @@ class ChannelDescription:
         acquisition_table: Table of acquisition configs.
             Each ReadoutTrigger instruction may ask to perform an arbitrary combination of these.
             In practice, possible combinations are limited by device capabilities.
+
     """
 
     channel_config: ChannelConfiguration
@@ -94,6 +96,7 @@ class ChannelDescription:
             instruction: Instruction to be added
         Returns:
             corresponding index to the instruction table
+
         """
         match instruction.operation:
             case IQPulse(wave_i=wave_i, wave_q=wave_q):
@@ -121,8 +124,10 @@ class ChannelDescription:
 
         Args:
             acquisition: Configuration to be added.
+
         Returns:
             Corresponding index to the acquisition table.
+
         """
         if not isinstance(self.channel_config, ReadoutChannelConfig):
             raise ValueError(f"Channel {self.controller_name} is not a readout channel, cannot add {acquisition}.")

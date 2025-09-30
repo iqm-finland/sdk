@@ -14,9 +14,9 @@
 """Hardware properties of station devices."""
 
 from iqm.models.channel_properties.channel_properties import (
+    AWGProperties,
     ChannelProperties,
     ReadoutProperties,
-    AWGProperties,
 )
 
 __all__ = [
