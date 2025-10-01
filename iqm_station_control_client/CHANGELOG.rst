@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 11.0.0 (2025-09-30)
+===========================
+
+Breaking changes
+----------------
+
+- Change ``QON.locus`` to ``QON.locus_str`` to match the common nomenclature.
+
 Version 10.2.0 (2025-09-17)
 ===========================
 

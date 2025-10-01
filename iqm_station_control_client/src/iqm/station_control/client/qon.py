@@ -47,9 +47,14 @@ Suffixes: TypeAlias = dict[str, str]
 """Suffixes in a dut_field, split into key/value pairs."""
 
 
-def locus_to_locus_str(locus: Locus) -> str:
+def locus_to_locus_str(locus: Iterable[str]) -> str:
     """Convert a locus into a locus string."""
     return LOCUS_SEPARATOR.join(locus)
+
+
+def locus_str_to_locus(locus_str: str) -> Locus:
+    """Convert a locus string into a locus."""
+    return tuple(locus_str.split(LOCUS_SEPARATOR))
 
 
 class Domain(StrEnum):
@@ -251,8 +256,9 @@ class QONMetric(QON):
     """
 
     method: Annotated[str, Field(pattern=_PATTERN)]
-    locus: str
-    """Sequence of names of QPU components on which the gate is applied, or on which the experiment is run."""
+    locus_str: str
+    """Sequence of names of QPU components on which the gate is applied, or on which the experiment is run,
+    encoded into a string."""
     metric: Annotated[str, Field(pattern=r"^[A-Za-z_0-9][A-Za-z0-9_]*$")]
     """Measured metric."""
 
@@ -266,6 +272,11 @@ class QONMetric(QON):
     def domain(self) -> Domain:
         """Return the QON domain for metrics."""
         return Domain.METRIC
+
+    @property
+    def locus(self) -> Locus:
+        """Locus of the metric."""
+        return locus_str_to_locus(self.locus_str)
 
     @classmethod
     def _parse(cls, method: str, method_specific_part: str) -> QONMetric:
@@ -316,7 +327,7 @@ class QONGateMetric(QONMetric):
         method: ssro
         gate: measure
         implementation: constant
-        locus: QB1
+        locus_str: QB1
         metric: fidelity
         suffixes: {"aaa": "bbb", "par": "d1"}
 
@@ -325,7 +336,7 @@ class QONGateMetric(QONMetric):
         method: ssro
         gate: measure
         implementation: constant
-        locus: QB1
+        locus_str: QB1
         metric: fidelity
         suffixes: {}
 
@@ -334,7 +345,7 @@ class QONGateMetric(QONMetric):
         method: rb
         gate: prx
         implementation: drag_crf
-        locus: QB4
+        locus_str: QB4
         metric: fidelity
         suffixes: {"par": "d2"}
     """
@@ -347,7 +358,7 @@ class QONGateMetric(QONMetric):
     """Suffixes defining the metric further (if any)."""
 
     def __str__(self) -> str:
-        parts = [self.domain, self.method, self.gate, self.implementation, self.locus, self.metric]
+        parts = [self.domain, self.method, self.gate, self.implementation, self.locus_str, self.metric]
         name = _FIELD_SEPARATOR.join(parts)
         if self.suffixes:
             suffix_str = _SUFFIX_SEPARATOR.join(f"{k}={v}" for k, v in sorted(self.suffixes.items()))
@@ -372,12 +383,12 @@ class QONGateMetric(QONMetric):
         parts, suffixes = _split_obs_name(method_specific_part, maxsplit=3)
         if len(parts) < 4:
             raise ValueError(f"{method} gate quality metric name has less than 6 parts")
-        gate, implementation, locus, metric = parts
+        gate, implementation, locus_str, metric = parts
         return cls(
             method=method,
             gate=gate,
             implementation=implementation,
-            locus=locus,
+            locus_str=locus_str,
             metric=metric,
             suffixes=suffixes,
         )
@@ -388,7 +399,7 @@ class QONGateMetric(QONMetric):
 class QONSystemMetric(QONMetric):
     """QON representing a system quality metric.
 
-    Has the form ``metrics.{method}.{locus}.{metric}``.
+    Has the form ``metrics.{method}.{locus_str}.{metric}``.
 
     Can parse/represent e.g. the following metrics:
 
@@ -397,21 +408,21 @@ class QONSystemMetric(QONMetric):
         method: irb
         gate: circuit
         implementation: random_circuit
-        locus: QB4
+        locus_str: QB4
         metric: fidelity
         suffixes: {"par": "d2"}
 
     ``metrics.ghz_state.QB1__QB2.coherence_lower_bound``
 
         method: ghz_state
-        locus: QB1__QB2
+        locus_str: QB1__QB2
         metric: coherence_lower_bound
 
     Subclasses implement parsing and string representation for specific methods.
     """
 
     def __str__(self) -> str:
-        parts = [self.domain, self.method, self.locus, self.metric]
+        parts = [self.domain, self.method, self.locus_str, self.metric]
         return _FIELD_SEPARATOR.join(parts)
 
     @classmethod
@@ -432,10 +443,10 @@ class QONSystemMetric(QONMetric):
         parts = method_specific_part.split(_FIELD_SEPARATOR, maxsplit=1)
         if len(parts) < 2:
             raise ValueError(f"{method} system quality metric name has less than 4 parts")
-        locus, metric = parts
+        locus_str, metric = parts
         return cls(
             method=method,
-            locus=locus,
+            locus_str=locus_str,
             metric=metric,
         )
 
@@ -479,8 +490,8 @@ class QONGateParam(QON):
     """Name of the gate/quantum operation."""
     implementation: Annotated[str, Field(pattern=_PATTERN)]
     """Name of the gate implementation."""
-    locus: str
-    """Sequence of names of QPU components on which the gate is applied."""
+    locus_str: str
+    """Sequence of names of QPU components on which the gate is applied, encoded into a string."""
     parameter: str
     """Name of the gate parameter. May have further dotted structure."""
 
@@ -488,8 +499,13 @@ class QONGateParam(QON):
     def domain(self) -> Domain:
         return Domain.GATE_PARAMETER
 
+    @property
+    def locus(self) -> Locus:
+        """Locus of the gate parameter."""
+        return locus_str_to_locus(self.locus_str)
+
     def __str__(self) -> str:
-        return _FIELD_SEPARATOR.join([self.domain, self.gate, self.implementation, self.locus, self.parameter])
+        return _FIELD_SEPARATOR.join([self.domain, self.gate, self.implementation, self.locus_str, self.parameter])
 
     @classmethod
     def _parse(cls, gate: str, rest: str) -> QONGateParam:
@@ -497,11 +513,11 @@ class QONGateParam(QON):
         parts = rest.split(_FIELD_SEPARATOR, maxsplit=2)
         if len(parts) < 3:
             raise ValueError("Gate parameter observation name has less than 5 parts")
-        implementation, locus, param = parts
+        implementation, locus_str, param = parts
         return cls(
             gate=gate,
             implementation=implementation,
-            locus=locus,
+            locus_str=locus_str,
             parameter=param,
         )
 

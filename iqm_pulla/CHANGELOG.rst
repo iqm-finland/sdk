@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 11.7.0 (2025-09-30)
+===========================
+
+Features
+--------
+
+- Update dependency on station-control-client
+
 Version 11.6.0 (2025-09-19)
 ===========================
 
