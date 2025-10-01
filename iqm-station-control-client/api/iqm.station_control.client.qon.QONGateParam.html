@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>QONGateParam &#8212; station-control-client 10.2.0 documentation</title>
+    <title>QONGateParam &#8212; station-control-client 11.0.0 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=80c937d7"></script>
+    <script src="../_static/documentation_options.js?v=6df7091e"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="QONGateMetric" href="iqm.station_control.client.qon.QONGateMetric.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2025-09-30"/>
+    <meta name="docbuild:last-update" content="2025-10-01"/>
   </head>
   
   
@@ -140,8 +140,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 10.2.0 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="station-control-client 10.2.0 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 11.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="station-control-client 11.0.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -188,6 +188,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Locus.html">iqm.station_control.client.qon.Locus</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Suffixes.html">iqm.station_control.client.qon.Suffixes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.GATE_FIDELITY_METHODS.html">iqm.station_control.client.qon.GATE_FIDELITY_METHODS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.locus_str_to_locus.html">iqm.station_control.client.qon.locus_str_to_locus</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.locus_to_locus_str.html">iqm.station_control.client.qon.locus_to_locus_str</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Domain.html">Domain</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.ObservationFinder.html">ObservationFinder</a></li>
@@ -361,9 +362,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam"><code class="docutils literal notranslate"><span class="pre">QONGateParam</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.gate"><code class="docutils literal notranslate"><span class="pre">QONGateParam.gate</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.implementation"><code class="docutils literal notranslate"><span class="pre">QONGateParam.implementation</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.locus"><code class="docutils literal notranslate"><span class="pre">QONGateParam.locus</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.locus_str"><code class="docutils literal notranslate"><span class="pre">QONGateParam.locus_str</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.parameter"><code class="docutils literal notranslate"><span class="pre">QONGateParam.parameter</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.domain"><code class="docutils literal notranslate"><span class="pre">QONGateParam.domain</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.locus"><code class="docutils literal notranslate"><span class="pre">QONGateParam.locus</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam._parse"><code class="docutils literal notranslate"><span class="pre">QONGateParam._parse()</span></code></a></li>
 </ul>
 </li>
@@ -382,7 +384,7 @@ document.write(`
 <h1>QONGateParam<a class="headerlink" href="#qongateparam" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.station_control.client.qon.QONGateParam">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">QONGateParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implementation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.QONGateParam" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">QONGateParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implementation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.QONGateParam" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.station_control.client.qon.QON.html#iqm.station_control.client.qon.QON" title="iqm.station_control.client.qon.QON"><code class="xref py py-class docutils literal notranslate"><span class="pre">QON</span></code></a></p>
 <p>QON representing a gate parameter observation.</p>
 <p>Has the form <code class="docutils literal notranslate"><span class="pre">gates.{gate}.{implementation}.{locus_str}.{parameter}</span></code>.</p>
@@ -393,16 +395,19 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONGateParam.domain" title="iqm.station_control.client.qon.QONGateParam.domain"><code class="xref py py-obj docutils literal notranslate"><span class="pre">domain</span></code></a></p></td>
 <td><p>Type/purpose of the observation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONGateParam.gate" title="iqm.station_control.client.qon.QONGateParam.gate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gate</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONGateParam.locus" title="iqm.station_control.client.qon.QONGateParam.locus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">locus</span></code></a></p></td>
+<td><p>Locus of the gate parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONGateParam.gate" title="iqm.station_control.client.qon.QONGateParam.gate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gate</span></code></a></p></td>
 <td><p>Name of the gate/quantum operation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONGateParam.implementation" title="iqm.station_control.client.qon.QONGateParam.implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">implementation</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONGateParam.implementation" title="iqm.station_control.client.qon.QONGateParam.implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">implementation</span></code></a></p></td>
 <td><p>Name of the gate implementation.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONGateParam.locus" title="iqm.station_control.client.qon.QONGateParam.locus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">locus</span></code></a></p></td>
-<td><p>Sequence of names of QPU components on which the gate is applied.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONGateParam.locus_str" title="iqm.station_control.client.qon.QONGateParam.locus_str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">locus_str</span></code></a></p></td>
+<td><p>Sequence of names of QPU components on which the gate is applied, encoded into a string.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONGateParam.parameter" title="iqm.station_control.client.qon.QONGateParam.parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameter</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.QONGateParam.parameter" title="iqm.station_control.client.qon.QONGateParam.parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameter</span></code></a></p></td>
 <td><p>Name of the gate parameter.</p></td>
 </tr>
 </tbody>
@@ -419,7 +424,7 @@ document.write(`
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>gate</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
 <li><p><strong>implementation</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
-<li><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>locus_str</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
 <li><p><strong>parameter</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
 </ul>
 </dd>
@@ -437,9 +442,9 @@ document.write(`
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="iqm.station_control.client.qon.QONGateParam.locus">
-<span class="sig-name descname"><span class="pre">locus</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#iqm.station_control.client.qon.QONGateParam.locus" title="Link to this definition">#</a></dt>
-<dd><p>Sequence of names of QPU components on which the gate is applied.</p>
+<dt class="sig sig-object py" id="iqm.station_control.client.qon.QONGateParam.locus_str">
+<span class="sig-name descname"><span class="pre">locus_str</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#iqm.station_control.client.qon.QONGateParam.locus_str" title="Link to this definition">#</a></dt>
+<dd><p>Sequence of names of QPU components on which the gate is applied, encoded into a string.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -452,6 +457,12 @@ document.write(`
 <dt class="sig sig-object py" id="iqm.station_control.client.qon.QONGateParam.domain">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">domain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="iqm.station_control.client.qon.Domain.html#iqm.station_control.client.qon.Domain" title="iqm.station_control.client.qon.Domain"><span class="pre">Domain</span></a></em><a class="headerlink" href="#iqm.station_control.client.qon.QONGateParam.domain" title="Link to this definition">#</a></dt>
 <dd><p>Type/purpose of the observation.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iqm.station_control.client.qon.QONGateParam.locus">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">locus</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.station_control.client.qon.QONGateParam.locus" title="Link to this definition">#</a></dt>
+<dd><p>Locus of the gate parameter.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -523,9 +534,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam"><code class="docutils literal notranslate"><span class="pre">QONGateParam</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.gate"><code class="docutils literal notranslate"><span class="pre">QONGateParam.gate</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.implementation"><code class="docutils literal notranslate"><span class="pre">QONGateParam.implementation</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.locus"><code class="docutils literal notranslate"><span class="pre">QONGateParam.locus</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.locus_str"><code class="docutils literal notranslate"><span class="pre">QONGateParam.locus_str</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.parameter"><code class="docutils literal notranslate"><span class="pre">QONGateParam.parameter</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.domain"><code class="docutils literal notranslate"><span class="pre">QONGateParam.domain</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam.locus"><code class="docutils literal notranslate"><span class="pre">QONGateParam.locus</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONGateParam._parse"><code class="docutils literal notranslate"><span class="pre">QONGateParam._parse()</span></code></a></li>
 </ul>
 </li>
@@ -549,7 +561,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 10.2.0.
+      © Copyright 2019-2025, IQM Finland Oy, Release 11.0.0.
       <br/>
     
   </p>
@@ -558,7 +570,7 @@ document.write(`
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-09-30.
+  Last updated on 2025-10-01.
   <br/>
 </p>
   </div>
