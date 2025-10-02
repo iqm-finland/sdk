@@ -68,7 +68,7 @@ if __name__ == "__main__":
         "--url",
         help="URL of the IQM Resonance QC",
         # For example https://cocos.resonance.meetiqm.com/garnet
-        default="https://cocos.resonance.meetiqm.com/<QUANTUM COMPUTER>",
+        default="https://cocos.resonance.meetiqm.com/<RESONANCE QC NAME>",
     )
     argparser.add_argument(
         "--token",

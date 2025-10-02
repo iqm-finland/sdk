@@ -51,8 +51,9 @@ if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
         "--url",
-        help="URL of the IQM service",
-        default="https://cocos.resonance.meetiqm.com/deneb",
+        help="IQM server URL",
+        # For example https://cocos.resonance.meetiqm.com/garnet
+        default="https://<IQM SERVER>",
     )
     circuit_transpiled, results = transpile_example(argparser.parse_args().url)
     print(circuit_transpiled)

@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 31.6.0 (2025-10-01)
+===========================
+
+Features
+--------
+
+- Clarify the docs on IQM server URLS and facade backends.
+
 Version 31.5.0 (2025-09-30)
 ===========================
 

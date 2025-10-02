@@ -47,8 +47,9 @@ def bell_measure(server_url: str) -> dict[str, int]:
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
-        "--cortex_server_url",
-        help="URL of the IQM server",
-        default="https://demo.qc.iqm.fi/cocos",
+        "--url",
+        help="IQM server URL",
+        # For example https://cocos.resonance.meetiqm.com/garnet
+        default="https://<IQM SERVER>",
     )
-    print(bell_measure(argparser.parse_args().cortex_server_url))
+    print(bell_measure(argparser.parse_args().url))
