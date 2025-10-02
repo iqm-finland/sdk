@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Qiskit on IQM User Guide &#8212; IQM client 31.5.0 documentation</title>
+    <title>Qiskit on IQM User Guide &#8212; IQM client 31.6.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=46c49a0e"></script>
+    <script src="_static/documentation_options.js?v=98dbc27b"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -51,7 +51,7 @@
     <link rel="prev" title="IQM Client CLI User Guide" href="user_guide_cli.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2025-10-01"/>
+    <meta name="docbuild:last-update" content="2025-10-02"/>
   </head>
   
   
@@ -141,8 +141,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="IQM client 31.5.0 documentation - Home"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM client 31.5.0 documentation - Home"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM client 31.6.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM client 31.6.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -626,7 +626,9 @@ your API token will invalidate any previously generated token.</p></li>
 <li><p>Install Qiskit on IQM as instructed below.</p></li>
 <li><p>Add your API token to the example (either as the parameter <code class="docutils literal notranslate"><span class="pre">token</span></code> to the <a class="reference internal" href="api/iqm.qiskit_iqm.iqm_provider.IQMProvider.html#iqm.qiskit_iqm.iqm_provider.IQMProvider" title="iqm.qiskit_iqm.iqm_provider.IQMProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMProvider</span></code></a>
 constructor, or by setting the environment variable <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_TOKEN</span></code>)</p></li>
-<li><p>Run the Jupyter notebook (or run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">resonance_example.py</span></code> if you decided to go for the Python script).</p></li>
+<li><p>Run the Jupyter notebook (or run
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">resonance_example.py</span> <span class="pre">--url</span> <span class="pre">https://cocos.resonance.meetiqm.com/&lt;RESONANCE</span> <span class="pre">QC</span> <span class="pre">NAME&gt;</span></code>
+if you decided to go for the Python script).</p></li>
 <li><p>If you’re connecting to a real quantum computer, the output should show almost half of the
 measurements resulting in ‘00000’ and almost half in ‘11111’ - if this is the case, things are
 set up correctly!</p></li>
@@ -642,7 +644,7 @@ More ready-to-run examples can also be found at <a class="reference external" hr
 <li><p>Install IQM Client CLI and log in as instructed in the
 <a class="reference external" href="https://docs.meetiqm.com/iqm-client/user_guide_cli.html#installing-iqm-client-cli">documentation</a></p></li>
 <li><p>Set the environment variable as instructed by IQM Client CLI after logging in.</p></li>
-<li><p>Run <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">bell_measure.py</span> <span class="pre">--cortex_server_url</span> <span class="pre">https://demo.qc.iqm.fi/cocos</span></code> - replace the example URL with the correct one.</p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">bell_measure.py</span> <span class="pre">--url</span> <span class="pre">https://&lt;YOUR</span> <span class="pre">IQM</span> <span class="pre">SERVER&gt;</span></code> - replace the example URL with the correct one.</p></li>
 <li><p>If you’re connecting to a real quantum computer, the output should show almost half of the
 measurements resulting in ‘00’ and almost half in ‘11’ - if this is the case, things are set up
 correctly!</p></li>
@@ -724,7 +726,7 @@ circuit(s) are sampled:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">transpile</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
 
-<span class="n">iqm_server_url</span> <span class="o">=</span> <span class="s2">&quot;https://demo.qc.iqm.fi&quot;</span>  <span class="c1"># Replace this with the correct URL</span>
+<span class="n">iqm_server_url</span> <span class="o">=</span> <span class="s2">&quot;https://&lt;IQM SERVER&gt;&quot;</span>  <span class="c1"># Replace this with the correct URL</span>
 <span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="n">iqm_server_url</span><span class="p">)</span>
 <span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
 
@@ -1219,20 +1221,35 @@ a copy of the IQMFakeBackend instance with an updated error profile:</p>
 </section>
 <section id="running-a-quantum-circuit-on-a-facade-backend">
 <h3>Running a quantum circuit on a facade backend<a class="headerlink" href="#running-a-quantum-circuit-on-a-facade-backend" title="Link to this heading">#</a></h3>
-<p>Circuits can be executed against a mock environment: an IQM server that has no real quantum computer hardware.
-Results from such executions are random bits. This may be useful when developing and testing software integrations.</p>
-<p>Qiskit on IQM contains <a class="reference internal" href="api/iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend.html#iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend" title="iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMFacadeBackend</span></code></a>, which allows to combine the mock remote execution with a local
-noisy quantum circuit simulation. This way you can both validate your integration as well as get an idea of the expected circuit execution results.</p>
+<p>Circuits can be executed against a <em>mock environment</em>: an IQM server that has no real quantum computer hardware.
+Results from such executions are just random bits. This may be useful when developing and testing software integrations.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>IQM Resonance typically provides a mock environment for each real quantum computer it has.
+For example, the URL
+<a class="reference external" href="https://cocos.resonance.meetiqm.com/garnet">https://cocos.resonance.meetiqm.com/garnet</a> refers to a real quantum computer named Garnet,
+whereas <a class="reference external" href="https://cocos.resonance.meetiqm.com/garnet:mock">https://cocos.resonance.meetiqm.com/garnet:mock</a> refers to the corresponding mock environment.</p>
+<p>On-premises users should ask their admin whether a mock environment is available, and which IQM server
+URL to use.</p>
+</div>
+<p>Qiskit on IQM contains <a class="reference internal" href="api/iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend.html#iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend" title="iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMFacadeBackend</span></code></a>, which allows to combine a mock remote execution with a local
+noisy quantum circuit simulation. This way you can both validate your integration as well as get an idea of
+the expected circuit execution results.</p>
 <p>To run a circuit this way, use <code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMProvider.get_backend()</span></code> with one of the backend names
 <code class="docutils literal notranslate"><span class="pre">facade_adonis,</span> <span class="pre">facade_apollo,</span> <span class="pre">facade_aphrodite,</span> <span class="pre">facade_deneb</span></code> or <code class="docutils literal notranslate"><span class="pre">facade_garnet</span></code> to obtain
 a facade backend.
 <code class="docutils literal notranslate"><span class="pre">facade_adonis,</span> <span class="pre">facade_apollo,</span> <span class="pre">facade_aphrodite</span></code> represent typical Crystal 5, Crystal 20 and Crystal 54 architecture QPUs,
 whereas <code class="docutils literal notranslate"><span class="pre">facade_deneb</span></code> and  <code class="docutils literal notranslate"><span class="pre">facade_garnet</span></code> represent the corresponding IQM Resonance quantum computers
-more specifically.</p>
-<p>Note that the provider must be initialized with the URL of a quantum computer with the corresponding
-static quantum architecture (i.e. names of qubits, their connectivity, and the native gateset should match the desired architecture).
-Additionally, the URL should point to a mock server rather than a real quantum computer, as the execution results
-from the server will be discarded and replaced by a simulated result generated by Qiskit Aer.</p>
+more specifically.
+The provider must be initialized with the URL of a quantum computer with the corresponding
+static quantum architecture (i.e. names of qubits, their connectivity, and the native gateset should match the desired architecture).</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>When using a facade backend, the IQM server URL of <code class="xref py py-class docutils literal notranslate"><span class="pre">IQMProvider</span></code> should always point to a mock environment
+rather than a real quantum computer, as the execution results from the server will be discarded and replaced by
+a locally simulated result generated by Qiskit Aer. If you use a real quantum computer with a facade backend,
+you will just waste your credits and/or computation time.</p>
+</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">transpile</span><span class="p">,</span> <span class="n">QuantumCircuit</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
 
@@ -1241,9 +1258,9 @@ from the server will be discarded and replaced by a simulated result generated b
 <span class="n">circuit</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">circuit</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
 
-<span class="n">iqm_server_url</span> <span class="o">=</span> <span class="s2">&quot;https://demo.qc.iqm.fi/&quot;</span>  <span class="c1"># Replace this with the correct URL</span>
+<span class="n">iqm_server_url</span> <span class="o">=</span> <span class="s2">&quot;https://cocos.resonance.meetiqm.com/garnet:mock&quot;</span>  <span class="c1"># Replace this with the correct mock env URL</span>
 <span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="n">iqm_server_url</span><span class="p">)</span>
-<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;facade_adonis&#39;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">(</span><span class="s1">&#39;facade_garnet&#39;</span><span class="p">)</span>
 <span class="n">transpiled_circuit</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
 <span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">transpiled_circuit</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">())</span>
@@ -1365,7 +1382,7 @@ By IQM client developers
 
   <p class="copyright">
     
-      © Copyright 2021-2025, IQM Finland Oy, Release 31.5.0.
+      © Copyright 2021-2025, IQM Finland Oy, Release 31.6.0.
       <br/>
     
   </p>
@@ -1374,7 +1391,7 @@ By IQM client developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-10-01.
+  Last updated on 2025-10-02.
   <br/>
 </p>
   </div>

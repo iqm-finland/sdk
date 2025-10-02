@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend &#8212; IQM client 31.5.0 documentation</title>
+    <title>iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend &#8212; IQM client 31.6.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=46c49a0e"></script>
+    <script src="../_static/documentation_options.js?v=98dbc27b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -49,7 +49,7 @@
     <link rel="prev" title="iqm.qiskit_iqm.iqm_provider.IQMBackend" href="iqm.qiskit_iqm.iqm_provider.IQMBackend.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2025-10-01"/>
+    <meta name="docbuild:last-update" content="2025-10-02"/>
   </head>
   
   
@@ -139,8 +139,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM client 31.5.0 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM client 31.5.0 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM client 31.6.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM client 31.6.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -570,14 +570,17 @@ document.write(`
 <dt class="sig sig-object py" id="iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qiskit_iqm.iqm_provider.</span></span><span class="sig-name descname"><span class="pre">IQMFacadeBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient" title="iqm.iqm_client.iqm_client.IQMClient"><span class="pre">IQMClient</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend" title="iqm.qiskit_iqm.iqm_provider.IQMBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMBackend</span></code></a></p>
-<p>Simulates the execution of quantum circuits on a mock IQM quantum computer.</p>
-<p>Can be used to submit a circuit to a mock IQM server that has no real quantum hardware,
-and if the mock execution is successful, simulates the circuit locally using an error model that
-is broadly representative of the mocked QPU. Finally returns the <em>simulated results</em>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>There is usually no point in using a facade backend with a real quantum computer, since the computation
-results will be replaced with a local simulation.</p>
+<p>Simulates locally the execution of quantum circuits on a remote mock IQM quantum computer.</p>
+<p>This backend is meant to be used to run circuits on a mock IQM server that has no real quantum hardware,
+and if the mock execution is successful, simulate the circuits locally using an error model that
+is broadly representative of the mocked QPU. Finally it returns the <em>simulated results</em>.</p>
+<p>If you just want to run a local simulation, use <a class="reference internal" href="iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMFakeBackend.html#iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMFakeBackend" title="iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMFakeBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMFakeBackend</span></code></a> directly.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>When using a facade backend, the IQM server URL of <a class="reference internal" href="iqm.qiskit_iqm.iqm_provider.IQMProvider.html#iqm.qiskit_iqm.iqm_provider.IQMProvider" title="iqm.qiskit_iqm.iqm_provider.IQMProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMProvider</span></code></a> should always point to a mock environment
+rather than a real quantum computer, as the execution results from the server will be discarded and replaced by
+a locally simulated result generated by Qiskit Aer. If you use a real quantum computer with a facade backend,
+you will just waste your credits and/or computation time.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -716,7 +719,7 @@ By IQM client developers
 
   <p class="copyright">
     
-      © Copyright 2021-2025, IQM Finland Oy, Release 31.5.0.
+      © Copyright 2021-2025, IQM Finland Oy, Release 31.6.0.
       <br/>
     
   </p>
@@ -725,7 +728,7 @@ By IQM client developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-10-01.
+  Last updated on 2025-10-02.
   <br/>
 </p>
   </div>
