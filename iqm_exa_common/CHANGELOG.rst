@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 27.2.0 (2025-10-03)
+===========================
+
+Bug fixes
+---------
+
+- Skip following mypy imports to iqm-data-definitions until errors are fixed. :issue:`SW-1670`
+
 Version 27.1.0 (2025-09-19)
 ===========================
 

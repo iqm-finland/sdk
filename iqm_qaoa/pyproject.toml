@@ -31,8 +31,13 @@ no_implicit_optional = true
 warn_redundant_casts = true
 warn_unused_ignores = true
 [[tool.mypy.overrides]]
-module = [ "iqm.data_definitions.*", "iqm.models.*", "daemon.*", "quimb.*", "qiskit.*", "qiskit_aer.*", "grpc.*", "lmfit.*", "emukit.*", "mockito.*", "sklearn.*", "dill.*", "uncertainties.*", "GPy.*", "pythonjsonlogger.*",]
+module = [ "daemon.*", "quimb.*", "qiskit.*", "qiskit_aer.*", "grpc.*", "lmfit.*", "emukit.*", "mockito.*", "sklearn.*", "dill.*", "uncertainties.*", "GPy.*", "pythonjsonlogger.*",]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [ "iqm.data_definitions.*", "iqm.models.*",]
+follow_imports = "skip"
+follow_imports_for_stubs = true
 
 [tool.ruff]
 exclude = [ "*.ipynb", "*.rst",]
