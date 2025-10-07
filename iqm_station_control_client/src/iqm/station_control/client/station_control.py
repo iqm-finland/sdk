@@ -44,12 +44,12 @@ from iqm.station_control.client.list_models import (
     DutFieldDataList,
     DutList,
     ListModel,
+    ListWithMetaResponse,
     ObservationDataList,
     ObservationDefinitionList,
     ObservationLiteList,
     ObservationSetDataList,
     ObservationUpdateList,
-    ResponseWithMeta,
     RunLiteList,
     SequenceMetadataDataList,
 )
@@ -181,7 +181,7 @@ class _StationControlClientBase(StationControlInterface):
         if not response.ok:
             try:
                 response_json = response.json()
-                error_message = response_json.get("message") or response_json["detail"]
+                error_message = response_json.get("message")
             except (json.JSONDecodeError, KeyError):
                 error_message = response.text
 
@@ -215,7 +215,7 @@ class _StationControlClientBase(StationControlInterface):
             headers["Content-Type"] = "application/json; charset=UTF-8"
         elif octets is not None:
             data = octets
-            headers["Content-Type"] = "application/octet-stream"
+            headers["Content-Type"] = "application/protobuf"
 
         if self._enable_opentelemetry:
             parent_span_context = trace.set_span_in_context(trace.get_current_span())
@@ -310,7 +310,7 @@ class StationControlClient(_StationControlClientBase):
 
     @cache
     def get_channel_properties(self) -> dict[str, ChannelProperties]:
-        headers = {"accept": "application/octet-stream"}
+        headers = {"accept": "application/protobuf"}
         response = self._send_request(requests.get, "channel-properties", headers=headers)
         decoded_dict = unpack_channel_properties(response.content)
         return decoded_dict
@@ -620,11 +620,11 @@ class StationControlClient(_StationControlClientBase):
         # This validates the provided data as a JSON string or bytes object.
         # If your incoming data is a JSON payload, this is generally considered faster.
         if list_with_meta:
-            response_with_meta: ResponseWithMeta = ResponseWithMeta.model_validate_json(response.text)
-            meta = response_with_meta.meta or Meta()
+            list_with_meta_response: ListWithMetaResponse = ListWithMetaResponse.model_validate_json(response.text)
+            meta = list_with_meta_response.meta or Meta()
             if meta and meta.errors:
                 logger.warning("Errors in station control response:\n  - %s", "\n  - ".join(meta.errors))
-            return ListWithMeta(model_class.model_validate(response_with_meta.items), meta=meta)
+            return ListWithMeta(model_class.model_validate(list_with_meta_response.items), meta=meta)
         model = model_class.model_validate_json(response.text)
         if isinstance(model, ListModel):
             return model.root

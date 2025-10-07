@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 27.3.0 (2025-10-06)
+===========================
+
+Features
+--------
+
+- Minor update to ``format_deprecated`` to accept datetimes only in one format for consistency.
+
 Version 27.2.0 (2025-10-03)
 ===========================
 

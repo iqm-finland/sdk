@@ -20,6 +20,7 @@ from iqm.qiskit_iqm.fake_backends.iqm_fake_backend import IQMErrorProfile, IQMFa
 def IQMFakeAdonis() -> IQMFakeBackend:
     """Return IQMFakeBackend instance representing IQM's Adonis architecture."""
     architecture = StaticQuantumArchitecture(
+        dut_label="M138_W0_A22_Z99",
         qubits=["QB1", "QB2", "QB3", "QB4", "QB5"],
         computational_resonators=[],
         connectivity=[("QB1", "QB3"), ("QB2", "QB3"), ("QB3", "QB4"), ("QB3", "QB5")],

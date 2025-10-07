@@ -20,6 +20,7 @@ from iqm.qiskit_iqm.fake_backends.iqm_fake_backend import IQMErrorProfile, IQMFa
 def IQMFakeAphrodite() -> IQMFakeBackend:
     """Return IQMFakeBackend instance representing IQM's Aphrodite architecture."""
     architecture = StaticQuantumArchitecture(
+        dut_label="M213_W0_H03_Z99",
         qubits=[f"QB{i}" for i in range(1, 55)],
         computational_resonators=[],
         connectivity=[

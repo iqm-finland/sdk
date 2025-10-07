@@ -18,10 +18,11 @@ from iqm.station_control.interface.models import (
 logger = logging.getLogger(__name__)
 
 
-def create_static_quantum_architecture(chip_topology: ChipTopology) -> StaticQuantumArchitecture:
+def create_static_quantum_architecture(dut_label: str, chip_topology: ChipTopology) -> StaticQuantumArchitecture:
     """Creates a static quantum architecture (SQA) for the given chip topology.
 
     Args:
+        dut_label: Identifies the QPU that ``chip_topology`` describes.
         chip_topology: The chip topology.
 
     Returns:
@@ -40,6 +41,7 @@ def create_static_quantum_architecture(chip_topology: ChipTopology) -> StaticQua
     # The components in each connection are already sorted, now we sort the connections
     connectivity = sorted(unsorted_connections, key=sort_key)
     return StaticQuantumArchitecture(
+        dut_label=dut_label,
         qubits=chip_topology.qubits_sorted,  # type: ignore[arg-type]
         computational_resonators=chip_topology.computational_resonators_sorted,  # type: ignore[arg-type]
         connectivity=connectivity,

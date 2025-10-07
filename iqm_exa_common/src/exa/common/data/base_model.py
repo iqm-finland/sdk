@@ -32,7 +32,7 @@ class BaseModel(pydantic.BaseModel):
         """
         return super().model_copy(update=update, deep=deep)
 
-    @deprecated(format_deprecated(old="`copy` method", new="`model_copy`", since="28.3.2025"))
+    @deprecated(format_deprecated(old="`copy` method", new="`model_copy`", since="2025-03-28"))
     def copy(self, **kwargs) -> Self:
         """Returns a copy of the model."""
         return super().copy(update=kwargs, deep=True)

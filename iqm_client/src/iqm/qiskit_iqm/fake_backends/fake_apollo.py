@@ -20,6 +20,7 @@ from iqm.qiskit_iqm.fake_backends.iqm_fake_backend import IQMErrorProfile, IQMFa
 def IQMFakeApollo() -> IQMFakeBackend:
     """Return IQMFakeBackend instance representing IQM's Apollo architecture."""
     architecture = StaticQuantumArchitecture(
+        dut_label="M153_W0_P06_Z99",
         qubits=[f"QB{i}" for i in range(1, 21)],
         computational_resonators=[],
         connectivity=[

@@ -13,7 +13,7 @@
 # limitations under the License.
 """Type hint aliases used in the station control interface."""
 
-from typing import Literal
+from typing import Literal, TypeAlias
 from uuid import UUID
 
 import numpy as np
@@ -23,8 +23,8 @@ import numpy as np
 # and then deserialized back to UUID on the server side.
 StrUUID = str | UUID
 
-DutType = Literal["chip", "twpa"]
-GetObservationsMode = Literal["all_latest", "tags_and", "tags_or", "sequence"]
-SoftwareVersionSet = dict[str, str]
-Statuses = list[tuple[str, int, int]]
-SweepResults = dict[str, list[np.ndarray]]
+DutType: TypeAlias = Literal["chip", "twpa"]
+GetObservationsMode: TypeAlias = Literal["all_latest", "tags_and", "tags_or", "sequence"]
+SoftwareVersionSet: TypeAlias = dict[str, str]
+Statuses: TypeAlias = list[tuple[str, int, int]]
+SweepResults: TypeAlias = dict[str, list[np.ndarray]]

@@ -2,6 +2,15 @@
 Changelog
 =========
 
+Version 11.9.0 (2025-10-06)
+===========================
+
+Features
+--------
+
+- Add ``dut_label`` to :class:`StaticQuantumArchitecture`.
+- Update dependencies.
+
 Version 11.8.0 (2025-10-03)
 ===========================
 

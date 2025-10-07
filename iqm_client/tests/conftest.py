@@ -107,19 +107,6 @@ def crystal_5_quality_metrics(crystal_5_calibration_set):
     )
 
 
-class MockBytesResponse:
-    def __init__(self, status_code: int, content: bytes, history: list[Response] | None = None):
-        self.status_code = status_code
-        self.content = content
-        self.media_type = "application/octet-stream"
-        self.history = history
-        self.url = "https://example.com"
-
-    def raise_for_status(self):
-        if 400 <= self.status_code < 600:
-            raise HTTPError(f"{self.status_code}", response=self)
-
-
 class MockJsonResponse:
     def __init__(self, status_code: int, json_data: dict | list[dict], history: list[Response] | None = None):
         self.status_code = status_code

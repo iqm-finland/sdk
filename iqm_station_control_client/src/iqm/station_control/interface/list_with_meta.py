@@ -15,6 +15,7 @@
 
 from collections.abc import Iterable
 from dataclasses import dataclass
+from typing import Generic, TypeVar
 
 
 @dataclass(kw_only=True)
@@ -28,9 +29,14 @@ class Meta:
     errors: list[str] | None = None
 
 
-class ListWithMeta(list):
+T = TypeVar("T")
+
+
+class ListWithMeta(list, Generic[T]):
     """Standard list extension holding optional metadata as well."""
 
-    def __init__(self, items: Iterable, *, meta: Meta):
+    meta: Meta | None
+
+    def __init__(self, items: Iterable[T], *, meta: Meta | None = None):
         super().__init__(items)
         self.meta = meta

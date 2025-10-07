@@ -364,7 +364,7 @@ class Compiler:
         )
         self._refresh()
 
-    @deprecated(format_deprecated(old="`ready`", new=None, since="12.08.2025"))
+    @deprecated(format_deprecated(old="`ready`", new=None, since="2025-08-12"))
     def ready(self) -> bool:
         """Check if the compiler is ready to compile circuits. The compiler is ready if at least one stage is defined, and
         all the stages are non-empty.

@@ -141,17 +141,17 @@ class ChipTopology:
         }
 
     @classmethod
-    def from_chip_design_record(cls, record: dict) -> ChipTopology:
+    def from_chip_design_record(cls, chip_design_record: dict) -> ChipTopology:
         """Construct a ChipTopology instance from a raw Chip design record.
 
         Args:
-            record: Record as returned by Station control.
+            chip_design_record: Chip design record as returned by Station control.
 
         Returns:
             Corresponding chip topology
 
         """
-        return cls.from_chad(CHAD(**record))
+        return cls.from_chad(CHAD(**chip_design_record))
 
     @classmethod
     def from_chad(cls, chad: CHAD) -> ChipTopology:

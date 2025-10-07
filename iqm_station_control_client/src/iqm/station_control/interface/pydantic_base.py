@@ -18,6 +18,7 @@ from pydantic import BaseModel, ConfigDict
 
 class PydanticBase(BaseModel):
     """Pydantic base model to change the behaviour of pydantic globally.
+
     Note that setting model_config in child classes will merge the configs rather than override this one.
     https://docs.pydantic.dev/latest/concepts/config/#change-behaviour-globally
     """

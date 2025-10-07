@@ -20,6 +20,7 @@ from iqm.qiskit_iqm.fake_backends.iqm_fake_backend import IQMErrorProfile, IQMFa
 def IQMFakeDeneb() -> IQMFakeBackend:
     """Return IQMFakeBackend instance representing IQM's Deneb architecture."""
     architecture = StaticQuantumArchitecture(
+        dut_label="M139_W0_N60_Z99",
         qubits=["QB1", "QB2", "QB3", "QB4", "QB5", "QB6"],
         computational_resonators=["CR1"],
         connectivity=[

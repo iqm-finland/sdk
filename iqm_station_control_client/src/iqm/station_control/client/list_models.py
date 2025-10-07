@@ -31,14 +31,20 @@ from iqm.station_control.interface.models import (
     ObservationUpdate,
     RunLite,
     SequenceMetadataData,
+    StaticQuantumArchitecture,
 )
 from iqm.station_control.interface.pydantic_base import PydanticBase
 
 T = TypeVar("T")
 
 
-class ResponseWithMeta(PydanticBase, Generic[T]):
-    """Class used for query endpoints to return metadata in addition to the returned items."""
+class ListWithMetaResponse(PydanticBase, Generic[T]):
+    """Class used for list endpoints to envelope the items to a dict with additional metadata.
+
+    This should be used only in REST API communication (JSON). For Python users,
+    this model should be deserialized to :class:`iqm.pulse.ListWithMeta`:,
+    which behaves like a standard list.
+    """
 
     items: list[T]
     meta: Meta | None = None
@@ -94,6 +100,10 @@ class ObservationSetDataList(ListModel):
 
 class SequenceMetadataDataList(ListModel):
     root: list[SequenceMetadataData]
+
+
+class StaticQuantumArchitectureList(ListModel):
+    root: list[StaticQuantumArchitecture]
 
 
 class RunLiteList(ListModel):

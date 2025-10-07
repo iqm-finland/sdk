@@ -2,6 +2,16 @@
 Changelog
 =========
 
+Version 11.2.0 (2025-10-06)
+===========================
+
+Features
+--------
+
+- Deprecate "application/octet-stream" for protobuf data, use "application/protobuf" instead.
+- Deprecate "detail" in server errors, use "message" instead to be consistent with IQM Server.
+- Update dependencies.
+
 Version 11.1.0 (2025-10-03)
 ===========================
 

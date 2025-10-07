@@ -390,6 +390,9 @@ class StaticQuantumArchitecture(BaseModel):
     including the names of its computational components and the connections between them.
     """
 
+    # Optional *for now* (backwards compatible)
+    dut_label: str | None = None
+    """Identifies the QPU."""
     qubits: list[str] = Field(...)
     """Names of the physical qubits on the QPU, sorted."""
     computational_resonators: list[str] = Field(...)

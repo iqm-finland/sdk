@@ -17,16 +17,6 @@ from iqm.station_control.interface.models.type_aliases import DutType
 from iqm.station_control.interface.pydantic_base import PydanticBase
 
 
-class DutData(PydanticBase):
-    """Represents a Device Under Test, or DUT, for short."""
-
-    label: str
-    """DUT label of the device."""
-    dut_type: DutType
-    """String indicating the DUT type of the device
-    Can be either 'chip' or 'twpa'."""
-
-
 class DutFieldData(PydanticBase):
     """A DUT field or path and its unit."""
 
@@ -34,3 +24,12 @@ class DutFieldData(PydanticBase):
     """DUT field or path."""
     unit: str
     """SI unit of the value. Empty string means the value is dimensionless."""
+
+
+class DutData(PydanticBase):
+    """Represents a Device Under Test, or DUT, for short."""
+
+    label: str
+    """DUT label of the device."""
+    dut_type: DutType
+    """Type of the device."""
