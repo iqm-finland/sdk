@@ -14,6 +14,7 @@ iqm.iqm\_client.models.StaticQuantumArchitecture
    .. autosummary::
    
       ~StaticQuantumArchitecture.model_config
+      ~StaticQuantumArchitecture.dut_label
       ~StaticQuantumArchitecture.qubits
       ~StaticQuantumArchitecture.computational_resonators
       ~StaticQuantumArchitecture.connectivity
