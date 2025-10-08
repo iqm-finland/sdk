@@ -51,7 +51,12 @@ jobs:
       - name: Install packages (Windows)
         if: runner.os == 'Windows'
         run: |
+          $ErrorActionPreference = "Stop"
+          uv venv --python ${{ matrix.python-version }}
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           .venv\Scripts\activate
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           uv pip install -r sdk.txt
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           uv pip list
         shell: powershell
