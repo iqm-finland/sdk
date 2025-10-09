@@ -15,15 +15,17 @@
 """Utility functions for IQM Pulla."""
 
 from collections import namedtuple
-from collections.abc import Hashable, Iterable, Sequence, Set
+from collections.abc import Hashable, Iterable, Iterator, Sequence, Set
 from dataclasses import replace
 from itertools import chain
-from typing import Any
+from typing import Any, TypeAlias
 
 import numpy as np
+from typing_extensions import deprecated
 
 from exa.common.data.setting_node import SettingNode
 from exa.common.data.value import ObservationValue
+from exa.common.helpers.deprecation import format_deprecated
 from exa.common.qcm_data.chip_topology import ChipTopology
 from iqm.cpc.compiler.errors import CalibrationError, InsufficientContextError, UnknownCircuitExecutionOptionError
 from iqm.cpc.compiler.station_settings import build_station_settings
@@ -42,9 +44,14 @@ from iqm.pulse.playlist.channel import ChannelProperties
 from iqm.pulse.playlist.instructions import Instruction
 from iqm.pulse.playlist.schedule import Schedule, Segment
 from iqm.pulse.timebox import TimeBox
+from iqm.station_control.client.qon import locus_str_to_locus
 from iqm.station_control.interface.models.observation import ObservationBase
 
-LOCUS_SEPARATOR = "__"  # EXA uses this, currently
+_CircuitMeasurementResultsNew: TypeAlias = dict[str, np.ndarray]
+"""Measurement results from a single circuit/schedule. For each measurement operation in the circuit,
+maps the measurement key to an array of results, where the first dimension correspond to shots,
+and the second dimension to the qubits measured in the measurement operation."""
+# TODO should replace CircuitMeasurementResults in the API
 
 
 def circuit_operations_to_cpc(circ_ops: tuple[CircuitOperation], name: str | None = None) -> CPC_Circuit:
@@ -132,10 +139,11 @@ def _result_idx(label: str, circuit_idx: int, labels_for_circuit: list[list[str]
     return len([circuit_labels for circuit_labels in labels_for_circuit[:circuit_idx] if label in circuit_labels])
 
 
+@deprecated(format_deprecated("convert_sweep_spot", "convert_sweep_spot_to_arrays", "2025-09-25"))
 def convert_sweep_spot(
     results: dict[str, np.ndarray], readout_mappings: ReadoutMappingBatch
 ) -> CircuitMeasurementResultsBatch:
-    """Convert the sweep measurement results from Station Control into circuit measurement results.
+    """Deprecated. Same as :func:`.convert_sweep_spot_to_arrays` but returns a less efficient format.
 
     Args:
         results: mapping of acquisition labels to 1D arrays of readout results with the length
@@ -147,33 +155,53 @@ def convert_sweep_spot(
         converted measurement results
 
     """
+    circuit_results_iter = convert_sweep_spot_to_arrays(results, readout_mappings)
+    return [{mk: array.tolist() for mk, array in circuit_res.items()} for circuit_res in circuit_results_iter]
+
+
+def convert_sweep_spot_to_arrays(
+    results: dict[str, np.ndarray], readout_mappings: ReadoutMappingBatch
+) -> Iterator[_CircuitMeasurementResultsNew]:
+    """Convert the sweep measurement results from Station Control into circuit batch measurement results.
+
+    Args:
+        results: mapping of acquisition labels to 1D arrays of readout results with the length
+            ``num_shots * num_triggers_for_label_in_batch``
+        readout_mappings: for each circuit in the batch, a mapping of measurement keys to corresponding
+            tuples of acquisition labels
+
+    Yields:
+        Converted measurement results for each circuit in the batch.
+
+    """
     num_triggers_for_label, labels_for_circuit = _get_trigger_indexing_for(readout_mappings)
     first_key = next(iter(results))
     num_shots = len(results[first_key]) // num_triggers_for_label[first_key]  # num shots equal for all labels
-
     results = {
-        label: measurements.reshape((num_shots, num_triggers_for_label[label]))
+        label: measurements.reshape((num_shots, num_triggers_for_label[label])).astype(np.uint8)
         for label, measurements in results.items()
     }
-    return [
-        {
+    for circuit_idx, readout_mapping in enumerate(readout_mappings):
+        yield {
             mk: np.stack(
                 [results[label][:, _result_idx(label, circuit_idx, labels_for_circuit)] for label in result_labels],
                 axis=1,
-            ).tolist()
+            )
             for mk, result_labels in readout_mapping.items()
         }
-        for circuit_idx, readout_mapping in enumerate(readout_mappings)
-    ]
 
 
+@deprecated(
+    format_deprecated(
+        "convert_sweep_spot_with_heralding_mode_zero",
+        "convert_sweep_spot_to_arrays_with_heralding_mode_zero",
+        "2025-09-25",
+    )
+)
 def convert_sweep_spot_with_heralding_mode_zero(
     results: dict[str, np.ndarray], readout_mappings: ReadoutMappingBatch
 ) -> CircuitMeasurementResultsBatch:
-    """Like :func:`convert_sweep_spot`, but for results that contain heralding measurements.
-
-    * For each circuit we only keep the shots for which the heralding result is zero for all the
-      qubits used in the circuit.
+    """Deprecated. Same as :func:`.convert_sweep_spot_to_arrays` but returns a less efficient format.
 
     Args:
         results: Mapping of acquisition labels to 1D arrays of readout results with the length
@@ -186,12 +214,35 @@ def convert_sweep_spot_with_heralding_mode_zero(
         converted, filtered measurement results, with the heralding measurement data removed
 
     """
+    circuit_results_iter = convert_sweep_spot_to_arrays_with_heralding_mode_zero(results, readout_mappings)
+    return [{mk: array.tolist() for mk, array in circuit_res.items()} for circuit_res in circuit_results_iter]
+
+
+def convert_sweep_spot_to_arrays_with_heralding_mode_zero(
+    results: dict[str, np.ndarray], readout_mappings: ReadoutMappingBatch
+) -> Iterator[_CircuitMeasurementResultsNew]:
+    """Like :func:`convert_sweep_spot_to_arrays`, but for results that contain heralding measurements.
+
+    * For each circuit we only keep the shots for which the heralding result is zero for all the
+      qubits used in the circuit.
+
+    Args:
+        results: Mapping of acquisition labels to 1D arrays of readout results with the length
+            ``num_shots * num_triggers_for_label_in_batch``. The herald
+            results are found under ``HERALDING_KEY``.
+        readout_mappings: For each circuit in the batch, a mapping of measurement keys to corresponding
+            tuples of acquisition labels.
+
+    Yields:
+        Converted measurement results for each circuit in the batch, filtered based on the result of
+            the heralding measurement, , with the heralding measurement data removed.
+
+    """
     num_triggers_for_label, labels_for_circuit = _get_trigger_indexing_for(readout_mappings)
     first_key = next(iter(results.keys()))
     num_shots = len(results[first_key]) // num_triggers_for_label[first_key]  # num shots equal for all labels
-    transformed_results: CircuitMeasurementResultsBatch = []
     results = {
-        label: measurements.reshape((num_shots, num_triggers_for_label[label]))
+        label: measurements.reshape((num_shots, num_triggers_for_label[label])).astype(np.uint8)
         for label, measurements in results.items()
     }
     for circuit_idx, readout_mapping in enumerate(readout_mappings):
@@ -210,17 +261,14 @@ def convert_sweep_spot_with_heralding_mode_zero(
             raise RuntimeError(
                 f'Execution of circuit {circuit_idx} in heralding mode "{HeraldingMode.ZEROS}" discarded all the shots.'
             )
-        transformed_results.append(
-            {
-                mk: np.stack(
-                    [results[label][mask, _result_idx(label, circuit_idx, labels_for_circuit)] for label in labels],
-                    axis=1,
-                ).tolist()
-                for mk, labels in readout_mapping.items()
-                if mk != HERALDING_KEY
-            }
-        )
-    return transformed_results
+        yield {
+            mk: np.stack(
+                [results[label][mask, _result_idx(label, circuit_idx, labels_for_circuit)] for label in labels],
+                axis=1,
+            )
+            for mk, labels in readout_mapping.items()
+            if mk != HERALDING_KEY
+        }
 
 
 def extract_readout_controller_result_names(readout_mappings: ReadoutMappingBatch) -> set[str]:
@@ -238,10 +286,10 @@ def map_sweep_results_to_logical_qubits(
             array of readout results, with ``shots * num_triggers_for_label`` elements.
         readout_mappings: for each circuit in the batch, a mapping of measurement keys to corresponding
             tuples of result parameter names.
-        heralding_mode: Heralding mode, either ``ZEROS`` (when doing heralded readout) or ``NONE``.
+        heralding_mode: Whether we use heralded readout or not.
 
     Returns:
-        converted, filtered measurement results, with the heralding measurement data removed
+        Converted, filtered measurement results, with the heralding measurement data removed.
 
     """
     # TODO the SC return data format should be rationalized, for example list[dict[str, np.ndarray]]
@@ -251,8 +299,14 @@ def map_sweep_results_to_logical_qubits(
     # circuit execution uses just one soft sweep spot
     results = {k: v[0] for k, v in sweep_results.items()}
     if heralding_mode == HeraldingMode.NONE:
-        return convert_sweep_spot(results, readout_mappings)
-    return convert_sweep_spot_with_heralding_mode_zero(results, readout_mappings)
+        circuit_results_iter = convert_sweep_spot_to_arrays(results, readout_mappings)
+    else:
+        circuit_results_iter = convert_sweep_spot_to_arrays_with_heralding_mode_zero(results, readout_mappings)
+
+    # TODO 99% of the time in this function is spent in the tolist() converting the arrays to ints.
+    # For large datasets, it is several seconds.
+    # To rectify this, we should change CircuitMeasurementResultsBatch of the public API.
+    return [{mk: array.tolist() for mk, array in circuit_res.items()} for circuit_res in circuit_results_iter]
 
 
 InstructionLocation = namedtuple("InstructionLocation", ["channel_name", "index", "duration"])
@@ -418,7 +472,7 @@ def calset_to_cal_data_tree(calibration_set: CalibrationSet) -> OpCalibrationDat
             if len(path) < 5:
                 raise CalibrationError(f"Calibration observation name '{key}' is malformed.")
             # treat the locus specially
-            locus = tuple(path[3].split(LOCUS_SEPARATOR))
+            locus = locus_str_to_locus(path[3])
             locus = () if locus == ("",) else locus
             # mypy likes this
             set_path(tree.setdefault(path[1], {}).setdefault(path[2], {}).setdefault(locus, {}), path[4:], value)  # type: ignore[arg-type]

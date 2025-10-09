@@ -46,8 +46,8 @@ class Mapping:
     """Mapping between logical and hardware qubits.
 
     It maintains two dictionaries: :attr:`log2hard` and :attr:`hard2log` which are mappings between logical
-    and hardware qubits. They are automatically kept in sync. The names for the hardware and logical qubits are
-    extracted from ``qpu`` and ``problem_bqm`` at initialization.
+    and hardware qubits. They are always kept in sync. The names for the hardware and logical qubits are extracted from
+    ``qpu`` and ``problem_bqm`` at initialization.
 
     Args:
         qpu: a :class:`~iqm.qaoa.transpiler.quantum_hardware.QPU` object describing the topology of the QPU, used to
@@ -102,6 +102,8 @@ class Mapping:
 
             self._hard2log = initial_mapping
 
+        self._log2hard = {log_qb: hard_qb for hard_qb, log_qb in self._hard2log.items()}
+
     @property
     def hard2log(self) -> dict[HardQubit, LogQubit]:
         """The dictionary containing the mapping from hardware qubits to logical qubits."""
@@ -109,13 +111,13 @@ class Mapping:
 
     @property
     def log2hard(self) -> dict[LogQubit, HardQubit]:
-        """The dictionary :attr:`log2hard` is calculated lazily from :attr:`hard2log`."""
-        return {log_qb: hard_qb for hard_qb, log_qb in self._hard2log.items()}
+        """The dictionary containing the mapping from logical qubits to hardware qubits."""
+        return self._log2hard
 
     def swap_log(self, gate: LogEdge) -> None:
         """Swap association between a pair of logical qubits.
 
-        Updates the dictionary :attr:`hard2log` (:attr:`log2hard` gets updated automatically).
+        Updates the dictionaries :attr:`hard2log` and :attr:`log2hard`.
 
         Args:
             gate: The pair of logical qubits to swap.
@@ -125,24 +127,28 @@ class Mapping:
         hard_qb0 = self.log2hard[qb0]
         hard_qb1 = self.log2hard[qb1]
         self._hard2log[hard_qb0], self._hard2log[hard_qb1] = qb1, qb0
+        self._log2hard[qb0], self._log2hard[qb1] = self._log2hard[qb1], self._log2hard[qb0]
 
     def swap_hard(self, gate: HardEdge) -> None:
         """Swap association between a pair of hardware qubits.
 
-        Updates the dictionary :attr:`hard2log` (:attr:`log2hard` gets updated automatically).
+        Updates the dictionaries :attr:`hard2log` and :attr:`log2hard`.
 
         Args:
             gate: The pair of hardware qubits to swap.
 
         """
         qb0, qb1 = gate
+        log_qb0 = self.hard2log[qb0]
+        log_qb1 = self.hard2log[qb1]
         self._hard2log[qb0], self._hard2log[qb1] = self._hard2log[qb1], self._hard2log[qb0]
+        self._log2hard[log_qb0], self._log2hard[log_qb1] = qb1, qb0
 
     def move_hard(self, source_qubit: HardQubit, target_qubit: HardQubit) -> None:
         """Move a logical qubit from a one hardware qubit to a an unassigned hardware qubit on the QPU.
 
-        The target ``target_qubit`` must not be part of the :class:`Mapping`. Updates the dictionary :attr:`hard2log`
-        (:attr:`log2hard` gets updated automatically). The dictionary is changed as follows:
+        The target ``target_qubit`` must not be part of the :class:`Mapping`. Updates the dictionaries :attr:`hard2log`
+        and :attr:`log2hard`. The dictionaries are changed as follows:
 
         * If the dictionary :attr:`hard2log` has a key ``source_qubit`` (but not ``target_qubit``), this method removes
           the key ``source_qubit``, creates a new key ``target_qubit`` and gives it the value formerly associated to
@@ -171,6 +177,7 @@ class Mapping:
         # Modify ``self._hard2log``
         self._hard2log[target_qubit] = corresponding_log_qb
         del self._hard2log[source_qubit]
+        self._log2hard[corresponding_log_qb] = target_qubit
 
     def update(self, layer: Layer) -> None:
         """Update the mapping based on the swap gates found in a :class:`~iqm.qaoa.transpiler.routing.Layer` object.

@@ -126,3 +126,18 @@ def _generate_desired_graph(
         f"Failed to generate a connected graph after {max_iterations} attempts. "
         "Increase `max_iterations` or adjust graph parameters."
     )
+
+
+def residual_degree(graph: nx.Graph, node: Any, visited: set[Any]) -> int:
+    """The degree of ``node`` in the graph, with regards to only non-visited nodes.
+
+    Args:
+        graph: The graph which we're working with.
+        node: The node whose reduced degree we want to calculate.
+        visited: The set of all visited nodes up to now.
+
+    Returns:
+        The residual degree of the node.
+
+    """
+    return sum(1 for nbr in graph.neighbors(node) if nbr not in visited)

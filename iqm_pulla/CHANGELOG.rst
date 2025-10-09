@@ -2,6 +2,16 @@
 Changelog
 =========
 
+Version 11.10.0 (2025-10-08)
+============================
+
+Features
+--------
+
+- Added more efficient result converters to :mod:`iqm.pulla.utils`. :issue:`SW-1733`
+- Deprecated :func:`convert_sweep_spot` and :func:`convert_sweep_spot_with_heralding_mode_zero` in
+  favor of the more efficient ones.
+
 Version 11.9.0 (2025-10-06)
 ===========================
 

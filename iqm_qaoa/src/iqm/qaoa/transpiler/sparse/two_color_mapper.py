@@ -32,6 +32,7 @@ import itertools
 from typing import cast
 
 from dimod import BinaryQuadraticModel, to_networkx_graph
+from iqm.applications.graph_utils import residual_degree
 from iqm.qaoa.transpiler.quantum_hardware import QPU, HardQubit, LogEdge, LogQubit
 from iqm.qaoa.transpiler.routing import Mapping
 from iqm.qaoa.transpiler.sparse.edge_coloring import find_edge_coloring
@@ -77,10 +78,8 @@ def _decompose_into_chains_and_loops(
     for component in components:
         deg: int = 3
         # For chains, find one of the endpoints, for loops just select one of its nodes.
-        for node in component:
-            if component.degree[node] < deg:
-                node0 = node
-                deg = cast(int, component.degree[node])  # For some reason ``degree`` returns ``float``.
+        node0 = min(component, key=lambda n: component.degree[n])
+        deg = cast(int, component.degree[node0])  # For some reason ``degree`` returns ``float``.
         node1 = next(component.neighbors(node0))
         lst = [node0, node1]
         # Go through all of the nodes of the component, and add them into a list in order.
@@ -100,20 +99,27 @@ def _decompose_into_chains_and_loops(
     return chains, loops
 
 
-def _embed_chain(chain: list[LogQubit], hardware_graph: nx.Graph) -> dict[HardQubit, LogQubit]:
-    r"""Attempt to embed a chain of :class:`LogQubit`\s into an arbitrary hardware topology.
+def _embed_chain(
+    chain: list[LogQubit],
+    hardware_graph: nx.Graph,
+    backtracking: bool = True,
+    search_all_neighbors: bool = False,
+    search_all_starting_nodes: bool = False,
+) -> dict[HardQubit, LogQubit]:
+    r"""Attempt to embed a chain of :class:`LogQubit`\s into an arbitrary hardware topology, more advanced algorithm.
 
-    Steps:
-
-    1. Start with the node with the lowest degree.
-    2. Add the neighboring node with the lowest degree.
-
-    This function however does not produce optimal results, which is why a handmade embedding provided a method of
-    a ``QPU`` subclass is preferred.
+    This algorithm is based on the ``_embed_chain_basic`` function, but with added backtracking. The two boolean
+    parameters widen the breadth of the backtracking and effectively turn it from a greedy algorithm to an exhaustive
+    algorithm.
 
     Args:
         chain: A list of :class:`LogQubit`\s forming a chain in the problem graph.
         hardware_graph: A :class:`~networkx.Graph` describing the hardware topology.
+        backtracking: Should the algorithm with backtracking be used or a simpler one?
+        search_all_neighbors: Should the backtracking algorithm branch into all neighbors at each step? Ignored if
+            ``backtracking`` is ``False``.
+        search_all_starting_nodes: Should the backtracking algorithm consider all nodes of the graph as starting nodes?
+            Ignored if ``backtracking`` is ``False``.
 
     Returns:
         An embedding in the form of a dictionary.
@@ -122,31 +128,133 @@ def _embed_chain(chain: list[LogQubit], hardware_graph: nx.Graph) -> dict[HardQu
         RuntimeError: If the algorithm reaches a dead end before assigning all logical qubits from the ``chain``.
 
     """
-    working_hw_graph = hardware_graph.copy()
+    if backtracking:
+        longest_path_found = _greedy_longest_path_with_backtracking(
+            hardware_graph, search_all_neighbors, search_all_starting_nodes
+        )
+    else:
+        longest_path_found = _greedy_longest_path_basic(hardware_graph)
+
+    if len(longest_path_found) < len(chain):
+        raise RuntimeError(
+            f"The greedy algorithm with{'' if backtracking else 'out'} backtracking for embedding the chain failed. "
+            "Long enough path through the QPU graph has not been found."
+        )
+
+    # In most cases it is expected for ``longest_path_found`` to be longer than ``chain``, so the ``zip`` isn't strict.
+    return dict(zip(longest_path_found, chain, strict=False))
+
+
+def _greedy_longest_path_basic(graph: nx.Graph) -> list[HardQubit]:
+    """Contains just the graph logic of finding the longest path with a very basic greedy algorithm.
+
+    Steps:
+
+    1. Start with the node with the lowest degree and remove it from the graph.
+    2. Go to the neighboring node with the lowest degree and remove it from the graph.
+    3. Repeat step 2 as long as there are nodes to go to.
+
+
+    Args:
+        graph: The :class:`~networkx.Graph` to be traversed.
+
+    Returns:
+        A list of nodes containing the longest found path through the graph. The nodes of the graph are type-hinted as
+        :class:`~iqm.qaoa.transpiler.quantum_hardware.HardQubit` because the graph is typically a QPU topology graph.
+
+    """
     # Select the lowest-degree node of the graph. The `n` breaks ties (starting from the lowest node).
-    current_node = min(working_hw_graph.nodes(), key=lambda n: (working_hw_graph.degree[n], n))
+    current_node = min(graph.nodes(), key=lambda n: (graph.degree[n], n))
 
-    # Start building the embedding (mapping of physical HW qubits to logical qubits).
-    embedding = {current_node: chain[0]}
-
-    # For each logical qubit in the chain, find the lowest-degree neighbor of the last used HW qubit.
-    for log_qb in chain[1:]:
-        # Convert the ``Graph.neighbors`` generator into a list (so that it doesn't get exhausted by checking it)
-        neighbors = list(working_hw_graph.neighbors(current_node))
-        # Check if the current node even has any neighbors.
+    path = []
+    visited: set[HardQubit] = set()
+    while True:
+        path.append(current_node)
+        neighbors = set(graph.neighbors(current_node)) - visited
         if not neighbors:
-            raise RuntimeError(
-                "The greedy algorithm for embedding the chain failed (``current_node`` has no "
-                r"neighbors). Check if there is enough :class:`HardQubit`\s in ``hardware_graph`` or define"
-                " a custom ``embedded_chain`` method of the ``QPU`` subclass."
-            )
-        new_node = min(neighbors, key=lambda n: working_hw_graph.degree[n])
-        embedding[new_node] = log_qb
-        working_hw_graph.remove_node(current_node)
+            break
+        new_node = min(neighbors, key=lambda n: residual_degree(graph, n, visited))
+        visited.add(current_node)
         current_node = new_node
-        new_node = None
-    working_hw_graph.remove_node(current_node)
-    return embedding
+
+    return path
+
+
+def _greedy_longest_path_with_backtracking(
+    graph: nx.Graph, search_all_neighbors: bool = False, search_all_starting_nodes: bool = False
+) -> list[HardQubit]:
+    """Contains just the graph logic of finding the longest path with backtracking.
+
+    Args:
+        graph: The :class:`~networkx.Graph` to be traversed.
+        search_all_neighbors: Should the algorithm branch into all neighbors at each step?
+        search_all_starting_nodes: Should the algorithm consider all nodes of the graph as starting nodes?
+
+    Returns:
+        A list of nodes containing the longest found path through the graph. The nodes of the graph are type-hinted as
+        :class:`~iqm.qaoa.transpiler.quantum_hardware.HardQubit` because the graph is typically a QPU topology graph.
+
+    """
+
+    def dfs(current_node: HardQubit, path: list[HardQubit], visited: set[HardQubit]) -> list[HardQubit]:
+        """The depth-first search that searches the graph for the longest path.
+
+        Args:
+            current_node: The node that the search is currently visiting.
+            path: The path found so far (out of previously visited nodes).
+            visited: The set of previously visited nodes. Those are effectively removed from the graph for the rest of
+                the search.
+
+        Returns:
+            The longest path found.
+
+        """
+        path.append(current_node)
+        visited.add(current_node)
+
+        neighbors = [n for n in graph.neighbors(current_node) if n not in visited]
+        if not neighbors:
+            visited.remove(current_node)
+            path_at_hitting_a_dead_end = path[:]
+            path.pop()
+            return path_at_hitting_a_dead_end
+
+        best_path = path[:]
+
+        if search_all_neighbors:
+            # sort neighbors by residual degree
+            neighbors.sort(key=lambda n: residual_degree(graph, n, visited))
+
+        else:
+            degrees = [(n, residual_degree(graph, n, visited)) for n in neighbors]
+            min_deg = min(d for _, d in degrees)
+            neighbors = [
+                n for n, d in degrees if d == min_deg
+            ]  # Just include the neighbors that share the minimum degree.
+
+        for new_node in neighbors:
+            candidate_path = dfs(new_node, path, visited)
+            if len(candidate_path) > len(best_path):
+                best_path = candidate_path
+
+        visited.remove(current_node)
+        path.pop()
+        return best_path
+
+    if search_all_starting_nodes:
+        start_nodes = list(graph.nodes())
+    else:
+        # find all nodes with the lowest degree (in the original graph)
+        min_deg = min(graph.degree[n] for n in graph.nodes())
+        start_nodes = [n for n in graph.nodes() if graph.degree[n] == min_deg]
+
+    best_overall: list[HardQubit] = []
+    for start_node in start_nodes:
+        candidate = dfs(start_node, [], set())
+        if len(candidate) > len(best_overall):
+            best_overall = candidate
+
+    return best_overall
 
 
 def _append_to_layer(mapping: Mapping, log_qb0: LogQubit, log_qb1: LogQubit, int_layer: list[LogEdge]) -> None:
@@ -233,7 +341,6 @@ def _get_embedding(qpu: QPU, long_chain: list[LogQubit], n: int) -> dict[HardQub
         qpu: A QPU whose graph we want to embed a path into.
         long_chain: A list of variables which is meant to be embedded as a path onto the QPU.
         n: The number of qubits we need to select for the routing.
-
 
     Returns:
         A mapping between the qubits of the QPU and the variables provided in ``long_chain``.

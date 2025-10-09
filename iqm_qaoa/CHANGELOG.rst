@@ -2,6 +2,22 @@
 Changelog
 =========
 
+Version 1.34.0 (2025-10-08)
+===========================
+
+Features
+--------
+
+- Improve the greedy function to find a path in the QPU topology graphs by introducing backtracking.
+
+Version 1.33.0 (2025-10-08)
+===========================
+
+Bug fixes
+--------
+
+- Make dictionary `self._log2hard` of class `Mapping` a lasting attribute, instead of evaluating it lazily for performance reasons.
+
 Version 1.32.0 (2025-10-03)
 ===========================
 

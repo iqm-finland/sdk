@@ -58,15 +58,15 @@ class TaskStatus(StrEnum):
     """Task is waiting to be executed"""
 
 
-CalibrationSet = dict[str, ObservationValue]
-CalibrationSetId = UUID
+CalibrationSet: TypeAlias = dict[str, ObservationValue]
+CalibrationSetId: TypeAlias = UUID
 
-CircuitMeasurementResults = dict[str, list[list[int]]]
+CircuitMeasurementResults: TypeAlias = dict[str, list[list[int]]]
 """Measurement results from a single circuit/schedule. For each measurement operation in the circuit,
 maps the measurement key to the corresponding results. The outer list elements correspond to shots,
 and the inner list elements to the qubits measured in the measurement operation."""
 
-CircuitMeasurementResultsBatch = list[CircuitMeasurementResults]
+CircuitMeasurementResultsBatch: TypeAlias = list[CircuitMeasurementResults]
 """Type that represents measurement results for a batch of circuits."""
 
 
