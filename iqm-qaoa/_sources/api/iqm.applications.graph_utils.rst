@@ -16,6 +16,7 @@ iqm.applications.graph\_utils
       :template: autosummary-function-template.rst
    
       relabel_graph_nodes
+      residual_degree
    
    
 

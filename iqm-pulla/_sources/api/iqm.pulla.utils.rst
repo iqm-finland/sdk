@@ -26,6 +26,8 @@ iqm.pulla.utils
       calset_to_cal_data_tree
       circuit_operations_to_cpc
       convert_sweep_spot
+      convert_sweep_spot_to_arrays
+      convert_sweep_spot_to_arrays_with_heralding_mode_zero
       convert_sweep_spot_with_heralding_mode_zero
       extract_readout_controller_result_names
       find_circuit_boundary

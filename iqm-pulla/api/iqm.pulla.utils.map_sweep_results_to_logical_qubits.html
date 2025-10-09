@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>iqm.pulla.utils.map_sweep_results_to_logical_qubits &#8212; IQM Pulla 11.9.0 documentation</title>
+    <title>iqm.pulla.utils.map_sweep_results_to_logical_qubits &#8212; IQM Pulla 11.10.0 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=41c457d0"></script>
+    <script src="../_static/documentation_options.js?v=90934dea"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="iqm.pulla.utils.map_qubit_indices" href="iqm.pulla.utils.map_qubit_indices.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2025-10-08"/>
+    <meta name="docbuild:last-update" content="2025-10-09"/>
   </head>
   
   
@@ -140,8 +140,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Pulla 11.9.0 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 11.9.0 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Pulla 11.10.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 11.10.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -227,6 +227,8 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.calset_to_cal_data_tree.html">iqm.pulla.utils.calset_to_cal_data_tree</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.circuit_operations_to_cpc.html">iqm.pulla.utils.circuit_operations_to_cpc</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot.html">iqm.pulla.utils.convert_sweep_spot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot_to_arrays.html">iqm.pulla.utils.convert_sweep_spot_to_arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.extract_readout_controller_result_names.html">iqm.pulla.utils.extract_readout_controller_result_names</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.find_circuit_boundary.html">iqm.pulla.utils.find_circuit_boundary</a></li>
@@ -447,11 +449,11 @@ document.write(`
 array of readout results, with <code class="docutils literal notranslate"><span class="pre">shots</span> <span class="pre">*</span> <span class="pre">num_triggers_for_label</span></code> elements.</p></li>
 <li><p><strong>readout_mappings</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>]</em><em>]</em><em>, </em><em>...</em><em>]</em>) – for each circuit in the batch, a mapping of measurement keys to corresponding
 tuples of result parameter names.</p></li>
-<li><p><strong>heralding_mode</strong> (<a class="reference internal" href="iqm.cpc.interface.compiler.HeraldingMode.html#iqm.cpc.interface.compiler.HeraldingMode" title="iqm.cpc.interface.compiler.HeraldingMode"><em>HeraldingMode</em></a>) – Heralding mode, either <code class="docutils literal notranslate"><span class="pre">ZEROS</span></code> (when doing heralded readout) or <code class="docutils literal notranslate"><span class="pre">NONE</span></code>.</p></li>
+<li><p><strong>heralding_mode</strong> (<a class="reference internal" href="iqm.cpc.interface.compiler.HeraldingMode.html#iqm.cpc.interface.compiler.HeraldingMode" title="iqm.cpc.interface.compiler.HeraldingMode"><em>HeraldingMode</em></a>) – Whether we use heralded readout or not.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>converted, filtered measurement results, with the heralding measurement data removed</p>
+<dd class="field-even"><p>Converted, filtered measurement results, with the heralding measurement data removed.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)">int</a>]]]]</p>
@@ -531,7 +533,7 @@ By IQM Pulla developers
 
   <p class="copyright">
     
-      © Copyright 2024-2025, IQM Finland Oy, Release 11.9.0.
+      © Copyright 2024-2025, IQM Finland Oy, Release 11.10.0.
       <br/>
     
   </p>
@@ -540,7 +542,7 @@ By IQM Pulla developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-10-08.
+  Last updated on 2025-10-09.
   <br/>
 </p>
   </div>
