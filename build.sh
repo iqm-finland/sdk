@@ -81,12 +81,11 @@ build_docs() {
         # Calculate the relative path back to the docs directory based on nesting level
         if [[ "$TEMP_SUBDIR" == "current" ]]; then
             RELATIVE_PATH="../../../"
-            OUTPUT_PATH="../../$OUTPUT_DIR/${PKG_NAME%[*}"
         else
             RELATIVE_PATH="../../../../"
-            OUTPUT_PATH="../../../$OUTPUT_DIR/${PKG_NAME%[*}"
         fi
         
+        OUTPUT_PATH="../../../$OUTPUT_DIR/${PKG_NAME%[*}"
         cat "${RELATIVE_PATH}sphinx_docs_conf.py" >> docs/conf.py
         python -m sphinx docs "$OUTPUT_PATH"
         # add .nojekyll in order to stop Github from treating the directory as a Jekyll blog generator,
