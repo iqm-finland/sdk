@@ -123,16 +123,24 @@ find public -type d -name .doctrees -exec rm -rf {} +
 # which ignores directories starting with underscore
 touch public/.nojekyll
 
+# Generate search index for main/current version
+echo "Generating search index for main version..."
 python generate_search_index.py
 cp search.json public/ || echo "No search index found"
 
-# Remove the Jupyter notebook execution directory and pickled doctree caches
-rm -rf public/jupyter_execute
-find public -type d -name .doctrees -exec rm -rf {} +
-
-# add .nojekyll in order to stop Github from treating the directory as a Jekyll blog generator,
-# which ignores directories starting with underscore
-touch public/.nojekyll
-
-uv run generate_search_index.py
-cp search.json public/ || echo "No search index found"
+# Generate search indices for each SDK version
+for version_dir in public/sdk*; do
+    if [ -d "$version_dir" ]; then
+        version_name=$(basename "$version_dir")
+        echo "Generating search index for $version_name..."
+        
+        # Use the generate_search_index.py script for versioned documentation
+        python generate_search_index.py "$version_name" "$version_dir/" "search_${version_name}.json"
+        
+        # Copy the search index to the version directory
+        cp "search_${version_name}.json" "$version_dir/" || echo "No search index found for $version_name"
+        
+        # Clean up temporary file
+        rm "search_${version_name}.json" 2>/dev/null || true
+    fi
+done

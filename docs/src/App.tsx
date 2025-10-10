@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Fuse from 'fuse.js';
 import { Search, X } from 'lucide-react';
 import AppSwitcher from './AppSwitcher';
-import docs from "../search.json";
+import defaultDocs from "../search.json";
 import Features from './Features';
 import QrispLogo from './img/qrisp_logo.png'
 import { versionConfigs, type VersionType } from './configs';
@@ -17,10 +17,44 @@ interface Doc {
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<Doc[]>(docs);
+  const [docs, setDocs] = useState<Doc[]>(defaultDocs);
+  const [searchResults, setSearchResults] = useState<Doc[]>(defaultDocs);
   const [selectedVersion, setSelectedVersion] = useState<VersionType>('resonance');
 
   const currentVersionConfig = versionConfigs.find(v => v.id === selectedVersion) || versionConfigs[0];
+
+  // Load search index for the selected version
+  useEffect(() => {
+    const loadSearchIndex = async () => {
+      try {
+        let searchIndexUrl = './search.json'; // Default for resonance
+        
+        if (selectedVersion !== 'resonance') {
+          // Map version ID to directory name
+          const pathPrefix = currentVersionConfig.pathPrefix;
+          const dirName = pathPrefix.replace('./', '').replace('/', ''); // Convert './sdk4_1/' to 'sdk4_1'
+          searchIndexUrl = `./${dirName}/search_${dirName}.json`;
+        }
+        
+        const response = await fetch(searchIndexUrl);
+        if (response.ok) {
+          const versionDocs = await response.json();
+          setDocs(versionDocs);
+          setSearchResults(versionDocs);
+        } else {
+          console.warn(`Failed to load search index for ${selectedVersion}, falling back to default`);
+          setDocs(defaultDocs);
+          setSearchResults(defaultDocs);
+        }
+      } catch (error) {
+        console.warn(`Error loading search index for ${selectedVersion}:`, error);
+        setDocs(defaultDocs);
+        setSearchResults(defaultDocs);
+      }
+    };
+
+    loadSearchIndex();
+  }, [selectedVersion, currentVersionConfig]);
 
   // Get packages for a specific version
   const getPackagesForVersion = (versionId: VersionType): string[] => {
@@ -51,7 +85,7 @@ function App() {
   const fuse = useMemo(() => new Fuse(docs, {
     keys: ['title', 'description', 'package'],
     threshold: 0.4
-  }), []);
+  }), [docs]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -77,7 +111,7 @@ function App() {
     } else {
       setSearchResults(docs);
     }
-  }, [searchQuery, fuse]);
+  }, [searchQuery, fuse, docs]);
 
   const handleSearchClick = () => {
     setIsModalOpen(true);

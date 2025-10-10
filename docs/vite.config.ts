@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   base: './', // 👈 Uses relative paths for assets
+  
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
