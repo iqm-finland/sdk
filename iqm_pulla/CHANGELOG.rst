@@ -2,6 +2,22 @@
 Changelog
 =========
 
+Version 11.12.0 (2025-10-09)
+============================
+
+Features
+--------
+
+- Update dependency on iqm-client
+
+Version 11.11.0 (2025-10-09)
+============================
+
+Bug fixes
+---------
+
+- Update dependency on iqm-pulse
+
 Version 11.10.0 (2025-10-08)
 ============================
 

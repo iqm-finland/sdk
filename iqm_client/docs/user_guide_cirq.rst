@@ -435,22 +435,11 @@ as explained in the :ref:`routing` section above.
 Authentication
 ^^^^^^^^^^^^^^
 
-IQM Resonance
-"""""""""""""
+There are two options to authenticate:
 
-If you are using IQM Resonance, you have two options to authenticate:
-
-1. Set the :envvar:`IQM_TOKEN` environment variable with the API token obtained from the Resonance dashboard.
+1. Set the :envvar:`IQM_TOKEN` environment variable with the API token obtained from the web dashboard.
 2. Pass the ``token`` parameter to :class:`.IQMSampler`. This will be forwarded to
    :class:`~iqm.iqm_client.iqm_client.IQMClient`.
-
-On-premises devices
-"""""""""""""""""""
-
-If the IQM server you are connecting to requires authentication, you may use
-:ref:`IQM Client CLI <User guide CLI>` to retrieve and automatically refresh access tokens,
-then set the :envvar:`IQM_TOKENS_FILE` environment variable, as instructed, to point to the tokens file.
-See IQM Client CLI's `documentation <https://docs.meetiqm.com/iqm-client/user_guide_cli.html>`__ for details.
 
 Batch execution
 ^^^^^^^^^^^^^^^

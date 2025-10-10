@@ -22,9 +22,6 @@ from typing import Any
 
 from iqm.iqm_client.errors import ClientAuthenticationError, ClientConfigurationError
 
-AUTH_CLIENT_ID = "iqm_client"
-AUTH_REALM = "cortex"
-AUTH_REQUESTS_TIMEOUT = float(os.environ.get("IQM_CLIENT_REQUESTS_TIMEOUT", 60.0))
 REFRESH_MARGIN_SECONDS = 60
 
 

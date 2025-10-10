@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 1.35.0 (2025-10-09)
+===========================
+
+Features
+--------
+
+- Update dependency on iqm-client
+
 Version 1.34.0 (2025-10-08)
 ===========================
 

@@ -2,6 +2,14 @@
 Changelog
 =========
 
+Version 12.5.0 (2025-10-09)
+===========================
+
+Bug fixes
+---------
+
+- Fix TimeBox __radd__ returning the children in wrong order under some conditions
+
 Version 12.4.0 (2025-10-06)
 ===========================
 

@@ -871,7 +871,9 @@ class ShelvedMeasureTimeBox(TimeBox):
         return super().__add__(other)
 
     def __radd__(self, other: TimeBox | Iterable[TimeBox]) -> TimeBox:
-        return self.__add__(other)
+        if isinstance(other, MultiplexedProbeTimeBox):
+            return self.__add__(other)  # this commutes
+        return super().__radd__(other)
 
 
 SHELVED_OFFSET_TOLERANCE = 1e-12

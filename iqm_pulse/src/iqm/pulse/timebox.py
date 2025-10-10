@@ -210,6 +210,19 @@ class TimeBox:
             raise ValueError(f"Tried to access a child of {self}, which is atomic.")
         return self.children[item]
 
+    def _add_children(self, other: TimeBox) -> TimeBox:
+        """Concat the children of self and other together."""
+        left = self.children if self.atom is None else (self,)
+        right = other.children if other.atom is None else (other,)
+        return TimeBox(
+            label=self.label,
+            locus_components=self.locus_components.union(other.locus_components),
+            atom=None,
+            children=left + right,
+            scheduling=self.scheduling,
+            scheduling_algorithm=self.scheduling_algorithm,
+        )
+
     def __add__(self, other: TimeBox | Iterable[TimeBox]) -> TimeBox:
         """Return a new TimeBox which has the contents of this and another TimeBox concatenated.
 
@@ -231,16 +244,7 @@ class TimeBox:
             # allow subclasses to override __add__ such that __radd__ also works consistent with that logic
             return other.__radd__(self)  # type: ignore[union-attr]
         if isinstance(other, TimeBox):
-            left = self.children if self.atom is None else (self,)
-            right = other.children if other.atom is None else (other,)
-            return TimeBox(
-                label=self.label,
-                locus_components=self.locus_components.union(other.locus_components),
-                atom=None,
-                children=left + right,
-                scheduling=self.scheduling,
-                scheduling_algorithm=self.scheduling_algorithm,
-            )
+            return self._add_children(other)
         try:
             return reduce(lambda x, y: x + y, other, self)
         except TypeError as err:
@@ -248,7 +252,7 @@ class TimeBox:
 
     def __radd__(self, other: TimeBox | Iterable[TimeBox]) -> TimeBox:
         if isinstance(other, TimeBox):
-            return self.__add__(other)
+            return other._add_children(self)
         it = iter(other)
         try:
             first = next(it)
@@ -397,6 +401,3 @@ class MultiplexedProbeTimeBox(TimeBox):
             scheduling_algorithm=SchedulingAlgorithm.HARD_BOUNDARY,
         )
         return box
-
-    def __radd__(self, other: TimeBox | Iterable[TimeBox]) -> TimeBox:
-        return self.__add__(other)

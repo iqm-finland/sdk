@@ -2,6 +2,15 @@
 Changelog
 =========
 
+Version 32.0.0 (2025-10-09)
+===========================
+
+Breaking changes
+----------------
+
+- Remove the Cortex CLI authentication utility. See the updated user guides.
+- Remove :mod:`iqm.qiskit_iqm.examples.resonance_example`.
+
 Version 31.8.0 (2025-10-06)
 ===========================
 
