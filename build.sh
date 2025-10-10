@@ -101,10 +101,15 @@ build_docs() {
 # Build current versions from sdk.txt
 build_docs "../sdk.txt" "public" "current"
 
-# Build older versions from sdk files
-for sdk_file in ../sdk4_*.txt; do
+# Build older versions from all SDK version files (excluding the main sdk.txt)
+for sdk_file in ../sdk*.txt; do
     if [ -f "$sdk_file" ]; then
-        # Extract version from filename (e.g., sdk4_1.txt -> sdk4_1)
+        # Skip the main sdk.txt file
+        if [ "$(basename "$sdk_file")" = "sdk.txt" ]; then
+            continue
+        fi
+        
+        # Extract version from filename (e.g., sdk4_1.txt -> sdk4_1, sdk5_1.txt -> sdk5_1)
         version=$(basename "$sdk_file" .txt)
         echo "Building documentation for $version from $sdk_file"
         build_docs "$sdk_file" "public/$version" "$version"
