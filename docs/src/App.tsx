@@ -131,14 +131,14 @@ function App() {
               onClick={() => setIsDocumentationSelected(true)}
             >
               Documentation
-              <span className={`block h-[0.2rem] ml-4 mr-4 ${isDocumentationSelected ? 'bg-green-500' : 'bg-transparent'} absolute bottom-0 left-0 right-0`}></span>
+              <span className={`block h-[0.2rem] ml-4 mr-4 ${isDocumentationSelected ? 'bg-[#69ded7]' : 'bg-transparent'} absolute bottom-0 left-0 right-0`}></span>
             </button>
             <button
               className="relative px-4 pt-2"
               onClick={() => setIsDocumentationSelected(false)}
             >
               Features
-              <span className={`block h-[0.2rem] ml-4 mr-4 ${!isDocumentationSelected ? 'bg-green-500' : 'bg-transparent'} absolute bottom-0 left-0 right-0`}></span>
+                <span className={`block h-[0.2rem] ml-4 mr-4 ${!isDocumentationSelected ? 'bg-[#69ded7]' : 'bg-transparent'} absolute bottom-0 left-0 right-0`}></span>
             </button>
           </div>
 
