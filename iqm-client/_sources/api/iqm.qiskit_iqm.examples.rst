@@ -29,7 +29,6 @@ iqm.qiskit\_iqm.examples
    :recursive:
 
    ~iqm.qiskit_iqm.examples.bell_measure
-   ~iqm.qiskit_iqm.examples.resonance_example
    ~iqm.qiskit_iqm.examples.transpile_example
 
 

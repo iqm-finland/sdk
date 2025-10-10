@@ -16,26 +16,22 @@ Hello, world!
 -------------
 
 Here's a quick and easy way to run a small computation on an IQM quantum computer to check that
-things are set up correctly, either
-through the IQM cloud service Resonance, or using an on-premises quantum computer.
+things are set up correctly.
 
-IQM Resonance
-~~~~~~~~~~~~~
-
-1. Login to `IQM Resonance <https://resonance.meetiqm.com>`_ with your credentials.
-2. Upon your first visit to IQM Resonance, you can generate your unique, non-recoverable API token
+1. Login to the web dashboard with your credentials. If you're using the IQM Resonance cloud service, go to
+   `IQM Resonance <https://resonance.meetiqm.com>`_.
+2. Upon your first visit, you can generate your unique, non-recoverable API token
    directly from the Dashboard page by selecting ``Generate token``. It's important to copy the token
    immediately from the window, as you won't be able to do so once the window is closed. If you lose
    your token, you have the option to regenerate it at any time. However, be aware that regenerating
    your API token will invalidate any previously generated token.
-3. Download one of the demo notebooks from `IQM Academy <https://www.iqmacademy.com/tutorials/>`_ or the
-   `resonance_example.py example file <https://raw.githubusercontent.com/iqm-finland/sdk/refs/heads/main/iqm_client/src/iqm/qiskit_iqm/examples/resonance_example.py>`_
+3. Store your API token in the environment variable :envvar:`IQM_TOKEN`.
+4. Download one of the demo notebooks from `IQM Academy <https://www.iqmacademy.com/tutorials/>`_ or the
+   `bell_measure.py example file <https://raw.githubusercontent.com/iqm-finland/sdk/refs/heads/main/iqm_client/src/iqm/qiskit_iqm/examples/bell_measure.py>`_
    (Save Page As...)
-4. Install Qiskit on IQM as instructed below.
-5. Add your API token to the example (either as the parameter ``token`` to the :class:`.IQMProvider`
-   constructor, or by setting the environment variable :envvar:`IQM_TOKEN`)
+5. Install Qiskit on IQM as instructed below.
 6. Run the Jupyter notebook (or run
-   ``python resonance_example.py --url https://cocos.resonance.meetiqm.com/<RESONANCE QC NAME>``
+   ``python bell_measure.py --url https://<IQM server URL>``
    if you decided to go for the Python script).
 7. If you're connecting to a real quantum computer, the output should show almost half of the
    measurements resulting in '00000' and almost half in '11111' - if this is the case, things are
@@ -43,20 +39,6 @@ IQM Resonance
 
 You can find a video guide on how to set things up `here <https://www.iqmacademy.com/tutorials/resonance/>`_.
 More ready-to-run examples can also be found at `IQM Academy <https://www.iqmacademy.com/tutorials/>`_.
-
-
-On-premises device
-~~~~~~~~~~~~~~~~~~
-
-1. Download the `bell_measure.py example file <https://raw.githubusercontent.com/iqm-finland/sdk/refs/heads/main/iqm_client/src/iqm/qiskit_iqm/examples/bell_measure.py>`_ (Save Page As...).
-2. Install Qiskit on IQM as instructed below.
-3. Install IQM Client CLI and log in as instructed in the
-   `documentation <https://docs.meetiqm.com/iqm-client/user_guide_cli.html#installing-iqm-client-cli>`__
-4. Set the environment variable as instructed by IQM Client CLI after logging in.
-5. Run ``$ python bell_measure.py --url https://<YOUR IQM SERVER>`` - replace the example URL with the correct one.
-6. If you're connecting to a real quantum computer, the output should show almost half of the
-   measurements resulting in '00' and almost half in '11' - if this is the case, things are set up
-   correctly!
 
 
 Installation
@@ -86,25 +68,13 @@ After installation, Qiskit on IQM can be imported in your Python code as follows
 Authentication
 --------------
 
-IQM Resonance
-~~~~~~~~~~~~~
+There are two options to authenticate:
 
-If you are using IQM Resonance, you have two options to authenticate:
-
-1. Set the :envvar:`IQM_TOKEN` environment variable to the API token obtained from the Resonance dashboard.
+1. Set the :envvar:`IQM_TOKEN` environment variable to the API token obtained from the web dashboard.
 2. Pass the ``token`` parameter to :class:`.IQMProvider`. This will be forwarded to
-   :class:`~iqm.iqm_client.iqm_client.IQMClient`. For an example, see the `resonance_example.py file
-   <https://raw.githubusercontent.com/iqm-finland/sdk/refs/heads/main/iqm_client/src/iqm/qiskit_iqm/examples/resonance_example.py>`_
+   :class:`~iqm.iqm_client.iqm_client.IQMClient`. For an example, see
+   `bell_measure.py <https://raw.githubusercontent.com/iqm-finland/sdk/refs/heads/main/iqm_client/src/iqm/qiskit_iqm/examples/bell_measure.py>`_
 
-On-premises devices
-~~~~~~~~~~~~~~~~~~~
-
-If the IQM server you are connecting to requires authentication, you may use
-:ref:`IQM Client CLI <User guide CLI>` to retrieve and automatically refresh access tokens,
-then set the :envvar:`IQM_TOKENS_FILE` environment variable, as instructed, to point to the tokens file.
-See IQM Client CLI's `documentation <https://docs.meetiqm.com/iqm-client/user_guide_cli.html>`__ for details.
-
-You may also authenticate yourself by setting the access token in the the :envvar:`IQM_TOKEN` variable
 
 Running quantum circuits on an IQM quantum computer
 ---------------------------------------------------
@@ -180,10 +150,9 @@ circuit(s) are sampled:
 
     As of ``iqm-client >= 30.1.0``, structured quality metrics and calibration data are available to
     ``IQMTarget`` for improved transpilation. To import the latest valid quality metric data corresponding
-    to the default calibration set into ``IQMTarget``, set ``use_metrics`` to ``True`` when initializing the 
+    to the default calibration set into ``IQMTarget``, set ``use_metrics`` to ``True`` when initializing the
     class. For Resonance users, this data is not yet available via the Resonance API, so use the default setting
     of ``use_metrics`` of ``False``.
-    
 
 You can optionally provide IQMBackend specific options as additional keyword arguments to
 :meth:`.IQMBackend.run`, documented at :meth:`.IQMBackend.create_run_request`.
