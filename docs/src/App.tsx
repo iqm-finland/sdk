@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Fuse from 'fuse.js';
 import { Search, X } from 'lucide-react';
 import AppSwitcher from './AppSwitcher';
 import docs from "../search.json";
 import Features from './Features';
 import QrispLogo from './img/qrisp_logo.png'
+import { versionConfigs, type VersionType } from './configs';
 
 interface Doc {
   title: string;
@@ -13,16 +14,44 @@ interface Doc {
   url: string;
 }
 
-
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Doc[]>(docs);
+  const [selectedVersion, setSelectedVersion] = useState<VersionType>('resonance');
 
-  const fuse = new Fuse(docs, {
+  const currentVersionConfig = versionConfigs.find(v => v.id === selectedVersion) || versionConfigs[0];
+
+  // Get packages for a specific version
+  const getPackagesForVersion = (versionId: VersionType): string[] => {
+    const config = versionConfigs.find(v => v.id === versionId);
+    return config ? config.packages : [];
+  };
+
+  // Initialize version from URL on component mount
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const versionFromUrl = urlParams.get('version') as VersionType;
+    if (versionFromUrl && versionConfigs.some(v => v.id === versionFromUrl)) {
+      setSelectedVersion(versionFromUrl);
+    }
+  }, []);
+
+  // Update URL when version changes
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (selectedVersion !== 'resonance') {
+      url.searchParams.set('version', selectedVersion);
+    } else {
+      url.searchParams.delete('version');
+    }
+    window.history.replaceState({}, '', url.toString());
+  }, [selectedVersion]);
+
+  const fuse = useMemo(() => new Fuse(docs, {
     keys: ['title', 'description', 'package'],
     threshold: 0.4
-  });
+  }), []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -48,7 +77,7 @@ function App() {
     } else {
       setSearchResults(docs);
     }
-  }, [searchQuery]);
+  }, [searchQuery, fuse]);
 
   const handleSearchClick = () => {
     setIsModalOpen(true);
@@ -56,21 +85,38 @@ function App() {
 
   const [isDocumentationSelected, setIsDocumentationSelected] = useState(true);
 
-
-  const docLinks = [
-    { href: "./iqm-pulla", title: "IQM Pulla", description: "Pulse-level access library for compiling quantum circuits." },
-    { href: "https://iqm-finland.github.io/iqm-benchmarks/", title: "IQM Benchmarks", description: "Quantum Characterization, Verification, and Validation (QCVV) tools for quantum computing." },
-    { href: "./iqm-pulse", title: "IQM Pulse", description: "Interface and implementations for control pulses." },
-    { href: "./iqm-qaoa", title: "IQM QAOA", description: "Easily set up and run different flavours of QAOA." },
-    { href: "./iqm-client/", title: "IQM Client", description: "Python client for remote access to quantum computers for circuit-level access (e.g. via Qiskit, Cirq)." },
-    { href: "./iqm-station-control-client", title: "IQM Station Control Client", description: "Python client for remote access to quantum computers for pulse-level access." },
-    { href: "./iqm-exa-common", title: "IQM EXA Common", description: "Abstract interfaces, helpers, utility classes, etc." },
-    { href: "./iqm-data-definitions", title: "IQM Data Definitions", description: "A common place for data definitions shared inside IQM." },
-    { href: "https://qrisp.eu/reference/index.html",
-      title: "Qrisp",
-      description: "Use Eclipse Qrisp to run your circuits on IQM hardware.",
-    image: QrispLogo },
+  // Base documentation entries with their descriptions
+  const baseDocLinks = [
+    { package: "iqm-pulla", title: "IQM Pulla", description: "Pulse-level access library for compiling quantum circuits." },
+    { package: "iqm-benchmarks", title: "IQM Benchmarks", description: "Quantum Characterization, Verification, and Validation (QCVV) tools for quantum computing.", external: "https://iqm-finland.github.io/iqm-benchmarks/" },
+    { package: "iqm-pulse", title: "IQM Pulse", description: "Interface and implementations for control pulses." },
+    { package: "iqm-qaoa", title: "IQM QAOA", description: "Easily set up and run different flavours of QAOA." },
+    { package: "iqm-client", title: "IQM Client", description: "Python client for remote access to quantum computers for circuit-level access (e.g. via Qiskit, Cirq)." },
+    { package: "iqm-station-control-client", title: "IQM Station Control Client", description: "Python client for remote access to quantum computers for pulse-level access." },
+    { package: "iqm-exa-common", title: "IQM EXA Common", description: "Abstract interfaces, helpers, utility classes, etc." },
+    { package: "iqm-data-definitions", title: "IQM Data Definitions", description: "A common place for data definitions shared inside IQM." },
+    { package: "qrisp", title: "Qrisp", description: "Use Eclipse Qrisp to run your circuits on IQM hardware.", external: "https://qrisp.eu/reference/index.html", image: QrispLogo },
   ];
+
+  // Generate docLinks based on selected version and available packages
+  const getDocLinks = () => {
+    const availablePackages = getPackagesForVersion(selectedVersion);
+    const pathPrefix = currentVersionConfig.pathPrefix;
+    
+    return baseDocLinks
+      .filter(doc => {
+        // Always include external links
+        if (doc.external) return true;
+        // For internal docs, check if package is available in the current version
+        return availablePackages.length === 0 || availablePackages.includes(doc.package);
+      })
+      .map(doc => ({
+        ...doc,
+        href: doc.external || `${pathPrefix}${doc.package}${doc.package === 'iqm-client' ? '/' : ''}`
+      }));
+  };
+
+  const docLinks = getDocLinks();
 
   return (
     <div className="min-h-screen px-8 py-3">
@@ -78,7 +124,6 @@ function App() {
 
         <div className="flex flex-col sm:flex-row mb-4 sm:gap-2 lg:gap-[8rem]">
           <AppSwitcher />
-
 
           <div className="flex gap-4">
             <button
@@ -111,6 +156,11 @@ function App() {
             <>
               <p>Find below the documentation for IQM client-side libraries that can be used to connect to {" "}
                 <a href="https://resonance.meetiqm.com" target="_blank">IQM Resonance</a> and any IQM on-premise quantum computer.
+                {currentVersionConfig.description && (
+                  <span className="block mt-2 text-sm text-orange-600 bg-orange-50 p-2 rounded">
+                    ⚠️ {currentVersionConfig.description}
+                  </span>
+                )}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
                 {docLinks.map((doc, index) => (
@@ -178,7 +228,31 @@ function App() {
 
         </div>
 
-        <footer className="mt-8 text-center text-sm text-gray-500 border-gray-300 border-t pt-4">
+        {/* Floating Version Selector */}
+        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40">
+          <div className="bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl shadow-lg px-2 py-2">
+            <div className="flex gap-1">
+              {versionConfigs.map((version) => (
+                <button
+                  key={version.id}
+                  className={`px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
+                    selectedVersion === version.id 
+                      ? 'text-white shadow-md transform scale-105' 
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
+                  }`}
+                  style={selectedVersion === version.id ? {
+                    background: 'linear-gradient(45deg, #759deb, #5fdd97)'
+                  } : {}}
+                  onClick={() => setSelectedVersion(version.id)}
+                >
+                  {version.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <footer className="mt-8 text-center text-sm text-gray-500 border-gray-300 border-t pt-4 pb-20">
           <span>Copyright IQM Quantum Computers 2021-2025.</span>
           <br />
           <span>Need assistance? Contact us <a href="mailto:support@meetiqm.com">support@meetiqm.com</a></span>
