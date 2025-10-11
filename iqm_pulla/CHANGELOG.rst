@@ -2,6 +2,22 @@
 Changelog
 =========
 
+Version 11.14.0 (2025-10-10)
+============================
+
+Features
+--------
+
+- More Pulla backwards compatibility when the measure_fidelity gate is missing
+
+Version 11.13.0 (2025-10-09)
+============================
+
+Features
+--------
+
+- Pulla backwards compatibility when the measure_fidelity gate is missing.
+
 Version 11.12.0 (2025-10-09)
 ============================
 

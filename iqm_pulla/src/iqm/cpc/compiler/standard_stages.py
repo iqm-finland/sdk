@@ -275,6 +275,9 @@ def _build_readout_mappings(
     readout_mappings = []
     heralded_components = []
 
+    # FIXME: remove this temporary patch once all stations are migrated to include the measure_fidelity gate
+    measure_fidelity_in_calset = "measure_fidelity" in builder.calibration
+
     # find out which components have measurement data
     components_that_can_be_measured = frozenset(
         q
@@ -326,7 +329,7 @@ def _build_readout_mappings(
                         final_measurements.append(inst)
                 eclipsed_qubits.update(inst.locus)
 
-            if convert_terminal_measurements:
+            if convert_terminal_measurements and measure_fidelity_in_calset:
                 final_measurements_name = "measure_fidelity"
                 for measurement in final_measurements:
                     measurement.name = final_measurements_name
