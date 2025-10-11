@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Migration guide &#8212; IQM Pulla 11.12.0 documentation</title>
+    <title>Migration guide &#8212; IQM Pulla 11.14.0 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=b2562073"></script>
+    <script src="_static/documentation_options.js?v=d51996d8"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="IQM Pulla" href="readme.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2025-10-10"/>
+    <meta name="docbuild:last-update" content="2025-10-11"/>
   </head>
   
   
@@ -140,8 +140,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="IQM Pulla 11.12.0 documentation - Home"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 11.12.0 documentation - Home"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM Pulla 11.14.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 11.14.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -461,11 +461,11 @@ that is used to control the reset functionality. By default, it is set to <code 
 <a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html#iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla" title="iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla"><code class="xref py py-func docutils literal notranslate"><span class="pre">iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla()</span></code></a> and <a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_to_pulla.html#iqm.pulla.utils_qiskit.qiskit_to_pulla" title="iqm.pulla.utils_qiskit.qiskit_to_pulla"><code class="xref py py-func docutils literal notranslate"><span class="pre">iqm.pulla.utils_qiskit.qiskit_to_pulla()</span></code></a>.</p>
 <p><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html#iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla" title="iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla"><code class="xref py py-func docutils literal notranslate"><span class="pre">qiskit_circuits_to_pulla()</span></code></a> is a more direct replacement, with the difference that it also requires a
 mapping of qiskit qubit indices to physical qubit names which was not required before.
-This can be e.g. obtained from an <a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend" title="(in IQM client v31.8.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iqm.qiskit_iqm.iqm_provider.IQMBackend</span></code></a> instance.</p>
+This can be e.g. obtained from an <a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend" title="(in IQM client v32.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iqm.qiskit_iqm.iqm_provider.IQMBackend</span></code></a> instance.</p>
 <p><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_to_pulla.html#iqm.pulla.utils_qiskit.qiskit_to_pulla" title="iqm.pulla.utils_qiskit.qiskit_to_pulla"><code class="xref py py-func docutils literal notranslate"><span class="pre">qiskit_to_pulla()</span></code></a> is a convenience method that in addition to
 converting the Qiskit circuit(s) also returns a <a class="reference internal" href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler" title="iqm.cpc.compiler.compiler.Compiler"><code class="xref py py-class docutils literal notranslate"><span class="pre">Compiler</span></code></a> instance that can be used to compile them
 into a playlist. It takes as additional parameters a <a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla" title="iqm.pulla.pulla.Pulla"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pulla</span></code></a> instance (for building the compiler),
-and an <a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend" title="(in IQM client v31.8.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMBackend</span></code></a> instance (containing the calibration set ID and
+and an <a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend" title="(in IQM client v32.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMBackend</span></code></a> instance (containing the calibration set ID and
 qubit mapping to use). The IQMBackend instance should usually be the same one that was used to transpile
 the Qiskit circuits.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEFORE</span>
@@ -694,7 +694,7 @@ By IQM Pulla developers
 
   <p class="copyright">
     
-      © Copyright 2024-2025, IQM Finland Oy, Release 11.12.0.
+      © Copyright 2024-2025, IQM Finland Oy, Release 11.14.0.
       <br/>
     
   </p>
@@ -703,7 +703,7 @@ By IQM Pulla developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-10-10.
+  Last updated on 2025-10-11.
   <br/>
 </p>
   </div>
