@@ -67,7 +67,9 @@ export const versionConfigs: VersionConfig[] = [
       'iqm-station-control-client',
       'iqm-pulse',
       'iqm-pulla',
-      'iqm-client'
+      'iqm-client',
+      'qiskit-iqm',
+      'cirq-iqm'
     ]
   }
 ];
