@@ -139,8 +139,6 @@ function App() {
     
     return baseDocLinks
       .filter(doc => {
-        // Always include external links
-        if (doc.external) return true;
         // For internal docs, check if package is available in the current version
         return availablePackages.length === 0 || availablePackages.includes(doc.package);
       })
@@ -269,13 +267,13 @@ function App() {
               {versionConfigs.map((version) => (
                 <button
                   key={version.id}
-                  className={`px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200 ${
-                    selectedVersion === version.id 
-                      ? 'text-white shadow-md transform scale-105' 
-                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
+                  className={`px-3 py-2 text-xs sm:text-sm rounded-xl transition-all duration-200 ${
+                  selectedVersion === version.id 
+                    ? 'text-white shadow-md transform scale-105' 
+                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
                   }`}
                   style={selectedVersion === version.id ? {
-                    background: 'linear-gradient(45deg, #759deb, #5fdd97)'
+                  background: 'linear-gradient(45deg, #759deb, #5fdd97)'
                   } : {}}
                   onClick={() => setSelectedVersion(version.id)}
                 >

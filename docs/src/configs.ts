@@ -20,7 +20,9 @@ export const versionConfigs: VersionConfig[] = [
       'iqm-pulse',
       'iqm-pulla',
       'iqm-client',
-      'iqm-qaoa'
+      'iqm-qaoa',
+      'iqm-benchmarks',
+      'qrisp'
     ]
   },
   {
@@ -35,7 +37,37 @@ export const versionConfigs: VersionConfig[] = [
       'iqm-pulse',
       'iqm-pulla',
       'iqm-client',
-      'iqm-qaoa'
+      'iqm-qaoa',
+      'iqm-benchmarks'
+    ]
+  },
+  {
+    id: 'os4.0',
+    label: 'IQM OS 4.0',
+    pathPrefix: './sdk4_0/',
+    description: 'You are viewing documentation for IQM OS 4.0. This version applies for on-premises installations.',
+    packages: [
+      'iqm-data-definitions',
+      'iqm-exa-common',
+      'iqm-station-control-client',
+      'iqm-pulse',
+      'iqm-pulla',
+      'iqm-client',
+      'iqm-benchmarks'
+    ]
+  },
+  {
+    id: 'os3.4',
+    label: 'IQM OS 3.4',
+    pathPrefix: './sdk3_4/',
+    description: 'You are viewing documentation for IQM OS 3.4. This version applies for on-premises installations.',
+    packages: [
+      'iqm-data-definitions',
+      'iqm-exa-common',
+      'iqm-station-control-client',
+      'iqm-pulse',
+      'iqm-pulla',
+      'iqm-client'
     ]
   }
 ];
