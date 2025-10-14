@@ -1,0 +1,820 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Integration Guide &#8212; IQM client 29.2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9a0dfa02"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'integration_guide';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="IQM Client CLI User Guide" href="user_guide_cli.html" />
+    <link rel="prev" title="iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin" href="api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2025-10-14"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM client 29.2.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM client 29.2.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">IQM Client</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.iqm_client.html">iqm.iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.iqm_client.api.html">iqm.iqm_client.api</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.api.APIConfig.html">iqm.iqm_client.api.APIConfig</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.api.APIEndpoint.html">iqm.iqm_client.api.APIEndpoint</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.iqm_client.authentication.html">iqm.iqm_client.authentication</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.authentication.ExternalToken.html">iqm.iqm_client.authentication.ExternalToken</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.authentication.TokenClient.html">iqm.iqm_client.authentication.TokenClient</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.authentication.TokenManager.html">iqm.iqm_client.authentication.TokenManager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.authentication.TokenProviderInterface.html">iqm.iqm_client.authentication.TokenProviderInterface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.authentication.TokensFileReader.html">iqm.iqm_client.authentication.TokensFileReader</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.iqm_client.cli.html">iqm.iqm_client.cli</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.cli.auth.html">iqm.iqm_client.cli.auth</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.cli.cli.html">iqm.iqm_client.cli.cli</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.cli.models.html">iqm.iqm_client.cli.models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.cli.token_manager.html">iqm.iqm_client.cli.token_manager</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.iqm_client.errors.html">iqm.iqm_client.errors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.errors.APITimeoutError.html">iqm.iqm_client.errors.APITimeoutError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.errors.CircuitExecutionError.html">iqm.iqm_client.errors.CircuitExecutionError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.errors.CircuitTranspilationError.html">iqm.iqm_client.errors.CircuitTranspilationError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.errors.CircuitValidationError.html">iqm.iqm_client.errors.CircuitValidationError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.errors.ClientAuthenticationError.html">iqm.iqm_client.errors.ClientAuthenticationError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.errors.ClientConfigurationError.html">iqm.iqm_client.errors.ClientConfigurationError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.errors.EndpointRequestError.html">iqm.iqm_client.errors.EndpointRequestError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.errors.JobAbortionError.html">iqm.iqm_client.errors.JobAbortionError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.iqm_client.iqm_client.html">iqm.iqm_client.iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html">iqm.iqm_client.iqm_client.IQMClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.iqm_client.models.html">iqm.iqm_client.models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.Locus.html">iqm.iqm_client.models.Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.CircuitBatch.html">iqm.iqm_client.models.CircuitBatch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.QubitMapping.html">iqm.iqm_client.models.QubitMapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.PRXSequence.html">iqm.iqm_client.models.PRXSequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.STANDARD_DD_STRATEGY.html">iqm.iqm_client.models.STANDARD_DD_STRATEGY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.CircuitMeasurementResults.html">iqm.iqm_client.models.CircuitMeasurementResults</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.CircuitMeasurementResultsBatch.html">iqm.iqm_client.models.CircuitMeasurementResultsBatch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.serialize_qubit_mapping.html">iqm.iqm_client.models.serialize_qubit_mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.validate_circuit.html">iqm.iqm_client.models.validate_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.CalibrationSet.html">iqm.iqm_client.models.CalibrationSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.Circuit.html">iqm.iqm_client.models.Circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.CircuitCompilationOptions.html">iqm.iqm_client.models.CircuitCompilationOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.ClientLibrary.html">iqm.iqm_client.models.ClientLibrary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.Counts.html">iqm.iqm_client.models.Counts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.DDMode.html">iqm.iqm_client.models.DDMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.DDStrategy.html">iqm.iqm_client.models.DDStrategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.DynamicQuantumArchitecture.html">iqm.iqm_client.models.DynamicQuantumArchitecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.GateImplementationInfo.html">iqm.iqm_client.models.GateImplementationInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.GateInfo.html">iqm.iqm_client.models.GateInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.HeraldingMode.html">iqm.iqm_client.models.HeraldingMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.Instruction.html">iqm.iqm_client.models.Instruction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.JobParameters.html">iqm.iqm_client.models.JobParameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.Metadata.html">iqm.iqm_client.models.Metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.MoveGateFrameTrackingMode.html">iqm.iqm_client.models.MoveGateFrameTrackingMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.MoveGateValidationMode.html">iqm.iqm_client.models.MoveGateValidationMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.NativeOperation.html">iqm.iqm_client.models.NativeOperation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.QualityMetricSet.html">iqm.iqm_client.models.QualityMetricSet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.QuantumArchitecture.html">iqm.iqm_client.models.QuantumArchitecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.QuantumArchitectureSpecification.html">iqm.iqm_client.models.QuantumArchitectureSpecification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.RunCounts.html">iqm.iqm_client.models.RunCounts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.RunRequest.html">iqm.iqm_client.models.RunRequest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.RunResult.html">iqm.iqm_client.models.RunResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.RunStatus.html">iqm.iqm_client.models.RunStatus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.SingleQubitMapping.html">iqm.iqm_client.models.SingleQubitMapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.StaticQuantumArchitecture.html">iqm.iqm_client.models.StaticQuantumArchitecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.models.Status.html">iqm.iqm_client.models.Status</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.iqm_client.transpile.html">iqm.iqm_client.transpile</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.transpile.Resolution.html">iqm.iqm_client.transpile.Resolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.transpile.simplify_architecture.html">iqm.iqm_client.transpile.simplify_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.transpile.transpile_insert_moves.html">iqm.iqm_client.transpile.transpile_insert_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.transpile.transpile_remove_moves.html">iqm.iqm_client.transpile.transpile_remove_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.transpile.ExistingMoveHandlingOptions.html">iqm.iqm_client.transpile.ExistingMoveHandlingOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.iqm_client.util.html">iqm.iqm_client.util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.util.to_json_dict.html">iqm.iqm_client.util.to_json_dict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.util.IQMJSONEncoder.html">iqm.iqm_client.util.IQMJSONEncoder</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.iqm_client.validation.html">iqm.iqm_client.validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.validation.validate_circuit_instructions.html">iqm.iqm_client.validation.validate_circuit_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.validation.validate_circuit_moves.html">iqm.iqm_client.validation.validate_circuit_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.validation.validate_instruction.html">iqm.iqm_client.validation.validate_instruction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.iqm_client.validation.validate_qubit_mapping.html">iqm.iqm_client.validation.validate_qubit_mapping</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.html">iqm.qiskit_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.examples.html">iqm.qiskit_iqm.examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.examples.bell_measure.html">iqm.qiskit_iqm.examples.bell_measure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.examples.resonance_example.html">iqm.qiskit_iqm.examples.resonance_example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.examples.transpile_example.html">iqm.qiskit_iqm.examples.transpile_example</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.fake_backends.html">iqm.qiskit_iqm.fake_backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.fake_backends.fake_adonis.html">iqm.qiskit_iqm.fake_backends.fake_adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.fake_backends.fake_aphrodite.html">iqm.qiskit_iqm.fake_backends.fake_aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.fake_backends.fake_apollo.html">iqm.qiskit_iqm.fake_backends.fake_apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.fake_backends.fake_deneb.html">iqm.qiskit_iqm.fake_backends.fake_deneb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.fake_backends.fake_garnet.html">iqm.qiskit_iqm.fake_backends.fake_garnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.fake_backends.iqm_fake_backend.html">iqm.qiskit_iqm.fake_backends.iqm_fake_backend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_backend.html">iqm.qiskit_iqm.iqm_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html">iqm.qiskit_iqm.iqm_backend.IQMBackendBase</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_backend.IQMTarget.html">iqm.qiskit_iqm.iqm_backend.IQMTarget</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_circuit.html">iqm.qiskit_iqm.iqm_circuit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_circuit.IQMCircuit.html">iqm.qiskit_iqm.iqm_circuit.IQMCircuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_circuit_validation.html">iqm.qiskit_iqm.iqm_circuit_validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit.html">iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_job.html">iqm.qiskit_iqm.iqm_job</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_job.IQMJob.html">iqm.qiskit_iqm.iqm_job.IQMJob</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_move_layout.html">iqm.qiskit_iqm.iqm_move_layout</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout.html">iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout.html">iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_naive_move_pass.html">iqm.qiskit_iqm.iqm_naive_move_pass</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM.html">iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_naive_move_pass.IQMNaiveResonatorMoving.html">iqm.qiskit_iqm.iqm_naive_move_pass.IQMNaiveResonatorMoving</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_provider.html">iqm.qiskit_iqm.iqm_provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html">iqm.qiskit_iqm.iqm_provider.IQMBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend.html">iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_provider.IQMProvider.html">iqm.qiskit_iqm.iqm_provider.IQMProvider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_transpilation.html">iqm.qiskit_iqm.iqm_transpilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates.html">iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_transpilation.IQMOptimizeSingleQubitGates.html">iqm.qiskit_iqm.iqm_transpilation.IQMOptimizeSingleQubitGates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass.html">iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.move_gate.html">iqm.qiskit_iqm.move_gate</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY.html">iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.move_gate.MoveGate.html">iqm.qiskit_iqm.move_gate.MoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.qiskit_to_iqm.html">iqm.qiskit_iqm.qiskit_to_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey.html">iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError.html">iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.html">iqm.qiskit_iqm.transpiler_plugins</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.IQMDefaultSchedulingPlugin.html">iqm.qiskit_iqm.transpiler_plugins.IQMDefaultSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.IQMSchedulingPlugin.html">iqm.qiskit_iqm.transpiler_plugins.IQMSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingKeepExistingMovesPlugin.html">iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyKeepExistingMovesPlugin.html">iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyPlugin.html">iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyRemoveExistingMovesPlugin.html">iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyTrustExistingMovesPlugin.html">iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingPlugin.html">iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingRemoveExistingMovesPlugin.html">iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingTrustExistingMovesPlugin.html">iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithExactRZPlugin.html">iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithExactRZPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin.html">iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactIgnoreBarriersPlugin.html">iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactPlugin.html">iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationIgnoreBarriersPlugin.html">iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin.html">iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Integration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide_cli.html">IQM Client CLI User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide_qiskit.html">Qiskit on IQM User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide_cirq.html">Cirq on IQM User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Contributors</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/integration_guide.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Integration Guide</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-example">Code example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#job-phases-and-related-timestamps">Job phases and related timestamps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-transpilation">Circuit transpilation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#note-on-qubit-mapping">Note on qubit mapping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#note-on-circuit-duration-check">Note on circuit duration check</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#note-on-environment-variables">Note on environment variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-testing">Integration testing</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="integration-guide">
+<span id="id1"></span><h1>Integration Guide<a class="headerlink" href="#integration-guide" title="Link to this heading">#</a></h1>
+<p>IQM client is designed to be the Python adapter to IQM’s quantum computers for application-level
+quantum computing frameworks.  For example integrations maintained by IQM, please refer to the
+<a class="reference internal" href="user_guide_qiskit.html#user-guide-qiskit"><span class="std std-ref">Qiskit</span></a> and <a class="reference internal" href="user_guide_cirq.html#user-guide-cirq"><span class="std std-ref">Cirq</span></a> packages.</p>
+<p>IQM client offers the functionality to submit quantum circuits to an IQM quantum computer, query a
+job or a job status, and retrieve the quantum architecture of the quantum computer.</p>
+<p>The following sections illustrate how to integrate IQM quantum computers into your quantum computing
+framework.</p>
+<section id="code-example">
+<h2>Code example<a class="headerlink" href="#code-example" title="Link to this heading">#</a></h2>
+<p>Initialising the IQM client is simple, and in case you perform authentication as described below,
+requires only the URL of the IQM quantum computer.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.iqm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMClient</span>
+
+<span class="n">server_url</span> <span class="o">=</span> <span class="s2">&quot;https://STATION_CONTROL_URL&quot;</span>
+
+<span class="n">iqm_client</span> <span class="o">=</span> <span class="n">IQMClient</span><span class="p">(</span><span class="n">server_url</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To submit a quantum circuit for execution, it has to be specified using the <a class="reference internal" href="api/iqm.iqm_client.models.Circuit.html#iqm.iqm_client.models.Circuit" title="iqm.iqm_client.models.Circuit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code></a> class.
+The available native instructions are documented in the <a class="reference internal" href="api/iqm.iqm_client.models.Instruction.html#iqm.iqm_client.models.Instruction" title="iqm.iqm_client.models.Instruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></a> class.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.iqm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">Instruction</span>
+
+<span class="n">instructions</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Instruction</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;QB1&quot;</span><span class="p">,),</span> <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;phase_t&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span> <span class="s2">&quot;angle_t&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">}</span>
+    <span class="p">),</span>
+    <span class="n">Instruction</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;cz&quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">),</span> <span class="n">args</span><span class="o">=</span><span class="p">{}),</span>
+    <span class="n">Instruction</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;measure&quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;QB2&quot;</span><span class="p">,),</span> <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;Qubit 2&quot;</span><span class="p">}),</span>
+<span class="p">)</span>
+
+<span class="n">circuit</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;quantum_circuit&quot;</span><span class="p">,</span> <span class="n">instructions</span><span class="o">=</span><span class="n">instructions</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Then the circuit can be submitted, and its status and result can be queried with the job id.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">job_id</span> <span class="o">=</span> <span class="n">iqm_client</span><span class="o">.</span><span class="n">submit_circuits</span><span class="p">([</span><span class="n">circuit</span><span class="p">])</span>
+
+<span class="n">job_status</span> <span class="o">=</span> <span class="n">iqm_client</span><span class="o">.</span><span class="n">get_run_status</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+
+<span class="n">job_result</span> <span class="o">=</span> <span class="n">iqm_client</span><span class="o">.</span><span class="n">wait_for_results</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A dict containing arbitrary metadata can be attached to the circuit before submitting it for
+execution. The attached metadata should consist only of values of JSON serializable datatypes.
+A utility function <a class="reference internal" href="api/iqm.iqm_client.util.to_json_dict.html#iqm.iqm_client.util.to_json_dict" title="iqm.iqm_client.util.to_json_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">to_json_dict()</span></code></a> can be used to convert supported datatypes,
+e.g. <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a>, to equivalent JSON serializable types.</p>
+<p>The progress of the job can be followed with <a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.get_run_status" title="iqm.iqm_client.iqm_client.IQMClient.get_run_status"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMClient.get_run_status()</span></code></a>. Once the job is ready,
+the results can be read with <a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.get_run" title="iqm.iqm_client.iqm_client.IQMClient.get_run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMClient.get_run()</span></code></a>. Both of these actions are combined in
+<a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.wait_for_results" title="iqm.iqm_client.iqm_client.IQMClient.wait_for_results"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMClient.wait_for_results()</span></code></a> which waits until the job is ready and then returns the result.</p>
+<p>In addition to the actual results, job result contains also metadata of the job execution.
+The metadata includes the original request, ID of the calibration set used in the execution, and
+a collection of timestamps describing the duration of the execution.</p>
+</section>
+<section id="job-phases-and-related-timestamps">
+<h2>Job phases and related timestamps<a class="headerlink" href="#job-phases-and-related-timestamps" title="Link to this heading">#</a></h2>
+<p>The timestamps returned with job results are stored as an optional dict called <code class="docutils literal notranslate"><span class="pre">timestamps</span></code> in the metadata of
+<a class="reference internal" href="api/iqm.iqm_client.models.RunResult.html#iqm.iqm_client.models.RunResult" title="iqm.iqm_client.models.RunResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunResult</span></code></a> of the job. Each timestamp is stored in the dict with a key describing the point in job processing where
+the timestamp was stored. For example, the timestamp stored at the start of circuit compilation step is stored with
+key <code class="docutils literal notranslate"><span class="pre">compile_start</span></code>. Other timestamps are stored in the same way, with keys containing the step name,
+<code class="docutils literal notranslate"><span class="pre">compile</span></code>, <code class="docutils literal notranslate"><span class="pre">submit</span></code> or <code class="docutils literal notranslate"><span class="pre">execution</span></code>, and either a <code class="docutils literal notranslate"><span class="pre">_start</span></code> or <code class="docutils literal notranslate"><span class="pre">_end</span></code> suffix. In addition, there are
+also timestamps for starting and ending the job itself, <code class="docutils literal notranslate"><span class="pre">job_start</span></code> and <code class="docutils literal notranslate"><span class="pre">job_end</span></code>. If the job processing is
+terminated before it is complete the timestamps of steps not processed will not be present in the dict.</p>
+<p>The first timestamp stored is the <code class="docutils literal notranslate"><span class="pre">job_start</span></code> timestamp. It is stored when the server receives the job request.</p>
+<p>The job processing starts with compilation step where the circuits are converted to pulse schedules that can be
+sent for execution. Compilation step produces timestamps <code class="docutils literal notranslate"><span class="pre">compile_start</span></code> and <code class="docutils literal notranslate"><span class="pre">compile_end</span></code>.</p>
+<p>The pulse schedules are then submitted for execution. This step produces timestamps
+<code class="docutils literal notranslate"><span class="pre">submit_start</span></code> and <code class="docutils literal notranslate"><span class="pre">submit_end</span></code>.</p>
+<p>After submitting the pulse schedules the server waits for the execution results.
+This step produces timestamps <code class="docutils literal notranslate"><span class="pre">execution_start</span></code> and <code class="docutils literal notranslate"><span class="pre">execution_end</span></code>.</p>
+<p>Finally, when job processing is complete, regardless whether the job was successful or not, the timestamp
+<code class="docutils literal notranslate"><span class="pre">job_end</span></code> is stored.</p>
+</section>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Link to this heading">#</a></h2>
+<p>IQM uses bearer token authentication to manage access to quantum computers.
+Currently, there are three mutually exclusive ways of providing an authentication
+token to IQM client:</p>
+<ol class="arabic simple">
+<li><p>The recommended way is to use <a class="reference internal" href="user_guide_cli.html#user-guide-cli"><span class="std std-ref">IQM Client CLI</span></a>
+to manage the authentication tokens and store them into a file. IQM client can then read
+the token from the file and use it for authentication. The file path can be provided to
+IQM client in environment variable <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_TOKENS_FILE</span></code>.
+Alternatively, the tokens file path can be provided as argument <code class="docutils literal notranslate"><span class="pre">tokens_file</span></code> to
+<a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient" title="iqm.iqm_client.iqm_client.IQMClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMClient</span></code></a> constructor.</p></li>
+<li><p>It is also possible to use plaintext token obtained from a server dashboard. These
+tokens may have longer lifespan than access tokens generated by IQM Client CLI, and thus
+IQM client won’t attempt to refresh them. The generated token can be provided to IQM
+client in environment variable <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_TOKEN</span></code>.
+Alternatively, the token can be provided as argument <code class="docutils literal notranslate"><span class="pre">token</span></code> to <a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient" title="iqm.iqm_client.iqm_client.IQMClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMClient</span></code></a>
+constructor.</p></li>
+<li><p>The third way is to provide server URL, username and password for obtaining the
+token from an authentication server. IQM client will maintain a login session with
+the authentication server and read and refresh the token as needed. The server URL,
+username and password can be provided to IQM client in environment variables
+<span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_AUTH_SERVER</span></code>, <span class="target" id="index-3"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_AUTH_USERNAME</span></code> and <span class="target" id="index-4"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_AUTH_PASSWORD</span></code>.
+Alternatively, the values can be provided as arguments <code class="docutils literal notranslate"><span class="pre">auth_server_url</span></code>,
+<code class="docutils literal notranslate"><span class="pre">username</span></code> and <code class="docutils literal notranslate"><span class="pre">password</span></code> to <a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient" title="iqm.iqm_client.iqm_client.IQMClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMClient</span></code></a> constructor.
+Note, that all the values must be provided as either environment variables or
+as constructor arguments, not mixed.</p></li>
+</ol>
+</section>
+<section id="circuit-transpilation">
+<h2>Circuit transpilation<a class="headerlink" href="#circuit-transpilation" title="Link to this heading">#</a></h2>
+<p>IQM does not provide an open source circuit transpilation library, so this will have to be supplied
+by the quantum computing framework or a third party library.  To obtain the necessary information
+for circuit transpilation, <a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.get_dynamic_quantum_architecture" title="iqm.iqm_client.iqm_client.IQMClient.get_dynamic_quantum_architecture"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMClient.get_dynamic_quantum_architecture()</span></code></a> returns the names of the
+QPU components (qubits and computational resonators), and the native operations available
+in the given calibration set. This information should enable circuit transpilation for the
+IQM Crystal quantum architectures.</p>
+<p>The notable exception is the transpilation for the IQM Star quantum architectures, which have
+computational resonators in addition to qubits. Some specialized transpilation logic involving
+the MOVE gates specific to these architectures is provided, in the form of the functions
+<a class="reference internal" href="api/iqm.iqm_client.transpile.transpile_insert_moves.html#iqm.iqm_client.transpile.transpile_insert_moves" title="iqm.iqm_client.transpile.transpile_insert_moves"><code class="xref py py-func docutils literal notranslate"><span class="pre">transpile_insert_moves()</span></code></a> and <a class="reference internal" href="api/iqm.iqm_client.transpile.transpile_remove_moves.html#iqm.iqm_client.transpile.transpile_remove_moves" title="iqm.iqm_client.transpile.transpile_remove_moves"><code class="xref py py-func docutils literal notranslate"><span class="pre">transpile_remove_moves()</span></code></a>.
+See <a class="reference internal" href="api/iqm.iqm_client.transpile.html#module-iqm.iqm_client.transpile" title="iqm.iqm_client.transpile"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.iqm_client.transpile</span></code></a> for the details.</p>
+<p>A typical Star architecture use case would look something like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.iqm_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">Circuit</span><span class="p">,</span> <span class="n">IQMClient</span><span class="p">,</span> <span class="n">simplify_architecture</span><span class="p">,</span> <span class="n">transpile_insert_moves</span><span class="p">,</span> <span class="n">transpile_remove_moves</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">IQMClient</span><span class="p">(</span><span class="n">URL_TO_STAR_SERVER</span><span class="p">)</span>
+<span class="n">dqa</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_dynamic_quantum_architecture</span><span class="p">()</span>
+<span class="n">simplified_dqa</span> <span class="o">=</span> <span class="n">simplify_architecture</span><span class="p">(</span><span class="n">dqa</span><span class="p">)</span>
+
+<span class="c1"># circuit valid for simplified_dqa</span>
+<span class="n">circuit</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;quantum_circuit&quot;</span><span class="p">,</span> <span class="n">instructions</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">])</span>
+
+<span class="c1"># intended use</span>
+<span class="n">circuit_with_moves</span> <span class="o">=</span> <span class="n">transpile_insert_moves</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">dqa</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">submit_circuits</span><span class="p">([</span><span class="n">circuit_with_moves</span><span class="p">])</span>
+
+<span class="c1"># back to simplified dqa</span>
+<span class="n">circuit_without_moves</span> <span class="o">=</span> <span class="n">transpile_remove_moves</span><span class="p">(</span><span class="n">circuit_with_moves</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">circuit</span> <span class="o">==</span> <span class="n">circuit_without_moves</span>
+</pre></div>
+</div>
+</section>
+<section id="note-on-qubit-mapping">
+<h2>Note on qubit mapping<a class="headerlink" href="#note-on-qubit-mapping" title="Link to this heading">#</a></h2>
+<p>We encourage to transpile circuits to use the physical IQM qubit names before submitting them to IQM
+quantum computers.  In case the quantum computing framework does not allow for this, providing a
+qubit mapping can do the translation from the framework qubit names to IQM qubit names.  Note, that
+qubit mapping is not supposed to be associated with individual circuits, but rather with the entire
+job request to IQM server.  Typically, you would have some local representation of the QPU and
+transpile the circuits against that representation, then use qubit mapping along with the generated
+circuits to map from the local representation to the IQM representation of qubit names.  We
+discourage exposing this feature to end users of the quantum computing framework.</p>
+</section>
+<section id="note-on-circuit-duration-check">
+<h2>Note on circuit duration check<a class="headerlink" href="#note-on-circuit-duration-check" title="Link to this heading">#</a></h2>
+<p>Before performing circuit execution, IQM server checks how long it would take to run each circuit.
+If any circuit in a job would take too long to execute compared to the T2 time of the qubits,
+the server will disqualify the job, not execute any circuits, and return a detailed error message.
+In some special cases, it makes sense to adjust or disable this check using
+the <code class="xref py py-attr docutils literal notranslate"><span class="pre">max_circuit_duration_over_t2</span></code> attribute of <a class="reference internal" href="api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions" title="iqm.iqm_client.models.CircuitCompilationOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitCompilationOptions</span></code></a>,
+and then passing the options to <a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.submit_circuits" title="iqm.iqm_client.iqm_client.IQMClient.submit_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMClient.submit_circuits()</span></code></a>.</p>
+</section>
+<section id="note-on-environment-variables">
+<h2>Note on environment variables<a class="headerlink" href="#note-on-environment-variables" title="Link to this heading">#</a></h2>
+<p>Set <span class="target" id="index-5"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_CLIENT_REQUESTS_TIMEOUT</span></code> environment variable to override the network requests default
+timeout value. The default value is 60 seconds and might not be sufficient when fetching run results
+of larger circuits via slow network connections.</p>
+<p>On Linux:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">IQM_CLIENT_REQUESTS_TIMEOUT</span><span class="o">=</span><span class="m">120</span>
+</pre></div>
+</div>
+<p>On Windows:</p>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> <span class="nv">IQM_CLIENT_REQUESTS_TIMEOUT</span><span class="p">=</span>120
+</pre></div>
+</div>
+<p>Once set, this environment variable will control network request timeouts for <a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient" title="iqm.iqm_client.iqm_client.IQMClient"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMClient</span></code></a> methods
+<code class="docutils literal notranslate"><span class="pre">abort_job</span></code>, <code class="docutils literal notranslate"><span class="pre">get_quantum_architecture</span></code>, <code class="docutils literal notranslate"><span class="pre">get_dynamic_quantum_architecture</span></code>, <code class="docutils literal notranslate"><span class="pre">get_run</span></code>, and <code class="docutils literal notranslate"><span class="pre">get_run_status</span></code>.</p>
+<p>Set <span class="target" id="index-6"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_CLIENT_SECONDS_BETWEEN_CALLS</span></code> to control the polling frequency when waiting for
+compilation and run results with the <a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.wait_for_compilation" title="iqm.iqm_client.iqm_client.IQMClient.wait_for_compilation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMClient.wait_for_compilation()</span></code></a> and
+<a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.wait_for_results" title="iqm.iqm_client.iqm_client.IQMClient.wait_for_results"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMClient.wait_for_results()</span></code></a> methods. The default value is set to 1 second.</p>
+<p>Set <span class="target" id="index-7"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_CLIENT_DEBUG=1</span></code> to print the run request when it is submitted for execution in
+<a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.submit_circuits" title="iqm.iqm_client.iqm_client.IQMClient.submit_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMClient.submit_circuits()</span></code></a> or <a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.submit_run_request" title="iqm.iqm_client.iqm_client.IQMClient.submit_run_request"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMClient.submit_run_request()</span></code></a>. To inspect the run request without sending
+it for execution, use <a class="reference internal" href="api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.create_run_request" title="iqm.iqm_client.iqm_client.IQMClient.create_run_request"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IQMClient.create_run_request()</span></code></a>.</p>
+</section>
+<section id="integration-testing">
+<h2>Integration testing<a class="headerlink" href="#integration-testing" title="Link to this heading">#</a></h2>
+<p>IQM provides a demo environment to test the integration against a mock quantum computer. If you’d
+like to request access to that environment, please contact <a class="reference external" href="mailto:info&#37;&#52;&#48;meetiqm&#46;com">IQM</a>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="user_guide_cli.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">IQM Client CLI User Guide</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-example">Code example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#job-phases-and-related-timestamps">Job phases and related timestamps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-transpilation">Circuit transpilation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#note-on-qubit-mapping">Note on qubit mapping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#note-on-circuit-duration-check">Note on circuit duration check</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#note-on-environment-variables">Note on environment variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-testing">Integration testing</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM client developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2025, IQM Finland Oy, Release 29.2.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2025-10-14.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
