@@ -121,14 +121,14 @@ function App() {
 
   // Base documentation entries with their descriptions
   const baseDocLinks = [
-    { package: "iqm-pulla", title: "IQM Pulla", description: "Pulse-level access library for compiling quantum circuits." },
+    { package: "iqm-pulla", title: "IQM Pulla", description: "Python client for pulse-level remote access to quantum computers. Includes a quantum circuit compiler." },
     { package: "iqm-benchmarks", title: "IQM Benchmarks", description: "Quantum Characterization, Verification, and Validation (QCVV) tools for quantum computing.", external: "https://iqm-finland.github.io/iqm-benchmarks/" },
-    { package: "iqm-pulse", title: "IQM Pulse", description: "Interface and implementations for control pulses." },
+    { package: "iqm-pulse", title: "IQM Pulse", description: "Control pulse framework and native gate library." },
     { package: "iqm-qaoa", title: "IQM QAOA", description: "Easily set up and run different flavours of QAOA." },
-    { package: "iqm-client", title: "IQM Client", description: "Python client for remote access to quantum computers for circuit-level access (e.g. via Qiskit, Cirq)." },
-    { package: "iqm-station-control-client", title: "IQM Station Control Client", description: "Python client for remote access to quantum computers for pulse-level access." },
+    { package: "iqm-client", title: "IQM Client", description: "Python client for circuit-level remote access to quantum computers. Includes Qiskit and Cirq adapters." },
+    { package: "iqm-station-control-client", title: "IQM Station Control Client", description: "Python client for low-level remote access to quantum computers." },
     { package: "iqm-exa-common", title: "IQM EXA Common", description: "Abstract interfaces, helpers, utility classes, etc." },
-    { package: "iqm-data-definitions", title: "IQM Data Definitions", description: "A common place for data definitions shared inside IQM." },
+    { package: "iqm-data-definitions", title: "IQM Data Definitions", description: "Shared data definitions." },
     { package: "qrisp", title: "Qrisp", description: "Use Eclipse Qrisp to run your circuits on IQM hardware.", external: "https://qrisp.eu/reference/index.html", image: QrispLogo },
     { package: "qiskit-iqm", title: "Qiskit on IQM", description: "Qiskit provider for accessing IQM quantum computers. Only used up to IQM OS 3.4"},
     { package: "cirq-iqm", title: "Cirq on IQM", description: "Cirq provider for accessing IQM quantum computers. Only used up to IQM OS 3.4"}
