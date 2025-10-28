@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>utils &#8212; iqm.pulse 12.5.0 documentation</title>
+    <title>utils &#8212; iqm.pulse 12.6.1 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a175d6ef"></script>
+    <script src="../_static/documentation_options.js?v=e279dc5f"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -48,11 +48,11 @@
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="iqm.pulse.utils.map_waveform_param_types" href="iqm.pulse.utils.map_waveform_param_types.html" />
+    <link rel="next" title="iqm.pulse.utils.fuse_iq_pulses" href="iqm.pulse.utils.fuse_iq_pulses.html" />
     <link rel="prev" title="TimeBox" href="iqm.pulse.timebox.TimeBox.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2025-10-27"/>
+    <meta name="docbuild:last-update" content="2025-10-28"/>
   </head>
   
   
@@ -142,8 +142,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.5.0 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.5.0 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.6.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.6.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -265,7 +265,9 @@
 </ul>
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">utils</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.normalize_angle.html">iqm.pulse.utils.normalize_angle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.phase_transformation.html">iqm.pulse.utils.phase_transformation</a></li>
 </ul>
@@ -399,8 +401,14 @@ document.write(`
 <p class="rubric">Functions</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html#iqm.pulse.utils.map_waveform_param_types" title="iqm.pulse.utils.map_waveform_param_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_waveform_param_types</span></code></a>(type_hint)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html#iqm.pulse.utils.fuse_iq_pulses" title="iqm.pulse.utils.fuse_iq_pulses"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fuse_iq_pulses</span></code></a>(iq_pulses)</p></td>
+<td><p>Fuse multiple IQPulses into one by concatenating the sampled waveforms.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html#iqm.pulse.utils.map_waveform_param_types" title="iqm.pulse.utils.map_waveform_param_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_waveform_param_types</span></code></a>(type_hint)</p></td>
 <td><p>Map a python typehint into EXA Parameter's <cite>(DataType, CollectionType)</cite> tuple.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html#iqm.pulse.utils.modulate_iq" title="iqm.pulse.utils.modulate_iq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modulate_iq</span></code></a>(pulse)</p></td>
+<td><p>Sampled baseband waveform of an IQ pulse.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.utils.normalize_angle.html#iqm.pulse.utils.normalize_angle" title="iqm.pulse.utils.normalize_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize_angle</span></code></a>(angle)</p></td>
 <td><p>Normalize the given angle to (-pi, pi].</p></td>
@@ -434,11 +442,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="iqm.pulse.utils.map_waveform_param_types.html"
+       href="iqm.pulse.utils.fuse_iq_pulses.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">iqm.pulse.utils.map_waveform_param_types</p>
+        <p class="prev-next-title">iqm.pulse.utils.fuse_iq_pulses</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -464,7 +472,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.5.0.
+      © Copyright 2019-2025, IQM Finland Oy, Release 12.6.1.
       <br/>
     
   </p>
@@ -473,7 +481,7 @@ document.write(`
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-10-27.
+  Last updated on 2025-10-28.
   <br/>
 </p>
   </div>

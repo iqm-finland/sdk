@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>CosineRise &#8212; iqm.pulse 12.5.0 documentation</title>
+    <title>CosineRise &#8212; iqm.pulse 12.6.1 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a175d6ef"></script>
+    <script src="../_static/documentation_options.js?v=e279dc5f"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="CosineFallFlex" href="iqm.pulse.playlist.waveforms.CosineFallFlex.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2025-10-27"/>
+    <meta name="docbuild:last-update" content="2025-10-28"/>
   </head>
   
   
@@ -140,8 +140,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.5.0 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.5.0 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.6.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.6.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -263,7 +263,9 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.normalize_angle.html">iqm.pulse.utils.normalize_angle</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.phase_transformation.html">iqm.pulse.utils.phase_transformation</a></li>
 </ul>
@@ -409,19 +411,11 @@ document.write(`
 <dt class="sig sig-object py" id="iqm.pulse.playlist.waveforms.CosineRise">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.playlist.waveforms.</span></span><span class="sig-name descname"><span class="pre">CosineRise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.playlist.waveforms.CosineRise" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Waveform</span></code></p>
-<p>Cosine Rise waveform.</p>
-<p>This waveform assumes that during its duration, the only thing happening is signal occurring to the required
+<p>Cosine rise waveform.</p>
+<p>This waveform assumes that during its duration, the only thing happening is signal rising to the required
 amplitude.
 The waveform is made for pairing with ‘Constant’ waveform to enable arbitrarily long pulses with smooth rise part.
 The rise time is equal to pulse duration.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>rise_time</strong> – Dummy parameter, used only as due to a bug. FIXME it is not used, placed for resolving exa bug</p></li>
-<li><p><strong>n_samples</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>)</p></li>
-</ul>
-</dd>
-</dl>
 <p>Module: <a class="reference internal" href="iqm.pulse.playlist.waveforms.html#module-iqm.pulse.playlist.waveforms" title="iqm.pulse.playlist.waveforms"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.playlist.waveforms</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
@@ -438,6 +432,11 @@ The rise time is equal to pulse duration.</p>
 </tbody>
 </table>
 </div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_samples</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>)</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.playlist.waveforms.CosineRise._sample">
 <span class="sig-name descname"><span class="pre">_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_coords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.playlist.waveforms.CosineRise._sample" title="Link to this definition">#</a></dt>
@@ -528,7 +527,7 @@ The rise time is equal to pulse duration.</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.5.0.
+      © Copyright 2019-2025, IQM Finland Oy, Release 12.6.1.
       <br/>
     
   </p>
@@ -537,7 +536,7 @@ The rise time is equal to pulse duration.</p>
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-10-27.
+  Last updated on 2025-10-28.
   <br/>
 </p>
   </div>

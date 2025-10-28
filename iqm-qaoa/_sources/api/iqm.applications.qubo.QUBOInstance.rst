@@ -27,6 +27,7 @@ QUBOInstance
 
    .. autosummary::
    
+      ~QUBOInstance.draw_problem
       ~QUBOInstance.fix_variables
       ~QUBOInstance.quality
    

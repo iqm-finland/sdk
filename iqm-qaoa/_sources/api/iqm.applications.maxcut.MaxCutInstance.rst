@@ -25,5 +25,6 @@ MaxCutInstance
    .. autosummary::
    
       ~MaxCutInstance.cut_size
+      ~MaxCutInstance.draw_problem
    
    

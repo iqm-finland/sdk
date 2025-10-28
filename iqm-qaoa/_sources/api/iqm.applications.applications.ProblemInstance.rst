@@ -39,5 +39,6 @@ ProblemInstance
       ~ProblemInstance.quality
       ~ProblemInstance.quality_renormalized
       ~ProblemInstance.restore_fixed_variables
+      ~ProblemInstance.restore_fixed_variables_bitstring
    
    

@@ -25,5 +25,6 @@ WeightedMaxCutInstance
    .. autosummary::
    
       ~WeightedMaxCutInstance.cut_size
+      ~WeightedMaxCutInstance.draw_problem
    
    

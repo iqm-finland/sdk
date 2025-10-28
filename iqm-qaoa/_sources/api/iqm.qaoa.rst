@@ -34,6 +34,7 @@
    ~iqm.qaoa.qubo_qaoa
    ~iqm.qaoa.transforming_functions
    ~iqm.qaoa.transpiler
+   ~iqm.qaoa.tree_calculation
    ~iqm.qaoa.tree_qaoa
 
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>QAOA &#8212; IQM QAOA 1.35.0 documentation</title>
+    <title>QAOA &#8212; IQM QAOA 1.38.1 documentation</title>
   
   
   
@@ -38,19 +38,21 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=9f48817e"></script>
+    <script src="../_static/documentation_options.js?v=16f15bd9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>window.MathJax = {"tex": {"macros": {"vr": "\\vec{r}", "ket": ["\\left| #1 \\right\\rangle", 1], "iprod": ["\\left\\langle #1 | #2 \\right\\rangle", 2]}}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.qaoa.generic_qaoa.QAOA';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="iqm.qaoa.transforming_functions" href="iqm.qaoa.transforming_functions.html" />
+    <link rel="next" title="iqm.qaoa.qubo_qaoa" href="iqm.qaoa.qubo_qaoa.html" />
     <link rel="prev" title="iqm.qaoa.generic_qaoa" href="iqm.qaoa.generic_qaoa.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2025-10-27"/>
+    <meta name="docbuild:last-update" content="2025-10-28"/>
   </head>
   
   
@@ -140,8 +142,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.35.0 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM QAOA 1.35.0 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.38.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM QAOA 1.38.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -175,8 +177,13 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.graph_utils.html">iqm.applications.graph_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.draw_problem.html">draw_problem</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.plot_graph.html">plot_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.prepare_plot_data.html">prepare_plot_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.residual_degree.html">residual_degree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.PlotData.html">PlotData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.ProblemData.html">ProblemData</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.maxcut.html">iqm.applications.maxcut</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -197,6 +204,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.qubo.html">iqm.applications.qubo</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.relabel_bqm_cqm_variables.html">relabel_bqm_cqm_variables</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.ConstrainedQuadraticInstance.html">ConstrainedQuadraticInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.QUBOInstance.html">QUBOInstance</a></li>
 </ul>
@@ -209,8 +217,31 @@
 </ul>
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.qaoa.html">iqm.qaoa</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.backends.html">iqm.qaoa.backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html">EstimatorBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorFromSampler.html">EstimatorFromSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorQUIMB.html">EstimatorQUIMB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorSingleLayer.html">EstimatorSingleLayer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorStateVector.html">EstimatorStateVector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html">SamplerBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.SamplerRandomBitstrings.html">SamplerRandomBitstrings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.SamplerResonance.html">SamplerResonance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.SamplerSimulation.html">SamplerSimulation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.circuits.html">iqm.qaoa.circuits</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.qiskit_circuit.html">qiskit_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.qiskit_circuit_specific_nodes.html">qiskit_circuit_specific_nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.quimb_tn.html">quimb_tn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.transpiled_circuit.html">transpiled_circuit</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.qaoa.generic_qaoa.html">iqm.qaoa.generic_qaoa</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">QAOA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.qubo_qaoa.html">iqm.qaoa.qubo_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.qubo_qaoa.QUBOQAOA.html">QUBOQAOA</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.transforming_functions.html">iqm.qaoa.transforming_functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -219,10 +250,21 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.transpiler.html">iqm.qaoa.transpiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.hardwired.html">iqm.qaoa.transpiler.hardwired</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.html">iqm.qaoa.transpiler.quantum_hardware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.routing.html">iqm.qaoa.transpiler.routing</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.rx_to_nx.html">iqm.qaoa.transpiler.rx_to_nx</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.sn.html">iqm.qaoa.transpiler.sn</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.sparse.html">iqm.qaoa.transpiler.sparse</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.star.html">iqm.qaoa.transpiler.star</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.tree_calculation.html">iqm.qaoa.tree_calculation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.tree_calculation.generate_basis.html">iqm.qaoa.tree_calculation.generate_basis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.tree_calculation.tree_calculation.html">iqm.qaoa.tree_calculation.tree_calculation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.tree_qaoa.html">iqm.qaoa.tree_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.tree_qaoa.TreeQAOA.html">TreeQAOA</a></li>
 </ul>
 </details></li>
 </ul>
@@ -410,7 +452,7 @@ document.write(`
 <h1>QAOA<a class="headerlink" href="#qaoa" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.qaoa.generic_qaoa.QAOA">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.generic_qaoa.</span></span><span class="sig-name descname"><span class="pre">QAOA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_layers</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gammas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L32-L247"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.generic_qaoa.</span></span><span class="sig-name descname"><span class="pre">QAOA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_layers</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">betas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gammas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L32-L249"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
 <p>The most generic QAOA abstract base class.</p>
 <p>This abstract base class contains methods such as <code class="xref py py-meth docutils literal notranslate"><span class="pre">_internal_angle_logic()</span></code> or <a class="reference internal" href="#iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule" title="iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule"><code class="xref py py-meth docutils literal notranslate"><span class="pre">linear_ramp_schedule()</span></code></a>
@@ -423,7 +465,9 @@ that can be used by any type / flavor of QAOA.</p>
 <li><p><strong>betas</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>] </em><em>| </em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><em>ndarray</em></a><em> | </em><em>None</em>) – An optional list of the initial <em>beta</em> angles of QAOA. Has to be provided together with <code class="docutils literal notranslate"><span class="pre">gammas</span></code>.</p></li>
 <li><p><strong>gammas</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>] </em><em>| </em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><em>ndarray</em></a><em> | </em><em>None</em>) – An optional list of the initial <em>gamma</em> angles of QAOA. Has to be provided together with <code class="docutils literal notranslate"><span class="pre">betas</span></code>.</p></li>
 <li><p><strong>initial_angles</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>] </em><em>| </em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><em>ndarray</em></a><em> | </em><em>None</em>) – An optional list of the initial QAOA angles as one variable. Shouldn’t be provided together
-with either <code class="docutils literal notranslate"><span class="pre">betas</span></code> or <code class="docutils literal notranslate"><span class="pre">gammas</span></code>.</p></li>
+with either <code class="docutils literal notranslate"><span class="pre">betas</span></code> or <code class="docutils literal notranslate"><span class="pre">gammas</span></code>. The <em>gamma</em> and <em>beta</em> angles are interleaved, so that the first pair
+of entries corresponds to <span class="math notranslate nohighlight">\(\gamma_1\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span> (the angles of the first QAOA layer).
+The second pair of entries corresponds to <span class="math notranslate nohighlight">\(\gamma_2\)</span> and <span class="math notranslate nohighlight">\(\beta_2\)</span>, etc. …</p></li>
 </ul>
 </dd>
 </dl>
@@ -515,9 +559,9 @@ with either <code class="docutils literal notranslate"><span class="pre">betas</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule">
-<span class="sig-name descname"><span class="pre">linear_ramp_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta_beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_gamma</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L225-L243"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">linear_ramp_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">delta_beta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta_gamma</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L227-L245"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA.linear_ramp_schedule" title="Link to this definition">#</a></dt>
 <dd><p>The “linear ramp schedule” for setting the QAOA angles.</p>
-<p>Formulas adapted from <span id="id1">[<a class="reference internal" href="../references.html#id2" title="J. A. Montanez-Barrera and Kristel Michielsen. Towards a universal QAOA protocol: evidence of a scaling advantage in solving some combinatorial optimization problems. https://arxiv.org/abs/2405.09169, May 2024.">2</a>]</span>. It can be used either instead of training the QAOA or as
+<p>Formulas adapted from <span id="id1">[<a class="reference internal" href="../references.html#id2" title="J. A. Montanez-Barrera and Kristel Michielsen. Towards a universal QAOA protocol: evidence of a scaling advantage in solving some combinatorial optimization problems. https://arxiv.org/abs/2405.09169, May 2024.">3</a>]</span>. It can be used either instead of training the QAOA or as
 a starting set of angles. The above work uses <code class="docutils literal notranslate"><span class="pre">delta_beta</span></code> and <code class="docutils literal notranslate"><span class="pre">delta_gamma</span></code> values around 0.5, but the best
 choice for these values depends on the problem Hamiltonian.</p>
 <dl class="field-list simple">
@@ -535,7 +579,7 @@ choice for these values depends on the problem Hamiltonian.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.generic_qaoa.QAOA.train">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L245-L247"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA.train" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/generic_qaoa.py#L247-L249"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.generic_qaoa.QAOA.train" title="Link to this definition">#</a></dt>
 <dd><p>The function that performs the training of the angles.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -569,11 +613,11 @@ choice for these values depends on the problem Hamiltonian.</p>
       </div>
     </a>
     <a class="right-next"
-       href="iqm.qaoa.transforming_functions.html"
+       href="iqm.qaoa.qubo_qaoa.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">iqm.qaoa.transforming_functions</p>
+        <p class="prev-next-title">iqm.qaoa.qubo_qaoa</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -638,7 +682,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-10-27.
+  Last updated on 2025-10-28.
   <br/>
 </p>
   </div>

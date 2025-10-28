@@ -9,6 +9,14 @@ iqm.applications.qubo
 
    
    
+   .. rubric:: Functions
+
+   .. autosummary::
+      :toctree:
+      :template: autosummary-function-template.rst
+   
+      relabel_bqm_cqm_variables
+   
    
 
    

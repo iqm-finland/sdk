@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>iqm.applications.graph_utils &#8212; IQM QAOA 1.35.0 documentation</title>
+    <title>iqm.applications.graph_utils &#8212; IQM QAOA 1.38.1 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=9f48817e"></script>
+    <script src="../_static/documentation_options.js?v=16f15bd9"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -46,11 +46,11 @@
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="relabel_graph_nodes" href="iqm.applications.graph_utils.relabel_graph_nodes.html" />
+    <link rel="next" title="draw_problem" href="iqm.applications.graph_utils.draw_problem.html" />
     <link rel="prev" title="ProblemInstance" href="iqm.applications.applications.ProblemInstance.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2025-10-27"/>
+    <meta name="docbuild:last-update" content="2025-10-28"/>
   </head>
   
   
@@ -140,8 +140,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.35.0 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM QAOA 1.35.0 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.38.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM QAOA 1.38.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -175,8 +175,13 @@
 </ul>
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">iqm.applications.graph_utils</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.draw_problem.html">draw_problem</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.plot_graph.html">plot_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.prepare_plot_data.html">prepare_plot_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.residual_degree.html">residual_degree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.PlotData.html">PlotData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.ProblemData.html">ProblemData</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.maxcut.html">iqm.applications.maxcut</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -197,6 +202,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.qubo.html">iqm.applications.qubo</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.relabel_bqm_cqm_variables.html">relabel_bqm_cqm_variables</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.ConstrainedQuadraticInstance.html">ConstrainedQuadraticInstance</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.QUBOInstance.html">QUBOInstance</a></li>
 </ul>
@@ -209,8 +215,31 @@
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="iqm.qaoa.html">iqm.qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.backends.html">iqm.qaoa.backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html">EstimatorBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorFromSampler.html">EstimatorFromSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorQUIMB.html">EstimatorQUIMB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorSingleLayer.html">EstimatorSingleLayer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorStateVector.html">EstimatorStateVector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html">SamplerBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.SamplerRandomBitstrings.html">SamplerRandomBitstrings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.SamplerResonance.html">SamplerResonance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.SamplerSimulation.html">SamplerSimulation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.circuits.html">iqm.qaoa.circuits</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.qiskit_circuit.html">qiskit_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.qiskit_circuit_specific_nodes.html">qiskit_circuit_specific_nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.quimb_tn.html">quimb_tn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.transpiled_circuit.html">transpiled_circuit</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.generic_qaoa.html">iqm.qaoa.generic_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.generic_qaoa.QAOA.html">QAOA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.qubo_qaoa.html">iqm.qaoa.qubo_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.qubo_qaoa.QUBOQAOA.html">QUBOQAOA</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.transforming_functions.html">iqm.qaoa.transforming_functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -219,10 +248,21 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.transpiler.html">iqm.qaoa.transpiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.hardwired.html">iqm.qaoa.transpiler.hardwired</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.html">iqm.qaoa.transpiler.quantum_hardware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.routing.html">iqm.qaoa.transpiler.routing</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.rx_to_nx.html">iqm.qaoa.transpiler.rx_to_nx</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.sn.html">iqm.qaoa.transpiler.sn</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.sparse.html">iqm.qaoa.transpiler.sparse</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.star.html">iqm.qaoa.transpiler.star</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.tree_calculation.html">iqm.qaoa.tree_calculation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.tree_calculation.generate_basis.html">iqm.qaoa.tree_calculation.generate_basis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.tree_calculation.tree_calculation.html">iqm.qaoa.tree_calculation.tree_calculation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.tree_qaoa.html">iqm.qaoa.tree_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.tree_qaoa.TreeQAOA.html">TreeQAOA</a></li>
 </ul>
 </details></li>
 </ul>
@@ -391,16 +431,42 @@ document.write(`
 <p class="rubric">Functions</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.applications.graph_utils.relabel_graph_nodes.html#iqm.applications.graph_utils.relabel_graph_nodes" title="iqm.applications.graph_utils.relabel_graph_nodes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">relabel_graph_nodes</span></code></a>(graph)</p></td>
-<td><p>Map original node labels of the <a class="reference external" href="https://networkx.org/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v3.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> to new ones between 0 and <cite>graph.number_of_nodes</cite> - 1.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.applications.graph_utils.draw_problem.html#iqm.applications.graph_utils.draw_problem" title="iqm.applications.graph_utils.draw_problem"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_problem</span></code></a>([problem_instance, ...])</p></td>
+<td><p>High-level wrapper that prepares and visualizes a problem graph.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="iqm.applications.graph_utils.residual_degree.html#iqm.applications.graph_utils.residual_degree" title="iqm.applications.graph_utils.residual_degree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">residual_degree</span></code></a>(graph, node, visited)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.applications.graph_utils.plot_graph.html#iqm.applications.graph_utils.plot_graph" title="iqm.applications.graph_utils.plot_graph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_graph</span></code></a>(plot_data)</p></td>
+<td><p>Renders the graph using <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code> and <code class="docutils literal notranslate"><span class="pre">networkx</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.applications.graph_utils.prepare_plot_data.html#iqm.applications.graph_utils.prepare_plot_data" title="iqm.applications.graph_utils.prepare_plot_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prepare_plot_data</span></code></a>(data[, seed])</p></td>
+<td><p>Generates all layout and color data required for visualization.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.applications.graph_utils.relabel_graph_nodes.html#iqm.applications.graph_utils.relabel_graph_nodes" title="iqm.applications.graph_utils.relabel_graph_nodes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">relabel_graph_nodes</span></code></a>(graph)</p></td>
+<td><p>Map original node labels of the <a class="reference external" href="https://networkx.org/documentation/stable/reference/classes/graph.html#networkx.Graph" title="(in NetworkX v3.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> to consecutive integers starting from 0.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.applications.graph_utils.residual_degree.html#iqm.applications.graph_utils.residual_degree" title="iqm.applications.graph_utils.residual_degree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">residual_degree</span></code></a>(graph, node, visited)</p></td>
 <td><p>The degree of <code class="docutils literal notranslate"><span class="pre">node</span></code> in the graph, with regards to only non-visited nodes.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-</section>
+<p class="rubric">Classes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.applications.graph_utils.PlotData.html#iqm.applications.graph_utils.PlotData" title="iqm.applications.graph_utils.PlotData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PlotData</span></code></a>(graph, pos, node_colors, ...)</p></td>
+<td><p>Precomputed visualization information used for drawing the graph.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.applications.graph_utils.ProblemData.html#iqm.applications.graph_utils.ProblemData" title="iqm.applications.graph_utils.ProblemData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProblemData</span></code></a>(graph, orig_to_new_mapping, ...)</p></td>
+<td><p>Normalized problem information extracted and validated before plotting.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-4c39b2be18f970eb1064aa5d46215882b806d75a.png" alt="Inheritance diagram of iqm.applications.graph_utils" usemap="#inheritance2820d38d4d" class="inheritance graphviz" /></div>
+<map id="inheritance2820d38d4d" name="inheritance2820d38d4d">
+<area shape="rect" id="node1" href="iqm.applications.graph_utils.PlotData.html#iqm.applications.graph_utils.PlotData" target="_top" title="Precomputed visualization information used for drawing the graph." alt="" coords="19,55,98,80"/>
+<area shape="rect" id="node2" href="iqm.applications.graph_utils.ProblemData.html#iqm.applications.graph_utils.ProblemData" target="_top" title="Normalized problem information extracted and validated before plotting." alt="" coords="5,5,112,31"/>
+</map></section>
 
 
                 </article>
@@ -423,11 +489,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="iqm.applications.graph_utils.relabel_graph_nodes.html"
+       href="iqm.applications.graph_utils.draw_problem.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">relabel_graph_nodes</p>
+        <p class="prev-next-title">draw_problem</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -466,7 +532,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-10-27.
+  Last updated on 2025-10-28.
   <br/>
 </p>
   </div>

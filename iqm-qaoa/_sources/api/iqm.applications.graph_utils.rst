@@ -15,6 +15,9 @@ iqm.applications.graph\_utils
       :toctree:
       :template: autosummary-function-template.rst
    
+      draw_problem
+      plot_graph
+      prepare_plot_data
       relabel_graph_nodes
       residual_degree
    
@@ -22,6 +25,15 @@ iqm.applications.graph\_utils
 
    
    
+   .. rubric:: Classes
+
+   .. autosummary::
+      :toctree:
+      :template: autosummary-class-template.rst
+   
+      PlotData
+      ProblemData
+   
    
 
    
@@ -33,4 +45,9 @@ iqm.applications.graph\_utils
 
 
 
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.applications.graph_utils
+   :parts: 1
 

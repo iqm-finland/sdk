@@ -279,11 +279,11 @@ support currently has several limitations:
   apply the gate if the bit is 1, and apply an identity gate if the bit is 0.
 * The availability of the controlled gates depends on the instrumentation of the quantum computer.
 
-The classical control can be applied on a circuit instruction using :meth:`~qiskit.circuit.Instruction.c_if`:
+The classical control can be applied on a circuit instruction using :meth:`~qiskit.circuit.QuantumCircuit.if_test`:
 
 .. code-block:: python
 
-    from qiskit import QuantumCircuit
+    from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
 
     qr = QuantumRegister(2, 'q')
     cr = ClassicalRegister(1, 'c')
@@ -291,26 +291,27 @@ The classical control can be applied on a circuit instruction using :meth:`~qisk
 
     circuit.h(0)
     circuit.measure(0, cr[0])
-    circuit.x(1).c_if(cr, 1)
+    with circuit.if_test((cr[0], 1)):
+        circuit.x(1)  # apply X gate on qubit 1 if cr[0] is 1
     circuit.measure_all()
 
     print(circuit.draw(output='text'))
 
 ::
 
-            ┌───┐┌─┐        ░ ┌─┐
-       q_0: ┤ H ├┤M├────────░─┤M├───
-            └───┘└╥┘ ┌───┐  ░ └╥┘┌─┐
-       q_1: ──────╫──┤ X ├──░──╫─┤M├
-                  ║  └─╥─┘  ░  ║ └╥┘
-                  ║ ┌──╨──┐    ║  ║
-       c: 1/══════╩═╡ 0x1 ╞════╬══╬═
-                  0 └─────┘    ║  ║
-    meas: 2/═══════════════════╩══╩═
-                               0  1
+            ┌───┐┌─┐                           ░ ┌─┐   
+       q_0: ┤ H ├┤M├───────────────────────────░─┤M├───
+            └───┘└╥┘  ┌──────  ┌───┐ ───────┐  ░ └╥┘┌─┐
+       q_1: ──────╫───┤ If-0  ─┤ X ├  End-0 ├──░──╫─┤M├
+                  ║   └──╥───  └───┘ ───────┘  ░  ║ └╥┘
+                  ║ ┌────╨────┐                   ║  ║ 
+       c: 1/══════╩═╡ c_0=0x1 ╞═══════════════════╬══╬═
+                  0 └─────────┘                   ║  ║ 
+    meas: 2/══════════════════════════════════════╩══╩═
+                                                  0  1 
 
 
-The first measurement operation stores its result in the 1-bit classical register ``c``. If the
+The first measurement operation stores its result in the classical register ``c``. If the
 result is 1, the ``X`` gate will be applied. If it is zero, an identity gate of corresponding
 duration is applied instead.
 
@@ -319,9 +320,7 @@ between the '00 0' and '11 1' bins of the histogram (even though the state itsel
 
 .. note::
 
-   Because the gates can only take feedback from one classical bit you must place the measurement result
-   in a 1-bit classical register, ``c`` in the above example.
-
+   ``if_test`` blocks cannot be nested.
 
 Resetting qubits
 ~~~~~~~~~~~~~~~~

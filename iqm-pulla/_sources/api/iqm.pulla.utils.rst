@@ -57,6 +57,13 @@ iqm.pulla.utils
 
    
    
+   .. rubric:: Exceptions
+
+   .. autosummary::
+      :toctree:
+   
+      PostSelectionError
+   
    
 
 
