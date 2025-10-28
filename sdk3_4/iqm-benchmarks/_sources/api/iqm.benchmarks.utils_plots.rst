@@ -14,7 +14,6 @@ iqm.benchmarks.utils\_plots
    .. autosummary::
       :toctree:
    
-      calculate_node_radii
       draw_graph_edges
       evaluate_hamiltonian_paths
       plot_layout_fidelity_graph

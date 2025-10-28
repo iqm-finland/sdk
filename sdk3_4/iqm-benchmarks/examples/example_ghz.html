@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Greenberger–Horne–Zeilinger (GHZ) State Fidelity &#8212; IQM Benchmarks 2.49 documentation</title>
+    <title>Greenberger–Horne–Zeilinger (GHZ) State Fidelity &#8212; IQM Benchmarks 2.33 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=3b77a4e7"></script>
+    <script src="../_static/documentation_options.js?v=b90d5273"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -142,8 +142,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Benchmarks 2.49 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Benchmarks 2.49 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Benchmarks 2.33 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Benchmarks 2.33 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -174,7 +174,6 @@
 <li class="toctree-l2"><a class="reference internal" href="example_clops.html">Circuit Layer Operations Per Second (CLOPS)</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Greenberger–Horne–Zeilinger (GHZ) State Fidelity</a></li>
 <li class="toctree-l2"><a class="reference internal" href="example_qscore.html">Q-Score</a></li>
-<li class="toctree-l2"><a class="reference internal" href="example_coherence.html">Coherence experiments</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../devices/devices.html">Devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -210,10 +209,6 @@
 <li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.circuit_containers.BenchmarkCircuit.html">iqm.benchmarks.circuit_containers.BenchmarkCircuit</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.circuit_containers.CircuitGroup.html">iqm.benchmarks.circuit_containers.CircuitGroup</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.circuit_containers.Circuits.html">iqm.benchmarks.circuit_containers.Circuits</a></li>
-</ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.coherence.html">iqm.benchmarks.coherence</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.coherence.coherence.html">iqm.benchmarks.coherence.coherence</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.entanglement.html">iqm.benchmarks.entanglement</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -277,7 +272,6 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.html">iqm.benchmarks.utils_plots</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.calculate_node_radii.html">iqm.benchmarks.utils_plots.calculate_node_radii</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.draw_graph_edges.html">iqm.benchmarks.utils_plots.draw_graph_edges</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.evaluate_hamiltonian_paths.html">iqm.benchmarks.utils_plots.evaluate_hamiltonian_paths</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.plot_layout_fidelity_graph.html">iqm.benchmarks.utils_plots.plot_layout_fidelity_graph</a></li>
@@ -526,10 +520,9 @@ Thus for consistent comparisons one of the first two methods should be chosen, w
 <p>Use of the plot:</p>
 <ul class="simple">
 <li><p>If the <code class="docutils literal notranslate"><span class="pre">qubit_layouts</span></code> argument is provided, the selected qubits are marked in orange.</p></li>
-<li><p>CZ errors are indicated with edge width (<strong>thinner edge is better</strong>), where the edge width is given by <span class="math notranslate nohighlight">\(w_{ij} = - \mathrm{log}(\mathcal{F}_{\mathrm{CZ}}^{ij})\)</span>.</p></li>
+<li><p>CZ errors are indicated with edge width, <strong>thinner is better</strong>, where the edge width is given by <span class="math notranslate nohighlight">\(w_{ij} = - \mathrm{log}(\mathcal{F}_{\mathrm{CZ}}^{ij})\)</span>.</p></li>
 <li><p>Each edge is also labeled with the width value.</p></li>
 <li><p>Some graph layouts are predefined to match the layout as shown in IQM-Resonance. If the layout is not predefined, a graph in grid or star layout will be automatically generated, dependeing on the backend. Automatically generated graphs might need to be rerun a few times until a nice node layout is found.</p></li>
-<li><p>Single qubit errors are visualized as node size (<strong>smaller radius is better</strong>), with the node size being determined by <span class="math notranslate nohighlight">\(- \mathrm{log}(\mathcal{F})\)</span>, where <span class="math notranslate nohighlight">\(\mathcal{F}\)</span> is either the single qubit average gate fidelity, the single qubit readout fidelity, or the single qubit idle gate fidelity. Which of these is used can be controlled by the <code class="docutils literal notranslate"><span class="pre">sq_metric</span></code> argument, which can be set to “fidelity” “readout”, or “coherence”, where the latter option leads to the idle fidelities being shown.</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -539,7 +532,7 @@ Thus for consistent comparisons one of the first two methods should be chosen, w
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Check if access token environment variable is set: </span><span class="si">{</span><span class="s1">&#39;IQM_TOKEN&#39;</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="n">cal_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://api.resonance.meetiqm.com/quantum-computers/v1/garnet/calibrations&quot;</span> 
 <span class="n">qubit_layouts</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">6</span><span class="p">]]</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plot_layout_fidelity_graph</span><span class="p">(</span><span class="n">cal_url</span><span class="p">,</span> <span class="n">qubit_layouts</span> <span class="o">=</span> <span class="n">qubit_layouts</span><span class="p">,</span> <span class="n">sq_metric</span><span class="o">=</span><span class="s2">&quot;coherence&quot;</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plot_layout_fidelity_graph</span><span class="p">(</span><span class="n">cal_url</span><span class="p">,</span> <span class="n">qubit_layouts</span> <span class="o">=</span> <span class="n">qubit_layouts</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -547,7 +540,7 @@ Thus for consistent comparisons one of the first two methods should be chosen, w
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Check if access token environment variable is set: True
 </pre></div>
 </div>
-<img alt="../_images/78aae61e0aa0d1ad29eaa1fbcf259a8b7407d541cef8d442f42d072e5d6f035c.png" src="../_images/78aae61e0aa0d1ad29eaa1fbcf259a8b7407d541cef8d442f42d072e5d6f035c.png" />
+<img alt="../_images/3a2f42fd8dae61eccac479ec450f2914e51532118a2029d76a897b54ae745371.png" src="../_images/3a2f42fd8dae61eccac479ec450f2914e51532118a2029d76a897b54ae745371.png" />
 </div>
 </div>
 </section>
@@ -561,36 +554,36 @@ Thus for consistent comparisons one of the first two methods should be chosen, w
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-07-21 17:13:58,543 - iqm.benchmarks.logging_config - INFO - Now generating a 2-qubit GHZ state on qubits [18, 19]
-2025-07-21 17:13:58,546 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
-2025-07-21 17:13:59,166 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
-2025-07-21 17:13:59,259 - iqm.benchmarks.logging_config - INFO - Submitting batch with 7 circuits corresponding to qubits [18, 19]
-2025-07-21 17:13:59,263 - iqm.benchmarks.logging_config - INFO - Now generating a 3-qubit GHZ state on qubits [17, 18, 19]
-2025-07-21 17:13:59,711 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
-2025-07-21 17:13:59,731 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
-2025-07-21 17:13:59,879 - iqm.benchmarks.logging_config - INFO - Submitting batch with 9 circuits corresponding to qubits [17, 18, 19]
-2025-07-21 17:13:59,884 - iqm.benchmarks.logging_config - INFO - Now generating a 4-qubit GHZ state on qubits [0, 1, 3, 4]
-2025-07-21 17:13:59,885 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
-2025-07-21 17:13:59,950 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
-2025-07-21 17:14:00,439 - iqm.benchmarks.logging_config - INFO - Submitting batch with 11 circuits corresponding to qubits [0, 1, 3, 4]
-2025-07-21 17:14:00,463 - iqm.benchmarks.logging_config - INFO - Now generating a 5-qubit GHZ state on qubits [0, 1, 2, 3, 4]
-2025-07-21 17:14:00,492 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
-2025-07-21 17:14:00,960 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
-2025-07-21 17:14:01,248 - iqm.benchmarks.logging_config - INFO - Submitting batch with 13 circuits corresponding to qubits [0, 1, 2, 3, 4]
-2025-07-21 17:14:01,272 - iqm.benchmarks.logging_config - INFO - Now generating a 10-qubit GHZ state on qubits [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-2025-07-21 17:14:01,318 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
-2025-07-21 17:14:01,810 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
-2025-07-21 17:14:02,444 - iqm.benchmarks.logging_config - INFO - Submitting batch with 23 circuits corresponding to qubits [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-2025-07-21 17:14:02,465 - iqm.benchmarks.logging_config - INFO - Retrieving all counts
-2025-07-21 17:14:02,532 - iqm.benchmarks.logging_config - INFO - Applying readout error mitigation
-2025-07-21 17:14:09,078 - iqm.benchmarks.logging_config - INFO - Retrieving all counts
-2025-07-21 17:14:09,104 - iqm.benchmarks.logging_config - INFO - Applying readout error mitigation
-2025-07-21 17:14:09,576 - iqm.benchmarks.logging_config - INFO - Retrieving all counts
-2025-07-21 17:14:09,602 - iqm.benchmarks.logging_config - INFO - Applying readout error mitigation
-2025-07-21 17:14:09,961 - iqm.benchmarks.logging_config - INFO - Retrieving all counts
-2025-07-21 17:14:09,985 - iqm.benchmarks.logging_config - INFO - Applying readout error mitigation
-2025-07-21 17:14:10,509 - iqm.benchmarks.logging_config - INFO - Retrieving all counts
-2025-07-21 17:14:10,572 - iqm.benchmarks.logging_config - INFO - Applying readout error mitigation
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-03-13 10:58:42,067 - iqm.benchmarks.logging_config - INFO - Now generating a 2-qubit GHZ state on qubits [18, 19]
+2025-03-13 10:58:42,072 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
+2025-03-13 10:58:42,504 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
+2025-03-13 10:58:42,589 - iqm.benchmarks.logging_config - INFO - Submitting batch with 7 circuits corresponding to qubits [18, 19]
+2025-03-13 10:58:42,600 - iqm.benchmarks.logging_config - INFO - Now generating a 3-qubit GHZ state on qubits [17, 18, 19]
+2025-03-13 10:58:42,865 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
+2025-03-13 10:58:43,074 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
+2025-03-13 10:58:43,176 - iqm.benchmarks.logging_config - INFO - Submitting batch with 9 circuits corresponding to qubits [17, 18, 19]
+2025-03-13 10:58:43,183 - iqm.benchmarks.logging_config - INFO - Now generating a 4-qubit GHZ state on qubits [0, 1, 3, 4]
+2025-03-13 10:58:43,397 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
+2025-03-13 10:58:43,616 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
+2025-03-13 10:58:43,761 - iqm.benchmarks.logging_config - INFO - Submitting batch with 11 circuits corresponding to qubits [0, 1, 3, 4]
+2025-03-13 10:58:43,769 - iqm.benchmarks.logging_config - INFO - Now generating a 5-qubit GHZ state on qubits [0, 1, 2, 3, 4]
+2025-03-13 10:58:43,968 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
+2025-03-13 10:58:44,070 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
+2025-03-13 10:58:44,452 - iqm.benchmarks.logging_config - INFO - Submitting batch with 13 circuits corresponding to qubits [0, 1, 2, 3, 4]
+2025-03-13 10:58:44,464 - iqm.benchmarks.logging_config - INFO - Now generating a 10-qubit GHZ state on qubits [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+2025-03-13 10:58:44,646 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
+2025-03-13 10:58:44,972 - iqm.benchmarks.logging_config - INFO - Transpiling for backend IQMFakeApolloBackend with optimization level 3, sabre routing method including SQG optimization all circuits
+2025-03-13 10:58:45,559 - iqm.benchmarks.logging_config - INFO - Submitting batch with 23 circuits corresponding to qubits [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+2025-03-13 10:58:45,585 - iqm.benchmarks.logging_config - INFO - Retrieving all counts
+2025-03-13 10:58:51,564 - iqm.benchmarks.logging_config - INFO - Applying readout error mitigation
+2025-03-13 10:58:51,916 - iqm.benchmarks.logging_config - INFO - Retrieving all counts
+2025-03-13 10:58:51,962 - iqm.benchmarks.logging_config - INFO - Applying readout error mitigation
+2025-03-13 10:58:52,464 - iqm.benchmarks.logging_config - INFO - Retrieving all counts
+2025-03-13 10:58:52,529 - iqm.benchmarks.logging_config - INFO - Applying readout error mitigation
+2025-03-13 10:58:53,126 - iqm.benchmarks.logging_config - INFO - Retrieving all counts
+2025-03-13 10:58:53,212 - iqm.benchmarks.logging_config - INFO - Applying readout error mitigation
+2025-03-13 10:58:53,782 - iqm.benchmarks.logging_config - INFO - Retrieving all counts
+2025-03-13 10:58:53,968 - iqm.benchmarks.logging_config - INFO - Applying readout error mitigation
 </pre></div>
 </div>
 </div>
@@ -618,7 +611,7 @@ Thus for consistent comparisons one of the first two methods should be chosen, w
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/15562c4374f892deca56e05e55dead819f77052d64027bccfb5be8e516c32485.png" src="../_images/15562c4374f892deca56e05e55dead819f77052d64027bccfb5be8e516c32485.png" />
+<img alt="../_images/9c15d6d46af009acc54b721f6ada147126b886877ca548721d2f1f9108a7700a.png" src="../_images/9c15d6d46af009acc54b721f6ada147126b886877ca548721d2f1f9108a7700a.png" />
 </div>
 </div>
 </section>

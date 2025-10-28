@@ -29,6 +29,7 @@ iqm.benchmarks.optimization.qscore.QScoreConfiguration
       ~QScoreConfiguration.seed
       ~QScoreConfiguration.REM
       ~QScoreConfiguration.mit_shots
+      ~QScoreConfiguration.qpu_topology
       ~QScoreConfiguration.shots
       ~QScoreConfiguration.max_gates_per_batch
       ~QScoreConfiguration.max_circuits_per_batch

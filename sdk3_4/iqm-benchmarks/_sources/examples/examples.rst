@@ -16,4 +16,3 @@ This section contains a collection of examples that demonstrate how to use the I
    example_clops
    example_ghz
    example_qscore
-   example_coherence
