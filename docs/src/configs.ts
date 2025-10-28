@@ -1,4 +1,4 @@
-export type VersionType = 'resonance' | 'os4.1' | 'os4.2';
+export type VersionType = 'resonance' | 'os4.1' | 'os4.2' | 'os4.3';
 
 export interface VersionConfig {
   id: VersionType;
@@ -11,7 +11,7 @@ export interface VersionConfig {
 export const versionConfigs: VersionConfig[] = [
   {
     id: 'resonance',
-    label: 'IQM OS 4.2 (Resonance)',
+    label: 'IQM OS 4.3 (Resonance)',
     pathPrefix: './',
     packages: [
       'iqm-data-definitions',
