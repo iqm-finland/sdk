@@ -27,12 +27,18 @@ build_docs() {
     # Create subdirectories
     mkdir -p "$OUTPUT_DIR"
     mkdir -p "temp/$TEMP_SUBDIR"
-    
+    CONSTRAINTS_FILE="temp/$TEMP_SUBDIR/constraints.txt"
+
+    # Compile a constraint file from the SDK file to ensure consistent versions across subsequent 'pip download' and
+    # 'pip install' commands, and to capture all versions used for the documentation build.
+    uv pip compile --upgrade --no-emit-index-url --no-emit-find-links --no-header --no-cache --no-annotate \
+        --output-file "$CONSTRAINTS_FILE" "$SDK_FILE"
+
     # Download and extract the packages' source distributions
-    uv run -m pip download --no-deps --no-binary=:all: -r "$SDK_FILE" -d "./temp/$TEMP_SUBDIR"
+    uv run -m pip download --no-deps --no-binary=:all: -c "$CONSTRAINTS_FILE" -r "$SDK_FILE" -d "./temp/$TEMP_SUBDIR"
     
     # Install the packages into the virtual environment; needed for Sphinx to resolve namespaces
-    uv pip install -r "$SDK_FILE"
+    uv pip install -r "$CONSTRAINTS_FILE"
     
     echo "Downloaded packages for $SDK_FILE:"
     ls -la "temp/$TEMP_SUBDIR"
