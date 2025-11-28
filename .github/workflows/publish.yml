@@ -31,6 +31,36 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Analyze SDK files and set version ranges
+        id: analyze-sdk
+        run: |
+          # Find all SDK files and determine the maximum version ranges
+          MAX_MAJOR=3
+          MAX_MINOR=0
+          
+          for file in sdk*.txt; do
+            if [[ -f "$file" ]]; then
+              echo "Found SDK file: $file"
+              # Extract major and minor version from filename
+              if [[ $file =~ sdk([0-9]+)_([0-9]+)(_default)?\.txt ]]; then
+                major=${BASH_REMATCH[1]}
+                minor=${BASH_REMATCH[2]}
+                echo "  Version: $major.$minor"
+                
+                # Update maximum versions
+                if [[ $major -gt $MAX_MAJOR ]]; then
+                  MAX_MAJOR=$major
+                elif [[ $major -eq $MAX_MAJOR && $minor -gt $MAX_MINOR ]]; then
+                  MAX_MINOR=$minor
+                fi
+              fi
+            fi
+          done
+          
+          echo "Determined maximum version range: $MAX_MAJOR.$MAX_MINOR"
+          echo "MAX_MAJOR=$MAX_MAJOR" >> $GITHUB_OUTPUT
+          echo "MAX_MINOR=$MAX_MINOR" >> $GITHUB_OUTPUT
+
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
@@ -47,7 +77,11 @@ jobs:
 
       - name: Install and build React project
         working-directory: ./docs
+        env:
+          VITE_SDK_MAX_MAJOR_VERSION: ${{ steps.analyze-sdk.outputs.MAX_MAJOR }}
+          VITE_SDK_MAX_MINOR_VERSION: ${{ steps.analyze-sdk.outputs.MAX_MINOR }}
         run: |
+          echo "Building with SDK version range: $VITE_SDK_MAX_MAJOR_VERSION.$VITE_SDK_MAX_MINOR_VERSION"
           npm ci
           npm run build
 

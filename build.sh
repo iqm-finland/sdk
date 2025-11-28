@@ -2,8 +2,24 @@
 
 cd docs
 
+# Find the default SDK file (the one with _default suffix)
+DEFAULT_SDK_FILE=""
+for sdk_file in ../sdk*_default.txt; do
+    if [ -f "$sdk_file" ]; then
+        DEFAULT_SDK_FILE="$sdk_file"
+        break
+    fi
+done
+
+if [ -z "$DEFAULT_SDK_FILE" ]; then
+    echo "Error: No default SDK file found (looking for sdk*_default.txt)"
+    exit 1
+fi
+
+echo "Using default SDK file: $DEFAULT_SDK_FILE"
+
 # Put package names into environment variable; later used for creating directories and for the React app
-PACKAGES=$(awk '{print $1}' ../sdk.txt | tr '\n' ' ' | sed 's/ $//')
+PACKAGES=$(awk '{print $1}' "$DEFAULT_SDK_FILE" | tr '\n' ' ' | sed 's/ $//')
 
 echo "Building documentation for packages: $PACKAGES"
 
@@ -103,14 +119,14 @@ build_docs() {
     done
 }
 
-# Build current versions from sdk.txt
-build_docs "../sdk.txt" "public" "current"
+# Build current/default version from the default SDK file
+build_docs "$DEFAULT_SDK_FILE" "public" "current"
 
-# Build older versions from all SDK version files (excluding the main sdk.txt)
+# Build all other versions from SDK version files (excluding the default one)
 for sdk_file in ../sdk*.txt; do
     if [ -f "$sdk_file" ]; then
-        # Skip the main sdk.txt file
-        if [ "$(basename "$sdk_file")" = "sdk.txt" ]; then
+        # Skip the default SDK file as it's already been processed
+        if [ "$sdk_file" = "$DEFAULT_SDK_FILE" ]; then
             continue
         fi
         

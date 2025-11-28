@@ -5,7 +5,7 @@ import AppSwitcher from './AppSwitcher';
 import defaultDocs from "../search.json";
 import Features from './Features';
 import QrispLogo from './img/qrisp_logo.png'
-import { versionConfigs, type VersionType } from './configs';
+import { versionConfigs, versionConfigsPromise, type VersionType, type VersionConfig } from './configs';
 
 interface Doc {
   title: string;
@@ -19,9 +19,33 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [docs, setDocs] = useState<Doc[]>(defaultDocs);
   const [searchResults, setSearchResults] = useState<Doc[]>(defaultDocs);
-  const [selectedVersion, setSelectedVersion] = useState<VersionType>('resonance');
+  const [selectedVersion, setSelectedVersion] = useState<VersionType>('');
+  const [availableVersions, setAvailableVersions] = useState<VersionConfig[]>(versionConfigs);
+  const [isLoadingVersions, setIsLoadingVersions] = useState(true);
 
-  const currentVersionConfig = versionConfigs.find(v => v.id === selectedVersion) || versionConfigs[0];
+  // Load dynamic version configurations
+  useEffect(() => {
+    const loadVersions = async () => {
+      try {
+        const dynamicConfigs = await versionConfigsPromise;
+        if (dynamicConfigs.length > 0) {
+          setAvailableVersions(dynamicConfigs);
+          
+          // Set default version to the one marked as default, or the first one
+          const defaultConfig = dynamicConfigs.find(v => v.isDefault) || dynamicConfigs[0];
+          setSelectedVersion(defaultConfig.id);
+        }
+      } catch (error) {
+        console.warn('Failed to load dynamic version configs, using static fallback:', error);
+      } finally {
+        setIsLoadingVersions(false);
+      }
+    };
+    
+    loadVersions();
+  }, []);
+
+  const currentVersionConfig = availableVersions.find(v => v.id === selectedVersion) || availableVersions[0];
 
   // Load search index for the selected version
   useEffect(() => {
@@ -58,29 +82,35 @@ function App() {
 
   // Get packages for a specific version
   const getPackagesForVersion = (versionId: VersionType): string[] => {
-    const config = versionConfigs.find(v => v.id === versionId);
+    const config = availableVersions.find(v => v.id === versionId);
     return config ? config.packages : [];
   };
 
   // Initialize version from URL on component mount
   useEffect(() => {
+    if (isLoadingVersions || availableVersions.length === 0) return;
+    
     const urlParams = new URLSearchParams(window.location.search);
     const versionFromUrl = urlParams.get('version') as VersionType;
-    if (versionFromUrl && versionConfigs.some(v => v.id === versionFromUrl)) {
+    if (versionFromUrl && availableVersions.some(v => v.id === versionFromUrl)) {
       setSelectedVersion(versionFromUrl);
     }
-  }, []);
+  }, [isLoadingVersions, availableVersions]);
 
   // Update URL when version changes
   useEffect(() => {
+    if (!selectedVersion || isLoadingVersions) return;
+    
     const url = new URL(window.location.href);
-    if (selectedVersion !== 'resonance') {
+    const defaultConfig = availableVersions.find(v => v.isDefault);
+    
+    if (selectedVersion !== defaultConfig?.id) {
       url.searchParams.set('version', selectedVersion);
     } else {
       url.searchParams.delete('version');
     }
     window.history.replaceState({}, '', url.toString());
-  }, [selectedVersion]);
+  }, [selectedVersion, availableVersions, isLoadingVersions]);
 
   const fuse = useMemo(() => new Fuse(docs, {
     keys: ['title', 'description', 'package'],
@@ -191,27 +221,37 @@ function App() {
             <>
               <p>Find below the documentation for IQM client-side libraries that can be used to connect to {" "}
                 <a href="https://resonance.meetiqm.com" target="_blank">IQM Resonance</a> and any IQM on-premise quantum computer.
-                {currentVersionConfig.description && (
-                  <span className="block mt-2 text-sm text-orange-600 bg-orange-50 p-2 rounded">
-                    ⚠️ {currentVersionConfig.description}
+                {currentVersionConfig && currentVersionConfig.description && (
+                  <span className={`block mt-2 text-sm p-2 rounded ${
+                    currentVersionConfig.isPreview 
+                      ? 'text-orange-600 bg-orange-50 border border-orange-200' 
+                      : 'text-blue-600 bg-blue-50 border border-blue-200'
+                  }`}>
+                    {currentVersionConfig.description}
                   </span>
                 )}
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                {docLinks.map((doc, index) => (
-                    <a key={index} href={doc.href} target='_blank' className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow relative">
-                    {doc.image ? (
-                      <img 
-                      src={doc.image} 
-                      className="h-7" 
-                      alt={doc.title + " logo"} 
-                      />
-                    ) :
-                    <h2 className="text-lg font-semibold text-gray-900 pr-10">{doc.title}</h2>}
-                    <p className="mt-2 text-sm text-gray-600">{doc.description}</p>
-                    </a>
-                ))}
-              </div>
+              {isLoadingVersions ? (
+                <div className="flex justify-center items-center mt-8 py-12">
+                  <div className="text-gray-500">Loading version configurations...</div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                  {docLinks.map((doc, index) => (
+                      <a key={index} href={doc.href} target='_blank' className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow relative">
+                      {doc.image ? (
+                        <img 
+                        src={doc.image} 
+                        className="h-7" 
+                        alt={doc.title + " logo"} 
+                        />
+                      ) :
+                      <h2 className="text-lg font-semibold text-gray-900 pr-10">{doc.title}</h2>}
+                      <p className="mt-2 text-sm text-gray-600">{doc.description}</p>
+                      </a>
+                  ))}
+                </div>
+              )}
             </>
           ) : (
             <Features />
@@ -264,28 +304,36 @@ function App() {
         </div>
 
         {/* Floating Version Selector */}
-        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40">
-          <div className="bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl shadow-lg px-2 py-2">
-            <div className="flex gap-1">
-              {versionConfigs.map((version) => (
-                <button
-                  key={version.id}
-                  className={`px-3 py-2 text-xs sm:text-sm rounded-xl transition-all duration-200 ${
-                  selectedVersion === version.id 
-                    ? 'text-white shadow-md transform scale-105' 
-                    : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
-                  }`}
-                  style={selectedVersion === version.id ? {
-                  background: 'linear-gradient(45deg, #759deb, #5fdd97)'
-                  } : {}}
-                  onClick={() => setSelectedVersion(version.id)}
-                >
-                  {version.label}
-                </button>
-              ))}
+        {!isLoadingVersions && availableVersions.length > 0 && (
+          <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40">
+            <div className="bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl shadow-lg px-2 py-2">
+              <div className="flex gap-1">
+                {availableVersions.map((version) => (
+                  <button
+                    key={version.id}
+                    className={`px-3 py-2 text-xs sm:text-sm rounded-xl transition-all duration-200 ${
+                    selectedVersion === version.id 
+                      ? 'text-white shadow-md transform scale-105' 
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
+                    }`}
+                    style={selectedVersion === version.id ? {
+                    background: version.isPreview 
+                      ? 'linear-gradient(45deg, #9ca3af, #6b7280)' 
+                      : 'linear-gradient(45deg, #759deb, #5fdd97)'
+                    } : {}}
+                    onClick={() => setSelectedVersion(version.id)}
+                    title={version.isPreview ? 'Preview version' : version.isDefault ? 'Default version' : ''}
+                  >
+                    <span className="items-center gap-1">
+                      {version.label}
+                      {version.isPreview && <sup className="text-xxs text-gray-400">PREVIEW</sup>}
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <footer className="mt-8 text-center text-sm text-gray-500 border-gray-300 border-t pt-4 pb-20">
           <span>Copyright IQM Quantum Computers 2021-2025.</span>

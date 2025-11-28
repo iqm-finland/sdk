@@ -62,53 +62,63 @@ If you only need to work on the main React-powered page, no need to run `build.s
 
 # Adding New OS Versions
 
-To add a new OS version (e.g., IQM OS 5.0), you only need to edit one file: `docs/src/configs.ts`
+The SDK documentation website now automatically detects and creates version configurations from SDK files! 🎉
 
-## Steps:
+## How It Works:
 
-1. **Update the VersionType**:
-   ```typescript
-   export type VersionType = 'resonance' | 'os4.1' | 'os4.2' | 'os5.0';
+The system scans for `sdkX_Y.txt` files in the project root and automatically generates version configurations:
+
+- **Pattern**: `sdkX_Y.txt` creates version `X_Y`
+- **Default Version**: Files ending with `_default.txt` (e.g., `sdk4_3_default.txt`) become the default version
+- **Path Mapping**: Default version maps to `/`, others to `/sdkX_Y/`
+- **Automatic Sorting**: Versions are sorted by version number (newest first: 4_4, 4_3, 4_1, 4_0, 3_4)
+- **Preview Warnings**: Versions newer than the default show preview warnings
+
+## To Add a New Version:
+
+1. **Create the SDK file** in the project root:
    ```
-
-2. **Add the new version configuration**:
-   ```typescript
-   {
-     id: 'os5.0',
-     label: 'IQM OS 5.0',
-     pathPrefix: './sdk5_0/',
-     description: 'You are viewing documentation for IQM OS 5.0. Some packages may not be available in this version.',
-     packages: [
-       'iqm-pulla',
-       'iqm-client',
-       'iqm-pulse',
-       // Add other packages available in OS 5.0
-     ]
-   }
-   ```
-
-3. **Create the SDK file** (for the build process):
-   Create `sdk5_0.txt` in the root with the package versions:
-   ```
+   # Example: sdk5_0.txt
    iqm-pulla[qiskit,qir]==12.0
    iqm-client[qiskit,cirq,cli]==35.0
    iqm-pulse==15.0
+   iqm-data-definitions==8.0
    ```
 
-That's it! The build system, UI, and URL handling will automatically support the new version.
+2. **For a new default version** (optional):
+   ```
+   # Rename existing default and create new one
+   mv sdk4_3_default.txt sdk4_3.txt
+   cp sdk5_0.txt sdk5_0_default.txt
+   ```
 
-## Configuration Properties:
+That's it! The version will automatically appear in the UI with:
+- ✅ Proper sorting (newest versions on the left)
+- ✅ Automatic path mapping 
+- ✅ Package detection from SDK file
+- ✅ Preview warnings for versions newer than default
+- ✅ URL persistence (e.g., `?version=5_0`)
 
-- **id**: Unique identifier used in URLs and internal logic
-- **label**: Display name shown in the UI
-- **pathPrefix**: URL path where the documentation will be served
-- **description**: Optional warning/info message shown when this version is selected
-- **packages**: Array of package names available in this version
+## SDK File Format:
 
-## Automatic Features:
+Each line should contain a package name, optionally with extras and versions:
+```
+package-name
+package-with-extras[extra1,extra2]
+package-with-version==1.2.3
+package-with-extras-and-version[extras]==1.0.0
+```
 
-- Version selector buttons are generated automatically
-- URL state persistence (e.g., `?version=os5.0`)
-- Package filtering (only shows packages available in the selected version)
-- Build system automatically processes `sdk*_*.txt` files
-- Warning messages for non-default versions
+## Configuration Properties (Auto-Generated):
+
+- **id**: Version identifier (e.g., `4_3`, `5_0`)
+- **label**: Display name (e.g., `IQM OS 4.3 (Resonance)`)
+- **pathPrefix**: URL path (`./ for default, ./sdkX_Y/ for others`)
+- **packages**: Extracted from SDK file content
+- **isDefault**: `true` for `_default.txt` files
+- **isPreview**: `true` for versions newer than default
+- **description**: Auto-generated warnings for preview/older versions
+
+## Manual Override (Fallback):
+
+If automatic detection fails, the system falls back to static configuration in `src/configs.ts`.
