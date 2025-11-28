@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'sdk.txt'
+      - 'sdk*_default.txt'
   pull_request:
     branches:
       - main
@@ -45,7 +45,13 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           source .venv/bin/activate
-          uv pip install -r sdk.txt
+          DEFAULT_SDK_FILE=$(ls sdk*_default.txt 2>/dev/null | head -n1)
+          if [ -z "$DEFAULT_SDK_FILE" ]; then
+            echo "No default SDK file found (sdk*_default.txt)"
+            exit 1
+          fi
+          echo "Using SDK file: $DEFAULT_SDK_FILE"
+          uv pip install -r "$DEFAULT_SDK_FILE"
           uv pip list
       
       - name: Install packages (Windows)
@@ -56,7 +62,13 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           .venv\Scripts\activate
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          uv pip install -r sdk.txt
+          $DefaultSdkFile = Get-ChildItem -Name "sdk*_default.txt" | Select-Object -First 1
+          if (-not $DefaultSdkFile) {
+            Write-Error "No default SDK file found (sdk*_default.txt)"
+            exit 1
+          }
+          Write-Output "Using SDK file: $DefaultSdkFile"
+          uv pip install -r $DefaultSdkFile
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           uv pip list
         shell: powershell
