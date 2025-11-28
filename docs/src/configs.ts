@@ -1,4 +1,4 @@
-export type VersionType = 'resonance' | 'os4.1' | 'os4.2' | 'os4.3';
+export type VersionType = 'resonance' | 'os4.1' | 'os4.2' | 'os4.3' | 'os4.4';
 
 export interface VersionConfig {
   id: VersionType;
@@ -23,6 +23,21 @@ export const versionConfigs: VersionConfig[] = [
       'iqm-qaoa',
       'iqm-benchmarks',
       'qrisp'
+    ]
+  },
+  {
+    id: 'os4.4',
+    label: 'IQM OS 4.4',
+    pathPrefix: './sdk4_4/',
+    description: 'You are viewing documentation for IQM OS 4.4.',
+    packages: [
+      'iqm-data-definitions',
+      'iqm-exa-common',
+      'iqm-station-control-client',
+      'iqm-pulse',
+      'iqm-pulla',
+      'iqm-client',
+      'iqm-benchmarks',
     ]
   },
   {
