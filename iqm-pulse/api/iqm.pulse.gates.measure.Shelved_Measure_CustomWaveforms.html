@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Shelved_Measure_CustomWaveforms &#8212; iqm.pulse 12.6.1 documentation</title>
+    <title>Shelved_Measure_CustomWaveforms &#8212; iqm.pulse 12.7.0 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=e279dc5f"></script>
+    <script src="../_static/documentation_options.js?v=28843862"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -52,7 +52,7 @@
     <link rel="prev" title="Shelved_Measure_Constant" href="iqm.pulse.gates.measure.Shelved_Measure_Constant.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2025-11-27"/>
+    <meta name="docbuild:last-update" content="2025-11-28"/>
   </head>
   
   
@@ -142,8 +142,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.6.1 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.6.1 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -259,6 +259,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html">TimeBox</a></li>
@@ -289,8 +290,8 @@
 </details></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 </ul>
 
@@ -393,12 +394,12 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.customizable_gates"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.customizable_gates</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.dependent_waves"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.dependent_waves</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.root_parameters"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.root_parameters</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.registered_gates"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.registered_gates</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.probe_timebox"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.probe_timebox()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms._get_probe_timebox_for_time_trace"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms._get_probe_timebox_for_time_trace()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.customizable_gates"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.customizable_gates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.dependent_waves"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.dependent_waves</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -477,24 +478,6 @@ standard readout operation but with the advantage that the population in the <a 
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.customizable_gates">
-<span class="sig-name descname"><span class="pre">customizable_gates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('prx_12',)</span></em><a class="headerlink" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.customizable_gates" title="Link to this definition">#</a></dt>
-<dd><p>These member operations can be calibrated separately from their common
-calibration by adding <code class="xref py py-attr docutils literal notranslate"><span class="pre">OCalibrationData</span></code> nodes for them under the
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">OILCalibrationData</span></code> node of the composite gate.
-Must be a subset of <a class="reference internal" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.registered_gates" title="iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.registered_gates"><code class="xref py py-attr docutils literal notranslate"><span class="pre">registered_gates</span></code></a>.
-By default all member operations are customizable.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.dependent_waves">
-<span class="sig-name descname"><span class="pre">dependent_waves</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.dependent_waves" title="Link to this definition">#</a></dt>
-<dd><p>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, the Q channel waveform is considered to depend on the I channel’s waveform
-so that they share the waveform parameters, (e.g. a DRAG PRX implementation). If not provided,
-will be initialised as <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.root_parameters">
 <span class="sig-name descname"><span class="pre">root_parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Parameter</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Setting</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'acquisition_delay':</span> <span class="pre">Parameter(name='',</span> <span class="pre">label='Acquisition</span> <span class="pre">delay',</span> <span class="pre">unit='s',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">'acquisition_type':</span> <span class="pre">Setting(parameter=Parameter(name='',</span> <span class="pre">label='Acquisition</span> <span class="pre">type',</span> <span class="pre">unit='',</span> <span class="pre">data_type=&lt;DataType.STRING:</span> <span class="pre">3&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">value='threshold',</span> <span class="pre">read_only=False,</span> <span class="pre">path=''),</span> <span class="pre">'amplitude_i':</span> <span class="pre">Parameter(name='',</span> <span class="pre">label='Readout</span> <span class="pre">channel</span> <span class="pre">I</span> <span class="pre">amplitude',</span> <span class="pre">unit='',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">'amplitude_q':</span> <span class="pre">Setting(parameter=Parameter(name='',</span> <span class="pre">label='Readout</span> <span class="pre">channel</span> <span class="pre">Q</span> <span class="pre">amplitude',</span> <span class="pre">unit='',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">value=0.0,</span> <span class="pre">read_only=False,</span> <span class="pre">path=''),</span> <span class="pre">'do_prx_12':</span> <span class="pre">Setting(parameter=Parameter(name='do_prx_12',</span> <span class="pre">label='Whether</span> <span class="pre">to</span> <span class="pre">do</span> <span class="pre">the</span> <span class="pre">prx_12</span> <span class="pre">flips</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">measure</span> <span class="pre">operation',</span> <span class="pre">unit='',</span> <span class="pre">data_type=&lt;DataType.BOOLEAN:</span> <span class="pre">4&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">value=True,</span> <span class="pre">read_only=False,</span> <span class="pre">path=''),</span> <span class="pre">'duration':</span> <span class="pre">Parameter(name='',</span> <span class="pre">label='Readout</span> <span class="pre">pulse</span> <span class="pre">duration',</span> <span class="pre">unit='s',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">'frequency':</span> <span class="pre">Parameter(name='',</span> <span class="pre">label='Readout</span> <span class="pre">pulse</span> <span class="pre">frequency',</span> <span class="pre">unit='Hz',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">'integration_length':</span> <span class="pre">Parameter(name='',</span> <span class="pre">label='Integration</span> <span class="pre">length',</span> <span class="pre">unit='s',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">'integration_threshold':</span> <span class="pre">Parameter(name='',</span> <span class="pre">label='Integration</span> <span class="pre">threshold',</span> <span class="pre">unit='',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">'integration_weights_I':</span> <span class="pre">Setting(parameter=Parameter(name='',</span> <span class="pre">label='Integration</span> <span class="pre">weights</span> <span class="pre">for</span> <span class="pre">channel</span> <span class="pre">I',</span> <span class="pre">unit='',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.NDARRAY:</span> <span class="pre">2&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">value=array([],</span> <span class="pre">dtype=float64),</span> <span class="pre">read_only=False,</span> <span class="pre">path=''),</span> <span class="pre">'integration_weights_Q':</span> <span class="pre">Setting(parameter=Parameter(name='',</span> <span class="pre">label='Integration</span> <span class="pre">weights</span> <span class="pre">for</span> <span class="pre">channel</span> <span class="pre">Q',</span> <span class="pre">unit='',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.NDARRAY:</span> <span class="pre">2&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">value=array([],</span> <span class="pre">dtype=float64),</span> <span class="pre">read_only=False,</span> <span class="pre">path=''),</span> <span class="pre">'phase':</span> <span class="pre">Parameter(name='',</span> <span class="pre">label='Readout</span> <span class="pre">pulse</span> <span class="pre">phase',</span> <span class="pre">unit='rad',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">'second_prx_12_offset':</span> <span class="pre">Setting(parameter=Parameter(name='second_prx_12_offset',</span> <span class="pre">label='Offset</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">second</span> <span class="pre">PRX_12</span> <span class="pre">pulse</span> <span class="pre">from</span> <span class="pre">the</span> <span class="pre">end</span> <span class="pre">the</span> <span class="pre">ReadoutTrigger',</span> <span class="pre">unit='s',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None),</span> <span class="pre">value=0.0,</span> <span class="pre">read_only=False,</span> <span class="pre">path='')}</span></em><a class="headerlink" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.root_parameters" title="Link to this definition">#</a></dt>
 <dd><p>Parameters independent of the of Waveforms. Inheriting classes may override this to include parameters common
@@ -555,6 +538,24 @@ fast feedback purposes. See <code class="xref py py-meth docutils literal notran
 </dl>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.customizable_gates">
+<span class="sig-name descname"><span class="pre">customizable_gates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('prx_12',)</span></em><a class="headerlink" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.customizable_gates" title="Link to this definition">#</a></dt>
+<dd><p>These member operations can be calibrated separately from their common
+calibration by adding <code class="xref py py-attr docutils literal notranslate"><span class="pre">OCalibrationData</span></code> nodes for them under the
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">OILCalibrationData</span></code> node of the composite gate.
+Must be a subset of <a class="reference internal" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.registered_gates" title="iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.registered_gates"><code class="xref py py-attr docutils literal notranslate"><span class="pre">registered_gates</span></code></a>.
+By default all member operations are customizable.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.dependent_waves">
+<span class="sig-name descname"><span class="pre">dependent_waves</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.dependent_waves" title="Link to this definition">#</a></dt>
+<dd><p>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, the Q channel waveform is considered to depend on the I channel’s waveform
+so that they share the waveform parameters, (e.g. a DRAG PRX implementation). If not provided,
+will be initialised as <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -605,12 +606,12 @@ fast feedback purposes. See <code class="xref py py-meth docutils literal notran
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.customizable_gates"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.customizable_gates</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.dependent_waves"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.dependent_waves</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.root_parameters"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.root_parameters</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.registered_gates"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.registered_gates</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.probe_timebox"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.probe_timebox()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms._get_probe_timebox_for_time_trace"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms._get_probe_timebox_for_time_trace()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.customizable_gates"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.customizable_gates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Shelved_Measure_CustomWaveforms.dependent_waves"><code class="docutils literal notranslate"><span class="pre">Shelved_Measure_CustomWaveforms.dependent_waves</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -633,7 +634,7 @@ fast feedback purposes. See <code class="xref py py-meth docutils literal notran
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.6.1.
+      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.0.
       <br/>
     
   </p>
@@ -642,7 +643,7 @@ fast feedback purposes. See <code class="xref py py-meth docutils literal notran
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-11-27.
+  Last updated on 2025-11-28.
   <br/>
 </p>
   </div>

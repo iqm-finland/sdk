@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ScheduleBuilder &#8212; iqm.pulse 12.6.1 documentation</title>
+    <title>ScheduleBuilder &#8212; iqm.pulse 12.7.0 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=e279dc5f"></script>
+    <script src="../_static/documentation_options.js?v=28843862"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -50,7 +50,7 @@
     <link rel="prev" title="CircuitOperation" href="iqm.pulse.builder.CircuitOperation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2025-11-27"/>
+    <meta name="docbuild:last-update" content="2025-11-28"/>
   </head>
   
   
@@ -140,8 +140,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.6.1 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.6.1 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.0 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -257,6 +257,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html">TimeBox</a></li>
@@ -287,8 +288,8 @@
 </details></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 </ul>
 
@@ -656,7 +657,7 @@ actually differs from the previous.</p>
 <p>See <a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.get_drive_channel" title="iqm.pulse.builder.ScheduleBuilder.get_drive_channel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_drive_channel()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>component</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p>
+<dd class="field-odd"><p><strong>component</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name of a QPU component (typically qubit) to probe</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a></p>
@@ -1044,11 +1045,10 @@ blocks only the defined locus components and any other components which have occ
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>playlist that implements <code class="docutils literal notranslate"><span class="pre">boxes</span></code> and the mapping from readout labels to the set of used measurement
-implementations (of the format <code class="docutils literal notranslate"><span class="pre">&lt;QuantumOp</span> <span class="pre">name&gt;.&lt;impl</span> <span class="pre">name&gt;</span></code>).</p>
+<dd class="field-even"><p>playlist that implements <code class="docutils literal notranslate"><span class="pre">boxes</span></code> and the readout metrics for that playlist.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>[<em>Playlist</em>, <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#set" title="(in Python v3.11)"><em>set</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>]]]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>[<em>Playlist</em>, <a class="reference internal" href="iqm.pulse.playlist.instructions.ReadoutMetrics.html#iqm.pulse.playlist.instructions.ReadoutMetrics" title="iqm.pulse.playlist.instructions.ReadoutMetrics"><em>ReadoutMetrics</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1278,20 +1278,19 @@ needs to be transferred to Station Control.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>schedules</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference internal" href="iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><em>Schedule</em></a><em>]</em>) – finished instruction schedules to include in the playlist</p></li>
+<li><p><strong>schedules</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference internal" href="iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><em>Schedule</em></a><em>]</em>) – finished instruction schedules to include in the playlist</p></li>
 <li><p><strong>finish_schedules</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – whether to finalise the schedules before building the playlist. Should be set <code class="docutils literal notranslate"><span class="pre">True</span></code>
 unless some process has already finalised them before calling this function.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>playlist containing the schedules and the mapping from readout labels to the set of used measurement
-implementations (of the format <code class="docutils literal notranslate"><span class="pre">&lt;QuantumOp</span> <span class="pre">name&gt;.&lt;impl</span> <span class="pre">name&gt;</span></code>).</p>
+<dd class="field-even"><p>playlist containing the schedules and the readout metrics for this playlist.</p>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – if the schedules contain channels with non-uniform sampling rates</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>[<em>Playlist</em>, <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#set" title="(in Python v3.11)"><em>set</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>]]]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>[<em>Playlist</em>, <a class="reference internal" href="iqm.pulse.playlist.instructions.ReadoutMetrics.html#iqm.pulse.playlist.instructions.ReadoutMetrics" title="iqm.pulse.playlist.instructions.ReadoutMetrics"><em>ReadoutMetrics</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1420,7 +1419,7 @@ a warning is raised.</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.6.1.
+      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.0.
       <br/>
     
   </p>
@@ -1429,7 +1428,7 @@ a warning is raised.</p>
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-11-27.
+  Last updated on 2025-11-28.
   <br/>
 </p>
   </div>
