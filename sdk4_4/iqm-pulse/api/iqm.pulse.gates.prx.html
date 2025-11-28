@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>prx &#8212; iqm.pulse 12.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=28843862"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>window.MathJax = {"TeX": {"Macros": {"I": "\\mathbb{I}", "R": "\\mathbb{R}", "C": "\\mathbb{C}", "tr": "\\text{Tr}", "diag": "\\text{diag}", "ket": ["\\left| #1 \\right\\rangle", 1], "bra": ["\\left\\langle #1 \\right|", 1]}}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.gates.prx';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="iqm.pulse.gates.prx.get_unitary_prx" href="iqm.pulse.gates.prx.get_unitary_prx.html" />
+    <link rel="prev" title="MoveMarker" href="iqm.pulse.gates.move.MoveMarker.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2025-11-28"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts and classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_builder.html">Using ScheduleBuilder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_gates.html">Custom gate implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pulse_timing.html">Pulse timing</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.pulse.html">pulse</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.base_utils.html">base_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.base_utils.merge_dicts.html">iqm.pulse.base_utils.merge_dicts</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.builder.html">builder</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.build_quantum_ops.html">iqm.pulse.builder.build_quantum_ops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.load_config.html">iqm.pulse.builder.load_config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.validate_quantum_circuit.html">iqm.pulse.builder.validate_quantum_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html">CircuitOperation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.ScheduleBuilder.html">ScheduleBuilder</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.circuit_operations.html">circuit_operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.get_unitary_from_circuit.html">iqm.pulse.circuit_operations.get_unitary_from_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.get_unitary_from_op.html">iqm.pulse.circuit_operations.get_unitary_from_op</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.reorder.html">iqm.pulse.circuit_operations.reorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.reshape_unitary.html">iqm.pulse.circuit_operations.reshape_unitary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.Circuit.html">Circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.CircuitOperationList.html">CircuitOperationList</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.gate_implementation.html">gate_implementation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.Locus.html">iqm.pulse.gate_implementation.Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.OILCalibrationData.html">iqm.pulse.gate_implementation.OILCalibrationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.OICalibrationData.html">iqm.pulse.gate_implementation.OICalibrationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.OCalibrationData.html">iqm.pulse.gate_implementation.OCalibrationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.OpCalibrationDataTree.html">iqm.pulse.gate_implementation.OpCalibrationDataTree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.NestedParams.html">iqm.pulse.gate_implementation.NestedParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_DRIVE_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_DRIVE_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_READOUT_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_READOUT_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_FLUX_AWG_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_FLUX_AWG_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.PROBE_LINES_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.PROBE_LINES_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.get_waveform_parameters.html">iqm.pulse.gate_implementation.get_waveform_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.init_subclass_composite.html">iqm.pulse.gate_implementation.init_subclass_composite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.CompositeCache.html">CompositeCache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.CompositeGate.html">CompositeGate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.CustomIQWaveforms.html">CustomIQWaveforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.GateImplementation.html">GateImplementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SinglePulseGate.html">SinglePulseGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.pulse.gates.html">gates</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.expose_implementation.html">iqm.pulse.gates.expose_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.get_implementation_class.html">iqm.pulse.gates.get_implementation_class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.register_implementation.html">iqm.pulse.gates.register_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.register_operation.html">iqm.pulse.gates.register_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.barrier.html">barrier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.conditional.html">conditional</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.cz.html">cz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.default_gates.html">default_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">prx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.reset.html">reset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.rz.html">rz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.sx.html">sx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.u.html">u</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.playlist.html">playlist</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.channel.html">channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.fast_drag.html">fast_drag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.hd_drag.html">hd_drag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.instructions.html">instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.playlist.html">playlist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.schedule.html">schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.visualisation.html">visualisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.waveforms.html">waveforms</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.scheduler.html">scheduler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.NONSOLID.html">iqm.pulse.scheduler.NONSOLID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.BLOCKING.html">iqm.pulse.scheduler.BLOCKING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.extend_hard_boundary.html">iqm.pulse.scheduler.extend_hard_boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.extend_hard_boundary_in_seconds.html">iqm.pulse.scheduler.extend_hard_boundary_in_seconds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.extend_schedule.html">iqm.pulse.scheduler.extend_schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.extend_schedule_new.html">iqm.pulse.scheduler.extend_schedule_new</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.SegmentPointer.html">SegmentPointer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html">TimeBox</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.normalize_angle.html">iqm.pulse.utils.normalize_angle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.phase_transformation.html">iqm.pulse.utils.phase_transformation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.validation.html">validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.validate_awg_and_schedule_compatibility.html">iqm.pulse.validation.validate_awg_and_schedule_compatibility</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.validate_channel.html">iqm.pulse.validation.validate_channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.validate_instruction_and_wf_length.html">iqm.pulse.validation.validate_instruction_and_wf_length</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.validate_playlist_compatibility.html">iqm.pulse.validation.validate_playlist_compatibility</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.AWGScheduleValidationData.html">AWGScheduleValidationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.AWGScheduleValidationError.html">iqm.pulse.validation.AWGScheduleValidationError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.InvalidInstructionError.html">iqm.pulse.validation.InvalidInstructionError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.PlaylistValidationError.html">iqm.pulse.validation.PlaylistValidationError</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>prx</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-iqm.pulse.gates.prx">
+<span id="prx"></span><h1>prx<a class="headerlink" href="#module-iqm.pulse.gates.prx" title="Link to this heading">#</a></h1>
+<p>Single-qubit PRX gate.</p>
+<p>The phased x rotation (PRX) gate is defined as</p>
+<div class="math notranslate nohighlight">
+\[R_\phi(\theta) = e^{-i (X \cos \phi + Y \sin \phi) \: \theta/2}
+ = R_z(\phi) R_x(\theta) R_z^\dagger(\phi),\]</div>
+<p>where the rotation angle <span class="math notranslate nohighlight">\(\theta\)</span> and the phase angle <span class="math notranslate nohighlight">\(\phi\)</span> are in radians.</p>
+<p>It rotates the qubit state around an axis that lies in the XY plane of the Bloch sphere.</p>
+<p>Full path: iqm.pulse.gates.prx</p>
+<p class="rubric">Functions</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.get_unitary_prx.html#iqm.pulse.gates.prx.get_unitary_prx" title="iqm.pulse.gates.prx.get_unitary_prx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_unitary_prx</span></code></a>(angle, phase)</p></td>
+<td><p>Unitary for a PRX gate.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Classes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.ABC_Constant_smooth.html#iqm.pulse.gates.prx.ABC_Constant_smooth" title="iqm.pulse.gates.prx.ABC_Constant_smooth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ABC_Constant_smooth</span></code></a></p></td>
+<td><p>Base class for creating gates with an arbitrarily long Constant pulses with smooth rise and fall.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.Constant_PRX_with_smooth_rise_fall.html#iqm.pulse.gates.prx.Constant_PRX_with_smooth_rise_fall" title="iqm.pulse.gates.prx.Constant_PRX_with_smooth_rise_fall"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Constant_PRX_with_smooth_rise_fall</span></code></a></p></td>
+<td><p>Constant PRX pulse with cosine rise and fall padding.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_Cosine.html#iqm.pulse.gates.prx.PRX_Cosine" title="iqm.pulse.gates.prx.PRX_Cosine"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_Cosine</span></code></a></p></td>
+<td><p>Special modulated pulse resulting in two frequency sidebands.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_CustomWaveforms.html#iqm.pulse.gates.prx.PRX_CustomWaveforms" title="iqm.pulse.gates.prx.PRX_CustomWaveforms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_CustomWaveforms</span></code></a></p></td>
+<td><p>Base class for PRX gates implemented using a single IQ pulse and hot-swappable waveforms.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_CustomWaveformsSX.html#iqm.pulse.gates.prx.PRX_CustomWaveformsSX" title="iqm.pulse.gates.prx.PRX_CustomWaveformsSX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_CustomWaveformsSX</span></code></a></p></td>
+<td><p>Base class for PRX gates implemented using SX gate, hot-swappable waveforms and phase manipulation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_DRAGCosineRiseFall.html#iqm.pulse.gates.prx.PRX_DRAGCosineRiseFall" title="iqm.pulse.gates.prx.PRX_DRAGCosineRiseFall"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_DRAGCosineRiseFall</span></code></a></p></td>
+<td><p>PRX gate, DRAG / CosineRiseFall IQ pulse implementation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_DRAGCosineRiseFallSX.html#iqm.pulse.gates.prx.PRX_DRAGCosineRiseFallSX" title="iqm.pulse.gates.prx.PRX_DRAGCosineRiseFallSX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_DRAGCosineRiseFallSX</span></code></a></p></td>
+<td><p>PRX gate, DRAG / CosineRiseFall IQ pulse with VZ implementation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_DRAGGaussian.html#iqm.pulse.gates.prx.PRX_DRAGGaussian" title="iqm.pulse.gates.prx.PRX_DRAGGaussian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_DRAGGaussian</span></code></a></p></td>
+<td><p>PRX gate, DRAG / TruncatedGaussian IQ pulse implementation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_DRAGGaussianSX.html#iqm.pulse.gates.prx.PRX_DRAGGaussianSX" title="iqm.pulse.gates.prx.PRX_DRAGGaussianSX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_DRAGGaussianSX</span></code></a></p></td>
+<td><p>PRX gate, DRAG / Gaussian IQ pulse with VZ implementation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_FastDrag.html#iqm.pulse.gates.prx.PRX_FastDrag" title="iqm.pulse.gates.prx.PRX_FastDrag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_FastDrag</span></code></a></p></td>
+<td><p>PRX gate, FAST DRAG IQ pulse based on amplitude scaling.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_FastDragSX.html#iqm.pulse.gates.prx.PRX_FastDragSX" title="iqm.pulse.gates.prx.PRX_FastDragSX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_FastDragSX</span></code></a></p></td>
+<td><p>PRX gate, FAST DRAG IQ pulse with VZ-based SX-implementation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_HdDrag.html#iqm.pulse.gates.prx.PRX_HdDrag" title="iqm.pulse.gates.prx.PRX_HdDrag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_HdDrag</span></code></a></p></td>
+<td><p>PRX gate, HD DRAG IQ pulse based on amplitude scaling</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_HdDragSX.html#iqm.pulse.gates.prx.PRX_HdDragSX" title="iqm.pulse.gates.prx.PRX_HdDragSX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_HdDragSX</span></code></a></p></td>
+<td><p>PRX gate, HD DRAG IQ pulse with VZ-based SX-implementation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_ModulatedCustomWaveForms.html#iqm.pulse.gates.prx.PRX_ModulatedCustomWaveForms" title="iqm.pulse.gates.prx.PRX_ModulatedCustomWaveForms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_ModulatedCustomWaveForms</span></code></a></p></td>
+<td><p>Base class for PRX gates with modulated frequency, hot-swappable waveforms.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall.html#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall" title="iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_ModulatedDRAGCosineRiseFall</span></code></a></p></td>
+<td><p>Modulated PRX pulse with cosine rise fall waveform</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PRX_SinglePulse_GateImplementation.html#iqm.pulse.gates.prx.PRX_SinglePulse_GateImplementation" title="iqm.pulse.gates.prx.PRX_SinglePulse_GateImplementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PRX_SinglePulse_GateImplementation</span></code></a></p></td>
+<td><p>Base class for PRX gates implemented using a single IQ pulse.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.prx.PrxGateImplementation.html#iqm.pulse.gates.prx.PrxGateImplementation" title="iqm.pulse.gates.prx.PrxGateImplementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PrxGateImplementation</span></code></a></p></td>
+<td><p>ABC for different implementations of the PRX gate.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-0809856ea506f2d8d7a64ddeee7c28a65c89ca5a.png" alt="Inheritance diagram of iqm.pulse.gates.prx" usemap="#inheritance63c47f10fd" class="inheritance graphviz" /></div>
+<map id="inheritance63c47f10fd" name="inheritance63c47f10fd">
+<area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="2,57,34,68"/>
+<area shape="rect" id="node6" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" target="_top" title="ABC for implementing quantum gates and other quantum operations using instruction schedules." alt="" coords="55,57,124,68"/>
+<area shape="rect" id="node2" href="iqm.pulse.gates.prx.ABC_Constant_smooth.html#iqm.pulse.gates.prx.ABC_Constant_smooth" target="_top" title="Base class for creating gates with an arbitrarily long Constant pulses with smooth rise and fall." alt="" coords="267,35,342,46"/>
+<area shape="rect" id="node4" href="iqm.pulse.gates.prx.Constant_PRX_with_smooth_rise_fall.html#iqm.pulse.gates.prx.Constant_PRX_with_smooth_rise_fall" target="_top" title="Constant PRX pulse with cosine rise and fall padding." alt="" coords="385,35,501,46"/>
+<area shape="rect" id="node3" href="iqm.pulse.gates.prx.PrxGateImplementation.html#iqm.pulse.gates.prx.PrxGateImplementation" target="_top" title="ABC for different implementations of the PRX gate." alt="" coords="145,35,224,46"/>
+<area shape="rect" id="node9" href="iqm.pulse.gates.prx.PRX_SinglePulse_GateImplementation.html#iqm.pulse.gates.prx.PRX_SinglePulse_GateImplementation" target="_top" title="Base class for PRX gates implemented using a single IQ pulse." alt="" coords="245,57,364,68"/>
+<area shape="rect" id="node5" href="iqm.pulse.gate_implementation.CustomIQWaveforms.html#iqm.pulse.gate_implementation.CustomIQWaveforms" target="_top" title="Base class for GateImplementations using custom waveform definition with IQPulses." alt="" coords="269,79,340,90"/>
+<area shape="rect" id="node8" href="iqm.pulse.gates.prx.PRX_CustomWaveforms.html#iqm.pulse.gates.prx.PRX_CustomWaveforms" target="_top" title="Base class for PRX gates implemented using a single IQ pulse and hot&#45;swappable waveforms." alt="" coords="404,122,482,133"/>
+<area shape="rect" id="node10" href="iqm.pulse.gates.prx.PRX_CustomWaveformsSX.html#iqm.pulse.gates.prx.PRX_CustomWaveformsSX" target="_top" title="Base class for PRX gates implemented using SX gate, hot&#45;swappable waveforms and phase manipulation." alt="" coords="400,57,486,68"/>
+<area shape="rect" id="node21" href="iqm.pulse.gate_implementation.SinglePulseGate.html#iqm.pulse.gate_implementation.SinglePulseGate" target="_top" title="Base class for GateImplementations that play a single pulse on a single channel." alt="" coords="156,57,213,68"/>
+<area shape="rect" id="node7" href="iqm.pulse.gates.prx.PRX_Cosine.html#iqm.pulse.gates.prx.PRX_Cosine" target="_top" title="Special modulated pulse resulting in two frequency sidebands." alt="" coords="555,176,599,187"/>
+<area shape="rect" id="node11" href="iqm.pulse.gates.prx.PRX_DRAGCosineRiseFall.html#iqm.pulse.gates.prx.PRX_DRAGCosineRiseFall" target="_top" title="PRX gate, DRAG / CosineRiseFall IQ pulse implementation." alt="" coords="536,197,618,209"/>
+<area shape="rect" id="node13" href="iqm.pulse.gates.prx.PRX_DRAGGaussian.html#iqm.pulse.gates.prx.PRX_DRAGGaussian" target="_top" title="PRX gate, DRAG / TruncatedGaussian IQ pulse implementation." alt="" coords="543,89,611,100"/>
+<area shape="rect" id="node15" href="iqm.pulse.gates.prx.PRX_FastDrag.html#iqm.pulse.gates.prx.PRX_FastDrag" target="_top" title="PRX gate, FAST DRAG IQ pulse based on amplitude scaling." alt="" coords="552,111,602,122"/>
+<area shape="rect" id="node17" href="iqm.pulse.gates.prx.PRX_HdDrag.html#iqm.pulse.gates.prx.PRX_HdDrag" target="_top" title="PRX gate, HD DRAG IQ pulse based on amplitude scaling" alt="" coords="554,132,600,144"/>
+<area shape="rect" id="node19" href="iqm.pulse.gates.prx.PRX_ModulatedCustomWaveForms.html#iqm.pulse.gates.prx.PRX_ModulatedCustomWaveForms" target="_top" title="Base class for PRX gates with modulated frequency, hot&#45;swappable waveforms." alt="" coords="522,154,632,165"/>
+<area shape="rect" id="node12" href="iqm.pulse.gates.prx.PRX_DRAGCosineRiseFallSX.html#iqm.pulse.gates.prx.PRX_DRAGCosineRiseFallSX" target="_top" title="PRX gate, DRAG / CosineRiseFall IQ pulse with VZ implementation." alt="" coords="532,2,622,13"/>
+<area shape="rect" id="node14" href="iqm.pulse.gates.prx.PRX_DRAGGaussianSX.html#iqm.pulse.gates.prx.PRX_DRAGGaussianSX" target="_top" title="PRX gate, DRAG / Gaussian IQ pulse with VZ implementation." alt="" coords="540,24,615,35"/>
+<area shape="rect" id="node16" href="iqm.pulse.gates.prx.PRX_FastDragSX.html#iqm.pulse.gates.prx.PRX_FastDragSX" target="_top" title="PRX gate, FAST DRAG IQ pulse with VZ&#45;based SX&#45;implementation." alt="" coords="549,46,605,57"/>
+<area shape="rect" id="node18" href="iqm.pulse.gates.prx.PRX_HdDragSX.html#iqm.pulse.gates.prx.PRX_HdDragSX" target="_top" title="PRX gate, HD DRAG IQ pulse with VZ&#45;based SX&#45;implementation." alt="" coords="550,67,604,78"/>
+<area shape="rect" id="node20" href="iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall.html#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall" target="_top" title="Modulated PRX pulse with cosine rise fall waveform" alt="" coords="653,154,766,165"/>
+</map></section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.pulse.gates.move.MoveMarker.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">MoveMarker</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.pulse.gates.prx.get_unitary_prx.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">iqm.pulse.gates.prx.get_unitary_prx</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2025-11-28.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
