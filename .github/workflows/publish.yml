@@ -75,6 +75,12 @@ jobs:
         run: |
           bash build.sh
 
+      - name: Copy SDK files to React public directory
+        working-directory: ./docs
+        run: |
+          chmod +x copy-sdk-files.sh
+          ./copy-sdk-files.sh
+
       - name: Install and build React project
         working-directory: ./docs
         env:
