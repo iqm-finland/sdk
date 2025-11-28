@@ -44,20 +44,57 @@ build_docs() {
     mkdir -p "$OUTPUT_DIR"
     mkdir -p "temp/$TEMP_SUBDIR"
     CONSTRAINTS_FILE="temp/$TEMP_SUBDIR/constraints.txt"
+    FILTERED_SDK_FILE="temp/$TEMP_SUBDIR/filtered_sdk.txt"
+    
+    # Create a filtered SDK file that excludes external packages (qrisp, iqm-qaoa, iqm-benchmarks)
+    # These packages should remain in the original SDK files for the React app to display,
+    # but should not be included in the documentation build process
+    echo "Creating filtered SDK file (excluding external packages)..."
+    grep -v -E "^(qrisp|iqm-qaoa|iqm-benchmarks)" "$SDK_FILE" > "$FILTERED_SDK_FILE"
+    
+    echo "Original SDK file packages:"
+    cat "$SDK_FILE"
+    echo "Filtered SDK file packages (for build):"
+    cat "$FILTERED_SDK_FILE"
 
-    # Compile a constraint file from the SDK file to ensure consistent versions across subsequent 'pip download' and
-    # 'pip install' commands, and to capture all versions used for the documentation build.
-    uv pip compile --upgrade --no-emit-index-url --no-emit-find-links --no-header --no-cache --no-annotate \
-        --output-file "$CONSTRAINTS_FILE" "$SDK_FILE"
+    # Try to compile a constraint file from the filtered SDK file
+    echo "Attempting to compile constraints for $FILTERED_SDK_FILE..."
+    if uv pip compile --upgrade --no-emit-index-url --no-emit-find-links --no-header --no-cache --no-annotate \
+        --output-file "$CONSTRAINTS_FILE" "$FILTERED_SDK_FILE"; then
+        echo "Successfully compiled constraints file"
+        USE_CONSTRAINTS=true
+    else
+        echo "Warning: Failed to compile constraints file for $FILTERED_SDK_FILE (likely due to incompatible dependencies)"
+        echo "Proceeding without constraints..."
+        USE_CONSTRAINTS=false
+    fi
 
     # Download and extract the packages' source distributions
-    uv run -m pip download --no-deps --no-binary=:all: -c "$CONSTRAINTS_FILE" -r "$SDK_FILE" -d "./temp/$TEMP_SUBDIR"
-    
-    # Install the packages into the virtual environment; needed for Sphinx to resolve namespaces
-    uv pip install -r "$CONSTRAINTS_FILE"
+    if [ "$USE_CONSTRAINTS" = true ]; then
+        echo "Downloading packages with constraints..."
+        uv run -m pip download --no-deps --no-binary=:all: -c "$CONSTRAINTS_FILE" -r "$FILTERED_SDK_FILE" -d "./temp/$TEMP_SUBDIR"
+        
+        # Install the packages into the virtual environment; needed for Sphinx to resolve namespaces
+        uv pip install -r "$CONSTRAINTS_FILE"
+    else
+        echo "Downloading packages without constraints (may result in version conflicts)..."
+        # Try to download without constraints - some packages may fail but others might succeed
+        uv run -m pip download --no-deps --no-binary=:all: -r "$FILTERED_SDK_FILE" -d "./temp/$TEMP_SUBDIR" || echo "Some package downloads failed, continuing with available packages..."
+        
+        # Try to install packages directly from filtered SDK file (may have conflicts but might partially work)
+        uv pip install -r "$FILTERED_SDK_FILE" || echo "Some package installations failed, continuing with available packages..."
+    fi
     
     echo "Downloaded packages for $SDK_FILE:"
     ls -la "temp/$TEMP_SUBDIR"
+    
+    # Check if we have any packages to process
+    PACKAGE_COUNT=$(find "./temp/$TEMP_SUBDIR" -name "*.tar.gz" 2>/dev/null | wc -l)
+    if [ "$PACKAGE_COUNT" -eq 0 ]; then
+        echo "Warning: No packages were successfully downloaded for $SDK_FILE, skipping documentation build"
+        return
+    fi
+    echo "Found $PACKAGE_COUNT packages to process"
     
     # Iterate over the downloaded source distributions
     for SDIST_FILE in "./temp/$TEMP_SUBDIR"/*.tar.gz; do
@@ -120,7 +157,10 @@ build_docs() {
 }
 
 # Build current/default version from the default SDK file
-build_docs "$DEFAULT_SDK_FILE" "public" "current"
+echo "=== Building default/current version ==="
+if ! build_docs "$DEFAULT_SDK_FILE" "public" "current"; then
+    echo "Warning: Failed to build default version documentation, but continuing..."
+fi
 
 # Build all other versions from SDK version files (excluding the default one)
 for sdk_file in ../sdk*.txt; do
@@ -132,8 +172,10 @@ for sdk_file in ../sdk*.txt; do
         
         # Extract version from filename (e.g., sdk4_1.txt -> sdk4_1, sdk5_1.txt -> sdk5_1)
         version=$(basename "$sdk_file" .txt)
-        echo "Building documentation for $version from $sdk_file"
-        build_docs "$sdk_file" "public/$version" "$version"
+        echo "=== Building documentation for $version from $sdk_file ==="
+        if ! build_docs "$sdk_file" "public/$version" "$version"; then
+            echo "Warning: Failed to build documentation for $version, but continuing with other versions..."
+        fi
     fi
 done
 
