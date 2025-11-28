@@ -40,7 +40,7 @@ from scipy.optimize import minimize
 
 
 class QUBOQAOA(QAOA):
-    """The class for QAOA with quadratic unconstrained binary (QUBO) cost function.
+    r"""The class for QAOA with quadratic unconstrained binary (QUBO) cost function.
 
     The class inherits a lot of functionality from its parent :class:`iqm.qaoa.generic_qaoa.QAOA`. One new addition is
     the attribute :attr:`bqm` which stores the coefficient of the problem Hamiltonian. The same data in the form of
@@ -52,7 +52,9 @@ class QUBOQAOA(QAOA):
         betas: An optional list of the initial *beta* angles of QAOA. Has to be provided together with ``gammas``.
         gammas: An optional list of the initial *gamma* angles of QAOA. Has to be provided together with ``betas``.
         initial_angles: An optional list of the initial QAOA angles as one variable. Shouldn't be provided together
-            with either ``betas`` or ``gammas``.
+            with either ``betas`` or ``gammas``. The *gamma* and *beta* angles are interleaved, so that the first pair
+            of entries corresponds to :math:`\gamma_1` and :math:`\beta_1` (the angles of the first QAOA layer).
+            The second pair of entries corresponds to :math:`\gamma_2` and :math:`\beta_2`, etc. ...
 
     """
 
@@ -66,17 +68,23 @@ class QUBOQAOA(QAOA):
         initial_angles: Sequence[float] | np.ndarray | None = None,
     ) -> None:
         super().__init__(problem, num_layers, betas=betas, gammas=gammas, initial_angles=initial_angles)
-        self._bqm = problem.bqm.spin
+        # This BQM contains the coefficients of the Hamiltonian (in front of the ZZ and Z terms).
+        self._hamiltonian_bqm = problem.bqm.spin
+        # To reconcile the difference in convention between ``dimod`` and ``qiskit``, the local terms are flipped.
+        # This way (``qiskit`` convention), the variable that was 0 in the binary formulation corresponds to the state
+        # |0⟩, i.e., spin 1. Correspondingly, the value 1 in binary corresponds to the state |1⟩, i.e., spin -1.
+        for var in self._hamiltonian_bqm.variables:
+            self._hamiltonian_bqm.set_linear(var, -1 * self._hamiltonian_bqm.get_linear(var))
 
     @property
-    def bqm(self) -> BinaryQuadraticModel:
+    def hamiltonian_bqm(self) -> BinaryQuadraticModel:
         """The BQM representation of the problem, taken from the input :class:`~iqm.applications.qubo.QUBOInstance`."""
-        return self._bqm
+        return self._hamiltonian_bqm
 
     @property
     def hamiltonian_graph(self) -> nx.Graph:
         """The graph whose edges / nodes have weights ``bias`` equal to the coefficients in the problem Hamiltonian."""
-        return to_networkx_graph(self._bqm)
+        return to_networkx_graph(self._hamiltonian_bqm)
 
     @property
     def interactions(self) -> np.ndarray:
@@ -90,8 +98,8 @@ class QUBOQAOA(QAOA):
         these are different from the off-diagonal elements of :attr:`~iqm.applications.qubo.QUBOInstance.qubo_matrix` of
         the input ``problem`` because the QUBO cost function has different coefficients than the Hamiltonian.
         """
-        _, (row, col, quad), *_ = self._bqm.to_numpy_vectors(sort_indices=True)
-        matrix_interactions = np.zeros((self._bqm.num_variables, self._bqm.num_variables))
+        _, (row, col, quad), *_ = self._hamiltonian_bqm.to_numpy_vectors(sort_indices=True)
+        matrix_interactions = np.zeros((self._hamiltonian_bqm.num_variables, self._hamiltonian_bqm.num_variables))
         matrix_interactions[row, col] = quad
         return matrix_interactions
 
@@ -107,7 +115,7 @@ class QUBOQAOA(QAOA):
         from the diagonal elements of :attr:`~iqm.applications.qubo.QUBOInstance.qubo_matrix` of the input ``problem``
         because the QUBO cost function has different coefficients than the Hamiltonian.
         """
-        loc_fields, _, *_ = self._bqm.to_numpy_vectors(sort_indices=True)
+        loc_fields, _, *_ = self._hamiltonian_bqm.to_numpy_vectors(sort_indices=True)
         return loc_fields
 
     def train(

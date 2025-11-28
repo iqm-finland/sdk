@@ -69,9 +69,11 @@ Breakdown of compiler passes of each stage:
 """
 
 from collections import Counter
-from collections.abc import Iterable
+from collections.abc import Iterable, Sequence
 from copy import copy, deepcopy
-from typing import Any
+from dataclasses import replace
+import logging
+from typing import Any, TypeAlias
 
 import numpy as np
 
@@ -105,7 +107,6 @@ from iqm.pulla.interface import (
     HERALDING_KEY,
     MEASUREMENT_MODE_KEY,
     RESTRICTED_MEASUREMENT_KEYS,
-    CalibrationErrors,
 )
 from iqm.pulse.base_utils import merge_dicts
 from iqm.pulse.builder import CircuitOperation, ScheduleBuilder, validate_quantum_circuit
@@ -115,6 +116,12 @@ from iqm.pulse.playlist import Schedule
 from iqm.pulse.playlist.playlist import Playlist
 from iqm.pulse.quantum_ops import QuantumOpTable
 from iqm.pulse.timebox import MultiplexedProbeTimeBox, TimeBox
+
+CalibrationErrors: TypeAlias = dict[tuple[str, str, Locus], str]
+"""Map from OIL tuple to a CalibrationError message."""
+
+
+logger = logging.getLogger(__name__)
 
 
 # Compilation functions
@@ -519,8 +526,15 @@ def validate_execution_options(circuits: Iterable[Circuit_], options: CircuitExe
         MoveGateValidationMode.ALLOW_PRX,
     ]:
         raise CircuitError("Full MOVE gate frame tracking requires MOVE gate validation to be 'strict' or 'allow_prx'.")
+    if options.convert_terminal_measurements and options.active_reset_cycles is not None:
+        options = replace(options, convert_terminal_measurements=False)
+        logger.warning(
+            "When using active reset, the terminal measurements must also be calibrated to minimize leakage."
+            " Thus the terminal measurements cannot be converted to use the fidelity-optimized"
+            " `measure_fidelity` operation."
+        )
 
-    return circuits
+    return circuits, {"options": options}
 
 
 @compiler_pass
@@ -764,7 +778,7 @@ def clean_schedule(schedules: Iterable[Schedule], builder: ScheduleBuilder) -> l
 
 
 @compiler_pass
-def build_playlist(schedules: Iterable[Schedule], builder: ScheduleBuilder) -> tuple[Playlist, dict[str, Any]]:
+def build_playlist(schedules: Sequence[Schedule], builder: ScheduleBuilder) -> tuple[Playlist, dict[str, Any]]:
     """Build the playlist from the schedules."""
     playlist = builder.build_playlist(schedules)[0]
     return playlist, {"schedules": schedules}  # save the schedules for building settings, debugging, etc

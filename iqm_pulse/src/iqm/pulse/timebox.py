@@ -122,8 +122,9 @@ class TimeBox:
      this ``TimeBox`` for any reason.
     """
 
-    @staticmethod
+    @classmethod
     def composite(
+        cls,
         boxes: Iterable[TimeBox | Iterable[TimeBox]],
         *,
         label: str = "",
@@ -155,7 +156,7 @@ class TimeBox:
             locus_components = set.union(*(box.locus_components for box in children))
         else:
             locus_components = set()
-        return TimeBox(
+        return cls(
             label=label,
             locus_components=locus_components,
             atom=None,
@@ -363,6 +364,8 @@ class MultiplexedProbeTimeBox(TimeBox):
                 scheduling_algorithm=self.scheduling_algorithm,
                 neighborhood_components=neighborhood_components,
             )
+        if isinstance(other, ProbeTimeBoxes):
+            return self + other[0]
         return super().__add__(other)
 
     @staticmethod
@@ -401,3 +404,61 @@ class MultiplexedProbeTimeBox(TimeBox):
             scheduling_algorithm=SchedulingAlgorithm.HARD_BOUNDARY,
         )
         return box
+
+
+class ProbeTimeBoxes(list):
+    """Allows multiplexing lists of probe TimeBoxes with each other and ``MultiplexedProbeTimeBox``es.
+
+    The first element is a ``MultiplexedProbeTimeBox`` and the second an atomic ``TimeBox`` containing ``Block``
+    instructions on probe channels (corresponding to e.g. the integration time).
+
+    If ``A`` is a ``ProbeTimeBoxes`` and ``B`` is a ``ProbeTimeBoxes``, then ``A+B`` is also a ProbeTimeBoxes instance
+    with the timings adjusted correctly and the ``MultiplexedProbeTimeBox``es in each multiplexed together.
+    If ``A`` is a ``ProbeTimeBoxes`` and ``B`` is a ``MultiplexedProbeTimeBox`` where the probe instructions are
+    multiplexed together and the duration is ``max(A[0].duration, B.duration)`` (the addition is symmetric).
+    Otherwise (if ``B`` is a list of ``Timebox``es or a non-probe ``TimeBox``), ``A+B`` works like
+    ``TimeBox.__add__``.
+    """
+
+    # FIXME: does not yet work with ShelvedProbeTimeBox
+    # All the measure gates should probably eventually return lists of TimeBoxes (that's the only way to "tetris"
+    # schedule stuff) and we should extend that to cover all the use cases, including Shelved.
+
+    def __init__(self, timeboxes: list[TimeBox]):
+        super().__init__(timeboxes)
+        if len(self) != 2:
+            raise ValueError(
+                "ProbeTimeBoxes instances must have exactly two elements, the first being the "
+                "MultiplexedProbeTimebox of the physical probe channels and the second the "
+                " extra Blocks in the probe channels."
+            )
+        if not isinstance(self[0], TimeBox) or self[0].atom is None or not isinstance(self[0], MultiplexedProbeTimeBox):
+            raise ValueError("The first child must be an atomic MultiplexedProbeTimeBox.")
+        if not isinstance(self[1], TimeBox) or self[1].atom is None:
+            raise ValueError(
+                "The second child must be an atomic TimeBox containing the extra Waits in the probe channels."
+            )
+
+    def __add__(self, other: TimeBox | list[TimeBox]) -> TimeBox | list[TimeBox]:  # type: ignore[override]
+        """Multiplex ``self`` with other ``ProbeTimeBoxes`` instances or with ``MultiplexedProbeTimeBox`` instances."""
+        if isinstance(other, ProbeTimeBoxes):
+            duration_self = sum(child.atom.duration for child in self)
+            duration_probe_self = self[0].atom.duration
+            duration_other = sum(child.atom.duration for child in other)
+            duration_probe_other = other[0].atom.duration
+            extra_wait_duration = max(duration_self, duration_other) - max(duration_probe_self, duration_probe_other)
+            extra_wait_channels = [*self[1].atom.channels(), *other[1].atom.channels()]
+            probe_box = self[0] + other[0]
+            extra_wait_box = TimeBox.atomic(
+                Schedule({ch: Segment([Block(extra_wait_duration)]) for ch in extra_wait_channels}),
+                locus_components=set(self[1].locus_components).union(other[1].locus_components),
+                label="Virtual probe channel Block",
+            )
+            if 0 in self[1].neighborhood_components and 0 in other[1].neighborhood_components:
+                extra_wait_box.neighborhood_components[0] = (
+                    self[1].neighborhood_components[0].union(other[1].neighborhood_components[0])
+                )
+            return ProbeTimeBoxes([probe_box, extra_wait_box])
+        if isinstance(other, MultiplexedProbeTimeBox):
+            return self[0] + other
+        return list(self) + other

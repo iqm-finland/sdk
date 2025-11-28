@@ -18,6 +18,7 @@ from collections import namedtuple
 from collections.abc import Hashable, Iterable, Iterator, Sequence, Set
 from dataclasses import replace
 from itertools import chain
+import logging
 from typing import Any, TypeAlias
 
 import numpy as np
@@ -37,7 +38,7 @@ from iqm.cpc.interface.compiler import (
     HeraldingMode,
     ReadoutMappingBatch,
 )
-from iqm.pulla.interface import HERALDING_KEY, CalibrationSet, CircuitMeasurementResultsBatch
+from iqm.pulla.interface import HERALDING_KEY, CalibrationSetValues
 from iqm.pulse.builder import CircuitOperation, ScheduleBuilder, build_quantum_ops
 from iqm.pulse.gate_implementation import CompositeGate, OpCalibrationDataTree
 from iqm.pulse.playlist.channel import ChannelProperties
@@ -45,13 +46,19 @@ from iqm.pulse.playlist.instructions import Instruction
 from iqm.pulse.playlist.schedule import Schedule, Segment
 from iqm.pulse.timebox import TimeBox
 from iqm.station_control.client.qon import locus_str_to_locus
-from iqm.station_control.interface.models.observation import ObservationBase
+from iqm.station_control.interface.models import CircuitMeasurementResultsBatch, ObservationBase, QubitMapping
+
+logger = logging.getLogger(__name__)
 
 _CircuitMeasurementResultsNew: TypeAlias = dict[str, np.ndarray]
 """Measurement results from a single circuit/schedule. For each measurement operation in the circuit,
 maps the measurement key to an array of results, where the first dimension correspond to shots,
 and the second dimension to the qubits measured in the measurement operation."""
 # TODO should replace CircuitMeasurementResults in the API
+
+
+class PostSelectionError(Exception):
+    """Error in performing post selection via heralded results"""
 
 
 def circuit_operations_to_cpc(circ_ops: tuple[CircuitOperation], name: str | None = None) -> CPC_Circuit:
@@ -71,7 +78,7 @@ def circuit_operations_to_cpc(circ_ops: tuple[CircuitOperation], name: str | Non
     return CPC_Circuit(name=name, instructions=circ_ops)
 
 
-def iqm_circuit_to_gate_implementation(circuit: CPC_Circuit, qubit_mapping: dict[str, str]) -> type[CompositeGate]:
+def iqm_circuit_to_gate_implementation(circuit: CPC_Circuit, qubit_mapping: QubitMapping) -> type[CompositeGate]:
     """Wrap a circuit to a single GateImplementation that can then be registered as an independent "gate".
 
     Returns a composite GateImplementation which, when called, produces a TimeBox with the circuit contents
@@ -174,11 +181,18 @@ def convert_sweep_spot_to_arrays(
         Converted measurement results for each circuit in the batch.
 
     """
+
+    def _fix_typing(arr: np.ndarray) -> np.ndarray:
+        """Cast thresholded (int) results into np.uint8"""
+        if np.iscomplex(arr).any():
+            return arr
+        return arr.astype(np.uint8)
+
     num_triggers_for_label, labels_for_circuit = _get_trigger_indexing_for(readout_mappings)
     first_key = next(iter(results))
     num_shots = len(results[first_key]) // num_triggers_for_label[first_key]  # num shots equal for all labels
     results = {
-        label: measurements.reshape((num_shots, num_triggers_for_label[label])).astype(np.uint8)
+        label: _fix_typing(measurements.reshape((num_shots, num_triggers_for_label[label])))
         for label, measurements in results.items()
     }
     for circuit_idx, readout_mapping in enumerate(readout_mappings):
@@ -238,6 +252,9 @@ def convert_sweep_spot_to_arrays_with_heralding_mode_zero(
             the heralding measurement, , with the heralding measurement data removed.
 
     """
+    for data in results.values():
+        if np.iscomplex(data).any():
+            raise PostSelectionError("Complex readout results are not supported in post-selection.")
     num_triggers_for_label, labels_for_circuit = _get_trigger_indexing_for(readout_mappings)
     first_key = next(iter(results.keys()))
     num_shots = len(results[first_key]) // num_triggers_for_label[first_key]  # num shots equal for all labels
@@ -298,14 +315,19 @@ def map_sweep_results_to_logical_qubits(
 
     # circuit execution uses just one soft sweep spot
     results = {k: v[0] for k, v in sweep_results.items()}
-    if heralding_mode == HeraldingMode.NONE:
-        circuit_results_iter = convert_sweep_spot_to_arrays(results, readout_mappings)
-    else:
-        circuit_results_iter = convert_sweep_spot_to_arrays_with_heralding_mode_zero(results, readout_mappings)
-
-    # TODO 99% of the time in this function is spent in the tolist() converting the arrays to ints.
-    # For large datasets, it is several seconds.
-    # To rectify this, we should change CircuitMeasurementResultsBatch of the public API.
+    if heralding_mode != HeraldingMode.NONE:
+        try:
+            # TODO 99% of the time in this function is spent in the tolist() converting the arrays to ints.
+            # For large datasets, it is several seconds.
+            # To rectify this, we should change CircuitMeasurementResultsBatch of the public API.
+            circuit_results_iter = convert_sweep_spot_to_arrays_with_heralding_mode_zero(results, readout_mappings)
+            return [{mk: array.tolist() for mk, array in circuit_res.items()} for circuit_res in circuit_results_iter]
+        except PostSelectionError:
+            logger.warning(
+                "Cannot perform post-selection based on herald measurement results in complex readout mode. "
+                "Returning all results."
+            )
+    circuit_results_iter = convert_sweep_spot_to_arrays(results, readout_mappings)
     return [{mk: array.tolist() for mk, array in circuit_res.items()} for circuit_res in circuit_results_iter]
 
 
@@ -447,7 +469,7 @@ def get_hash_for(circuit: CPC_Circuit) -> int:
     return hash(str_repr)
 
 
-def calset_to_cal_data_tree(calibration_set: CalibrationSet) -> OpCalibrationDataTree:
+def calset_to_cal_data_tree(calibration_set_values: CalibrationSetValues) -> OpCalibrationDataTree:
     """Build an iqm-pulse QuantumOp calibration data tree from a calibration set.
 
     Splits the dotted observation names that are prefixed with "gates." into the corresponding
@@ -466,7 +488,7 @@ def calset_to_cal_data_tree(calibration_set: CalibrationSet) -> OpCalibrationDat
         set_path(node.setdefault(path[0], {}), path[1:], value)
 
     tree: OpCalibrationDataTree = {}
-    for key, value in calibration_set.items():
+    for key, value in calibration_set_values.items():
         path = key.split(".")
         if path[0] == "gates":
             if len(path) < 5:
@@ -480,7 +502,7 @@ def calset_to_cal_data_tree(calibration_set: CalibrationSet) -> OpCalibrationDat
 
 
 def initialize_schedule_builder(
-    calibration_set: CalibrationSet,
+    calibration_set_values: CalibrationSetValues,
     chip_topology: ChipTopology,
     channel_properties: dict[str, ChannelProperties],
     component_channels: dict[str, dict[str, str]],
@@ -488,7 +510,7 @@ def initialize_schedule_builder(
     """Initialize a new schedule builder for the station, validate that it is configured properly.
 
     Args:
-        calibration_set: calibration data for the station the circuits are executed on
+        calibration_set_values: calibration data for the station the circuits are executed on
         chip_topology: topology of the QPU the circuits are executed on
         channel_properties: properties of control channels on the station
         component_channels: QPU component to function to channel mapping
@@ -498,11 +520,13 @@ def initialize_schedule_builder(
     """
     op_table = build_quantum_ops({})
 
-    channel_properties = _update_channel_props_from_calibration(channel_properties, component_channels, calibration_set)
+    channel_properties = _update_channel_props_from_calibration(
+        channel_properties, component_channels, calibration_set_values
+    )
 
     builder = ScheduleBuilder(
         op_table,
-        calset_to_cal_data_tree(calibration_set),
+        calset_to_cal_data_tree(calibration_set_values),
         chip_topology,
         channel_properties,
         component_channels,
@@ -513,14 +537,14 @@ def initialize_schedule_builder(
 def _update_channel_props_from_calibration(  # noqa: ANN202
     channel_properties: dict[str, ChannelProperties],
     component_channels: dict[str, dict[str, str]],
-    calset: CalibrationSet,
+    calibration_set_values: CalibrationSetValues,
 ):
-    """Copy probe line center frequencies from a calset to their readout channel properties.
+    """Copy probe line center frequencies from calibration set values to their readout channel properties.
 
     Args:
         channel_properties: channel properties to update
         component_channels: mapping from QPU component to its functions/channels that perform them
-        calset: calibration data
+        calibration_set_values: calibration data
     Returns:
         updated channel properties
 
@@ -529,9 +553,11 @@ def _update_channel_props_from_calibration(  # noqa: ANN202
     replacements = {}
     for component, channels in component_channels.items():
         if "readout" in channels:
-            center_frequency = calset.get(f"controllers.{component}.readout.center_frequency")
+            center_frequency = calibration_set_values.get(f"controllers.{component}.readout.center_frequency")
             if center_frequency is None:
-                center_frequency = calset.get(f"controllers.{component}.readout.local_oscillator.frequency")
+                center_frequency = calibration_set_values.get(
+                    f"controllers.{component}.readout.local_oscillator.frequency"
+                )
             if center_frequency is None:
                 raise CalibrationError(
                     f"No calibration value found for the center frequency or local oscillator frequency of {component}."
@@ -581,7 +607,7 @@ def find_circuit_boundary(
 
 def build_settings(
     shots: int,
-    calibration_set: CalibrationSet,
+    calibration_set_values: CalibrationSetValues,
     builder: ScheduleBuilder,
     circuit_metrics: Iterable[CircuitMetrics],
     *,
@@ -591,7 +617,7 @@ def build_settings(
 
     Args:
         shots: number of times to execute/sample each circuit
-        calibration_set: calibration data for the station the circuits are executed on
+        calibration_set_values: calibration data for the station the circuits are executed on
         builder: schedule builder object, encapsulating station properties and gate calibration data
         circuit_metrics: statistics about the circuits to be executed
         options: various discrete options for circuit execution that affect compilation
@@ -632,7 +658,7 @@ def build_settings(
         # of circuits is needlessly complicated and usually would yield a small benefit
         measured_probe_lines=device.probe_lines,
         shots=shots,
-        calibration_set=calibration_set,
+        calibration_set_values=calibration_set_values,
         boundary_qubits=boundary_components & device.qubits,
         boundary_couplers=boundary_couplers,
         flux_pulsed_qubits=[

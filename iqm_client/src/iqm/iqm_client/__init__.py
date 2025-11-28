@@ -17,8 +17,6 @@ from importlib.metadata import PackageNotFoundError, version
 import sys
 import warnings
 
-from iqm.iqm_client.api import *  # noqa: F403
-from iqm.iqm_client.authentication import *  # noqa: F403
 from iqm.iqm_client.errors import *  # noqa: F403
 from iqm.iqm_client.iqm_client import *  # noqa: F403
 from iqm.iqm_client.models import *  # noqa: F403

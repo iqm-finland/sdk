@@ -20,13 +20,6 @@ from dataclasses import dataclass
 from itertools import permutations
 from uuid import UUID
 
-from iqm.iqm_client import (
-    DynamicQuantumArchitecture,
-    GateImplementationInfo,
-    GateInfo,
-    Locus,
-    StaticQuantumArchitecture,
-)
 from iqm.qiskit_iqm.iqm_backend import IQM_TO_QISKIT_GATE_NAME, IQMBackendBase
 from iqm.qiskit_iqm.iqm_circuit_validation import validate_circuit
 from iqm.qiskit_iqm.iqm_transpilation import IQMReplaceGateWithUnitaryPass
@@ -36,6 +29,14 @@ from qiskit.providers import JobV1, Options
 from qiskit_aer import AerSimulator
 from qiskit_aer.noise import NoiseModel, QuantumError
 from qiskit_aer.noise.errors import depolarizing_error, thermal_relaxation_error
+
+from iqm.station_control.interface.models import (
+    DynamicQuantumArchitecture,
+    GateImplementationInfo,
+    GateInfo,
+    Locus,
+    StaticQuantumArchitecture,
+)
 
 
 def _dqa_from_sqa(

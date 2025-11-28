@@ -64,8 +64,16 @@ class ConflictError(StationControlError):
     """
 
 
+class PayloadTooLargeError(StationControlError):
+    """This error happens when the request payload is too large."""
+
+
 class ValidationError(StationControlError):
     """Error raised when something is unprocessable in general, for example if the input value is not acceptable."""
+
+
+class TooManyRequestsError(StationControlError):
+    """Error raised when the user has sent too many requests in a given amount of time ("rate limiting")."""
 
 
 class InternalServerError(StationControlError):
@@ -94,7 +102,9 @@ _ERROR_TO_STATUS_CODE_MAPPING = {
     ForbiddenError: HTTPStatus.FORBIDDEN,  # 403
     NotFoundError: HTTPStatus.NOT_FOUND,  # 404
     ConflictError: HTTPStatus.CONFLICT,  # 409
+    PayloadTooLargeError: HTTPStatus.REQUEST_ENTITY_TOO_LARGE,  # 413
     ValidationError: HTTPStatus.UNPROCESSABLE_ENTITY,  # 422
+    TooManyRequestsError: HTTPStatus.TOO_MANY_REQUESTS,  # 429
     InternalServerError: HTTPStatus.INTERNAL_SERVER_ERROR,  # 500
     BadGatewayError: HTTPStatus.BAD_GATEWAY,  # 502
     ServiceUnavailableError: HTTPStatus.SERVICE_UNAVAILABLE,  # 503
@@ -115,6 +125,8 @@ def map_from_error_to_status_code(error: StationControlError) -> HTTPStatus:
     return HTTPStatus.INTERNAL_SERVER_ERROR
 
 
-def map_from_status_code_to_error(status_code: HTTPStatus) -> type[StationControlError]:
+def map_from_status_code_to_error(status_code: HTTPStatus | int) -> type[StationControlError]:
     """Map an HTTPStatus code to a StationControlError."""
+    if isinstance(status_code, int):
+        status_code = HTTPStatus(status_code)
     return _STATUS_CODE_TO_ERROR_MAPPING.get(status_code, InternalServerError)

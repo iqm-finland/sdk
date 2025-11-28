@@ -13,8 +13,9 @@
 # limitations under the License.
 """Fake (i.e. simulated) backend for IQM's 54-qubit Aphrodite architecture"""
 
-from iqm.iqm_client import StaticQuantumArchitecture
 from iqm.qiskit_iqm.fake_backends.iqm_fake_backend import IQMErrorProfile, IQMFakeBackend
+
+from iqm.station_control.interface.models import StaticQuantumArchitecture
 
 
 def IQMFakeAphrodite() -> IQMFakeBackend:

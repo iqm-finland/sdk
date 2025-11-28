@@ -13,6 +13,8 @@
 # limitations under the License.
 """Qiskit adapter for IQM's quantum computers."""
 
+import warnings
+
 from iqm.qiskit_iqm.fake_backends import IQMErrorProfile, IQMFakeAdonis, IQMFakeAphrodite, IQMFakeApollo, IQMFakeDeneb
 from iqm.qiskit_iqm.fake_backends.iqm_fake_backend import IQMFakeBackend
 from iqm.qiskit_iqm.iqm_circuit import IQMCircuit
@@ -23,4 +25,10 @@ from iqm.qiskit_iqm.iqm_provider import IQMBackend, IQMProvider, __version__
 from iqm.qiskit_iqm.iqm_transpilation import IQMOptimizeSingleQubitGates, optimize_single_qubit_gates
 from iqm.qiskit_iqm.move_gate import MoveGate
 from iqm.qiskit_iqm.transpiler_plugins import *  # noqa: F403
+from packaging.version import Version
 from qiskit import __version__ as qiskit_version
+
+if Version(qiskit_version) < Version("2.0.0"):
+    warnings.warn(
+        DeprecationWarning("Support for Qiskit versions < 2.0 is deprecated and will be removed in a future release.")
+    )

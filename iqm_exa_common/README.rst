@@ -3,7 +3,7 @@ EXA-common
 
 A Python-based project with abstract interfaces, helpers, etc. that are used both in backend and experiment layers.
 
-See `API documentation <https://iqm-finland.github.io/docs/iqm-exa-common/>`_.
+See `API documentation <https://docs.meetiqm.com/iqm-exa-common/>`_.
 
 Copyright
 ---------

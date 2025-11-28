@@ -55,7 +55,7 @@ from iqm.applications.graph_utils import (
     EDGE_ATTR_PRIORITY,
     _generate_desired_graph,
     _get_attr_with_priority,
-    relabel_graph_nodes,
+    draw_problem,
 )
 from iqm.applications.qubo import QUBOInstance
 import networkx as nx
@@ -81,20 +81,24 @@ class MaxCutInstance(QUBOInstance):
 
     """
 
-    def __init__(self, graph: nx.Graph, break_z2: bool = False) -> None:
-        self._graph, self.orig_to_new_labels, self.new_to_orig_labels = relabel_graph_nodes(graph)
+    def __init__(self, graph: nx.Graph, break_z2: bool = False, allow_custom_var_names: bool = False) -> None:
+        self._graph = graph
         self._break_z2 = break_z2
-        qubo_mat = np.zeros((self._graph.number_of_nodes(), self._graph.number_of_nodes()), dtype=int)
+
+        linear = {node: 0 for node in self._graph.nodes()}
+        quadratic: dict[tuple[int, int], int] = {}
         for i, j in self._graph.edges():
-            qubo_mat[i, j] += 2
-            qubo_mat[i, i] += -1
-            qubo_mat[j, j] += -1
-        bqm = BinaryQuadraticModel(qubo_mat, vartype="BINARY")
-        super().__init__(bqm)
+            quadratic[(i, j)] = quadratic.get((i, j), 0) + 2
+            linear[i] -= 1
+            linear[j] -= 1
+
+        bqm = BinaryQuadraticModel(linear, quadratic, 0.0, vartype="BINARY")
+
+        super().__init__(bqm, allow_custom_var_names=allow_custom_var_names)
 
         if self._break_z2:
-            node_to_fix = max(bqm.variables, key=bqm.degree)
-            self.fix_variables({node_to_fix: 1})
+            var_to_fix = cast(int, max(self._bqm.variables, key=self._bqm.degree))
+            self.fix_variables({var_to_fix: 1})
 
         # The average quality and the upper bound are trivial
         self._average_quality = -self._graph.size() / 2
@@ -145,6 +149,38 @@ class MaxCutInstance(QUBOInstance):
 
         return cut
 
+    def draw_problem(
+        self,
+        solution_bitstring: str | None = None,
+        seed: int | None = None,
+        # ``frozenset({1})`` means that we highlight cut edges.
+        highlight_edge_by_node_count: frozenset[int] = frozenset({1}),
+    ) -> None:
+        """The method to draw an instance of maxcut, with the solution highlighted.
+
+        Args:
+            solution_bitstring: A bitstring representing a solution to the problem. Selected nodes are represented as
+                1's, the other nodes are represented as 0's. This skips nodes that have been fixed, e.g., by breaking
+                the Z2 symmetry. The full bitstring including the fixed nodes is restored internally by calling
+                :meth:`~iqm.applications.applications.ProblemInstance.restore_fixed_variables_bitstring`.
+            seed: The seed to derandomize the layout of the graph.
+            highlight_edge_by_node_count: How many of the endnodes of an edge need to be highlighted to also make
+                the edge highlighted. For maxcut, this should be ``frozenset({1})`` so that cut edges are highlighted.
+
+        """
+        if solution_bitstring is not None:
+            full_bitstring = self.restore_fixed_variables_bitstring(solution_bitstring)
+        else:
+            full_bitstring = None
+        draw_problem(
+            graph_to_plot=self._graph,
+            orig_to_new_mapping=self.orig_to_new_labels,
+            fixed_vars=frozenset(self._fixed_variables.keys()),
+            bitstring=full_bitstring,
+            seed=seed,
+            highlight_edge_by_node_count=highlight_edge_by_node_count,
+        )
+
 
 class WeightedMaxCutInstance(QUBOInstance):
     r"""The weighted maxcut instance class.
@@ -165,37 +201,37 @@ class WeightedMaxCutInstance(QUBOInstance):
 
     """
 
-    def __init__(self, graph: nx.Graph, break_z2: bool = False) -> None:
-        self._graph, self.orig_to_new_labels, self.new_to_orig_labels = relabel_graph_nodes(graph)
-
-        qubo_mat = np.zeros((self._graph.number_of_nodes(), self._graph.number_of_nodes()))
+    def __init__(self, graph: nx.Graph, break_z2: bool = False, allow_custom_var_names: bool = False) -> None:
+        self._graph = graph
+        self._break_z2 = break_z2
 
         for n1, n2, data in self._graph.edges(data=True):
             value = _get_attr_with_priority(data, EDGE_ATTR_PRIORITY)
 
             if value is None:
                 raise ValueError(
-                    f"The edge between nodes {self.new_to_orig_labels[n1]} and {self.new_to_orig_labels[n2]} is missing"
+                    f"The edge between nodes {n1} and {n2} is missing"
                     f" one of the required attributes ({', '.join(EDGE_ATTR_PRIORITY)})."
                 )
 
             if not isinstance(value, (float, int)):
                 raise TypeError(
-                    f"The edge between nodes {self.new_to_orig_labels[n1]} and {self.new_to_orig_labels[n2]} has a "
+                    f"The edge between nodes {n1} and {n2} has a "
                     f"value of type {type(value).__name__}, expected ``float`` or ``int``."
                 )
 
-            qubo_mat[n1, n2] += 2 * value
-            qubo_mat[n1, n1] += -value
-            qubo_mat[n2, n2] += -value
+        linear = {node: 0 for node in self._graph.nodes()}
+        quadratic: dict[tuple[int, int], int] = {}
+        for i, j, edge_data in self._graph.edges(data=True):
+            quadratic[(i, j)] = quadratic.get((i, j), 0) + 2 * edge_data["weight"]
+            linear[i] -= edge_data["weight"]
+            linear[j] -= edge_data["weight"]
 
-        bqm = BinaryQuadraticModel(qubo_mat, vartype="BINARY")
+        bqm = BinaryQuadraticModel(linear, quadratic, 0.0, vartype="BINARY")
+        super().__init__(bqm, allow_custom_var_names=allow_custom_var_names)
 
-        super().__init__(bqm)
-
-        self._break_z2 = break_z2
         if self._break_z2:
-            node_to_fix = max(bqm.variables, key=bqm.degree)
+            node_to_fix = cast(int, max(bqm.variables, key=bqm.degree))
             self.fix_variables({node_to_fix: 1})
 
     @property
@@ -242,6 +278,39 @@ class WeightedMaxCutInstance(QUBOInstance):
                 cut += edge_data["weight"]
 
         return cut
+
+    def draw_problem(
+        self,
+        solution_bitstring: str | None = None,
+        seed: int | None = None,
+        # ``frozenset({1})`` means that we highlight cut edges.
+        highlight_edge_by_node_count: frozenset[int] = frozenset({1}),
+    ) -> None:
+        """The method to draw an instance of weighted maxcut, with the solution highlighted.
+
+        Args:
+            solution_bitstring: A bitstring representing a solution to the problem. Selected nodes are represented as
+                1's, the other nodes are represented as 0's. This skips nodes that have been fixed, e.g., by breaking
+                the Z2 symmetry. The full bitstring including the fixed nodes is restored internally by calling
+                :meth:`~iqm.applications.applications.ProblemInstance.restore_fixed_variables_bitstring`.
+            seed: The seed to derandomize the layout of the graph.
+            highlight_edge_by_node_count: How many of the endnodes of an edge need to be highlighted to also make
+                the edge highlighted. For weighted maxcut, this should be ``frozenset({1})`` so that cut edges are
+                highlighted.
+
+        """
+        if solution_bitstring is not None:
+            full_bitstring = self.restore_fixed_variables_bitstring(solution_bitstring)
+        else:
+            full_bitstring = None
+        draw_problem(
+            graph_to_plot=self._graph,
+            orig_to_new_mapping=self.orig_to_new_labels,
+            fixed_vars=frozenset(self._fixed_variables.keys()),
+            bitstring=full_bitstring,
+            seed=seed,
+            highlight_edge_by_node_count=highlight_edge_by_node_count,
+        )
 
 
 def maxcut_generator(  # noqa: PLR0913

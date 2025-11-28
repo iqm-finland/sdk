@@ -40,6 +40,7 @@ from qiskit.providers import BackendV2
 from iqm.cpc.compiler.compiler import Compiler
 from iqm.cpc.interface.compiler import Circuit as CPC_Circuit
 from iqm.pulse import CircuitOperation
+from iqm.station_control.interface.models import QubitMapping
 
 qir_logger = logging.getLogger(__name__)
 
@@ -148,7 +149,7 @@ def _parse_double(value: str) -> float:
 
 
 def qir_to_pulla(  # noqa: PLR0915, PLR0912
-    compiler: Compiler, qir: str | bytes, qubit_mapping: dict[str, str] | None = None
+    compiler: Compiler, qir: str | bytes, qubit_mapping: QubitMapping | None = None
 ) -> tuple[list[CPC_Circuit], Compiler]:
     """Convert a QIR module to a CPC circuit.
 
@@ -257,7 +258,7 @@ def qir_to_pulla(  # noqa: PLR0915, PLR0912
     return circuits, compiler
 
 
-def generate_qiskit_qir_qubit_mapping(qiskit_circuit: QuantumCircuit, qiskit_backend: BackendV2) -> dict[str, str]:
+def generate_qiskit_qir_qubit_mapping(qiskit_circuit: QuantumCircuit, qiskit_backend: BackendV2) -> QubitMapping:
     """qiskit-qir has a bug, which causes qubit pointers to not be generated correctly
     according to the final_layout. So we replicate this logic here and generate a new mapping.
     Then we assign qiskit-qir index to the qiskit logic qubit idx.

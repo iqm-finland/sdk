@@ -13,22 +13,17 @@
 # limitations under the License.
 """Utility functions for IQM Station Control Client."""
 
-from collections.abc import Callable
-
-import requests
 from tqdm.auto import tqdm
 
-from iqm.station_control.client.iqm_server.iqm_server_client import IqmServerClient
-from iqm.station_control.client.station_control import StationControlClient
-from iqm.station_control.interface.models import Statuses
-from iqm.station_control.interface.station_control import StationControlInterface
+from iqm.station_control.interface.models import ProgressCallback
+from iqm.station_control.interface.models.jobs import _Progress
 
 
-def get_progress_bar_callback() -> Callable[[Statuses], None]:
+def get_progress_bar_callback() -> ProgressCallback:
     """Returns a callback function that creates or updates existing progressbars when called."""
     progress_bars = {}
 
-    def _create_and_update_progress_bars(statuses: Statuses) -> None:
+    def _create_and_update_progress_bars(statuses: list[_Progress]) -> None:
         for label, value, total in statuses:
             if label not in progress_bars:
                 progress_bars[label] = tqdm(total=total, desc=label, leave=True)
@@ -36,36 +31,3 @@ def get_progress_bar_callback() -> Callable[[Statuses], None]:
             progress_bars[label].refresh()
 
     return _create_and_update_progress_bars
-
-
-def init_station_control(
-    root_url: str, get_token_callback: Callable[[], str] | None = None, **kwargs
-) -> StationControlInterface:
-    """Initialize a new station control instance connected to the given remote.
-
-    Client implementation is selected automatically based on the remote station: if the remote station
-    is running the IQM Server software stack, then the IQM Server client implementation (with a limited
-    feature set) is chosen. If the remote station is running the SC software stack, then the Station
-    Control client implementation (with the full feature set) is chosen.
-
-    Args:
-        root_url: Remote station control service URL. For IQM Server remotes, this is the "Quantum Computer URL"
-            value from the web dashboard.
-        get_token_callback: A callback function that returns a token (str) which will be passed in Authorization
-            header in all requests.
-
-    """
-    try:
-        headers = {"Authorization": get_token_callback()} if get_token_callback else {}
-        response = requests.get(f"{root_url}/about", headers=headers)
-        response.raise_for_status()
-        about = response.json()
-        if isinstance(about, dict) and about.get("iqm_server") is True:
-            # If about information has iqm_server flag, it means that we're communicating
-            # with IQM server instead of direct Station Control service, hence we need to
-            # use the specialized client
-            return IqmServerClient(root_url, get_token_callback=get_token_callback, **kwargs)
-        # Using direct station control by default
-        return StationControlClient(root_url=root_url, get_token_callback=get_token_callback, **kwargs)
-    except Exception as e:
-        raise RuntimeError("Failed to initialize the client.") from e

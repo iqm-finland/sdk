@@ -11,60 +11,89 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Job executor artifact and state models."""
+"""Job-related models."""
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from datetime import datetime
 from enum import Enum
 import functools
+from typing import TypeAlias
 from uuid import UUID
 
 from iqm.station_control.interface.pydantic_base import PydanticBase
 
+_Progress: TypeAlias = tuple[str, int, int]
+"""Describes the progress of an arbitrary task: (label, value, max_value)."""
+
+ProgressCallback: TypeAlias = Callable[[list[_Progress]], None]
+"""Callback function for reporting progress on a list of tasks."""
+
+Statuses: TypeAlias = list[_Progress]
+"""Progress of the parallel sweeps of a job.
+Used in Station Control. Deprecated, should not be used anywhere else."""
+
 
 class TimelineEntry(PydanticBase):
-    """Status and timestamp pair as described in a job timeline."""
+    """Status and timestamp pair for a job timeline."""
 
     status: JobExecutorStatus
+    """Job status that was reached."""
     timestamp: datetime
+    """Time at which ``status`` was reached."""
 
 
 class JobResult(PydanticBase):
-    """Progress information about a running job."""
+    """Progress information for the JobExecutorStatus.EXECUTION_STARTED stage of a job."""
+
+    # TODO redesign, should not be called JobResult since it's a progress indicator
 
     job_id: UUID
-    parallel_sweep_progress: list[tuple[str, int, int]]
+    """ID of the job."""
+    parallel_sweep_progress: list[_Progress]
+    """Progress of the sweeps if we are in the JobExecutorStatus.EXECUTION_STARTED stage, otherwise empty."""
     interrupted: bool
+    """True iff the job was canceled."""
 
 
 class JobError(PydanticBase):
-    """Error log for a job."""
+    """Error message for a job."""
 
     full_error_log: str
+    """Full error message for logging."""
     user_error_message: str
+    """Short, human-readable error message for users."""
 
 
 class JobData(PydanticBase):
     """Status, artifacts and metadata of a job."""
 
+    # TODO redesign
+
     job_id: UUID
     """Unique ID of the job."""
     job_status: JobExecutorStatus
     """Current job status."""
-    job_result: JobResult
-    """Progress information for the job."""  # FIXME why is it called JobResult? can it be None?
-    # job_result: The output of a progressing or a successful job. This includes progress indicators.
+    job_result: JobResult  # TODO should not be called JobResult, it's progress info for the execution stage
+    """Progress information for the JobExecutorStatus.EXECUTION_STARTED stage of a job."""
     job_error: JobError | None
-    """Error message(s) for a failed job."""
+    """Error message(s) for a failed job, otherwise None."""
     position: int | None
-    """If the job is not completed, its position in the current queue.
-    1 means this task will be executed next. In other cases the value is 0."""
+    """Number of jobs ahead of this job in its current queue.
+    None means the job has reached a terminal status.
+    """
 
 
+# NOTE: Keep JobExecutorStatus inheriting from Enum (not StrEnum).
+# Our tests do ordering like:  str(JobExecutorStatus.X) > JobExecutorStatus.Y
+# With Enum, the right operand isn’t a str, so Python dispatches to the Enum’s comparison methods,
+# where we implement definition-order (<, >) logic.
+# With StrEnum, members are str subclasses; when a plain str is on the left, Python uses str.__gt__
+# (lexicographic) and never calls our enum’s ordering, so string↔enum ordering fails.
 @functools.total_ordering
 class JobExecutorStatus(Enum):
-    """Different states a job can be in.
+    """Different statuses a job can be in.
 
     The ordering of these statuses is important, and execution logic relies on it.
     Thus, if a new status is added, ensure that it is slotted
@@ -89,7 +118,7 @@ class JobExecutorStatus(Enum):
     COMPILATION_STARTED = "compilation_started"
     """The job is being compiled."""
     COMPILATION_ENDED = "compilation_ended"
-    """The job has been succesfully compiled."""
+    """The job has been successfully compiled."""
 
     # Executing sweep
     SAVE_SWEEP_METADATA_STARTED = "save_sweep_metadata_started"

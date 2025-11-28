@@ -17,8 +17,7 @@ user-friendly format to canonic ones.
 """
 
 from exa.common.control.sweep.option import StartStopOptions
-from exa.common.control.sweep.sweep import Sweep
-from exa.common.data.parameter import Parameter
+from exa.common.data.parameter import Parameter, Sweep
 
 # One sweep where many sweeps are executed together, like a zip. Type hint alias.
 ParallelSweep = tuple[Sweep, ...]

@@ -19,17 +19,14 @@ from collections.abc import Iterable
 import logging
 from typing import TypeAlias
 
-from iqm.iqm_client import (
-    DynamicQuantumArchitecture,
-    GateImplementationInfo,
-    GateInfo,
-    ObservationFinder,
-)
+from iqm.iqm_client import ObservationFinder
 from iqm.qiskit_iqm.move_gate import MoveGate
-from qiskit.circuit import Delay, Gate, Parameter, Reset
+from qiskit.circuit import Delay, Gate, IfElseOp, Parameter, Reset
 from qiskit.circuit.library import CZGate, IGate, Measure, RGate
 from qiskit.providers import QubitProperties
 from qiskit.transpiler import InstructionProperties, Target
+
+from iqm.station_control.interface.models import DynamicQuantumArchitecture, GateImplementationInfo, GateInfo
 
 Locus: TypeAlias = tuple[str, ...]
 """Sequence of QPU component names on which a gate acts."""
@@ -44,6 +41,7 @@ _QISKIT_IQM_GATE_MAP: dict[str, Gate] = {
     "cz": CZGate(),
     "move": MoveGate(),
     "id": IGate(),
+    "if_else": IfElseOp,
 }
 """Maps IQM native operation names to corresponding Qiskit gate objects."""
 
@@ -82,6 +80,7 @@ class IQMTarget(Target):
         # (2) make all the IQMTarget.__init__ args keyword-only with non-colliding names, and init
         # the necessary superclass attributes ourselves.
         # (1) seems to break pickling during concurrent transpilation using Qiskit's ``transpile``, so we use (2).
+        # (2) is broken from Qiskit 2.2 onwards because Target.__init__ no longer has **kwargs nor *args.
         self.qubit_properties = self._create_qubit_properties(architecture.qubits, metrics)
 
         # Using iqm_ as a prefix to avoid name clashes with the base class.
@@ -126,8 +125,13 @@ class IQMTarget(Target):
         if "prx" in op_loci:
             add_gate("prx")
 
-        # HACK reset gate shares cc_prx loci for now, until reset is also in the DQA/metrics
         if "cc_prx" in op_loci:
+            # IfElseOp is a global 'gate' so it's slightly different from the others.
+            self.add_instruction(
+                instruction=_QISKIT_IQM_GATE_MAP["if_else"],
+                name="if_else",
+            )
+            # HACK reset gate shares cc_prx loci for now, until reset is also in the DQA/metrics
             self.add_instruction(
                 _QISKIT_IQM_GATE_MAP["reset"],
                 {self.locus_to_idx(locus): None for locus in op_loci["cc_prx"]},

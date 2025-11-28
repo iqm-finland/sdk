@@ -16,94 +16,102 @@
 Mocks server calls for testing
 """
 
-from importlib.metadata import version
 import json
+from math import pi
 import os
+import uuid
 
-from iqm.iqm_client import IQMClient, TokenManager
-from mockito import ANY, expect, when
-from packaging.version import parse
+from iqm.iqm_client import IQMClient
+from iqm.iqm_server_client.models import CalibrationSet, ListQuantumComputersResponse, QuantumComputer
+from mockito import ANY, mock, when
 import pytest
 import requests
 from requests import HTTPError, Response
 
-from iqm.station_control.client.station_control import StationControlClient
-from iqm.station_control.interface import models
+from iqm.pulse import Circuit, CircuitOperation
+from iqm.station_control.interface import models as sc_models
+from iqm.station_control.interface.models import ObservationLite, ObservationSetData, QualityMetrics
+
+
+def mock_quantum_computers_list_request(base_url: str, aliases: list[str]):
+    response = mock(
+        {
+            "text": ListQuantumComputersResponse(
+                quantum_computers=[QuantumComputer(id=uuid.uuid4(), alias=alias) for alias in aliases],
+            ).model_dump_json(),
+            "ok": True,
+        },
+        spec=requests.Response,
+    )
+    when(requests).get(f"{base_url}/api/v1/quantum-computers", headers=ANY, timeout=ANY).thenReturn(response)
 
 
 @pytest.fixture()
 def base_url() -> str:
     # NOTE: You should mock all HTTP requests in the tests, so we do not send out actual HTTP requests here!
-    return "https://example.com"
+    url = "https://example.com"
+    mock_quantum_computers_list_request(url, ["default"])
+    return url
 
 
 @pytest.fixture(scope="function")
 def iqm_client_mock(base_url) -> IQMClient:
-    expect(requests, times=1).get(
-        f"{base_url}/info/client-libraries",
-        headers=ANY,
-        timeout=ANY,
-    ).thenReturn(mock_supported_client_libraries_response())
-    when(requests).get(f"{base_url}/about", headers=ANY).thenReturn(MockJsonResponse(200, {}))
-
-    when(StationControlClient)._check_api_versions().thenReturn(None)
     client = IQMClient(base_url)
-    client._token_manager = TokenManager()  # Do not use authentication
-    when(client._token_manager).get_bearer_token().thenReturn(None)
     return client
 
 
-@pytest.fixture
-def crystal_5_calibration_set():
-    path = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-        "tests/iqm_client/resources/crystal_5_calibration_set.json",
-    )
-    with open(path, "r", encoding="utf-8") as data:
-        return json.load(data)
-
-        # return models.ObservationSetData(
-        #     observation_set_type="calibration-set",
-        #     observation_ids=[obs["observation_id"] for obs in calset],
-        # )
+@pytest.fixture()
+def sample_calset_id() -> uuid.UUID:
+    return uuid.UUID("9ddb9586-8f27-49a9-90ed-41086b47f6bd")
 
 
 @pytest.fixture
-def crystal_5_quality_metrics(crystal_5_calibration_set):
+def crystal_5_quality_metrics(crystal_5_calibration_set_observations):
     path = os.path.join(
         os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
         "tests/iqm_client/resources/crystal_5_quality_metric_set.json",
     )
     with open(path, "r", encoding="utf-8") as data:
-        quality_metric_set = json.load(data)
-
-    calibration_set_data = models.ObservationSetData(
-        observation_set_type="calibration-set",
-        # Extract all observation IDs from the list of observations
-        observation_ids=[obs["observation_id"] for obs in crystal_5_calibration_set if "observation_id" in obs],
-        # Use metadata from the quality metric set as it's the context
-        describes_id=quality_metric_set["describes_id"],
-        invalid=quality_metric_set["invalid"],
-        dut_label=quality_metric_set["dut_label"],
-        observation_set_id=quality_metric_set["observation_set_id"],
-        created_timestamp=quality_metric_set["created_timestamp"],
-        end_timestamp=quality_metric_set["end_timestamp"],
-    )
+        quality_metric_set_data = json.load(data)
 
     # Convert the list of observation dicts to a list of ObservationLite model instances
-    observations_models = [models.ObservationLite.model_construct(**obs) for obs in quality_metric_set["observations"]]
+    observations = [
+        ObservationLite.model_construct(**observation) for observation in quality_metric_set_data["observations"]
+    ]
 
-    return models.QualityMetrics(
-        observation_set_type=quality_metric_set["observation_set_type"],
-        observation_ids=quality_metric_set["observation_ids"],
-        describes_id=quality_metric_set["describes_id"],
-        invalid=quality_metric_set["invalid"],
-        dut_label=quality_metric_set["dut_label"],
-        observation_set_id=quality_metric_set["observation_set_id"],
-        created_timestamp=quality_metric_set["created_timestamp"],
-        end_timestamp=quality_metric_set["end_timestamp"],
-        calibration_set=calibration_set_data,
-        observations=observations_models,
+    return QualityMetrics(
+        observation_set_type=quality_metric_set_data["observation_set_type"],
+        describes_id=quality_metric_set_data["describes_id"],
+        invalid=quality_metric_set_data["invalid"],
+        dut_label=quality_metric_set_data["dut_label"],
+        observation_set_id=quality_metric_set_data["observation_set_id"],
+        created_timestamp=quality_metric_set_data["created_timestamp"],
+        end_timestamp=quality_metric_set_data["end_timestamp"],
+        observations=observations,
+        calibration_set=ObservationSetData(
+            observation_set_type=quality_metric_set_data["observation_set_type"],
+            describes_id=quality_metric_set_data["describes_id"],
+            invalid=quality_metric_set_data["invalid"],
+            dut_label=quality_metric_set_data["dut_label"],
+            observation_set_id=quality_metric_set_data["observation_set_id"],
+            created_timestamp=quality_metric_set_data["created_timestamp"],
+            end_timestamp=quality_metric_set_data["end_timestamp"],
+            observation_ids=[observation.observation_id for observation in crystal_5_calibration_set_observations],
+        ),
+    )
+
+
+@pytest.fixture
+def crystal_5_calibration_set(crystal_5_quality_metrics, crystal_5_calibration_set_observations):
+    return CalibrationSet(
+        observation_set_type=crystal_5_quality_metrics.observation_set_type,
+        describes_id=crystal_5_quality_metrics.describes_id,
+        invalid=crystal_5_quality_metrics.invalid,
+        dut_label=crystal_5_quality_metrics.dut_label,
+        observation_set_id=crystal_5_quality_metrics.observation_set_id,
+        created_timestamp=crystal_5_quality_metrics.created_timestamp,
+        end_timestamp=crystal_5_quality_metrics.end_timestamp,
+        observations=crystal_5_calibration_set_observations,
     )
 
 
@@ -126,24 +134,86 @@ class MockJsonResponse:
         if 400 <= self.status_code < 600:
             raise HTTPError(f"{self.status_code}", response=self)
 
+    @property
+    def ok(self):
+        return self.status_code < 400
 
-def mock_supported_client_libraries_response(
-    iqm_client_name: str = "iqm-client", max_version: str | None = None, min_version: str | None = None
-) -> MockJsonResponse:
-    client_version = parse(version("iqm-client"))
-    min_version = f"{client_version.major}.0" if min_version is None else min_version
-    max_version = f"{client_version.major + 1}.0" if max_version is None else max_version
-    return MockJsonResponse(
-        200,
-        {
-            iqm_client_name: {
-                "name": iqm_client_name,
-                "min": min_version,
-                "max": max_version,
-            }
+
+@pytest.fixture
+def sample_dynamic_architecture(sample_calset_id) -> sc_models.DynamicQuantumArchitecture:
+    return sc_models.DynamicQuantumArchitecture(
+        calibration_set_id=sample_calset_id,
+        qubits=["QB1", "QB2", "QB3"],
+        computational_resonators=[],
+        gates={
+            "prx": sc_models.GateInfo(
+                implementations={
+                    "drag_gaussian": sc_models.GateImplementationInfo(loci=(("QB1",), ("QB2",), ("QB3",))),
+                    "drag_crf": sc_models.GateImplementationInfo(loci=(("QB1",), ("QB3",))),
+                },
+                default_implementation="drag_gaussian",
+                override_default_implementation={},
+            ),
+            "cc_prx": sc_models.GateInfo(
+                implementations={
+                    "prx_composite": sc_models.GateImplementationInfo(loci=(("QB1",), ("QB2",), ("QB3",))),
+                },
+                default_implementation="prx_composite",
+                override_default_implementation={},
+            ),
+            "cz": sc_models.GateInfo(
+                implementations={
+                    "tgss": sc_models.GateImplementationInfo(loci=(("QB1", "QB2"), ("QB1", "QB3"))),
+                    "crf": sc_models.GateImplementationInfo(loci=(("QB1", "QB2"),)),
+                },
+                default_implementation="tgss",
+                override_default_implementation={},
+            ),
+            "measure": sc_models.GateInfo(
+                implementations={"constant": sc_models.GateImplementationInfo(loci=(("QB1",), ("QB2",)))},
+                default_implementation="constant",
+                override_default_implementation={},
+            ),
         },
     )
 
 
-def mock_about_response():
-    return MockJsonResponse(200, {})
+def create_sample_circuit(qubits: list[str], metadata) -> Circuit:
+    return Circuit(
+        # All unicode chars must work
+        name="The circuit 😈",
+        instructions=(
+            CircuitOperation(
+                name="cz",
+                locus=tuple(qubits),
+                args={},
+            ),
+            CircuitOperation(
+                name="prx",
+                implementation="drag_gaussian",
+                locus=(qubits[0],),
+                args={"phase": 1.4 * pi, "angle": 0.5 * pi},
+            ),
+            CircuitOperation(
+                name="prx",
+                locus=(qubits[0],),
+                args={"phase": 0.6 * pi, "angle": -0.4 * pi},
+            ),
+            CircuitOperation(name="measure", locus=(qubits[0],), args={"key": "A"}),
+            CircuitOperation(name="measure", locus=(qubits[1],), args={"key": "B"}),
+        ),
+        metadata=metadata,
+    )
+
+
+@pytest.fixture()
+def sample_circuit_metadata():
+    return {"experiment_type": "test", "qubits": (0, 1), "values": [0.01686514, 0.05760602]}
+
+
+@pytest.fixture
+def sample_circuit(sample_circuit_metadata) -> Circuit:
+    """
+    A sample circuit for testing submit_circuit
+    """
+    return create_sample_circuit(["QB1", "QB2"], metadata=sample_circuit_metadata)

@@ -13,26 +13,27 @@
 # limitations under the License.
 """Helper functions for circuit validation."""
 
-from iqm.iqm_client import Circuit as IQMClientCircuit
-from iqm.iqm_client import MoveGateValidationMode
 from iqm.iqm_client.validation import validate_circuit_instructions
 from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
 from iqm.qiskit_iqm.qiskit_to_iqm import serialize_instructions
 from qiskit import QuantumCircuit
+
+from iqm.pulse import Circuit
+from iqm.station_control.interface.models import MoveGateValidationMode
 
 
 def validate_circuit(  # noqa: ANN201
     circuit: QuantumCircuit,
     backend: IQMBackendBase,
     validate_moves: MoveGateValidationMode | None = None,
-    qubit_mapping: dict[int, str] | None = None,
+    qubit_index_to_name: dict[int, str] | None = None,
 ):
     """Validate a circuit against the backend."""
-    if qubit_mapping is None:
-        qubit_mapping = backend._idx_to_qb
-    new_circuit = IQMClientCircuit(
+    if qubit_index_to_name is None:
+        qubit_index_to_name = backend._idx_to_qb
+    new_circuit = Circuit(
         name="Validation circuit",
-        instructions=tuple(serialize_instructions(circuit=circuit, qubit_index_to_name=qubit_mapping)),
+        instructions=tuple(serialize_instructions(circuit=circuit, qubit_index_to_name=qubit_index_to_name)),
         metadata=None,
     )
     if validate_moves is None:

@@ -17,10 +17,14 @@ import math
 import warnings
 
 import numpy as np
+from packaging.version import Version
 from qiskit import QuantumCircuit
+from qiskit import __version__ as qiskit_version
+from qiskit.circuit.controlflow import IfElseOp
 from qiskit.circuit.equivalence_library import SessionEquivalenceLibrary
-from qiskit.circuit.library import RGate, UnitaryGate
-from qiskit.dagcircuit import DAGCircuit
+from qiskit.circuit.library import RGate, RZGate, UnitaryGate
+from qiskit.converters import circuit_to_dag, dag_to_circuit
+from qiskit.dagcircuit import DAGCircuit, DAGOpNode
 from qiskit.transpiler.basepasses import TransformationPass
 from qiskit.transpiler.passes import (
     BasisTranslator,
@@ -58,15 +62,32 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
 
     def __init__(self, drop_final_rz: bool = True, ignore_barriers: bool = False):
         super().__init__()
-        self._basis = ["r", "cz", "move"]
-        self._intermediate_basis = ["u", "cz", "move"]
+        self._basis = ["r", "cz", "move", "if_else"]
+        self._intermediate_basis = ["u", "cz", "move", "if_else"]
         self._drop_final_rz = drop_final_rz
         self._ignore_barriers = ignore_barriers
 
-    def run(self, dag: DAGCircuit) -> DAGCircuit:
-        self._validate_ops(dag)
+    def run(self, dag: DAGCircuit, decompose_rz_to_r: bool = True) -> DAGCircuit:
+        """Runs the single-qubit gate optimization pass.
+
+        Args:
+            dag: The input DAG circuit to optimize.
+            decompose_rz_to_r: Whether to decompose RZ gates into R gates, or add the to the DAG as
+                RZ gates. This is used in recursive calls to communicate the accumulated RZ angles in ``rz_angles``.
+
+        Returns:
+            The optimized DAG circuit.
+
+        """
+        if decompose_rz_to_r:
+            self._validate_ops(dag)
         # accumulated RZ angles for each qubit, from the beginning of the circuit to the current gate
         rz_angles: list[float] = [0] * dag.num_qubits()
+
+        # Handle old conditional gates
+        if Version(qiskit_version) < Version("2.0"):
+            # This needs to be done before the BasisTranslation as that pass does not retain the condition.
+            dag = self._handle_c_if_blocks(dag)
 
         if self._ignore_barriers:
             dag = RemoveBarriers().run(dag)
@@ -76,21 +97,7 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
         dag = Optimize1qGatesDecomposition(self._intermediate_basis).run(dag)
         for node in dag.topological_op_nodes():
             if node.name == "u":
-                # convert into PRX + RZ
-                qubit_index = dag.find_bit(node.qargs[0]).index
-                if isinstance(node.op.params[0], float) and math.isclose(node.op.params[0], 0, abs_tol=TOLERANCE):
-                    dag.remove_op_node(node)
-                else:
-                    dag.substitute_node(
-                        node,
-                        RGate(
-                            node.op.params[0],
-                            np.pi / 2 - node.op.params[2] - rz_angles[qubit_index],
-                        ),
-                    )
-                phase = node.op.params[1] + node.op.params[2]
-                dag.global_phase += phase / 2
-                rz_angles[qubit_index] += phase
+                dag, rz_angles = self._handle_u_gates(dag, node, rz_angles)
             elif node.name in {"measure", "reset"}:
                 # measure and reset destroy phase information. The local phases before and after such
                 # an operation are in principle independent, and the local computational frame phases
@@ -115,21 +122,207 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
                 rz_angles[res], rz_angles[qb] = rz_angles[qb], rz_angles[res]
             elif node.name in {"cz", "delay"}:
                 pass  # commutes with RZ gates
+            elif node.name == "if_else":
+                dag, rz_angles = self._handle_if_else_block(dag, node, rz_angles)
             else:
                 raise ValueError(
                     f"Unexpected operation '{node.name}' in circuit given to IQMOptimizeSingleQubitGates pass"
                 )
 
-        if not self._drop_final_rz:
+        if not decompose_rz_to_r:
             for qubit_index, rz_angle in enumerate(rz_angles):
-                if rz_angle != 0:
-                    qubit = dag.qubits[qubit_index]
-                    dag.apply_operation_back(RGate(-np.pi, 0), qargs=(qubit,))
-                    dag.apply_operation_back(RGate(np.pi, rz_angle / 2), qargs=(qubit,))
+                dag.apply_operation_back(RZGate(rz_angle), qargs=(dag.qubits[qubit_index],))
+        elif not self._drop_final_rz:
+            dag, rz_angles = self._apply_final_r_gates(dag, rz_angles)
 
         return dag
 
+    def _apply_final_r_gates(self, dag: DAGCircuit, rz_angles: list[float]) -> tuple[DAGCircuit, list[float]]:
+        """Helper function that adds the final PRX/R gates to the circuit according to the accumulated angles.
+
+        Returns the updated dag and a list of zero angles since the final RZ rotations are already applied.
+
+        Args:
+            dag: The input DAG circuit we are optimizing.
+            rz_angles: The accumulated RZ angles for each qubit.
+
+        Returns:
+            The updated DAG circuit and a list of zero angles.
+
+        """
+        for qubit_index, rz_angle in enumerate(rz_angles):
+            if not math.isclose(rz_angle, 0, abs_tol=TOLERANCE):
+                qubit = dag.qubits[qubit_index]
+                dag.apply_operation_back(RGate(-np.pi, 0), qargs=(qubit,))
+                dag.apply_operation_back(RGate(np.pi, rz_angle / 2), qargs=(qubit,))
+        # Return resetted angles
+        return dag, [0.0] * dag.num_qubits()
+
+    def _handle_u_gates(
+        self, dag: DAGCircuit, node: DAGOpNode, rz_angles: list[float]
+    ) -> tuple[DAGCircuit, list[float]]:
+        """Helper function that converts U gates to PRXs and RZ gates,
+        so that the RZ gates can be commuted to the end of the circuit.
+
+        Args:
+            dag: The input DAG circuit we are optimizing.
+            node: The DAG node containing the U gate to convert.
+            rz_angles: The accumulated RZ angles for each qubit.
+
+        Returns:
+            The updated DAG circuit and the updated list of accumulated RZ angles.
+
+        """
+        qubit_index = dag.find_bit(node.qargs[0]).index
+        if isinstance(node.op.params[0], float) and math.isclose(node.op.params[0], 0, abs_tol=TOLERANCE):
+            dag.remove_op_node(node)
+        else:
+            dag.substitute_node(
+                node,
+                RGate(
+                    node.op.params[0],
+                    np.pi / 2 - node.op.params[2] - rz_angles[qubit_index],
+                ),
+            )
+        phase = node.op.params[1] + node.op.params[2]
+        dag.global_phase += phase / 2
+        rz_angles[qubit_index] += phase
+        return dag, rz_angles
+
+    def _handle_if_else_block(
+        self, dag: DAGCircuit, node: DAGOpNode, rz_angles: list[float]
+    ) -> tuple[DAGCircuit, list[float]]:
+        """Call the optimization recursively on both branches of the if_else node.
+
+        The accumulated RZ angles are added to both branches before optimizing them.
+        The accumulated RZ angles after the optimization are taken from the else branch
+        and the adjoint is applied to the if branch to correct for the overrotation.
+
+        Args:
+            dag: The input DAG circuit we are optimizing.
+            node: The DAG node containing the if_else block to optimize.
+            rz_angles: The accumulated RZ angles for each qubit.
+
+        Returns:
+            The updated DAG circuit and the updated list of accumulated RZ angles.
+
+        """
+        # Add the Rz angles to each circuit block of the if_else node
+        # and run this pass recursively
+        sub_dags = []
+        for circuit_block in node.op.params:
+            new_circuit = QuantumCircuit(list(node.qargs + node.cargs))
+            # Prepend Rz angle to circuit block
+            for qubit in node.qargs:
+                new_circuit.append(RGate(-np.pi, 0), [qubit])
+                new_circuit.append(RGate(np.pi, rz_angles[dag.find_bit(qubit).index] / 2), [qubit])
+            if circuit_block is not None:
+                new_circuit.compose(circuit_block, node.qargs, node.cargs, inplace=True)
+            # Run optimization pass on the block
+            block_dag = circuit_to_dag(new_circuit)
+            block_dag = self.run(block_dag, decompose_rz_to_r=False)
+            sub_dags.append(block_dag)
+        # Pick up the final rotation
+        for qubit in node.qargs:
+            # Find the last node on the qubit
+            final_rzs = [list(block_dag.nodes_on_wire(qubit, only_ops=True))[-1] for block_dag in sub_dags]
+            # Assertions because this cannot go wrong by user error
+            assert len(final_rzs) == 2, "IfElseOp should have exactly two circuit blocks"
+            assert final_rzs[0].name == "rz" and final_rzs[1].name == "rz", (
+                "The last operation on each qubit in an IfElseOp should be an RZ gate, "
+                + f"found {final_rzs[0].name} and {final_rzs[1].name} instead"
+            )
+            # Extract the angles
+            rz1, rz2 = final_rzs[0].op.params[0], final_rzs[1].op.params[0]
+            # We take the else_block rotation as the one to continue pushing through the circuit
+            # because we don't support else_blocks in the circuit at the moment.
+            # Update the rz_angle on this qubit with the one found
+            rz_angles[dag.find_bit(qubit).index] = rz2
+            # Remove the final rz from the dag in both circuit blocks
+            for block_dag, final_node in zip(sub_dags, final_rzs):
+                block_dag.remove_op_node(final_node)
+            # Fix the overrotation of the if_block when the final Rz does not match
+            if not math.isclose(rz1, rz2):
+                rz_angle = rz1 - rz2
+                sub_dags[0].apply_operation_back(RGate(-np.pi, 0), qargs=(qubit,))
+                sub_dags[0].apply_operation_back(RGate(np.pi, rz_angle / 2), qargs=(qubit,))
+        # Replace the params in the if_else node with the optimized circuits
+        new_params = []
+        for idx, sub_dag in enumerate(sub_dags):
+            # Optimize the PRXs on the block_dag, but now keep the final Rzs
+            block_dag = IQMOptimizeSingleQubitGates(drop_final_rz=False, ignore_barriers=self._ignore_barriers).run(
+                sub_dag
+            )
+            # Ensure the qubits act on the same qubits as before
+            if node.op.params[idx] is not None and block_dag.qubits != node.op.params[idx].qubits:
+                # Sometimes the circuit_block.qubits != node.qargs,
+                # so we need to make sure that they act on the same qubits as before
+                new_circuit = QuantumCircuit(list(node.op.params[idx].qubits + node.op.params[idx].clbits))
+                new_circuit.compose(
+                    dag_to_circuit(block_dag),
+                    node.op.params[idx].qubits,
+                    node.op.params[idx].clbits,
+                    inplace=True,
+                )
+            else:
+                new_circuit = dag_to_circuit(block_dag)
+            new_params.append(new_circuit)
+        dag.substitute_node(
+            node,
+            IfElseOp(
+                node.op.condition,
+                new_params[0],
+                false_body=new_params[1] if new_params[1].size() > 0 else None,
+                label=node.op.label,
+            ),
+        )
+        return dag, rz_angles
+
+    def _handle_c_if_blocks(self, dag: DAGCircuit) -> DAGCircuit:
+        """Helper function that replaces all classically controlled RGates with an if_else operator.
+
+        This is needed because the BasisTranslator pass does not retain the condition on the nodes.
+        This is only needed for Qiskit versions < 2.0.0.
+
+        Args:
+            dag: The input DAG circuit we are optimizing.
+
+        Returns:
+            The updated DAG circuit with if_else blocks instead of R gates with a condition.
+
+        """
+        for node in dag.topological_op_nodes():
+            if hasattr(node, "condition") and node.condition and node.name != "if_else":
+                # Manually parse the node to a circuit because helper functions don't exist
+                # NOTE if_block needs to have the same size as node or else it cannot be replaced later.
+                if_block = QuantumCircuit(list(node.qargs))
+                # NOTE Need to reconstruct the node.op manually because rust panics when using node.op directly
+                if node.op.name != "r":
+                    raise ValueError(
+                        f"Unexpected operation '{node.name}' in circuit given to IQMOptimizeSingleQubitGates pass"
+                    )
+                if_block.append(RGate(node.op.params[0], node.op.params[1], label=node.op.label), node.qargs)
+                new_op = IfElseOp(
+                    node.condition,
+                    if_block,
+                )
+                dag.substitute_node(
+                    node,
+                    new_op,
+                )
+        return dag
+
     def _validate_ops(self, dag: DAGCircuit):  # noqa: ANN202
+        """Helper function that validates that the operations in the circuit are compatible
+        with the IQMOptimizeSingleQubitGates pass.
+
+        Args:
+            dag: The input DAG circuit to validate before optimization.
+
+        Raises:
+            ValueError: If an invalid operation is found in the circuit.
+
+        """
         valid_ops = self._basis + ["measure", "reset", "delay", "barrier"]
         for node in dag.op_nodes():
             if node.name not in valid_ops:

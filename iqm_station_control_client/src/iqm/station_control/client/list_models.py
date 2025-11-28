@@ -32,6 +32,7 @@ from iqm.station_control.interface.models import (
     RunLite,
     SequenceMetadataData,
     StaticQuantumArchitecture,
+    TimelineEntry,
 )
 from iqm.station_control.interface.pydantic_base import PydanticBase
 
@@ -70,41 +71,45 @@ class ListModel(RootModel):
     )
 
 
-class DutList(ListModel):
+class DutList(ListModel):  # noqa: D101
     root: list[DutData]
 
 
-class DutFieldDataList(ListModel):
+class DutFieldDataList(ListModel):  # noqa: D101
     root: list[DutFieldData]
 
 
-class ObservationDataList(ListModel):
+class ObservationDataList(ListModel):  # noqa: D101
     root: list[ObservationData]
 
 
-class ObservationDefinitionList(ListModel):
+class ObservationDefinitionList(ListModel):  # noqa: D101
     root: list[ObservationDefinition]
 
 
-class ObservationLiteList(ListModel):
+class ObservationLiteList(ListModel):  # noqa: D101
     root: list[ObservationLite]
 
 
-class ObservationUpdateList(ListModel):
+class ObservationUpdateList(ListModel):  # noqa: D101
     root: list[ObservationUpdate]
 
 
-class ObservationSetDataList(ListModel):
+class ObservationSetDataList(ListModel):  # noqa: D101
     root: list[ObservationSetData]
 
 
-class SequenceMetadataDataList(ListModel):
+class RunLiteList(ListModel):  # noqa: D101
+    root: list[RunLite]
+
+
+class SequenceMetadataDataList(ListModel):  # noqa: D101
     root: list[SequenceMetadataData]
 
 
-class StaticQuantumArchitectureList(ListModel):
+class StaticQuantumArchitectureList(ListModel):  # noqa: D101
     root: list[StaticQuantumArchitecture]
 
 
-class RunLiteList(ListModel):
-    root: list[RunLite]
+class TimelineEntryList(ListModel):  # noqa: D101
+    root: list[TimelineEntry]

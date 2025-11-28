@@ -12,18 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Common data types and exceptions for the IQM Pulla interface.
+"""Common data types and exceptions for the IQM Pulla interface."""
 
-Many of these must be identical to those in iqm-client.
-"""
-
-from dataclasses import dataclass
-from enum import StrEnum
 from typing import TypeAlias
-from uuid import UUID
 
 from exa.common.data.value import ObservationValue
-from iqm.cpc.interface.compiler import Locus
 
 
 class CHADRetrievalException(Exception):
@@ -38,56 +31,8 @@ class ChipLabelRetrievalException(Exception):
     """Exception for chip label retrieval failures."""
 
 
-# Map from OIL tuple to a CalibrationError.
-CalibrationErrors: TypeAlias = dict[tuple[str, str, Locus], str]
-
-
-class TaskStatus(StrEnum):
-    """Status of a Station Control task."""
-
-    READY = "READY"
-    """Task has completed successfully"""
-
-    FAILED = "FAILED"
-    """Task has failed"""
-
-    PROGRESS = "PROGRESS"
-    """Task is being executed"""
-
-    PENDING = "PENDING"
-    """Task is waiting to be executed"""
-
-
-CalibrationSet: TypeAlias = dict[str, ObservationValue]
-CalibrationSetId: TypeAlias = UUID
-
-CircuitMeasurementResults: TypeAlias = dict[str, list[list[int]]]
-"""Measurement results from a single circuit/schedule. For each measurement operation in the circuit,
-maps the measurement key to the corresponding results. The outer list elements correspond to shots,
-and the inner list elements to the qubits measured in the measurement operation."""
-
-CircuitMeasurementResultsBatch: TypeAlias = list[CircuitMeasurementResults]
-"""Type that represents measurement results for a batch of circuits."""
-
-
-@dataclass
-class StationControlResult:
-    """Result of a station control task"""
-
-    sweep_id: UUID
-    """ID of the executed sweep"""
-    task_id: UUID  # TODO? Rename to job_id
-    """ID of the station control task"""
-    status: TaskStatus
-    """Status of the station control task"""
-    start_time: str | None = None
-    """Time when the sweep began in the station control"""
-    end_time: str | None = None
-    """Time when the sweep ended in the station control"""
-    result: CircuitMeasurementResultsBatch | None = None
-    """Sweep results converted to the circuit measurement results expected by the client"""
-    message: str | None = None
-    """Information about task failure"""
+CalibrationSetValues: TypeAlias = dict[str, ObservationValue]
+"""Map from observation name to its value."""
 
 
 ACQUISITION_LABEL_KEY = "m{idx}"

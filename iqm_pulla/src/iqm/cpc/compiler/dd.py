@@ -18,14 +18,18 @@ import logging
 import math
 
 from iqm.cpc.compiler.errors import ClientError
-from iqm.cpc.interface.compiler import DDStrategy, PRXSequence
-from iqm.pulla.utils import InstructionLocation, locate_instructions, replace_instruction_in_place
+from iqm.pulla.utils import (
+    InstructionLocation,
+    locate_instructions,
+    replace_instruction_in_place,
+)
 from iqm.pulse.builder import ScheduleBuilder
 from iqm.pulse.gate_implementation import GateImplementation
 from iqm.pulse.playlist.instructions import Instruction, Wait
 from iqm.pulse.playlist.schedule import Schedule, Segment
 from iqm.pulse.scheduler import Block
 from iqm.pulse.timebox import TimeBox
+from iqm.station_control.interface.models.circuit import DDStrategy, PRXSequence
 
 cpc_logger = logging.getLogger("cpc")
 
@@ -193,10 +197,11 @@ def _find_wait_instructions_on_channels(
 
     for wait in all_waits:
         # Check if leading and/or trailing instruction should be excluded
-        if skip_leading_wait and wait.index == 0:
+        if skip_leading_wait and wait.index == 1:
             continue
-        last_index = len(schedule[wait.channel_name]) - 1
-        if skip_trailing_wait and wait.index == last_index:
+        if skip_trailing_wait and wait.index == len(schedule[wait.channel_name]) - 3:  # third last index
+            continue
+        if skip_trailing_wait and wait.index == len(schedule[wait.channel_name]) - 1:  # last index
             continue
         filtered_waits.append(wait)
 
@@ -490,7 +495,7 @@ def insert_dd_sequences(
     dd_sequences: list[tuple[int, PRXSequence, str]] = [
         (
             ratio,
-            _gate_pattern_to_prx_sequence(pattern) if isinstance(pattern, str) else pattern,
+            (_gate_pattern_to_prx_sequence(pattern) if isinstance(pattern, str) else pattern),
             alignment,
         )
         for ratio, pattern, alignment in dd_sequences_sorted

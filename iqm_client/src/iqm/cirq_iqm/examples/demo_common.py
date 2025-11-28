@@ -138,7 +138,7 @@ def simulate_without_measurements(
     return state
 
 
-def pause() -> None:
+def pause() -> None:  # noqa: D103
     input("\npress enter\n")
 
 

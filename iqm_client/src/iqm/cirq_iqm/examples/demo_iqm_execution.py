@@ -13,13 +13,13 @@
 # limitations under the License.
 """Demonstrates executing a quantum circuit on an IQM quantum computer.
 
-Set the STATION_CONTROL_URL environment variable before running this script.
+Set the IQM_SERVER_URL environment variable before running this script.
 Also, if the server you are running against requires authentication you will also have to use
 the IQM_TOKENS_FILE or the IQM_TOKEN variable to set the access token.
 
 E.g.
 
-    export STATION_CONTROL_URL="https://example.com/station"
+    export IQM_SERVER_URL="https://example.com"
     export IQM_TOKENS_FILE="/path/to/my/tokens.json"
     export IQM_TOKEN="<token here>"
 """
@@ -45,7 +45,7 @@ def demo_run_circuit() -> None:
     print("Original circuit:\n")
     print(circuit)
 
-    sampler = IQMSampler(os.environ["STATION_CONTROL_URL"])
+    sampler = IQMSampler(os.environ["IQM_SERVER_URL"])
 
     circuit_routed, _, _ = sampler.device.route_circuit(circuit)
     circuit_decomposed = sampler.device.decompose_circuit(circuit_routed)

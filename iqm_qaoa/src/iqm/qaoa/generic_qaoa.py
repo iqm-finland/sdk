@@ -30,7 +30,7 @@ import numpy as np
 
 
 class QAOA(ABC):
-    """The most generic QAOA abstract base class.
+    r"""The most generic QAOA abstract base class.
 
     This abstract base class contains methods such as :meth:`_internal_angle_logic` or :meth:`linear_ramp_schedule`
     that can be used by any type / flavor of QAOA.
@@ -41,7 +41,9 @@ class QAOA(ABC):
         betas: An optional list of the initial *beta* angles of QAOA. Has to be provided together with ``gammas``.
         gammas: An optional list of the initial *gamma* angles of QAOA. Has to be provided together with ``betas``.
         initial_angles: An optional list of the initial QAOA angles as one variable. Shouldn't be provided together
-            with either ``betas`` or ``gammas``.
+            with either ``betas`` or ``gammas``. The *gamma* and *beta* angles are interleaved, so that the first pair
+            of entries corresponds to :math:`\gamma_1` and :math:`\beta_1` (the angles of the first QAOA layer).
+            The second pair of entries corresponds to :math:`\gamma_2` and :math:`\beta_2`, etc. ...
 
     """
 

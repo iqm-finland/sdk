@@ -26,8 +26,8 @@ Contents
    :maxdepth: 1
 
    common_errors
-   changelog
    authors
+   changelog
    license
    References <references>
 

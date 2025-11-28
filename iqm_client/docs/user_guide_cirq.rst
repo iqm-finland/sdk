@@ -349,7 +349,7 @@ In this subsection we demonstrate how to run them on an IQM quantum computer.
 
 Cirq on IQM provides :class:`.IQMSampler`, a subclass of :class:`cirq.work.Sampler`, which is used
 to execute quantum circuits and decompose/route them for the architecture of the quantum computer.
-Once you have access to an IQM server you can create an :class:`.IQMSampler` instance and use its
+Once you have access to an IQM Server you can create an :class:`.IQMSampler` instance and use its
 :meth:`~.IQMSampler.run` method to send a circuit for execution and retrieve the results:
 
 .. code-block:: python
@@ -358,7 +358,7 @@ Once you have access to an IQM server you can create an :class:`.IQMSampler` ins
 
    # circuit = ...
 
-   sampler = IQMSampler(iqm_server_url)
+   sampler = IQMSampler(iqm_server_url, quantum_computer=quantum_computer)
    routed_circuit, _, _ = sampler.device.route_circuit(circuit)
    decomposed_circuit = sampler.device.decompose_circuit(routed_circuit)
    result = sampler.run(decomposed_circuit, repetitions=10)
@@ -366,7 +366,9 @@ Once you have access to an IQM server you can create an :class:`.IQMSampler` ins
 
 
 Note that the code snippet above assumes that you have set the variable ``iqm_server_url`` to the URL
-of the IQM server. Additionally, you can pass IQM backend specific options to the :class:`.IQMSampler` class.
+of the IQM Server, and ``quantum_computer`` to the name of the quantum computer to use, if the IQM Server
+has several. Leave it to ``None`` to use the default (or only) quantum computer of the server.
+Additionally, you can pass IQM backend specific options to the :class:`.IQMSampler` class.
 The below table summarises the currently available options:
 
 
@@ -381,7 +383,7 @@ The below table summarises the currently available options:
    * - :attr:`calibration_set_id`
      - :class:`uuid.UUID`
      - "f7d9642e-b0ca-4f2d-af2a-30195bd7a76d"
-     - Indicates the calibration set to use. Defaults to ``None``, which means the IQM server will use the
+     - Indicates the calibration set to use. Defaults to ``None``, which means the IQM Server will use the
        current default calibration set automatically.
    * - :attr:`compiler_options`
      - :class:`~iqm.iqm_client.models.CircuitCompilationOptions`

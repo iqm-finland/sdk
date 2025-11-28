@@ -28,7 +28,7 @@ def _natural_sort_key(name: str) -> tuple[int | str | Any, ...]:
     return tuple(int(item) if item.isdigit() else item.lower() for item in re.split(r"(\d+)", name))
 
 
-class Component(ImmutableBaseModel):
+class Component(ImmutableBaseModel):  # noqa: D101
     name: str
     connections: tuple[str, ...] = ()
 
@@ -41,28 +41,28 @@ class Component(ImmutableBaseModel):
         return tuple(sorted(connections, key=_natural_sort_key))
 
 
-class Qubit(Component):
+class Qubit(Component):  # noqa: D101
     pass
 
 
-class Coupler(Component):
+class Coupler(Component):  # noqa: D101
     pass
 
 
-class ProbeLine(Component):
+class ProbeLine(Component):  # noqa: D101
     pass
 
 
-class Launcher(Component):
+class Launcher(Component):  # noqa: D101
     pin: str
     function: str
 
 
-class ComputationalResonator(Component):
+class ComputationalResonator(Component):  # noqa: D101
     pass
 
 
-class Components(ImmutableBaseModel):
+class Components(ImmutableBaseModel):  # noqa: D101
     # Alias list of components to plurals rather than singulars to follow normal naming conventions
     qubits: tuple[Qubit, ...] = Field((), alias="qubit")
     couplers: tuple[Coupler, ...] = Field((), alias="tunable_coupler")
@@ -83,7 +83,7 @@ class Components(ImmutableBaseModel):
         return {component.name: component for component in components}
 
 
-class CHAD(ImmutableBaseModel):
+class CHAD(ImmutableBaseModel):  # noqa: D101
     mask_set_name: str
     variant: str
     components: Components

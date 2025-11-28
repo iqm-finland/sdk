@@ -20,8 +20,9 @@ from collections.abc import Iterable
 import cirq
 from cirq import Gate, NamedQid, devices, ops
 from iqm.cirq_iqm.serialize import _IQM_CIRQ_OP_MAP
-from iqm.iqm_client import DynamicQuantumArchitecture
 import networkx as nx
+
+from iqm.station_control.interface.models import DynamicQuantumArchitecture
 
 
 @cirq.value.value_equality

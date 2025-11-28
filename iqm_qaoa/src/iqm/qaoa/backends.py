@@ -111,52 +111,68 @@ class EstimatorSingleLayer(EstimatorBackend):
         energy = 0  # To be incremented by the exp. val. of the individual terms in the two following "for" loops.
         g = qaoa_object.angles[0]  # variable gamma
         b = qaoa_object.angles[1]  # variable beta
-        for node in qaoa_object.bqm.variables:
-            hi = qaoa_object.bqm.get_linear(node)
-            nn = {x[0] for x in qaoa_object.bqm.iter_neighborhood(node)}  # The set of nearest neighbours of "node".
+        for node in qaoa_object.hamiltonian_bqm.variables:
+            hi = qaoa_object.hamiltonian_bqm.get_linear(node)
+            nn = {
+                x[0] for x in qaoa_object.hamiltonian_bqm.iter_neighborhood(node)
+            }  # The set of nearest neighbours of "node".
             prod_cos = 1
             for n in nn:
                 prod_cos *= np.cos(
-                    2 * g * qaoa_object.bqm.get_quadratic(node, n)
+                    2 * g * qaoa_object.hamiltonian_bqm.get_quadratic(node, n)
                 )  # The product in the formula for expval_ci.
             expval_ci = hi * np.sin(2 * b) * np.sin(2 * g * hi) * prod_cos
             energy += expval_ci
 
-        for i, j in qaoa_object.bqm.quadratic:
-            hi = qaoa_object.bqm.get_linear(i)
-            hj = qaoa_object.bqm.get_linear(j)
-            jij = qaoa_object.bqm.get_quadratic(i, j)
+        for i, j in qaoa_object.hamiltonian_bqm.quadratic:
+            hi = qaoa_object.hamiltonian_bqm.get_linear(i)
+            hj = qaoa_object.hamiltonian_bqm.get_linear(j)
+            jij = qaoa_object.hamiltonian_bqm.get_quadratic(i, j)
 
             # NN = nearest neighbours
-            nn_i = {x[0] for x in qaoa_object.bqm.iter_neighborhood(i)} - {j}  # The NN of i, excluding j
-            nn_j = {x[0] for x in qaoa_object.bqm.iter_neighborhood(j)} - {i}  # The NN of j, excluding i
+            nn_i = {x[0] for x in qaoa_object.hamiltonian_bqm.iter_neighborhood(i)} - {j}  # The NN of i, excluding j
+            nn_j = {x[0] for x in qaoa_object.hamiltonian_bqm.iter_neighborhood(j)} - {i}  # The NN of j, excluding i
             nn_only_i = nn_i - nn_j - {j}  # The nodes which are NN of i, but not NN of j (or j itself)
             nn_only_j = nn_j - nn_i - {i}  # The nodes which are NN of j, but not NN of i (or i itself)
             nn_both = nn_j - nn_only_j  # The nodes which are NN of both i and j
 
             prod_nn_i = np.prod(
-                [np.cos(2 * g * qaoa_object.bqm.get_quadratic(i, k)) for k in nn_i]
+                [np.cos(2 * g * qaoa_object.hamiltonian_bqm.get_quadratic(i, k)) for k in nn_i]
             )  # The first product on the first line of expval_cij formula
             prod_nn_j = np.prod(
-                [np.cos(2 * g * qaoa_object.bqm.get_quadratic(j, k)) for k in nn_j]
+                [np.cos(2 * g * qaoa_object.hamiltonian_bqm.get_quadratic(j, k)) for k in nn_j]
             )  # The second product on the first line of expval_cij formula
 
             prod_only_i = np.prod(
-                [np.cos(2 * g * qaoa_object.bqm.get_quadratic(i, k)) for k in nn_only_i]
+                [np.cos(2 * g * qaoa_object.hamiltonian_bqm.get_quadratic(i, k)) for k in nn_only_i]
             )  # The first product on the second line of expval_cij formula
             prod_only_j = np.prod(
-                [np.cos(2 * g * qaoa_object.bqm.get_quadratic(j, k)) for k in nn_only_j]
+                [np.cos(2 * g * qaoa_object.hamiltonian_bqm.get_quadratic(j, k)) for k in nn_only_j]
             )  # The second product on the second line of expval_cij formula
 
             prod_both_plus = np.prod(
                 [
-                    np.cos(2 * g * (qaoa_object.bqm.get_quadratic(i, k) + qaoa_object.bqm.get_quadratic(j, k)))
+                    np.cos(
+                        2
+                        * g
+                        * (
+                            qaoa_object.hamiltonian_bqm.get_quadratic(i, k)
+                            + qaoa_object.hamiltonian_bqm.get_quadratic(j, k)
+                        )
+                    )
                     for k in nn_both
                 ]
             )  # The first product on the last line of expval_cij formula
             prod_both_minus = np.prod(
                 [
-                    np.cos(2 * g * (qaoa_object.bqm.get_quadratic(i, k) - qaoa_object.bqm.get_quadratic(j, k)))
+                    np.cos(
+                        2
+                        * g
+                        * (
+                            qaoa_object.hamiltonian_bqm.get_quadratic(i, k)
+                            - qaoa_object.hamiltonian_bqm.get_quadratic(j, k)
+                        )
+                    )
                     for k in nn_both
                 ]
             )  # The second product on the last line of expval_cij formula
@@ -182,7 +198,7 @@ class EstimatorSingleLayer(EstimatorBackend):
             )  # The expval_cij formula is the difference of the 1st line and the product of the 2nd and 3rd line
             energy += expval_cij
 
-        energy += qaoa_object.bqm.offset
+        energy += qaoa_object.hamiltonian_bqm.offset
         return energy
 
 
@@ -208,7 +224,7 @@ class EstimatorStateVector(EstimatorBackend):
         statevector = Statevector.from_instruction(qc)
         statevector = statevector.reverse_qargs()
         observable = ham_graph_to_ham_operator(qaoa_object.hamiltonian_graph)
-        expectation_value = statevector.expectation_value(observable) + qaoa_object.bqm.offset
+        expectation_value = statevector.expectation_value(observable) + qaoa_object.hamiltonian_bqm.offset
         return expectation_value.real
 
 
@@ -287,7 +303,7 @@ class EstimatorQUIMB(EstimatorBackend):
 
         """
         if (
-            isinstance(degrees_arr := qaoa_object.bqm.degrees(array=True), np.ndarray)
+            isinstance(degrees_arr := qaoa_object.hamiltonian_bqm.degrees(array=True), np.ndarray)
             and np.mean(degrees_arr) > CRIT_DEG
         ):
             warnings.warn(
@@ -296,13 +312,13 @@ class EstimatorQUIMB(EstimatorBackend):
             )
         energy = 0
         tn = quimb_tn(qaoa_object)
-        for q1, q2 in qaoa_object.bqm.quadratic:
+        for q1, q2 in qaoa_object.hamiltonian_bqm.quadratic:
             to_measure = qu.pauli("Z") & qu.pauli("Z")
-            energy += tn.local_expectation(to_measure, (q1, q2)) * qaoa_object.bqm.get_quadratic(q1, q2)
-        for q1 in qaoa_object.bqm.variables:
+            energy += tn.local_expectation(to_measure, (q1, q2)) * qaoa_object.hamiltonian_bqm.get_quadratic(q1, q2)
+        for q1 in qaoa_object.hamiltonian_bqm.variables:
             to_measure = qu.pauli("Z")
-            energy += tn.local_expectation(to_measure, (q1)) * qaoa_object.bqm.get_linear(q1)
-        return energy.real + qaoa_object.bqm.offset
+            energy += tn.local_expectation(to_measure, (q1)) * qaoa_object.hamiltonian_bqm.get_linear(q1)
+        return energy.real + qaoa_object.hamiltonian_bqm.offset
 
 
 class SamplerRandomBitstrings(SamplerBackend):

@@ -23,7 +23,7 @@ from typing import Annotated, Any, Final, TypeAlias
 from pydantic import Field
 from pydantic.dataclasses import dataclass
 
-from iqm.station_control.interface.models.observation import ObservationBase
+from iqm.station_control.interface.models import ObservationBase
 
 logger = logging.getLogger(__name__)
 

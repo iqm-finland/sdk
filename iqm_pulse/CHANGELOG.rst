@@ -1,6 +1,30 @@
-=========
-Changelog
-=========
+Version 12.7.0 (2025-11-19)
+===========================
+
+Features
+--------
+
+- Playlist generation now does acq discovery
+- Add ``Fast_Measure_CustomWaveForms`` and ``Fast_Measure_Constant`` measure implementations that block the locus qubit
+  drive and flux channels only for the duration of the physical probe pulse (plus additional calibratable dead time to
+  account for e.g. ring-down delay).
+- The implementation ``Fast_Measure_CustomWaveForms`` is simplified such that it no longer requires additional virtual
+  probe channels.
+
+Bug fixes
+---------
+
+- Fix `Fast_Measure_CustomWaveForms` not being scheduled correctly in some cases involving deep TimeBox structures.
+- Fix `Fast_Measure_CustomWaveForms.time_trace` which was broken.
+
+Version 12.6.0 (2025-10-23)
+===========================
+
+Features
+--------
+
+- ``cc_prx`` gate now supports ``prx`` gate implementations that consists of multiple drive IQ pulses,
+  e.g. ones that use the ``sx`` gate. As a result, the ``reset`` operation now also works with them.
 
 Version 12.5.0 (2025-10-09)
 ===========================
@@ -336,7 +360,7 @@ Version 8.13.0 (2025-04-07)
 Features
 --------
 
-- Fix package version in published docs footers, :issue:`SW-1392`. 
+- Fix package version in published docs footers, :issue:`SW-1392`.
 
 Version 8.12.0 (2025-04-03)
 ===========================
@@ -369,7 +393,7 @@ Version 8.9.0 (2025-03-28)
 Features
 --------
 
-- Reworked the way default gates (operations) are defined so they are decoupled from their implementations. This separation allows for the deletion of default implementations without losing information about its designated name. 
+- Reworked the way default gates (operations) are defined so they are decoupled from their implementations. This separation allows for the deletion of default implementations without losing information about its designated name.
 - The majority of the original functionality stays the same.
 - The ``register_implementation`` function has been split into several different functions to improve readability and testing, as seen below::
 
@@ -381,8 +405,8 @@ Features
                                                                                     v
                                                                           ``validate_implementation`` --> ``set_default``
 
-- The ``build_quantum_ops`` function in builder.py has been split into several functions as well. 
-- Trying to modify the implementation class of an existing or default gate implementation yields an error. 
+- The ``build_quantum_ops`` function in builder.py has been split into several functions as well.
+- Trying to modify the implementation class of an existing or default gate implementation yields an error.
 
 
 
@@ -1187,7 +1211,7 @@ Version 1.5 (2024-07-05)
 
 Features
 --------
-- Bump exa-common to 25.3 
+- Bump exa-common to 25.3
 
 
 Version 1.4 (2024-07-04)

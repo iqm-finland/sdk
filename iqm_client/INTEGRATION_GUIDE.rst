@@ -2,28 +2,38 @@
 Integration Guide
 =================
 
-IQM client is designed to be the Python adapter to IQM's quantum computers for application-level
-quantum computing frameworks.  For example integrations maintained by IQM, please refer to the
+``iqm-client`` is the Python client for connecting to IQM's quantum computers, for application-level
+quantum computing frameworks.  For examples of integrations maintained by IQM, please refer to the
 :ref:`Qiskit <User guide Qiskit>` and :ref:`Cirq <User guide Cirq>` packages.
 
-IQM client offers the functionality to submit quantum circuits to an IQM quantum computer, query a
-job or a job status, and retrieve the quantum architecture of the quantum computer.
+IQM client offers the functionality to submit quantum circuit execution jobs to the quantum computer,
+track the statuses of jobs, and query various properties of the quantum computer.
 
 The following sections illustrate how to integrate IQM quantum computers into your quantum computing
 framework.
 
+
+Authentication
+--------------
+
+IQM uses bearer token authentication to manage access to quantum computers.
+Get your personal API token from the IQM Server web dashboard. The generated token can be provided to
+IQM client via an environment variable :envvar:`IQM_TOKEN`.
+Alternatively, the token can be provided as the ``token`` argument to :class:`.IQMClient` constructor.
+
+
 Code example
 ------------
 
-Initialising the IQM client is simple, and in case you perform authentication as described below,
-requires only the URL of the IQM quantum computer.
+The connection to an IQM Server instance is managed by an :class:`.IQMClient` instance.
+Initialization is simple, and in case you perform the authentication
+using the :envvar:`IQM_TOKEN` environment variable, it only requires the URL of IQM Server:
 
 .. code-block:: python
 
     from iqm.iqm_client import IQMClient
 
-    server_url = "https://IQM_SERVER_URL/station"
-
+    server_url = "https://<IQM_SERVER_URL>"
     iqm_client = IQMClient(server_url)
 
 To submit a quantum circuit for execution, it has to be specified using the
@@ -47,62 +57,80 @@ To submit a quantum circuit for execution, it has to be specified using the
 
     circuit = Circuit(name="quantum_circuit", instructions=instructions)
 
-Then the circuit can be submitted, and its status and result can be queried with the job id.
+Then the circuit(s) can be submitted to the server using :meth:`.IQMClient.submit_circuits`.
+Upon successful submission the method returns a :class:`.CircuitJob` object that can be used
+to track the progress of the job. This is a convenience, the only thing that is really needed
+to access the job on IQM Server is the unique job ID in :attr:`.CircuitJob.job_id`.
+You can pass the job ID to :meth:`.IQMClient.get_job` to get a new :class:`.CircuitJob` object for the job.
+
+To query the status of the job, use :meth:`.CircuitJob.update`. It will update the job object and
+return its current status. The different job statuses are documented in :class:`.JobStatus`.
 
 .. code-block:: python
 
-    job_id = iqm_client.submit_circuits([circuit])
+    job = iqm_client.submit_circuits([circuit], shots=1000)
+    print(job.job_id)
 
-    job_status = iqm_client.get_run_status(job_id)
+    job_status = job.update()
+    print(job_status)
 
-    job_result = iqm_client.wait_for_results(job_id)
 
-A dict containing arbitrary metadata can be attached to the circuit before submitting it for
-execution. The attached metadata should consist only of values of JSON serializable datatypes.
+Eventually the job will end up in one of the terminal statuses:
+``"completed"``, ``"failed"``, or ``"cancelled"``.
+You can either periodically query the status, or use :meth:`.CircuitJob.wait_for_completion`
+which will block and poll the job status until it hits a terminal status, which is then returned.
+
+When the status is ``"completed"``, you can use :meth:`.CircuitJob.result` to get the job results:
+
+.. code-block:: python
+
+    job_status = job.wait_for_completion()
+    print(job_status)
+    job_result = job.result()
+
+A job can be cancelled by calling :meth:`.CircuitJob.cancel`.
+
+
+Job payload
+-----------
+
+A ``dict[str, Any]`` containing arbitrary metadata can be attached to :class:`iqm.pulse.Circuit`
+before submitting it for execution.
+The attached metadata should consist only of values of JSON serializable datatypes.
 A utility function :func:`~.iqm_client.util.to_json_dict` can be used to convert supported datatypes,
 e.g. :class:`numpy.ndarray`, to equivalent JSON serializable types.
 
-The progress of the job can be followed with :meth:`.IQMClient.get_run_status`. Once the job is ready,
-the results can be read with :meth:`.IQMClient.get_run`. Both of these actions are combined in
-:meth:`.IQMClient.wait_for_results` which waits until the job is ready and then returns the result.
-
-In addition to the actual results, job result contains also metadata of the job execution.
-The metadata includes the original request, ID of the calibration set used in the execution, and
-a collection of timestamps describing the duration of the execution.
-
-Job phases and related timestamps
----------------------------------
-
-The timestamps returned with job results are stored as an optional dict called ``timestamps`` in the metadata of
-:class:`.RunResult` of the job. Each timestamp is stored in the dict with a key describing the point in job processing where
-the timestamp was stored. For example, the timestamp stored at the start of circuit compilation step is stored with
-key ``compile_start``. Other timestamps are stored in the same way, with keys containing the step name,
-``compile``, ``submit`` or ``execution``, and either a ``_start`` or ``_end`` suffix. In addition, there are
-also timestamps for starting and ending the job itself, ``job_start`` and ``job_end``. If the job processing is
-terminated before it is complete the timestamps of steps not processed will not be present in the dict.
-
-The first timestamp stored is the ``job_start`` timestamp. It is stored when the server receives the job request.
-
-The job processing starts with compilation step where the circuits are converted to pulse schedules that can be
-sent for execution. Compilation step produces timestamps ``compile_start`` and ``compile_end``.
-
-The pulse schedules are then submitted for execution. This step produces timestamps
-``submit_start`` and ``submit_end``.
-
-After submitting the pulse schedules the server waits for the execution results.
-This step produces timestamps ``execution_start`` and ``execution_end``.
-
-Finally, when job processing is complete, regardless whether the job was successful or not, the timestamp
-``job_end`` is stored.
+The server stores the job payload (including the metadata), and it can be queried using
+:meth:`.CircuitJob.payload`, which returns the submitted circuits (with their metadata), and
+the various job parameters used.
 
 
-Authentication
---------------
+Job metadata and errors
+-----------------------
 
-IQM uses bearer token authentication to manage access to quantum computers.
-Get your personal token from the web dashboard. The generated token can be provided to IQM
-client via an environment variable :envvar:`IQM_TOKEN`.
-Alternatively, the token can be provided as argument ``token`` to :class:`.IQMClient` constructor.
+The server attaches its own metadata to the job, including details related to the compilation
+and execution of the job. Important metadata items include
+
+* :attr:`.CircuitJob.data.errors`: list of errors for a ``"failed"`` job
+* :attr:`.CircuitJob.data.messages`: list of informational messages
+* :attr:`.CircuitJob.data.timeline`: list of execution steps reached with their timestamps
+* :attr:`.CircuitJob.data.compilation.calibration_set_id`: ID of the calibration set used in the execution
+
+
+Job timeline
+~~~~~~~~~~~~
+
+Each item in :attr:`.CircuitJob.data.timeline` is a :class:`.TimelineEntry`,
+containing an execution step reached, a timestamp, and the source of the entry.
+The steps in the timeline are more detailed than the job statuses.
+For example, when the job is accepted, IQM Server adds a timestamp with the status ``"created"``.
+
+The timeline entries also contain information about the lower-level job processing steps by
+Station Control. For example, before the circuits can be executed they are compiled into instruction
+schedules, indicated by the ``"compilation_started"`` and ``"compilation_ended"`` timestamps.
+The actual execution of the job on the quantum hardware is indicated by the
+``"execution_started"`` and ``"execution_ended"`` timestamps.
+
 
 Circuit transpilation
 ---------------------
@@ -136,11 +164,11 @@ A typical Star architecture use case would look something like this:
 
     # intended use
     circuit_with_moves = transpile_insert_moves(circuit, dqa)
-    client.submit_circuits([circuit_with_moves])
+    job = client.submit_circuits([circuit_with_moves])
 
     # back to simplified dqa
     circuit_without_moves = transpile_remove_moves(circuit_with_moves)
-    assert circuit == circuit_without_moves
+    # circuit_without_moves is equivalent to circuit
 
 
 Note on qubit mapping
@@ -148,17 +176,17 @@ Note on qubit mapping
 
 We encourage to transpile circuits to use the physical IQM qubit names before submitting them to IQM
 quantum computers.  In case the quantum computing framework does not allow for this, providing a
-qubit mapping can do the translation from the framework qubit names to IQM qubit names.  Note, that
+qubit mapping can do the translation from the framework qubit names to IQM qubit names.  Note that
 qubit mapping is not supposed to be associated with individual circuits, but rather with the entire
-job request to IQM server.  Typically, you would have some local representation of the QPU and
+job request to IQM Server.  Typically, you would have some local representation of the QPU and
 transpile the circuits against that representation, then use qubit mapping along with the generated
-circuits to map from the local representation to the IQM representation of qubit names.  We
-discourage exposing this feature to end users of the quantum computing framework.
+circuits to map from the local representation to the IQM representation of qubit names.
+We discourage exposing this feature to end users of the quantum computing framework.
 
 Note on circuit duration check
 ------------------------------
 
-Before performing circuit execution, IQM server checks how long it would take to run each circuit.
+Before performing circuit execution, IQM Server checks how long it would take to run each circuit.
 If any circuit in a job would take too long to execute compared to the T2 time of the qubits,
 the server will disqualify the job, not execute any circuits, and return a detailed error message.
 In some special cases, it makes sense to adjust or disable this check using
@@ -168,32 +196,30 @@ and then passing the options to :meth:`.IQMClient.submit_circuits`.
 Note on environment variables
 -----------------------------
 
-Set :envvar:`IQM_CLIENT_REQUESTS_TIMEOUT` environment variable to override the network requests default
-timeout value. The default value is 60 seconds and might not be sufficient when fetching run results
-of larger circuits via slow network connections.
+Set :envvar:`IQM_CLIENT_REQUESTS_TIMEOUT` environment variable to override the network request
+default timeout value (in seconds) for :class:`.IQMClient` methods.  The default value is 120
+seconds and might not be sufficient e.g.  when fetching the results of a larger circuit job through
+a slow network connection.
 
 On Linux:
 
 .. code-block:: bash
 
-  $ export IQM_CLIENT_REQUESTS_TIMEOUT=120
+  $ export IQM_CLIENT_REQUESTS_TIMEOUT=300
 
 On Windows:
 
 .. code-block:: batch
 
-  set IQM_CLIENT_REQUESTS_TIMEOUT=120
+  set IQM_CLIENT_REQUESTS_TIMEOUT=300
 
-Once set, this environment variable will control network request timeouts for :class:`.IQMClient` methods
-``abort_job``, ``get_quantum_architecture``, ``get_dynamic_quantum_architecture``, ``get_run``, and ``get_run_status``.
-
-Set :envvar:`IQM_CLIENT_SECONDS_BETWEEN_CALLS` to control the polling frequency when waiting for
-compilation and run results with the :meth:`.IQMClient.wait_for_compilation` and
-:meth:`.IQMClient.wait_for_results` methods. The default value is set to 1 second.
+Set :envvar:`IQM_CLIENT_SECONDS_BETWEEN_CALLS` to control the polling interval (in seconds) when
+waiting for a job to complete with :meth:`.CircuitJob.wait_for_completion`.
+The default value is 1 second.
 
 Set :envvar:`IQM_CLIENT_DEBUG=1` to print the run request when it is submitted for execution in
-:meth:`.IQMClient.submit_circuits` or :meth:`.IQMClient.submit_run_request`. To inspect the run request without sending
-it for execution, use :meth:`.IQMClient.create_run_request`.
+:meth:`.IQMClient.submit_circuits` or :meth:`.IQMClient.submit_run_request`. To inspect the run
+request without sending it for execution, use :meth:`.IQMClient.create_run_request`.
 
 Integration testing
 -------------------

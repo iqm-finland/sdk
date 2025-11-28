@@ -506,6 +506,6 @@ class StationControlInterface(ABC):
     def abort_job(self, job_id: UUID) -> None:
         """Either remove a job from the queue, or abort it gracefully if it's already executing.
 
-        The status of the job will be set to ``JobStatus.ABORTED``.
+        The status of the job will be set to ``JobExecutorStatus.ABORTED``.
         If the job is not found or is already finished nothing happens.
         """

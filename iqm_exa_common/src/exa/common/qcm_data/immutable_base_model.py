@@ -18,7 +18,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 # Change the behaviour of pydantic globally
-class ImmutableBaseModel(BaseModel):
+class ImmutableBaseModel(BaseModel):  # noqa: D101
     # Unable to use cached_property
     # https://github.com/pydantic/pydantic/issues/1241
     model_config = ConfigDict(frozen=True, ignored_types=(cached_property,))

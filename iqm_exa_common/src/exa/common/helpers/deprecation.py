@@ -11,7 +11,7 @@ def _assert_iso_8601_format(since: str) -> None:
         raise ValueError("Invalid date format. Use 'YYYY-MM-DD'.")
 
 
-def format_deprecated(old: str, new: str | None, since: str) -> LiteralString:
+def format_deprecated(old: str, new: str | None, since: str) -> LiteralString:  # noqa: D103
     _assert_iso_8601_format(since)
     message: str = (
         f"{old} is deprecated since {since}, it can be be removed from the codebase in the next major release."

@@ -72,9 +72,9 @@ def qiskit_circuit(qaoa: QUBOQAOA, measurements: bool = True) -> QuantumCircuit:
         qc.h(qubit)
     for p in range(qaoa.num_layers):
         for qubit in range(qaoa.num_qubits):
-            qc.rz(2 * qaoa.angles[2 * p] * qaoa.bqm.get_linear(qubit), qubit)
-        for q1, q2 in qaoa.bqm.quadratic:
-            qc.rzz(2 * qaoa.angles[2 * p] * qaoa.bqm.get_quadratic(q1, q2), q1, q2)
+            qc.rz(2 * qaoa.angles[2 * p] * qaoa.hamiltonian_bqm.get_linear(qubit), qubit)
+        for q1, q2 in qaoa.hamiltonian_bqm.quadratic:
+            qc.rzz(2 * qaoa.angles[2 * p] * qaoa.hamiltonian_bqm.get_quadratic(q1, q2), q1, q2)
         for qubit in range(qaoa.num_qubits):
             qc.rx(2 * qaoa.angles[2 * p + 1], qubit)
     if measurements:
@@ -103,7 +103,7 @@ def qiskit_circuit_specific_nodes(qaoa: QUBOQAOA, starting_qubits: set[int]) -> 
         nodes = set()
         for node in qubits_generation[-1]:
             nodes.add(node)
-            for neighbor, _ in qaoa.bqm.iter_neighborhood(node):
+            for neighbor, _ in qaoa.hamiltonian_bqm.iter_neighborhood(node):
                 nodes.add(neighbor)
 
         qubits_generation.append(nodes)
@@ -121,12 +121,12 @@ def qiskit_circuit_specific_nodes(qaoa: QUBOQAOA, starting_qubits: set[int]) -> 
         qc.h(qrs[qubit])
     for p in range(qaoa.num_layers):
         for qubit in qubits_generation[p]:
-            qc.rz(2 * qaoa.angles[2 * p] * qaoa.bqm.get_linear(qubit), qrs[qubit])
-        for q1, q2 in qaoa.bqm.quadratic:
+            qc.rz(2 * qaoa.angles[2 * p] * qaoa.hamiltonian_bqm.get_linear(qubit), qrs[qubit])
+        for q1, q2 in qaoa.hamiltonian_bqm.quadratic:
             if (q1 in qubits_generation[p] and q2 in qubits_generation[p + 1]) or (
                 q2 in qubits_generation[p] and q1 in qubits_generation[p + 1]
             ):
-                qc.rzz(2 * qaoa.angles[2 * p] * qaoa.bqm.get_quadratic(q1, q2), qrs[q1], qrs[q2])
+                qc.rzz(2 * qaoa.angles[2 * p] * qaoa.hamiltonian_bqm.get_quadratic(q1, q2), qrs[q1], qrs[q2])
         for qubit in qubits_generation[p + 1]:
             qc.rx(2 * qaoa.angles[2 * p + 1], qrs[qubit])
     return qc
@@ -151,9 +151,9 @@ def quimb_tn(qaoa: QUBOQAOA) -> qtn.Circuit:
         tn.apply_gate("H", qubit)
     for p in range(qaoa.num_layers):
         for qubit in range(qaoa.num_qubits):
-            tn.apply_gate("RZ", 2 * qaoa.angles[2 * p] * qaoa.bqm.get_linear(qubit), qubit)
-        for q1, q2 in qaoa.bqm.quadratic:
-            tn.apply_gate("RZZ", 2 * qaoa.angles[2 * p] * qaoa.bqm.get_quadratic(q1, q2), q1, q2)
+            tn.apply_gate("RZ", 2 * qaoa.angles[2 * p] * qaoa.hamiltonian_bqm.get_linear(qubit), qubit)
+        for q1, q2 in qaoa.hamiltonian_bqm.quadratic:
+            tn.apply_gate("RZZ", 2 * qaoa.angles[2 * p] * qaoa.hamiltonian_bqm.get_quadratic(q1, q2), q1, q2)
         for qubit in range(qaoa.num_qubits):
             tn.apply_gate("RX", 2 * qaoa.angles[2 * p + 1], qubit)
     return tn
@@ -211,7 +211,7 @@ def transpiled_circuit(
     if transpiler == "HardwiredTranspiler":
         # This `qpu` object is just a carrier of the QPU connectivity for `hardwired_router`.
         qpu = CrystalQPUFromBackend(backend)
-        routed = hardwired_router(qaoa.bqm, qpu)
+        routed = hardwired_router(qaoa.hamiltonian_bqm, qpu)
         qc_hw = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
 
         # Default layout method uses the VF2 algorithm to find an exact layout match.
@@ -229,7 +229,7 @@ def transpiled_circuit(
     if transpiler == "SparseTranspiler":
         # This `qpu` object is just a carrier of the QPU connectivity for `greedy_router`.
         qpu = CrystalQPUFromBackend(backend)
-        routed = greedy_router(qaoa.bqm, qpu)
+        routed = greedy_router(qaoa.hamiltonian_bqm, qpu)
         qc_sparse = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
 
         # Default layout method uses the VF2 algorithm to find an exact layout match.
@@ -247,7 +247,7 @@ def transpiled_circuit(
     if transpiler == "SwapNetwork":
         # This `qpu` object is just a carrier of the QPU connectivity for `sn_router`.
         qpu = CrystalQPUFromBackend(backend)
-        routed = sn_router(qaoa.bqm, qpu)
+        routed = sn_router(qaoa.hamiltonian_bqm, qpu)
         qc_sn = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
 
         # Default layout method uses the VF2 algorithm to find an exact layout match.
@@ -263,10 +263,10 @@ def transpiled_circuit(
         return qc_sn_transpiled
 
     if transpiler == "MinimumVertexCover":
-        star_qpu = StarQPU(qaoa.bqm.num_variables)
+        star_qpu = StarQPU(qaoa.hamiltonian_bqm.num_variables)
 
         # Here the variable has a different name from above to avoid confusing `mypy`.
-        star_routed = star_router(qaoa.bqm, star_qpu)
+        star_routed = star_router(qaoa.hamiltonian_bqm, star_qpu)
         qc_mvc = star_routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
 
         handling_of_errors = ExistingMoveHandlingOptions("keep")
@@ -277,7 +277,7 @@ def transpiled_circuit(
             backend=backend,
             perform_move_routing=False,
             existing_moves_handling=handling_of_errors,
-            initial_layout=[backend.qubit_name_to_index("COMPR1")] + list(range(qaoa.bqm.num_variables)),
+            initial_layout=[backend.qubit_name_to_index("COMPR1")] + list(range(qaoa.hamiltonian_bqm.num_variables)),
             **kwargs,  # Warning: Here we're passing **kwargs meant for `transpile` into `transpile_to_IQM`.
         )
 

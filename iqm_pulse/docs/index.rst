@@ -38,8 +38,8 @@ Contents
 .. toctree::
    :maxdepth: 1
 
-   Changelog <changelog>
    references
+   Changelog <changelog>
    License <license>
 
 

@@ -17,11 +17,15 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
+from dataclasses import replace
 from typing import get_args, get_origin
 
 import numpy as np
 
 from exa.common.data.parameter import CollectionType, DataType
+from iqm.pulse.playlist import IQPulse
+from iqm.pulse.playlist.waveforms import Samples
 
 
 def map_waveform_param_types(type_hint: type) -> tuple[DataType, CollectionType]:
@@ -107,3 +111,85 @@ def phase_transformation(psi_1: float = 0.0, psi_2: float = 0.0) -> tuple[float,
 
     """
     return psi_2, -(psi_1 + psi_2)
+
+
+def modulate_iq(pulse: IQPulse) -> np.ndarray:
+    """Sampled baseband waveform of an IQ pulse.
+
+    Note that :attr:`IQPulse.phase_increment` has no effect on the sampled waveform.
+    The upconversion oscillator phase incrementation is a separate action performed by the AWG
+    that also affects future IQPulses, and thus cannot be represented by an array of waveform samples.
+    To replicate the effect of ``pulse`` on an AWG, one should first perform the increment and then
+    play the returned samples.
+
+    Args:
+        pulse: IQ pulse.
+
+    Returns:
+        The waveform of ``pulse`` as an array of complex-valued samples.
+
+    """
+    # TODO: Could be an IQPulse method
+    wave = pulse.wave_i.sample() * pulse.scale_i + 1j * pulse.wave_q.sample() * pulse.scale_q
+    # starting times of the samples, in units of inverse sample rate
+    wave_sampletimes = np.arange(len(wave))
+    wave *= np.exp(2j * np.pi * pulse.modulation_frequency * wave_sampletimes + 1j * pulse.phase)
+    return wave
+
+
+def fuse_iq_pulses(iq_pulses: Iterable[IQPulse]) -> IQPulse:
+    """Fuse multiple IQPulses into one by concatenating the sampled waveforms.
+
+    Works by flushing :attr:`IQPulse.phase_increment` s to the front, updating the :attr:`IQPulse.phase` s,
+    sampling the pulses, concatenating, normalizing the amplitudes, and putting the result
+    into a new IQPulse instruction with a ``phase_increment`` that is a sum of the individual ``phase_increment`` s.
+
+    Additionally, to conserve waveform memory on the AWGs, we normalize the waveform phase by setting
+    :attr:`IQPulse.phase` of the fused pulse to the flushed phase of the first pulse.
+
+    Args:
+        iq_pulses: IQPulse instructions to fuse.
+
+    Returns:
+        Fused IQPulse that behaves indentically to the sequence ``iq_pulses`` on an AWG.
+
+    """
+    # flush the phase increments to the start of the pulse sequence
+    phases = np.array([i.phase for i in iq_pulses])
+    phase_increments = np.array([i.phase_increment for i in iq_pulses])
+
+    # flushed_phases[k] == phases[k] - np.sum(phase_increments[k+1:])
+    flushed_phases = phases - np.cumsum(phase_increments[::-1])[::-1] + phase_increments
+
+    # Phase normalization of the samples to save waveform memory: There is an internal degree of freedom
+    # in the sampled IQPulse: IQPulse.phase can be represented in the global phase of the samples.
+    # Fix this d.o.f. by setting the phase of the fused IQ pulse to the phase of the first constituent IQ pulse.
+    fused_phase = flushed_phases[0]
+    flushed_phases -= fused_phase
+    flushed_iq_pulses = [
+        replace(instr, phase=phase, phase_increment=0.0) for instr, phase in zip(iq_pulses, flushed_phases)
+    ]
+    # sample and concatenate the IQ pulses
+    samples = np.hstack([modulate_iq(i) for i in flushed_iq_pulses])
+
+    # normalize the real and imaginary waveform components
+    def normalize(samples: np.ndarray) -> tuple[np.ndarray, float]:
+        """Normalize real-valued samples to [-1, 1]."""
+        scale = np.max(np.abs(samples))
+        # avoid division by zero
+        if scale > 0:
+            return samples / scale, scale
+        return samples, 1.0
+
+    samples.real, scale_i = normalize(samples.real)
+    samples.imag, scale_q = normalize(samples.imag)
+    return IQPulse(
+        duration=len(samples),
+        wave_i=Samples(samples.real),
+        wave_q=Samples(samples.imag),
+        scale_i=scale_i,
+        scale_q=scale_q,
+        phase=fused_phase,
+        phase_increment=np.sum(phase_increments),
+        modulation_frequency=0.0,  # modulate_iq takes care of this
+    )

@@ -11,21 +11,23 @@ from collections.abc import Iterable
 import itertools
 
 from iqm.iqm_client.errors import CircuitValidationError
-from iqm.iqm_client.models import (
-    _SUPPORTED_OPERATIONS,
+from iqm.iqm_client.models import _SUPPORTED_OPERATIONS
+
+from iqm.pulse import Circuit, CircuitOperation
+from iqm.station_control.interface.models import (
     CircuitBatch,
     DynamicQuantumArchitecture,
     MoveGateValidationMode,
     QIRCode,
+    QubitMapping,
 )
-
-from iqm.pulse import Circuit, CircuitOperation
+from iqm.station_control.interface.models.circuit import _Circuit
 
 
 def validate_qubit_mapping(
     architecture: DynamicQuantumArchitecture,
     circuits: CircuitBatch,
-    qubit_mapping: dict[str, str] | None = None,
+    qubit_mapping: QubitMapping | None = None,
 ) -> None:
     """Validate the given qubit mapping.
 
@@ -50,8 +52,12 @@ def validate_qubit_mapping(
 
     # check if qubit mapping covers all qubits in the circuits
     for i, circuit in enumerate(circuits):
-        if isinstance(circuit, (QIRCode)):
+        if isinstance(circuit, _Circuit):
+            raise CircuitValidationError(f"Circuit {i}: obsolete circuit type.")
+        if isinstance(circuit, QIRCode):
+            # do not validate
             continue
+
         diff = circuit.all_locus_components() - set(qubit_mapping)
         if diff:
             raise CircuitValidationError(
@@ -68,7 +74,7 @@ def validate_qubit_mapping(
 def validate_circuit_instructions(
     architecture: DynamicQuantumArchitecture,
     circuits: CircuitBatch,
-    qubit_mapping: dict[str, str] | None = None,
+    qubit_mapping: QubitMapping | None = None,
     validate_moves: MoveGateValidationMode = MoveGateValidationMode.STRICT,
     *,
     must_close_sandwiches: bool = True,
@@ -89,7 +95,10 @@ def validate_circuit_instructions(
 
     """
     for index, circuit in enumerate(circuits):
+        if isinstance(circuit, _Circuit):
+            raise CircuitValidationError(f"Circuit {index}: obsolete circuit type.")
         if isinstance(circuit, QIRCode):
+            # do not validate
             continue
 
         measurement_keys: set[str] = set()
@@ -113,7 +122,7 @@ def validate_circuit_instructions(
 def validate_instruction(
     architecture: DynamicQuantumArchitecture,
     instruction: CircuitOperation,
-    qubit_mapping: dict[str, str] | None = None,
+    qubit_mapping: QubitMapping | None = None,
 ) -> None:
     """Validate an instruction against the dynamic quantum architecture.
 
@@ -200,7 +209,7 @@ def validate_instruction(
 def validate_circuit_moves(  # noqa: PLR0912
     architecture: DynamicQuantumArchitecture,
     circuit: Circuit,
-    qubit_mapping: dict[str, str] | None = None,
+    qubit_mapping: QubitMapping | None = None,
     validate_moves: MoveGateValidationMode = MoveGateValidationMode.STRICT,
     *,
     must_close_sandwiches: bool = True,

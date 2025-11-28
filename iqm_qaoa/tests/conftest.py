@@ -35,9 +35,13 @@ from iqm.qaoa.backends import SamplerBackend
 from iqm.qaoa.generic_qaoa import QAOA
 from iqm.qaoa.transpiler.quantum_hardware import QPU, Grid2DQPU, HardEdge
 from iqm.qaoa.transpiler.routing import Layer
-from iqm.qiskit_iqm.fake_backends import IQMFakeApollo
+from iqm.qaoa.tree_calculation.generate_basis import get_z_basis_m, get_z_basis_m_t
+from iqm.qaoa.tree_calculation.tree_calculation import get_exp_vals
+from iqm.qiskit_iqm.fake_backends.fake_apollo import IQMFakeApollo
 from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
 import networkx as nx
+import numpy as np
+from numpy.typing import NDArray
 import pytest
 from qiskit.providers import Options
 
@@ -309,3 +313,37 @@ def qpu_with_hole() -> QPU:
     inverse_mapping = {i: c for c, i in mapping.items()}
     graph_with_hole = nx.relabel_nodes(graph_with_hole, mapping)
     return QPU(graph_with_hole, inverse_mapping)
+
+
+@pytest.fixture
+def basis_6() -> NDArray[np.int8]:
+    """Generates a "basis" of +1's and -1's for `m` equal to 6, to be used for testing `generate_basis.py`.
+
+    The "basis" is a 2D array of dimensions :math:`(4^m, 2m)`, containing all possible :math:`2m` combinations of +1's
+    and -1's.
+    """
+    m = 6
+    return get_z_basis_m(m)
+
+
+@pytest.fixture
+def make_fun_to_min() -> Callable[[int, int, float], Callable[[NDArray[np.float64]], np.float64]]:
+    """Returns the function to generate the function to minimize using ``scipy`` (given ``p``, ``d`` and ``h``)."""
+
+    def _make_fun_to_min(p: int, d: int, h: float) -> Callable[[NDArray[np.float64]], np.float64]:
+        basis_list = [get_z_basis_m(m) for m in range(0, p + 1)]
+        basis_list_t = [get_z_basis_m_t(basis) for basis in basis_list]
+
+        def fun_to_min(angles: NDArray[np.float64]) -> np.float64:
+            n = len(angles) // 2
+            # To account for the fact that we scale ``gamma`` angles by ``np.sqrt(d-1)`` and not `np.sqrt(d)`
+            gammas = angles[:n] * np.sqrt((d - 1) / d)
+            betas = angles[n:]
+            big_gamma = np.concatenate([gammas, [0], -gammas[::-1]])
+            big_beta = np.concatenate([betas, [0], -betas[::-1]])
+            z_and_zz = get_exp_vals(p, d - 1, h, big_gamma, big_beta, basis_list_t)
+            return (h * z_and_zz[0] + z_and_zz[1] * d / 2).real
+
+        return fun_to_min
+
+    return _make_fun_to_min

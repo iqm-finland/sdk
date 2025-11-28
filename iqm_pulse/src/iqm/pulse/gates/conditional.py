@@ -18,10 +18,10 @@ import numpy as np
 from exa.common.data.parameter import CollectionType, Parameter
 from iqm.pulse.gate_implementation import CompositeGate
 from iqm.pulse.gates.measure import FEEDBACK_KEY
-from iqm.pulse.gates.prx import PRX_SinglePulse_GateImplementation
-from iqm.pulse.playlist.instructions import Block, ConditionalInstruction, Wait
+from iqm.pulse.playlist.instructions import Block, ConditionalInstruction, IQPulse, Wait
 from iqm.pulse.playlist.schedule import Schedule
 from iqm.pulse.timebox import TimeBox
+from iqm.pulse.utils import fuse_iq_pulses
 
 
 class CCPRX_Composite(CompositeGate):
@@ -30,6 +30,12 @@ class CCPRX_Composite(CompositeGate):
     Applies a PRX gate conditioned on a discriminated readout result obtained in the same segment (active feedback).
     Applies a PRX gate if the result is 1, and a Wait of equal duration if the result is 0.
     Uses the default implementation of PRX underneath, so no extra calibration is needed.
+
+    .. note::
+
+       Assumes that the PRX gate implementation used only consists of IQPulse instructions on the drive channel
+       of its locus qubit.
+
     """
 
     registered_gates = ("prx",)
@@ -70,30 +76,43 @@ class CCPRX_Composite(CompositeGate):
 
         """
         qubit = self.locus[0]
-        awg_name = self.builder.get_drive_channel(qubit)
+        drive_channel = self.builder.get_drive_channel(qubit)
+        prx_gate = self.build("prx", self.locus)
 
-        prx_gate: PRX_SinglePulse_GateImplementation = self.build("prx", self.locus)  # type: ignore[assignment]
-        # FIXME assumes PRX gates only use this one implementation as the default,
-        # with just a drive channel and a single IQPulse.
-        pulse = prx_gate(angle, phase).atom[prx_gate.channel][0]  # type: ignore[union-attr,index]
-        wait = Wait(pulse.duration)  # idling, can be replaced with a DD sequence later on
+        # NOTE assumes that the PRX gate only has IQPulse instructions on drive_channel
+        timebox: TimeBox = prx_gate(angle, phase)  # type: ignore[assignment]
+        if not timebox.atom:
+            raise RuntimeError("Received non-atomic PRX timebox.")
+        prx_instructions = timebox.atom[drive_channel]
+        iq_pulses = [inst for inst in prx_instructions if isinstance(inst, IQPulse)]
+        if len(iq_pulses) != len(prx_instructions):
+            raise RuntimeError(f"PRX drive channel has non-IQPulse instructions: {prx_instructions}")
+
+        if len(iq_pulses) > 1:
+            iq_pulse = fuse_iq_pulses(iq_pulses)
+        else:
+            iq_pulse = iq_pulses[0]
+
+        wait = Wait(iq_pulse.duration)  # idling, can be replaced with a DD sequence later on
 
         # TODO: use the actual inputted label when the HW supports many labels per drive channel
         default_label = f"{feedback_qubit}__{FEEDBACK_KEY}"
-        pulse_instruction = ConditionalInstruction(
-            duration=pulse.duration, condition=default_label, outcomes=(wait, pulse)
+        conditional_instruction = ConditionalInstruction(
+            duration=iq_pulse.duration,
+            condition=default_label,
+            outcomes=(wait, iq_pulse),
         )
         delays = self.calibration_data["control_delays"]
         if len(delays) == 0:
             raise ValueError(f"'control_delays' for '{self.name}' on {qubit} is empty (not calibrated).")
 
-        possible_sources = [c for c in self.builder.get_virtual_feedback_channels(qubit) if awg_name in c]
+        possible_sources = [c for c in self.builder.get_virtual_feedback_channels(qubit) if drive_channel in c]
         if len(delays) != len(possible_sources):
             raise ValueError(
                 f"Not the correct amount of calibration values for 'control_delays'. Need {len(possible_sources)}"
                 f"values, got {delays}."
             )
-        virtual_channel_name = self.builder.get_virtual_feedback_channel_for(awg_name, feedback_qubit)
+        virtual_channel_name = self.builder.get_virtual_feedback_channel_for(drive_channel, feedback_qubit)
         delay = delays[possible_sources.index(virtual_channel_name)]
         virtual_channel = self.builder.channels[virtual_channel_name]
         delay_samples = virtual_channel.duration_to_int_samples(
@@ -106,7 +125,7 @@ class CCPRX_Composite(CompositeGate):
         )
         delay_box.neighborhood_components = {0: {virtual_channel_name}}
         cond = TimeBox.atomic(
-            Schedule({virtual_channel_name: [Block(0)], prx_gate.channel: [pulse_instruction]}),
+            Schedule({virtual_channel_name: [Block(0)], drive_channel: [conditional_instruction]}),
             locus_components=[qubit],
             label=f"Conditional PRX for {qubit}",
         )

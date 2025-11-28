@@ -31,7 +31,7 @@ things are set up correctly.
    (Save Page As...)
 5. Install Qiskit on IQM as instructed below.
 6. Run the Jupyter notebook (or run
-   ``python bell_measure.py --url https://<IQM server URL>``
+   ``python bell_measure.py --url https://<IQM Server URL>``
    if you decided to go for the Python script).
 7. If you're connecting to a real quantum computer, the output should show almost half of the
    measurements resulting in '00000' and almost half in '11111' - if this is the case, things are
@@ -115,7 +115,8 @@ Let's consider the following quantum circuit which prepares and measures a GHZ s
 
 
 To run this circuit on an IQM quantum computer you need to initialize an :class:`.IQMProvider`
-instance with the IQM server URL, use it to retrieve an :class:`.IQMBackend` instance representing
+instance with the IQM Server URL (and possibly a quantum computer name, if there are several),
+use it to retrieve an :class:`.IQMBackend` instance representing
 the quantum computer, and use Qiskit's :func:`~qiskit.compiler.transpile` function
 followed by :meth:`.IQMBackend.run` as usual.  ``shots`` denotes the number of times the quantum
 circuit(s) are sampled:
@@ -126,7 +127,8 @@ circuit(s) are sampled:
     from iqm.qiskit_iqm import IQMProvider
 
     iqm_server_url = "https://<IQM SERVER>"  # Replace this with the correct URL
-    provider = IQMProvider(iqm_server_url)
+    quantum_computer = "<NAME>"
+    provider = IQMProvider(iqm_server_url, quantum_computer=quantum_computer)
     backend = provider.get_backend()
 
     transpiled_circuit = transpile(circuit, backend=backend)
@@ -151,8 +153,7 @@ circuit(s) are sampled:
     As of ``iqm-client >= 30.1.0``, structured quality metrics and calibration data are available to
     ``IQMTarget`` for improved transpilation. To import the latest valid quality metric data corresponding
     to the default calibration set into ``IQMTarget``, set ``use_metrics`` to ``True`` when initializing the
-    class. For Resonance users, this data is not yet available via the Resonance API, so use the default setting
-    of ``use_metrics`` of ``False``.
+    class.
 
 You can optionally provide IQMBackend specific options as additional keyword arguments to
 :meth:`.IQMBackend.run`, documented at :meth:`.IQMBackend.create_run_request`.
@@ -189,48 +190,42 @@ The results of a job that was executed on the IQM quantum computer, represented 
     print(result.get_counts())
     print(result.get_memory())
 
-The result comes with some metadata, such as the :class:`~iqm.iqm_client.models.RunRequest` that
-produced it in ``result.request``. The request contains e.g. the qubit mapping and the ID of the
-calibration set that were used in the execution:
+The result comes with some metadata, such as the contents of the request that
+produced it. The executed circuit batch (in the native IQM format) can be found in ``result.circuits``,
+and various execution parameters can be found in ``result.parameters``:
 
 .. code-block:: python
 
-    print(result.request.qubit_mapping)
-    print(result.request.calibration_set_id)
+    print(result.parameters.shots)
+    print(result.parameters.calibration_set_id)
 
 ::
 
-    [
-      SingleQubitMapping(logical_name='0', physical_name='QB1'),
-      SingleQubitMapping(logical_name='1', physical_name='QB2'),
-      SingleQubitMapping(logical_name='2', physical_name='QB3')
-    ]
+    1000
     1320eae6-f4e2-424d-b299-ef82d556d2c3
 
 Another piece of useful metadata are the timestamps of the various steps of processing the job. The
-timestamps are stored in the dict ``result.timestamps``. The job processing has three steps,
+timestamps are stored in the list ``result.timeline``. The actual job processing has three main steps,
 
-* ``compile`` where the circuits are converted to instruction schedules,
-* ``submit`` where the instruction schedules are submitted for execution, and
-* ``execution`` where the instruction schedules are executed and the measurement results are returned.
+* ``compilation`` where the circuits are converted to instruction schedules,
+* ``execution`` where the instruction schedules are executed and the measurement results are returned, and
+* ``post_processing`` where the results are converted to the format expected by the client.
 
-The dict contains a timestamp for the start and end of each step.
-For example, the timestamp of starting the circuit compilation is stored with key ``compile_start``.
-In the same way the other steps have their own timestamps with keys consisting of the step name and a ``_start`` or
-``_end`` suffix. In addition to processing step timestamps, there are also timestamps for the job itself,
-``job_start`` for when the job request was received by the server and ``job_end`` for when the job processing
+The list contains a timestamp for the start and end of each step.
+For example, the timestamp of starting the circuit compilation is stored with the status ``compilation_started``.
+In the same way the other steps have their own timestamps with statuses consisting of the step name and a ``_started``
+or ``_ended`` suffix. In addition to processing step timestamps, there are also timestamps for the job itself,
+``created`` for when the job request was accepted by the server and ``completed`` for when the job processing
 was finished.
 
 If the processing of the job is terminated before it is complete, for example due to an error, the timestamps of
-processing steps that were not taken are not present in the dict.
+processing steps that were not taken are not present.
 
 For example:
 
 .. code-block:: python
 
-    print(result.timestamps['job_start'])
-    print(result.timestamps['compile_start'])
-    print(result.timestamps['execution_end'])
+    print(result.timeline)
 
 
 Backend properties
@@ -279,11 +274,11 @@ support currently has several limitations:
   apply the gate if the bit is 1, and apply an identity gate if the bit is 0.
 * The availability of the controlled gates depends on the instrumentation of the quantum computer.
 
-The classical control can be applied on a circuit instruction using :meth:`~qiskit.circuit.Instruction.c_if`:
+The classical control can be applied on a circuit instruction using :meth:`~qiskit.circuit.QuantumCircuit.if_test`:
 
 .. code-block:: python
 
-    from qiskit import QuantumCircuit
+    from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
 
     qr = QuantumRegister(2, 'q')
     cr = ClassicalRegister(1, 'c')
@@ -291,26 +286,27 @@ The classical control can be applied on a circuit instruction using :meth:`~qisk
 
     circuit.h(0)
     circuit.measure(0, cr[0])
-    circuit.x(1).c_if(cr, 1)
+    with circuit.if_test((cr[0], 1)):
+        circuit.x(1)  # apply X gate on qubit 1 if cr[0] is 1
     circuit.measure_all()
 
     print(circuit.draw(output='text'))
 
 ::
 
-            ┌───┐┌─┐        ░ ┌─┐
-       q_0: ┤ H ├┤M├────────░─┤M├───
-            └───┘└╥┘ ┌───┐  ░ └╥┘┌─┐
-       q_1: ──────╫──┤ X ├──░──╫─┤M├
-                  ║  └─╥─┘  ░  ║ └╥┘
-                  ║ ┌──╨──┐    ║  ║
-       c: 1/══════╩═╡ 0x1 ╞════╬══╬═
-                  0 └─────┘    ║  ║
-    meas: 2/═══════════════════╩══╩═
-                               0  1
+            ┌───┐┌─┐                           ░ ┌─┐   
+       q_0: ┤ H ├┤M├───────────────────────────░─┤M├───
+            └───┘└╥┘  ┌──────  ┌───┐ ───────┐  ░ └╥┘┌─┐
+       q_1: ──────╫───┤ If-0  ─┤ X ├  End-0 ├──░──╫─┤M├
+                  ║   └──╥───  └───┘ ───────┘  ░  ║ └╥┘
+                  ║ ┌────╨────┐                   ║  ║ 
+       c: 1/══════╩═╡ c_0=0x1 ╞═══════════════════╬══╬═
+                  0 └─────────┘                   ║  ║ 
+    meas: 2/══════════════════════════════════════╩══╩═
+                                                  0  1 
 
 
-The first measurement operation stores its result in the 1-bit classical register ``c``. If the
+The first measurement operation stores its result in the classical register ``c``. If the
 result is 1, the ``X`` gate will be applied. If it is zero, an identity gate of corresponding
 duration is applied instead.
 
@@ -319,9 +315,7 @@ between the '00 0' and '11 1' bins of the histogram (even though the state itsel
 
 .. note::
 
-   Because the gates can only take feedback from one classical bit you must place the measurement result
-   in a 1-bit classical register, ``c`` in the above example.
-
+   ``if_test`` blocks cannot be nested.
 
 Resetting qubits
 ~~~~~~~~~~~~~~~~
@@ -454,7 +448,7 @@ Starting from the :ref:`GHZ circuit <GHZ_circuit>` we created above:
     from qiskit.compiler import transpile
     from iqm.qiskit_iqm import IQMProvider
 
-    resonator_backend = IQMProvider("https://cocos.resonance.meetiqm.com/deneb").get_backend()
+    resonator_backend = IQMProvider("https://resonance.meetiqm.com", quantum_computer="sirius").get_backend()
     transpiled_circuit = transpile(circuit, resonator_backend)
 
     print(transpiled_circuit.draw(output='text', idle_wires=False))
@@ -706,17 +700,16 @@ a copy of the IQMFakeBackend instance with an updated error profile:
 Running a quantum circuit on a facade backend
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Circuits can be executed against a *mock environment*: an IQM server that has no real quantum computer hardware.
+Circuits can be executed against a *mock environment*: an IQM Server that has no real quantum computer hardware.
 Results from such executions are just random bits. This may be useful when developing and testing software integrations.
 
 .. note::
 
    IQM Resonance typically provides a mock environment for each real quantum computer it has.
-   For example, the URL
-   https://cocos.resonance.meetiqm.com/garnet refers to a real quantum computer named Garnet,
-   whereas https://cocos.resonance.meetiqm.com/garnet:mock refers to the corresponding mock environment.
+   For example, the name ``"garnet"`` refers to a real quantum computer named Garnet, whereas
+   ``"garnet:mock"`` refers to the corresponding mock environment.
 
-   On-premises users should ask their admin whether a mock environment is available, and which IQM server
+   On-premises users should ask their admin whether a mock environment is available, and which IQM Server
    URL to use.
 
 Qiskit on IQM contains :class:`.IQMFacadeBackend`, which allows to combine a mock remote execution with a local
@@ -734,7 +727,7 @@ static quantum architecture (i.e. names of qubits, their connectivity, and the n
 
 .. important::
 
-   When using a facade backend, the IQM server URL of :class:`IQMProvider` should always point to a mock environment
+   When using a facade backend, the IQM Server URL of :class:`IQMProvider` should always point to a mock environment
    rather than a real quantum computer, as the execution results from the server will be discarded and replaced by
    a locally simulated result generated by Qiskit Aer. If you use a real quantum computer with a facade backend,
    you will just waste your credits and/or computation time.
@@ -750,8 +743,9 @@ static quantum architecture (i.e. names of qubits, their connectivity, and the n
     circuit.cx(0, 1)
     circuit.measure_all()
 
-    iqm_server_url = "https://cocos.resonance.meetiqm.com/garnet:mock"  # Replace this with the correct mock env URL
-    provider = IQMProvider(iqm_server_url)
+    iqm_server_url = "https://resonance.meetiqm.com"
+    quantum_computer = "garnet:mock"  # Replace this with the correct mock env name
+    provider = IQMProvider(iqm_server_url, quantum_computer=quantum_computer)
     backend = provider.get_backend('facade_garnet')
     transpiled_circuit = transpile(circuit, backend=backend)
     job = backend.run(transpiled_circuit, shots=1000)
@@ -760,7 +754,7 @@ static quantum architecture (i.e. names of qubits, their connectivity, and the n
 .. note::
 
    When a classical register is added to the circuit, Qiskit fills it with classical bits of value 0 by default. If the
-   register is not used later, and the circuit is submitted to the IQM server, the results will not contain those
-   0-filled bits. To make sure the facade backend returns results in the same format as a real IQM server,
+   register is not used later, and the circuit is submitted to the IQM Server, the results will not contain those
+   0-filled bits. To make sure the facade backend returns results in the same format as a real IQM Server,
    :meth:`.IQMFacadeBackend.run` checks for the presence of unused classical registers, and fails with an error if there
    are any.

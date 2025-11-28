@@ -63,15 +63,18 @@ class IQMSchedulingPlugin(PassManagerStagePlugin):
             scheduling.append(
                 IQMOptimizeSingleQubitGates(drop_final_rz=self.drop_final_rz, ignore_barriers=self.ignore_barriers)
             )
-        if pass_manager_config.target is None:
-            raise ValueError("PassManagerConfig must have a target backend set, unable to schedule MoveGate routing.")
-        if self.move_gate_routing and isinstance(pass_manager_config.target, IQMTarget):
-            scheduling.append(
-                IQMNaiveResonatorMoving(
-                    target=pass_manager_config.target,
-                    existing_moves_handling=self.existing_move_handling,
+        if self.move_gate_routing:
+            if pass_manager_config.target is None:
+                raise ValueError(
+                    "PassManagerConfig must have a target backend set, unable to schedule MoveGate routing."
                 )
-            )
+            if isinstance(pass_manager_config.target, IQMTarget):
+                scheduling.append(
+                    IQMNaiveResonatorMoving(
+                        target=pass_manager_config.target,
+                        existing_moves_handling=self.existing_move_handling,
+                    )
+                )
         return scheduling
 
 

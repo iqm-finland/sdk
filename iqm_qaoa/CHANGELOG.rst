@@ -2,6 +2,42 @@
 Changelog
 =========
 
+Version 1.38.1 (2025-10-27)
+===========================
+
+- Bump version for 4.3.1 release. No functional changes.
+
+Version 1.38.0 (2025-10-23)
+===========================
+
+Bug fixes
+---------
+
+- When initializing `QUBOQAOA`, the `bqm` of the problem instance (representing the problem as a QUBO) is transformed into a `hamiltonian_bqm`, representing it as a Hamiltonian (i.e., the `hamiltonian_bqm` contains the coefficients in front of the Z and ZZ terms in the corresponding Hamiltonian).
+
+Version 1.37.0 (2025-10-22)
+===========================
+
+Features
+---------
+
+* Add the calculation of the "tree angles" according to *Missing Puzzle Pieces in the Performance Landscape of the Quantum Approximate Optimization Algorithm* by Elisabeth Wybo.
+* Add testing of the tree angle calculation.
+
+Bug fixes
+---------
+
+* Make the docstrings of ``QUBOQAOA`` and ``QAOA`` more descriptive about the input angles.
+
+Version 1.36.0 (2025-10-14)
+===========================
+
+Features
+--------
+
+- Add the option to plot a problem graph with a solution highlighted (as a standalone function and methods which call this function).
+- Harmonize the way that problems with custom-named variables are treated internally.
+
 Version 1.35.0 (2025-10-09)
 ===========================
 

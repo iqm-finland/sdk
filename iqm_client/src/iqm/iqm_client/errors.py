@@ -14,14 +14,6 @@
 """This module contains error classes required by IQMClient."""
 
 
-class ClientAuthenticationError(RuntimeError):
-    """Something went wrong with user authentication."""
-
-
-class ClientConfigurationError(RuntimeError):
-    """Wrong configuration provided."""
-
-
 class CircuitValidationError(RuntimeError):
     """Circuit validation failed."""
 
@@ -31,16 +23,13 @@ class CircuitTranspilationError(RuntimeError):
 
 
 class CircuitExecutionError(RuntimeError):
-    """Something went wrong on the server."""
+    """Something went wrong on the server.
+
+    Should be used in sync calls that must return valid circuit execution results.
+    Async calls may instead return a job object that indicates the
+    excution did not succeed without raising anything.
+    """
 
 
 class APITimeoutError(CircuitExecutionError):
     """Executing a job on the server took too long."""
-
-
-class JobAbortionError(RuntimeError):
-    """Job abortion failed."""
-
-
-class EndpointRequestError(RuntimeError):
-    """Retrieving something from a server endpoint failed because we did not understand the response."""

@@ -1,6 +1,47 @@
-=========
-Changelog
-=========
+Version 12.0.0 (2025-11-19)
+===========================
+
+Breaking changes
+----------------
+
+- :class:`.IqmServerClient` has been removed from station-control-client package.
+  Use new REST-based implementation of :class:`.IQMServerClient` in iqm-client package.
+
+Features
+--------
+
+- Add new circuit and job related models to station control interface,
+  used in IQM client when serializing/deserializing data in IQMServer communication
+- Deprecate ``observation_ids`` in ``ObservationSetWithObservations``, use ``observations`` instead.
+  This is to unify the data with IQMServer.
+- :class:`StationControlClient` now accepts the ``token`` and ``tokens_file`` parameters,
+  and can use the :envvar:`IQM_TOKEN` and :envvar:`IQM_TOKENS_FILE` environment variables
+  to get the authentication token.
+- In case major versions differ, log warning instead of raising an error in the python package
+  version compatibility check when connecting to station-control server with
+  :class:`iqm.station_control.client.station_control.StationControlClient`.
+- :class:`StationControlClient` now accepts the ``token`` and ``tokens_file`` parameters,
+  and can use the :envvar:`IQM_TOKEN` and :envvar:`IQM_TOKENS_FILE` environment variables
+  to get the authentication token.
+- In case major versions differ, log warning instead of raising an error in the python package
+  version compatibility check when connecting to station-control server with
+  :class:`iqm.station_control.client.station_control.StationControlClient`.
+
+Bug fixes
+---------
+
+- Restrict RunDefinition fields to fix issues with serializing None and roundtrip resulting in empty dictionary.
+- Fix python package compatibility version check when connecting to station-control server.
+
+Version 11.3.0 (2025-10-23)
+===========================
+
+Bug fixes
+---------
+
+- Fix issue with meth:`.IqmServerClient.get_job` which failed to convert the server status (int) correctly
+  to :class:`.JobExecutorStatus`.
+
 
 Version 11.2.0 (2025-10-06)
 ===========================
@@ -367,7 +408,7 @@ Version 3.12.0 (2025-04-07)
 Features
 --------
 
-- Fix package version in published docs footers, :issue:`SW-1392`. 
+- Fix package version in published docs footers, :issue:`SW-1392`.
 
 Version 3.11.0 (2025-04-03)
 ===========================
@@ -812,7 +853,7 @@ Version 1.2 (2024-07-05)
 
 Features
 --------
-- Bump exa-common to 25.3 
+- Bump exa-common to 25.3
 
 
 Version 1.1 (2024-07-04)

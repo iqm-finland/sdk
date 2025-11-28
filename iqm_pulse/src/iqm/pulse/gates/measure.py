@@ -32,6 +32,7 @@ from iqm.pulse.gate_implementation import (
     Locus,
     OILCalibrationData,
 )
+from iqm.pulse.playlist import Schedule, Segment
 from iqm.pulse.playlist.channel import ProbeChannelProperties
 from iqm.pulse.playlist.instructions import (
     AcquisitionMethod,
@@ -44,7 +45,7 @@ from iqm.pulse.playlist.instructions import (
     TimeTrace,
 )
 from iqm.pulse.playlist.waveforms import Constant, Samples
-from iqm.pulse.timebox import MultiplexedProbeTimeBox, SchedulingStrategy, TimeBox
+from iqm.pulse.timebox import MultiplexedProbeTimeBox, ProbeTimeBoxes, SchedulingStrategy, TimeBox
 
 if TYPE_CHECKING:  # pragma: no cover
     from iqm.pulse.builder import ScheduleBuilder
@@ -53,6 +54,7 @@ if TYPE_CHECKING:  # pragma: no cover
 DEFAULT_INTEGRATION_KEY = "readout.result"
 DEFAULT_TIME_TRACE_KEY = "readout.time_trace"
 FEEDBACK_KEY = "feedback"
+TIMING_TOLERANCE = 1e-12
 
 
 class Measure_CustomWaveforms(CustomIQWaveforms):
@@ -301,16 +303,17 @@ class Measure_CustomWaveforms(CustomIQWaveforms):
                     for c in self.locus
                 ]
                 probe_timebox = functools.reduce(lambda x, y: x + y, probe_timeboxes)
-            probe_timebox.neighborhood_components[0] = copy(self._neighborhood_components)
-            if feedback_key:
-                # Block all the virtual channels from the probes involved in self.locus as we cannot know what AWG
-                # might be listening to the sent bits. NOTE: No Waits are added, the channels are just blocked in
-                # scheduling, so the impact to performance is negligible
-                probelines = {self.builder.chip_topology.component_to_probe_line[q] for q in self.locus}
-                for probe in probelines:
-                    probe_timebox.neighborhood_components[0].update(
-                        set(self.builder.get_virtual_feedback_channels(probe))
-                    )
+            if isinstance(probe_timebox, TimeBox):  # FIXME: not needed once the measure implementations are cleaned up
+                probe_timebox.neighborhood_components[0] = copy(self._neighborhood_components)
+                if feedback_key:
+                    # Block all the virtual channels from the probes involved in self.locus as we cannot know what AWG
+                    # might be listening to the sent bits. NOTE: No Waits are added, the channels are just blocked in
+                    # scheduling, so the impact to performance is negligible
+                    probelines = {self.builder.chip_topology.component_to_probe_line[q] for q in self.locus}
+                    for probe in probelines:
+                        probe_timebox.neighborhood_components[0].update(
+                            set(self.builder.get_virtual_feedback_channels(probe))
+                        )
             self._multiplexed_timeboxes[args] = probe_timebox
         return self._multiplexed_timeboxes[args]
 
@@ -876,11 +879,6 @@ class ShelvedMeasureTimeBox(TimeBox):
         return super().__radd__(other)
 
 
-SHELVED_OFFSET_TOLERANCE = 1e-12
-"""Tolerance for the absolute value of shelved measure ``second_prx_12_offset`` calibration value 
-being considered zero."""
-
-
 class Shelved_Measure_CustomWaveforms(Measure_CustomWaveforms, CompositeGate):
     """Base class for shelved readout.
 
@@ -945,7 +943,7 @@ class Shelved_Measure_CustomWaveforms(Measure_CustomWaveforms, CompositeGate):
                 # schedule the shelved box to get an atomic schedule
                 shelved_atom = deepcopy(self.builder.resolve_timebox(shelved_box, neighborhood=0))
                 offset = self.calibration_data["second_prx_12_offset"]
-                if self.calibration_data["do_prx_12"] and abs(offset) > SHELVED_OFFSET_TOLERANCE:
+                if self.calibration_data["do_prx_12"] and abs(offset) > TIMING_TOLERANCE:
                     drive_channel_name = self.builder.get_drive_channel(self.locus[0])
                     drive_channel = self.builder.channels[drive_channel_name]
                     offset_sign = offset / abs(offset)
@@ -997,4 +995,124 @@ class Shelved_Measure_Constant(Shelved_Measure_CustomWaveforms, wave_i=Constant,
     """Implementation of a shelved readout.
 
     A measure gate implemented as a constant waveform is surrounded by two `prx_12` gates.
+    """
+
+
+class Fast_Measure_CustomWaveforms(Measure_CustomWaveforms):
+    """Measure implementation that blocks locus qubits for a shorter duration than the probes.
+
+    The locus qubits are blocked only for the physical probe pulse duration plus (calibratable) extra dead time that
+    can be used to take into account e.g. ring down delay of waiting the readout resonator to empty itself. The probe
+    channels are still blocked as in ``Measure_CustomWaveforms``, i.e. for the duration of
+    ``acquisition_delay + integration_length + integration_dead_time``.
+    """
+
+    root_parameters = Measure_CustomWaveforms.root_parameters | {
+        "locus_deadtime": Setting(
+            Parameter("locus_deadtime", "Locus dead time after the probe pulse", unit="s"),
+            0.0,
+        ),
+    }
+
+    def probe_timebox(  # type: ignore[override]
+        self, key: str = "", feedback_key: str = "", do_acquisition: bool = True, **kwargs
+    ) -> ProbeTimeBoxes:
+        """Otherwise the same as ``Measure_CustomWaveforms.probe_timebox``, but returns two TimeBoxes, the
+        actual MultiplexedProbeTimeBox and the rest of the probe-blocking wait time in its own TimeBox. This
+        allows the "tetris logic" in scheduling to block the locus qubits for a shorter duration.
+        """
+        args = (key, feedback_key, do_acquisition)
+        if args not in self._multiplexed_timeboxes:
+            if len(self.locus) == 1:
+                probe = self.builder.chip_topology.component_to_probe_line[self.locus[0]]
+                probe_channel = self.builder.get_probe_channel(self.locus[0])
+                try:
+                    drive_channel = self.builder.get_drive_channel(self.locus[0])
+                except KeyError:
+                    drive_channel = ""
+
+                combined_probe_timebox = super().probe_timebox(
+                    key, feedback_key, do_acquisition=do_acquisition, **kwargs
+                )
+                readout_trigger = combined_probe_timebox.atom[probe_channel][0]  # type: ignore[index]
+                actual_probe_duration = readout_trigger.probe_pulse.duration
+
+                # MultiplexedProbeTimeBox that has the minimum possible duration
+                if self.calibration_data["locus_deadtime"] > TIMING_TOLERANCE:
+                    deadtime = self.builder.channels[probe_channel].duration_to_int_samples(
+                        self.calibration_data["locus_deadtime"]
+                    )
+                else:
+                    deadtime = 0
+                # Must be: ReadoutTrigger.duration > ReadoutTrigger.probe_pulse.duration so if they would match, we
+                # need to add a minimum offset to make it hold, i.e. the smallest granularity allowed by the probe
+                # channel
+                probe_granularity = self.builder.channels[probe_channel].instruction_duration_granularity
+                offset = max(deadtime, probe_granularity)
+
+                truncated_readout_trigger = replace(readout_trigger, duration=actual_probe_duration + offset)
+                physical_probe_box = MultiplexedProbeTimeBox.from_readout_trigger(
+                    truncated_readout_trigger,
+                    probe_channel,
+                    locus_components=self.locus,
+                    label=f"Physical probe box of {self.__class__.__name__} on {self.locus}",
+                    block_channels=[drive_channel] if drive_channel else [],
+                    block_duration=truncated_readout_trigger.duration if drive_channel else 0,
+                )
+                physical_probe_box.neighborhood_components[0] = combined_probe_timebox.neighborhood_components[0].copy()
+                # extra Blocks (integration etc) for the probe channel
+                extra_block_duration = max(combined_probe_timebox.atom.duration - truncated_readout_trigger.duration, 0)  # type:ignore[union-attr]
+                virtual_extra_wait_box = TimeBox.atomic(
+                    Schedule({probe_channel: Segment([Block(extra_block_duration)])}),
+                    locus_components=[probe],
+                    label=f"Virtual probe extra wait box of {self.__class__.__name__} on {self.locus}",
+                )
+                virtual_extra_wait_box.neighborhood_components[0] = {probe}
+                final_boxes = ProbeTimeBoxes([physical_probe_box, virtual_extra_wait_box])
+            else:
+                # FIXME: all the return types in the measure impls need to be cleaned up
+                final_boxes = super().probe_timebox(key, feedback_key, do_acquisition=do_acquisition, **kwargs)  # type:ignore[assignment]
+            if feedback_key:
+                probelines = {self.builder.chip_topology.component_to_probe_line[q] for q in self.locus}
+                for probe in probelines:
+                    final_boxes[1].neighborhood_components[0].update(
+                        set(self.builder.get_virtual_feedback_channels(probe))
+                    )
+            self._multiplexed_timeboxes[args] = final_boxes  # type:ignore[assignment]
+            return final_boxes  # type:ignore[return-value]
+        return self._multiplexed_timeboxes[args]  # type:ignore[return-value]
+
+    def _call(self, key: str = "", feedback_key: str = "") -> list[TimeBox]:  # type:ignore[override]
+        """The same as ``Measure_CustomWaveforms._call``, i.e. wrap the "naked" multiplexable probe_timeboxes
+        into a composite TimeBox.
+        """
+        probe_box, wait_box = self.probe_timebox(key, feedback_key, do_acquisition=True)
+        final_box = TimeBox.composite([probe_box], label=f"Readout on {self.locus}")
+        final_box.neighborhood_components[0] = final_box.children[0].neighborhood_components[0]
+        return [final_box, wait_box]
+
+    def _get_probe_timebox_for_time_trace(self, key: str = "", feedback_key: str = "") -> TimeBox:
+        """Get the probe TimeBox for TimeTrace. This is just a single MultiplexedProbeTimeBox which has the full
+        probe duration (including integration). The faster logic wrt. qubit blocking is not important in the context of
+        TimeTraces.
+        """
+        # FIXME: not needed once we align the return types of all these measure gates
+        # Then we can make this method also shorter for the locus qubits
+        probe_boxes = self.probe_timebox(key, feedback_key, do_acquisition=True)
+        total_box = TimeBox.composite(self.probe_timebox(key, feedback_key, do_acquisition=True))
+        probe_schedule = self.builder.resolve_timebox(total_box, neighborhood=0)
+        atomic_probe_box = MultiplexedProbeTimeBox.atomic(
+            probe_schedule,
+            label=f"Time Trace atomic probe box of {self.__class__.__name__} on {self.locus}",
+            locus_components=probe_boxes[0].locus_components,
+        )
+        atomic_probe_box.neighborhood_components[0] = probe_boxes[0].neighborhood_components[0]
+        return atomic_probe_box  # type:ignore[return-value]
+
+
+class Fast_Measure_Constant(Fast_Measure_CustomWaveforms, wave_i=Constant, wave_q=Constant):  # type:ignore[call-arg]
+    """Implementation of a faster measure with constant i and q waveforms.
+
+    Does not block the drive and flux channels of the locus qubits during the integration, but just during the probe
+    pulse and extra calibrated dead time after it.
     """

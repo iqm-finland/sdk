@@ -15,8 +15,7 @@
 
 from __future__ import annotations
 
-from collections import defaultdict
-from collections.abc import Iterable
+from collections.abc import Iterable, Sequence
 import copy
 from dataclasses import dataclass, field, replace
 import itertools
@@ -56,6 +55,7 @@ from iqm.pulse.playlist.instructions import (
     Instruction,
     IQPulse,
     MultiplexedIQPulse,
+    ReadoutMetrics,
     ReadoutTrigger,
     RealPulse,
     ThresholdStateDiscrimination,
@@ -492,6 +492,10 @@ class ScheduleBuilder:
         """Probe line channel for the probe line ``component`` belongs to.
 
         See :meth:`.get_drive_channel`.
+
+        Args:
+            component: name of a QPU component (typically qubit) to probe
+
         """
         probe_line = self.chip_topology.component_to_probe_line.get(component, None)
         if probe_line is None:
@@ -1038,7 +1042,7 @@ class ScheduleBuilder:
 
     def timeboxes_to_front_padded_playlist(
         self, boxes: Iterable[TimeBox], *, neighborhood: int = 0
-    ) -> tuple[Playlist, dict[str, set[str]]]:
+    ) -> tuple[Playlist, ReadoutMetrics]:
         """Temporary helper function, for converting a sequence of TimeBoxes to a Playlist.
 
         Each individual TimeBox in ``boxes`` is resolved into a Schedule, and then
@@ -1057,8 +1061,7 @@ class ScheduleBuilder:
                 blocks only the defined locus components and any other components which have occupied channels.
 
         Returns:
-            playlist that implements ``boxes`` and the mapping from readout labels to the set of used measurement
-            implementations (of the format ``<QuantumOp name>.<impl name>``).
+            playlist that implements ``boxes`` and the readout metrics for that playlist.
 
         """
         schedules = [self.resolve_timebox(box, neighborhood=neighborhood).cleanup() for box in boxes]
@@ -1102,7 +1105,7 @@ class ScheduleBuilder:
             playlist that implements ``boxes``
 
         """
-        return self.build_playlist(self.timebox_to_schedule(box, neighborhood=neighborhood) for box in boxes)[0]
+        return self.build_playlist([self.timebox_to_schedule(box, neighborhood=neighborhood) for box in boxes])[0]
 
     def timebox_to_schedule(
         self,
@@ -1453,8 +1456,8 @@ class ScheduleBuilder:
                 schedule.append(ch, Block(T))
 
     def build_playlist(  # noqa: PLR0915
-        self, schedules: Iterable[Schedule], finish_schedules: bool = True
-    ) -> tuple[Playlist, dict[str, set[str]]]:
+        self, schedules: Sequence[Schedule], finish_schedules: bool = True
+    ) -> tuple[Playlist, ReadoutMetrics]:
         """Build a playlist from a number of instruction schedules.
 
         This involves compressing the schedules so that no duplicate information
@@ -1468,8 +1471,7 @@ class ScheduleBuilder:
                 unless some process has already finalised them before calling this function.
 
         Returns:
-            playlist containing the schedules and the mapping from readout labels to the set of used measurement
-            implementations (of the format ``<QuantumOp name>.<impl name>``).
+            playlist containing the schedules and the readout metrics for this playlist.
 
         Raises:
             ValueError: if the schedules contain channels with non-uniform sampling rates
@@ -1492,6 +1494,7 @@ class ScheduleBuilder:
 
         pl = Playlist()
         mapped_instructions: dict[str, dict[int | Instruction, Any]] = {}
+        readout_metrics = ReadoutMetrics(num_segments=len(schedules))
 
         def _append_to_schedule(sc_schedule: SC_Schedule, channel_name: str, instr: Instruction) -> None:
             """Append ``instr`` to ``sc_schedule`` into the channel``channel_name``."""
@@ -1517,15 +1520,15 @@ class ScheduleBuilder:
 
                 # add the schedules in the playlist
 
-        label_to_implementation: dict[str, set[str]] = defaultdict(set)
-
         def _map_instruction(inst: Instruction) -> sc_instructions.Instruction:
             """TODO only necessary until SC has been updated to use the iqm.pulse Instruction class."""
             operation: Any
 
             def _map_acquisition(acq: AcquisitionMethod) -> sc_instructions.AcquisitionMethod:
-                if acq.implementation is not None:
-                    label_to_implementation[acq.label].add(acq.implementation)
+                if isinstance(acq, TimeTrace):
+                    return sc_instructions.TimeTrace(
+                        label=acq.label, delay_samples=acq.delay_samples, duration_samples=acq.duration_samples
+                    )
                 if isinstance(acq, ThresholdStateDiscrimination):
                     return sc_instructions.ThresholdStateDiscrimination(
                         label=acq.label,
@@ -1540,10 +1543,7 @@ class ScheduleBuilder:
                         delay_samples=acq.delay_samples,
                         weights=_map_instruction(acq.weights).operation,
                     )
-                if isinstance(acq, TimeTrace):
-                    return sc_instructions.TimeTrace(
-                        label=acq.label, delay_samples=acq.delay_samples, duration_samples=acq.duration_samples
-                    )
+
                 raise ValueError(f"Unknown AcquisitionMethod {acq}")
 
             if isinstance(inst, Wait):
@@ -1587,7 +1587,7 @@ class ScheduleBuilder:
             return sc_instructions.Instruction(duration_samples=int(inst.duration), operation=operation)
 
         # NOTE that there is no implicit right-alignment or equal duration for schedules, unlike in old-style playlists!
-        for schedule in schedules:
+        for seg_idx, schedule in enumerate(schedules):
             finished_schedule = self._finish_schedule(schedule) if finish_schedules else schedule
             sc_schedule = SC_Schedule()
             for channel_name, segment in finished_schedule.items():
@@ -1596,6 +1596,8 @@ class ScheduleBuilder:
                 pl.add_channel(channel)
                 prev_wait = None
                 for instruction in segment:
+                    if isinstance(instruction, ReadoutTrigger):
+                        readout_metrics.extend(instruction, seg_idx)
                     # convert all NONSOLID instructions into Waits
                     if finish_schedules and (isinstance(instruction, NONSOLID) or isinstance(instruction, Wait)):
                         if instruction.duration > 0:
@@ -1614,7 +1616,7 @@ class ScheduleBuilder:
                 if prev_wait:
                     _append_to_schedule(sc_schedule, channel_name, prev_wait)
             pl.segments.append(sc_schedule)
-        return pl, label_to_implementation
+        return pl, readout_metrics
 
     def _set_gate_implementation_shortcut(self, op_name: str) -> None:
         """Create shortcut for `self.get_implementation(<op_name>, ...)` as `self.<op_name>(...)`.

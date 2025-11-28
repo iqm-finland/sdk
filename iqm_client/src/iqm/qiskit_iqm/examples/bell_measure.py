@@ -27,7 +27,7 @@ def bell_measure(server_url: str, token: str | None = None, shots: int = 1000) -
     """Execute a quantum circuit that prepares and measures a generalized Bell (aka GHZ) state.
 
     Args:
-        server_url: URL of the IQM server used for execution
+        server_url: URL of the IQM Server used for execution
         token: API token for authentication. If not given, uses :env:`IQM_TOKEN`.
         shots: Requested number of shots.
 
@@ -66,7 +66,7 @@ def bell_measure(server_url: str, token: str | None = None, shots: int = 1000) -
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
-        "--url", required=True, help='IQM server URL, for example "https://cocos.resonance.meetiqm.com/garnet"'
+        "--url", required=True, help='IQM Server URL, for example "https://cocos.resonance.meetiqm.com/garnet"'
     )
     argparser.add_argument(
         "--token",

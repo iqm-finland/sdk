@@ -13,7 +13,6 @@
 # limitations under the License.
 """Generate an initial layout for a quantum circuit containing MOVE gates."""
 
-from iqm.iqm_client import DynamicQuantumArchitecture
 from iqm.qiskit_iqm.iqm_backend import IQMTarget
 from qiskit import QuantumCircuit
 from qiskit.circuit import Qubit
@@ -21,6 +20,8 @@ from qiskit.dagcircuit import DAGCircuit
 from qiskit.transpiler import PassManager, TranspilerError
 from qiskit.transpiler.layout import Layout
 from qiskit.transpiler.passes import TrivialLayout
+
+from iqm.station_control.interface.models import DynamicQuantumArchitecture
 
 
 class IQMMoveLayout(TrivialLayout):

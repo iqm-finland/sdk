@@ -600,3 +600,29 @@ class Setting(BaseModel):
     def with_path_name(self) -> Setting:
         """Copy of self with the parameter name replaced by the path name."""
         return self.model_copy(update={"parameter": self.parameter.model_copy(update={"name": self.path})})
+
+    def sweep(self, values: SweepValues) -> Sweep:
+        """Create a Sweep object that represents a 1d scan of this setting over the given values.
+
+        Args:
+            values: Sweep values.
+
+        Returns:
+            The Sweep object.
+
+        """
+        return Sweep(parameter=self.parameter, data=values)
+
+
+class Sweep(BaseModel):
+    """Base immutable class for sweeps."""
+
+    parameter: Parameter
+    """The Sweep represents changing the values of this Parameter."""
+
+    data: SweepValues
+    """List of values for :attr:`parameter`"""
+
+    def model_post_init(self, __context: Any) -> None:
+        if not all(self.parameter.validate(value) for value in self.data):
+            raise ValueError(f"Invalid range data {self.data} for parameter type {self.parameter.data_type}.")

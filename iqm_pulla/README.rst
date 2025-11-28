@@ -42,11 +42,11 @@ e2e testing is execution of all user guides (Jupyter notebooks). User guides cov
 so we achieve two things: end-to-end-test Pulla as a client library, and make sure the user guides are correct.
 (Server-side use of Pulla is e2e-tested as part of CoCoS.)
 
-You have to provide CoCoS and Station Control URLs as environment variables:
+You have to provide IQM Server URL as environment variable:
 
 .. code-block:: bash
 
-    COCOS_URL=<COCOS_URL> STATION_CONTROL_URL=<SC_URL> tox -e e2e
+    IQM_SERVER_URL=<IQM_SERVER_URL> tox -e e2e
 
 Notebooks are executed using `jupyter execute` command. It does not print any output if there are no errors. If you want
 to run a particular notebook and see the output cells printed in the terminal, you can use ``nbconvert`` with ``jq``

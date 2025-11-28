@@ -15,7 +15,7 @@
 
 This is the core module of ``CPC``. It contains the functionality to define a compiler, whose job is to
 convert quantum circuits and calibration data into configuration settings and instruction schedules that
-can be executed by the IQM server on quantum hardware.
+can be executed by the IQM Server on quantum hardware.
 """
 
 from __future__ import annotations
@@ -42,7 +42,7 @@ from iqm.cpc.interface.compiler import (
     MoveGateFrameTrackingMode,
     MoveGateValidationMode,
 )
-from iqm.pulla.interface import CalibrationSet
+from iqm.pulla.interface import CalibrationSetValues
 from iqm.pulla.utils import (
     _update_channel_props_from_calibration,
     build_settings,
@@ -181,13 +181,15 @@ class CompilationStage:
 
 
 class Compiler:
-    """Stateful object that contains a calibration set, a schedule builder, and a set
+    """Compiles quantum circuits (via time boxes) into instruction schedules.
+
+    Stateful object that contains a calibration set, a schedule builder, and a set
     of compilation stages.
 
     The compiler's state does not include the data to be compiled.
 
     Args:
-        calibration_set: Calibration data.
+        calibration_set_values: Calibration data.
         chip_topology: Physical layout and connectivity of the quantum chip.
         channel_properties: Control channel properties for the station.
         component_channels: Mapping from QPU component name to a mapping from ``('drive', 'flux', 'readout')``
@@ -210,7 +212,7 @@ class Compiler:
     def __init__(  # noqa: PLR0913
         self,
         *,
-        calibration_set: CalibrationSet,
+        calibration_set_values: CalibrationSetValues,
         chip_topology: ChipTopology,
         channel_properties: dict[str, ChannelProperties],
         component_channels: dict[str, dict[str, str]],
@@ -220,14 +222,14 @@ class Compiler:
         pp_stages: Collection[CompilationStage] | None = None,
         strict: bool = False,  # consider extending to e.g. errors: Literal["raise", "warning", "ignore"] = "warning"
     ):
-        self._calibration_set = calibration_set
+        self._calibration_set_values = calibration_set_values
         self.component_mapping = component_mapping
         self.options = options
         self.stages = stages or []
         self.pp_stages = pp_stages or []
 
         self.builder: ScheduleBuilder = initialize_schedule_builder(
-            calibration_set, chip_topology, channel_properties, component_channels
+            calibration_set_values, chip_topology, channel_properties, component_channels
         )
         try:
             self.builder.validate_calibration()
@@ -241,11 +243,11 @@ class Compiler:
         Must be called automatically by any method that modifies the calibration set, or the op_table
         """
         _updated_channel_properties = _update_channel_props_from_calibration(
-            self.builder.channels, self.builder.component_channels, self._calibration_set
+            self.builder.channels, self.builder.component_channels, self._calibration_set_values
         )
         self.builder = ScheduleBuilder(
             self.builder.op_table,
-            calset_to_cal_data_tree(self._calibration_set),
+            calset_to_cal_data_tree(self._calibration_set_values),
             self.builder.chip_topology,
             _updated_channel_properties,
             self.builder.component_channels,
@@ -255,18 +257,18 @@ class Compiler:
         except ValueError as exc:
             raise CalibrationError(f"{exc}") from exc
 
-    def get_calibration(self) -> CalibrationSet:
+    def get_calibration_set_values(self) -> CalibrationSetValues:
         """Returns a copy of the current local calibration set."""
-        return deepcopy(self._calibration_set)
+        return deepcopy(self._calibration_set_values)
 
-    def set_calibration(self, calibration: CalibrationSet) -> None:
+    def set_calibration_set_values(self, calibration_set_values: CalibrationSetValues) -> None:
         """Sets the current calibration set to a given calibration set, then refreshes the compiler.
 
         Args:
-            calibration: The calibration set to be set as the current calibration set.
+            calibration_set_values: The calibration set to be set as the current calibration set.
 
         """
-        self._calibration_set = calibration
+        self._calibration_set_values = calibration_set_values
         self._refresh()
 
     @property
@@ -323,7 +325,7 @@ class Compiler:
         locus_str = "__".join(locus)
         for param, value in params.items():
             path = f"gates.{gate_name}.{impl_name}.{locus_str}.{param}"
-            self._calibration_set[path] = value
+            self._calibration_set_values[path] = value
 
         self._refresh()
 
@@ -422,7 +424,7 @@ class Compiler:
         Used automatically by :meth:`compile`.
         """
         return {
-            "calibration_set": self._calibration_set,
+            "calibration_set": self._calibration_set_values,
             "builder": self.builder,
             "component_mapping": self.component_mapping,
             "options": self.options,
@@ -430,9 +432,7 @@ class Compiler:
             "chip_topology": self.builder.chip_topology,
         }
 
-    def compile(
-        self, data: Iterable[Any], context: dict[str, Any] | None = None
-    ) -> tuple[Iterable[Any], dict[str, Any]]:
+    def compile(self, data: Iterable[Any], context: dict[str, Any] | None = None) -> tuple[Any, dict[str, Any]]:
         """Run all compiler stages.
 
             Initial context will be derived using :meth:`compiler_context` unless a custom
@@ -470,7 +470,7 @@ class Compiler:
 
     def run_stages(
         self, stages: Collection[CompilationStage], data: Iterable[Any], context: dict[str, Any]
-    ) -> tuple[Iterable[Any], dict[str, Any]]:
+    ) -> tuple[Any, dict[str, Any]]:
         """Run the given stages in given order on the given data.
 
         Args:
@@ -514,20 +514,16 @@ class Compiler:
             calibration_set = context["calibration_set"]
             circuit_metrics = context["circuit_metrics"]
             options = context["options"]
-            custom_settings = context.get("custom_settings")
         except Exception as exc:
             raise InsufficientContextError(f"Missing context data for building settings: {exc}") from exc
 
         settings = build_settings(
             shots=shots,
-            calibration_set=calibration_set,
+            calibration_set_values=calibration_set,
             builder=builder,
             circuit_metrics=circuit_metrics,
             options=options,
         )
-        # if custom_settings are given, use them to override similarly named generated settings
-        if custom_settings is not None:
-            settings = SettingNode.merge(custom_settings, settings)
 
         # fill in the schedule durations to the metrics
         end_delay = calibration_set["controllers.options.end_delay"]

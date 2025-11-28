@@ -13,9 +13,9 @@
 # limitations under the License.
 """Naive transpilation for the IQM Star architecture."""
 
+from typing import Any
 import warnings
 
-from iqm.iqm_client import Circuit as IQMClientCircuit
 from iqm.iqm_client.transpile import ExistingMoveHandlingOptions, transpile_insert_moves
 import numpy as np
 from pydantic_core import ValidationError
@@ -26,6 +26,8 @@ from qiskit.dagcircuit import DAGCircuit
 from qiskit.transpiler.basepasses import TransformationPass
 from qiskit.transpiler.layout import Layout
 
+from iqm.pulse import Circuit
+
 from .iqm_backend import IQMBackendBase, IQMTarget
 from .iqm_move_layout import generate_initial_layout
 from .qiskit_to_iqm import deserialize_instructions, serialize_instructions
@@ -34,9 +36,9 @@ from .qiskit_to_iqm import deserialize_instructions, serialize_instructions
 class IQMNaiveResonatorMoving(TransformationPass):
     """Naive transpilation pass for resonator moving.
 
-    The logic of this pass is deferred to `iqm-client.transpile_insert_moves`.
-    This pass is a wrapper that converts the circuit into the IQMClient Circuit format,
-    runs the `transpile_insert_moves` function, and then converts the result back to a Qiskit circuit.
+    The logic of this pass is deferred to :func:`~iqm.iqm_client.transpile.transpile_insert_moves`.
+    This pass is a wrapper that converts the circuit into the IQM circuit format,
+    runs the ``transpile_insert_moves`` function, and then converts the result back to a Qiskit circuit.
 
     Args:
         target: Transpilation target.
@@ -60,13 +62,53 @@ class IQMNaiveResonatorMoving(TransformationPass):
         """Run the pass on a circuit.
 
         Args:
-            dag: DAG to map.
+            dag: DAG to insert MOVE gates into.
 
         Returns:
-            Mapped ``dag``.
+            The new ``dag`` now including MOVE gates as needed.
 
         Raises:
-            TranspilerError: The layout is not compatible with the DAG, or if the input gate set is incorrect.
+            TranspilerError: The layout is not compatible with the DAG, or if something goes wrong during transpilation.
+
+        """
+        if len(dag.op_nodes()) == 0:
+            return dag  # Empty circuit, no need to transpile.
+        symbolic_gates = self._remove_parameterized_gates(dag)
+        layout = self._calculate_initial_layout(dag)
+        new_dag = self._insert_move_gate(dag, layout)
+        self._insert_parameterized_gates(new_dag, symbolic_gates)
+        self.property_set["final_layout"] = self._calculate_final_layout(dag, layout)
+        return new_dag
+
+    def _calculate_initial_layout(self, dag: DAGCircuit) -> Layout:
+        """Calculate the initial physical to logical qubit layout before the circuit.
+
+        Args:
+            dag: The transpiled DAGCircuit.
+
+        Returns:
+            The initial layout of which logical qubits are in which physical qubits at the start of the circuit.
+
+        """
+        # For some reason, the dag does not always contain the layout, so we need to do a bunch of fixing.
+        if self.property_set.get("layout"):
+            return self.property_set["layout"]
+        # Reconstruct the layout from the dag.
+        layout = Layout()
+        for qreg in dag.qregs:
+            layout.add_register(qreg)
+        for i, qubit in enumerate(dag.qubits):
+            layout.add(qubit, i)
+        return layout
+
+    def _remove_parameterized_gates(self, dag: DAGCircuit) -> dict[float, tuple[Any, ...]]:
+        """Remove parameterized gates from the DAGCircuit.
+
+        Args:
+            dag: The input DAGCircuit, which is changed in place.
+
+        Returns:
+            A mapping from symbolic index to the original gate parameters.
 
         """
         # TODO: Temporary hack to get the symbolic parameters to work: replace symbols with (inf, idx).
@@ -80,80 +122,97 @@ class IQMNaiveResonatorMoving(TransformationPass):
                 symbolic_gates[symbolic_index] = node.op.params
                 dag.substitute_node(node, RGate(np.inf, float(symbolic_index)))
                 symbolic_index += 1
+        return symbolic_gates
 
+    def _insert_parameterized_gates(self, dag: DAGCircuit, symbolic_gates: dict[float, tuple[Any, ...]]) -> None:
+        """Reinsert parameterized gates into the DAGCircuit.
+
+        Args:
+            dag: The input DAGCircuit, which is changed in place.
+            symbolic_gates: A mapping from symbolic index to the original gate parameters.
+
+        """
+        for node in dag.topological_op_nodes():
+            # This only works for prx gates because that has two parameters
+            # We use one to mark that it is a symbolic gate (np.inf) and the other to store the index.
+            if node.name == "r" and not np.isfinite(node.op.params[0]):
+                dag.substitute_node(node, RGate(*symbolic_gates[int(np.round(node.op.params[1]))]))
+
+    def _calculate_final_layout(self, dag: DAGCircuit, layout: Layout) -> Layout:
+        """Calculate the final physical to logical qubit layout after the circuit.
+        The original final layout from the previous passes uses the old qubit registers that are no longer valid.
+
+        Args:
+            dag: The original DAGCircuit without the inserted MOVE gates..
+            layout: The initial physical to logical qubit layout at the start of the circuit.
+
+        Returns:
+            The updated layout of which logical qubits are in which physical qubits at the end of the circuit.
+
+        """
+        if "final_layout" not in self.property_set or self.property_set["final_layout"] is None:
+            # If the final layout is not set, return the initial layout.
+            return layout
+        # This final layout only has a single QuantumRegister where the qubits might be swapped.
+        inv_layout = layout.get_physical_bits()
+        old_final_layout = self.property_set["final_layout"]
+        # Swap the physical bits to the new layout
+        to_swap = {
+            physical: dag.find_bit(virtual).index for physical, virtual in old_final_layout.get_physical_bits().items()
+        }
+        # Add identity mappings for qubits that are not in the old final layout.
+        to_swap.update({p: p for p in inv_layout if p not in to_swap})
+        # Build the new final layout.
+        return Layout({physical: inv_layout[to_swap[physical]] for physical in layout.get_physical_bits()})
+
+    def _insert_move_gate(self, dag: DAGCircuit, layout: Layout) -> DAGCircuit:
+        """Insert MOVE gates into the circuit using the IQM transpiler.
+
+        Args:
+            dag: The DAGCircuit to insert MOVE gates into; is not modified in place.
+            layout: The physical to logical qubit layout at the start of the circuit.
+
+        Returns:
+            The updated DAGCircuit with MOVE gates inserted.
+
+        """
+        # Convert the DAG to a QuantumCircuit
         circuit = dag_to_circuit(dag)
-        if len(circuit) == 0:
-            return dag  # Empty circuit, no need to transpile.
-        # For some reason, the dag does not contain the layout, so we need to do a bunch of fixing.
-        if self.property_set.get("layout"):
-            layout = self.property_set["layout"]
-        else:
-            # Reconstruct the layout from the dag.
-            layout = Layout()
-            for qreg in dag.qregs:
-                layout.add_register(qreg)
-            for i, qubit in enumerate(dag.qubits):
-                layout.add(qubit, i)
-
-        # Convert the circuit to the IQMClientCircuit format and run the transpiler.
-        iqm_circuit = IQMClientCircuit(
+        # Convert the circuit to the Circuit format
+        iqm_circuit = Circuit(
             name="Transpiling Circuit",
-            instructions=tuple(serialize_instructions(circuit, self.idx_to_component)),
+            instructions=tuple(serialize_instructions(circuit, self.idx_to_component, overwrite_layout=layout)),
             metadata=None,
         )
         try:
+            # Use the iqm-client transpiler to insert MOVE gates
             routed_iqm_circuit = transpile_insert_moves(
                 iqm_circuit,
                 self.architecture,
                 existing_moves=self.existing_moves_handling,
             )
+            # Turn the routed Circuit back into a Qiskit QuantumCircuit
             routed_circuit = deserialize_instructions(
                 list(routed_iqm_circuit.instructions), self.component_to_idx, layout
             )
-        except ValidationError as e:  # The Circuit without move gates is empty.
+        except ValidationError as e:
             errors = e.errors()
             if (
                 len(errors) == 1
                 and errors[0]["msg"] == "Value error, Each circuit should have at least one instruction."
-            ):
-                circ_args = [circuit.num_ancillas, circuit.num_clbits]
-                routed_circuit = QuantumCircuit(*layout.get_registers(), *(arg for arg in circ_args if arg > 0))
+            ):  # Error because the Circuit without move gates is empty.
+                routed_circuit = QuantumCircuit(
+                    *layout.get_registers(), *(arg for arg in [circuit.num_ancillas, circuit.num_clbits] if arg > 0)
+                )
             else:
                 raise e
 
         # Create the new DAG and make sure that the qubits are properly ordered.
-        ordered_qubits = [layout.get_physical_bits()[i] for i in range(len(layout.get_physical_bits()))]
-        new_dag = circuit_to_dag(
+        return circuit_to_dag(
             routed_circuit,
-            qubit_order=ordered_qubits,
+            qubit_order=[layout.get_physical_bits()[i] for i in range(len(layout.get_physical_bits()))],
             clbit_order=routed_circuit.clbits,
         )
-
-        # Reinsert the symbolic parameters.
-        for node in new_dag.topological_op_nodes():
-            # This only works for prx gates because that has two parameters
-            # We use one to mark that it is a symbolic gate (np.inf) and the other to store the index.
-            if node.name == "r" and not np.isfinite(node.op.params[0]):
-                new_dag.substitute_node(node, RGate(*symbolic_gates[int(np.round(node.op.params[1]))]))
-
-        # Update the final_layout with the correct bits.
-        if "final_layout" in self.property_set:
-            inv_layout = layout.get_physical_bits()
-            new_final_layout_dict = {
-                physical: inv_layout[dag.find_bit(virtual).index]
-                for physical, virtual in self.property_set["final_layout"].get_physical_bits().items()
-            }
-            resonator_dict = {
-                phys: inv_layout[new_dag.find_bit(virt).index]
-                for phys, virt in inv_layout.items()
-                if phys not in self.property_set["final_layout"].get_physical_bits()
-            }
-            new_final_layout_dict.update(resonator_dict)
-            self.property_set["final_layout"] = Layout(new_final_layout_dict)
-        else:
-            self.property_set["final_layout"] = layout
-
-        return new_dag
 
 
 def _get_scheduling_method(

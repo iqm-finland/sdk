@@ -21,13 +21,7 @@ from typing import Any
 from uuid import UUID
 import warnings
 
-from iqm.iqm_client import (
-    CircuitBatch,
-    CircuitCompilationOptions,
-    CircuitValidationError,
-    IQMClient,
-    RunRequest,
-)
+from iqm.iqm_client import CircuitCompilationOptions, CircuitValidationError, IQMClient
 from iqm.iqm_client.util import to_json_dict
 from iqm.qiskit_iqm import IQMFakeAphrodite, IQMFakeApollo, IQMFakeBackend, IQMFakeDeneb
 from iqm.qiskit_iqm.fake_backends import IQMFakeAdonis
@@ -39,6 +33,7 @@ from qiskit import QuantumCircuit
 from qiskit.providers import JobStatus, JobV1, Options
 
 from iqm.pulse import Circuit
+from iqm.station_control.interface.models import CircuitBatch, RunRequest
 
 try:
     __version__ = version("qiskit-iqm")
@@ -52,9 +47,9 @@ class IQMBackend(IQMBackendBase):
     """Backend for executing quantum circuits on IQM quantum computers.
 
     Args:
-        client: Client instance for communicating with an IQM server.
+        client: Client instance for communicating with an IQM Server.
         calibration_set_id: ID of the calibration set the backend will use.
-            ``None`` means the IQM server will be queried for the current default
+            ``None`` means the IQM Server will be queried for the current default
             calibration set.
         use_metrics: If True, the backend will query the server for calibration data and related
             quality metrics, and pass these to the transpilation target(s). The default value is set
@@ -80,7 +75,6 @@ class IQMBackend(IQMBackendBase):
         super().__init__(architecture, metrics=metrics, **kwargs)
         self.client: IQMClient = client
         self._max_circuits: int | None = None
-        self.name = "IQM Backend"
         self._calibration_set_id = architecture.calibration_set_id
 
     @classmethod
@@ -110,12 +104,16 @@ class IQMBackend(IQMBackendBase):
     def run(
         self,
         run_input: QuantumCircuit | list[QuantumCircuit],
+        *,
+        use_timeslot: bool = False,
         **options,
     ) -> IQMJob:
         """Run a quantum circuit or a list of quantum circuits on the IQM quantum computer represented by this backend.
 
         Args:
             run_input: The circuits to run.
+            use_timeslot: Submits the job to the timeslot queue if set to ``True``. If set to ``False``,
+                the job is submitted to the normal on-demand queue.
             options: Keyword arguments passed on to :meth:`create_run_request`, and documented there.
 
         Returns:
@@ -123,8 +121,8 @@ class IQMBackend(IQMBackendBase):
 
         """
         run_request = self.create_run_request(run_input, **options)
-        job_id = self.client.submit_run_request(run_request)
-        job = IQMJob(self, str(job_id), shots=run_request.shots)
+        circuit_job = self.client.submit_run_request(run_request, use_timeslot=use_timeslot)
+        job = IQMJob(self, circuit_job)
         job.circuit_metadata = [c.metadata if isinstance(c, Circuit) else {} for c in run_request.circuits]
         return job
 
@@ -134,7 +132,7 @@ class IQMBackend(IQMBackendBase):
         shots: int = 1024,
         circuit_compilation_options: CircuitCompilationOptions | None = None,
         circuit_callback: Callable[[list[QuantumCircuit]], Any] | None = None,
-        qubit_mapping: dict[int, str] | None = None,
+        qubit_index_to_name: dict[int, str] | None = None,
         **unknown_options,
     ) -> RunRequest:
         """Creates a run request without submitting it for execution.
@@ -161,8 +159,8 @@ class IQMBackend(IQMBackendBase):
                 As a side effect, you can also use this callback to modify the transpiled circuits
                 in-place, just before execution; however, we do not recommend to use it for this
                 purpose.
-            qubit_mapping: Mapping from qubit indices in the circuit to qubit names on the device. If ``None``,
-                :attr:`.IQMBackendBase.index_to_qubit_name` will be used.
+            qubit_index_to_name: Mapping from qubit indices in the circuit to qubit names on the device.
+                If ``None``, :attr:`.IQMBackendBase.index_to_qubit_name` will be used.
 
         Returns:
             The created run request object
@@ -195,7 +193,9 @@ class IQMBackend(IQMBackendBase):
         if circuit_callback:
             circuit_callback(circuits)
 
-        circuits_serialized: CircuitBatch = [self.serialize_circuit(circuit, qubit_mapping) for circuit in circuits]
+        circuits_serialized: CircuitBatch = [
+            self.serialize_circuit(circuit, qubit_index_to_name) for circuit in circuits
+        ]
 
         if self._use_default_calibration_set:
             default_calset_id = self.client.get_dynamic_quantum_architecture(None).calibration_set_id
@@ -230,13 +230,10 @@ class IQMBackend(IQMBackendBase):
             corresponding job
 
         """
-        return IQMJob(self, job_id)
+        circuit_job = self.client.get_job(UUID(job_id))
+        return IQMJob(self, circuit_job)
 
-    def close_client(self) -> None:
-        """Close IQMClient's session with the authentication server."""
-        self.client.close_auth_session()
-
-    def serialize_circuit(self, circuit: QuantumCircuit, qubit_mapping: dict[int, str] | None = None) -> Circuit:
+    def serialize_circuit(self, circuit: QuantumCircuit, qubit_index_to_name: dict[int, str] | None = None) -> Circuit:
         """Serialize a quantum circuit into the IQM data transfer format.
 
         Serializing is not strictly bound to the native gateset, i.e. some gates that are not explicitly mentioned in
@@ -254,8 +251,8 @@ class IQMBackend(IQMBackendBase):
 
         Args:
             circuit: quantum circuit to serialize
-            qubit_mapping: Mapping from qubit indices in the circuit to qubit names on the device. If not provided,
-                :attr:`.IQMBackendBase.index_to_qubit_name` will be used.
+            qubit_index_to_name: Mapping from qubit indices in the circuit to qubit names on the device.
+                If ``None``, :attr:`.IQMBackendBase.index_to_qubit_name` will be used.
 
         Returns:
             data transfer object representing the circuit
@@ -264,9 +261,9 @@ class IQMBackend(IQMBackendBase):
             ValueError: circuit contains an unsupported instruction or is not transpiled in general
 
         """
-        if qubit_mapping is None:
-            qubit_mapping = self._idx_to_qb
-        instructions = tuple(serialize_instructions(circuit, qubit_index_to_name=qubit_mapping))
+        if qubit_index_to_name is None:
+            qubit_index_to_name = self._idx_to_qb
+        instructions = tuple(serialize_instructions(circuit, qubit_index_to_name=qubit_index_to_name))
 
         try:
             metadata = to_json_dict(circuit.metadata)
@@ -291,7 +288,7 @@ facade_names: dict[str, IQMFakeBackend] = {
 class IQMFacadeBackend(IQMBackend):
     """Simulates locally the execution of quantum circuits on a remote mock IQM quantum computer.
 
-    This backend is meant to be used to run circuits on a mock IQM server that has no real quantum hardware,
+    This backend is meant to be used to run circuits on a mock IQM Server that has no real quantum hardware,
     and if the mock execution is successful, simulate the circuits locally using an error model that
     is broadly representative of the mocked QPU. Finally it returns the *simulated results*.
 
@@ -299,13 +296,13 @@ class IQMFacadeBackend(IQMBackend):
 
     .. important::
 
-       When using a facade backend, the IQM server URL of :class:`IQMProvider` should always point to a mock environment
+       When using a facade backend, the IQM Server URL of :class:`IQMProvider` should always point to a mock environment
        rather than a real quantum computer, as the execution results from the server will be discarded and replaced by
        a locally simulated result generated by Qiskit Aer. If you use a real quantum computer with a facade backend,
        you will just waste your credits and/or computation time.
 
     Args:
-        client: Client instance for communicating with an IQM server.
+        client: Client instance for communicating with an IQM Server.
         name: Name of the fake backend (simulator instance) to use. If None, will be determined automatically based
             on the static quantum architecture of the server.
         kwargs: Optional arguments to be passed to the parent class.
@@ -341,7 +338,13 @@ class IQMFacadeBackend(IQMBackend):
             return False
         return True
 
-    def run(self, run_input: QuantumCircuit | list[QuantumCircuit], **options) -> JobV1:
+    def run(
+        self,
+        run_input: QuantumCircuit | list[QuantumCircuit],
+        *,
+        use_timeslot: bool = False,
+        **options,
+    ) -> JobV1:
         circuits = [run_input] if isinstance(run_input, QuantumCircuit) else run_input
         circuits_validated_cregs: list[bool] = [self._validate_no_empty_cregs(circuit) for circuit in circuits]
         if not all(circuits_validated_cregs):
@@ -350,7 +353,7 @@ class IQMFacadeBackend(IQMBackend):
                 "see the user guide."
             )
 
-        iqm_backend_job = super().run(run_input, **options)
+        iqm_backend_job = super().run(run_input, use_timeslot=use_timeslot, **options)
         iqm_backend_job.result()  # get and discard results
         if iqm_backend_job.status() == JobStatus.ERROR:
             raise RuntimeError("Remote execution did not succeed.")
@@ -360,18 +363,28 @@ class IQMFacadeBackend(IQMBackend):
 class IQMProvider:
     """Provider for IQM backends.
 
-    IQMProvider connects to a quantum computer through an IQM server.
+    IQMProvider connects to a quantum computer through an IQM Server.
     If the server requires user authentication, you can provide it either using environment
     variables, or as keyword arguments to IQMProvider. The user authentication kwargs are passed
     through to :class:`~iqm.iqm_client.iqm_client.IQMClient` as is, and are documented there.
 
     Args:
-        url: URL of the IQM server (e.g. "https://cocos.resonance.meetiqm.com/garnet")
+        url: URL of the IQM Server (e.g. "https://resonance.meetiqm.com/").
+        quantum_computer: ID or alias of the quantum computer to connect to, if the IQM Server
+            instance controls more than one (e.g. "garnet"). ``None`` means connect to the
+            default one.
 
     """
 
-    def __init__(self, url: str, **user_auth_args):  # contains keyword args token or tokens_file
+    def __init__(
+        self,
+        url: str,
+        *,
+        quantum_computer: str | None = None,
+        **user_auth_args,  # contains keyword args token or tokens_file
+    ):
         self.url = url
+        self.quantum_computer = quantum_computer
         self.user_auth_args = user_auth_args
 
     def get_backend(
@@ -396,7 +409,7 @@ class IQMProvider:
             Backend instance for connecting to a quantum computer.
 
         """
-        client = IQMClient(self.url, **self.user_auth_args)
+        client = IQMClient(self.url, quantum_computer=self.quantum_computer, **self.user_auth_args)
 
         if name and name.startswith("facade_"):
             return IQMFacadeBackend(client, name=name, calibration_set_id=calibration_set_id, use_metrics=use_metrics)

@@ -3,7 +3,7 @@ IQM Pulse library
 
 A Python-based project for providing interface and implementations for control pulses.
 
-See `API documentation <https://iqm-finland.github.io/docs/iqm-pulse/>`_.
+See `API documentation <https://docs.meetiqm.com/iqm-pulse/>`_.
 
 Copyright
 ---------

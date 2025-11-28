@@ -60,15 +60,18 @@ from __future__ import annotations
 from collections.abc import Collection, Iterable, Sequence
 from enum import Enum
 
-from iqm.iqm_client import (
-    CircuitTranspilationError,
-    CircuitValidationError,
-    DynamicQuantumArchitecture,
-)
-from iqm.iqm_client.models import GateImplementationInfo, GateInfo, Locus, _op_is_symmetric
+from iqm.iqm_client import CircuitTranspilationError, CircuitValidationError
+from iqm.iqm_client.models import _op_is_symmetric
 from iqm.iqm_client.validation import validate_circuit_moves, validate_instruction
 
 from iqm.pulse import Circuit, CircuitOperation
+from iqm.station_control.interface.models import (
+    DynamicQuantumArchitecture,
+    GateImplementationInfo,
+    GateInfo,
+    Locus,
+    QubitMapping,
+)
 
 Resolution = tuple[str, str, str]
 """A (gate qubit, move qubit, resonator) triple that represents a resolution of a fictional
@@ -94,7 +97,7 @@ class ExistingMoveHandlingOptions(str, Enum):
 
 def _map_loci(
     instructions: Iterable[CircuitOperation],
-    qubit_mapping: dict[str, str],
+    qubit_mapping: QubitMapping,
     inverse: bool = False,
 ) -> tuple[CircuitOperation, ...]:
     """Map the loci of the given instructions using the given qubit mapping, or its inverse.
@@ -733,7 +736,7 @@ def transpile_insert_moves(
     arch: DynamicQuantumArchitecture,
     *,
     existing_moves: ExistingMoveHandlingOptions = ExistingMoveHandlingOptions.KEEP,
-    qubit_mapping: dict[str, str] | None = None,
+    qubit_mapping: QubitMapping | None = None,
     restore_states: bool = True,
 ) -> Circuit:
     """Convert a simplified architecture circuit into an equivalent Star architecture circuit with

@@ -21,26 +21,19 @@ from unittest.mock import Mock
 from uuid import UUID
 
 from httpx import Response as HTTPResponse
-from iqm.iqm_client.models import (
-    DynamicQuantumArchitecture,
-    GateImplementationInfo,
-    GateInfo,
-)
+from iqm.iqm_server_client.iqm_server_client import _IQMServerClient
+from iqm.iqm_server_client.models import QuantumComputer
 from iqm.qiskit_iqm.iqm_provider import IQMBackend, IQMClient
-from mockito import ANY, mock, when
 import pytest
 import requests
 from requests import Response
 
-from exa.common.api import proto_serialization
 from exa.common.data.setting_node import SettingNode
 from exa.common.qcm_data.chip_topology import ChipTopology
 from iqm.pulla.calibration import CalibrationDataProvider
 from iqm.pulla.pulla import Pulla
 from iqm.pulla.utils_qiskit import IQMPullaBackend
-from iqm.station_control.client.iqm_server import proto
-from iqm.station_control.client.iqm_server.testing.iqm_server_mock import IqmServerMockBase
-from iqm.station_control.client.station_control import StationControlClient
+from iqm.station_control.interface.models import DynamicQuantumArchitecture, GateImplementationInfo, GateInfo
 
 RESOURCES = Path(__file__).parent / "resources"
 
@@ -48,7 +41,7 @@ RESOURCES = Path(__file__).parent / "resources"
 @pytest.fixture(scope="module")
 def chip_topology() -> ChipTopology:
     """ChipTopology constructed from chip design record."""
-    path = RESOURCES / "fake_chip_design_record.json"
+    path = RESOURCES / "chip_design_record.json"
     with open(path, mode="r", encoding="utf-8") as f:
         record = json.load(f)
     return ChipTopology.from_chip_design_record(record)
@@ -63,24 +56,28 @@ def chip_topology_star() -> ChipTopology:
     return ChipTopology.from_chip_design_record(record)
 
 
-@pytest.fixture(params=["station-control", "iqm-server"])
+@pytest.fixture
 def pulla_on_spark(request, monkeypatch):
     """Pulla instance that mocks connection with a Spark system."""
-    backend = request.param
     root_url = "https://fake.iqm.fi"
 
-    # Provide mocks for Station Control backend
+    # Provide mock responses for IQM Server requests
     def mocked_requests_get(*args, **kwargs):
-        if args[0] == f"{root_url}/spark/about":
-            response = Response()
+        if args[0] == f"{root_url}/api/v1/quantum-computers":
+            response = Mock(spec=Response)
             response.status_code = HTTPStatus.OK
-            response.json = lambda: {
-                "iqm_server": True,
+            data = {
+                "quantum_computers": [
+                    QuantumComputer(id=UUID("1887449d-627e-48b0-a3d9-d971fa3bbd91"), alias="default").model_dump(
+                        mode="json"
+                    )
+                ]
             }
+            response.text = json.dumps(data)
+            response.json = lambda: data
+            response.ok = True
             return response
-        # TODO SW-1387: Use v1 API
-        # if args[0] == f"{root_url}/station/v1/about":
-        if args[0] == f"{root_url}/station/about":
+        if args[0] == f"{root_url}/api/v1/about":
             response = Mock(spec=Response)
             response.status_code = HTTPStatus.OK
             data = {"software_versions": {"iqm-station-control-client": version("iqm-station-control-client")}}
@@ -88,42 +85,25 @@ def pulla_on_spark(request, monkeypatch):
             response.json = lambda: data
             response.ok = True
             return response
-        # TODO SW-1387: Use v1 API
-        # if args[0] == f"{root_url}/station/v1/duts":
-        if args[0] == f"{root_url}/station/duts":
+        if args[0] == f"{root_url}/api/v1/quantum-computers/default/artifacts/duts":
             response = Mock(spec=Response)
             response.status_code = HTTPStatus.OK
             response.text = json.dumps([{"label": "M000_fake_0_0", "dut_type": "chip"}])
             return response
-        # TODO SW-1387: Use v1 API
-        # if args[0].startswith(f"{root_url}/station/v1/sweeps/"):
-        if args[0].startswith(f"{root_url}/station/sweeps/"):
-            response = Response()
+        if args[0].startswith(f"{root_url}/api/v1/jobs/"):
+            response = Mock(spec=Response)
+            response.ok = False
             response.status_code = HTTPStatus.INTERNAL_SERVER_ERROR
             return response
-        if args[0].startswith(f"{root_url}/cocos/info/client-libraries"):
-            response = Response()
-            response.status_code = HTTPStatus.INTERNAL_SERVER_ERROR
-            return response
-        if args[0].startswith(f"{root_url}/station/jobs/"):
-            response = Response()
-            response.status_code = HTTPStatus.INTERNAL_SERVER_ERROR
-            return response
-
         return HTTPResponse(404)
 
     def mocked_requests_post(*args, **kwargs):
-        # TODO SW-1387: Use v1 API
-        # if args[0] == f"{root_url}/station/v1/sweeps":
-        if args[0] == f"{root_url}/station/sweeps":
-            response = Response()
+        if args[0] == f"{root_url}/api/v1/jobs/default/sweep":
+            response = Mock(spec=Response)
             response.status_code = HTTPStatus.OK
             response.json = lambda: {
                 "job_id": "c2d31ae9-e749-4835-8450-0df10be5d1c1",
-                # TODO SW-1387: Use v1 API
-                # "job_href": f"{root_url}/station/v1/jobs/c2d31ae9-e749-4835-8450-0df10be5d1c1",
-                # "sweep_href": f"{root_url}/station/v1/sweeps/8a28be71-b819-419d-bfcb-9ed9186b7473",
-                "job_href": f"{root_url}/station/jobs/c2d31ae9-e749-4835-8450-0df10be5d1c1",
+                "job_href": f"{root_url}/api/v1/jobs/c2d31ae9-e749-4835-8450-0df10be5d1c1",
             }
             return response
         return HTTPResponse(404)
@@ -133,73 +113,24 @@ def pulla_on_spark(request, monkeypatch):
 
     with open(RESOURCES / "spark_settings.json", "r", encoding="utf-8") as file:
         settings = SettingNode(**json.loads(file.read()))
-        settings_proto = proto_serialization.setting_node.pack(settings, minimal=False)
-        settings_bytes = settings_proto.SerializeToString()
-    monkeypatch.setattr(StationControlClient, "get_settings", lambda self: settings)
+    monkeypatch.setattr(_IQMServerClient, "get_settings", lambda self: settings)
 
     with open(RESOURCES / "spark_chip_design_record.json", "r", encoding="utf-8") as file:
         design_record_str = file.read()
         record = json.loads(design_record_str)
-    monkeypatch.setattr(StationControlClient, "get_chip_design_record", lambda self, label: record)
+    monkeypatch.setattr(_IQMServerClient, "get_chip_design_records", lambda self: [record])
 
     with open(RESOURCES / "spark_calibration_set_raw.json", "r", encoding="utf-8") as file:
         cal = json.loads(file.read()), "fbaa6256-ab83-4217-8b7b-07c1952ec236"
-    monkeypatch.setattr(CalibrationDataProvider, "get_latest_calibration_set", lambda self, label: cal)
-    monkeypatch.setattr(CalibrationDataProvider, "get_calibration_set", lambda self, label: cal[0])
+    monkeypatch.setattr(CalibrationDataProvider, "get_default_calibration_set", lambda self: cal)
+    monkeypatch.setattr(CalibrationDataProvider, "get_calibration_set_values", lambda self, calibration_set_id: cal[0])
 
-    # Provide mocks for IQM server backend
-    class IqmServerMockBackend(IqmServerMockBase):
-        def ListQuantumComputersV1(self, request: proto.ListQuantumComputerFiltersV1, context):
-            return proto.QuantumComputersListV1(
-                items=[
-                    proto.QuantumComputerV1(
-                        id=self.proto_uuid(UUID("c2d31ae9-e749-4835-8450-0df10be5d1c1")),
-                        alias="spark",
-                        display_name="Spark",
-                    )
-                ]
-            )
-
-        def GetQuantumComputerResourceV1(self, request: proto.QuantumComputerResourceLookupV1, context):
-            match request.resource_name:
-                case "duts":
-                    return self.chunk_stream(
-                        json.dumps([{"label": "M000_fake_0_0", "dut_type": "chip"}]).encode("utf-8")
-                    )
-                case "settings":
-                    return self.chunk_stream(settings_bytes)
-                case "chip-design-records/M000_fake_0_0":
-                    return self.chunk_stream(design_record_str.encode("utf-8"))
-                case "about":
-                    return self.chunk_stream(
-                        json.dumps(
-                            {"software_versions": {"iqm-station-control-client": version("iqm-station-control-client")}}
-                        ).encode("utf-8")
-                    )
-            return self.chunk_stream(bytearray())
-
-        def SubmitJobV1(self, request: proto.SubmitJobRequestV1, context):
-            now = self.proto_timestamp()
-            return proto.JobV1(
-                id=self.proto_uuid(UUID("8a28be71-b819-419d-bfcb-9ed9186b7473")),
-                type=proto.JobType.PULSE,
-                status=proto.JobStatus.IN_QUEUE,
-                created_at=now,
-                updated_at=now,
-            )
-
-    if backend == "iqm-server":
-        pulla = Pulla(
-            station_control_url=f"{root_url}/spark",
-            grpc_channel=IqmServerMockBackend().channel(),
-        )
-    else:
-        pulla = Pulla(station_control_url=f"{root_url}/station")
+    pulla = Pulla(iqm_server_url=root_url)
     return pulla
 
 
 @pytest.fixture
-def qiskit_backend_spark(monkeypatch) -> IQMBackend:
+def qiskit_backend_spark(monkeypatch, pulla_on_spark) -> IQMBackend:
     """IQMBackend instance that mocks connection with a Spark system."""
     root_url = "https://fake.iqm.fi"
     calset_id = UUID("26c5e70f-bea0-43af-bd37-6212ec7d04cb")
@@ -238,12 +169,7 @@ def qiskit_backend_spark(monkeypatch) -> IQMBackend:
     )
 
     monkeypatch.setattr(IQMClient, "get_dynamic_quantum_architecture", lambda self, calset_id: dqa)
-    monkeypatch.setattr(StationControlClient, "_check_api_versions", lambda self: None)
-    mock_about_response = mock(spec=Response)
-    when(mock_about_response).raise_for_status().thenReturn(None)
-    when(mock_about_response).json().thenReturn({})
-    when(requests).get(f"{root_url}/station/about", headers=ANY).thenReturn(mock_about_response)
-    iqm_client = IQMClient(f"{root_url}/station", client_signature="test fixture")
+    iqm_client = IQMClient(f"{root_url}", client_signature="test fixture")
     return IQMBackend(iqm_client, calibration_set_id=calset_id, use_metrics=False)
 
 

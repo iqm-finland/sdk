@@ -19,13 +19,12 @@ from abc import ABC
 import logging
 from typing import Final
 
-from iqm.iqm_client import (
-    DynamicQuantumArchitecture,
-    ObservationFinder,
-)
+from iqm.iqm_client import ObservationFinder
 from iqm.qiskit_iqm.iqm_target import IQMTarget
 from qiskit.providers import BackendV2
 from qiskit.transpiler import Target
+
+from iqm.station_control.interface.models import DynamicQuantumArchitecture
 
 IQM_TO_QISKIT_GATE_NAME: Final[dict[str, str]] = {"prx": "r", "cz": "cz"}
 logger = logging.getLogger(__name__)

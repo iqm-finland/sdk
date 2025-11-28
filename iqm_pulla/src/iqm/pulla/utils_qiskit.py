@@ -17,6 +17,7 @@ from __future__ import annotations
 
 from collections import Counter
 from collections.abc import Collection, Sequence
+from datetime import date
 from typing import TYPE_CHECKING
 
 from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
@@ -27,14 +28,14 @@ from qiskit.providers import JobStatus, JobV1, Options
 from qiskit.result import Counts, Result
 
 from iqm.cpc.interface.compiler import Circuit, CircuitExecutionOptions, HeraldingMode
-from iqm.pulla.interface import StationControlResult, TaskStatus
+from iqm.pulla.pulla import JobStatus as IQMServerJobStatus
 
 if TYPE_CHECKING:
     from iqm.qiskit_iqm.iqm_backend import DynamicQuantumArchitecture
     from iqm.qiskit_iqm.iqm_provider import IQMBackend
 
     from iqm.cpc.compiler.compiler import Compiler
-    from iqm.pulla.pulla import Pulla
+    from iqm.pulla.pulla import Pulla, SweepJob
 
 
 def qiskit_circuits_to_pulla(
@@ -105,41 +106,36 @@ def qiskit_to_pulla(
 
     # create a compiler containing all the required station information
     compiler = pulla.get_standard_compiler(
-        calibration_set=pulla.fetch_calibration_set_by_id(run_request.calibration_set_id),
+        calibration_set_values=pulla.fetch_calibration_set_values_by_id(run_request.calibration_set_id),
     )
-    compiler.component_mapping = (
-        None
-        if run_request.qubit_mapping is None
-        else {m.logical_name: m.physical_name for m in run_request.qubit_mapping}
-    )
-
+    compiler.component_mapping = run_request.qubit_mapping
     # We can be certain run_request contains only Circuit objects, because we created it
     # right in this method with qiskit.QuantumCircuit objects
     circuits: list[Circuit] = [c for c in run_request.circuits if isinstance(c, Circuit)]
     return circuits, compiler
 
 
-def station_control_result_to_qiskit(
-    station_control_result: StationControlResult,
+def sweep_job_to_qiskit(
+    job: SweepJob,
     *,
     shots: int,
     execution_options: CircuitExecutionOptions,
 ) -> Result:
-    """Convert a Station Control result to a Qiskit Result.
+    """Convert a completed Pulla job to a Qiskit Result.
 
     Args:
-        station_control_result: The Station Control result to convert.
-        shots: number of shots requested
+        job: The completed job to convert.
+        shots: Number of shots requested.
         execution_options: Circuit execution options used to produce the result.
 
     Returns:
         The equivalent Qiskit Result.
 
     """
-    if station_control_result.result is None:
+    result = job.result()
+    if result is None:
         raise ValueError(
-            f"Cannot format station control result without result."
-            f'Job status is "{station_control_result.status.value.upper()}"'
+            f'Cannot format Qiskit result without result measurements. Job status is "{job.status.upper()}"'
         )
 
     used_heralding = execution_options.heralding_mode == HeraldingMode.NONE
@@ -149,19 +145,22 @@ def station_control_result_to_qiskit(
         # TODO: Proper naming instead of "index"
         (
             f"{index}",
-            IQMJob._format_measurement_results(
+            IQMJob._iqm_format_measurement_results(
                 circuit_measurements, requested_shots=shots, expect_exact_shots=used_heralding
             ),
         )
-        for index, circuit_measurements in enumerate(station_control_result.result)
+        for index, circuit_measurements in enumerate(result)
     ]
 
     result_dict = {
-        "backend_name": "",
+        "backend_name": "IQMPullaBackend",
         "backend_version": "",
         "qobj_id": "",
-        "job_id": str(station_control_result.sweep_id),
-        "success": station_control_result.status == TaskStatus.READY,
+        "job_id": str(job.job_id),
+        "success": job.status == IQMServerJobStatus.COMPLETED,
+        "date": date.today().isoformat(),
+        "status": str(job.status),
+        "timeline": job.data.timeline.copy(),
         "results": [
             {
                 "shots": len(measurement_results),
@@ -172,19 +171,10 @@ def station_control_result_to_qiskit(
                     "metadata": {},
                 },
                 "header": {"name": name},
-                "calibration_set_id": None,
-                # TODO: calibration set id is known to Pulla, but not the compiler; this is probably good, because
-                #  the compiler is not conceptually linked to the storage of calibration data (id being the property of
-                #  the storage). We need to find a nice way to pass calibration set id to this function.
+                "calibration_set_id": job.data.compilation.calibration_set_id if job.data.compilation else None,
             }
             for name, measurement_results in batch_results
         ],
-        "date": None,
-        "status": station_control_result.status.value,
-        "timestamps": {
-            "start_time": station_control_result.start_time,
-            "end_time": station_control_result.end_time,
-        },
     }
     return Result.from_dict(result_dict)
 
@@ -200,26 +190,27 @@ class IQMPullaBackend(IQMBackendBase):
     """
 
     def __init__(self, architecture: DynamicQuantumArchitecture, pulla: Pulla, compiler: Compiler):
-        super().__init__(architecture)
+        super().__init__(architecture, name="IQMPullaBackend")
         self.pulla = pulla
-        self.name = "IQMPullaBackend"
         self.compiler = compiler
 
-    def run(self, run_input, **options):  # noqa: ANN001, ANN201
+    def run(self, run_input: QuantumCircuit | list[QuantumCircuit], shots: int = 1024, **options) -> DummyJob:
         # Convert Qiskit circuits to Pulla circuits
         pulla_circuits = qiskit_circuits_to_pulla(run_input, self._idx_to_qb)
 
         # Compile the circuits, build settings and execute
         playlist, context = self.compiler.compile(pulla_circuits)
-        shots = options.get("shots")
         settings, context = self.compiler.build_settings(context, shots=shots)
-        # Get the response data from Station Control
-        response_data = self.pulla.execute(playlist, context, settings, verbose=False)
+
+        # submit the playlist for execution
+        job = self.pulla.submit_playlist(playlist, settings, context=context)
+        # wait for the job to finish, no timeout (user can use Ctrl-C to stop)
+        # TODO it would be better if we did not wait and instead returned a Qiskit JobV1 containing
+        # a SweepJob that can be used to actually track the job.
+        job.wait_for_completion(timeout_secs=0.0)
 
         # Convert the response data to a Qiskit result
-        qiskit_result = station_control_result_to_qiskit(
-            response_data, shots=shots, execution_options=context["options"]
-        )
+        qiskit_result = sweep_job_to_qiskit(job, shots=shots, execution_options=context["options"])
 
         # Return a dummy job object that can be used to retrieve the result
         dummy_job = DummyJob(self, qiskit_result)
@@ -227,7 +218,7 @@ class IQMPullaBackend(IQMBackendBase):
 
     @classmethod
     def _default_options(cls) -> Options:
-        return Options(shots=1024)
+        return Options()
 
     @property
     def max_circuits(self) -> int | None:
@@ -240,15 +231,15 @@ class DummyJob(JobV1):
     The ``job_id`` is the same as the ``sweep_id`` of the ``StationControlResult``.
     """
 
-    def __init__(self, backend, qiskit_result):  # noqa: ANN001
+    def __init__(self, backend: IQMBackend, qiskit_result: Result) -> None:
         super().__init__(backend=backend, job_id=qiskit_result.job_id)
         self.qiskit_result = qiskit_result
 
-    def result(self):  # noqa: ANN201
+    def result(self) -> Result:
         return self.qiskit_result
 
-    def status(self):  # noqa: ANN201
+    def status(self) -> JobStatus:
         return JobStatus.DONE
 
-    def submit(self):  # noqa: ANN201
+    def submit(self) -> None:
         return None

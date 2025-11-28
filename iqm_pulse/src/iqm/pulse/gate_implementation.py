@@ -602,7 +602,7 @@ class SinglePulseGate(GateImplementation):
         return self.builder.channels[self.channel].duration_to_seconds(self.pulse.duration)
 
 
-def init_subclass_composite(gate_class: type[CompositeGate]) -> None:
+def init_subclass_composite(gate_class: type[CompositeGate]) -> None:  # noqa: D103
     if not gate_class.registered_gates:
         # this would be pointless
         raise ValueError(f"CompositeGate {gate_class.__name__} has no registered gates.")

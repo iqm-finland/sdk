@@ -15,21 +15,24 @@
 
 from __future__ import annotations
 
-from collections.abc import Collection
+from collections.abc import Collection, Iterable
 from dataclasses import dataclass
 from math import pi
 import re
+import warnings
 
 from iqm.qiskit_iqm.move_gate import MoveGate
+from packaging.version import Version
 from qiskit import QuantumCircuit as QiskitQuantumCircuit
-from qiskit.circuit import ClassicalRegister, Clbit, QuantumRegister
+from qiskit import __version__ as qiskit_version
+from qiskit.circuit import ClassicalRegister, Clbit, Operation, QuantumRegister, Qubit
 from qiskit.transpiler.layout import Layout
 
 from iqm.pulse import CircuitOperation
 
 
 class InstructionNotSupportedError(RuntimeError):
-    """Raised when a given instruction is not supported by the IQM server."""
+    """Raised when a given instruction is not supported by the IQM Server."""
 
 
 @dataclass(frozen=True)
@@ -52,7 +55,7 @@ class MeasurementKey:
     ``IQMJob``, since otherwise users will not be able to retrieve results from a detached Python
     environment solely based on the job id. Another option is to use measurement key strings to
     store the required info. Qiskit does not use measurement keys, so we are free to use them
-    internally in the communication with the IQM server, and can encode the necessary information in
+    internally in the communication with the IQM Server, and can encode the necessary information in
     them.
 
     This class encapsulates the necessary info, and provides methods to transform between this
@@ -93,8 +96,107 @@ class MeasurementKey:
         return cls(creg.name, len(creg), creg_idx, clbit_idx)
 
 
+def _apply_condition(
+    operation: Operation,
+    native_instructions: Iterable[CircuitOperation],
+    clbit_to_measure: dict[Clbit, CircuitOperation],
+) -> None:
+    """Apply a classical condition to circuit instructions.
+
+    Modifies the instructions in place.
+
+    Args:
+        operation: Operation containing the classical condition.
+        native_instructions: Instructions to apply the condition to.
+        clbit_to_measure: Maps bits in the classical register to the measurement operation that
+            last wrote something into them.
+
+    """
+    # check that the condition is supported
+    creg, value = operation.condition
+    if isinstance(creg, ClassicalRegister):
+        if len(creg) != 1:
+            raise ValueError(f"{operation.name} is conditioned on multiple bits, this is not supported.")
+        clbit = creg[0]
+    else:
+        clbit = creg  # it is a Clbit
+    if value != 1:
+        raise ValueError(f"{operation.name} is conditioned on integer value {value}, only value 1 is supported.")
+
+    # Set up feedback routing.
+    # The latest "measure" instruction to write to that classical bit is modified, it is
+    # given an explicit feedback_key equal to its measurement key.
+    # The same feedback_key is given to the controlled instruction, along with the feedback qubit.
+    if (measure_inst := clbit_to_measure.get(clbit)) is None:
+        raise ValueError(f"{operation.name} conditioned on {clbit}, which does not contain a measurement result yet.")
+    feedback_key = measure_inst.args["key"]
+    measure_inst.args["feedback_key"] = feedback_key  # this measure is used to provide feedback
+    physical_qubit_name = measure_inst.locus[0]  # single-qubit measurement
+
+    for inst in native_instructions:
+        # TODO we do not check anywhere if cc_prx is available for this locus!
+        if inst.name != "prx":
+            raise ValueError(f"This backend only supports conditionals on r, x, y, rx and ry gates, not on {inst.name}")
+        inst.name = "cc_prx"
+        inst.args["feedback_key"] = feedback_key
+        inst.args["feedback_qubit"] = physical_qubit_name
+
+
+def _calculate_ifblock_idx2name_mapping(
+    circuit: QiskitQuantumCircuit,
+    if_block_qubits: list[Qubit],
+    overwrite_layout: Layout | None,
+    qubit_index_to_name: dict[int, str],
+) -> dict[int, str]:
+    """Calculate mapping from if-block qubit registers to physical qubit names.
+
+    The if-block circuit has no qregs of its own, just references to the parent circuit qubits.
+    Depending on how the circuit was transpiled, the if-block Qubit Objects might
+    not be present in the parent Circuit. This method finds the appropriate physical qubits
+    to make a new qubit index to name mapping for it.
+
+    Args:
+        circuit: The parent quantum circuit containing the if-block.
+        if_block_qubits: The qubits used in the if-block.
+        overwrite_layout: An alternative layout indicating the physical qubit mapping to use for the serialized
+            instructions, this overwrites the circuit's layout.
+        qubit_index_to_name: Mapping from qubit indices to the corresponding qubit names as obtained from a backend.
+
+    """
+    # Check if we can use the overwrite layout
+    use_overwrite_layout = overwrite_layout is not None and all(
+        qb in overwrite_layout.get_physical_bits().values() for qb in if_block_qubits
+    )
+    if use_overwrite_layout:
+        physical_qubits = {q: i for i, q in overwrite_layout.get_physical_bits().items()}  # type: ignore[union-attr]
+        return {k: qubit_index_to_name[physical_qubits[q]] for k, q in enumerate(if_block_qubits)}
+    # The if-block qubits are not in the circuit, so we hope they are in the layout
+    use_circuit_layout_guess = circuit.layout is not None and all(
+        qb in circuit.layout.initial_layout.get_physical_bits().values() for qb in if_block_qubits
+    )
+    if use_circuit_layout_guess:
+        physical_qubits = {q: i for i, q in circuit.layout.initial_layout.get_physical_bits().items()}
+        return {k: qubit_index_to_name[physical_qubits[q]] for k, q in enumerate(if_block_qubits)}
+
+    # Hope that we can find the qubits in the circuit - can be wrong.
+    use_circuit_find_bit = all(qb in circuit.qubits for qb in if_block_qubits)
+    if use_circuit_find_bit:
+        return {k: qubit_index_to_name[circuit.find_bit(q).index] for k, q in enumerate(if_block_qubits)}
+    # Catch-all: we cannot determine the mapping, this should never happen.
+    raise ValueError(
+        "Could not determine the physical locations for if-block qubits. "
+        "The if-block uses {if_block_qubits} qubits, but the parent circuit has qubits {circuit.qubits}, "
+        "the circuit layout is {circuit.layout.initial_layout}, and the overwrite layout is {overwrite_layout}."
+    )
+
+
 def serialize_instructions(  # noqa: PLR0912, PLR0915
-    circuit: QiskitQuantumCircuit, qubit_index_to_name: dict[int, str], allowed_nonnative_gates: Collection[str] = ()
+    circuit: QiskitQuantumCircuit,
+    qubit_index_to_name: dict[int, str],
+    allowed_nonnative_gates: Collection[str] = (),
+    *,
+    clbit_to_measure: dict[Clbit, CircuitOperation] | None = None,
+    overwrite_layout: Layout | None = None,
 ) -> list[CircuitOperation]:
     """Serialize a quantum circuit into the IQM data transfer format.
 
@@ -109,9 +211,13 @@ def serialize_instructions(  # noqa: PLR0912, PLR0915
             If such gates are present in the circuit, the caller must edit the result to be valid and executable.
             Notably, since IQM transfer format requires named parameters and qiskit parameters don't have names, the
             `i` th parameter of an unrecognized instruction is given the name ``"p<i>"``.
+        clbit_to_measure: Maps clbits to the latest "measure" instruction to store its result there, or
+            None if nothing has been measured yet.
+        overwrite_layout: A layout indicating the physical qubit mapping to use for the serialized instructions, this
+            overwrites the circuit's layout.
 
     Returns:
-        list of instructions representing the circuit
+        list of IQM instructions representing the circuit
 
     Raises:
         ValueError: circuit contains an unsupported instruction or is not transpiled in general
@@ -119,10 +225,18 @@ def serialize_instructions(  # noqa: PLR0912, PLR0915
     """
     instructions: list[CircuitOperation] = []
     # maps clbits to the latest "measure" instruction to store its result there
-    clbit_to_measure: dict[Clbit, CircuitOperation] = {}
+    if clbit_to_measure is None:
+        clbit_to_measure = {}
+    invalid_layout = circuit.layout is None or circuit.layout.initial_layout.get_registers() != set(circuit.qregs)
     for circuit_instruction in circuit.data:
         instruction = circuit_instruction.operation
-        qubit_names = tuple(qubit_index_to_name[circuit.find_bit(qubit).index] for qubit in circuit_instruction.qubits)
+        if invalid_layout:
+            qubit_names = tuple(
+                qubit_index_to_name[circuit.find_bit(qubit).index] for qubit in circuit_instruction.qubits
+            )
+        else:
+            physical_qubits = {q: i for i, q in circuit.layout.initial_layout.get_physical_bits().items()}
+            qubit_names = tuple(qubit_index_to_name[physical_qubits[qubit]] for qubit in circuit_instruction.qubits)
         if instruction.name == "r":
             angle = float(instruction.params[0])
             phase = float(instruction.params[1])
@@ -178,44 +292,38 @@ def serialize_instructions(  # noqa: PLR0912, PLR0915
         elif instruction.name in allowed_nonnative_gates:
             args = {f"p{i}": param for i, param in enumerate(instruction.params)}
             native_inst = CircuitOperation(name=instruction.name, locus=qubit_names, args=args)
+        elif instruction.name == "if_else":
+            if_block, else_block = instruction.params
+            if else_block is not None and len(else_block) > 0:  # Non-empty circuit in else-block
+                raise ValueError("The use of an else-block with if_test is not supported.")
+            # Recursively serialize the if-block.
+            q_index_to_name = _calculate_ifblock_idx2name_mapping(
+                circuit, if_block.qubits, overwrite_layout, qubit_index_to_name
+            )
+            if_instructions = serialize_instructions(
+                if_block, q_index_to_name, allowed_nonnative_gates, clbit_to_measure=clbit_to_measure
+            )
+            _apply_condition(instruction, if_instructions, clbit_to_measure)
+            instructions.extend(if_instructions)
+            continue  # Skip the rest of the loop, as we already handled the instructions
         else:
             raise ValueError(
                 f"Instruction '{instruction.name}' in the circuit '{circuit.name}' is not natively supported. "
                 f"You need to transpile the circuit before execution."
             )
-
-        # classically controlled gates (using the c_if method)
-        # TODO we do not check anywhere if cc_prx is available for this locus!
-        condition = instruction.condition
-        if condition is not None:
-            if native_inst.name != "prx":
-                raise ValueError(
-                    f"This backend only supports conditionals on r, x, y, rx and ry gates, not on {instruction.name}"
-                )
-            native_inst.name = "cc_prx"
-            creg, value = condition
-            if isinstance(creg, ClassicalRegister):
-                if len(creg) != 1:
-                    raise ValueError(f"{instruction} is conditioned on multiple bits, this is not supported.")
-                if value != 1:
-                    raise ValueError(
-                        f"{instruction} is conditioned on integer value {value}, only value 1 is supported."
+        # classically controlled gates (using the c_if method) need to be updated
+        if (
+            Version(qiskit_version) < Version("2.0.0") and instruction.condition is not None
+        ):  # None means no classical condition
+            if Version(qiskit_version) < Version("1.3.0"):
+                # Avoid double deprecation warnings.
+                warnings.warn(
+                    DeprecationWarning(
+                        "The use of Qiskit's `c_if` method is deprecated and will be removed in a future release"
+                        "of IQM Client. Please use the `with circuit.if_test(...)` construction instead."
                     )
-                clbit = creg[0]
-            else:
-                clbit = creg  # it is a Clbit
-
-            # Set up feedback routing.
-            # The latest "measure" instruction to write to that classical bit is modified, it is
-            # given an explicit feedback_key equal to its measurement key.
-            # The same feedback_key is given to the controlled instruction, along with the feedback qubit.
-            measure_inst = clbit_to_measure[clbit]
-            feedback_key = measure_inst.args["key"]
-            measure_inst.args["feedback_key"] = feedback_key  # this measure is used to provide feedback
-            physical_qubit_name = measure_inst.locus[0]  # single-qubit measurement
-            native_inst.args["feedback_key"] = feedback_key
-            native_inst.args["feedback_qubit"] = physical_qubit_name
-
+                )
+            _apply_condition(instruction, [native_inst], clbit_to_measure)
         instructions.append(native_inst)
     return instructions
 
@@ -299,7 +407,8 @@ def deserialize_instructions(
             phase = instr.args["phase"]
             feedback_key = instr.args["feedback_key"]
             # NOTE: 'feedback_qubit' is not needed, because in Qiskit you only have single-qubit measurements.
-            circuit.r(angle, phase, locus[0]).c_if(fk_to_clbit[feedback_key], 1)
+            with circuit.if_test((fk_to_clbit[feedback_key], 1)):
+                circuit.r(angle, phase, locus[0])
         elif instr.name == "reset":
             for qubit in locus:
                 circuit.reset(qubit)

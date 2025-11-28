@@ -13,14 +13,16 @@
 # limitations under the License.
 """Dynamic quantum architecture (DQA) related interface models."""
 
-from typing import Any
+from functools import cached_property
+import re
+from typing import Any, TypeAlias
 from uuid import UUID
 
-from pydantic import Field, StrictStr, field_validator
+from pydantic import Field, field_validator
 
 from iqm.station_control.interface.pydantic_base import PydanticBase
 
-Locus = tuple[StrictStr, ...]
+Locus: TypeAlias = tuple[str, ...]
 """Names of the QPU components (typically qubits) a quantum operation instance is acting on, e.g. `("QB1", "QB2")`."""
 
 
@@ -80,6 +82,42 @@ class GateInfo(PydanticBase):
             return new_value
         raise ValueError("'override_default_implementation' must be a dict.")
 
+    @cached_property
+    def loci(self) -> tuple[Locus, ...]:
+        """Returns all loci which are available for at least one of the implementations.
+
+        The loci are sorted first based on the first locus component, then the second, etc.
+        The sorting of individual locus components is first done alphabetically based on their
+        non-numeric part, and then components with the same non-numeric part are sorted numerically.
+        An example of loci sorted this way would be:
+
+            ('QB1', 'QB2'),
+            ('QB2', 'COMPR1'),
+            ('QB2', 'QB3'),
+            ('QB3', 'COMPR1'),
+            ('QB3', 'COMPR2'),
+            ('QB3', 'QB1'),
+            ('QB10', 'QB2'),
+
+        """
+        loci_set = {locus for impl in self.implementations.values() for locus in impl.loci}
+        loci_sorted = sorted(loci_set, key=lambda locus: tuple(map(_component_sort_key, locus)))
+        return tuple(loci_sorted)
+
+    def get_default_implementation(self, locus: Locus) -> str:
+        """Default implementation of this gate for the given locus.
+
+        Args:
+            locus: gate locus
+
+        Returns:
+            Name of the default implementation of this gate for ``locus``.
+
+        """
+        if (impl := self.override_default_implementation.get(locus)) is not None:
+            return impl
+        return self.default_implementation
+
 
 class DynamicQuantumArchitecture(PydanticBase):
     """The dynamic quantum architecture (DQA).
@@ -117,3 +155,23 @@ class DynamicQuantumArchitecture(PydanticBase):
         ],
     )
     """Mapping of gate names to information about the gates."""
+
+    @cached_property
+    def components(self) -> tuple[str, ...]:
+        """All locus components (qubits and computational resonators) sorted.
+
+        The components are first sorted alphabetically based on their non-numeric part, and then
+        components with the same non-numeric part are sorted numerically. An example of components
+        sorted this way would be: ('COMPR1', 'COMPR2', 'QB1', 'QB2', 'QB3', 'QB10', 'QB11', 'QB20').
+        """
+        return tuple(sorted(self.qubits + self.computational_resonators, key=_component_sort_key))
+
+
+def _component_sort_key(component_name: str) -> tuple[str, int, str]:
+    """Sorting key for QPU component names."""
+
+    def get_numeric_id(name: str) -> int:
+        match = re.search(r"(\d+)", name)
+        return int(match.group(1)) if match else 0
+
+    return re.sub(r"[^a-zA-Z]", "", component_name), get_numeric_id(component_name), component_name

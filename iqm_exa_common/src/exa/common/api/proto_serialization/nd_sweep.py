@@ -20,8 +20,7 @@ from iqm.data_definitions.common.v1.sweep_pb2 import SingleParameterSweep as spb
 
 from exa.common.api.proto_serialization import sequence
 import exa.common.api.proto_serialization._parameter as param_proto
-from exa.common.control.sweep.sweep import Sweep
-from exa.common.data.parameter import DataType, Parameter
+from exa.common.data.parameter import DataType, Parameter, Sweep
 from exa.common.sweep.util import NdSweep
 
 

@@ -33,7 +33,7 @@ def deserialize_struct(proto: pb.Struct) -> dict:
     return {key: _deserialize_value(value) for key, value in proto.fields.items()}
 
 
-def _serialize_value(value: None | float | str | bool | dict | list | int) -> pb.Value:
+def _serialize_value(value: None | float | str | bool | dict | list) -> pb.Value:
     """Serialize a value into a Value protobuf representation."""
     if value is None:
         return pb.Value(null_value=True)

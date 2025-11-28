@@ -15,26 +15,33 @@
 
 from abc import ABC, abstractmethod
 from base64 import b64decode
+from collections.abc import Callable
 import json
 import os
 import time
-from typing import Any
+from typing import Any, TypeAlias
 
-from iqm.iqm_client.errors import ClientAuthenticationError, ClientConfigurationError
+from iqm.iqm_server_client.errors import ClientAuthenticationError, ClientConfigurationError
 
 REFRESH_MARGIN_SECONDS = 60
+
+
+AuthHeaderCallback: TypeAlias = Callable[[], str]
+"""Function that returns an authorization header containing a bearer token."""
 
 
 class TokenManager:
     """TokenManager manages the access token required for user authentication.
 
     Args:
-        token: Long-lived IQM token in plain text format
-        tokens_file: Path to a tokens file used for authentication
+        token: Long-lived IQM token in plain text format.
+        tokens_file: Path to a tokens file used for authentication.
+        auth_header_callback: Callback function that returns an Authorization header containing a bearer token.
+        use_env_vars: Iff True, the first two parameters can also be read from the environment variables
+            :envvar:`IQM_TOKEN` and :envvar:`IQM_TOKENS_FILE`, respectively.
+            Environment variables can not be mixed with initialisation arguments.
 
-    The parameters can also be read from the environment variables IQM_TOKEN or IQM_TOKENS_FILE.
-    Environment variables can not be mixed with initialisation arguments.
-    All parameters must come from the same source.
+    At most one auth parameter should be given.
 
     """
 
@@ -59,7 +66,14 @@ class TokenManager:
         except (UnicodeDecodeError, json.decoder.JSONDecodeError, ValueError, TypeError):
             return 0
 
-    def __init__(self, token: str | None = None, tokens_file: str | None = None):
+    def __init__(
+        self,
+        token: str | None = None,
+        tokens_file: str | None = None,
+        auth_header_callback: AuthHeaderCallback | None = None,
+        *,
+        use_env_vars: bool = True,
+    ):
         def _format_names(variable_names: list[str]) -> str:
             """Format a list of variable names"""
             return ", ".join(f'"{name}"' for name in variable_names)
@@ -68,9 +82,15 @@ class TokenManager:
 
         init_parameters = {"token": token, "tokens_file": tokens_file}
         init_params_given = [key for key, value in init_parameters.items() if value]
+        if auth_header_callback:
+            init_params_given.append("auth_header_callback")
 
-        env_variables = {"token": "IQM_TOKEN", "tokens_file": "IQM_TOKENS_FILE"}
-        env_vars_given = [name for name in env_variables.values() if os.environ.get(name)]
+        if use_env_vars:
+            env_variables = {"token": "IQM_TOKEN", "tokens_file": "IQM_TOKENS_FILE"}
+            env_vars_given = [name for name in env_variables.values() if os.environ.get(name)]
+        else:
+            env_variables = {}
+            env_vars_given = []
 
         if init_params_given and env_vars_given:
             raise ClientConfigurationError(
@@ -79,36 +99,49 @@ class TokenManager:
                 + f"environment variables {_format_names(env_vars_given)}."
                 + " Parameter sources must not be mixed."
             )
+        auth_params_given = init_params_given + env_vars_given
+        if len(auth_params_given) > 1:
+            raise ClientConfigurationError(
+                f"No more than one authentication parameter may be given, received {auth_params_given}"
+            )
+
+        self._token_provider: TokenProviderInterface | None = None
+        self._auth_header_callback: AuthHeaderCallback | None = None
+        self._access_token: str | None = None
+
+        if auth_header_callback:
+            self._auth_header_callback = auth_header_callback
+            return
 
         if env_vars_given:
             auth_parameters = {key: value for key, name in env_variables.items() if (value := os.environ.get(name))}
         else:
-            auth_parameters = {key: str(value) for key, value in init_parameters.items() if value}
-
-        self._token_provider: TokenProviderInterface | None = None
-        self._access_token: str | None = None
+            auth_parameters = {key: value for key, value in init_parameters.items() if value}
 
         if not auth_parameters:
-            self._token_provider = None
-        elif set(auth_parameters) == {"token"}:
+            return  # no authentication
+        if set(auth_parameters) == {"token"}:
             # This is not necessarily a JWT token
             self._token_provider = ExternalToken(auth_parameters["token"])
         elif set(auth_parameters) == {"tokens_file"}:
             self._token_provider = TokensFileReader(auth_parameters["tokens_file"])
         else:
-            raise ClientConfigurationError(
-                f"Missing authentication parameters, neither token or tokens_file is available, {list(auth_parameters)}"
-            )
+            raise ClientConfigurationError("Not possible.")
 
-    def get_bearer_token(self, retries: int = 1) -> str | None:
-        """Returns a valid bearer token, or None if no user authentication has been configured.
+    def get_auth_header_callback(self) -> AuthHeaderCallback | None:
+        """Return a callback providing an Authorization header, or None if we cannot provide it."""
+        return self._get_bearer_token if self._token_provider else self._auth_header_callback
+
+    def _get_bearer_token(self, retries: int = 1) -> str:
+        """Return a valid bearer token.
 
         Raises:
             ClientAuthenticationError: getting the token failed
+            RuntimeError: There is no token provider (authentication disabled)
 
         """
         if self._token_provider is None:
-            return None  # Authentication is not used
+            raise RuntimeError("There is no token provider.")
 
         # Use the existing access token if it is still valid
         if TokenManager.time_left_seconds(self._access_token) > REFRESH_MARGIN_SECONDS:
@@ -123,7 +156,7 @@ class TokenManager:
                 raise
 
         # Try again
-        return self.get_bearer_token(retries - 1)
+        return self._get_bearer_token(retries - 1)
 
     def close(self) -> bool:
         """Close the configured token provider.
@@ -148,7 +181,7 @@ class TokenProviderInterface(ABC):
 
     @abstractmethod
     def get_token(self) -> str:
-        """Returns a valid access token.
+        """Return a valid access token.
 
         Raises:
             ClientAuthenticationError: acquiring the token failed
@@ -157,7 +190,7 @@ class TokenProviderInterface(ABC):
 
     @abstractmethod
     def close(self) -> None:
-        """Closes authentication session.
+        """Close the authentication session.
 
         Raises:
             ClientAuthenticationError: closing the session failed

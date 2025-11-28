@@ -22,6 +22,13 @@ from exa.common.data.setting_node import SettingNode
 from iqm.pulse import Circuit
 from iqm.pulse.builder import Locus
 from iqm.pulse.playlist.playlist import Playlist
+from iqm.station_control.interface.models import (
+    DDMode,
+    DDStrategy,
+    HeraldingMode,
+    MoveGateFrameTrackingMode,
+    MoveGateValidationMode,
+)
 
 CircuitBatch: TypeAlias = list[Circuit]
 """Type that represents a list of quantum circuits to be executed together in a single batch."""
@@ -42,78 +49,6 @@ class MeasurementMode(StrEnum):
     This is typically how measurement is calibrated."""
 
 
-class HeraldingMode(StrEnum):
-    """Heralding mode for circuit execution."""
-
-    NONE = "none"
-    """Do not do any heralding."""
-    ZEROS = "zeros"
-    """Perform a heralding measurement on all the components used in each circuit (if they have
-    measurement data available in the calset), only retain shots where all the components
-    are measured to be in the zero state."""
-
-
-class DDMode(StrEnum):
-    """Dynamical Decoupling (DD) mode for circuit execution."""
-
-    DISABLED = "disabled"
-    """Do not apply dynamical decoupling."""
-    ENABLED = "enabled"
-    """Apply dynamical decoupling."""
-
-
-PRXSequence: TypeAlias = list[tuple[float, float]]
-"""A sequence of PRX gates. A generic PRX gate is defined by rotation angle and phase angle, Theta and Phi
-respectively."""
-
-
-@dataclass
-class DDStrategy:
-    """Describes a particular dynamical decoupling strategy.
-
-    The current standard DD stategy can be found in :attr:`.STANDARD_DD_STRATEGY`,
-    but users can use this class to provide their own dynamical decoupling strategies.
-
-    See :cite:`Ezzell_2022` for information on DD sequences.
-    """
-
-    merge_contiguous_waits: bool = True
-    """Merge contiguous ``Wait`` instructions into one if they are separated only by ``Block`` instructions."""
-
-    target_qubits: frozenset[str] | None = None
-    """Qubits on which dynamical decoupling should be applied. If ``None``, all qubits are targeted."""
-
-    skip_leading_wait: bool = True
-    """Skip processing leading ``Wait`` instructions."""
-
-    skip_trailing_wait: bool = True
-    """Skip processing trailing ``Wait`` instructions."""
-
-    gate_sequences: list[tuple[int, str | PRXSequence, str]] = field(default_factory=list)
-    """Available decoupling gate sequences to chose from in this strategy.
-
-    Each sequence is defined by a tuple of ``(ratio, gate pattern, align)``:
-
-        * ratio: Minimal duration for the sequence (in PRX gate durations).
-
-        * gate pattern: Gate pattern can be defined in two ways. It can be a string containing "X" and "Y" characters,
-          encoding a PRX gate sequence. For example, "YXYX" corresponds to the
-          XY4 sequence, "XYXYYXYX" to the EDD sequence, etc. If more flexibility is needed, a gate pattern can be
-          defined as a sequence of PRX gate argument tuples (that contain a rotation angle and a phase angle). For
-          example, sequence "YX" could be written as ``[(math.pi, math.pi / 2), (math.pi, 0)]``.
-
-        * align: Controls the alignment of the sequence within the time window it is inserted in. Supported values:
-
-          - "asap": Corresponds to a ASAP-aligned sequence with no waiting time before the first pulse.
-          - "center": Corresponds to a symmetric sequence.
-          - "alap": Corresponds to a ALAP-aligned sequence.
-
-    The Dynamical Decoupling algorithm uses the best fitting gate sequence by first sorting them
-    by ``ratio`` in descending order. Then the longest fitting pattern is determined by comparing ``ratio``
-    with the duration of the time window divided by the PRX gate duration.
-    """
-
-
 class CircuitBoundaryMode(StrEnum):
     """Circuit boundary mode for circuit compilation."""
 
@@ -128,32 +63,6 @@ class CircuitBoundaryMode(StrEnum):
     """
     ALL = "all"
     """Circuit boundary consists of all the QPU elements that are not used in the circuit."""
-
-
-class MoveGateValidationMode(StrEnum):
-    """MOVE gate validation mode for circuit compilation."""
-
-    STRICT = "strict"
-    """Perform standard MOVE gate validation: MOVE(qubit, resonator) gates must only
-    appear in sandwiches (pairs). Inside a sandwich there must be no gates acting on the
-    MOVE qubit, and no other MOVE gates acting on the resonator."""
-    ALLOW_PRX = "allow_prx"
-    """Allow PRX gates on the MOVE qubit inside MOVE sandwiches during validation."""
-    NONE = "none"
-    """Do not perform any MOVE gate validation."""
-
-
-class MoveGateFrameTrackingMode(StrEnum):
-    """MOVE gate frame tracking mode for circuit compilation."""
-
-    FULL = "full"
-    """Perform complete MOVE gate frame tracking, applying both the explicit z rotations
-    on the resonator and the dynamic phase correction due to qubit-resonator detuning to
-    the qubit at the end of a MOVE sandwich."""
-    NO_DETUNING_CORRECTION = "no_detuning_correction"
-    """Do not apply the detuning correction at the end of a MOVE sandwich."""
-    NONE = "none"
-    """Do not perform any MOVE gate frame tracking."""
 
 
 @dataclass(frozen=True)

@@ -25,20 +25,29 @@ import warnings
 import cirq
 from iqm.cirq_iqm.devices.iqm_device import IQMDevice, IQMDeviceMetadata
 from iqm.cirq_iqm.serialize import serialize_circuit
-from iqm.iqm_client import CircuitBatch, CircuitCompilationOptions, IQMClient, JobAbortionError, RunRequest
+from iqm.iqm_client import APITimeoutError, CircuitCompilationOptions, CircuitExecutionError, IQMClient
+from iqm.iqm_server_client.models import JobStatus
 import numpy as np
+
+from exa.common.errors.station_control_errors import StationControlError
+from iqm.station_control.interface.models import CircuitBatch, RunRequest
 
 
 class IQMSampler(cirq.work.Sampler):
     """Circuit sampler for executing quantum circuits on IQM quantum computers.
 
-    IQMSampler connects to a quantum computer through an IQM server.
+    IQMSampler connects to a quantum computer through an IQM Server.
     If the server requires user authentication, you can provide it either using environment
     variables, or as keyword arguments to IQMSampler. The user authentication kwargs are passed
     through to :class:`~iqm.iqm_client.iqm_client.IQMClient` as is, and are documented there.
 
     Args:
-        url: URL of the IQM server. Has to start with http or https.
+        url: URL of the IQM Server (e.g. "https://resonance.meetiqm.com/").
+        quantum_computer: ID or alias of the quantum computer to connect to, if the IQM Server
+            instance controls more than one (e.g. "garnet"). ``None`` means connect to the
+            default one.
+        use_timeslot: Submits the job to the timeslot queue if set to ``True``. If set to ``False``,
+                the job is submitted to the normal on-demand queue.
         device: Device to execute the circuits on. If ``None``, the device will be created based
             on the calibration-specific dynamic quantum architecture obtained from
             :class:`~iqm.iqm_client.iqm_client.IQMClient`.
@@ -54,17 +63,20 @@ class IQMSampler(cirq.work.Sampler):
         self,
         url: str,
         *,
+        quantum_computer: str | None = None,
         device: IQMDevice | None = None,
         calibration_set_id: UUID | None = None,
-        run_sweep_timeout: int | None = None,
+        run_sweep_timeout: float | None = None,
         compiler_options: CircuitCompilationOptions | None = None,
+        use_timeslot: bool = False,
         **user_auth_args,  # contains keyword args token or tokens_file
     ):
-        self._client = IQMClient(url, **user_auth_args)
+        self._client = IQMClient(url, quantum_computer=quantum_computer, **user_auth_args)
         dqa = self._client.get_dynamic_quantum_architecture(calibration_set_id)
         server_device_metadata = IQMDeviceMetadata.from_architecture(dqa)
         self._use_default_calibration_set = calibration_set_id is None
         self._calibration_set_id = dqa.calibration_set_id
+        self._use_timeslot = use_timeslot
         if device is None:
             self._device = IQMDevice(server_device_metadata)
         else:
@@ -84,13 +96,6 @@ class IQMSampler(cirq.work.Sampler):
     def device(self) -> IQMDevice:
         """Returns the device used by the sampler."""
         return self._device
-
-    def close_client(self):  # noqa: ANN201
-        """Close IQMClient's session with the user authentication server. Discard the client."""
-        if not self._client:
-            return
-        self._client.close_auth_session()
-        self._client = None
 
     def run_sweep(  # type: ignore[override]
         self, program: cirq.Circuit, params: cirq.Sweepable, repetitions: int = 1
@@ -122,7 +127,6 @@ class IQMSampler(cirq.work.Sampler):
             ValueError: circuits are not valid for execution
             CircuitExecutionError: something went wrong on the server
             APITimeoutError: server did not return the results in the allocated time
-            RuntimeError: IQM client session has been closed
 
         """
         results, metadata = self._send_circuits(
@@ -152,9 +156,6 @@ class IQMSampler(cirq.work.Sampler):
             programs, _ = self._resolve_parameters(programs, params)
 
         serialized_circuits: CircuitBatch = [serialize_circuit(circuit) for circuit in programs]
-
-        if not self._client:
-            raise RuntimeError("Cannot submit circuits since session to IQM client has been closed.")
 
         different_calset_ids = set()
         for circuit in programs:
@@ -192,7 +193,7 @@ class IQMSampler(cirq.work.Sampler):
     ) -> tuple[list[dict[str, np.ndarray]], ResultMetadata]:
         """Sends a batch of circuits to be executed and retrieves the results.
 
-        If a user interrupts the program while it is waiting for results, attempts to abort the submitted job.
+        If a user interrupts the program while it is waiting for results, attempts to cancel the submitted job.
 
         Args:
             circuits: quantum circuits to execute
@@ -201,29 +202,46 @@ class IQMSampler(cirq.work.Sampler):
         Returns:
             circuit execution results, result metadata
 
+        Raises:
+            CircuitExecutionError: something went wrong on the server
+            APITimeoutError: server did not return the results in the allocated time
+
         """
         run_request = self.create_run_request(circuits, repetitions=repetitions)
-        job_id = self._client.submit_run_request(run_request)
-
-        timeout_arg = [self._run_sweep_timeout] if self._run_sweep_timeout is not None else []
+        job = self._client.submit_run_request(run_request, use_timeslot=self._use_timeslot)
 
         try:
-            results = self._client.wait_for_results(job_id, *timeout_arg)
-
+            if self._run_sweep_timeout is not None:
+                status = job.wait_for_completion(timeout_secs=self._run_sweep_timeout)
+            else:
+                status = job.wait_for_completion()
         except KeyboardInterrupt:
+            # user pressed Ctrl-C before the job finished
             try:
-                self._client.abort_job(job_id)
-            except JobAbortionError as e:
-                warnings.warn(f"Failed to abort job: {e}")
+                job.cancel()
+            except StationControlError as e:
+                warnings.warn(f"Failed to cancel job: {e}")
             finally:
                 sys.exit()
 
-        if results.measurements is None:
-            raise RuntimeError("No measurements returned from IQM quantum computer.")
+        if status not in JobStatus.terminal_statuses():
+            # cancel jobs which did not complete in time
+            # FIXME this is bad UX, we should return a job object instead so the user can decide if they want to cancel
+            job.cancel()
+            raise APITimeoutError(f"Job {job.job_id} didn't finish in the given time. Cancelled.")
+
+        if status != JobStatus.COMPLETED:
+            raise CircuitExecutionError(f"Job {job.job_id} did not finish successfully: {status}: {job._errors}")
+
+        result = job.result()
+        if result is None:
+            raise RuntimeError("No measurements received from IQM Server.")
 
         return (
-            [{k: np.array(v) for k, v in measurements.items()} for measurements in results.measurements],
-            ResultMetadata(job_id, results.metadata.calibration_set_id, run_request),
+            [{k: np.array(v) for k, v in measurements.items()} for measurements in result],
+            ResultMetadata(
+                job.job_id, job.data.compilation.calibration_set_id if job.data.compilation else None, run_request
+            ),
         )
 
     @staticmethod

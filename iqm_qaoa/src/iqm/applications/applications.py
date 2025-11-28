@@ -44,9 +44,6 @@ Example:
 from abc import ABC, abstractmethod
 from itertools import product
 
-from dimod.typing import Variable
-from dimod.variables import Variables
-
 
 class ProblemInstance(ABC):
     """The abstract base class for defining problem instances.
@@ -68,13 +65,13 @@ class ProblemInstance(ABC):
         self._average_quality: float | None = None  # The average cost function value over all bitstrings.
         self._best_quality: float | None = None  # The best cost function value, typically equal to the lower bound.
 
-        self._fixed_variables: dict[Variable, int] = {}
-        self._original_variables: Variables
+        self._fixed_variables: dict[int, int] = {}  # The keys label the variables, the values either 0 or 1.
 
     @property
     @abstractmethod
     def dim(self) -> int:
         """The dimension of the problem (e.g., the number of nodes in a problem graph)."""
+        raise NotImplementedError
 
     @abstractmethod
     def quality(self, bit_str: str) -> float:
@@ -84,8 +81,9 @@ class ProblemInstance(ABC):
             bit_str: The bitstring representing a solution candidate.
 
         """
+        raise NotImplementedError
 
-    def fix_variables(self, variables: list[Variable] | dict[Variable, int]) -> None:
+    def fix_variables(self, variables: list[int] | dict[int, int]) -> None:
         """Fixes (assigns) some of the problem variables.
 
         Args:
@@ -261,11 +259,37 @@ class ProblemInstance(ABC):
         """
         return (self.average_quality_counts(counts) - self.average_quality) / (self.best_quality - self.average_quality)
 
+    def restore_fixed_variables_bitstring(self, bitstring: str) -> str:
+        """Amend a measurement bitstring by inserting bits corresponding to variables with fixed values.
+
+        When variables are fixed, the number of variables of the (remaining) problem is reduced. When the problem is
+        solved (e.g., by a quantum computer), the solution doesn't include the fixed variables. This method takes
+        a single solution bitstring and modifies it by inserting the fixed variables where they belong.
+
+        .. warning::
+           The bitstring needs to be ordered the same way as the variables of the problem. If you're using the output
+           from a Qiskit experiment, you need to reverse the order of the bitstring first.
+
+        Args:
+            bitstring: A representation of a solution as a string.
+
+        Returns:
+            ``bitstring`` amended by inserting the fixed variable bits to their places.
+
+        """
+        bit_str_list = list(bitstring)
+
+        # Insert removed characters at their respective positions
+        for variable, value in sorted(self._fixed_variables.items()):
+            bit_str_list.insert(variable, str(value))
+
+        return "".join(bit_str_list)
+
     def restore_fixed_variables(self, counts: dict[str, int]) -> dict[str, int]:
         """Postprocessing method for restoring fixed variables to the measurement bitstrings.
 
         When variables are fixed, the number of variables of the (remaining) problem is reduced. When the problem is
-        solved (e.g., by a quantum computer), the solutions doesn't include the fixed variables. This method takes
+        solved (e.g., by a quantum computer), the solution doesn't include the fixed variables. This method takes
         a dictionary of solutions (e.g., the counts from a quantum computer) and modifies the keys (bitstrings) by
         inserting the fixed variables where they belong.
 
@@ -285,14 +309,8 @@ class ProblemInstance(ABC):
         new_counts: dict[str, int] = {}
 
         for bit_str, count in counts.items():
-            bit_str_list = list(bit_str)
-
-            # Insert removed characters at their respective positions
-            for variable, value in sorted(self._fixed_variables.items()):
-                variable_index = self._original_variables.index(variable)
-                bit_str_list.insert(variable_index, str(value))
-
-            new_counts["".join(bit_str_list)] = count
+            new_bitstring = self.restore_fixed_variables_bitstring(bit_str)
+            new_counts[new_bitstring] = count
 
         return new_counts
 

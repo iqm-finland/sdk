@@ -77,7 +77,7 @@ from typing import TYPE_CHECKING
 from exa.common.data.parameter import CollectionType, DataType, Parameter, Setting
 from exa.common.data.setting_node import SettingNode
 from iqm.cpc.compiler.errors import CalibrationError
-from iqm.pulla.interface import CalibrationSet
+from iqm.pulla.interface import CalibrationSetValues
 
 if TYPE_CHECKING:
     from exa.common.data.value import ObservationValue
@@ -118,7 +118,7 @@ class Map:
 
 def find_observation(
     observation_path: str,
-    calibration_set: CalibrationSet,
+    calibration_set_values: CalibrationSetValues,
     *,
     required: bool = True,
 ) -> ObservationValue:
@@ -126,7 +126,7 @@ def find_observation(
 
     Args:
         observation_path: observation we want to find in ``calibration_set``
-        calibration_set: mapping of observation paths to observation values
+        calibration_set_values: mapping of observation paths to observation values
         required: iff ``True`` and the observation cannot be found, raise an error
 
     Returns:
@@ -137,7 +137,7 @@ def find_observation(
             found in ``calibration_set``
 
     """
-    obs_value = calibration_set.get(observation_path)
+    obs_value = calibration_set_values.get(observation_path)
     if obs_value is None and required:
         raise CalibrationError(f"Missing calibration observation: {observation_path}")
     return obs_value  # type: ignore[return-value]
@@ -176,6 +176,17 @@ _per_qubit = (
         "controllers.{}.drive.awg.center_frequency",
         required=False,
     ),  # ZI SHFSG
+    Map(
+        Parameter("", "Local oscillator power for drive mixer", "dBm"),
+        "controllers.{}.drive.local_oscillator.power",
+        required=False,
+    ),  # ZI HDAWG
+    # NOTE: For SHFSG, the unit of the output_range setting is in fact "dBm"
+    Map(
+        Parameter("", "Drive AWG output range", "V"),
+        "controllers.{}.drive.awg.output_range",
+        required=False,
+    ),  # HDAWG, SHFSG
     Map(Parameter("", "Trigger delay for drive AWG", "s"), "controllers.{}.drive.awg.trigger_delay", required=False),
 )
 
@@ -191,6 +202,11 @@ _per_flux_pulsed_qubit = {
         "controllers.{}.flux.awg.precompensation.amplitudes",
         required=False,
     ),
+    Map(
+        Parameter("", "Flux AWG output range", "V"),
+        "controllers.{}.flux.awg.output_range",
+        required=False,
+    ),  # HDAWG, Oceanus
     Map(Parameter("", "Trigger delay for flux AWG", "s"), "controllers.{}.flux.awg.trigger_delay", required=False),
 }
 
@@ -207,6 +223,11 @@ _per_coupler = (
         "controllers.{}.flux.awg.precompensation.amplitudes",
         required=False,
     ),
+    Map(
+        Parameter("", "Flux AWG output range", "V"),
+        "controllers.{}.flux.awg.output_range",
+        required=False,
+    ),  # HDAWG, Oceanus
     Map(Parameter("", "Trigger delay for flux AWG", "s"), "controllers.{}.flux.awg.trigger_delay", required=False),
 )
 
@@ -218,12 +239,42 @@ _per_probe_line = (
     Map(Parameter("", "TWPA bias voltage_2", "V"), "controllers.{}.twpa.voltage_2", required=False),
     Map(Parameter("", "Frequency of the LO driving the TWPA", "Hz"), "controllers.{}.twpa.frequency", required=False),
     Map(Parameter("", "Power of the LO driving the TWPA", "dBm"), "controllers.{}.twpa.power", required=False),
+    Map(
+        Parameter("", "Local oscillator frequency for the readout", "Hz"),
+        "controllers.{}.readout.local_oscillator.frequency",
+        required=False,
+    ),  # UHFQA
+    Map(
+        Parameter("", "Local oscillator power for the readout", "dBm"),
+        "controllers.{}.readout.local_oscillator.power",
+        required=False,
+    ),  # UHFQA
     # Center frequency must be within the AWG IF bandwidth from every <qubit>.readout.frequency
     Map(
         Parameter("", "Probe line center frequency", "Hz"),
         "controllers.{}.readout.center_frequency",
         required=True,
     ),
+    Map(
+        Parameter("", "Readout output range", "dBm"),
+        "controllers.{}.readout.output_range",
+        required=False,
+    ),  # UHFQA, SHFQA
+    Map(
+        Parameter("", "Readout input range", "dBm"),
+        "controllers.{}.readout.input_range",
+        required=False,
+    ),  # UHFQA, SHFQA
+    Map(
+        Parameter("", "Readout attenuation out", "dB"),
+        "controllers.{}.readout.attenuation_out",
+        required=False,
+    ),  # Athene
+    Map(
+        Parameter("", "Readout attenuation in", "dB"),
+        "controllers.{}.readout.attenuation_in",
+        required=False,
+    ),  # Athene
     Map(
         Parameter("", "Trigger delay for readout instrument", "s"),
         "controllers.{}.readout.trigger_delay",
@@ -320,7 +371,7 @@ def build_station_settings(
     circuit_couplers: Iterable[str],
     measured_probe_lines: Iterable[str],
     shots: int,
-    calibration_set: CalibrationSet,
+    calibration_set_values: CalibrationSetValues,
     boundary_qubits: Iterable[str],
     boundary_couplers: Iterable[str],
     flux_pulsed_qubits: Collection[str],
@@ -333,7 +384,7 @@ def build_station_settings(
         circuit_couplers: coupler names used in the circuit
         measured_probe_lines: probe line names used in the measurements
         shots: number of times to repeat each circuit's execution
-        calibration_set: calibration set as a mapping from observation paths to observation values
+        calibration_set_values: calibration set as a mapping from observation paths to observation values
         boundary_qubits: physical qubits connected to the boundary_couplers but not in circuit_qubits
         boundary_couplers: coupler names of couplers connected to the circuit boundary but not in circuit_couplers
         flux_pulsed_qubits: names of qubits that have flux pulse capability
@@ -355,7 +406,9 @@ def build_station_settings(
 
         """
         for obs_map in observation_maps:
-            value = find_observation(obs_map.observation_path(component), calibration_set, required=obs_map.required)
+            value = find_observation(
+                obs_map.observation_path(component), calibration_set_values, required=obs_map.required
+            )
             if value is not None:
                 _create_and_add_setting(obs_map.settings_path(component), obs_map.parameter, value, root)
 

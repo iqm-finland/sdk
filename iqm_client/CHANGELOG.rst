@@ -1,6 +1,59 @@
-=========
-Changelog
-=========
+Version 33.0.0 (2025-11-19)
+===========================
+
+Breaking changes
+----------------
+
+- :class:`.IQMClient` now connects to IQM Server instead of directly to Station Control service.
+  - The ``url`` init parameter for :class:`.IQMClient` is replaced by ``iqm_server_url``.
+    In addition the class can take the ``quantum_computer`` parameter to connect to a specific
+    quantum computer on a server with several. If your IQM Server instance only has one quantum computer,
+    you can leave this parameter to its default value.
+  - The ``timeout_secs`` parameter is removed for all :class:`.IQMClient` methods, value from the
+    :envvar:`IQM_CLIENT_REQUESTS_TIMEOUT` environment variable is used instead (default 120 seconds).
+  - :meth:`IQMClient.get_quality_metric_set` and :meth:`IQMClient.get_calibration_set` now return
+    slightly different data models with more complete observation data.
+  - Circuit and job related models have been moved to :mod:`iqm.station_control.interface.models`
+    from IQM client models, to avoid code duplication and use the same models in all SW
+    components. Imports have to be updated.
+  - :meth:`IQMClient.submit_circuits` no longer has the parameter ``custom_settings``. Use Pulla if
+    you need this functionalty.
+  - :meth:`IQMClient.submit_circuits` and :meth:`IQMClient.submit_run_request` now return a
+    :class:`.CircuitJob` object instead of the plain job ID.  The job object contains the job ID,
+    and provides methods for monitoring the job's state and retrieving its results.
+  - :meth:`IQMClient.get_run` is replaced by :meth:`IQMClient.get_job`, which returns a
+    :class:`.CircuitJob` object. The job results can be queried using :class:`CircuitJob.result`.
+  - :meth:`IQMClient.get_run_status` is removed, you can check the job object for its status using
+    :class:`CircuitJob.update`.
+  - :meth:`IQMClient.wait_for_compilation` and :meth:`IQMClient.wait_for_results` are removed,
+    use :class:`CircuitJob.wait_for_completion` instead.
+  - :meth:`IQMClient.get_run_counts` is replaced by :meth:`IQMClient.get_job_measurement_counts`.
+  - :meth:`IQMClient.abort_job` is replaced by :meth:`IQMClient.cancel_job`.
+- The :mod:`iqm.iqm_server_client.authentication` module including :class:`TokenManager` has been moved to
+  :mod:`iqm.station_control.client.authentication`, and its API has slightly changed.
+
+Features
+--------
+
+- ``iqm-client`` integration guide updated.
+- :meth:`IQMClient.submit_circuits` and :meth:`IQMClient.submit_run_request` have a new parameter,
+  ``use_timeslot``, which indicates if the job should be submitted to a timeslot queue or the
+  shared on-demand queue.
+- Minimal changes to support Qiskit v2.0 and v2.1 :issue:`SW-1735`.
+- Deprecation warning for Qiskit versions < 2.0.
+- Bugfix in the transpile example to select qubits from the largest connected subgraph of the backend so that the code works when running against a disconnected graph.
+- Identified potential bug with semantic equivalence of transpiled circuits when using the IQMNaiveMovePass. Tests are temporarily marked as expected to fail. :issue:`SW-1999`.
+
+Version 32.1.0 (2025-10-13)
+===========================
+
+Features
+--------
+
+- Add support for the ``with circuit.if_test()`` construction for classical control in Qiskit :issue:`SW-1724`.
+- Deprecate the ``c_if`` method in favor of the new ``if_test`` method for classical control in Qiskit :issue:`SW-1724`.
+- Bugfix: Fixed the transpiler bug causing classical conditionals to be ignored in certain cases :issue:`SW-1856`.
+- Using one of our transpiler plugins that do not apply MoveGate routing, no longer raises an error when the target backend is not set in the transpiler. e.g. ``transpile(circuit, scheduling_method="only_rz_optimization", basis_gates=['r','cz', 'if_else'])``.
 
 Version 32.0.0 (2025-10-09)
 ===========================
@@ -462,7 +515,7 @@ Version 23.1.0 (2025-04-07)
 Features
 --------
 
-- Fix package version in published docs footers, :issue:`SW-1392`. 
+- Fix package version in published docs footers, :issue:`SW-1392`.
 
 Version 23.0.0 (2025-04-04)
 ===========================

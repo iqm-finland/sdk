@@ -1,6 +1,63 @@
-=========
-Changelog
-=========
+Version 12.0.0 (2025-11-21)
+===========================
+
+Breaking changes
+----------------
+
+- Update ``Pulla`` to use IQMServer in REST communication instead of Station Control service.
+- Many models have been removed from Pulla and similar/same models are used from station control interface models.
+  For example, ``TaskStatus``, ``DDMode``, ``DDStrategy``, ``HeraldingMode``, ``MoveGateFrameTrackingMode``,
+  and ``MoveGateValidationMode``
+- ``CalibrationSet`` model is renamed to ``CalibrationSetValues``.
+- ``calibration_set`` parameter is removed in many classes/methods/functions, use ``calibration_set_values`` instead.
+  For example, for ``find_observation``, ``get_standard_compiler``, ``Compiler``, etc.
+- ``get_calibration`` method in ``Compiler`` is removed, use ``get_calibration_set_values`` instead.
+- ``set_calibration`` method in ``Compiler`` is removed, use ``set_calibration_set_values`` instead.
+- ``get_calibration`` method in ``CalibrationDataProvider`` is removed, use ``get_calibration_set_values`` instead.
+- ``station_control_url`` init parameter for ``Pulla`` is removed, use ``iqm_server_url`` instead.
+- ``get_token_callback`` init parameter for ``Pulla`` is removed, use ``token`` instead.
+- ``fetch_latest_calibration_set`` method in ``Pulla`` is removed, use ``fetch_default_calibration_set`` instead.
+- ``fetch_calibration_set_by_id`` method in ``Pulla`` is removed, use ``fetch_calibration_set_values_by_id`` instead.
+- ``execute`` method in ``Pulla`` is removed, use ``submit_playlist`` instead.
+- ``station_control`` init parameter for ``CalibrationDataProvider`` is removed, use ``iqm_server_client`` instead.
+- ``get_latest_calibration_set`` method in ``CalibrationDataProvider`` is removed,
+  use ``get_default_calibration_set`` instead.
+- ``station_control_result_to_qiskit`` function in ``utils_qiskit`` is removed, use ``sweep_job_to_qiskit`` instead.
+
+Features
+--------
+
+- Minimal changes to support Qiskit v2.0 and v2.1 :issue:`SW-1735`.
+- Updated QIR User Guide example to include a note about ``iqm-qiskit-qir`` not supporting Qiskit v2.x.
+- Removed ``iqm-qiskit-qir`` from the QIR requirements as the package does not support Qiskit 2.X
+- Allow Python 3.12 in project configuration.
+- Verify unit testswith Python 3.12
+
+Bug fixes
+---------
+
+- CPC calibration set whitelist is updated to include various missing controller settings
+  that already were in the calibration set.
+- CPC's `CircuitExecutionOptions` are now validated such that active reset cannot be used with the option
+  `CircuitExecutionOptions.convert_terminal_measurements = True` as `measure_fidelity` is not optimized for leakage.
+  In that case we set `CircuitExecutionOptions.convert_terminal_measurements = False` and throw a warning in the
+  compilation
+
+Version 11.16.0 (2025-10-22)
+============================
+
+Bug fixes
+---------
+
+- Complex return data is processed correctly
+
+Version 11.15.0 (2025-10-15)
+============================
+
+Bug fixes
+---------
+
+- Correctly skips the addition of DD pulses if leading and trailing waits are flagged as True
 
 Version 11.14.0 (2025-10-10)
 ============================
@@ -443,7 +500,7 @@ Version 7.1.0 (2025-04-07)
 Features
 --------
 
-- Fix package version in published docs footers, :issue:`SW-1392`. 
+- Fix package version in published docs footers, :issue:`SW-1392`.
 
 Version 7.0.0 (2025-04-04)
 ==========================

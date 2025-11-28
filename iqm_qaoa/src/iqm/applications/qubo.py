@@ -44,7 +44,9 @@ Example:
 
 """
 
+from collections.abc import Mapping
 from itertools import product
+from typing import TypeVar, cast
 
 from dimod import BinaryQuadraticModel, ConstrainedQuadraticModel, to_networkx_graph
 from dimod.sym import Sense
@@ -52,7 +54,7 @@ from dimod.typing import Variable
 from dimod.utilities import new_variable_label
 from dimod.vartypes import VartypeLike
 from iqm.applications.applications import ProblemInstance
-from iqm.applications.graph_utils import EDGE_ATTR_PRIORITY, NODE_ATTR_PRIORITY, _get_attr_with_priority
+from iqm.applications.graph_utils import EDGE_ATTR_PRIORITY, NODE_ATTR_PRIORITY, _get_attr_with_priority, draw_problem
 import networkx as nx
 import numpy as np
 
@@ -76,16 +78,28 @@ class QUBOInstance(ProblemInstance):
             a :class:`~dimod.BinaryQuadraticModel` describing the QUBO problem.
         vartype: An optional variable type for interpreting the input :class:`~numpy.ndarray` or
             :class:`~networkx.Graph` as :class:`~dimod.BinaryQuadraticModel`. The default value is 'BINARY'.
+        allow_custom_var_names: Specifies whether the variable names should be renamed or if their original names should
+            be kept. Internally, variables are labelled by consecutive integers starting from 0, so if the variables in
+            the input ``qubo_object`` have different names, this should be set to ``True``.
 
     """
 
     def __init__(
-        self, qubo_object: np.ndarray | nx.Graph | BinaryQuadraticModel, vartype: VartypeLike = "BINARY"
+        self,
+        qubo_object: np.ndarray | nx.Graph | BinaryQuadraticModel,
+        vartype: VartypeLike = "BINARY",
+        allow_custom_var_names: bool = False,
     ) -> None:
-        if isinstance(qubo_object, np.ndarray) and qubo_object.ndim == 2:  # noqa: PLR2004
+        if (
+            isinstance(qubo_object, np.ndarray)
+            and qubo_object.ndim == 2  # noqa: PLR2004
+            and qubo_object.shape[0] == qubo_object.shape[1]
+        ):
             self._bqm = BinaryQuadraticModel(qubo_object, vartype=vartype)
         elif isinstance(qubo_object, nx.Graph):
-            self._bqm = BinaryQuadraticModel(qubo_object.number_of_nodes(), vartype=vartype)
+            # The internal ``self._graph`` just saves the input graph, including its original node names.
+            self._graph = qubo_object
+            self._bqm = BinaryQuadraticModel(vartype=vartype)
             for node in qubo_object.nodes:
                 value = _get_attr_with_priority(qubo_object.nodes[node], NODE_ATTR_PRIORITY)
 
@@ -116,15 +130,27 @@ class QUBOInstance(ProblemInstance):
                     )
 
                 self._bqm.add_quadratic(u, v, value)
+
         elif isinstance(qubo_object, BinaryQuadraticModel):
             self._bqm = qubo_object
         else:
             raise ValueError(
                 "The input is not a valid QUBO object. Valid objects are: 2D numpy array, networkx graph or dimod BQM."
             )
-        self._bqm = self._bqm.binary  # For consistency, we save the BQM in its binary form.
+        if allow_custom_var_names:
+            self._bqm, self.orig_to_new_labels, self.new_to_orig_labels = relabel_bqm_cqm_variables(self._bqm)
+        elif set(self._bqm.variables) != set(range(self._bqm.num_variables)):
+            raise ValueError(
+                "The variables of the problem need to be labelled by integers starting from 0. "
+                "Set `allow_custom_var_names` to `True` to allow custom variable labels."
+            )
+        else:
+            self.orig_to_new_labels = {i: i for i in range(self._bqm.num_variables)}
+            self.new_to_orig_labels = {i: i for i in range(self._bqm.num_variables)}
+
         super().__init__()
-        self._original_variables = self._bqm.variables.copy()
+        self._bqm = self._bqm.binary  # For consistency, we transform the BQM to its binary form.
+        self._original_bqm = self._bqm.copy()  # If the original BQM without fixed variables if ever needed.
 
     @property
     def dim(self) -> int:
@@ -170,7 +196,7 @@ class QUBOInstance(ProblemInstance):
         """
         return self._bqm
 
-    def fix_variables(self, variables: list[Variable] | dict[Variable, int]) -> None:
+    def fix_variables(self, variables: list[int] | dict[int, int]) -> None:
         """Fixes (assigns) some of the problem variables.
 
         Warning: For problems that come from a graph (such as maxcut), this doesn't change the original graph,
@@ -193,7 +219,7 @@ class QUBOInstance(ProblemInstance):
                     f"but now it's attempted to be fixed to {variables[var]}."
                 )
         self._fixed_variables.update(variables)
-        self._bqm.fix_variables(variables)
+        self._bqm.fix_variables(cast(Mapping[Variable, int], variables))
 
     def quality(self, bit_str: str) -> float:
         """Accepts a bitstring (representing a solution) and returns that solution's quality / energy.
@@ -209,6 +235,44 @@ class QUBOInstance(ProblemInstance):
         energy = self._bqm.energy(sol_vector)
         return float(energy)
 
+    def draw_problem(
+        self,
+        solution_bitstring: str | None = None,
+        seed: int | None = None,
+        highlight_edge_by_node_count: frozenset[int] = frozenset({2}),
+    ) -> None:
+        """The method to draw a graph corresponding to an instance of a QUBO problem, with the solution highlighted.
+
+        Args:
+            solution_bitstring: A bitstring representing a solution to the problem. Selected nodes are represented as
+                1's, the other nodes are represented as 0's. This skips nodes that have been fixed. The full bitstring
+                including the fixed nodes is restored internally by calling
+                :meth:`~iqm.applications.applications.ProblemInstance.restore_fixed_variables_bitstring`.
+            seed: The seed to derandomize the layout of the graph.
+            highlight_edge_by_node_count: Contains the numbers of highlighted nodes that an edge has to be connected to,
+                in order to be highlighted itself. In other words, if ``highlight_edge_by_node_count`` is
+                ``frozenset({1})``, then edges connected to 1 highlighted node will be themselves highlighted. Edges
+                connecting 2 highlighted nodes (or 2 non-highlighted nodes) will not be highlighted.
+
+        """
+        if hasattr(self, "_graph"):
+            graph_to_plot = self._graph
+        else:
+            graph_to_plot = nx.relabel_nodes(self.qubo_graph, self.new_to_orig_labels)
+
+        if solution_bitstring is not None:
+            full_bitstring = self.restore_fixed_variables_bitstring(solution_bitstring)
+        else:
+            full_bitstring = None
+        draw_problem(
+            graph_to_plot=graph_to_plot,
+            orig_to_new_mapping=self.orig_to_new_labels,
+            fixed_vars=frozenset(self._fixed_variables.keys()),
+            bitstring=full_bitstring,
+            seed=seed,
+            highlight_edge_by_node_count=highlight_edge_by_node_count,
+        )
+
 
 class ConstrainedQuadraticInstance(ProblemInstance):
     """A class for constrainted quadratic binary problems.
@@ -222,15 +286,30 @@ class ConstrainedQuadraticInstance(ProblemInstance):
         cqm: The problem encoded as a :class:`~dimod.ConstrainedQuadraticModel`, passed over from a subclass.
         penalty: The numerical penalty incurred by violating each constraint of the problem, to be used when
             the problem is transformed into a BQM.
+        allow_custom_var_names: Specifies whether the variable names should be renamed or if their original names should
+            be kept. Internally, variables are labelled by consecutive integers starting from 0, so if the variables in
+            the input ``cqm`` have different names, this should be set to ``True``.
 
     """
 
-    def __init__(self, cqm: ConstrainedQuadraticModel, penalty: float = 1.0) -> None:
+    def __init__(
+        self, cqm: ConstrainedQuadraticModel, penalty: float = 1.0, allow_custom_var_names: bool = False
+    ) -> None:
         super().__init__()
-        self._cqm = cqm
+        if allow_custom_var_names:
+            self._cqm, self.orig_to_new_labels, self.new_to_orig_labels = relabel_bqm_cqm_variables(cqm)
+        elif set(cqm.variables) != set(range(cqm.num_variables())):
+            raise ValueError(
+                "The variables of the problem need to be labelled by integers starting from 0. "
+                "Set `allow_custom_var_names` to `True` to allow custom variable labels."
+            )
+        else:
+            self.orig_to_new_labels = {i: i for i in range(cqm.num_variables())}
+            self.new_to_orig_labels = {i: i for i in range(cqm.num_variables())}
+            self._cqm = cqm
+
         self._penalty = penalty
         self._bqm = BinaryQuadraticModel(vartype="BINARY")
-        self._original_variables = self._cqm.variables.copy()
 
     @property
     def cqm(self) -> ConstrainedQuadraticModel:
@@ -300,7 +379,7 @@ class ConstrainedQuadraticInstance(ProblemInstance):
 
         return bqm_to_return
 
-    def fix_variables(self, variables: list[Variable] | dict[Variable, int]) -> None:
+    def fix_variables(self, variables: list[int] | dict[int, int]) -> None:
         """Fixes (assigns) some of the problem variables.
 
         This method is not implemented in :class:`ConstrainedQuadraticInstance` because in the general case, fixing one
@@ -509,3 +588,31 @@ class ConstrainedQuadraticInstance(ProblemInstance):
         counts_to_keep = {str: counts[str] for str in counts.keys() if self.constraints_checker(str)}
 
         return counts_to_keep
+
+
+T = TypeVar("T", BinaryQuadraticModel, ConstrainedQuadraticModel)
+
+
+def relabel_bqm_cqm_variables(
+    bqm_or_cqm: T,
+) -> tuple[T, dict[Variable, int], dict[int, Variable]]:
+    """Map original variable names of the input quadratic model to consecutive integers starting from 0.
+
+    Creates two dictionaries that keep track of the mapping between the original variable names and the new variable
+    names.
+
+    Args:
+        bqm_or_cqm: The BQM/CQM whose variable names should be changed.
+
+    Returns:
+        A tuple containing the input BQM/CQM with renamed variables and two dictionaries containing the mapping from
+        the old variable names to the new ones and vice versa.
+
+    """
+    orig_to_new_names = {orig: new for new, orig in enumerate(bqm_or_cqm.variables)}
+    new_to_orig_names = dict(enumerate(bqm_or_cqm.variables))
+    if set(bqm_or_cqm.variables) != set(range(bqm_or_cqm.num_variables)):
+        re_named_bqm_or_cqm = bqm_or_cqm.relabel_variables(orig_to_new_names, inplace=False)
+    else:
+        re_named_bqm_or_cqm = bqm_or_cqm
+    return re_named_bqm_or_cqm, orig_to_new_names, new_to_orig_names

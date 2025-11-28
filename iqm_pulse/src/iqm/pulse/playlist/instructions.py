@@ -15,9 +15,11 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 import dataclasses
 from dataclasses import dataclass, field
 import random
+import re
 
 from iqm.pulse.playlist.waveforms import Waveform
 
@@ -271,3 +273,122 @@ class ReadoutTrigger(Instruction):
             ),
             acquisitions=self.acquisitions + other.acquisitions,
         )
+
+
+@dataclass
+class ReadoutMetrics:
+    """Aggregates the necessary readout metrics needed for return data processing."""
+
+    num_segments: int
+    """Number of segments in the Playlist this ReadoutMetrics object represents."""
+    integration_occurrences: dict[str, list[int]] = field(default_factory=dict)
+    """Map each integration readout label (of the format ``"<component>__<readout key>"``) to its number of occurrences
+    in each Playlist segment."""
+    timetrace_occurrences: dict[str, list[int]] = field(default_factory=dict)
+    """Map each time trace label (of the format ``"<component>__<readout key>"``) to its number of occurrences in each
+    Playlist segment."""
+    timetrace_lengths: dict[str, int] = field(default_factory=dict)
+    """Map each time trace label (of the format ``"<component>__<readout key>"``) to its number of time trace samples.
+    """
+    implementations: dict[str, set[str]] = field(default_factory=dict)
+    """Map each integration or time trace readout label to its implementations (of the format 
+    ``"<measure gate name>.<implementation name>"``)."""
+
+    def extend(self, trigger: ReadoutTrigger, seg_idx: int) -> None:
+        """Extend the metrics with a ReadoutTrigger in a given Playlist Segment.
+
+        Args:
+            trigger: The readout trigger.
+            seg_idx: The index of the Playlist segment ``trigger`` belongs to.
+
+        """
+        for acq in trigger.acquisitions:
+            if isinstance(acq, TimeTrace):
+                occurrences = self.timetrace_occurrences
+                if acq.label in self.timetrace_lengths:
+                    if self.timetrace_lengths[acq.label] != acq.duration_samples:
+                        raise ValueError(f"Time trace length mismatch in label {acq.label}")
+                else:
+                    self.timetrace_lengths[acq.label] = acq.duration_samples
+            else:
+                occurrences = self.integration_occurrences
+            if acq.label not in occurrences:
+                occurrences[acq.label] = [0] * self.num_segments
+            occurrences[acq.label][seg_idx] += 1
+            if acq.implementation is not None:
+                if acq.label not in self.implementations:
+                    self.implementations[acq.label] = set()
+                self.implementations[acq.label].add(acq.implementation)
+
+    def filter_out(
+        self,
+        labels: list[str] | None = None,
+        components: list[str] | None = None,
+        keys: list[str] | None = None,
+    ) -> None:
+        """Filter out labels from the contents in self.
+
+        Args:
+            labels: The labels to filter out.
+            components: The components to filter out (all labels for these components will be removed).
+            keys: The keys to filter out (all components with these keys will be removed).
+
+        """
+        labels = labels if labels else []
+        components = components if components else []
+        keys = keys if keys else []
+        for field_name in ["integration_occurrences", "timetrace_occurrences", "timetrace_lengths", "implementations"]:
+            field = getattr(self, field_name)
+            field_copy = field.copy()
+            for label, contents in field.items():
+                component, key = re.split("__[_]*", label)
+                if component in components or key in keys or label in labels:
+                    del field_copy[label]
+            setattr(self, field_name, field_copy)
+
+    def get_labels(self, integration: bool = True, timetrace: bool = True) -> set[str]:
+        """Get all the labels in self
+
+        Args:
+            integration: Whether to get integration labels.
+            timetrace: Whether to get time-trace labels.
+
+        Returns:
+            The applicable labels in self.
+
+        """
+        return self._get(lambda label: label, integration=integration, timetrace=timetrace)
+
+    def get_components(self, integration: bool = True, timetrace: bool = True) -> set[str]:
+        """Get all components in the labels in self
+
+        Args:
+            integration: Whether to get components from the integration labels.
+            timetrace:  Whether to get components from the time-trace labels.
+
+        Returns:
+            The applicable components in self.
+
+        """
+        return self._get(lambda label: re.split("__[_]*", label)[0], integration=integration, timetrace=timetrace)
+
+    def get_keys(self, integration: bool = True, timetrace: bool = True) -> set[str]:
+        """Get all readout keys in the labels in self
+
+        Args:
+            integration: Whether to get readout keys from the integration labels.
+            timetrace:  Whether to get readout keys from the time-trace labels.
+
+        Returns:
+            The applicable readout keys in self.
+
+        """
+        return self._get(lambda label: re.split("__[_]*", label)[1], integration=integration, timetrace=timetrace)
+
+    def _get(self, func: Callable, integration: bool = True, timetrace: bool = True) -> set[str]:
+        contents = []
+        if integration:
+            contents += [func(label) for label in self.integration_occurrences]
+        if timetrace:
+            contents += [func(label) for label in self.timetrace_occurrences]
+        return set(contents)

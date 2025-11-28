@@ -21,10 +21,9 @@ import numpy as np
 # Allow using string UUIDs in API calls directly for convenience.
 # StrUUID works if UUIDs will be serialized to strings by the client anyway,
 # and then deserialized back to UUID on the server side.
-StrUUID = str | UUID
+StrUUID: TypeAlias = str | UUID
 
 DutType: TypeAlias = Literal["chip", "twpa"]
 GetObservationsMode: TypeAlias = Literal["all_latest", "tags_and", "tags_or", "sequence"]
 SoftwareVersionSet: TypeAlias = dict[str, str]
-Statuses: TypeAlias = list[tuple[str, int, int]]
 SweepResults: TypeAlias = dict[str, list[np.ndarray]]

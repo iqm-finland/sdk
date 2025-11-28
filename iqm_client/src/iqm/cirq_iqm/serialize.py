@@ -90,7 +90,7 @@ def circuit_operation_to_operation(circuit_operation: CircuitOperation) -> Opera
 
 
 class OperationNotSupportedError(RuntimeError):
-    """Raised when a given operation is not supported by the IQM server."""
+    """Raised when a given operation is not supported by the IQM Server."""
 
 
 def operation_to_circuit_operation(operation: Operation) -> CircuitOperation:

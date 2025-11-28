@@ -25,7 +25,7 @@ from requests.adapters import BaseAdapter
 from six import BytesIO
 
 
-class FileAdapter(BaseAdapter):
+class FileAdapter(BaseAdapter):  # noqa: D101
     def __init__(self, set_content_length=True):  # noqa: ANN001
         super(FileAdapter, self).__init__()
         self._set_content_length = set_content_length

@@ -1,6 +1,17 @@
-=========
-Changelog
-=========
+Version 27.4.0 (2025-11-19)
+===========================
+
+Features
+--------
+
+- Add new error types ``PayloadTooLargeError`` and ``TooManyRequestsError`` used by IQMServer in REST API responses.
+- Add a shortcut ``Setting.sweep(values)`` to create a ``Sweep``.
+
+Bug fixes
+---------
+
+- When adding a DataArray with the name of an existing DataArray to a dataset using :func:``add_data_array``,
+  update the attributes of the DataArray itself.
 
 Version 27.3.0 (2025-10-06)
 ===========================
@@ -233,7 +244,7 @@ Version 26.10.0 (2025-04-07)
 Features
 --------
 
-- Fix package version in published docs footers, :issue:`SW-1392`. 
+- Fix package version in published docs footers, :issue:`SW-1392`.
 
 Version 26.9.0 (2025-04-03)
 ===========================

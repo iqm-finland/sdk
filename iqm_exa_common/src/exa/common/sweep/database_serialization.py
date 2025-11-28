@@ -20,8 +20,7 @@ serializing and deserializing sweep arguments before saving them to database.
 import json
 from typing import Any, cast
 
-from exa.common.control.sweep.sweep import Sweep
-from exa.common.data.parameter import Parameter
+from exa.common.data.parameter import Parameter, Sweep
 from exa.common.data.setting_node import SettingNode
 from exa.common.helpers import json_helper
 from exa.common.helpers.json_helper import decode_json, get_json_encoder

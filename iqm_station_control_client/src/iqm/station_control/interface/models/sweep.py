@@ -52,7 +52,13 @@ class SweepDefinition(SweepBase):
 
 @dataclass(kw_only=True)
 class SweepData(SweepBase):
-    """The content of the sweep stored in the database."""
+    """The content of the sweep stored in the database.
+
+    The raw data for each spot in the sweep is saved as NumPy arrays,
+    and the complete data for the whole sweep is saved as an ``xarray.Dataset``
+    which has ``SweepBase.sweeps`` as coordinates and
+    ``SweepBase.return_parameters`` data as ``xarray.DataArray`` s.
+    """
 
     created_timestamp: datetime
     """Time when the object was created in the database."""

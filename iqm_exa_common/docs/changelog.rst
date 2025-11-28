@@ -1,2 +1,8 @@
-.. _changes:
+.. _changelog:
+
+=========
+CHANGELOG
+=========
+
 .. include:: ../CHANGELOG.rst
+   :literal:

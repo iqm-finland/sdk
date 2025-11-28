@@ -38,7 +38,11 @@ from iqm.pulse.gates.cz import (
 )
 from iqm.pulse.gates.delay import Delay
 from iqm.pulse.gates.flux_multiplexer import FluxMultiplexer_SampleLinear
-from iqm.pulse.gates.measure import Measure_Constant, Shelved_Measure_Constant
+from iqm.pulse.gates.measure import (
+    Fast_Measure_Constant,
+    Measure_Constant,
+    Shelved_Measure_Constant,
+)
 from iqm.pulse.gates.move import MOVE_CRF_CRF, MOVE_SLEPIAN_CRF, MOVE_TGSS_CRF
 from iqm.pulse.gates.prx import (
     PRX_DRAGCosineRiseFall,
@@ -68,6 +72,7 @@ _implementation_library: dict[str, dict[str, type[GateImplementation]]] = {
     "delay": {"wait": Delay},
     "measure": {
         "constant": Measure_Constant,
+        "fast_constant": Fast_Measure_Constant,
     },
     "measure_fidelity": {
         "constant": Measure_Constant,

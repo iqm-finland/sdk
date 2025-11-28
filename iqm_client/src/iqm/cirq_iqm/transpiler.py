@@ -21,6 +21,8 @@ from cirq import Circuit
 from iqm.cirq_iqm.serialize import deserialize_circuit, serialize_circuit
 from iqm.iqm_client import ExistingMoveHandlingOptions, transpile_insert_moves
 
+from iqm.station_control.interface.models import QubitMapping
+
 if TYPE_CHECKING:
     from iqm.cirq_iqm.devices import IQMDevice
 
@@ -29,7 +31,7 @@ def transpile_insert_moves_into_circuit(
     cirq_circuit: Circuit,
     device: IQMDevice,
     existing_moves: ExistingMoveHandlingOptions = ExistingMoveHandlingOptions.KEEP,
-    qubit_mapping: dict[str, str] | None = None,
+    qubit_mapping: QubitMapping | None = None,
 ) -> Circuit:
     """Transpile the circuit to insert MOVE gates where needed.
 

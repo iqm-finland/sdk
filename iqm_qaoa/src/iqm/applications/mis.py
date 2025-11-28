@@ -42,9 +42,9 @@ Example:
 
 """
 
-from collections.abc import Iterator
+from collections.abc import Iterator, Mapping
 from itertools import combinations
-from typing import Literal
+from typing import Literal, cast
 
 from dimod import BinaryQuadraticModel, ConstrainedQuadraticModel
 from dimod.typing import Variable
@@ -52,6 +52,7 @@ from iqm.applications.graph_utils import (
     NODE_ATTR_PRIORITY,
     _generate_desired_graph,
     _get_attr_with_priority,
+    draw_problem,
     relabel_graph_nodes,
 )
 from iqm.applications.qubo import ConstrainedQuadraticInstance
@@ -79,7 +80,7 @@ class ISInstance(ConstrainedQuadraticInstance):
     """
 
     def __init__(self, graph: nx.Graph, penalty: float | int, objective: BinaryQuadraticModel) -> None:
-        self._graph, self.orig_to_new_labels, self.new_to_orig_labels = relabel_graph_nodes(graph)
+        self._graph = graph
         self._objective = objective
         cqm = ConstrainedQuadraticModel()
         cqm.set_objective(self._objective)
@@ -96,7 +97,7 @@ class ISInstance(ConstrainedQuadraticInstance):
         """
         return self._graph
 
-    def fix_variables(self, variables: list[Variable] | dict[Variable, int]) -> None:
+    def fix_variables(self, variables: list[int] | dict[int, int]) -> None:
         """A method to fix (assign) some of the problem variables.
 
         When a variable is fixed to 1, all of its neighboring variables are fixed to 0 (because of the constraints).
@@ -140,14 +141,14 @@ class ISInstance(ConstrainedQuadraticInstance):
         for constraint in set(self._cqm.constraint_labels):
             if set(self._cqm.constraints[constraint].lhs.variables) & set(variables.keys()):
                 self._cqm.remove_constraint(constraint)
-        self._cqm.fix_variables(variables)
+        self._cqm.fix_variables(cast(Mapping[Variable, int], variables))
 
     def _recalculate_bqm(self) -> BinaryQuadraticModel:
         """The function calculating the BQM is relatively simple for independent set problems."""
         bqm_to_return = self._objective.copy()
         for i, j in self._graph.edges():
             bqm_to_return.add_quadratic(i, j, self._penalty)
-        bqm_to_return.fix_variables(self._fixed_variables)
+        bqm_to_return.fix_variables(cast(Mapping[Variable, int], self._fixed_variables))
 
         return bqm_to_return
 
@@ -164,9 +165,38 @@ class ISInstance(ConstrainedQuadraticInstance):
             A :class:`~networkx.Graph` corresponding to the bitstring.
 
         """
-        selected_nodes = [i for i, c in enumerate(bit_str) if c == "1"]
+        selected_nodes = [self.new_to_orig_labels[i] for i, c in enumerate(bit_str) if c == "1"]
         induced_subgraph = self._graph.subgraph(selected_nodes).copy()
         return induced_subgraph
+
+    def draw_problem(
+        self,
+        solution_bitstring: str | None = None,
+        seed: int | None = None,
+    ) -> None:
+        """The method to draw an instance of independent set, with the solution highlighted.
+
+        Args:
+            solution_bitstring: A bitstring representing a solution to the problem. Selected nodes are represented as
+                1's, the other nodes are represented as 0's. This skips nodes that have been fixed. The full bitstring
+                including the fixed nodes is restored internally by calling
+                :meth:`~iqm.applications.applications.ProblemInstance.restore_fixed_variables_bitstring`.
+            seed: The seed to derandomize the layout of the graph.
+
+        """
+        if solution_bitstring is not None:
+            full_bitstring = self.restore_fixed_variables_bitstring(solution_bitstring)
+        else:
+            full_bitstring = None
+        draw_problem(
+            graph_to_plot=self._graph,
+            orig_to_new_mapping=self.orig_to_new_labels,
+            fixed_vars=frozenset(self._fixed_variables.keys()),
+            bitstring=full_bitstring,
+            seed=seed,
+            # ``frozenset({2})`` means that we highlight edges violating the independence constraint.
+            highlight_edge_by_node_count=frozenset({2}),
+        )
 
 
 class MISInstance(ISInstance):
@@ -187,7 +217,8 @@ class MISInstance(ISInstance):
     """
 
     def __init__(self, graph: nx.Graph, penalty: float | int = 1) -> None:
-        objective = BinaryQuadraticModel(-np.eye(graph.number_of_nodes(), dtype=int), vartype="BINARY")
+        objective = BinaryQuadraticModel(vartype="BINARY")
+        objective.add_linear_from(dict.fromkeys(graph.nodes(), -1))
         super().__init__(graph, penalty, objective)
         self._upper_bound = 0  # The worse case (not violating the constraints) is selecting no nodes.
 
@@ -262,7 +293,7 @@ class MaximumWeightISInstance(ISInstance):
         self._graph, self.orig_to_new_labels, self.new_to_orig_labels = relabel_graph_nodes(graph)
 
         # Define the objective function to minimize
-        obj_matrix = np.zeros((self._graph.number_of_nodes(), self._graph.number_of_nodes()))
+        objective = BinaryQuadraticModel(vartype="BINARY")
 
         for node, data in self._graph.nodes(data=True):
             value = _get_attr_with_priority(data, NODE_ATTR_PRIORITY)
@@ -279,14 +310,12 @@ class MaximumWeightISInstance(ISInstance):
                     f"value of type {type(value).__name__}, expected ``float`` or ``int``."
                 )
 
-            obj_matrix[node, node] = -value
-
-        objective = BinaryQuadraticModel(obj_matrix, vartype="BINARY")
+            objective.add_linear(node, -value)
 
         super().__init__(graph, penalty, objective)
 
-        # If the nodes have only positive weight (i.e., ``obj_matrix`` has only non-negative entries) ...
-        if (obj_matrix >= 0).all():
+        # If the nodes have only non-negative weight (i.e., ``objective`` has only non-positive entries) ...
+        if max(objective.linear) <= 0:
             self._upper_bound = 0  # ... the worst case is selecting no nodes.
 
 
