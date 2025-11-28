@@ -10,6 +10,4 @@ cd "$(dirname "$0")"
 mkdir -p public
 
 # Copy all sdk*.txt files from parent directory to public
-cp ../sdk*.txt public/ 2>/dev/null || echo "No SDK files found in parent directory"
-
-echo "SDK files copied successfully."
+cp ../sdk*.txt public/ 2>/dev/null && echo "SDK files copied successfully." || echo "No SDK files found in parent directory"
