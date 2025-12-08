@@ -34,22 +34,25 @@ jobs:
           # Create temp directory
           mkdir -p ./temp
 
-          if [ ! -f "sdk.txt" ]; then
-            echo "Error: sdk.txt file not found!"
+          # Find the SDK file that ends with 'default.txt'
+          SDK_FILE=$(ls sdk*_default.txt 2>/dev/null | head -n 1)
+          if [ -z "$SDK_FILE" ]; then
+            echo "Error: No SDK file ending with 'default.txt' found!"
             exit 1
           fi
+          echo "Using SDK file: $SDK_FILE"
 
           # Do not mirror IQM Benchmarks and Cirq IQM
-          sed -i '/^iqm-benchmarks/d; /^cirq-iqm/d; /^#/d' sdk.txt
+          sed -i '/^iqm-benchmarks/d; /^cirq-iqm/d; /^#/d' "$SDK_FILE"
 
           # Download all source distributions
-          if ! pip download --no-deps --no-binary=:all: -r sdk.txt -d ./temp; then
+          if ! pip download --no-deps --no-binary=:all: -r "$SDK_FILE" -d ./temp; then
             echo "Error: Failed to download some packages."
             exit 1
           fi
 
-          # Restore sdk.txt
-          git checkout sdk.txt
+          # Restore the SDK file
+          git checkout "$SDK_FILE"
 
           # Flag to track if any changes were made
           CHANGES=false
