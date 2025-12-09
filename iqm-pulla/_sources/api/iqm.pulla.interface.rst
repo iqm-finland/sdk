@@ -10,8 +10,7 @@ iqm.pulla.interface
    .. autosummary::
       :toctree:
    
-      CircuitMeasurementResults
-      CircuitMeasurementResultsBatch
+      CalibrationSetValues
       BUFFER_AFTER_MEASUREMENT_PROBE
    
    
@@ -21,15 +20,6 @@ iqm.pulla.interface
    
 
    
-   
-   .. rubric:: Classes
-
-   .. autosummary::
-      :toctree:
-      :template: autosummary-class-template.rst
-   
-      StationControlResult
-      TaskStatus
    
    
 
@@ -51,9 +41,4 @@ iqm.pulla.interface
 
 
 
-
-.. rubric:: Inheritance
-
-.. inheritance-diagram:: iqm.pulla.interface
-   :parts: 1
 

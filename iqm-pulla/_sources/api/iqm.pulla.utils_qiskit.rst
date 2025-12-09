@@ -16,7 +16,7 @@ iqm.pulla.utils\_qiskit
    
       qiskit_circuits_to_pulla
       qiskit_to_pulla
-      station_control_result_to_qiskit
+      sweep_job_to_qiskit
    
    
 

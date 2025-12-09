@@ -18,9 +18,8 @@ iqm.pulla.calibration.CalibrationDataProvider
 
    .. autosummary::
    
-      ~CalibrationDataProvider._get_latest_calibration_set
-      ~CalibrationDataProvider.get_calibration_set
+      ~CalibrationDataProvider._get_calibration_set_values
       ~CalibrationDataProvider.get_calibration_set_values
-      ~CalibrationDataProvider.get_latest_calibration_set
+      ~CalibrationDataProvider.get_default_calibration_set
    
    

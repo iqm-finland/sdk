@@ -30,13 +30,13 @@ iqm.cpc.compiler.compiler.Compiler
       ~Compiler.build_settings
       ~Compiler.compile
       ~Compiler.compiler_context
-      ~Compiler.get_calibration
+      ~Compiler.get_calibration_set_values
       ~Compiler.postprocess
       ~Compiler.print_all_implementations_trees
       ~Compiler.print_implementations_trees
       ~Compiler.ready
       ~Compiler.run_stages
-      ~Compiler.set_calibration
+      ~Compiler.set_calibration_set_values
       ~Compiler.set_default_implementation
       ~Compiler.set_default_implementation_for_loci
       ~Compiler.show_stages

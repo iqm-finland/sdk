@@ -23,6 +23,11 @@ iqm.qiskit\_iqm.iqm\_naive\_move\_pass.IQMNaiveResonatorMoving
 
    .. autosummary::
    
+      ~IQMNaiveResonatorMoving._calculate_final_layout
+      ~IQMNaiveResonatorMoving._calculate_initial_layout
+      ~IQMNaiveResonatorMoving._insert_move_gate
+      ~IQMNaiveResonatorMoving._insert_parameterized_gates
+      ~IQMNaiveResonatorMoving._remove_parameterized_gates
       ~IQMNaiveResonatorMoving.run
    
    

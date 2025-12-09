@@ -5,6 +5,13 @@ iqm.cpc.compiler.standard\_stages
 
    
    
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+      :toctree:
+   
+      CalibrationErrors
+   
    
 
    

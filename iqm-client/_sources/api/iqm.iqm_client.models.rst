@@ -10,14 +10,7 @@ iqm.iqm\_client.models
    .. autosummary::
       :toctree:
    
-      Locus
-      QIRCode
-      CircuitBatch
-      QubitMapping
-      PRXSequence
       STANDARD_DD_STRATEGY
-      CircuitMeasurementResults
-      CircuitMeasurementResultsBatch
    
    
 
@@ -28,7 +21,6 @@ iqm.iqm\_client.models
    .. autosummary::
       :toctree:
    
-      serialize_qubit_mapping
       validate_circuit
    
    
@@ -41,30 +33,10 @@ iqm.iqm\_client.models
       :toctree:
       :template: autosummary-class-template.rst
    
-      CalibrationSet
       CircuitCompilationOptions
-      ClientLibrary
-      Counts
-      DDMode
-      DDStrategy
-      DynamicQuantumArchitecture
-      GateImplementationInfo
-      GateInfo
-      HeraldingMode
-      JobParameters
-      Metadata
-      MoveGateFrameTrackingMode
-      MoveGateValidationMode
-      QualityMetricSet
+      CircuitJobParameters
       QuantumArchitecture
       QuantumArchitectureSpecification
-      RunCounts
-      RunRequest
-      RunResult
-      RunStatus
-      SingleQubitMapping
-      StaticQuantumArchitecture
-      Status
    
    
 

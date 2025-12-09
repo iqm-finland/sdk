@@ -11,7 +11,6 @@ iqm.cpc.interface.compiler
       :toctree:
    
       CircuitBatch
-      PRXSequence
       ReadoutMapping
       ReadoutMappingBatch
    
@@ -33,12 +32,7 @@ iqm.cpc.interface.compiler
       CircuitCompilationResult
       CircuitExecutionOptions
       CircuitMetrics
-      DDMode
-      DDStrategy
-      HeraldingMode
       MeasurementMode
-      MoveGateFrameTrackingMode
-      MoveGateValidationMode
    
    
 

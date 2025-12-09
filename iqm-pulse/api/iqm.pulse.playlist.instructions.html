@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>instructions &#8212; iqm.pulse 12.6.1 documentation</title>
+    <title>instructions &#8212; iqm.pulse 12.7.1 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=e279dc5f"></script>
+    <script src="../_static/documentation_options.js?v=4b39a839"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -140,8 +140,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.6.1 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.6.1 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -257,6 +257,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html">TimeBox</a></li>
@@ -287,8 +288,8 @@
 </details></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 </ul>
 
@@ -423,44 +424,48 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.MultiplexedIQPulse.html#iqm.pulse.playlist.instructions.MultiplexedIQPulse" title="iqm.pulse.playlist.instructions.MultiplexedIQPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiplexedIQPulse</span></code></a></p></td>
 <td><p>Play the sum of multiple IQ pulses.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.ReadoutTrigger.html#iqm.pulse.playlist.instructions.ReadoutTrigger" title="iqm.pulse.playlist.instructions.ReadoutTrigger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReadoutTrigger</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.ReadoutMetrics.html#iqm.pulse.playlist.instructions.ReadoutMetrics" title="iqm.pulse.playlist.instructions.ReadoutMetrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReadoutMetrics</span></code></a></p></td>
+<td><p>Aggregates the necessary readout metrics needed for return data processing.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.ReadoutTrigger.html#iqm.pulse.playlist.instructions.ReadoutTrigger" title="iqm.pulse.playlist.instructions.ReadoutTrigger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReadoutTrigger</span></code></a></p></td>
 <td><p>Instruction for playing a probe pulse and acquiring the associated readout results.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.RealPulse.html#iqm.pulse.playlist.instructions.RealPulse" title="iqm.pulse.playlist.instructions.RealPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RealPulse</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.RealPulse.html#iqm.pulse.playlist.instructions.RealPulse" title="iqm.pulse.playlist.instructions.RealPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RealPulse</span></code></a></p></td>
 <td><p>Play a real-valued pulse.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.ThresholdStateDiscrimination.html#iqm.pulse.playlist.instructions.ThresholdStateDiscrimination" title="iqm.pulse.playlist.instructions.ThresholdStateDiscrimination"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ThresholdStateDiscrimination</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.ThresholdStateDiscrimination.html#iqm.pulse.playlist.instructions.ThresholdStateDiscrimination" title="iqm.pulse.playlist.instructions.ThresholdStateDiscrimination"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ThresholdStateDiscrimination</span></code></a></p></td>
 <td><p>Perform a weighted integration of the IQ raw signal and compare the real part of the result against a threshold value, resulting in a boolean.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.TimeTrace.html#iqm.pulse.playlist.instructions.TimeTrace" title="iqm.pulse.playlist.instructions.TimeTrace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeTrace</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.TimeTrace.html#iqm.pulse.playlist.instructions.TimeTrace" title="iqm.pulse.playlist.instructions.TimeTrace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TimeTrace</span></code></a></p></td>
 <td><p>Capture the raw IQ signal without integration.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.VirtualRZ.html#iqm.pulse.playlist.instructions.VirtualRZ" title="iqm.pulse.playlist.instructions.VirtualRZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VirtualRZ</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.VirtualRZ.html#iqm.pulse.playlist.instructions.VirtualRZ" title="iqm.pulse.playlist.instructions.VirtualRZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VirtualRZ</span></code></a></p></td>
 <td><p>Change the upconversion phase reference.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.Wait.html#iqm.pulse.playlist.instructions.Wait" title="iqm.pulse.playlist.instructions.Wait"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wait</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.playlist.instructions.Wait.html#iqm.pulse.playlist.instructions.Wait" title="iqm.pulse.playlist.instructions.Wait"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wait</span></code></a></p></td>
 <td><p>Behave as if outputting zero-valued samples for the duration of the instruction.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-75f0c9867aaa72545953e600eb5fbf74a0593095.png" alt="Inheritance diagram of iqm.pulse.playlist.instructions" usemap="#inheritance87b09bb133" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-b239ff7e414650a584a6e10036fd79538690f278.png" alt="Inheritance diagram of iqm.pulse.playlist.instructions" usemap="#inheritance87b09bb133" class="inheritance graphviz" /></div>
 <map id="inheritance87b09bb133" name="inheritance87b09bb133">
 <area shape="rect" id="node1" href="iqm.pulse.playlist.instructions.AcquisitionMethod.html#iqm.pulse.playlist.instructions.AcquisitionMethod" target="_top" title="Describes a way to acquire readout data." alt="" coords="5,425,148,451"/>
 <area shape="rect" id="node4" href="iqm.pulse.playlist.instructions.ComplexIntegration.html#iqm.pulse.playlist.instructions.ComplexIntegration" target="_top" title="Perform a weighted integration of the IQ raw signal, resulting in a complex number." alt="" coords="203,400,354,425"/>
-<area shape="rect" id="node12" href="iqm.pulse.playlist.instructions.TimeTrace.html#iqm.pulse.playlist.instructions.TimeTrace" target="_top" title="Capture the raw IQ signal without integration." alt="" coords="234,449,323,475"/>
+<area shape="rect" id="node13" href="iqm.pulse.playlist.instructions.TimeTrace.html#iqm.pulse.playlist.instructions.TimeTrace" target="_top" title="Capture the raw IQ signal without integration." alt="" coords="234,449,323,475"/>
 <area shape="rect" id="node2" href="iqm.pulse.playlist.instructions.Block.html#iqm.pulse.playlist.instructions.Block" target="_top" title="Behave strictly as if outputting zero&#45;valued samples for the duration of the instruction." alt="" coords="243,5,315,31"/>
 <area shape="rect" id="node3" href="iqm.pulse.playlist.instructions.Instruction.html#iqm.pulse.playlist.instructions.Instruction" target="_top" title="Command that can be executed by the quantum computer on a control channel." alt="" coords="31,179,122,204"/>
 <area shape="rect" id="node5" href="iqm.pulse.playlist.instructions.ConditionalInstruction.html#iqm.pulse.playlist.instructions.ConditionalInstruction" target="_top" title="Choice between multiple Instructions, depending on a condition." alt="" coords="196,55,361,80"/>
 <area shape="rect" id="node7" href="iqm.pulse.playlist.instructions.RealPulse.html#iqm.pulse.playlist.instructions.RealPulse" target="_top" title="Play a real&#45;valued pulse." alt="" coords="235,104,322,129"/>
 <area shape="rect" id="node8" href="iqm.pulse.playlist.instructions.IQPulse.html#iqm.pulse.playlist.instructions.IQPulse" target="_top" title="Play an upconverted pulse that contains real in&#45;phase and quadrature waveforms." alt="" coords="243,153,315,179"/>
 <area shape="rect" id="node9" href="iqm.pulse.playlist.instructions.MultiplexedIQPulse.html#iqm.pulse.playlist.instructions.MultiplexedIQPulse" target="_top" title="Play the sum of multiple IQ pulses." alt="" coords="205,203,352,228"/>
-<area shape="rect" id="node10" href="iqm.pulse.playlist.instructions.ReadoutTrigger.html#iqm.pulse.playlist.instructions.ReadoutTrigger" target="_top" title="Instruction for playing a probe pulse and acquiring the associated readout results." alt="" coords="219,252,339,277"/>
-<area shape="rect" id="node13" href="iqm.pulse.playlist.instructions.VirtualRZ.html#iqm.pulse.playlist.instructions.VirtualRZ" target="_top" title="Change the upconversion phase reference." alt="" coords="237,301,320,327"/>
-<area shape="rect" id="node14" href="iqm.pulse.playlist.instructions.Wait.html#iqm.pulse.playlist.instructions.Wait" target="_top" title="Behave as if outputting zero&#45;valued samples for the duration of the instruction." alt="" coords="243,351,315,376"/>
-<area shape="rect" id="node11" href="iqm.pulse.playlist.instructions.ThresholdStateDiscrimination.html#iqm.pulse.playlist.instructions.ThresholdStateDiscrimination" target="_top" title="Perform a weighted integration of the IQ raw signal and compare the real part of the result" alt="" coords="409,400,624,425"/>
+<area shape="rect" id="node11" href="iqm.pulse.playlist.instructions.ReadoutTrigger.html#iqm.pulse.playlist.instructions.ReadoutTrigger" target="_top" title="Instruction for playing a probe pulse and acquiring the associated readout results." alt="" coords="219,252,339,277"/>
+<area shape="rect" id="node14" href="iqm.pulse.playlist.instructions.VirtualRZ.html#iqm.pulse.playlist.instructions.VirtualRZ" target="_top" title="Change the upconversion phase reference." alt="" coords="237,301,320,327"/>
+<area shape="rect" id="node15" href="iqm.pulse.playlist.instructions.Wait.html#iqm.pulse.playlist.instructions.Wait" target="_top" title="Behave as if outputting zero&#45;valued samples for the duration of the instruction." alt="" coords="243,351,315,376"/>
+<area shape="rect" id="node12" href="iqm.pulse.playlist.instructions.ThresholdStateDiscrimination.html#iqm.pulse.playlist.instructions.ThresholdStateDiscrimination" target="_top" title="Perform a weighted integration of the IQ raw signal and compare the real part of the result" alt="" coords="409,400,624,425"/>
 <area shape="rect" id="node6" href="iqm.pulse.playlist.instructions.FluxPulse.html#iqm.pulse.playlist.instructions.FluxPulse" target="_top" title="RealPulse representing a flux pulse." alt="" coords="474,104,559,129"/>
+<area shape="rect" id="node10" href="iqm.pulse.playlist.instructions.ReadoutMetrics.html#iqm.pulse.playlist.instructions.ReadoutMetrics" target="_top" title="Aggregates the necessary readout metrics needed for return data processing." alt="" coords="15,129,139,155"/>
 </map></section>
 
 
@@ -514,7 +519,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.6.1.
+      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.1.
       <br/>
     
   </p>

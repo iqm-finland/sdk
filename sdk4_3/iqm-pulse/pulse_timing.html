@@ -1,0 +1,617 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Pulse timing &#8212; iqm.pulse 12.6.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=63862cf7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=e279dc5f"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'pulse_timing';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API reference" href="API.html" />
+    <link rel="prev" title="Custom gate implementations" href="custom_gates.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2025-12-09"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.6.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.6.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Concepts and classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="using_builder.html">Using ScheduleBuilder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="custom_gates.html">Custom gate implementations</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Pulse timing</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.pulse.html">pulse</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.base_utils.html">base_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.base_utils.merge_dicts.html">iqm.pulse.base_utils.merge_dicts</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.builder.html">builder</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.builder.build_quantum_ops.html">iqm.pulse.builder.build_quantum_ops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.builder.load_config.html">iqm.pulse.builder.load_config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.builder.validate_quantum_circuit.html">iqm.pulse.builder.validate_quantum_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.builder.CircuitOperation.html">CircuitOperation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.builder.ScheduleBuilder.html">ScheduleBuilder</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.circuit_operations.html">circuit_operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.circuit_operations.get_unitary_from_circuit.html">iqm.pulse.circuit_operations.get_unitary_from_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.circuit_operations.get_unitary_from_op.html">iqm.pulse.circuit_operations.get_unitary_from_op</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.circuit_operations.reorder.html">iqm.pulse.circuit_operations.reorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.circuit_operations.reshape_unitary.html">iqm.pulse.circuit_operations.reshape_unitary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.circuit_operations.Circuit.html">Circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.circuit_operations.CircuitOperationList.html">CircuitOperationList</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.gate_implementation.html">gate_implementation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.Locus.html">iqm.pulse.gate_implementation.Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.OILCalibrationData.html">iqm.pulse.gate_implementation.OILCalibrationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.OICalibrationData.html">iqm.pulse.gate_implementation.OICalibrationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.OCalibrationData.html">iqm.pulse.gate_implementation.OCalibrationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.OpCalibrationDataTree.html">iqm.pulse.gate_implementation.OpCalibrationDataTree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.NestedParams.html">iqm.pulse.gate_implementation.NestedParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_DRIVE_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_DRIVE_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_READOUT_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_READOUT_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_FLUX_AWG_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_FLUX_AWG_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.PROBE_LINES_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.PROBE_LINES_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.get_waveform_parameters.html">iqm.pulse.gate_implementation.get_waveform_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.init_subclass_composite.html">iqm.pulse.gate_implementation.init_subclass_composite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.CompositeCache.html">CompositeCache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.CompositeGate.html">CompositeGate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.CustomIQWaveforms.html">CustomIQWaveforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.GateImplementation.html">GateImplementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gate_implementation.SinglePulseGate.html">SinglePulseGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.gates.html">gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.expose_implementation.html">iqm.pulse.gates.expose_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.get_implementation_class.html">iqm.pulse.gates.get_implementation_class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.register_implementation.html">iqm.pulse.gates.register_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.register_operation.html">iqm.pulse.gates.register_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.barrier.html">barrier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.conditional.html">conditional</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.cz.html">cz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.default_gates.html">default_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.delay.html">delay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.enums.html">enums</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.measure.html">measure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.move.html">move</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.prx.html">prx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.reset.html">reset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.rz.html">rz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.sx.html">sx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.u.html">u</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.playlist.html">playlist</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.playlist.channel.html">channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.playlist.fast_drag.html">fast_drag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.playlist.hd_drag.html">hd_drag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.playlist.instructions.html">instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.playlist.playlist.html">playlist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.playlist.schedule.html">schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.playlist.visualisation.html">visualisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.playlist.waveforms.html">waveforms</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.scheduler.html">scheduler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.scheduler.NONSOLID.html">iqm.pulse.scheduler.NONSOLID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.scheduler.BLOCKING.html">iqm.pulse.scheduler.BLOCKING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.scheduler.extend_hard_boundary.html">iqm.pulse.scheduler.extend_hard_boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.scheduler.extend_hard_boundary_in_seconds.html">iqm.pulse.scheduler.extend_hard_boundary_in_seconds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.scheduler.extend_schedule.html">iqm.pulse.scheduler.extend_schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.scheduler.extend_schedule_new.html">iqm.pulse.scheduler.extend_schedule_new</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.scheduler.SegmentPointer.html">SegmentPointer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.TimeBox.html">TimeBox</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.normalize_angle.html">iqm.pulse.utils.normalize_angle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.phase_transformation.html">iqm.pulse.utils.phase_transformation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.validation.html">validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.validation.validate_awg_and_schedule_compatibility.html">iqm.pulse.validation.validate_awg_and_schedule_compatibility</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.validation.validate_channel.html">iqm.pulse.validation.validate_channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.validation.validate_instruction_and_wf_length.html">iqm.pulse.validation.validate_instruction_and_wf_length</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.validation.validate_playlist_compatibility.html">iqm.pulse.validation.validate_playlist_compatibility</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.validation.AWGScheduleValidationData.html">AWGScheduleValidationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.validation.AWGScheduleValidationError.html">iqm.pulse.validation.AWGScheduleValidationError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.validation.InvalidInstructionError.html">iqm.pulse.validation.InvalidInstructionError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.validation.PlaylistValidationError.html">iqm.pulse.validation.PlaylistValidationError</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Pulse timing</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measure-and-readouttrigger">Measure and ReadoutTrigger</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fast-feedback-timing">Fast feedback timing</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="pulse-timing">
+<h1>Pulse timing<a class="headerlink" href="#pulse-timing" title="Link to this heading">#</a></h1>
+<section id="measure-and-readouttrigger">
+<h2>Measure and ReadoutTrigger<a class="headerlink" href="#measure-and-readouttrigger" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="api/iqm.pulse.playlist.instructions.ReadoutTrigger.html#iqm.pulse.playlist.instructions.ReadoutTrigger" title="iqm.pulse.playlist.instructions.ReadoutTrigger"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadoutTrigger</span></code></a> Instruction responsible of qubit readout has several
+timing-related attributes.
+The <code class="docutils literal notranslate"><span class="pre">measure.constant</span></code> gate implementation produces a ReadoutTrigger instruction
+from a simplified set of parameters.
+The figure below shows how these parameters relate to the more flexible attributes of the instruction.</p>
+<img alt="_images/readout_timing.svg" src="_images/readout_timing.svg" /></section>
+<section id="fast-feedback-timing">
+<h2>Fast feedback timing<a class="headerlink" href="#fast-feedback-timing" title="Link to this heading">#</a></h2>
+<p>With conditional instructions, we can specify how the output from readout operations should affect
+other instructions in the same Segment.
+Usually, the goal is use the information as soon as possible, but it takes a finite time to propagate from the
+acquisition unit to the AWG that execute the Instructions conditionally.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On all hardware supported by IQM QCCSW, <a class="reference internal" href="api/iqm.pulse.playlist.instructions.ConditionalInstruction.html#iqm.pulse.playlist.instructions.ConditionalInstruction" title="iqm.pulse.playlist.instructions.ConditionalInstruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConditionalInstruction</span></code></a> reads the signal bit at the time of
+excution, regardless of when the signal bit was last updated.
+This means that if the Conditionalinstruction is executed too early, the condition will be executed based on the
+previous state of the bit.</p>
+</div>
+<p>To facilitate efficient timing of the feedback signals, IQM Pulse uses virtual channels between probeline channels
+(the source of the signals) and drive channels (the destinations).
+Block instructions on the virtual channel represent the travel time of the signals.</p>
+<p><a class="reference internal" href="api/iqm.pulse.gates.conditional.CCPRX_Composite.html#iqm.pulse.gates.conditional.CCPRX_Composite" title="iqm.pulse.gates.conditional.CCPRX_Composite"><code class="xref py py-class docutils literal notranslate"><span class="pre">CCPRX_Composite</span></code></a> is a GateImplementation of the <code class="docutils literal notranslate"><span class="pre">cc_prx</span></code> (classically controlled PRX) gate that outputs two
+TimeBoxes:
+the first one to represent the travel time, and the second one with the actual <a class="reference internal" href="api/iqm.pulse.playlist.instructions.ConditionalInstruction.html#iqm.pulse.playlist.instructions.ConditionalInstruction" title="iqm.pulse.playlist.instructions.ConditionalInstruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConditionalInstruction</span></code></a>.
+In typical use, both should be scheduled in the same order, to ensure the Conditionalinstrucion starts when the
+signal bit is available.</p>
+<p>The following image illustrates how the TimeBoxes are used for qubits <code class="docutils literal notranslate"><span class="pre">QB2</span></code> and <code class="docutils literal notranslate"><span class="pre">QB3</span></code>.
+For QB2, this is also how <a class="reference internal" href="api/iqm.pulse.gates.reset.Reset_Conditional.html#iqm.pulse.gates.reset.Reset_Conditional" title="iqm.pulse.gates.reset.Reset_Conditional"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reset_Conditional</span></code></a> implements the <code class="docutils literal notranslate"><span class="pre">reset</span></code> operation.</p>
+<p>The equaivalent code would be</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">measure</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">measure</span><span class="p">([</span><span class="s2">&quot;QB2&quot;</span><span class="p">,</span> <span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB4&quot;</span><span class="p">])(</span><span class="n">feedaback_key</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
+<span class="n">reset_qb2</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">cc_prx</span><span class="p">([</span><span class="s2">&quot;QB2&quot;</span><span class="p">])(</span><span class="n">feedback_qubit</span><span class="o">=</span><span class="s2">&quot;QB2&quot;</span><span class="p">,</span> <span class="n">feedaback_key</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>  <span class="c1"># 2 timeboxes, use both</span>
+<span class="n">set_qb3_to_1</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">cc_prx</span><span class="p">([</span><span class="s2">&quot;QB3&quot;</span><span class="p">])(</span><span class="n">feedback_qubit</span><span class="o">=</span><span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="n">feedaback_key</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">)</span> <span class="c1"># 2 timeboxes, use both</span>
+<span class="n">cc_prx_qb4</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">cc_prx</span><span class="p">([</span><span class="s2">&quot;QB4&quot;</span><span class="p">])(</span><span class="n">feedback_qubit</span><span class="o">=</span><span class="s2">&quot;QB4&quot;</span><span class="p">,</span> <span class="n">feedaback_key</span><span class="o">=</span><span class="s2">&quot;A&quot;</span><span class="p">)</span> <span class="c1"># 2 timeboxes, use 2nd only</span>
+
+<span class="n">prx_qb3</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">([</span><span class="s2">&quot;QB3&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+<span class="n">prx_qb4</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">([</span><span class="s2">&quot;QB4&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+<span class="n">wait</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">wait</span><span class="p">([</span><span class="s2">&quot;QB4&quot;</span><span class="p">],</span> <span class="mf">80e-9</span><span class="p">)</span>
+
+<span class="n">circuit</span> <span class="o">=</span> <span class="n">measure</span> <span class="o">+</span> <span class="n">reset_qb2</span>
+<span class="n">circuit</span> <span class="o">+=</span> <span class="n">prx_qb3</span> <span class="o">+</span> <span class="n">set_qb3_to_1</span>
+<span class="n">circuit</span> <span class="o">+=</span> <span class="n">prx_qb4</span> <span class="o">+</span> <span class="n">prx_qb4</span> <span class="o">+</span> <span class="n">prx_qb4</span> <span class="o">+</span> <span class="n">wait</span> <span class="o">+</span> <span class="n">prx_qb4</span> <span class="o">+</span> <span class="n">cc_prx_qb4</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<img alt="_images/feedback_timing.svg" src="_images/feedback_timing.svg" /><p>Instructions are spaced out in time only for visual clarity. When scheduled ASAP, they would be left-aligned
+such that the ConditionalInstructions start right after the associated <code class="docutils literal notranslate"><span class="pre">control_delay</span></code> has passed.</p>
+<p>The bottom of the image illustrates an alternative use of <code class="docutils literal notranslate"><span class="pre">CCPRX_Composite</span></code> to have more freedom in the timing.
+There, the optional delay TimeBox is not used for scheduling the Instructions on QB4.
+Instead, the user has ensured that the other instructions take enough time for the signal to arrive.
+This could be used to act on the <em>previous</em> feedback signal (not shown).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This section is not about IQM Pulse itself, but might help in understanding the details of the execution.</p>
+</div>
+<p>The image below shows a typical timing of a Playlist segment with 2 AWG devices for driving, and a readout instrument.
+Here, all statements that apply to an AWG apply to readout instruments as well.
+The AWGs can output an arbitrary sequence of pulses, and the readout instrument can additionally read out
+the response to the pulses.</p>
+<p>With readout, the raw signal response from the readout pulse will be integrated to produce a single number, such as a
+complex number or a bit, corresponding to a particular qubit in a particular segment.</p>
+<p>In the figure, one of the AWGs has been selected as the trigger master, which means it sends trigger pulses to
+start the execution on the slave devices.
+As shown in the picture, different delays caused by the travel time of signals can be compensated for by
+adjusting the <code class="docutils literal notranslate"><span class="pre">trigger_delay</span></code> setting of each device.</p>
+<img alt="_images/pulse_timing.svg" src="_images/pulse_timing.svg" /><p>Settings in the figure that can be adjusted by user in the higher level libraries:</p>
+<div class="pst-scrollable-table-container"><table class="full-width table">
+<colgroup>
+<col style="width: 33.3%" />
+<col style="width: 66.7%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Setting</p></th>
+<th class="head"><p>Explanation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>&lt;awg&gt;.trigger_delay</p></td>
+<td><p>Wait time between the end of the trigger signal of the AWG master and the beginning of the pulse sequence.</p></td>
+</tr>
+<tr class="row-odd"><td><p>&lt;awg&gt;.trigger_delay (slave)</p></td>
+<td><p>Wait time between receiving the trigger signal at the AWG slave and the beginning of the pulse sequence.</p></td>
+</tr>
+<tr class="row-even"><td><p>options.end_delay</p></td>
+<td><p>Wait time between the end of the pulse segment and the next trigger.</p></td>
+</tr>
+<tr class="row-odd"><td><p>&lt;gate&gt;.&lt;implementation&gt;.&lt;locus&gt;.duration</p></td>
+<td><p>The duration of the hardware instruction for a gate, possibly rounded to satisfy granularity constraints.
+For the <code class="docutils literal notranslate"><span class="pre">ReadoutTrigger</span></code> instruction, the meaning is different, see below.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Other notes:</p>
+<ul class="simple">
+<li><p>The AWG spcecified by <code class="docutils literal notranslate"><span class="pre">options.trigger_master</span></code> is the only channel that does not wait for a trigger
+at the start of a segment.</p></li>
+<li><p>Slave AWGs may also emit a trigger pulse to allow daisy chaining trigger signals.</p></li>
+<li><p>Systems with IQM Control System are triggered centrally and the channels run independently, and the
+<code class="docutils literal notranslate"><span class="pre">options.trigger_master</span></code> has no effect.</p></li>
+<li><p>Pipeline delays are delays between the execution of a command and the pulse actually getting outputted
+from a device. This delay is caused by the hardware and cannot be changed.
+In practice, it can be thought as being part of the cable delays, and thus can be compensated with
+the <code class="docutils literal notranslate"><span class="pre">trigger_delay</span></code> setting.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="custom_gates.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Custom gate implementations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="API.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measure-and-readouttrigger">Measure and ReadoutTrigger</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fast-feedback-timing">Fast feedback timing</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2019-2025, IQM Finland Oy, Release 12.6.1.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2025-12-09.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>iqm.cpc.compiler.standard_stages &#8212; IQM Pulla 11.16.2 documentation</title>
+    <title>iqm.cpc.compiler.standard_stages &#8212; IQM Pulla 12.0.1 documentation</title>
   
   
   
@@ -38,7 +38,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=5b54f93a"></script>
+    <script src="../_static/documentation_options.js?v=ba0fdc2f"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -46,7 +46,7 @@
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="iqm.cpc.compiler.standard_stages.apply_dd_strategy" href="iqm.cpc.compiler.standard_stages.apply_dd_strategy.html" />
+    <link rel="next" title="iqm.cpc.compiler.standard_stages.CalibrationErrors" href="iqm.cpc.compiler.standard_stages.CalibrationErrors.html" />
     <link rel="prev" title="iqm.cpc.compiler.errors.UnknownLogicalQubitError" href="iqm.cpc.compiler.errors.UnknownLogicalQubitError.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -140,8 +140,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Pulla 11.16.2 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 11.16.2 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Pulla 12.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 12.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -201,11 +201,8 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.interface.html">iqm.pulla.interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CircuitMeasurementResults.html">iqm.pulla.interface.CircuitMeasurementResults</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CircuitMeasurementResultsBatch.html">iqm.pulla.interface.CircuitMeasurementResultsBatch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CalibrationSetValues.html">iqm.pulla.interface.CalibrationSetValues</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE.html">iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.StationControlResult.html">iqm.pulla.interface.StationControlResult</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.TaskStatus.html">iqm.pulla.interface.TaskStatus</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CHADRetrievalException.html">iqm.pulla.interface.CHADRetrievalException</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.ChipLabelRetrievalException.html">iqm.pulla.interface.ChipLabelRetrievalException</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.SettingsRetrievalException.html">iqm.pulla.interface.SettingsRetrievalException</a></li>
@@ -213,6 +210,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.pulla.html">iqm.pulla.pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.pulla.Pulla.html">iqm.pulla.pulla.Pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.pulla.SweepJob.html">iqm.pulla.pulla.SweepJob</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.quantum_architecture.html">iqm.pulla.quantum_architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -261,7 +259,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_qiskit.html">iqm.pulla.utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.qiskit_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_to_pulla</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.station_control_result_to_qiskit.html">iqm.pulla.utils_qiskit.station_control_result_to_qiskit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.sweep_job_to_qiskit.html">iqm.pulla.utils_qiskit.sweep_job_to_qiskit</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.DummyJob.html">iqm.pulla.utils_qiskit.DummyJob</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.IQMPullaBackend.html">iqm.pulla.utils_qiskit.IQMPullaBackend</a></li>
 </ul>
@@ -273,8 +271,8 @@
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../common_errors.html">Common errors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../authors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
 </ul>
@@ -504,6 +502,15 @@ requires it.</p></li>
 <li><p>Build the playlist from the schedules using <code class="xref py py-meth docutils literal notranslate"><span class="pre">ScheduleBuilder.build_playlist()</span></code>.</p></li>
 </ol>
 </section>
+<p class="rubric">Module Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.compiler.standard_stages.CalibrationErrors.html#iqm.cpc.compiler.standard_stages.CalibrationErrors" title="iqm.cpc.compiler.standard_stages.CalibrationErrors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CalibrationErrors</span></code></a></p></td>
+<td><p>Map from OIL tuple to a CalibrationError message.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p class="rubric">Functions</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -584,11 +591,11 @@ requires it.</p></li>
       </div>
     </a>
     <a class="right-next"
-       href="iqm.cpc.compiler.standard_stages.apply_dd_strategy.html"
+       href="iqm.cpc.compiler.standard_stages.CalibrationErrors.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">iqm.cpc.compiler.standard_stages.apply_dd_strategy</p>
+        <p class="prev-next-title">iqm.cpc.compiler.standard_stages.CalibrationErrors</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -638,7 +645,7 @@ By IQM Pulla developers
 
   <p class="copyright">
     
-      © Copyright 2024-2025, IQM Finland Oy, Release 11.16.2.
+      © Copyright 2024-2025, IQM Finland Oy, Release 12.0.1.
       <br/>
     
   </p>

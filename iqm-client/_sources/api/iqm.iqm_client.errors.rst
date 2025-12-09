@@ -26,10 +26,6 @@ iqm.iqm\_client.errors
       CircuitExecutionError
       CircuitTranspilationError
       CircuitValidationError
-      ClientAuthenticationError
-      ClientConfigurationError
-      EndpointRequestError
-      JobAbortionError
    
    
 

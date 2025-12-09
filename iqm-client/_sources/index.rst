@@ -21,13 +21,12 @@ Contents
    integration_guide
    user_guide_qiskit
    user_guide_cirq
+   changelog
    license
    authors
 
 .. toctree::
    :maxdepth: 1
-
-   changelog
 
 
 Indices and tables

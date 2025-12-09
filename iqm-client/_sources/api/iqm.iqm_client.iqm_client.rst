@@ -19,6 +19,7 @@ iqm.iqm\_client.iqm\_client
       :toctree:
       :template: autosummary-class-template.rst
    
+      CircuitJob
       IQMClient
    
    

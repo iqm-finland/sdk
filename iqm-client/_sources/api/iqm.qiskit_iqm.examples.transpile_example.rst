@@ -14,6 +14,7 @@ iqm.qiskit\_iqm.examples.transpile\_example
    .. autosummary::
       :toctree:
    
+      num_connected_qubits
       transpile_example
    
    

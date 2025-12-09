@@ -20,6 +20,7 @@ iqm.pulla.pulla
       :template: autosummary-class-template.rst
    
       Pulla
+      SweepJob
    
    
 
