@@ -50,7 +50,7 @@
     <link rel="prev" title="iqm.cpc.compiler.compiler.CompilationStage" href="iqm.cpc.compiler.compiler.CompilationStage.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2025-12-09"/>
+    <meta name="docbuild:last-update" content="2025-12-10"/>
   </head>
   
   
@@ -565,7 +565,7 @@ If False, only logs warnings. Defaults to False.</p></li>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.gates">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.6.1)"><span class="pre">QuantumOp</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.gates" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.7.1)"><span class="pre">QuantumOp</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.gates" title="Link to this definition">#</a></dt>
 <dd><p>Registered quantum gates.</p>
 </dd></dl>
 
@@ -635,14 +635,14 @@ of parameter names and their values. This method refreshes the compiler after am
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>op_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The gate name for which to register a new implementation.</p></li>
 <li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The “human-readable” name with which the new gate implementation will be found e.g. in settings.</p></li>
-<li><p><strong>implementation</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><em>type</em></a><em>[</em><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="(in iqm.pulse v12.6.1)"><em>GateImplementation</em></a><em>]</em>) – The python class of the new gate implementation to be added.</p></li>
+<li><p><strong>implementation</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><em>type</em></a><em>[</em><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="(in iqm.pulse v12.7.1)"><em>GateImplementation</em></a><em>]</em>) – The python class of the new gate implementation to be added.</p></li>
 <li><p><strong>set_as_default</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether to set the new implementation as the default implementation for the gate.</p></li>
 <li><p><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If True, allows replacing any existing implementation of the same name.</p></li>
-<li><p><strong>quantum_op_specs</strong> (<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.6.1)"><em>QuantumOp</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em> | </em><em>None</em>) – The quantum operation this gate represents. If a QuantumOp is given, it is used as is.
+<li><p><strong>quantum_op_specs</strong> (<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.7.1)"><em>QuantumOp</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em> | </em><em>None</em>) – The quantum operation this gate represents. If a QuantumOp is given, it is used as is.
 If None is given and the same gate has been registered before, the previously registered properties are
 used.
 Otherwise, the given dict values are given to the constructor of
-<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.6.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code></a>.
+<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code></a>.
 For any missing constructor values, some defaults suitable for a 1-QB gate are used.</p></li>
 </ul>
 </dd>
@@ -681,7 +681,7 @@ all the stages are non-empty.</p>
 <dd><p>Prints all implementation of a particular quantum operation (gate).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>op</strong> (<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.6.1)"><em>QuantumOp</em></a>) – Quantum operation (gate) to print implementations of.</p>
+<dd class="field-odd"><p><strong>op</strong> (<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.7.1)"><em>QuantumOp</em></a>) – Quantum operation (gate) to print implementations of.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -853,7 +853,7 @@ By IQM Pulla developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2025-12-09.
+  Last updated on 2025-12-10.
   <br/>
 </p>
   </div>
