@@ -14,10 +14,6 @@ iqm.qiskit\_iqm.iqm\_circuit.IQMCircuit
    .. autosummary::
    
       ~IQMCircuit.name
-      ~IQMCircuit.qregs
-      ~IQMCircuit.cregs
-      ~IQMCircuit.duration
-      ~IQMCircuit.unit
    
    
 
