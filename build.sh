@@ -46,12 +46,12 @@ build_docs() {
     CONSTRAINTS_FILE="temp/$TEMP_SUBDIR/constraints.txt"
     FILTERED_SDK_FILE="temp/$TEMP_SUBDIR/filtered_sdk.txt"
     
-    # Create a filtered SDK file that excludes external packages (qrisp, iqm-qaoa, iqm-benchmarks)
+    # Create a filtered SDK file that excludes external packages (qrisp, iqm-benchmarks)
     # These packages should remain in the original SDK files for the React app to display,
     # but should not be included in the documentation build process
     # The pattern handles package names with version specifiers, extras, etc.
     echo "Creating filtered SDK file (excluding external packages)..."
-    grep -v -E "^(qrisp|iqm-qaoa|iqm-benchmarks)(\[|==|>=|<=|>|<|!=|~=|$)" "$SDK_FILE" > "$FILTERED_SDK_FILE"
+    grep -v -E "^(qrisp|iqm-benchmarks)(\[|==|>=|<=|>|<|!=|~=|$)" "$SDK_FILE" > "$FILTERED_SDK_FILE"
     
     echo "Original SDK file packages:"
     cat "$SDK_FILE"
