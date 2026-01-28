@@ -46,7 +46,7 @@ jobs:
           sed -i '/^iqm-benchmarks/d; /^cirq-iqm/d; /^#/d' "$SDK_FILE"
 
           # Download all source distributions
-          if ! uv pip download --no-deps --no-binary :all: -r "$SDK_FILE" -d ./temp; then
+          if ! uv pip download --no-deps --no-binary=:all: -r "$SDK_FILE" -d ./temp; then
             echo "Error: Failed to download some packages."
             exit 1
           fi
