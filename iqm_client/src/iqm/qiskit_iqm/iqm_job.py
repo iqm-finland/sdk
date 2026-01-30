@@ -30,7 +30,7 @@ from iqm.iqm_client import (
 from iqm.iqm_client import (
     JobStatus as IQMJobStatus,
 )
-from iqm.iqm_client.errors import APITimeoutError
+from iqm.iqm_client.errors import APITimeoutError, CircuitExecutionError
 from iqm.qiskit_iqm.qiskit_to_iqm import MeasurementKey
 import numpy as np
 from qiskit.providers import JobStatus, JobV1
@@ -147,7 +147,7 @@ class IQMJob(JobV1):
             for s in range(shots)
         ]
 
-    def submit(self):  # noqa: ANN201
+    def submit(self) -> None:
         raise NotImplementedError(
             "You should never have to submit jobs by calling this method. When running circuits through "
             "RemoteIQMBackend, the submission will happen under the hood. The job instance that you get is only for "
@@ -183,10 +183,11 @@ class IQMJob(JobV1):
 
         """
         job = self._iqm_job
-        # TODO we might want to cache these
+        # TODO we might want to cache these as well
         circuits, job_parameters = job.payload()
+
+        # wait for job to finish if it hasn't already
         if job.status not in IQMJobStatus.terminal_statuses():
-            # wait for job to finish and cache the result
             status = job.wait_for_completion(timeout_secs=timeout)
             if status not in IQMJobStatus.terminal_statuses():
                 msg = f"The job {job.job_id} didn't finish in {timeout} seconds."
@@ -196,9 +197,29 @@ class IQMJob(JobV1):
                     msg += " Cancelled."
                 raise APITimeoutError(msg)
 
-            # retrieve the results if job completed successfully
-            if status == IQMJobStatus.COMPLETED and (result_batch := job.result()) is not None:
-                # now job has up-to-date information
+        # job has reached a terminal status, which means no status update is necessary, and we can return a Result
+        result_dict: dict[str, Any] = {
+            "backend_name": self.backend().name,
+            "backend_version": "",
+            "qobj_id": "",
+            "job_id": str(job.job_id),
+            "success": False,
+            "date": date.today().isoformat(),
+            "results": [],
+            # the ones below go into result._metadata
+            "circuits": circuits,
+            "parameters": job_parameters,
+            "timeline": job.data.timeline.copy(),
+        }
+
+        # try to return results if job completed successfully
+        if job.status == IQMJobStatus.COMPLETED:
+            if self._iqm_result is None:
+                # retrieve and cache the results
+                if (result_batch := job.result()) is None:
+                    raise CircuitExecutionError(
+                        f"No results were available for job {job.job_id} even though it is completed."
+                    )
                 # IQMBackend.run() populates IQMJob.circuit_metadata, so it may be None if this IQMJob
                 # was created manually from a job_id. In that case retrieve circuit metadata from
                 # the job payload which we just retrieved.
@@ -214,21 +235,7 @@ class IQMJob(JobV1):
                     job_parameters.heralding_mode == HeraldingMode.NONE,
                 )
 
-        # job has reached a terminal status, which means we can return a Result
-        result_dict: dict[str, Any] = {
-            "backend_name": self.backend().name,
-            "backend_version": "",
-            "qobj_id": "",
-            "job_id": str(job.job_id),
-            "success": False,
-            "date": date.today().isoformat(),
-            "results": [],
-            # the ones below go into result._metadata
-            "circuits": circuits,
-            "parameters": job_parameters,
-            "timeline": job.data.timeline.copy(),
-        }
-        if self._iqm_result:
+            # return the results
             result_dict["success"] = True  # job is successful iff it is IQMJobStatus.COMPLETED (and we got result data)
             result_dict["results"] = [
                 {

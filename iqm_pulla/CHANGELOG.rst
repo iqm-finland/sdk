@@ -1,3 +1,26 @@
+Version 12.0.3 (2026-01-08)
+============================
+
+Bug fixes
+---------
+- Fix Pulla float return type (encountered when doing HW-averaged readout)
+
+Version 12.0.2 (2025-12-09)
+============================
+
+Bug fixes
+---------
+
+- Patch fix for erroneous import in station-control-client dependency.
+
+Version 12.0.1 (2025-12-02)
+===========================
+
+Bug fixes
+---------
+
+- Fix version ranges in python package dependencies.
+
 Version 12.0.0 (2025-11-21)
 ===========================
 

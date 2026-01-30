@@ -40,6 +40,8 @@ message SettingNode {
     }
     // The actual payload.
     iqm.data_definitions.common.v1.Datum value = 3;
+    // Whether the setting is read only. Default is False.
+    optional bool read_only = 4;
   }
   // Name of the node. By convention, the name is a dot-separated string whose fragments are the keys leading from
   // the root node to this node. For example, a nested node `root_node::sub_1::sub_2` should be named `"sub_1.sub_2"`

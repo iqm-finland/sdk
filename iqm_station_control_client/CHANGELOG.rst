@@ -1,3 +1,24 @@
+Version 12.0.3 (2026-01-15)
+===========================
+
+- Patch release, no functional changes.
+
+Version 12.0.2 (2025-12-09)
+===========================
+
+Bug fixes
+---------
+
+- Remove an erroneous import from iqm-client.
+
+Version 12.0.1 (2025-12-02)
+===========================
+
+Bug fixes
+---------
+
+- Fix version ranges in python package dependencies.
+
 Version 12.0.0 (2025-11-19)
 ===========================
 

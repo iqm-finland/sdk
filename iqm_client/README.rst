@@ -11,16 +11,15 @@ adapters for `IQM's <https://www.meetiqm.com>`_ quantum computers, which allow y
   (currently only the Qiskit adapter contains IQM noise models)
 * Run quantum circuits on an IQM quantum computer
 
-Also includes a `CLI utility <https://docs.meetiqm.com/iqm-client/user_guide_cli.html>`_ for managing user
-authentication when using IQM quantum computers.
+Also includes a CLI utility for managing user authentication when using IQM quantum computers.
 
 Installation
 ============
 
-For executing code on an IQM quantum computer, you can use for example
-`Qiskit on IQM <https://docs.meetiqm.com/iqm-client/user_guide_qiskit.html>`_ or
-`Cirq on IQM <https://docs.meetiqm.com/iqm-client/user_guide_cirq.html>`_, which can be installed as optional
-features of IQM Client from the Python Package Index (PyPI), e.g.:
+For executing code on an IQM quantum computer, you can use for example the
+Qiskit on IQM or Cirq on IQM user guides found in the documentation.
+Qiskit on IQM and Cirq on IQM are optional features that can be installed alongside the base IQM Client library.
+An example showing how to install from the public Python Package Index (PyPI):
 
 .. code-block:: bash
 
@@ -32,8 +31,7 @@ features of IQM Client from the Python Package Index (PyPI), e.g.:
     Python environment, you should first uninstall them with ``$ pip uninstall qiskit-iqm cirq-iqm``.
     In this case, you should also include the ``--force-reinstall`` option in the ``iqm-client`` installation command.
 
-The `CLI utility <https://docs.meetiqm.com/iqm-client/user_guide_cli.html>`_ for managing user authentication can also
-be installed as an optional feature:
+The CLI utility for managing user authentication can also be installed as an optional feature:
 
 .. code-block:: bash
 
@@ -55,10 +53,15 @@ Documentation
 
 Documentation for the latest version is `available online <https://docs.meetiqm.com/iqm-client/>`_.
 You can build documentation for any older version locally by downloading the corresponding package from PyPI,
-and running the docs builder. For versions 20.12 and later this is done by running ``./docbuild`` in the
-``iqm-client`` root directory, and for earlier versions by running ``tox run -e docs``.
+and running the docs builder. For versions greater than equal to 20.12 but less than 33.0.0 this is done by
+running ``./docbuild`` in the ``iqm-client`` root directory, and for earlier versions by running ``tox run -e docs``.
 
 ``./docbuild`` or ``tox run -e docs`` will build the documentation at ``./build/sphinx/html``.
+
+Versions greater than or equal to 33.0.0 use the command:
+``sphinx-build -q -d build/.doctrees/iqm-client iqm-client/docs build/docs/iqm-client``
+(``build/docs/`` directory has to be created first).
+
 These commands require installing the ``sphinx`` and ``sphinx-book-theme`` Python packages and
 `graphviz <https://graphviz.org/>`_.
 

@@ -1,3 +1,30 @@
+Version 33.0.3 (2026-01-15)
+===========================
+
+- Patch release, no functional changes.
+
+Version 33.0.2 (2025-12-09)
+===========================
+
+Bug fixes
+---------
+
+- :meth:`IQMJob.result` now correctly retrieves results also for jobs that already are in a terminal
+  state.
+
+Changes
+-------
+
+- Remove unused module ``errors`` from :mod:`iqm.iqm_server_client`.
+
+Version 33.0.1 (2025-12-02)
+===========================
+
+Bug fixes
+---------
+
+- Fix version ranges in python package dependencies.
+
 Version 33.0.0 (2025-11-19)
 ===========================
 

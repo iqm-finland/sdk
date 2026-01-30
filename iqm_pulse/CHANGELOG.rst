@@ -1,3 +1,21 @@
+Version 12.7.3 (2025-01-15)
+===========================
+
+- Patch fix for a release. No functional changes.
+
+Version 12.7.2 (2025-12-09)
+===========================
+
+- Patch fix for a release. No functional changes.
+
+Version 12.7.1 (2025-12-02)
+===========================
+
+Bug fixes
+---------
+
+- Fix version ranges in python package dependencies.
+
 Version 12.7.0 (2025-11-19)
 ===========================
 

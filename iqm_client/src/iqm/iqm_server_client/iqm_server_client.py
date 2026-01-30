@@ -31,7 +31,6 @@ from urllib.parse import urlparse
 from uuid import UUID
 import warnings
 
-from iqm.iqm_server_client.errors import ClientConfigurationError
 from iqm.iqm_server_client.models import (
     CalibrationSet,
     JobData,
@@ -48,7 +47,7 @@ import requests
 
 from exa.common.data.setting_node import SettingNode
 from exa.common.errors.station_control_errors import map_from_status_code_to_error
-from iqm.station_control.client.authentication import TokenManager
+from iqm.station_control.client.authentication import ClientConfigurationError, TokenManager
 from iqm.station_control.client.list_models import (
     DutList,
     ListModel,
