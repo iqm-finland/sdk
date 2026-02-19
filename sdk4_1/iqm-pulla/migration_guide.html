@@ -50,7 +50,7 @@
     <link rel="prev" title="IQM Pulla" href="readme.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2026-02-18"/>
+    <meta name="docbuild:last-update" content="2026-02-19"/>
   </head>
   
   
@@ -197,6 +197,10 @@
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.pulla.html">iqm.pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.calibration.html">iqm.pulla.calibration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.calibration.CalibrationDataProvider.html">iqm.pulla.calibration.CalibrationDataProvider</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.interface.html">iqm.pulla.interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CircuitMeasurementResults.html">iqm.pulla.interface.CircuitMeasurementResults</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CircuitMeasurementResultsBatch.html">iqm.pulla.interface.CircuitMeasurementResultsBatch</a></li>
@@ -208,6 +212,10 @@
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CHADRetrievalException.html">iqm.pulla.interface.CHADRetrievalException</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.ChipLabelRetrievalException.html">iqm.pulla.interface.ChipLabelRetrievalException</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.SettingsRetrievalException.html">iqm.pulla.interface.SettingsRetrievalException</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.pulla.html">iqm.pulla.pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html">iqm.pulla.pulla.Pulla</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.html">iqm.pulla.quantum_architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -243,6 +251,10 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_dd.html">iqm.pulla.utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_dd.generate_phases_of_urn_sequence.html">iqm.pulla.utils_dd.generate_phases_of_urn_sequence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qir.html">iqm.pulla.utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qir.qir_to_pulla.html">iqm.pulla.utils_qir.qir_to_pulla</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.html">iqm.pulla.utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -452,7 +464,7 @@ mapping of qiskit qubit indices to physical qubit names which was not required b
 This can be e.g. obtained from an <a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend" title="(in IQM client v33.0.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iqm.qiskit_iqm.iqm_provider.IQMBackend</span></code></a> instance.</p>
 <p><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_to_pulla.html#iqm.pulla.utils_qiskit.qiskit_to_pulla" title="iqm.pulla.utils_qiskit.qiskit_to_pulla"><code class="xref py py-func docutils literal notranslate"><span class="pre">qiskit_to_pulla()</span></code></a> is a convenience method that in addition to
 converting the Qiskit circuit(s) also returns a <a class="reference internal" href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler" title="iqm.cpc.compiler.compiler.Compiler"><code class="xref py py-class docutils literal notranslate"><span class="pre">Compiler</span></code></a> instance that can be used to compile them
-into a playlist. It takes as additional parameters a <code class="xref py py-class docutils literal notranslate"><span class="pre">Pulla</span></code> instance (for building the compiler),
+into a playlist. It takes as additional parameters a <a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla" title="iqm.pulla.pulla.Pulla"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pulla</span></code></a> instance (for building the compiler),
 and an <a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html#iqm.qiskit_iqm.iqm_provider.IQMBackend" title="(in IQM client v33.0.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMBackend</span></code></a> instance (containing the calibration set ID and
 qubit mapping to use). The IQMBackend instance should usually be the same one that was used to transpile
 the Qiskit circuits.</p>
@@ -471,7 +483,7 @@ the Qiskit circuits.</p>
 <p>Compiler code is consolidated under the <a class="reference internal" href="api/iqm.cpc.compiler.compiler.html#module-iqm.cpc.compiler.compiler" title="iqm.cpc.compiler.compiler"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.cpc.compiler.compiler</span></code></a> module.
 There is no more <code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.cpc.compiler.compiler2</span></code>.
 <a class="reference internal" href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler" title="iqm.cpc.compiler.compiler.Compiler"><code class="xref py py-class docutils literal notranslate"><span class="pre">Compiler</span></code></a>, <a class="reference internal" href="api/iqm.cpc.compiler.compiler.CompilationStage.html#iqm.cpc.compiler.compiler.CompilationStage" title="iqm.cpc.compiler.compiler.CompilationStage"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompilationStage</span></code></a> are now under <a class="reference internal" href="api/iqm.cpc.compiler.compiler.html#module-iqm.cpc.compiler.compiler" title="iqm.cpc.compiler.compiler"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.cpc.compiler.compiler</span></code></a>.</p>
-<p><code class="xref py py-class docutils literal notranslate"><span class="pre">Pulla</span></code> no longer needs CoCoS URL:</p>
+<p><a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla" title="iqm.pulla.pulla.Pulla"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pulla</span></code></a> no longer needs CoCoS URL:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEFORE</span>
 <span class="n">Pulla</span><span class="p">(</span><span class="n">cocos_url</span><span class="o">=</span><span class="n">cocos_url</span><span class="p">,</span><span class="n">station_control_url</span><span class="o">=</span><span class="n">station_control_url</span><span class="p">)</span>
 
@@ -534,7 +546,7 @@ deprecation in v. 1.0, are now removed. Use <code class="xref py py-func docutil
 <section id="from-0-x-to-1-0">
 <h2>From 0.x to 1.0<a class="headerlink" href="#from-0-x-to-1-0" title="Link to this heading">#</a></h2>
 <p>The main change in 1.0 is the splitting of <code class="docutils literal notranslate"><span class="pre">Pulla</span></code> and <code class="docutils literal notranslate"><span class="pre">Compiler</span></code>, and the move of some compiler-related methods to
-the more appropriate <a class="reference internal" href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler" title="iqm.cpc.compiler.compiler.Compiler"><code class="xref py py-class docutils literal notranslate"><span class="pre">Compiler</span></code></a> class. The <code class="xref py py-class docutils literal notranslate"><span class="pre">Pulla</span></code> class now only contains methods to retrieve calibration data,
+the more appropriate <a class="reference internal" href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler" title="iqm.cpc.compiler.compiler.Compiler"><code class="xref py py-class docutils literal notranslate"><span class="pre">Compiler</span></code></a> class. The <a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla" title="iqm.pulla.pulla.Pulla"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pulla</span></code></a> class now only contains methods to retrieve calibration data,
 construct a standard compiler instance, and submit pulse schedules to the server.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEFORE</span>
 
@@ -592,8 +604,8 @@ compiler anymore.</p>
 <span class="n">current_calibration_set</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get_calibration</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Fetching calibration sets from the server is still done via <code class="xref py py-meth docutils literal notranslate"><span class="pre">Pulla.fetch_latest_calibration_set()</span></code>
-and <code class="xref py py-meth docutils literal notranslate"><span class="pre">Pulla.fetch_calibration_set_by_id()</span></code>.</p>
+<p>Fetching calibration sets from the server is still done via <a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla.fetch_latest_calibration_set" title="iqm.pulla.pulla.Pulla.fetch_latest_calibration_set"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Pulla.fetch_latest_calibration_set()</span></code></a>
+and <a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla.fetch_calibration_set_by_id" title="iqm.pulla.pulla.Pulla.fetch_calibration_set_by_id"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Pulla.fetch_calibration_set_by_id()</span></code></a>.</p>
 <p>Standard compilation stages are now available via <a class="reference internal" href="api/iqm.cpc.compiler.standard_stages.get_standard_stages.html#iqm.cpc.compiler.standard_stages.get_standard_stages" title="iqm.cpc.compiler.standard_stages.get_standard_stages"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_standard_stages()</span></code></a>. This ensures the immutability of
 built-in standard stages.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEFORE</span>
@@ -691,7 +703,7 @@ By IQM Pulla developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2026-02-18.
+  Last updated on 2026-02-19.
   <br/>
 </p>
   </div>
