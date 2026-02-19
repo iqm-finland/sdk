@@ -1,3 +1,13 @@
+Version 27.4.5 (2026-02-13)
+===========================
+
+- Patch release, no functional changes.
+
+Version 27.4.4 (2026-01-27)
+===========================
+
+- Patch release, no functional changes.
+
 Version 27.4.3 (2026-01-15)
 ===========================
 

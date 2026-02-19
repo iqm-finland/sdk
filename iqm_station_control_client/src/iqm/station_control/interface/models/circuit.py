@@ -17,18 +17,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import StrEnum
-from typing import TYPE_CHECKING, Annotated, Any, TypeAlias
+from typing import Annotated, Any, TypeAlias
 from uuid import UUID
 
 from pydantic import AliasChoices, BeforeValidator, Field, PlainSerializer, WithJsonSchema, computed_field
 
 from exa.common.helpers.deprecation import format_deprecated
-from iqm.pulse import Circuit
+from iqm.pulse import Circuit, CircuitOperation
 from iqm.station_control.interface.pydantic_base import PydanticBase
-
-if TYPE_CHECKING:
-    from iqm.pulse import Circuit, CircuitOperation
-
 
 PRXSequence: TypeAlias = list[tuple[float, float]]
 """Sequence of PRX gates. A generic PRX gate is defined by rotation angle and phase angle, theta and phi,

@@ -21,7 +21,7 @@ from the Python Package Index (PyPI):
 
 .. code-block:: bash
 
-   $ pip install iqm-client[cirq]
+   $ pip install "iqm-client[cirq]"
 
 
 After installation, Cirq on IQM can be imported in your Python code as follows:

@@ -111,18 +111,18 @@ class Playlist:
         Args:
             filter_segments: List of segment indexes to filter by. If None, all segments are included.
             filter_channels: List of channel names to filter by. If None, all channels are included.
-            kind: Type of data to return in the inner dict, either "strings", "operations" or "instructions".
+            kind: Type of data to return in the inner dict, either "operations" or "instructions".
 
         Returns:
             Dict of segments, where values are dicts: keys are channels, values are lists of
-            operations or instructions, or string representations of the operations.
+            operations or instructions.
 
         Raises:
-            ValueError: If kind is not "strings", "operations" or "instructions".
+            ValueError: If kind is not "operations" or "instructions".
 
         """
-        if kind not in ("operations", "instructions", "strings"):
-            raise ValueError(f'kind must be either, "strings", "operations" or "instructions", got "{kind}"')
+        if kind not in ("operations", "instructions"):
+            raise ValueError(f'kind must be either "operations" or "instructions", got "{kind}"')
 
         result: dict[int, dict[str, Any]] = {}
         segment_indexes = filter_segments if filter_segments is not None else list(range(len(self.segments)))
@@ -130,22 +130,12 @@ class Playlist:
 
         for segment_index in segment_indexes:
             result[segment_index] = {}
-            segment = self.segments[segment_index]
             for channel_name in channel_names:
                 result[segment_index][channel_name] = []
-                for instruction_idx in segment.instructions.get(channel_name, []):
-                    instruction = self.channel_descriptions[channel_name].instruction_table[instruction_idx]
+                for instruction in self.channel_descriptions[channel_name].instruction_table:
                     if kind == "operations":
-                        item = instruction.operation
+                        result[segment_index][channel_name].append(instruction.operation)
                     elif kind == "instructions":
-                        item = instruction
-                    elif kind == "strings":
-                        item = (
-                            f"{instruction_idx:<5}{type(instruction.operation).__name__}"
-                            f"({instruction.duration_samples})"
-                        )
-                    else:
-                        raise ValueError(kind)
-                    result[segment_index][channel_name].append(item)
+                        result[segment_index][channel_name].append(instruction)
 
         return result

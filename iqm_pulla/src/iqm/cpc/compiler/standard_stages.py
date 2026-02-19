@@ -112,6 +112,7 @@ from iqm.pulse.base_utils import merge_dicts
 from iqm.pulse.builder import CircuitOperation, ScheduleBuilder, validate_quantum_circuit
 from iqm.pulse.gate_implementation import OpCalibrationDataTree
 from iqm.pulse.gates import move
+from iqm.pulse.gates.measure import ShelvedMeasureTimeBox
 from iqm.pulse.playlist import Schedule
 from iqm.pulse.playlist.playlist import Playlist
 from iqm.pulse.quantum_ops import QuantumOpTable
@@ -489,7 +490,7 @@ def merge_multiplexed_timeboxes(circuit_box: TimeBox) -> TimeBox:
     placed_boxes = []
     pending = None
     for gate_box in circuit_box.children:
-        if gate_box.children and isinstance(gate_box.children[0], MultiplexedProbeTimeBox):
+        if gate_box.children and isinstance(gate_box.children[0], (MultiplexedProbeTimeBox, ShelvedMeasureTimeBox)):
             if pending:
                 if disjoint_boxes(pending, gate_box):
                     # Pending box and new candidate have disjoint loci, merge is possible.

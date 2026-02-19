@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: iqm-pulla
-Version: 12.0.3
+Version: 12.0.5
 Summary: Client library for pulse-level access to an IQM quantum computer
 Author-email: IQM Finland Oy <developers@meetiqm.com>
 License:                                  Apache License
@@ -219,10 +219,10 @@ License-File: AUTHORS.rst
 Requires-Dist: iqm-data-definitions<3.0,>=2.18
 Requires-Dist: pylatexenc==2.10
 Requires-Dist: pydantic<3.0,>=2.10.4
-Requires-Dist: iqm-client<34,>=33.0.3
-Requires-Dist: iqm-exa-common<28,>=27.4.3
-Requires-Dist: iqm-pulse<13,>=12.7.3
-Requires-Dist: iqm-station-control-client<13,>=12.0.3
+Requires-Dist: iqm-client<34,>=33.0.5
+Requires-Dist: iqm-exa-common<28,>=27.4.5
+Requires-Dist: iqm-pulse<13,>=12.7.5
+Requires-Dist: iqm-station-control-client<13,>=12.0.5
 Provides-Extra: notebook
 Requires-Dist: notebook<7,>=6.4.11; extra == "notebook"
 Requires-Dist: matplotlib<4,>=3.6.3; extra == "notebook"
@@ -231,7 +231,7 @@ Provides-Extra: qir
 Requires-Dist: iqm-pyqir==0.12.0; extra == "qir"
 Requires-Dist: qiskit<2.2,>=1.0; extra == "qir"
 Provides-Extra: qiskit
-Requires-Dist: iqm-client[qiskit]<34,>=33.0.3; extra == "qiskit"
+Requires-Dist: iqm-client[qiskit]<34,>=33.0.5; extra == "qiskit"
 
 IQM Pulla
 #########
@@ -251,7 +251,7 @@ Create a virtual environment and install dependencies:
 
     conda create -y -n pulla python=3.11 pip=23.0
     conda activate pulla
-    pip install iqm-pulla[notebook, qiskit, qir]
+    pip install "iqm-pulla[notebook, qiskit, qir]"
 
 The ``[qiskit]`` option is to enable Qiskit-related features and utilities, like converting Qiskit circuits to Pulla circuits, constructing a compatible compiler instance, or constructing a ``PullaBackend`` for running Qiskit jobs.
 

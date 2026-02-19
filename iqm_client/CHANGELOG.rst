@@ -1,3 +1,17 @@
+Version 33.0.5 (2026-02-13)
+===========================
+
+Bug Fixes
+---------
+
+- Make QASM parser work with cirq 1.5.
+
+
+Version 33.0.4 (2026-01-27)
+===========================
+
+- Patch release, no functional changes.
+
 Version 33.0.3 (2026-01-15)
 ===========================
 

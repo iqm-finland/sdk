@@ -40,19 +40,34 @@ def circuit_from_qasm(qasm: str) -> cirq.circuits.Circuit:
             return cirq.PhasedXPowGate(exponent=theta / scale, phase_exponent=phi / scale + 0.5, global_shift=-0.5)
         return QasmUGate(*(p / np.pi for p in args))
 
-    rule = QasmGateStatement(
-        qasm_gate="U",
-        num_params=3,
-        num_args=1,
-        cirq_gate=convert_U,
-    )
-    parser.basic_gates["U"] = rule
-    parser.all_gates["U"] = rule
-    # u3 is not a basic OpenQASM gate
-    parser.all_gates["u3"] = QasmGateStatement(
-        qasm_gate="u3",
-        num_params=3,
-        num_args=1,
-        cirq_gate=convert_U,
-    )
+    # cirq-core 1.5 doesn't have an 'all_gates' attribute anymore
+    if hasattr(parser, "all_gates"):
+        rule = QasmGateStatement(
+            qasm_gate="U",
+            num_params=3,
+            num_args=1,
+            cirq_gate=convert_U,
+        )
+        parser.basic_gates["U"] = rule
+        parser.all_gates["U"] = rule
+        # u3 is not a basic OpenQASM gate
+        parser.all_gates["u3"] = QasmGateStatement(
+            qasm_gate="u3",
+            num_params=3,
+            num_args=1,
+            cirq_gate=convert_U,
+        )
+    else:
+        parser.basic_gates["U"] = QasmGateStatement(
+            qasm_gate="U",
+            num_params=3,
+            num_args=1,
+            cirq_gate=convert_U,
+        )
+        parser.qelib_gates["u3"] = QasmGateStatement(
+            qasm_gate="u3",
+            num_params=3,
+            num_args=1,
+            cirq_gate=convert_U,
+        )
     return parser.parse(qasm).circuit

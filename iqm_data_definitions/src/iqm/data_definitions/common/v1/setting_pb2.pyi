@@ -31,11 +31,8 @@ class SettingNode(google.protobuf.message.Message):
         PARAMETER_NAME_FIELD_NUMBER: builtins.int
         PARAMETER_FIELD_NUMBER: builtins.int
         VALUE_FIELD_NUMBER: builtins.int
-        READ_ONLY_FIELD_NUMBER: builtins.int
         parameter_name: builtins.str
         """The string is to be used when request is sent to the server which already knows the aux data."""
-        read_only: builtins.bool
-        """Whether the setting is read only. Default is False."""
         @property
         def parameter(self) -> iqm.data_definitions.common.v1.parameter_pb2.Parameter:
             """Parameter is to be used when the auxiliary data, like unit and required datatype,
@@ -52,13 +49,9 @@ class SettingNode(google.protobuf.message.Message):
             parameter_name: builtins.str = ...,
             parameter: iqm.data_definitions.common.v1.parameter_pb2.Parameter | None = ...,
             value: iqm.data_definitions.common.v1.data_types_pb2.Datum | None = ...,
-            read_only: builtins.bool | None = ...,
         ) -> None: ...
-        def HasField(self, field_name: typing.Literal["_read_only", b"_read_only", "parameter", b"parameter", "parameter_desc", b"parameter_desc", "parameter_name", b"parameter_name", "read_only", b"read_only", "value", b"value"]) -> builtins.bool: ...
-        def ClearField(self, field_name: typing.Literal["_read_only", b"_read_only", "parameter", b"parameter", "parameter_desc", b"parameter_desc", "parameter_name", b"parameter_name", "read_only", b"read_only", "value", b"value"]) -> None: ...
-        @typing.overload
-        def WhichOneof(self, oneof_group: typing.Literal["_read_only", b"_read_only"]) -> typing.Literal["read_only"] | None: ...
-        @typing.overload
+        def HasField(self, field_name: typing.Literal["parameter", b"parameter", "parameter_desc", b"parameter_desc", "parameter_name", b"parameter_name", "value", b"value"]) -> builtins.bool: ...
+        def ClearField(self, field_name: typing.Literal["parameter", b"parameter", "parameter_desc", b"parameter_desc", "parameter_name", b"parameter_name", "value", b"value"]) -> None: ...
         def WhichOneof(self, oneof_group: typing.Literal["parameter_desc", b"parameter_desc"]) -> typing.Literal["parameter_name", "parameter"] | None: ...
 
     @typing.final
