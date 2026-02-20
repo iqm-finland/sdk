@@ -43,10 +43,12 @@ intersphinx_mapping.update(
             "../iqm-client",
             "https://docs.meetiqm.com/iqm-client/objects.inv",
         ),
+
         "iqm.qiskit_iqm": (
             "../iqm-client",
             "https://docs.meetiqm.com/iqm-client/objects.inv",
         ),
+
         "iqm.cirq_iqm": (
             "../iqm-client",
             "https://docs.meetiqm.com/iqm-client/objects.inv",
@@ -56,9 +58,15 @@ intersphinx_mapping.update(
             "../iqm-qaoa",
             "https://docs.meetiqm.com/iqm-qaoa/objects.inv",
         ),
+
         "iqm.qaoa": (
             "../iqm-qaoa",
             "https://docs.meetiqm.com/iqm-qaoa/objects.inv",
+        ),
+
+        "iqm.qubit_selector": (
+            "../iqm-qubit-selector",
+            "https://docs.meetiqm.com/iqm-qubit-selector/objects.inv",
         ),
     }
 )
