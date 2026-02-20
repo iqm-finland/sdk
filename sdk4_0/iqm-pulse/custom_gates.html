@@ -50,7 +50,7 @@
     <link rel="prev" title="Using ScheduleBuilder" href="using_builder.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2026-02-19"/>
+    <meta name="docbuild:last-update" content="2026-02-20"/>
   </head>
   
   
@@ -378,7 +378,7 @@ metadata to define the gate. A QuantumOp is identified by its <a class="referenc
 <a class="reference internal" href="api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp.arity" title="iqm.pulse.quantum_ops.QuantumOp.arity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">arity</span></code></a> defines number of locus components the operation acts on. For example,
 the PRX operation (Phased X Rotation) is a single-qubit operation, so its arity is 1, whereas the CZ (Controlled-Z) gate
 acts on two qubits, having arity 2. Arity 0 has a special meaning that the operation in question can act on any number
-of components (for example <a class="reference external" href="../iqm-pulse/api/iqm.pulse.gates.barrier.Barrier.html#iqm.pulse.gates.barrier.Barrier" title="(in iqm.pulse v12.7.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Barrier</span></code></a>).</p>
+of components (for example <a class="reference external" href="../iqm-pulse/api/iqm.pulse.gates.barrier.Barrier.html#iqm.pulse.gates.barrier.Barrier" title="(in iqm.pulse v12.7.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Barrier</span></code></a>).</p>
 <p>The attribute <a class="reference internal" href="api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp.symmetric" title="iqm.pulse.quantum_ops.QuantumOp.symmetric"><code class="xref py py-attr docutils literal notranslate"><span class="pre">symmetric</span></code></a> defines whether the effect of the quantum operation
 is symmetric with respect to changing the order of its locus components. As an example, the CZ gate is a symmetric
 two-qubit gate, whereas CNOT (Controlled-NOT) is not symmetric.</p>
@@ -437,9 +437,9 @@ the dictionary <a class="reference internal" href="api/iqm.pulse.quantum_ops.Qua
 the QuantumOp acts on (the size of the locus must be consistent with the <code class="docutils literal notranslate"><span class="pre">parent</span></code>’s
 <a class="reference internal" href="api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp.arity" title="iqm.pulse.quantum_ops.QuantumOp.arity"><code class="xref py py-attr docutils literal notranslate"><span class="pre">arity</span></code></a>), while <code class="docutils literal notranslate"><span class="pre">calibration_data</span></code> gives the required calibration data values
 for this implementation and <code class="docutils literal notranslate"><span class="pre">locus</span></code> (can be empty in case the implementation needs no calibration data). Finally,
-The implementations store a reference to the <a class="reference external" href="../iqm-pulse/api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="(in iqm.pulse v12.7.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code></a> that created it. This is
+The implementations store a reference to the <a class="reference external" href="../iqm-pulse/api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="(in iqm.pulse v12.7.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code></a> that created it. This is
 because GateImplementations are practically never created manually by calling the init method itself. Instead, one
-needs a builder and uses <a class="reference external" href="../iqm-pulse/api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder.get_implementation" title="(in iqm.pulse v12.7.4)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_implementation()</span></code></a>.</p>
+needs a builder and uses <a class="reference external" href="../iqm-pulse/api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder.get_implementation" title="(in iqm.pulse v12.7.5)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_implementation()</span></code></a>.</p>
 <p>The responsibility of the init method is to (at least) store the <code class="docutils literal notranslate"><span class="pre">calibration_data</span></code> provided from the builder for
 further use, but in many cases, one might want to create some intermediate objects like pulses or instructions <strong>from</strong>
 that calibration data already at this point. Note that ScheduleBuilder caches its GateImplementations per each locus and
@@ -504,7 +504,7 @@ loci are supported to a client application (e.g. EXA). In addition, the gate imp
 use this information <code class="docutils literal notranslate"><span class="pre">self.builder.chip_topology</span></code>.</p>
 <p>For example, a PRX can be defined on all single components that are connected to a drive line, and CZ can be defined on
 connected pairs of qubits. Locus mappings live in <code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.chip_topology</span></code> which is a
-<a class="reference external" href="../iqm-exa-common/api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology" title="(in exa-common v27.4.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChipTopology</span></code></a> object. Locus mapping is a dict whose keys are the loci
+<a class="reference external" href="../iqm-exa-common/api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology" title="(in exa-common v27.4.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChipTopology</span></code></a> object. Locus mapping is a dict whose keys are the loci
 (<code class="docutils literal notranslate"><span class="pre">tuple[str,</span> <span class="pre">...]</span></code> keys denote asymmetric loci where the order of the components matter, and <code class="docutils literal notranslate"><span class="pre">frozenset[str]</span></code> type
 loci denote symmetric ones), and the values are groups of components, typed <code class="docutils literal notranslate"><span class="pre">tuple[str,</span> <span class="pre">...]</span></code>, where each locus can be
 mapped with some additional components that are needed for the operation of the implementation. For example, some CZ
@@ -598,8 +598,8 @@ case specifically for this composite if they are first registered via
 just one member, PRX).</p>
 <p>Creating new implementations for the PRX, CZ and Measure gates often means just coming up with new waveforms for the
 control pulses. If this is the case, there are helpful base classes that make those implementations into oneliners
-(outside of defining the Waveforms themselves): <a class="reference external" href="../iqm-pulse/api/iqm.pulse.gates.prx.PRX_CustomWaveforms.html#iqm.pulse.gates.prx.PRX_CustomWaveforms" title="(in iqm.pulse v12.7.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PRX_CustomWaveforms</span></code></a>,
-<a class="reference external" href="../iqm-pulse/api/iqm.pulse.gates.cz.FluxPulseGate.html#iqm.pulse.gates.cz.FluxPulseGate" title="(in iqm.pulse v12.7.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">FluxPulseGate</span></code></a>, and <a class="reference external" href="../iqm-pulse/api/iqm.pulse.gates.measure.Measure_CustomWaveforms.html#iqm.pulse.gates.measure.Measure_CustomWaveforms" title="(in iqm.pulse v12.7.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Measure_CustomWaveforms</span></code></a>. Using these
+(outside of defining the Waveforms themselves): <a class="reference external" href="../iqm-pulse/api/iqm.pulse.gates.prx.PRX_CustomWaveforms.html#iqm.pulse.gates.prx.PRX_CustomWaveforms" title="(in iqm.pulse v12.7.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">PRX_CustomWaveforms</span></code></a>,
+<a class="reference external" href="../iqm-pulse/api/iqm.pulse.gates.cz.FluxPulseGate.html#iqm.pulse.gates.cz.FluxPulseGate" title="(in iqm.pulse v12.7.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">FluxPulseGate</span></code></a>, and <a class="reference external" href="../iqm-pulse/api/iqm.pulse.gates.measure.Measure_CustomWaveforms.html#iqm.pulse.gates.measure.Measure_CustomWaveforms" title="(in iqm.pulse v12.7.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Measure_CustomWaveforms</span></code></a>. Using these
 base classes at its simplest looks like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">PRX_MyCoolWaveforms</span><span class="p">(</span><span class="n">PRX_CustomWaveForms</span><span class="p">,</span> <span class="n">wave_i</span><span class="o">=</span><span class="n">CoolWaveformI</span><span class="p">,</span> <span class="n">wave_q</span><span class="o">=</span><span class="n">CoolWaveformQ</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;PRX with my cool custom waveforms for the i and q drive pulse components&quot;&quot;&quot;</span>
@@ -619,11 +619,11 @@ the implementation itself. There is also a general base class for any gate that 
 </section>
 <section id="registering-gates-and-implementations">
 <h2>Registering gates and implementations<a class="headerlink" href="#registering-gates-and-implementations" title="Link to this heading">#</a></h2>
-<p>Gate definitions (i.e. QuantumOps) are stored in <a class="reference external" href="../iqm-pulse/api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="(in iqm.pulse v12.7.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code></a>’s attribute
+<p>Gate definitions (i.e. QuantumOps) are stored in <a class="reference external" href="../iqm-pulse/api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="(in iqm.pulse v12.7.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code></a>’s attribute
 <code class="docutils literal notranslate"><span class="pre">op_table</span></code>. When the builder is created, the <code class="docutils literal notranslate"><span class="pre">op_table</span></code> comes preloaded with the all the basic QuantumOps needed for
 typical circuit execution and their default implementations. These include e.g. the PRX gate, the CZ gate, the measure
 operation, the conditional prx operation, the reset operation, and the barrier operation.</p>
-<p>In order to add custom operations, there is a helpful function <a class="reference external" href="../iqm-pulse/api/iqm.pulse.gates.register_implementation.html#iqm.pulse.gates.register_implementation" title="(in iqm.pulse v12.7.4)"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_implementation()</span></code></a> that
+<p>In order to add custom operations, there is a helpful function <a class="reference external" href="../iqm-pulse/api/iqm.pulse.gates.register_implementation.html#iqm.pulse.gates.register_implementation" title="(in iqm.pulse v12.7.5)"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_implementation()</span></code></a> that
 in addition to adding new implementations allows one to add altogether new quantum operations.</p>
 <p>As an example here is a snippet that adds the CNOT gate, and its implementation, into an existing builder:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cnot_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># the unitary is not strictly necessary for basic use, but since</span>
@@ -733,7 +733,7 @@ above method will always work.</p>
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2026-02-19.
+  Last updated on 2026-02-20.
   <br/>
 </p>
   </div>
