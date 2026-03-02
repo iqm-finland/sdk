@@ -39,7 +39,7 @@ jobs:
         shell: powershell
       
       - name: Create virtual environment
-        run: uv venv --python ${{ matrix.python-version }}
+        run: uv venv --python ${{ matrix.python-version }} --clear
       
       - name: Install packages (Unix)
         if: runner.os != 'Windows'
@@ -58,7 +58,7 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           $ErrorActionPreference = "Stop"
-          uv venv --python ${{ matrix.python-version }}
+          uv venv --python ${{ matrix.python-version }} --clear
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           .venv\Scripts\activate
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
