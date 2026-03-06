@@ -114,10 +114,8 @@ class RZ_Virtual(GateImplementation):
     ):
         super().__init__(parent, name, locus, calibration_data, builder)
         drive_channel_name = builder.get_drive_channel(*locus)
-        drive_channel = builder.channels[drive_channel_name]
-        duration = drive_channel.duration_to_seconds(drive_channel.instruction_duration_min)
-        self.duration = duration
         self.channel = drive_channel_name
+        self.duration = self.builder.min_allowed_instruction_duration
 
     def _call(self, angle: float) -> TimeBox:  # type: ignore[override]
         """Z rotation gate.
@@ -134,7 +132,7 @@ class RZ_Virtual(GateImplementation):
                 {
                     self.channel: [
                         VirtualRZ(
-                            duration=self.builder.channels[self.channel].duration_to_int_samples(self.duration),
+                            duration=self.duration,
                             phase_increment=-normalize_angle(angle),
                         )
                     ]
@@ -147,7 +145,7 @@ class RZ_Virtual(GateImplementation):
     parameters: dict[str, Parameter] = {}  # type: ignore[assignment]
 
     def duration_in_seconds(self) -> float:
-        return self.duration
+        return self.builder.channels[self.channel].duration_to_seconds(self.duration)
 
     @classmethod
     def get_locus_mapping_name(cls, operation_name: str, implementation_name: str) -> str:

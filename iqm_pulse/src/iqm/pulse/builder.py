@@ -406,6 +406,16 @@ class ScheduleBuilder:
         }
         """Cache representative channel properties for a probe and a non-probe channel for the scheduling algorithm
         performance."""
+        if self._require_scheduling_in_seconds:
+            # with UHFQAs we don't include the granularity of probes as those have already been accounted for by the
+            # seconds based scheduling
+            self.min_allowed_instruction_duration = max(
+                c.instruction_duration_min for k, c in self.channels.items() if k in self._channel_types["other"]
+            )
+        else:
+            self.min_allowed_instruction_duration = max(c.instruction_duration_min for c in self.channels.values())
+        """Minimum allowed (non-zero) duration in samples, i.e. the maximum of the allowed minimum instruction durations
+        across all relevant control channels."""
 
         for op_name in op_table:
             self._set_gate_implementation_shortcut(op_name)
@@ -1455,7 +1465,7 @@ class ScheduleBuilder:
             if not schedule[ch]:
                 schedule.append(ch, Block(T))
 
-    def build_playlist(  # noqa: PLR0915
+    def build_playlist(  # noqa: PLR0915, PLR0912
         self, schedules: Sequence[Schedule], finish_schedules: bool = True
     ) -> tuple[Playlist, ReadoutMetrics]:
         """Build a playlist from a number of instruction schedules.
@@ -1595,26 +1605,56 @@ class ScheduleBuilder:
                     continue
                 pl.add_channel(channel)
                 prev_wait = None
+                prev_vz = None
                 for instruction in segment:
                     if isinstance(instruction, ReadoutTrigger):
                         readout_metrics.extend(instruction, seg_idx)
+
+                    if not finish_schedules:
+                        _append_to_schedule(sc_schedule, channel_name, instruction)
+                        continue
+
+                    # convert 0-angle virtual rotation instructions to Wait
+                    is_wait = isinstance(instruction, (NONSOLID, Wait)) or (
+                        isinstance(instruction, VirtualRZ) and instruction.phase_increment == 0.0
+                    )
+
                     # convert all NONSOLID instructions into Waits
-                    if finish_schedules and (isinstance(instruction, NONSOLID) or isinstance(instruction, Wait)):
+                    if is_wait:
                         if instruction.duration > 0:
                             if prev_wait:  # if the previous instruction was a Wait, combine durations
                                 prev_wait = Wait(prev_wait.duration + instruction.duration)
                             else:
                                 prev_wait = Wait(instruction.duration)
-                    else:
-                        if prev_wait:  # if there's a prev_wait not yet added to schedule, place it before instruction
-                            instructions_to_add = [prev_wait, instruction]
-                            prev_wait = None
+                        continue
+
+                    if isinstance(instruction, VirtualRZ):
+                        if prev_vz:  # merge successive VirtualRZ instructions
+                            prev_vz = VirtualRZ(
+                                duration=prev_vz.duration + instruction.duration,
+                                phase_increment=prev_vz.phase_increment + instruction.phase_increment,
+                            )
                         else:
-                            instructions_to_add = [instruction]
-                        for instr in instructions_to_add:
-                            _append_to_schedule(sc_schedule, channel_name, instr)
+                            prev_vz = VirtualRZ(instruction.duration, instruction.phase_increment)
+                        continue
+
+                    # handle instructions that are neither Wait nor VirtualRZ
+                    if prev_wait:  # flush accumulated Wait instructions
+                        _append_to_schedule(sc_schedule, channel_name, prev_wait)
+                        prev_wait = None
+                    if prev_vz:  # flush accumulated VirtualRZ instructions
+                        _append_to_schedule(sc_schedule, channel_name, prev_vz)
+                        prev_vz = None
+                    # finally, add instruction
+                    _append_to_schedule(sc_schedule, channel_name, instruction)
+                    continue
+
+                # if segment ends with VirtualRZ or Wait, flush to schedule
                 if prev_wait:
                     _append_to_schedule(sc_schedule, channel_name, prev_wait)
+                if prev_vz:
+                    _append_to_schedule(sc_schedule, channel_name, prev_vz)
+
             pl.segments.append(sc_schedule)
         return pl, readout_metrics
 

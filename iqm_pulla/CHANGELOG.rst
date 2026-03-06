@@ -1,3 +1,13 @@
+Version 12.0.5 (2026-02-13)
+===========================
+
+- Patch release, no functional changes.
+
+Version 12.0.4 (2026-01-27)
+===========================
+
+- Patch release, no functional changes.
+
 Version 12.0.3 (2026-01-08)
 ============================
 

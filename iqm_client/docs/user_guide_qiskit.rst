@@ -55,7 +55,7 @@ from the Python Package Index (PyPI):
 
 .. code-block:: bash
 
-   $ pip install iqm-client[qiskit]
+   $ pip install "iqm-client[qiskit]"
 
 
 After installation, Qiskit on IQM can be imported in your Python code as follows:

@@ -35,8 +35,20 @@ class Instruction:
     """Time duration of the instruction. In samples at the channel sample rate."""
 
     def __post_init__(self):
-        """Add a unique id for caching purposes, which can be used if the instruction is not hashable."""
+        """Add a unique id for caching purposes, which can be used if the instruction is not hashable.
+
+        Rounds ``phase`` and ``phase_increment`` to a fixed precision.
+        """
         object.__setattr__(self, "id", random.getrandbits(64))
+
+        # HACK round phases to 8th decimal place to prevent essentially identical instructions bloating
+        # the ZI command table, caused by phase differences beyond machine precision.
+        # Phase precision for ZI is in the order of 10**-5 radians (19-bit resolution).
+        # In the future this should be done on the station-control side for all instruments that benefit from it.
+        if hasattr(self, "phase_increment"):
+            object.__setattr__(self, "phase_increment", round(self.phase_increment, 8))
+        if hasattr(self, "phase"):
+            object.__setattr__(self, "phase", round(self.phase, 8))
 
     def validate(self) -> None:
         """Validate the instruction attributes.
@@ -291,7 +303,7 @@ class ReadoutMetrics:
     """Map each time trace label (of the format ``"<component>__<readout key>"``) to its number of time trace samples.
     """
     implementations: dict[str, set[str]] = field(default_factory=dict)
-    """Map each integration or time trace readout label to its implementations (of the format 
+    """Map each integration or time trace readout label to its implementations (of the format
     ``"<measure gate name>.<implementation name>"``)."""
 
     def extend(self, trigger: ReadoutTrigger, seg_idx: int) -> None:
