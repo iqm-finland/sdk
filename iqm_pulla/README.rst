@@ -16,7 +16,7 @@ Create a virtual environment and install dependencies:
 
     conda create -y -n pulla python=3.11 pip=23.0
     conda activate pulla
-    pip install iqm-pulla[notebook, qiskit, qir]
+    pip install "iqm-pulla[notebook, qiskit, qir]"
 
 The ``[qiskit]`` option is to enable Qiskit-related features and utilities, like converting Qiskit circuits to Pulla circuits, constructing a compatible compiler instance, or constructing a ``PullaBackend`` for running Qiskit jobs.
 

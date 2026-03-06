@@ -1,3 +1,31 @@
+Version 27.4.5 (2026-02-13)
+===========================
+
+- Patch release, no functional changes.
+
+Version 27.4.4 (2026-01-27)
+===========================
+
+- Patch release, no functional changes.
+
+Version 27.4.3 (2026-01-15)
+===========================
+
+- Patch release, no functional changes.
+
+Version 27.4.2 (2025-12-09)
+===========================
+
+- Patch fix for a release. No functional changes.
+
+Version 27.4.1 (2025-12-02)
+===========================
+
+Bug fixes
+---------
+
+- Fix version ranges in python package dependencies.
+
 Version 27.4.0 (2025-11-19)
 ===========================
 

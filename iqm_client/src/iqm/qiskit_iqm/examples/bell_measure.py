@@ -13,8 +13,8 @@
 # limitations under the License.
 """An example on using Qiskit on IQM to run a simple quantum circuit on an IQM quantum computer.
 
-See the Qiskit on IQM user guide for instructions:
-https://docs.meetiqm.com/iqm-client/user_guide_qiskit.html
+See the Qiskit on IQM user guide for instructions, found in the documentation at
+https://docs.meetiqm.com/iqm-client/
 """
 
 import argparse
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         "--token",
         help="API token for authentication",
         # Provide the API token explicitly or set it as an environment variable
-        # following the https://docs.meetiqm.com/iqm-client/user_guide_qiskit.html#authentication
+        # following the Qiskit user guide at https://docs.meetiqm.com/iqm-client/
     )
 
     args = argparser.parse_args()

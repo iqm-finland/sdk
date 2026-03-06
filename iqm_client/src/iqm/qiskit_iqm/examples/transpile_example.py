@@ -12,8 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """This file is an example of using Qiskit on IQM to run a simple but non-trivial quantum circuit on an IQM quantum
-computer. See the Qiskit on IQM user guide for instructions:
-https://docs.meetiqm.com/iqm-client/user_guide_qiskit.html
+computer.
+
+See the Qiskit on IQM user guide for instructions, found in the documentation at
+https://docs.meetiqm.com/iqm-client/
 """
 
 import argparse

@@ -21,9 +21,15 @@ import os
 import time
 from typing import Any, TypeAlias
 
-from iqm.iqm_server_client.errors import ClientAuthenticationError, ClientConfigurationError
-
 REFRESH_MARGIN_SECONDS = 60
+
+
+class ClientAuthenticationError(RuntimeError):
+    """Something went wrong with user authentication."""
+
+
+class ClientConfigurationError(RuntimeError):
+    """Wrong configuration provided."""
 
 
 AuthHeaderCallback: TypeAlias = Callable[[], str]

@@ -1,4 +1,4 @@
-# Copyright 2024-2025 IQM
+# Copyright 2024-2026 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -184,7 +184,7 @@ def convert_sweep_spot_to_arrays(
 
     def _fix_typing(arr: np.ndarray) -> np.ndarray:
         """Cast thresholded (int) results into np.uint8"""
-        if np.iscomplex(arr).any():
+        if np.iscomplex(arr).any() or np.modf(arr)[0].any():
             return arr
         return arr.astype(np.uint8)
 

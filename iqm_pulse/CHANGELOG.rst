@@ -1,3 +1,45 @@
+Version 12.7.5 (2026-02-13)
+===========================
+
+Bug fixes
+---------
+- ``Shelved_Measure_CustomWaveforms`` multiplexes correctly in circuit execution.
+- Standalone ``VirtualZ`` instruction durations now conform to the minimum
+  allowed duration across all control channels.
+
+
+Version 12.7.4 (2026-01-27)
+===========================
+
+Features
+---------
+
+- Successive ``VirtualRZ`` instructions are now concatenated.
+- ``VirtualRZ`` instructions with 0-angle phase increment converted to ``Wait`` instructions.
+
+Bug fix
+---------
+
+- Fix phase values beyond machine precision leading to multiple command table entries :issue:`SW-2077`
+
+Version 12.7.3 (2025-01-15)
+===========================
+
+- Patch fix for a release. No functional changes.
+
+Version 12.7.2 (2025-12-09)
+===========================
+
+- Patch fix for a release. No functional changes.
+
+Version 12.7.1 (2025-12-02)
+===========================
+
+Bug fixes
+---------
+
+- Fix version ranges in python package dependencies.
+
 Version 12.7.0 (2025-11-19)
 ===========================
 
@@ -425,6 +467,7 @@ Features
 --------
 
 - :class:`.CouplerFluxPulseQubitACStarkPulseGate` also now supports off-locus RZ corrections.
+
 
 Version 8.6.0 (2025-03-26)
 ==========================
