@@ -94,9 +94,9 @@ build_docs() {
     grep -v -E "^(qrisp|iqm-benchmarks)(\[|==|>=|<=|>|<|!=|~=|$)" "$SDK_FILE" > "$FILTERED_SDK_FILE"
     
     echo "Original SDK file packages:"
-    echo "===" | cat "$SDK_FILE"
+    cat "$SDK_FILE"
     echo "Filtered SDK file packages (for build):"
-    echo "===" | cat "$FILTERED_SDK_FILE"
+    cat "$FILTERED_SDK_FILE"
 
     # Try to compile a constraint file from the filtered SDK file
     echo "Attempting to compile constraints for $FILTERED_SDK_FILE..."
