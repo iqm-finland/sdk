@@ -29,7 +29,7 @@ mkdir -p public
 mkdir -p temp
 
 # Install the requirements for building the docs
-uv pip install pip packaging wheel
+uv pip install pip packaging wheel setuptools setuptools_scm
 uv pip install -r requirements.txt
 
 # Function to verify all packages from SDK file were successfully built
@@ -110,19 +110,20 @@ build_docs() {
         USE_CONSTRAINTS=false
     fi
 
-    # Download and extract the packages' source distributions
+    # Download and extract the packages' source distributions.
+    # --no-binary=:all: forces sdist downloads; --no-build-isolation prevents pip from
+    # installing build tools from source (it uses setuptools/setuptools_scm already in the venv).
+    # This is necesary to avoid circular dependencies in build tools build.
     if [ "$USE_CONSTRAINTS" = true ]; then
         echo "Downloading packages with constraints..."
-        uv run -m pip download --no-deps -c "$CONSTRAINTS_FILE" -r "$FILTERED_SDK_FILE" -d "./temp/$TEMP_SUBDIR"
-        
+        uv run -m pip download --no-deps --no-binary=:all: --no-build-isolation -c "$CONSTRAINTS_FILE" -r "$FILTERED_SDK_FILE" -d "./temp/$TEMP_SUBDIR"
+
         # Install the packages into the virtual environment; needed for Sphinx to resolve namespaces
         uv pip install -r "$CONSTRAINTS_FILE"
     else
         echo "Downloading packages without constraints (may result in version conflicts)..."
-        # Try to download without constraints - some packages may fail but others might succeed
-        uv run -m pip download --no-deps -r "$FILTERED_SDK_FILE" -d "./temp/$TEMP_SUBDIR" || echo "Some package downloads failed, continuing with available packages..."
-        
-        # Try to install packages directly from filtered SDK file (may have conflicts but might partially work)
+        uv run -m pip download --no-deps --no-binary=:all: --no-build-isolation -r "$FILTERED_SDK_FILE" -d "./temp/$TEMP_SUBDIR" || echo "Some package downloads failed, continuing with available packages..."
+
         uv pip install -r "$FILTERED_SDK_FILE" || echo "Some package installations failed, continuing with available packages..."
     fi
     
