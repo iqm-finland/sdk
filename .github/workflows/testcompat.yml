@@ -58,8 +58,6 @@ jobs:
         if: runner.os == 'Windows'
         run: |
           $ErrorActionPreference = "Stop"
-          uv venv --python ${{ matrix.python-version }}
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           .venv\Scripts\activate
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           $DefaultSdkFile = Get-ChildItem -Name "sdk*_default.txt" | Select-Object -First 1
