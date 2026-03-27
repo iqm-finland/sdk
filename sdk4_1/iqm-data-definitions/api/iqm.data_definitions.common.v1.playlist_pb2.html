@@ -1,0 +1,816 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>playlist_pb2 &#8212; IQM data definitions 2.13 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=7e7672c5"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.data_definitions.common.v1.playlist_pb2';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="AcquisitionMethod" href="iqm.data_definitions.common.v1.playlist_pb2.AcquisitionMethod.html" />
+    <link rel="prev" title="Parameter" href="iqm.data_definitions.common.v1.parameter_pb2.Parameter.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-03-25"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM data definitions 2.13 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM data definitions 2.13 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.models.channel_properties.html">channel_properties</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.models.channel_properties.channel_properties.html">channel_properties</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.models.playlist.html">playlist</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.models.playlist.channel_descriptions.html">channel_descriptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.models.playlist.instructions.html">instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.models.playlist.playlist.html">playlist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.models.playlist.segment.html">segment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.models.playlist.waveforms.html">waveforms</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.data_definitions.html">data_definitions</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.data_definitions.common.html">common</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4 current active"><a class="reference internal" href="iqm.data_definitions.common.v1.html">v1</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.data_definitions.station_control.html">station_control</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.data_definitions.station_control.v1.html">v1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.data_definitions.station_control.v2.html">v2</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/iqm.data_definitions.common.v1.playlist_pb2.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>playlist_pb2</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-iqm.data_definitions.common.v1.playlist_pb2">
+<span id="playlist-pb2"></span><h1>playlist_pb2<a class="headerlink" href="#module-iqm.data_definitions.common.v1.playlist_pb2" title="Link to this heading">#</a></h1>
+<p>Generated protocol buffer code.</p>
+<p>Full path: iqm.data_definitions.common.v1.playlist_pb2</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Protobuf source code</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-proto notranslate"><div class="highlight"><pre><span></span><span class="c1">// Copyright 2019-2025 IQM</span>
+<span class="c1">//</span>
+<span class="c1">// Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1">// you may not use this file except in compliance with the License.</span>
+<span class="c1">// You may obtain a copy of the License at</span>
+<span class="c1">//</span>
+<span class="c1">//     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">//</span>
+<span class="c1">// Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1">// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1">// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1">// See the License for the specific language governing permissions and</span>
+<span class="c1">// limitations under the License.</span>
+
+<span class="k">syntax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;proto3&quot;</span><span class="p">;</span>
+
+<span class="kn">package</span><span class="w"> </span><span class="nn">iqm</span><span class="o">.</span><span class="n">data_definitions.common.v1</span><span class="p">;</span>
+
+<span class="c1">// Sequence of instruction schedules to execute.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">Playlist</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">map</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="n">ChannelDescription</span><span class="p">&gt;</span><span class="w"> </span><span class="na">channels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">repeated</span><span class="w"> </span><span class="n">Schedule</span><span class="w"> </span><span class="na">schedules</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Synchronous instruction segment to be executed on several control channels in parallel.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">Schedule</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// list of ChannelDescription.instruction_table references for a single control channel</span>
+<span class="w">    </span><span class="kd">message</span><span class="w"> </span><span class="nc">Channel</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">repeated</span><span class="w"> </span><span class="kt">uint64</span><span class="w"> </span><span class="na">instruction_refs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// mapping from channel names to their contents</span>
+<span class="w">    </span><span class="n">map</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="n">Channel</span><span class="p">&gt;</span><span class="w"> </span><span class="na">channels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">message</span><span class="w"> </span><span class="nc">IQChannelConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">sample_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">message</span><span class="w"> </span><span class="nc">RealChannelConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">sample_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">message</span><span class="w"> </span><span class="nc">ReadoutChannelConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">sample_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Requested configuration for a control channel.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">ChannelConfiguration</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">oneof</span><span class="w"> </span><span class="n">extended</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">IQChannelConfig</span><span class="w"> </span><span class="na">iq_channel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">RealChannelConfig</span><span class="w"> </span><span class="na">real_channel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ReadoutChannelConfig</span><span class="w"> </span><span class="na">ro_channel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Describes a single control channel in a Playlist.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">ChannelDescription</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// name of the controller handling the control channel</span>
+<span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="na">controller_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// requested configuration for the channel</span>
+<span class="w">    </span><span class="n">ChannelConfiguration</span><span class="w"> </span><span class="na">channel_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// instruction and waveform lookup tables for the channel (Schedule refers to these)</span>
+<span class="w">    </span><span class="k">repeated</span><span class="w"> </span><span class="n">Instruction</span><span class="w"> </span><span class="na">instruction_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="w">    </span><span class="k">repeated</span><span class="w"> </span><span class="n">Waveform</span><span class="w"> </span><span class="na">waveform_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Table of acquisition configs. Only relevant for readout channels.</span>
+<span class="w">    </span><span class="c1">// Restrictions that may apply:</span>
+<span class="w">    </span><span class="c1">// - At most one time trace operation allowed.</span>
+<span class="w">    </span><span class="c1">// - Mixing of time traces and state discrimination not allowed.</span>
+<span class="w">    </span><span class="k">repeated</span><span class="w"> </span><span class="n">AcquisitionMethod</span><span class="w"> </span><span class="na">acquisition_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Instructions are things instruments can do, and are executed back to back as referenced in each Schedule.Channel.</span>
+<span class="c1">// Not all instruction types are supported by all channels.</span>
+<span class="c1">// If a wrong instruction type is used, the Playlist is rejected.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">Instruction</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">uint64</span><span class="w"> </span><span class="na">duration_samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">oneof</span><span class="w"> </span><span class="n">operation</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">MultiplexedRealPulse</span><span class="w"> </span><span class="na">multiplexed_real_pulse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+<span class="w">        </span><span class="n">MultiplexedIQPulse</span><span class="w"> </span><span class="na">multiplexed_iq_pulse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Wait</span><span class="w"> </span><span class="na">wait</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">        </span><span class="n">RealPulse</span><span class="w"> </span><span class="na">real_pulse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="p">;</span>
+<span class="w">        </span><span class="n">IQPulse</span><span class="w"> </span><span class="na">iq_pulse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span>
+<span class="w">        </span><span class="n">VirtualRZ</span><span class="w"> </span><span class="na">virtual_rz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">13</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ConditionalInstruction</span><span class="w"> </span><span class="na">conditional_instruction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">14</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ReadoutTrigger</span><span class="w"> </span><span class="na">readout_trigger</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">15</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="c1">// Acquisition methods</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">AcquisitionMethod</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// Capture the raw IQ signal without integration.</span>
+<span class="w">    </span><span class="kd">message</span><span class="w"> </span><span class="nc">TimeTrace</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// How many samples to capture.</span>
+<span class="w">        </span><span class="kt">uint64</span><span class="w"> </span><span class="na">duration_samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Perform a weighted integration of the IQ raw signal, resulting a complex number.</span>
+<span class="w">    </span><span class="kd">message</span><span class="w"> </span><span class="nc">ComplexIntegration</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Complex IQ weight to use.</span>
+<span class="w">        </span><span class="c1">// The total integration window is the maximum length of all integration weights.</span>
+<span class="w">        </span><span class="c1">// A weights vector shorter than the window is padded with zeros.</span>
+<span class="w">        </span><span class="n">IQPulse</span><span class="w"> </span><span class="na">weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Perform a weighted integration of the IQ raw signal and compares the real part of the result against a</span>
+<span class="w">    </span><span class="c1">// threshold value, resulting in a boolean.</span>
+<span class="w">    </span><span class="kd">message</span><span class="w"> </span><span class="nc">ThresholdStateDiscrimination</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Same as in ComplexIntegration</span>
+<span class="w">        </span><span class="n">IQPulse</span><span class="w"> </span><span class="na">weights</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// Threshold value used in discrimination.</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="na">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// In fast feedback routing, the transmitted signals are associated with this label.</span>
+<span class="w">        </span><span class="c1">// ConditionalInstructions whose &quot;condition&quot; field has the string value of &quot;feedback_signal_label&quot;</span>
+<span class="w">        </span><span class="c1">// will receive the signal from this ThresholdStateDiscrimination.</span>
+<span class="w">        </span><span class="c1">// Empty string (default) means the signal is not routed anywhere.</span>
+<span class="w">        </span><span class="c1">// The same feedback_signal_label may not be used multiple times within the same ReadoutTrigger.</span>
+<span class="w">        </span><span class="c1">// The same feedback_signal_label can be used in different ReadoutTriggers and different segments.</span>
+<span class="w">        </span><span class="kt">string</span><span class="w"> </span><span class="na">feedback_signal_label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Identifier for the returned data, like &quot;QB1__readout.time_trace&quot;</span>
+<span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="na">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// How much the start of the acquisition should be delayed after the trigger, in samples.</span>
+<span class="w">    </span><span class="kt">uint64</span><span class="w"> </span><span class="na">delay_samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">oneof</span><span class="w"> </span><span class="n">acquisition_type</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">TimeTrace</span><span class="w"> </span><span class="na">timetrace</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ComplexIntegration</span><span class="w"> </span><span class="na">integration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ThresholdStateDiscrimination</span><span class="w"> </span><span class="na">threshold_discrimination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">13</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="c1">// Instruction for an instrument to wait. For AWGs, equivalent to playing zero-valued samples.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">Wait</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="c1">// Instruction for a virtual z rotation.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">VirtualRZ</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">phase_increment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Instruction for playing a real-valued pulse, to be used with real channels.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">RealPulse</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">uint64</span><span class="w"> </span><span class="na">waveform_ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">scale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Instruction for playing an IQ pulse, to be used with IQ channels.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">IQPulse</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">uint64</span><span class="w"> </span><span class="na">waveform_i_ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint64</span><span class="w"> </span><span class="na">waveform_q_ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Pulse modifiers that can be implemented in hardware.</span>
+<span class="w">    </span><span class="c1">// Semantics: first scale the i and q waves, then apply phase offset and modulation (mixing i and q),</span>
+<span class="w">    </span><span class="c1">// then apply extra accumulated phase from VirtualRZs, if present.</span>
+<span class="w">    </span><span class="c1">// Frequency modulation `phase_mod_freq` is applied relative to the start of the pulse, on top of any IF modulation in hardware;</span>
+<span class="w">    </span><span class="c1">//   sideband modulating with this parameter will not result in phase-coherent pulses at the new sideband frequency.</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">scale_i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">scale_q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">phase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">phase_mod_freq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Relative phase increment to the phase in the carrier frequency of this pulse and all pulses that are played after it. Unit: rad.</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">phase_increment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Instruction to simultaneously play multiple IQ pulses.</span>
+<span class="c1">// Each component pulse entry can be added with arbitrary delay from the beginning of this instruction.</span>
+<span class="c1">// Where outside of the duration of the MultiplexedPulse, the pulse entries are truncated.</span>
+<span class="c1">// Where overlapping, samples of multiple pulse entries are summed.</span>
+<span class="c1">// Where the interval of a MultiplexedPulse does not overlap with any of its entry pulse, its samples will be 0.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">MultiplexedIQPulse</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">message</span><span class="w"> </span><span class="nc">Entry</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int64</span><span class="w"> </span><span class="na">offset_samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="c1">// no granularity constraints. negative values allowed (but beginning will be truncated)</span>
+<span class="w">        </span><span class="k">oneof</span><span class="w"> </span><span class="n">pulse</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">uint64</span><span class="w"> </span><span class="na">instruction_ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">            </span><span class="n">IQPulse</span><span class="w"> </span><span class="na">iq_pulse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">repeated</span><span class="w"> </span><span class="n">Entry</span><span class="w"> </span><span class="na">entries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Similar to MultiplexedIQPulse, but for real pulses.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">MultiplexedRealPulse</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">message</span><span class="w"> </span><span class="nc">Entry</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int64</span><span class="w"> </span><span class="na">offset_samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">        </span><span class="k">oneof</span><span class="w"> </span><span class="n">pulse</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">uint64</span><span class="w"> </span><span class="na">instruction_ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">            </span><span class="n">RealPulse</span><span class="w"> </span><span class="na">real_pulse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">repeated</span><span class="w"> </span><span class="n">Entry</span><span class="w"> </span><span class="na">entries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Instruction for playing a probe pulse and acquiring the associated readout results.</span>
+<span class="c1">// Supported by ReadoutChannelConfig channels.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">ReadoutTrigger</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// Index of the pulse instruction, from the instruction table of the channel description.</span>
+<span class="w">    </span><span class="kt">uint64</span><span class="w"> </span><span class="na">probe_pulse_ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Indices into AcquisitionMethod table of the channel config.</span>
+<span class="w">    </span><span class="k">repeated</span><span class="w"> </span><span class="kt">uint64</span><span class="w"> </span><span class="na">acqusitions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Choice between two instructions based on a condition.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">ConditionalInstruction</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">string</span><span class="w"> </span><span class="na">condition</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// ChannelDescription.instruction_table references for the potential outcomes</span>
+<span class="w">    </span><span class="kt">uint64</span><span class="w"> </span><span class="na">if_true</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">uint64</span><span class="w"> </span><span class="na">if_false</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Real-valued waveform to be stored in AWG waveform memory, can be referenced by various Instructions.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">Waveform</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">uint64</span><span class="w"> </span><span class="na">n_samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">oneof</span><span class="w"> </span><span class="n">waveform_description</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Samples</span><span class="w"> </span><span class="na">samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Gaussian</span><span class="w"> </span><span class="na">gaussian</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="w">        </span><span class="n">GaussianDerivative</span><span class="w"> </span><span class="na">gaussian_derivative</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Constant</span><span class="w"> </span><span class="na">constant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<span class="w">        </span><span class="n">GaussianSmoothedSquare</span><span class="w"> </span><span class="na">gaussian_smoothed_square</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span>
+<span class="w">        </span><span class="n">TruncatedGaussian</span><span class="w"> </span><span class="na">truncated_gaussian</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span><span class="p">;</span>
+<span class="w">        </span><span class="n">TruncatedGaussianDerivative</span><span class="w"> </span><span class="na">truncated_gaussian_derivative</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+<span class="w">        </span><span class="n">TruncatedGaussianSmoothedSquare</span><span class="w"> </span><span class="na">truncated_gaussian_smoothed_square</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9</span><span class="p">;</span>
+<span class="w">        </span><span class="n">CosineRiseFall</span><span class="w"> </span><span class="na">cosine_rise_fall</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+
+
+<span class="c1">// Custom waveform consisting from a list of samples.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">Samples</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">repeated</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="na">samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Gaussian pulse.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">Gaussian</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">center_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Scaled derivative of a gaussian pulse.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">GaussianDerivative</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">center_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Constant-valued waveform.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">Constant</span><span class="w"> </span><span class="p">{}</span>
+
+<span class="c1">// Convolution of a gaussian pulse and a square pulse.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">GaussianSmoothedSquare</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">square_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">gaussian_sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">center_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Gaussian pulse, where the decaying tails are removed by offsetting, truncating</span>
+<span class="c1">// and then rescaling the pulse</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">TruncatedGaussian</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">full_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">center_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Derivative of a gaussian pulse, where the decaying tails are removed by offsetting,</span>
+<span class="c1">// truncating and then rescaling the pulse</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">TruncatedGaussianDerivative</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">full_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">center_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Convolution of a square pulse and a gaussian pulse, offset and truncated so that it has finite support.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">TruncatedGaussianSmoothedSquare</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">full_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">center_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">rise_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Waveform that has a sinusoidal rise and fall, and a constant part in between.</span>
+<span class="kd">message</span><span class="w"> </span><span class="nc">CosineRiseFall</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">full_width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">center_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="na">rise_time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p class="rubric">Classes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.AcquisitionMethod.html#iqm.data_definitions.common.v1.playlist_pb2.AcquisitionMethod" title="iqm.data_definitions.common.v1.playlist_pb2.AcquisitionMethod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AcquisitionMethod</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.ChannelConfiguration.html#iqm.data_definitions.common.v1.playlist_pb2.ChannelConfiguration" title="iqm.data_definitions.common.v1.playlist_pb2.ChannelConfiguration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelConfiguration</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.ChannelDescription.html#iqm.data_definitions.common.v1.playlist_pb2.ChannelDescription" title="iqm.data_definitions.common.v1.playlist_pb2.ChannelDescription"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChannelDescription</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.ConditionalInstruction.html#iqm.data_definitions.common.v1.playlist_pb2.ConditionalInstruction" title="iqm.data_definitions.common.v1.playlist_pb2.ConditionalInstruction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConditionalInstruction</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.Constant.html#iqm.data_definitions.common.v1.playlist_pb2.Constant" title="iqm.data_definitions.common.v1.playlist_pb2.Constant"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Constant</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.CosineRiseFall.html#iqm.data_definitions.common.v1.playlist_pb2.CosineRiseFall" title="iqm.data_definitions.common.v1.playlist_pb2.CosineRiseFall"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CosineRiseFall</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.Gaussian.html#iqm.data_definitions.common.v1.playlist_pb2.Gaussian" title="iqm.data_definitions.common.v1.playlist_pb2.Gaussian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gaussian</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.GaussianDerivative.html#iqm.data_definitions.common.v1.playlist_pb2.GaussianDerivative" title="iqm.data_definitions.common.v1.playlist_pb2.GaussianDerivative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianDerivative</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.GaussianSmoothedSquare.html#iqm.data_definitions.common.v1.playlist_pb2.GaussianSmoothedSquare" title="iqm.data_definitions.common.v1.playlist_pb2.GaussianSmoothedSquare"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GaussianSmoothedSquare</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.IQChannelConfig.html#iqm.data_definitions.common.v1.playlist_pb2.IQChannelConfig" title="iqm.data_definitions.common.v1.playlist_pb2.IQChannelConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IQChannelConfig</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.IQPulse.html#iqm.data_definitions.common.v1.playlist_pb2.IQPulse" title="iqm.data_definitions.common.v1.playlist_pb2.IQPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IQPulse</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.Instruction.html#iqm.data_definitions.common.v1.playlist_pb2.Instruction" title="iqm.data_definitions.common.v1.playlist_pb2.Instruction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Instruction</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.MultiplexedIQPulse.html#iqm.data_definitions.common.v1.playlist_pb2.MultiplexedIQPulse" title="iqm.data_definitions.common.v1.playlist_pb2.MultiplexedIQPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiplexedIQPulse</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.MultiplexedRealPulse.html#iqm.data_definitions.common.v1.playlist_pb2.MultiplexedRealPulse" title="iqm.data_definitions.common.v1.playlist_pb2.MultiplexedRealPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MultiplexedRealPulse</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.Playlist.html#iqm.data_definitions.common.v1.playlist_pb2.Playlist" title="iqm.data_definitions.common.v1.playlist_pb2.Playlist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Playlist</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.ReadoutChannelConfig.html#iqm.data_definitions.common.v1.playlist_pb2.ReadoutChannelConfig" title="iqm.data_definitions.common.v1.playlist_pb2.ReadoutChannelConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReadoutChannelConfig</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.ReadoutTrigger.html#iqm.data_definitions.common.v1.playlist_pb2.ReadoutTrigger" title="iqm.data_definitions.common.v1.playlist_pb2.ReadoutTrigger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReadoutTrigger</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.RealChannelConfig.html#iqm.data_definitions.common.v1.playlist_pb2.RealChannelConfig" title="iqm.data_definitions.common.v1.playlist_pb2.RealChannelConfig"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RealChannelConfig</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.RealPulse.html#iqm.data_definitions.common.v1.playlist_pb2.RealPulse" title="iqm.data_definitions.common.v1.playlist_pb2.RealPulse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RealPulse</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.Samples.html#iqm.data_definitions.common.v1.playlist_pb2.Samples" title="iqm.data_definitions.common.v1.playlist_pb2.Samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Samples</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.Schedule.html#iqm.data_definitions.common.v1.playlist_pb2.Schedule" title="iqm.data_definitions.common.v1.playlist_pb2.Schedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Schedule</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.TruncatedGaussian.html#iqm.data_definitions.common.v1.playlist_pb2.TruncatedGaussian" title="iqm.data_definitions.common.v1.playlist_pb2.TruncatedGaussian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TruncatedGaussian</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.TruncatedGaussianDerivative.html#iqm.data_definitions.common.v1.playlist_pb2.TruncatedGaussianDerivative" title="iqm.data_definitions.common.v1.playlist_pb2.TruncatedGaussianDerivative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TruncatedGaussianDerivative</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.TruncatedGaussianSmoothedSquare.html#iqm.data_definitions.common.v1.playlist_pb2.TruncatedGaussianSmoothedSquare" title="iqm.data_definitions.common.v1.playlist_pb2.TruncatedGaussianSmoothedSquare"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TruncatedGaussianSmoothedSquare</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.VirtualRZ.html#iqm.data_definitions.common.v1.playlist_pb2.VirtualRZ" title="iqm.data_definitions.common.v1.playlist_pb2.VirtualRZ"><code class="xref py py-obj docutils literal notranslate"><span class="pre">VirtualRZ</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.Wait.html#iqm.data_definitions.common.v1.playlist_pb2.Wait" title="iqm.data_definitions.common.v1.playlist_pb2.Wait"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wait</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.data_definitions.common.v1.playlist_pb2.Waveform.html#iqm.data_definitions.common.v1.playlist_pb2.Waveform" title="iqm.data_definitions.common.v1.playlist_pb2.Waveform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Waveform</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.data_definitions.common.v1.parameter_pb2.Parameter.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Parameter</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.data_definitions.common.v1.playlist_pb2.AcquisitionMethod.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">AcquisitionMethod</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2025, IQM.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-03-25.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

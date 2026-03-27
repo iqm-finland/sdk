@@ -1,0 +1,641 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SK Model and Transpilation &#8212; IQM QAOA 1.38.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=16f15bd9"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'SK Model and Transpilation';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sparse Maxcut" href="Sparse%20Maxcut.html" />
+    <link rel="prev" title="Usage Examples" href="examples.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-03-25"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.38.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM QAOA 1.38.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">IQM QAOA</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="examples.html">Usage Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">SK Model and Transpilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Sparse%20Maxcut.html">Sparse Maxcut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Portfolio%20Optimization.html">Portfolio Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Training%20the%20QAOA.html">Training the QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Which%20Qubits%20on%20the%20QPU%20Are%20Used.html">Which Qubits on the QPU Are Used?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.applications.html">iqm.applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.applications.applications.html">iqm.applications.applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.applications.ProblemInstance.html">ProblemInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.applications.graph_utils.html">iqm.applications.graph_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.draw_problem.html">draw_problem</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.plot_graph.html">plot_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.prepare_plot_data.html">prepare_plot_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.residual_degree.html">residual_degree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.PlotData.html">PlotData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.ProblemData.html">ProblemData</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.applications.maxcut.html">iqm.applications.maxcut</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.maxcut.goemans_williamson.html">goemans_williamson</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.maxcut.greedy_max_cut.html">greedy_max_cut</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.maxcut.maxcut_generator.html">maxcut_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.maxcut.MaxCutInstance.html">MaxCutInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.maxcut.WeightedMaxCutInstance.html">WeightedMaxCutInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.applications.mis.html">iqm.applications.mis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.mis.bron_kerbosch.html">bron_kerbosch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.mis.greedy_mis.html">greedy_mis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.mis.mis_generator.html">mis_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.mis.ISInstance.html">ISInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.mis.MISInstance.html">MISInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.mis.MaximumWeightISInstance.html">MaximumWeightISInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.applications.qubo.html">iqm.applications.qubo</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.qubo.relabel_bqm_cqm_variables.html">relabel_bqm_cqm_variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.qubo.ConstrainedQuadraticInstance.html">ConstrainedQuadraticInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.qubo.QUBOInstance.html">QUBOInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.applications.sk.html">iqm.applications.sk</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.sk.sk_generator.html">sk_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.sk.SherringtonKirkpatrick.html">SherringtonKirkpatrick</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.qaoa.html">iqm.qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.backends.html">iqm.qaoa.backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.EstimatorBackend.html">EstimatorBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.EstimatorFromSampler.html">EstimatorFromSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.EstimatorQUIMB.html">EstimatorQUIMB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.EstimatorSingleLayer.html">EstimatorSingleLayer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.EstimatorStateVector.html">EstimatorStateVector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.SamplerBackend.html">SamplerBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.SamplerRandomBitstrings.html">SamplerRandomBitstrings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.SamplerResonance.html">SamplerResonance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.SamplerSimulation.html">SamplerSimulation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.circuits.html">iqm.qaoa.circuits</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.circuits.qiskit_circuit.html">qiskit_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.circuits.qiskit_circuit_specific_nodes.html">qiskit_circuit_specific_nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.circuits.quimb_tn.html">quimb_tn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.circuits.transpiled_circuit.html">transpiled_circuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.generic_qaoa.html">iqm.qaoa.generic_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.generic_qaoa.QAOA.html">QAOA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.qubo_qaoa.html">iqm.qaoa.qubo_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.qubo_qaoa.QUBOQAOA.html">QUBOQAOA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.transforming_functions.html">iqm.qaoa.transforming_functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transforming_functions.ham_graph_to_ham_operator.html">ham_graph_to_ham_operator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.transpiler.html">iqm.qaoa.transpiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.hardwired.html">iqm.qaoa.transpiler.hardwired</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.quantum_hardware.html">iqm.qaoa.transpiler.quantum_hardware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.routing.html">iqm.qaoa.transpiler.routing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.rx_to_nx.html">iqm.qaoa.transpiler.rx_to_nx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.sn.html">iqm.qaoa.transpiler.sn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.sparse.html">iqm.qaoa.transpiler.sparse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.star.html">iqm.qaoa.transpiler.star</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.tree_calculation.html">iqm.qaoa.tree_calculation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.tree_calculation.generate_basis.html">iqm.qaoa.tree_calculation.generate_basis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.tree_calculation.tree_calculation.html">iqm.qaoa.tree_calculation.tree_calculation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.tree_qaoa.html">iqm.qaoa.tree_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.tree_qaoa.TreeQAOA.html">TreeQAOA</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Contributors</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/SK Model and Transpilation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>SK Model and Transpilation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="sk-model-and-transpilation">
+<h1>SK Model and Transpilation<a class="headerlink" href="#sk-model-and-transpilation" title="Link to this heading">#</a></h1>
+<p>The purpose of this notebook is to showcase the QAOA library working from the problem definition all the way to execution on a real hardware.</p>
+<p>In particular, here we use QAOA to solve an instance of the Sherrington-Kirkpatrick (SK) model, a very densely connected problem, to illustrate the advantage of using our custom transpiler over the Qiskit default transpiler.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.applications.sk</span><span class="w"> </span><span class="kn">import</span> <span class="n">sk_generator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qaoa.circuits</span><span class="w"> </span><span class="kn">import</span> <span class="n">qiskit_circuit</span><span class="p">,</span> <span class="n">transpiled_circuit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qaoa.qubo_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">QUBOQAOA</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit_aer</span><span class="w"> </span><span class="kn">import</span> <span class="n">AerSimulator</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The SK model describes a number of binary variables, every pair of which interacts with a random interaction strength. We will solve a problem of size <code class="docutils literal notranslate"><span class="pre">problem_size</span></code>, i.e., this will be the number of binary variables and also the number of qubits that we use. The number of <code class="docutils literal notranslate"><span class="pre">shots</span></code> is set to default maximum on Resonance.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">problem_size</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">shots</span> <span class="o">=</span> <span class="mi">20000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We create an instance of the SK model of size <code class="docutils literal notranslate"><span class="pre">problem_size</span></code>. We specify the random distribution of the interactions between the variables to be “gaussian” (with mean 0 and variance 1). A few other distributions are possible (e.g., “uniform” or “rademacher”).</p>
+<p>We print out the largest, lowest and average energy of the model, calculated by brute-forcing over all possible bitstrings of length <code class="docutils literal notranslate"><span class="pre">problem_size</span></code>. This may be slow if <code class="docutils literal notranslate"><span class="pre">problem_size</span></code> has been set higher than ~30.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_sk_problem</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">sk_generator</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">problem_size</span><span class="p">,</span> <span class="n">n_instances</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">distribution</span><span class="o">=</span><span class="s2">&quot;gaussian&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Problem upper bound: &quot;</span><span class="p">,</span> <span class="n">my_sk_problem</span><span class="o">.</span><span class="n">upper_bound</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Problem lower bound: &quot;</span><span class="p">,</span> <span class="n">my_sk_problem</span><span class="o">.</span><span class="n">lower_bound</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Problem average energy: &quot;</span><span class="p">,</span> <span class="n">my_sk_problem</span><span class="o">.</span><span class="n">average_quality</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the following, we set up the connection to Resonance and define a simulator backend of the Garnet QPU.</p>
+<p>Note: in general, you also need to specify the ‘usage mode’. For running on a real machine (in pay-as-you-go usage mode), the url would change to https://cocos.resonance.meetiqm.com/garnet. For a specific timeslot the url would change to https://cocos.resonance.meetiqm.com/garnet:timeslot</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">SERVER_URL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IQM_RESONANCE_URL_CRYSTAL&quot;</span><span class="p">,</span> <span class="s2">&quot;https://cocos.resonance.meetiqm.com/garnet:mock&quot;</span><span class="p">)</span>
+<span class="c1"># If the token isn&#39;t saved in the environment, replace this by the token as a string.</span>
+<span class="n">API_TOKEN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IQM_RESONANCE_API_TOKEN&quot;</span><span class="p">)</span>
+<span class="n">iqm_backend</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="n">SERVER_URL</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">API_TOKEN</span><span class="p">)</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+<span class="n">simulator</span> <span class="o">=</span> <span class="n">AerSimulator</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s2">&quot;statevector&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Create the QUBO QAOA instance from the problem instance, train it and then construct the QAOA circuits using 4 different methods:</p>
+<ul class="simple">
+<li><p>The perfect circuit without any transpilation.</p></li>
+<li><p>The circuit transpiled for IQM hardware, using Qiskit default transpilation function.</p></li>
+<li><p>The circuit transpiled for IQM hardware, using our custom transpiler.</p></li>
+<li><p>The circuit transpiled for IQM hardware, using the swap network strategy.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">train</span></code> method has several possible parameters, but here the default setting is used (which uses analytical formulas since the QAOA has one layer).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_qaoa</span> <span class="o">=</span> <span class="n">QUBOQAOA</span><span class="p">(</span><span class="n">problem</span><span class="o">=</span><span class="n">my_sk_problem</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">initial_angles</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="n">my_qaoa</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+
+<span class="n">qc_perfect</span> <span class="o">=</span> <span class="n">qiskit_circuit</span><span class="p">(</span><span class="n">my_qaoa</span><span class="p">,</span> <span class="n">measurements</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">qc_default</span> <span class="o">=</span> <span class="n">transpiled_circuit</span><span class="p">(</span><span class="n">my_qaoa</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">iqm_backend</span><span class="p">,</span> <span class="n">transpiler</span><span class="o">=</span><span class="s2">&quot;Default&quot;</span><span class="p">)</span>
+
+<span class="n">qc_hw</span> <span class="o">=</span> <span class="n">transpiled_circuit</span><span class="p">(</span><span class="n">my_qaoa</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">iqm_backend</span><span class="p">,</span> <span class="n">transpiler</span><span class="o">=</span><span class="s2">&quot;HardwiredTranspiler&quot;</span><span class="p">)</span>
+
+<span class="n">qc_sn</span> <span class="o">=</span> <span class="n">transpiled_circuit</span><span class="p">(</span><span class="n">my_qaoa</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">iqm_backend</span><span class="p">,</span> <span class="n">transpiler</span><span class="o">=</span><span class="s2">&quot;SwapNetwork&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the perfect circuit on perfect (noiseless simulator), print out the average energy of the samples.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_perfect</span> <span class="o">=</span> <span class="n">simulator</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc_default</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+
+<span class="n">result_dict_perfect</span> <span class="o">=</span> <span class="n">job_perfect</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energy of the samples: &quot;</span><span class="p">,</span> <span class="n">my_sk_problem</span><span class="o">.</span><span class="n">average_quality_counts</span><span class="p">(</span><span class="n">result_dict_perfect</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the Qiskit-transpiled circuit on our hardware, print out the average energy of the samples and the number of gates used.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_default</span> <span class="o">=</span> <span class="n">iqm_backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc_default</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+
+<span class="n">result_dict_default</span> <span class="o">=</span> <span class="n">job_default</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energy of the samples: &quot;</span><span class="p">,</span> <span class="n">my_sk_problem</span><span class="o">.</span><span class="n">average_quality_counts</span><span class="p">(</span><span class="n">result_dict_default</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gates in the circuit: &quot;</span><span class="p">,</span> <span class="n">qc_default</span><span class="o">.</span><span class="n">count_ops</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the custom-transpiled circuit on our hardware, print out the average energy of the samples and the number of gates used.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_hw</span> <span class="o">=</span> <span class="n">iqm_backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc_hw</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+
+<span class="n">result_dict_hw</span> <span class="o">=</span> <span class="n">job_hw</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energy of the samples: &quot;</span><span class="p">,</span> <span class="n">my_sk_problem</span><span class="o">.</span><span class="n">average_quality_counts</span><span class="p">(</span><span class="n">result_dict_hw</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gates in the circuit: &quot;</span><span class="p">,</span> <span class="n">qc_hw</span><span class="o">.</span><span class="n">count_ops</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Run the swap-network-transpiled circuit on our hardware, print out the average energy of the samples and the number of gates used.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_sn</span> <span class="o">=</span> <span class="n">iqm_backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc_sn</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+
+<span class="n">result_dict_sn</span> <span class="o">=</span> <span class="n">job_sn</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energy of the samples: &quot;</span><span class="p">,</span> <span class="n">my_sk_problem</span><span class="o">.</span><span class="n">average_quality_counts</span><span class="p">(</span><span class="n">result_dict_sn</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gates in the circuit: &quot;</span><span class="p">,</span> <span class="n">qc_sn</span><span class="o">.</span><span class="n">count_ops</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If everything went as expected, the hardwired transpiler and the swap network transpiler should perform better than the <code class="docutils literal notranslate"><span class="pre">qiskit</span></code> default transpiler. The hardwired transpiler minimizes the number of 2QB gates used whereas the swap network transpiler minimizes the overall depth of the circuit. Based on the average energy obtained with the two approaches, we can judge which is better for our hardware (and this particular problem size).</p>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="examples.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Usage Examples</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Sparse%20Maxcut.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Sparse Maxcut</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM QAOA developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2025, IQM.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-03-25.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

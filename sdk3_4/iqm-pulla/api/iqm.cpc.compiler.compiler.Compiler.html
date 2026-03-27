@@ -1,0 +1,873 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>iqm.cpc.compiler.compiler.Compiler &#8212; IQM Pulla 5.28 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=fa5400d1"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.cpc.compiler.compiler.Compiler';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="iqm.cpc.compiler.dd" href="iqm.cpc.compiler.dd.html" />
+    <link rel="prev" title="iqm.cpc.compiler.compiler.CompilationStage" href="iqm.cpc.compiler.compiler.CompilationStage.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-03-25"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Pulla 5.28 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 5.28 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">IQM Pulla</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../migration_guide.html">Migration guide</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../user_guides.html">User guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quick%20Start.html">Quick Start</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Configuration%20and%20Usage.html">Configuration and Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Compilation%20Stages.html">Compilation Stages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Custom%20Gates%20and%20Implementations.html">Custom Gates and Gate Implementations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Example%20-%20Measuring%20T1.html">Example: Measuring T1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Example%20-%20Simple%20Dynamical%20Decoupling.html">Example: Dynamical decoupling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Example%20-%20Executing%20QIR%20programs.html">Executing QIR programs</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.cpc.html">iqm.cpc</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.cpc.compiler.html">iqm.cpc.compiler</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.circuit_compilation_request_handler.html">iqm.cpc.compiler.circuit_compilation_request_handler</a></li>
+<li class="toctree-l4 current active"><a class="reference internal" href="iqm.cpc.compiler.compiler.html">iqm.cpc.compiler.compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.dd.html">iqm.cpc.compiler.dd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.errors.html">iqm.cpc.compiler.errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.standard_stages.html">iqm.cpc.compiler.standard_stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.station_settings.html">iqm.cpc.compiler.station_settings</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cpc.interface.html">iqm.cpc.interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.interface.compiler.html">iqm.cpc.interface.compiler</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.pulla.html">iqm.pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.calibration.html">iqm.pulla.calibration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.calibration.CalibrationDataProvider.html">iqm.pulla.calibration.CalibrationDataProvider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.interface.html">iqm.pulla.interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CircuitMeasurementResults.html">iqm.pulla.interface.CircuitMeasurementResults</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CircuitMeasurementResultsBatch.html">iqm.pulla.interface.CircuitMeasurementResultsBatch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE.html">iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.Circuit.html">iqm.pulla.interface.Circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.Instruction.html">iqm.pulla.interface.Instruction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.StationControlResult.html">iqm.pulla.interface.StationControlResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.TaskStatus.html">iqm.pulla.interface.TaskStatus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CHADRetrievalException.html">iqm.pulla.interface.CHADRetrievalException</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.ChipLabelRetrievalException.html">iqm.pulla.interface.ChipLabelRetrievalException</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.SettingsRetrievalException.html">iqm.pulla.interface.SettingsRetrievalException</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.pulla.html">iqm.pulla.pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.pulla.Pulla.html">iqm.pulla.pulla.Pulla</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils.html">iqm.pulla.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.InstructionLocation.html">iqm.pulla.utils.InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.build_settings.html">iqm.pulla.utils.build_settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.calset_from_observations.html">iqm.pulla.utils.calset_from_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.calset_to_cal_data_tree.html">iqm.pulla.utils.calset_to_cal_data_tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.circuit_operations_to_cpc.html">iqm.pulla.utils.circuit_operations_to_cpc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot.html">iqm.pulla.utils.convert_sweep_spot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.extract_readout_controller_result_names.html">iqm.pulla.utils.extract_readout_controller_result_names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.find_circuit_boundary.html">iqm.pulla.utils.find_circuit_boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.get_hash_for.html">iqm.pulla.utils.get_hash_for</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.initialize_schedule_builder.html">iqm.pulla.utils.initialize_schedule_builder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.iqm_circuit_to_gate_implementation.html">iqm.pulla.utils.iqm_circuit_to_gate_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.locate_instructions.html">iqm.pulla.utils.locate_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.map_qubit_indices.html">iqm.pulla.utils.map_qubit_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.map_sweep_results_to_logical_qubits.html">iqm.pulla.utils.map_sweep_results_to_logical_qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.print_channel.html">iqm.pulla.utils.print_channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.print_schedule.html">iqm.pulla.utils.print_schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.replace_instruction_in_place.html">iqm.pulla.utils.replace_instruction_in_place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.InstructionLocation.html">iqm.pulla.utils.InstructionLocation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_cirq.html">iqm.pulla.utils_cirq</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_cirq.cirq_to_cpc.html">iqm.pulla.utils_cirq.cirq_to_cpc</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_dd.html">iqm.pulla.utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_dd.generate_phases_of_urn_sequence.html">iqm.pulla.utils_dd.generate_phases_of_urn_sequence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_qir.html">iqm.pulla.utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qir.qir_to_pulla.html">iqm.pulla.utils_qir.qir_to_pulla</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_qiskit.html">iqm.pulla.utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.qiskit_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.station_control_result_to_qiskit.html">iqm.pulla.utils_qiskit.station_control_result_to_qiskit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.DummyJob.html">iqm.pulla.utils_qiskit.DummyJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.IQMPullaBackend.html">iqm.pulla.utils_qiskit.IQMPullaBackend</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../common_errors.html">Common errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/iqm.cpc.compiler.compiler.Compiler.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>iqm.cpc.compiler.compiler.Compiler</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler"><code class="docutils literal notranslate"><span class="pre">Compiler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.get_calibration"><code class="docutils literal notranslate"><span class="pre">Compiler.get_calibration()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.set_calibration"><code class="docutils literal notranslate"><span class="pre">Compiler.set_calibration()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.gates"><code class="docutils literal notranslate"><span class="pre">Compiler.gates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.set_default_implementation"><code class="docutils literal notranslate"><span class="pre">Compiler.set_default_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.set_default_implementation_for_loci"><code class="docutils literal notranslate"><span class="pre">Compiler.set_default_implementation_for_loci()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.amend_calibration_for_gate_implementation"><code class="docutils literal notranslate"><span class="pre">Compiler.amend_calibration_for_gate_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.add_implementation"><code class="docutils literal notranslate"><span class="pre">Compiler.add_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.ready"><code class="docutils literal notranslate"><span class="pre">Compiler.ready()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.print_all_implementations_trees"><code class="docutils literal notranslate"><span class="pre">Compiler.print_all_implementations_trees()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.print_implementations_trees"><code class="docutils literal notranslate"><span class="pre">Compiler.print_implementations_trees()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.show_stages"><code class="docutils literal notranslate"><span class="pre">Compiler.show_stages()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.compiler_context"><code class="docutils literal notranslate"><span class="pre">Compiler.compiler_context()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.compile"><code class="docutils literal notranslate"><span class="pre">Compiler.compile()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.build_settings"><code class="docutils literal notranslate"><span class="pre">Compiler.build_settings()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="iqm-cpc-compiler-compiler-compiler">
+<h1>iqm.cpc.compiler.compiler.Compiler<a class="headerlink" href="#iqm-cpc-compiler-compiler-compiler" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.cpc.compiler.compiler.</span></span><span class="sig-name descname"><span class="pre">Compiler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chip_topology</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_properties</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component_channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component_mapping=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options=CircuitExecutionOptions(measurement_mode=&lt;MeasurementMode.ALL:</span> <span class="pre">'all'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heralding_mode=&lt;HeraldingMode.NONE:</span> <span class="pre">'none'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dd_mode=&lt;DDMode.DISABLED:</span> <span class="pre">'disabled'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dd_strategy=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">circuit_boundary_mode=&lt;CircuitBoundaryMode.ALL:</span> <span class="pre">'all'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_gate_validation=&lt;MoveGateValidationMode.STRICT:</span> <span class="pre">'strict'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">move_gate_frame_tracking=&lt;MoveGateFrameTrackingMode.FULL:</span> <span class="pre">'full'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_reset_cycles=None)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stages=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict=False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Stateful object that contains a calibration set, a schedule builder, and a set
+of compilation stages.</p>
+<p>The compiler’s state does not include the data to be compiled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>calibration_set</strong> (<em>CalibrationSet</em>) – Calibration data.</p></li>
+<li><p><strong>chip_topology</strong> (<em>ChipTopology</em>) – Physical layout and connectivity of the quantum chip.</p></li>
+<li><p><strong>channel_properties</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>ChannelProperties</em><em>]</em>) – Channel properties.</p></li>
+<li><p><strong>component_channels</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>]</em>) – Mapping between components and their control channels.</p></li>
+<li><p><strong>component_mapping</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – Custom mapping of components. Defaults to None.</p></li>
+<li><p><strong>options</strong> (<a class="reference internal" href="iqm.cpc.interface.compiler.CircuitExecutionOptions.html#iqm.cpc.interface.compiler.CircuitExecutionOptions" title="iqm.cpc.interface.compiler.CircuitExecutionOptions"><em>CircuitExecutionOptions</em></a>) – Circuit execution options.
+Defaults to STANDARD_CIRCUIT_EXECUTION_OPTIONS.</p></li>
+<li><p><strong>stages</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference internal" href="iqm.cpc.compiler.compiler.CompilationStage.html#iqm.cpc.compiler.compiler.CompilationStage" title="iqm.cpc.compiler.compiler.CompilationStage"><em>CompilationStage</em></a><em>] </em><em>| </em><em>None</em>) – List of compilation stages. Defaults to None.
+Note that in the absence of stages, the compiler will not be ready to compile circuits.</p></li>
+<li><p><strong>strict</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If True, raises CalibrationError on calibration validation failures.
+If False, only logs warnings. Defaults to False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="iqm.cpc.compiler.errors.CalibrationError.html#iqm.cpc.compiler.errors.CalibrationError" title="iqm.cpc.compiler.errors.CalibrationError"><strong>CalibrationError</strong></a> – When strict=True and calibration validation fails during compiler initialization.</p>
+</dd>
+</dl>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.gates" title="iqm.cpc.compiler.compiler.Compiler.gates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gates</span></code></a></p></td>
+<td><p>Registered quantum gates.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_refresh</span></code>()</p></td>
+<td><p>Refresh the compiler by re-creating the ScheduleBuilder and validating the calibration.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.add_implementation" title="iqm.cpc.compiler.compiler.Compiler.add_implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_implementation</span></code></a>(op_name, impl_name, ...)</p></td>
+<td><p>Adds a new implementation of a quantum operation (gate).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.amend_calibration_for_gate_implementation" title="iqm.cpc.compiler.compiler.Compiler.amend_calibration_for_gate_implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">amend_calibration_for_gate_implementation</span></code></a>(...)</p></td>
+<td><p>Update the current local calibration set with calibration values for a specific gate/implementation/locus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.build_settings" title="iqm.cpc.compiler.compiler.Compiler.build_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_settings</span></code></a>(context, shots)</p></td>
+<td><p>Build the settings for the execution.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.compile" title="iqm.cpc.compiler.compiler.Compiler.compile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compile</span></code></a>(data[, context])</p></td>
+<td><p>Run all compiler stages.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.compiler_context" title="iqm.cpc.compiler.compiler.Compiler.compiler_context"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compiler_context</span></code></a>()</p></td>
+<td><p>Return initial compiler context dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.get_calibration" title="iqm.cpc.compiler.compiler.Compiler.get_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_calibration</span></code></a>()</p></td>
+<td><p>Returns a copy of the current local calibration set.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.print_all_implementations_trees" title="iqm.cpc.compiler.compiler.Compiler.print_all_implementations_trees"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_all_implementations_trees</span></code></a>()</p></td>
+<td><p>Prints all implementations of all currently known quantum operations (gates), including parameters</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.print_implementations_trees" title="iqm.cpc.compiler.compiler.Compiler.print_implementations_trees"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_implementations_trees</span></code></a>(op)</p></td>
+<td><p>Prints all implementation of a particular quantum operation (gate).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.ready" title="iqm.cpc.compiler.compiler.Compiler.ready"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ready</span></code></a>()</p></td>
+<td><p>Check if the compiler is ready to compile circuits.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.set_calibration" title="iqm.cpc.compiler.compiler.Compiler.set_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_calibration</span></code></a>(calibration)</p></td>
+<td><p>Sets the current calibration set to a given calibration set, then refreshes the compiler.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.set_default_implementation" title="iqm.cpc.compiler.compiler.Compiler.set_default_implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_default_implementation</span></code></a>(gate_name, ...)</p></td>
+<td><p>Set the default implementation of a gate.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.set_default_implementation_for_loci" title="iqm.cpc.compiler.compiler.Compiler.set_default_implementation_for_loci"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_default_implementation_for_loci</span></code></a>(...)</p></td>
+<td><p>Set the default implementation for a gate for a specific loci.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.show_stages" title="iqm.cpc.compiler.compiler.Compiler.show_stages"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show_stages</span></code></a>([full])</p></td>
+<td><p>Print the stages and passes defined in the compiler.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.get_calibration">
+<span class="sig-name descname"><span class="pre">get_calibration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.get_calibration" title="Link to this definition">#</a></dt>
+<dd><p>Returns a copy of the current local calibration set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)">bool</a> | <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a> | <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)">int</a> | <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)">float</a> | <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#complex" title="(in Python v3.11)">complex</a> | <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.set_calibration">
+<span class="sig-name descname"><span class="pre">set_calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.set_calibration" title="Link to this definition">#</a></dt>
+<dd><p>Sets the current calibration set to a given calibration set, then refreshes the compiler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>calibration</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#complex" title="(in Python v3.11)"><em>complex</em></a><em> | </em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a><em>]</em>) – The calibration set to be set as the current calibration set.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.gates">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.7.5)"><span class="pre">QuantumOp</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.gates" title="Link to this definition">#</a></dt>
+<dd><p>Registered quantum gates.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.set_default_implementation">
+<span class="sig-name descname"><span class="pre">set_default_implementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implementation_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.set_default_implementation" title="Link to this definition">#</a></dt>
+<dd><p>Set the default implementation of a gate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the gate.</p></li>
+<li><p><strong>implementation_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the implementation to set as the default.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.set_default_implementation_for_loci">
+<span class="sig-name descname"><span class="pre">set_default_implementation_for_loci</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implementation_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loci</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.set_default_implementation_for_loci" title="Link to this definition">#</a></dt>
+<dd><p>Set the default implementation for a gate for a specific loci.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the gate.</p></li>
+<li><p><strong>implementation_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the implementation to set as the default for <code class="docutils literal notranslate"><span class="pre">loci</span></code>.</p></li>
+<li><p><strong>loci</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>]</em><em>]</em>) – Loci of the gate for which to set <code class="docutils literal notranslate"><span class="pre">implementation_name</span></code> as the default.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.amend_calibration_for_gate_implementation">
+<span class="sig-name descname"><span class="pre">amend_calibration_for_gate_implementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.amend_calibration_for_gate_implementation" title="Link to this definition">#</a></dt>
+<dd><p>Update the current local calibration set with calibration values for a specific gate/implementation/locus.</p>
+<p>The calibration values are given as a dictionary
+of parameter names and their values. This method refreshes the compiler after amending the calibration set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the gate to which the calibration values are applied.</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the implementation of the gate to which the calibration values are applied.</p></li>
+<li><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>]</em>) – Locus of the gate to which the calibration values are applied.</p></li>
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em>) – Updated parameter names and their values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.add_implementation">
+<span class="sig-name descname"><span class="pre">add_implementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implementation</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_as_default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantum_op_specs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.add_implementation" title="Link to this definition">#</a></dt>
+<dd><p>Adds a new implementation of a quantum operation (gate).</p>
+<p>Refreshes the compiler after adding a new implementation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>op_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The gate name for which to register a new implementation.</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The “human-readable” name with which the new gate implementation will be found e.g. in settings.</p></li>
+<li><p><strong>implementation</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><em>type</em></a><em>[</em><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="(in iqm.pulse v12.7.5)"><em>GateImplementation</em></a><em>]</em>) – The python class of the new gate implementation to be added.</p></li>
+<li><p><strong>set_as_default</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether to set the new implementation as the default implementation for the gate.</p></li>
+<li><p><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If True, allows replacing any existing implementation of the same name.</p></li>
+<li><p><strong>quantum_op_specs</strong> (<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.7.5)"><em>QuantumOp</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em> | </em><em>None</em>) – The quantum operation this gate represents. If a QuantumOp is given, it is used as is.
+If None is given and the same gate has been registered before, the previously registered properties are
+used.
+Otherwise, the given dict values are given to the constructor of
+<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.7.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code></a>.
+For any missing constructor values, some defaults suitable for a 1-QB gate are used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.ready">
+<span class="sig-name descname"><span class="pre">ready</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.ready" title="Link to this definition">#</a></dt>
+<dd><p>Check if the compiler is ready to compile circuits. The compiler is ready if at least one stage is defined, and
+all the stages are non-empty.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.print_all_implementations_trees">
+<span class="sig-name descname"><span class="pre">print_all_implementations_trees</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.print_all_implementations_trees" title="Link to this definition">#</a></dt>
+<dd><p>Prints all implementations of all currently known quantum operations (gates), including parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.print_implementations_trees">
+<span class="sig-name descname"><span class="pre">print_implementations_trees</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.print_implementations_trees" title="Link to this definition">#</a></dt>
+<dd><p>Prints all implementation of a particular quantum operation (gate).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>op</strong> (<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.7.5)"><em>QuantumOp</em></a>) – Quantum operation (gate) to print implementations of.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.show_stages">
+<span class="sig-name descname"><span class="pre">show_stages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.show_stages" title="Link to this definition">#</a></dt>
+<dd><p>Print the stages and passes defined in the compiler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>full</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Iff True, also print the docstring of each pass function.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.compiler_context">
+<span class="sig-name descname"><span class="pre">compiler_context</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.compiler_context" title="Link to this definition">#</a></dt>
+<dd><p>Return initial compiler context dictionary. Used automatically by <a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.compile" title="iqm.cpc.compiler.compiler.Compiler.compile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Compiler.compile()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.compile">
+<span class="sig-name descname"><span class="pre">compile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.compile" title="Link to this definition">#</a></dt>
+<dd><p>Run all compiler stages. Initial context will be derived from <a class="reference internal" href="#iqm.cpc.compiler.compiler.Compiler.compiler_context" title="iqm.cpc.compiler.compiler.Compiler.compiler_context"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Compiler.compiler_context()</span></code></a> unless a custom
+context dictionary is provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em>) – An iterable of circuits to be compiled.</p></li>
+<li><p><strong>context</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – Custom initial compiler context dictionary.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>], <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.compiler.compiler.Compiler.build_settings">
+<span class="sig-name descname"><span class="pre">build_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.compiler.compiler.Compiler.build_settings" title="Link to this definition">#</a></dt>
+<dd><p>Build the settings for the execution. Updates context[“circuit_metrics”] with schedule_duration and
+min_execution_time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>context</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em>) – A dictionary containing the necessary data for building the settings.</p></li>
+<li><p><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of shots to be executed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing the settings for the execution.
+context: The updated context.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>settings</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.cpc.compiler.compiler.CompilationStage.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">iqm.cpc.compiler.compiler.CompilationStage</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.cpc.compiler.dd.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">iqm.cpc.compiler.dd</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler"><code class="docutils literal notranslate"><span class="pre">Compiler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.get_calibration"><code class="docutils literal notranslate"><span class="pre">Compiler.get_calibration()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.set_calibration"><code class="docutils literal notranslate"><span class="pre">Compiler.set_calibration()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.gates"><code class="docutils literal notranslate"><span class="pre">Compiler.gates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.set_default_implementation"><code class="docutils literal notranslate"><span class="pre">Compiler.set_default_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.set_default_implementation_for_loci"><code class="docutils literal notranslate"><span class="pre">Compiler.set_default_implementation_for_loci()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.amend_calibration_for_gate_implementation"><code class="docutils literal notranslate"><span class="pre">Compiler.amend_calibration_for_gate_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.add_implementation"><code class="docutils literal notranslate"><span class="pre">Compiler.add_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.ready"><code class="docutils literal notranslate"><span class="pre">Compiler.ready()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.print_all_implementations_trees"><code class="docutils literal notranslate"><span class="pre">Compiler.print_all_implementations_trees()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.print_implementations_trees"><code class="docutils literal notranslate"><span class="pre">Compiler.print_implementations_trees()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.show_stages"><code class="docutils literal notranslate"><span class="pre">Compiler.show_stages()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.compiler_context"><code class="docutils literal notranslate"><span class="pre">Compiler.compiler_context()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.compile"><code class="docutils literal notranslate"><span class="pre">Compiler.compile()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.compiler.compiler.Compiler.build_settings"><code class="docutils literal notranslate"><span class="pre">Compiler.build_settings()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Pulla developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2024, IQM.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-03-25.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1076 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Custom Gates and Gate Implementations &#8212; IQM Pulla 7.2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=6d465958"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Custom Gates and Implementations';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Compilation Stages" href="Compilation%20Stages.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-03-25"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM Pulla 7.2 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 7.2 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">IQM Pulla</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration_guide.html">Migration guide</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="user_guides.html">User guides</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Quick%20Start.html">Quick Start</a></li>
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="Configuration%20and%20Usage.html">Configuration and Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compilation%20Stages.html">Compilation Stages</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Custom Gates and Gate Implementations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Measuring%20T1.html">Example: Measuring T1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Simple%20Dynamical%20Decoupling.html">Example: Dynamical decoupling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Executing%20QIR%20programs.html">Executing QIR programs</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.cpc.html">iqm.cpc</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.compiler.html">iqm.cpc.compiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.errors.html">iqm.cpc.compiler.errors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.interface.html">iqm.cpc.interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.interface.compiler.html">iqm.cpc.interface.compiler</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.pulla.html">iqm.pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_cirq.html">iqm.pulla.utils_cirq</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_cirq.cirq_to_cpc.html">iqm.pulla.utils_cirq.cirq_to_cpc</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_dd.html">iqm.pulla.utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_dd.generate_phases_of_urn_sequence.html">iqm.pulla.utils_dd.generate_phases_of_urn_sequence</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="common_errors.html">Common errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Custom Gates and Implementations.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Custom Gates and Gate Implementations</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-setup">Environment setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-implementations-at-the-circuit-level">Changing implementations at the circuit level</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-gates-composite-gates">Custom gates: Composite gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-gates-custom-waveforms">Custom gates: Custom waveforms</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="custom-gates-and-gate-implementations">
+<h1>Custom Gates and Gate Implementations<a class="headerlink" href="#custom-gates-and-gate-implementations" title="Link to this heading">#</a></h1>
+<p>This notebook demonstrates how to work with user-defined quantum operations and gate implementations that go beyond the standard gate set.</p>
+<p>Each quantum operation is associated with one or more <code class="docutils literal notranslate"><span class="pre">GateImplementation</span></code>s which translate the high-level concepts to lower-level instructions accepted by the IQM server. This example shows how the user can</p>
+<ul class="simple">
+<li><p>Selecting a non-default implementation for a gate</p></li>
+<li><p>Add a custom implementation for an existing gate</p></li>
+<li><p>Add a custom gate and a custom implementation for it</p>
+<ul>
+<li><p>by using existing gates as building blocks (composite gates)</p></li>
+</ul>
+</li>
+<li><p>Defining new pulse waveforms for implementations</p></li>
+</ul>
+<section id="environment-setup">
+<h2>Environment setup<a class="headerlink" href="#environment-setup" title="Link to this heading">#</a></h2>
+<p>Please refer to the <code class="docutils literal notranslate"><span class="pre">User</span> <span class="pre">Guide.ipynb</span></code> for basic usage, termninology, and environment setup.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm.iqm_transpilation</span><span class="w"> </span><span class="kn">import</span> <span class="n">optimize_single_qubit_gates</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulla.pulla</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pulla</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulla.utils_qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">qiskit_to_pulla</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.playlist.visualisation.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">inspect_playlist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.core.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cocos_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PULLA_COCOS_URL&#39;</span><span class="p">]</span>  <span class="c1"># or set the URL directly here</span>
+<span class="n">station_control_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PULLA_STATION_CONTROL_URL&#39;</span><span class="p">]</span>  <span class="c1"># or set the URL directly here</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Pulla</span><span class="p">(</span><span class="n">station_control_url</span><span class="p">)</span>
+
+<span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="n">cocos_url</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[10-31 21:33:24;W] station-control-client version &#39;1.18&#39; is newer minor version than &#39;1.13&#39; used by the station control server, some new client features might not be supported.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.compiler</span><span class="w"> </span><span class="kn">import</span> <span class="n">transpile</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">example_qiskit_circuit</span><span class="p">():</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+    <span class="n">transpiled_qc</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">layout_method</span><span class="o">=</span><span class="s1">&#39;sabre&#39;</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">transpiled_qc</span> <span class="o">=</span> <span class="n">optimize_single_qubit_gates</span><span class="p">(</span><span class="n">transpiled_qc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">transpiled_qc</span>
+
+
+<span class="n">example_qiskit_circuit</span><span class="p">()</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;clifford&#39;</span><span class="p">,</span> <span class="n">idle_wires</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6c6710795badc15fafd819d6ecb5df54453a2dfe2ddf709766359a917f794577.png" src="_images/6c6710795badc15fafd819d6ecb5df54453a2dfe2ddf709766359a917f794577.png" />
+</div>
+</div>
+</section>
+<section id="changing-implementations-at-the-circuit-level">
+<h2>Changing implementations at the circuit level<a class="headerlink" href="#changing-implementations-at-the-circuit-level" title="Link to this heading">#</a></h2>
+<p>Circuits are usually defined without specifying implementations for any of the gates.
+The implementations available in a given calibration set are listed in the corresponding dynamic quantum architecture, through Cocos.</p>
+<p>Let’s see a list of available implementations, with their parameters:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circuits</span><span class="p">,</span> <span class="n">compiler</span> <span class="o">=</span> <span class="n">qiskit_to_pulla</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">example_qiskit_circuit</span><span class="p">())</span>
+
+<span class="n">compiler</span><span class="o">.</span><span class="n">print_all_implementations_trees</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Operation: barrier
+
+ &quot;Operation: barrier, implementation: &quot;
+-----------------------------------
+
+Operation: measure
+
+ &quot;Operation: measure, implementation: constant&quot;
+ ╠─ duration: Readout pulse duration = None (automatic/unspecified)
+ ╠─ frequency: Readout pulse frequency = None (automatic/unspecified)
+ ╠─ phase: Readout pulse phase = None (automatic/unspecified)
+ ╠─ amplitude_i: Readout channel I amplitude = None (automatic/unspecified)
+ ╠─ amplitude_q: Readout channel Q amplitude = 0.0 
+ ╠─ integration_length: Integration length = None (automatic/unspecified)
+ ╠─ integration_weights_I: Integration weights for channel I = [] 
+ ╠─ integration_weights_Q: Integration weights for channel Q = [] 
+ ╠─ integration_threshold: Integration threshold = None (automatic/unspecified)
+ ╠─ acquisition_type: Acquisition type = threshold 
+ ╚─ acquisition_delay: Acquisition delay = None (automatic/unspecified)
+
+ &quot;Operation: measure, implementation: constant_qnd&quot;
+ ╠─ duration: Readout pulse duration = None (automatic/unspecified)
+ ╠─ frequency: Readout pulse frequency = None (automatic/unspecified)
+ ╠─ phase: Readout pulse phase = None (automatic/unspecified)
+ ╠─ amplitude_i: Readout channel I amplitude = None (automatic/unspecified)
+ ╠─ amplitude_q: Readout channel Q amplitude = 0.0 
+ ╠─ integration_length: Integration length = None (automatic/unspecified)
+ ╠─ integration_weights_I: Integration weights for channel I = [] 
+ ╠─ integration_weights_Q: Integration weights for channel Q = [] 
+ ╠─ integration_threshold: Integration threshold = None (automatic/unspecified)
+ ╠─ acquisition_type: Acquisition type = threshold 
+ ╚─ acquisition_delay: Acquisition delay = None (automatic/unspecified)
+-----------------------------------
+
+Operation: prx
+
+ &quot;Operation: prx, implementation: drag_gaussian&quot;
+ ╠─ duration: pi pulse duration = None (automatic/unspecified)
+ ╠─ amplitude_i: pi pulse I channel amplitude = None (automatic/unspecified)
+ ╠─ amplitude_q: pi pulse Q channel amplitude = None (automatic/unspecified)
+ ╠─ full_width: full_width of tg = None (automatic/unspecified)
+ ╚─ center_offset: center_offset of tg = 0.0 s
+
+ &quot;Operation: prx, implementation: drag_crf&quot;
+ ╠─ duration: pi pulse duration = None (automatic/unspecified)
+ ╠─ amplitude_i: pi pulse I channel amplitude = None (automatic/unspecified)
+ ╠─ amplitude_q: pi pulse Q channel amplitude = None (automatic/unspecified)
+ ╠─ full_width: full_width of crf = None (automatic/unspecified)
+ ╚─ center_offset: center_offset of crf = 0.0 s
+
+ &quot;Operation: prx, implementation: drag_crf_sx&quot;
+ ╠─ duration: pi pulse duration = None (automatic/unspecified)
+ ╠─ amplitude_i: pi pulse I channel amplitude = None (automatic/unspecified)
+ ╠─ amplitude_q: pi pulse Q channel amplitude = None (automatic/unspecified)
+ ╠─ rz_before: RZ before IQ pulse = None (automatic/unspecified)
+ ╠─ rz_after: RZ after IQ pulse = None (automatic/unspecified)
+ ╠─ full_width: full_width of crf = None (automatic/unspecified)
+ ╚─ center_offset: center_offset of crf = 0.0 s
+
+ &quot;Operation: prx, implementation: drag_gaussian_sx&quot;
+ ╠─ duration: pi pulse duration = None (automatic/unspecified)
+ ╠─ amplitude_i: pi pulse I channel amplitude = None (automatic/unspecified)
+ ╠─ amplitude_q: pi pulse Q channel amplitude = None (automatic/unspecified)
+ ╠─ rz_before: RZ before IQ pulse = None (automatic/unspecified)
+ ╠─ rz_after: RZ after IQ pulse = None (automatic/unspecified)
+ ╠─ full_width: full_width of tg = None (automatic/unspecified)
+ ╚─ center_offset: center_offset of tg = 0.0 s
+-----------------------------------
+
+Operation: u
+
+ &quot;Operation: u, implementation: prx_u&quot;
+-----------------------------------
+
+Operation: sx
+
+ &quot;Operation: sx, implementation: prx_sx&quot;
+-----------------------------------
+
+Operation: rz
+
+ &quot;Operation: rz, implementation: virtual&quot;
+-----------------------------------
+
+Operation: rz_physical
+
+ &quot;Operation: rz_physical, implementation: ac_stark_crf&quot;
+ ╠─ duration: Gate duration = None (automatic/unspecified)
+ ╠─ full_width: full_width of mcrf = None (automatic/unspecified)
+ ╠─ rise_time: rise_time of mcrf = None (automatic/unspecified)
+ ╠─ modulation_frequency: modulation_frequency of mcrf = 0.0 Hz
+ ╠─ phase: phase of mcrf = 0 rad
+ ╠─ center_offset: center_offset of mcrf = 0.0 s
+ ╠─ amplitude: amplitude = None (automatic/unspecified)
+ ╚─ phase_increment: phase increment = None (automatic/unspecified)
+-----------------------------------
+
+Operation: cz
+
+ &quot;Operation: cz, implementation: tgss&quot;
+ ╠─ duration: Gate duration = None (automatic/unspecified)
+ ║ 
+ ╚═ rz: &quot;Operation: cz, implementation: tgss.rz&quot;
+ ╚═ coupler: &quot;Operation: cz, implementation: tgss.coupler&quot;
+     ╠─ full_width: Coupler flux pulse full_width of tgss = None (automatic/unspecified)
+     ╠─ rise_time: Coupler flux pulse rise_time of tgss = None (automatic/unspecified)
+     ╠─ center_offset: Coupler flux pulse center_offset of tgss = 0.0 s
+     ╚─ amplitude: Coupler flux pulse amplitude = None (automatic/unspecified)
+
+ &quot;Operation: cz, implementation: tgss_crf&quot;
+ ╠─ duration: Gate duration = None (automatic/unspecified)
+ ║ 
+ ╚═ rz: &quot;Operation: cz, implementation: tgss_crf.rz&quot;
+ ╠═ coupler: &quot;Operation: cz, implementation: tgss_crf.coupler&quot;
+ ║   ╠─ full_width: Coupler flux pulse full_width of tgss = None (automatic/unspecified)
+ ║   ╠─ rise_time: Coupler flux pulse rise_time of tgss = None (automatic/unspecified)
+ ║   ╠─ center_offset: Coupler flux pulse center_offset of tgss = 0.0 s
+ ║   ╚─ amplitude: Coupler flux pulse amplitude = None (automatic/unspecified)
+ ╚═ qubit: &quot;Operation: cz, implementation: tgss_crf.qubit&quot;
+     ╠─ full_width: Qubit flux pulse full_width of crf = None (automatic/unspecified)
+     ╠─ rise_time: Qubit flux pulse rise_time of crf = None (automatic/unspecified)
+     ╠─ center_offset: Qubit flux pulse center_offset of crf = 0.0 s
+     ╚─ amplitude: Qubit flux pulse amplitude = None (automatic/unspecified)
+
+ &quot;Operation: cz, implementation: crf_crf&quot;
+ ╠─ duration: Gate duration = None (automatic/unspecified)
+ ║ 
+ ╚═ rz: &quot;Operation: cz, implementation: crf_crf.rz&quot;
+ ╠═ coupler: &quot;Operation: cz, implementation: crf_crf.coupler&quot;
+ ║   ╠─ full_width: Coupler flux pulse full_width of crf = None (automatic/unspecified)
+ ║   ╠─ rise_time: Coupler flux pulse rise_time of crf = None (automatic/unspecified)
+ ║   ╠─ center_offset: Coupler flux pulse center_offset of crf = 0.0 s
+ ║   ╚─ amplitude: Coupler flux pulse amplitude = None (automatic/unspecified)
+ ╚═ qubit: &quot;Operation: cz, implementation: crf_crf.qubit&quot;
+     ╠─ full_width: Qubit flux pulse full_width of crf = None (automatic/unspecified)
+     ╠─ rise_time: Qubit flux pulse rise_time of crf = None (automatic/unspecified)
+     ╠─ center_offset: Qubit flux pulse center_offset of crf = 0.0 s
+     ╚─ amplitude: Qubit flux pulse amplitude = None (automatic/unspecified)
+
+ &quot;Operation: cz, implementation: crf&quot;
+ ╠─ duration: Gate duration = None (automatic/unspecified)
+ ║ 
+ ╚═ rz: &quot;Operation: cz, implementation: crf.rz&quot;
+ ╚═ coupler: &quot;Operation: cz, implementation: crf.coupler&quot;
+     ╠─ full_width: Coupler flux pulse full_width of crf = None (automatic/unspecified)
+     ╠─ rise_time: Coupler flux pulse rise_time of crf = None (automatic/unspecified)
+     ╠─ center_offset: Coupler flux pulse center_offset of crf = 0.0 s
+     ╚─ amplitude: Coupler flux pulse amplitude = None (automatic/unspecified)
+
+ &quot;Operation: cz, implementation: gaussian_smoothed_square&quot;
+ ╠─ duration: Gate duration = None (automatic/unspecified)
+ ║ 
+ ╚═ rz: &quot;Operation: cz, implementation: gaussian_smoothed_square.rz&quot;
+ ╚═ coupler: &quot;Operation: cz, implementation: gaussian_smoothed_square.coupler&quot;
+     ╠─ square_width: Coupler flux pulse square_width of gss = None (automatic/unspecified)
+     ╠─ gaussian_sigma: Coupler flux pulse gaussian_sigma of gss = None (automatic/unspecified)
+     ╠─ center_offset: Coupler flux pulse center_offset of gss = 0.0 s
+     ╚─ amplitude: Coupler flux pulse amplitude = None (automatic/unspecified)
+
+ &quot;Operation: cz, implementation: slepian&quot;
+ ╠─ duration: Gate duration = None (automatic/unspecified)
+ ║ 
+ ╚═ rz: &quot;Operation: cz, implementation: slepian.rz&quot;
+ ╚═ coupler: &quot;Operation: cz, implementation: slepian.coupler&quot;
+     ╠─ full_width: Coupler flux pulse full_width of Slepian = None (automatic/unspecified)
+     ╠─ lambda_1: Coupler flux pulse lambda_1 of Slepian = None (automatic/unspecified)
+     ╠─ lambda_2: Coupler flux pulse lambda_2 of Slepian = None (automatic/unspecified)
+     ╠─ frequency_initial_normalized: Coupler flux pulse frequency_initial_normalized of Slepian = None (automatic/unspecified)
+     ╠─ frequency_to_minimize_normalized: Coupler flux pulse frequency_to_minimize_normalized of Slepian = None (automatic/unspecified)
+     ╠─ coupling_strength_normalized: Coupler flux pulse coupling_strength_normalized of Slepian = None (automatic/unspecified)
+     ╠─ center_offset: Coupler flux pulse center_offset of Slepian = 0 s
+     ╠─ squid_asymmetry: Coupler flux pulse squid_asymmetry of Slepian = 0 
+     ╚─ amplitude: Coupler flux pulse amplitude = None (automatic/unspecified)
+
+ &quot;Operation: cz, implementation: slepian_crf&quot;
+ ╠─ duration: Gate duration = None (automatic/unspecified)
+ ║ 
+ ╚═ rz: &quot;Operation: cz, implementation: slepian_crf.rz&quot;
+ ╠═ coupler: &quot;Operation: cz, implementation: slepian_crf.coupler&quot;
+ ║   ╠─ full_width: Coupler flux pulse full_width of Slepian = None (automatic/unspecified)
+ ║   ╠─ lambda_1: Coupler flux pulse lambda_1 of Slepian = None (automatic/unspecified)
+ ║   ╠─ lambda_2: Coupler flux pulse lambda_2 of Slepian = None (automatic/unspecified)
+ ║   ╠─ frequency_initial_normalized: Coupler flux pulse frequency_initial_normalized of Slepian = None (automatic/unspecified)
+ ║   ╠─ frequency_to_minimize_normalized: Coupler flux pulse frequency_to_minimize_normalized of Slepian = None (automatic/unspecified)
+ ║   ╠─ coupling_strength_normalized: Coupler flux pulse coupling_strength_normalized of Slepian = None (automatic/unspecified)
+ ║   ╠─ center_offset: Coupler flux pulse center_offset of Slepian = 0 s
+ ║   ╠─ squid_asymmetry: Coupler flux pulse squid_asymmetry of Slepian = 0 
+ ║   ╚─ amplitude: Coupler flux pulse amplitude = None (automatic/unspecified)
+ ╚═ qubit: &quot;Operation: cz, implementation: slepian_crf.qubit&quot;
+     ╠─ full_width: Qubit flux pulse full_width of crf = None (automatic/unspecified)
+     ╠─ rise_time: Qubit flux pulse rise_time of crf = None (automatic/unspecified)
+     ╠─ center_offset: Qubit flux pulse center_offset of crf = 0.0 s
+     ╚─ amplitude: Qubit flux pulse amplitude = None (automatic/unspecified)
+-----------------------------------
+
+Operation: move
+
+ &quot;Operation: move, implementation: tgss_crf&quot;
+ ╠─ duration: Gate duration = None (automatic/unspecified)
+ ║ 
+ ╚═ rz: &quot;Operation: move, implementation: tgss_crf.rz&quot;
+ ╠═ coupler: &quot;Operation: move, implementation: tgss_crf.coupler&quot;
+ ║   ╠─ full_width: Coupler flux pulse full_width of tgss = None (automatic/unspecified)
+ ║   ╠─ rise_time: Coupler flux pulse rise_time of tgss = None (automatic/unspecified)
+ ║   ╠─ center_offset: Coupler flux pulse center_offset of tgss = 0.0 s
+ ║   ╚─ amplitude: Coupler flux pulse amplitude = None (automatic/unspecified)
+ ╚═ qubit: &quot;Operation: move, implementation: tgss_crf.qubit&quot;
+     ╠─ full_width: Qubit flux pulse full_width of crf = None (automatic/unspecified)
+     ╠─ rise_time: Qubit flux pulse rise_time of crf = None (automatic/unspecified)
+     ╠─ center_offset: Qubit flux pulse center_offset of crf = 0.0 s
+     ╚─ amplitude: Qubit flux pulse amplitude = None (automatic/unspecified)
+
+ &quot;Operation: move, implementation: crf_crf&quot;
+ ╠─ duration: Gate duration = None (automatic/unspecified)
+ ║ 
+ ╚═ rz: &quot;Operation: move, implementation: crf_crf.rz&quot;
+ ╠═ coupler: &quot;Operation: move, implementation: crf_crf.coupler&quot;
+ ║   ╠─ full_width: Coupler flux pulse full_width of crf = None (automatic/unspecified)
+ ║   ╠─ rise_time: Coupler flux pulse rise_time of crf = None (automatic/unspecified)
+ ║   ╠─ center_offset: Coupler flux pulse center_offset of crf = 0.0 s
+ ║   ╚─ amplitude: Coupler flux pulse amplitude = None (automatic/unspecified)
+ ╚═ qubit: &quot;Operation: move, implementation: crf_crf.qubit&quot;
+     ╠─ full_width: Qubit flux pulse full_width of crf = None (automatic/unspecified)
+     ╠─ rise_time: Qubit flux pulse rise_time of crf = None (automatic/unspecified)
+     ╠─ center_offset: Qubit flux pulse center_offset of crf = 0.0 s
+     ╚─ amplitude: Qubit flux pulse amplitude = None (automatic/unspecified)
+-----------------------------------
+
+Operation: cc_prx
+
+ &quot;Operation: cc_prx, implementation: prx_composite&quot;
+ ╚─ control_delays: Control delays = None (automatic/unspecified)
+-----------------------------------
+
+Operation: reset
+
+ &quot;Operation: reset, implementation: reset_conditional&quot;
+-----------------------------------
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can specify a default implementation for each native operation type in the circuit, and then override it for specific loci.
+Let’s change all <code class="docutils literal notranslate"><span class="pre">cz</span></code> gates to use the <code class="docutils literal notranslate"><span class="pre">slepian</span></code> implementation, and make an execption for the qubit pair <code class="docutils literal notranslate"><span class="pre">(QB1,</span> <span class="pre">QB2)</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compiler</span><span class="o">.</span><span class="n">set_default_implementation</span><span class="p">(</span><span class="s1">&#39;cz&#39;</span><span class="p">,</span> <span class="s1">&#39;slepian&#39;</span><span class="p">)</span>
+<span class="n">compiler</span><span class="o">.</span><span class="n">set_default_implementation_for_loci</span><span class="p">(</span><span class="s1">&#39;cz&#39;</span><span class="p">,</span> <span class="s1">&#39;tgss&#39;</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;QB1&#39;</span><span class="p">,</span> <span class="s1">&#39;QB2&#39;</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that the default implementations are merely suggestions to the compiler. If the compiler does not have calibration data for a default implementation, it will ignore it and use what it can.</p>
+<p>If you executed the cell below, you would get an error</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span> <span class="ow">in</span> <span class="n">stage</span> <span class="s2">&quot;circuit&quot;</span> <span class="k">pass</span> <span class="s2">&quot;map_implementations_for_loci&quot;</span><span class="p">:</span> <span class="n">Circuit</span> <span class="mi">0</span><span class="p">:</span> <span class="n">No</span> <span class="n">calibration</span> <span class="n">data</span> <span class="k">for</span> <span class="s1">&#39;prx.drag_gaussian&#39;</span> <span class="n">at</span> <span class="p">(</span><span class="s1">&#39;QB1&#39;</span><span class="p">,)</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>if the requested implementation <code class="docutils literal notranslate"><span class="pre">'drag_gaussian'</span></code> does not have calibration data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circuits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">instructions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">implementation</span> <span class="o">=</span> <span class="s1">&#39;drag_gaussian&#39;</span>
+<span class="c1"># _, context = compiler.compile(circuits) # Fails</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can also force the compiler to use a specific implementation for each circuit instruction separately in the IQM Pulse native format, which describes a circuit as a list of <code class="docutils literal notranslate"><span class="pre">CircuitOperation</span></code> instances.</p>
+</section>
+<section id="custom-gates-composite-gates">
+<h2>Custom gates: Composite gates<a class="headerlink" href="#custom-gates-composite-gates" title="Link to this heading">#</a></h2>
+<p>IQM Pulse allows the user to define composite gates: gates consisting of other registered gates.
+Composite gates are particularly useful because they allow reusing the calibrated of data of the other gates.
+Furthermore, it is possible to use different calibration data for the registered gates inside a composite gate than outside it.</p>
+<p>Let’s define a <code class="docutils literal notranslate"><span class="pre">prx</span></code> implementation that acts like a normal <code class="docutils literal notranslate"><span class="pre">prx</span></code>, except it implements <code class="docutils literal notranslate"><span class="pre">x</span></code> with 2 pulses with a 100 ns wait between them.
+The <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method produces a TimeBox using IQM Pulse’s ScheduleBuilder.
+It’s worth mentioning that the composite gate is not restricted to using only registered gates; it could equally well return a TimeBox with lower level instructions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.gate_implementation</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompositeGate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">StretchedX</span><span class="p">(</span><span class="n">CompositeGate</span><span class="p">):</span>
+    <span class="n">registered_gates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;prx&#39;</span><span class="p">]</span>  <span class="c1"># use the standard prx as a building block</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle_t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">phase_t</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="n">normal_prx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">locus</span><span class="p">)</span>
+        <span class="c1"># convert args to radians, which is what prx uses on the schedule level</span>
+        <span class="n">phase</span> <span class="o">=</span> <span class="n">phase_t</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">angle_t</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="k">if</span> <span class="n">angle_t</span> <span class="o">!=</span> <span class="mf">0.5</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">normal_prx</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span>
+
+        <span class="n">half</span> <span class="o">=</span> <span class="n">normal_prx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">half</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">locus</span><span class="p">,</span> <span class="mf">100e-9</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="n">half</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we register a new gate <code class="docutils literal notranslate"><span class="pre">custom_x</span></code>, which <code class="docutils literal notranslate"><span class="pre">StretchedX</span></code> implements. We want to make it compatible with the circuit-level <code class="docutils literal notranslate"><span class="pre">prx</span></code>, so we declare that it has the same parameters.
+Then we change the fist <code class="docutils literal notranslate"><span class="pre">prx</span></code> in the IQM Pulse circuit to use our new implementation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circuits</span><span class="p">,</span> <span class="n">compiler</span> <span class="o">=</span> <span class="n">qiskit_to_pulla</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">example_qiskit_circuit</span><span class="p">())</span>
+<span class="n">compiler</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s1">&#39;custom_x&#39;</span><span class="p">,</span> <span class="s1">&#39;StretchedX&#39;</span><span class="p">,</span> <span class="n">StretchedX</span><span class="p">,</span> <span class="n">quantum_op_specs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;params&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;angle_t&#39;</span><span class="p">,</span> <span class="s1">&#39;phase_t&#39;</span><span class="p">)})</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">circuits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">inst</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;prx&#39;</span><span class="p">:</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;custom_x&#39;</span>
+
+<span class="n">playlist</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">circuits</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Inspecting the schedule, we can see that the <code class="docutils literal notranslate"><span class="pre">X</span></code> gate in the circuit is indeed split into two pulses with a wait in between:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">playlist</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="custom-gates-custom-waveforms">
+<h2>Custom gates: Custom waveforms<a class="headerlink" href="#custom-gates-custom-waveforms" title="Link to this heading">#</a></h2>
+<p>Finally, let’s change the pulse waveforms of an existing gate. The tricky part of this is that we need to provide the calibration data by hand.
+IQM Pulse provides several “gate with custom waveforms” base classes so that users need only write the waveforms.</p>
+<p>Let’s define a new implementation of PRX using a raised cosine pulse:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.gates.prx</span><span class="w"> </span><span class="kn">import</span> <span class="n">PRX_CustomWaveforms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.playlist.waveforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">Gaussian</span><span class="p">,</span> <span class="n">GaussianDerivative</span><span class="p">,</span> <span class="n">Waveform</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RaisedCosine</span><span class="p">(</span><span class="n">Waveform</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Raised cosine pulse.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        f(t) = \frac{1}{2} (1 + \cos((t - c) \pi / w)) \quad \text{when} \: |t - c| \le w, 0 \: \text{otherwise}</span>
+
+<span class="sd">    where :math:`c` is :attr:`center_offset`, and :math:`w` is :attr:`width`.</span>
+<span class="sd">    The raised cosine has a finite support.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: half-width of the support</span>
+<span class="sd">        center_offset: center offset</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">center_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">offset_coords</span> <span class="o">=</span> <span class="n">sample_coords</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">center_offset</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">offset_coords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">offset_coords</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)),</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RaisedCosineDerivative</span><span class="p">(</span><span class="n">Waveform</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Scaled derivative of the RaisedCosine pulse.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        f(t) = -\sin((t - c) \pi / w) \quad \text{when} \: |t - c| \le w, 0 \: \text{otherwise}</span>
+
+<span class="sd">    where :math:`c` is :attr:`center_offset`, and :math:`w` is :attr:`width`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: half-width of the support</span>
+<span class="sd">        center_offset: center offset</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">center_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">offset_coords</span> <span class="o">=</span> <span class="n">sample_coords</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">center_offset</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">offset_coords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">offset_coords</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">),</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PRX_RaisedCosine</span><span class="p">(</span><span class="n">PRX_CustomWaveforms</span><span class="p">,</span> <span class="n">wave_i</span><span class="o">=</span><span class="n">RaisedCosine</span><span class="p">,</span> <span class="n">wave_q</span><span class="o">=</span><span class="n">RaisedCosineDerivative</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of PRX using a raised cosine pulse.&quot;&quot;&quot;</span>
+
+    <span class="n">center_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The class attributes of the waveforms define the calibration data they require. The <code class="docutils literal notranslate"><span class="pre">PRX_CustomWaveforms</span></code> class adds some more. We can add the new <code class="docutils literal notranslate"><span class="pre">prx</span></code> implementation to the compiler, and check what calibration data it needs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circuits</span><span class="p">,</span> <span class="n">compiler</span> <span class="o">=</span> <span class="n">qiskit_to_pulla</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">example_qiskit_circuit</span><span class="p">())</span>
+
+<span class="n">compiler</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s1">&#39;prx&#39;</span><span class="p">,</span> <span class="s1">&#39;raised_cosine&#39;</span><span class="p">,</span> <span class="n">PRX_RaisedCosine</span><span class="p">)</span>
+<span class="n">compiler</span><span class="o">.</span><span class="n">print_implementations_trees</span><span class="p">(</span><span class="n">compiler</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">op_table</span><span class="p">[</span><span class="s1">&#39;prx&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> &quot;Operation: prx, implementation: drag_gaussian&quot;
+ ╠─ duration: pi pulse duration = None (automatic/unspecified)
+ ╠─ amplitude_i: pi pulse I channel amplitude = None (automatic/unspecified)
+ ╠─ amplitude_q: pi pulse Q channel amplitude = None (automatic/unspecified)
+ ╠─ full_width: full_width of tg = None (automatic/unspecified)
+ ╚─ center_offset: center_offset of tg = 0.0 s
+
+ &quot;Operation: prx, implementation: drag_crf&quot;
+ ╠─ duration: pi pulse duration = None (automatic/unspecified)
+ ╠─ amplitude_i: pi pulse I channel amplitude = None (automatic/unspecified)
+ ╠─ amplitude_q: pi pulse Q channel amplitude = None (automatic/unspecified)
+ ╠─ full_width: full_width of crf = None (automatic/unspecified)
+ ╚─ center_offset: center_offset of crf = 0.0 s
+
+ &quot;Operation: prx, implementation: drag_crf_sx&quot;
+ ╠─ duration: pi pulse duration = None (automatic/unspecified)
+ ╠─ amplitude_i: pi pulse I channel amplitude = None (automatic/unspecified)
+ ╠─ amplitude_q: pi pulse Q channel amplitude = None (automatic/unspecified)
+ ╠─ rz_before: RZ before IQ pulse = None (automatic/unspecified)
+ ╠─ rz_after: RZ after IQ pulse = None (automatic/unspecified)
+ ╠─ full_width: full_width of crf = None (automatic/unspecified)
+ ╚─ center_offset: center_offset of crf = 0.0 s
+
+ &quot;Operation: prx, implementation: drag_gaussian_sx&quot;
+ ╠─ duration: pi pulse duration = None (automatic/unspecified)
+ ╠─ amplitude_i: pi pulse I channel amplitude = None (automatic/unspecified)
+ ╠─ amplitude_q: pi pulse Q channel amplitude = None (automatic/unspecified)
+ ╠─ rz_before: RZ before IQ pulse = None (automatic/unspecified)
+ ╠─ rz_after: RZ after IQ pulse = None (automatic/unspecified)
+ ╠─ full_width: full_width of tg = None (automatic/unspecified)
+ ╚─ center_offset: center_offset of tg = 0.0 s
+
+ &quot;Operation: prx, implementation: raised_cosine&quot;
+ ╠─ duration: pi pulse duration = None (automatic/unspecified)
+ ╠─ amplitude_i: pi pulse I channel amplitude = None (automatic/unspecified)
+ ╠─ amplitude_q: pi pulse Q channel amplitude = None (automatic/unspecified)
+ ╠─ width: width of rc = None (automatic/unspecified)
+ ╚─ center_offset: center_offset of rc = 0.0 s
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us then make one of the <code class="docutils literal notranslate"><span class="pre">prx</span></code> gates in the circuit use our new implementation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circuits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">instructions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">implementation</span> <span class="o">=</span> <span class="s2">&quot;raised_cosine&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Compiling this circuit right now would fail with an error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span> <span class="ow">in</span> <span class="n">stage</span> <span class="s2">&quot;circuit&quot;</span> <span class="k">pass</span> <span class="s2">&quot;map_implementations_for_loci&quot;</span><span class="p">:</span> <span class="n">Circuit</span> <span class="mi">0</span><span class="p">:</span> <span class="n">No</span> <span class="n">calibration</span> <span class="n">data</span> <span class="k">for</span> <span class="s1">&#39;prx.raised_cosine&#39;</span> <span class="n">at</span> <span class="p">(</span><span class="s1">&#39;QB1&#39;</span><span class="p">,)</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>(The locus (‘QB1’,) may differ in your output due to the stochastic nature of routing.)</p>
+<p>The point is that the compiler does not have necessary calibration data for this new implementation. One way to fix this is to amend the current calibration. The numbers here are arbitrary, in reality you would need to calibrate the gate parameters somehow.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">custom_cal_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">40e-09</span><span class="p">,</span>
+    <span class="s2">&quot;amplitude_i&quot;</span><span class="p">:</span> <span class="mf">0.1662</span><span class="p">,</span>
+    <span class="s2">&quot;amplitude_q&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.00802</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mf">20e-9</span><span class="p">,</span>
+    <span class="s2">&quot;center_offset&quot;</span><span class="p">:</span> <span class="mf">3e-9</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">compiler</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">chip_topology</span><span class="o">.</span><span class="n">qubits</span><span class="p">:</span>
+    <span class="n">compiler</span><span class="o">.</span><span class="n">amend_calibration_for_gate_implementation</span><span class="p">(</span><span class="s1">&#39;prx&#39;</span><span class="p">,</span> <span class="s1">&#39;raised_cosine&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">qubit</span><span class="p">,),</span> <span class="n">custom_cal_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Data with <code class="docutils literal notranslate"><span class="pre">gates.prx.raised_cosine.*</span></code> is now visible in <code class="docutils literal notranslate"><span class="pre">compiler.get_calibration()</span></code>. Note that we added the same calibration data to all qubits. In practice, this rarely makes sense, because each qubit
+is usually calibrated differently.</p>
+<p>Now the compilation succeeds and we see that <code class="docutils literal notranslate"><span class="pre">raised_cosine</span></code> was used once. Using the schedule visualization you could also verify that the pulse shape is indeed different on the first <code class="docutils literal notranslate"><span class="pre">prx</span></code> instance.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">playlist</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">circuits</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s1">&#39;circuit_metrics&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">gate_loci</span><span class="p">[</span><span class="s2">&quot;prx&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;drag_crf&#39;: Counter({(&#39;QB3&#39;,): 2, (&#39;QB1&#39;,): 1}),
+ &#39;raised_cosine&#39;: Counter({(&#39;QB1&#39;,): 1})}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Compilation%20Stages.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Compilation Stages</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-setup">Environment setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-implementations-at-the-circuit-level">Changing implementations at the circuit level</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-gates-composite-gates">Custom gates: Composite gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-gates-custom-waveforms">Custom gates: Custom waveforms</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Pulla developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024-2025, IQM Finland Oy, Release 7.2.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-03-25.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

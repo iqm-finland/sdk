@@ -1,0 +1,1431 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ScheduleBuilder &#8212; iqm.pulse 9.15.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=149b9f8f"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.builder.ScheduleBuilder';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="circuit_operations" href="iqm.pulse.circuit_operations.html" />
+    <link rel="prev" title="CircuitOperation" href="iqm.pulse.builder.CircuitOperation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-03-25"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 9.15.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 9.15.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts and Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_builder.html">Using ScheduleBuilder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_gates.html">Custom gate implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pulse_timing.html">Pulse timing</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.pulse.html">pulse</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.base_utils.html">base_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.base_utils.merge_dicts.html">iqm.pulse.base_utils.merge_dicts</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.pulse.builder.html">builder</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.build_quantum_ops.html">iqm.pulse.builder.build_quantum_ops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.load_config.html">iqm.pulse.builder.load_config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.validate_quantum_circuit.html">iqm.pulse.builder.validate_quantum_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html">CircuitOperation</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">ScheduleBuilder</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.circuit_operations.html">circuit_operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.get_unitary_from_circuit.html">iqm.pulse.circuit_operations.get_unitary_from_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.get_unitary_from_op.html">iqm.pulse.circuit_operations.get_unitary_from_op</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.reorder.html">iqm.pulse.circuit_operations.reorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.reshape_unitary.html">iqm.pulse.circuit_operations.reshape_unitary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.CircuitOperationList.html">CircuitOperationList</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.gate_implementation.html">gate_implementation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.Locus.html">iqm.pulse.gate_implementation.Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.OILCalibrationData.html">iqm.pulse.gate_implementation.OILCalibrationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.OICalibrationData.html">iqm.pulse.gate_implementation.OICalibrationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.OCalibrationData.html">iqm.pulse.gate_implementation.OCalibrationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.OpCalibrationDataTree.html">iqm.pulse.gate_implementation.OpCalibrationDataTree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.NestedParams.html">iqm.pulse.gate_implementation.NestedParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_DRIVE_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_DRIVE_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_READOUT_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_READOUT_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_FLUX_AWG_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_FLUX_AWG_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.PROBE_LINES_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.PROBE_LINES_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.get_waveform_parameters.html">iqm.pulse.gate_implementation.get_waveform_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.CompositeCache.html">CompositeCache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.CompositeGate.html">CompositeGate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.CustomIQWaveforms.html">CustomIQWaveforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.GateImplementation.html">GateImplementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SinglePulseGate.html">SinglePulseGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.gates.html">gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.expose_implementation.html">iqm.pulse.gates.expose_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.get_implementation_class.html">iqm.pulse.gates.get_implementation_class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.register_implementation.html">iqm.pulse.gates.register_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.barrier.html">barrier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.conditional.html">conditional</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.cz.html">cz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.default_gates.html">default_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.reset.html">reset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.rz.html">rz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.sx.html">sx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.u.html">u</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.playlist.html">playlist</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.channel.html">channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.fast_drag.html">fast_drag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.hd_drag.html">hd_drag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.instructions.html">instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.playlist.html">playlist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.schedule.html">schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.visualisation.html">visualisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.waveforms.html">waveforms</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.scheduler.html">scheduler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.NONSOLID.html">iqm.pulse.scheduler.NONSOLID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.BLOCKING.html">iqm.pulse.scheduler.BLOCKING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.extend_hard_boundary.html">iqm.pulse.scheduler.extend_hard_boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.extend_hard_boundary_in_seconds.html">iqm.pulse.scheduler.extend_hard_boundary_in_seconds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.extend_schedule.html">iqm.pulse.scheduler.extend_schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.extend_schedule_new.html">iqm.pulse.scheduler.extend_schedule_new</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.SegmentPointer.html">SegmentPointer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html">TimeBox</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.normalize_angle.html">iqm.pulse.utils.normalize_angle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.phase_transformation.html">iqm.pulse.utils.phase_transformation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.validation.html">validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.validate_awg_and_schedule_compatibility.html">iqm.pulse.validation.validate_awg_and_schedule_compatibility</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.validate_channel.html">iqm.pulse.validation.validate_channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.validate_instruction_and_wf_length.html">iqm.pulse.validation.validate_instruction_and_wf_length</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.validate_playlist_compatibility.html">iqm.pulse.validation.validate_playlist_compatibility</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.AWGScheduleValidationData.html">AWGScheduleValidationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.AWGScheduleValidationError.html">iqm.pulse.validation.AWGScheduleValidationError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.InvalidInstructionError.html">iqm.pulse.validation.InvalidInstructionError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.PlaylistValidationError.html">iqm.pulse.validation.PlaylistValidationError</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ScheduleBuilder</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._cache"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._cache</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.composite_cache"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.composite_cache</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._channel_to_component"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._channel_to_component</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._channel_types"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._channel_types</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._require_scheduling_in_seconds"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._require_scheduling_in_seconds</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._channel_templates"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._channel_templates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.inject_calibration"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.inject_calibration()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.validate_calibration"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.validate_calibration()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_drive_channel"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_drive_channel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_flux_channel"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_flux_channel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_probe_channel"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_probe_channel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_virtual_feedback_channels"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_virtual_feedback_channels()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_virtual_feedback_channel_for"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_virtual_feedback_channel_for()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._get_channel_for_component"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._get_channel_for_component()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.has_calibration"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.has_calibration()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_calibration"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_calibration()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_control_channels"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_control_channels()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.wait"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.wait()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_implementation"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._find_implementation_and_locus"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._find_implementation_and_locus()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._get_implementation"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._get_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_implementation_class"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_implementation_class()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.validate_quantum_circuit"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.validate_quantum_circuit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.circuit_to_timebox"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.circuit_to_timebox()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.timeboxes_to_front_padded_playlist"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.timeboxes_to_front_padded_playlist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.timeboxes_to_playlist"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.timeboxes_to_playlist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.timebox_to_schedule"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.timebox_to_schedule()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._finish_schedule"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._finish_schedule()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._fuse_long_distance_virtual_rzs"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._fuse_long_distance_virtual_rzs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.resolve_timebox"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.resolve_timebox()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._resolve_timebox_hard_boundary"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._resolve_timebox_hard_boundary()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._get_neighborhood_hard_boundary"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._get_neighborhood_hard_boundary()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._resolve_timebox_tetris"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._resolve_timebox_tetris()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._block_neighborhood_tetris"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._block_neighborhood_tetris()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.build_playlist"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.build_playlist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._set_gate_implementation_shortcut"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._set_gate_implementation_shortcut()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="schedulebuilder">
+<h1>ScheduleBuilder<a class="headerlink" href="#schedulebuilder" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.builder.</span></span><span class="sig-name descname"><span class="pre">ScheduleBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_table</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chip_topology</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component_channels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Builds instruction schedules out of quantum circuits or individual quantum operations.</p>
+<p>Encapsulates known quantum ops, the calibration information for them, QPU components and their
+topology, and controller properties.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>op_table</strong> (<em>QuantumOpTable</em>) – definitions of known quantum ops</p></li>
+<li><p><strong>calibration</strong> (<em>OpCalibrationDataTree</em>) – calibration data tree for the quantum ops</p></li>
+<li><p><strong>chip_topology</strong> (<em>ChipTopology</em>) – Chip topology derived from the CHAD.</p></li>
+<li><p><strong>channels</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="iqm.pulse.playlist.channel.ChannelProperties.html#iqm.pulse.playlist.channel.ChannelProperties" title="iqm.pulse.playlist.channel.ChannelProperties"><em>ChannelProperties</em></a><em>]</em>) – mapping of controller names to the configurations of their channels</p></li>
+<li><p><strong>component_channels</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>]</em>) – Mapping from QPU component name to a mapping of <code class="docutils literal notranslate"><span class="pre">('drive',</span> <span class="pre">'flux',</span> <span class="pre">'readout')</span></code>
+to the name of the control channel responsible for that function of the component.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Module: <a class="reference internal" href="iqm.pulse.builder.html#module-iqm.pulse.builder" title="iqm.pulse.builder"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.builder</span></code></a></p>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.composite_cache" title="iqm.pulse.builder.ScheduleBuilder.composite_cache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">composite_cache</span></code></a></p></td>
+<td><p>Cache for the CompositeGate TimeBoxes.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.build_playlist" title="iqm.pulse.builder.ScheduleBuilder.build_playlist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_playlist</span></code></a></p></td>
+<td><p>Build a playlist from a number of instruction schedules.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.circuit_to_timebox" title="iqm.pulse.builder.ScheduleBuilder.circuit_to_timebox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">circuit_to_timebox</span></code></a></p></td>
+<td><p>Convert a quantum circuit to a TimeBox.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.get_calibration" title="iqm.pulse.builder.ScheduleBuilder.get_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_calibration</span></code></a></p></td>
+<td><p>Calibration data for the given quantum operation, implementation and locus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.get_control_channels" title="iqm.pulse.builder.ScheduleBuilder.get_control_channels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_control_channels</span></code></a></p></td>
+<td><p>Control channels that directly affect quantum operations at the given locus.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.get_drive_channel" title="iqm.pulse.builder.ScheduleBuilder.get_drive_channel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_drive_channel</span></code></a></p></td>
+<td><p>Drive channel for the given QPU component.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.get_flux_channel" title="iqm.pulse.builder.ScheduleBuilder.get_flux_channel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_flux_channel</span></code></a></p></td>
+<td><p>Flux channel for the given QPU component.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.get_implementation" title="iqm.pulse.builder.ScheduleBuilder.get_implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_implementation</span></code></a></p></td>
+<td><p>Provide an implementation for a quantum operation at a given locus.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.get_implementation_class" title="iqm.pulse.builder.ScheduleBuilder.get_implementation_class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_implementation_class</span></code></a></p></td>
+<td><p>Implementation class for the given operation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.get_probe_channel" title="iqm.pulse.builder.ScheduleBuilder.get_probe_channel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_probe_channel</span></code></a></p></td>
+<td><p>Probe line channel for the probe line <code class="docutils literal notranslate"><span class="pre">component</span></code> belongs to.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.get_virtual_feedback_channel_for" title="iqm.pulse.builder.ScheduleBuilder.get_virtual_feedback_channel_for"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_virtual_feedback_channel_for</span></code></a></p></td>
+<td><p>Get virtual feedback channel for feedback to a given AWG from a given probe line.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.get_virtual_feedback_channels" title="iqm.pulse.builder.ScheduleBuilder.get_virtual_feedback_channels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_virtual_feedback_channels</span></code></a></p></td>
+<td><p>All virtual feedback signal channels for the given QPU component.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.has_calibration" title="iqm.pulse.builder.ScheduleBuilder.has_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_calibration</span></code></a></p></td>
+<td><p>Is there calibration data for the given quantum operation, implementation and locus?</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.inject_calibration" title="iqm.pulse.builder.ScheduleBuilder.inject_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inject_calibration</span></code></a></p></td>
+<td><p>Inject new calibration data, changing <code class="docutils literal notranslate"><span class="pre">self.calibration</span></code> after the ScheduleBuilder initialisation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.resolve_timebox" title="iqm.pulse.builder.ScheduleBuilder.resolve_timebox"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resolve_timebox</span></code></a></p></td>
+<td><p>Resolve a TimeBox.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.timebox_to_schedule" title="iqm.pulse.builder.ScheduleBuilder.timebox_to_schedule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timebox_to_schedule</span></code></a></p></td>
+<td><p>Convert a TimeBox to a finished instruction schedule, ready for execution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.timeboxes_to_front_padded_playlist" title="iqm.pulse.builder.ScheduleBuilder.timeboxes_to_front_padded_playlist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timeboxes_to_front_padded_playlist</span></code></a></p></td>
+<td><p>Temporary helper function, for converting a sequence of TimeBoxes to a Playlist.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.timeboxes_to_playlist" title="iqm.pulse.builder.ScheduleBuilder.timeboxes_to_playlist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timeboxes_to_playlist</span></code></a></p></td>
+<td><p>Convert a sequence of TimeBoxes to a Playlist.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.validate_calibration" title="iqm.pulse.builder.ScheduleBuilder.validate_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_calibration</span></code></a></p></td>
+<td><p>Check that the calibration data matches the known quantum operations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.validate_quantum_circuit" title="iqm.pulse.builder.ScheduleBuilder.validate_quantum_circuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_quantum_circuit</span></code></a></p></td>
+<td><p>Validate a sequence of circuit operations constituting a quantum circuit.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.wait" title="iqm.pulse.builder.ScheduleBuilder.wait"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait</span></code></a></p></td>
+<td><p>Utility method for applying Block instructions on every channel of the given locus.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._cache">
+<span class="sig-name descname"><span class="pre">_cache</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><span class="pre">GateImplementation</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._cache" title="Link to this definition">#</a></dt>
+<dd><p>Cached GateImplementations. The tree has the same structure as OpCalibrationDataTree.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.composite_cache">
+<span class="sig-name descname"><span class="pre">composite_cache</span></span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.composite_cache" title="Link to this definition">#</a></dt>
+<dd><p>Cache for the CompositeGate TimeBoxes. Flushed whenever ANY calibration data is injected into the builder.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._channel_to_component">
+<span class="sig-name descname"><span class="pre">_channel_to_component</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._channel_to_component" title="Link to this definition">#</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">self.component_channels</span></code> mapping inverted cached for scheduling algorithm performance. This mapping is
+used in the scheduling to determine the components to block based on their associated channels. Only
+blocking channels are included in this mapping, non-blocking channels (e.g. certain virtual channels) do not
+block their components, just themselves.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._channel_types">
+<span class="sig-name descname"><span class="pre">_channel_types</span></span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._channel_types" title="Link to this definition">#</a></dt>
+<dd><p>Cache the probe and non-probe channel names for the scheduling algorithm performance</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._require_scheduling_in_seconds">
+<span class="sig-name descname"><span class="pre">_require_scheduling_in_seconds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._require_scheduling_in_seconds" title="Link to this definition">#</a></dt>
+<dd><p>Whether to require scheduling of probe instructions in seconds instead of in samples. This can happen for two
+reasons: 1) the probe channel has a different sampling rate to the other channels (e.g. with UHFQA) or
+2) the probe channels have a different instruction granularity to some of the other channels (e.g. with
+mixed stations that have the RO device from a different vendor than some of the AWGs).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._channel_templates">
+<span class="sig-name descname"><span class="pre">_channel_templates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="iqm.pulse.playlist.channel.ChannelProperties.html#iqm.pulse.playlist.channel.ChannelProperties" title="iqm.pulse.playlist.channel.ChannelProperties"><span class="pre">ChannelProperties</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._channel_templates" title="Link to this definition">#</a></dt>
+<dd><p>Cache representative channel properties for a probe and a non-probe channel for the scheduling algorithm
+performance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.inject_calibration">
+<span class="sig-name descname"><span class="pre">inject_calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">partial_calibration</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.inject_calibration" title="Link to this definition">#</a></dt>
+<dd><p>Inject new calibration data, changing <code class="docutils literal notranslate"><span class="pre">self.calibration</span></code> after the ScheduleBuilder initialisation.</p>
+<p>Invalidates the gate_implementation cache for the affected operations/implementations/loci. Also invalidates
+the cache for any factorizable gate implementation, if any of its locus components was affected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>partial_calibration</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>] </em><em>| </em><em>None</em><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em><em>]</em><em>]</em><em>]</em>) – data to be injected. Must have the same structure as <code class="docutils literal notranslate"><span class="pre">self.calibration</span></code> but does not
+have to contain all operations/implementations/loci/values. Only the parts of the data that are
+found will be merged into <code class="docutils literal notranslate"><span class="pre">self.calibration</span></code> (including any <code class="docutils literal notranslate"><span class="pre">None</span></code> values). <code class="docutils literal notranslate"><span class="pre">self._cache</span></code> will
+be invalidated for the found operations/implementations/loci and only if the new calibration data
+actually differs from the previous.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.validate_calibration">
+<span class="sig-name descname"><span class="pre">validate_calibration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.validate_calibration" title="Link to this definition">#</a></dt>
+<dd><p>Check that the calibration data matches the known quantum operations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – there is something wrong with the calibration data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.get_drive_channel">
+<span class="sig-name descname"><span class="pre">get_drive_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.get_drive_channel" title="Link to this definition">#</a></dt>
+<dd><p>Drive channel for the given QPU component.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>component</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name of a QPU component</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Name of the drive channel for <code class="docutils literal notranslate"><span class="pre">component</span></code>, if it exists.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – if component does not exist or does not have a drive channel</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.get_flux_channel">
+<span class="sig-name descname"><span class="pre">get_flux_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.get_flux_channel" title="Link to this definition">#</a></dt>
+<dd><p>Flux channel for the given QPU component.</p>
+<p>See <a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.get_drive_channel" title="iqm.pulse.builder.ScheduleBuilder.get_drive_channel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_drive_channel()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>component</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.get_probe_channel">
+<span class="sig-name descname"><span class="pre">get_probe_channel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.get_probe_channel" title="Link to this definition">#</a></dt>
+<dd><p>Probe line channel for the probe line <code class="docutils literal notranslate"><span class="pre">component</span></code> belongs to.</p>
+<p>See <a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.get_drive_channel" title="iqm.pulse.builder.ScheduleBuilder.get_drive_channel"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_drive_channel()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>component</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.get_virtual_feedback_channels">
+<span class="sig-name descname"><span class="pre">get_virtual_feedback_channels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.get_virtual_feedback_channels" title="Link to this definition">#</a></dt>
+<dd><p>All virtual feedback signal channels for the given QPU component.</p>
+<p>A virtual feedback channel between a source and a destination exists if the station configuration allows it.
+<cite>component</cite> can be either the source or the destination of the signal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>component</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name of a QPU component</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Names of the virtual channels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.get_virtual_feedback_channel_for">
+<span class="sig-name descname"><span class="pre">get_virtual_feedback_channel_for</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">awg_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feedback_qubit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.get_virtual_feedback_channel_for" title="Link to this definition">#</a></dt>
+<dd><p>Get virtual feedback channel for feedback to a given AWG from a given probe line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>awg_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name of the awg node that receives the feedback bit.</p></li>
+<li><p><strong>feedback_qubit</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – which qubit’s measurement resulted in the feedback bit</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The virtual feedback channel name.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – if the given AWG does not support fast feedback from the given probe line.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._get_channel_for_component">
+<span class="sig-name descname"><span class="pre">_get_channel_for_component</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">component</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._get_channel_for_component" title="Link to this definition">#</a></dt>
+<dd><p>Control channel name for the given QPU component and operation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>name of the channel</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – if component does not exist or does not have the operation</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>component</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>operation</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.has_calibration">
+<span class="sig-name descname"><span class="pre">has_calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.has_calibration" title="Link to this definition">#</a></dt>
+<dd><p>Is there calibration data for the given quantum operation, implementation and locus?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>op_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name of the quantum operation</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name of the implementation</p></li>
+<li><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>]</em>) – locus of the operation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True iff requested calibration data was found</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.get_calibration">
+<span class="sig-name descname"><span class="pre">get_calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.get_calibration" title="Link to this definition">#</a></dt>
+<dd><p>Calibration data for the given quantum operation, implementation and locus.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>op_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name of the quantum operation</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name of the implementation</p></li>
+<li><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>]</em>) – locus of the operation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>requested calibration data</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – requested calibration data was not found</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.get_control_channels">
+<span class="sig-name descname"><span class="pre">get_control_channels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">locus</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.get_control_channels" title="Link to this definition">#</a></dt>
+<dd><p>Control channels that directly affect quantum operations at the given locus.</p>
+<p>Includes the probe, drive and flux channels of the locus QPU components.
+Does not include e.g. any neighboring coupler channels, these will have to be added
+separately in the TimeBox resolution phase.</p>
+<p>Will only return channels that are known to exist, i.e. are found in <code class="xref py py-attr docutils literal notranslate"><span class="pre">ScheduleBuilder.channels</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – locus on which the operation acts</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>names of the control channels that directly affect the operation</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.wait">
+<span class="sig-name descname"><span class="pre">wait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rounding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.wait" title="Link to this definition">#</a></dt>
+<dd><p>Utility method for applying Block instructions on every channel of the given locus.</p>
+<p>The Block instructions guarantee the locus components to idle for the given duration,
+and cannot e.g. be replaced with e.g. dynamical decoupling sequences.
+They are treated the same as any other TimeBox contents:</p>
+<ol class="arabic simple">
+<li><p>Blocks on different channels remain aligned in time during scheduling.</p></li>
+<li><p>The actual waiting time on a particular channel may thus be &gt;= <code class="docutils literal notranslate"><span class="pre">duration</span></code>,
+if the other channels have less non-blocking space on either side.</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>TODO For now, this method can round <code class="docutils literal notranslate"><span class="pre">duration</span></code> to the nearest value allowed by each
+channel if requested. This is for the benefit of EXA sweeping over waiting durations.
+In the future, EXA sweep generation should be responsible for doing the rounding.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – locus components that should experience the wait</p></li>
+<li><p><strong>duration</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – how long to wait (in seconds)</p></li>
+<li><p><strong>rounding</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Iff True, for each channel separately, <code class="docutils literal notranslate"><span class="pre">duration</span></code> will be rounded to the
+nearest value allowed by the granularity of that channel. The Waits will start
+simultaneously.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>box containing <a class="reference internal" href="iqm.pulse.playlist.instructions.Block.html#iqm.pulse.playlist.instructions.Block" title="iqm.pulse.playlist.instructions.Block"><code class="xref py py-class docutils literal notranslate"><span class="pre">Block</span></code></a> instructions on every control channel of <code class="docutils literal notranslate"><span class="pre">locus</span></code></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.get_implementation">
+<span class="sig-name descname"><span class="pre">get_implementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_priority_order</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_locus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority_calibration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.get_implementation" title="Link to this definition">#</a></dt>
+<dd><p>Provide an implementation for a quantum operation at a given locus.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>op_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name of the quantum operation</p></li>
+<li><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – locus of the operation</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – name of the implementation (<code class="docutils literal notranslate"><span class="pre">None</span></code> means the implementation is chosen automatically
+using the logic described below)</p></li>
+<li><p><strong>strict_locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – iff False, for non-symmetric implementations of symmetric ops the locus order may
+be changed if no calibration data is available for the requested locus order</p></li>
+<li><p><strong>use_priority_order</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Only has an effect if <code class="docutils literal notranslate"><span class="pre">impl_name</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>. Iff <code class="docutils literal notranslate"><span class="pre">False</span></code>,
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">QuantumOp.get_default_implementation_for_locus()</span></code> is used. Otherwise, the first implementation in
+the priority order that has calibration data for <code class="docutils literal notranslate"><span class="pre">locus</span></code> is chosen. The priority order is as follows:
+1. The locus-specific priority defined in <code class="docutils literal notranslate"><span class="pre">QuantumOp.defaults_for_locus[locus]</span></code> if any.
+2. The global priority order defined in <code class="xref py py-attr docutils literal notranslate"><span class="pre">QuantumOp.implementations</span></code>.</p></li>
+<li><p><strong>priority_calibration</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – Calibration data from which to load the calibration instead of the common calibration
+data in <code class="xref py py-attr docutils literal notranslate"><span class="pre">calibration</span></code>. If no calibration is found for the given implementation or
+<code class="docutils literal notranslate"><span class="pre">priority_calibration</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the common calibration is used. Any non-empty
+values found in <code class="docutils literal notranslate"><span class="pre">priority_calibration</span></code> will be merged to the common calibration. Note:
+using <code class="docutils literal notranslate"><span class="pre">priority_calibration</span></code> will prevent saving/loading via the cache.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>requested implementation</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – requested implementation could not be provided</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><em>GateImplementation</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._find_implementation_and_locus">
+<span class="sig-name descname"><span class="pre">_find_implementation_and_locus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_locus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._find_implementation_and_locus" title="Link to this definition">#</a></dt>
+<dd><p>Find an implementation and locus for the given quantum operation instance compatible
+with the calibration data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>op</strong> (<a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><em>QuantumOp</em></a>) – quantum operation</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – Name of the implementation. <code class="docutils literal notranslate"><span class="pre">None</span></code> means use the highest-priority implementation for
+which we have calibration data.</p></li>
+<li><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>]</em>) – locus of the operation</p></li>
+<li><p><strong>strict_locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – iff False, for non-symmetric implementations of symmetric ops the locus order may
+be changed to an equivalent one if no calibration data is available for the requested locus order</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>chosen implementation name, locus</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – requested implementation could not be found</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – requested implementation had no calibration data for this locus</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – no specific implementation was requested, but no known implementation had
+    calibration data for this locus</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, …]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._get_implementation">
+<span class="sig-name descname"><span class="pre">_get_implementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_locus</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">priority_calibration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._get_implementation" title="Link to this definition">#</a></dt>
+<dd><p>Build a factory class for the given quantum operation, implementation and locus.</p>
+<p>The GateImplementations are built when they are first requested, and cached for later use.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>op</strong> (<a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><em>QuantumOp</em></a>) – quantum operation</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – Name of the implementation. <code class="docutils literal notranslate"><span class="pre">None</span></code> means use the highest-priority implementation for
+which we have calibration data.</p></li>
+<li><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>]</em>) – locus of the operation</p></li>
+<li><p><strong>strict_locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – iff False, for non-symmetric implementations of symmetric ops the locus order may
+be changed if no calibration data is available for the requested locus order</p></li>
+<li><p><strong>priority_calibration</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – Calibration data from which to load the calibration instead of the common
+calibration data. Priority calibration should be either a dict of the type <cite>OILCalibrationData</cite>,
+i.e. containing the operation name, implementation name, and locus, or just a dict containing
+the calibration data for the locus implied by the args <cite>op</cite>, <cite>impl_name</cite> and <cite>locus</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>requested implementation</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – requested implementation could not be provided or had no calibration data for this locus</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><em>GateImplementation</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.get_implementation_class">
+<span class="sig-name descname"><span class="pre">get_implementation_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.get_implementation_class" title="Link to this definition">#</a></dt>
+<dd><p>Implementation class for the given operation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>op_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name of the quantum operation</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – name of the implementation (<code class="docutils literal notranslate"><span class="pre">None</span></code> means use the default implementation)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>requested implementation class</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><em>type</em></a>[<a class="reference internal" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><em>GateImplementation</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.validate_quantum_circuit">
+<span class="sig-name descname"><span class="pre">validate_quantum_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operations</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">require_measurements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.validate_quantum_circuit" title="Link to this definition">#</a></dt>
+<dd><p>Validate a sequence of circuit operations constituting a quantum circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>operations</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html#iqm.pulse.builder.CircuitOperation" title="iqm.pulse.builder.CircuitOperation"><em>CircuitOperation</em></a><em>]</em>) – quantum circuit to be validated</p></li>
+<li><p><strong>require_measurements</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – iff True the circuit must include at least one measurement operation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – <code class="docutils literal notranslate"><span class="pre">operations</span></code> do not constitute a valid quantum circuit</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.circuit_to_timebox">
+<span class="sig-name descname"><span class="pre">circuit_to_timebox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuit</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheduling_algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">SchedulingAlgorithm.HARD_BOUNDARY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus_mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.circuit_to_timebox" title="Link to this definition">#</a></dt>
+<dd><p>Convert a quantum circuit to a TimeBox.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>circuit</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html#iqm.pulse.builder.CircuitOperation" title="iqm.pulse.builder.CircuitOperation"><em>CircuitOperation</em></a><em>]</em>) – quantum circuit</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – name of the circuit</p></li>
+<li><p><strong>scheduling_algorithm</strong> (<a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html#iqm.pulse.timebox.SchedulingAlgorithm" title="iqm.pulse.timebox.SchedulingAlgorithm"><em>SchedulingAlgorithm</em></a>) – scheduling algorithm to be used in resolving the TimeBoxes.</p></li>
+<li><p><strong>locus_mapping</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – optional mapping of placeholder component names to the physical component names used
+while resolving the circuit into a TimeBox.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>unresolved TimeBox that implements <code class="docutils literal notranslate"><span class="pre">circuit</span></code></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – failed to convert <code class="docutils literal notranslate"><span class="pre">circuit</span></code> to a TimeBox</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.timeboxes_to_front_padded_playlist">
+<span class="sig-name descname"><span class="pre">timeboxes_to_front_padded_playlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">boxes</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhood</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.timeboxes_to_front_padded_playlist" title="Link to this definition">#</a></dt>
+<dd><p>Temporary helper function, for converting a sequence of TimeBoxes to a Playlist.</p>
+<p>Each individual TimeBox in <code class="docutils literal notranslate"><span class="pre">boxes</span></code> is resolved into a Schedule, and then
+each schedules is front-padded with <a class="reference internal" href="iqm.pulse.playlist.instructions.Wait.html#iqm.pulse.playlist.instructions.Wait" title="iqm.pulse.playlist.instructions.Wait"><code class="xref py py-class docutils literal notranslate"><span class="pre">Wait</span></code></a> instructions on each channel
+such that the resulting Schedules have equal durations. This is required since
+for now in Station Control the delay before the final measurement is the same for
+all the Schedules in a Playlist, and we do not wish to lose coherence waiting for
+the measurement after each Schedule is done.</p>
+<p>TODO Once Station Control can handle measurements better, this method should be removed,
+and <a class="reference internal" href="#iqm.pulse.builder.ScheduleBuilder.timeboxes_to_playlist" title="iqm.pulse.builder.ScheduleBuilder.timeboxes_to_playlist"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeboxes_to_playlist()</span></code></a> be used instead.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>boxes</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a><em>]</em>) – TimeBoxes to include in the playlist</p></li>
+<li><p><strong>neighborhood</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – During scheduling, block neighboring channels of the used components this far. By default,
+blocks only the defined locus components and any other components which have occupied channels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>playlist that implements <code class="docutils literal notranslate"><span class="pre">boxes</span></code></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Playlist</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.timeboxes_to_playlist">
+<span class="sig-name descname"><span class="pre">timeboxes_to_playlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">boxes</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhood</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.timeboxes_to_playlist" title="Link to this definition">#</a></dt>
+<dd><p>Convert a sequence of TimeBoxes to a Playlist.</p>
+<p>Resolves the boxes, converts them to Schedules, removes unnecessary channels, and then packs
+the Schedules into a Playlist. Assumes all the TimeBoxes refer to the same QPU and its control channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>boxes</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a><em>]</em>) – TimeBoxes to include in the playlist</p></li>
+<li><p><strong>neighborhood</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – During scheduling, block neighboring channels of the used components this far.
+The default value ensures that quantum operations work as intended, assuming the station
+is properly calibrated. Higher values may help defend against crosstalk, at the expense
+of a longer instruction schedule and thus more decoherence.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>playlist that implements <code class="docutils literal notranslate"><span class="pre">boxes</span></code></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Playlist</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.timebox_to_schedule">
+<span class="sig-name descname"><span class="pre">timebox_to_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhood</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.timebox_to_schedule" title="Link to this definition">#</a></dt>
+<dd><p>Convert a TimeBox to a finished instruction schedule, ready for execution.</p>
+<p>Resolves the box, then converts the durations of the instructions in the schedule to samples
+at the channel sample_rate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>box</strong> (<a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a>) – TimeBox to resolve</p></li>
+<li><p><strong>neighborhood</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – During scheduling, block neighboring channels of the used components this far.
+The default value ensures that quantum operations work as intended, assuming the station
+is properly calibrated. Higher values may help defend against crosstalk, at the expense
+of a longer instruction schedule and thus more decoherence.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>finished schedule that implements <code class="docutils literal notranslate"><span class="pre">box</span></code></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><em>Schedule</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._finish_schedule">
+<span class="sig-name descname"><span class="pre">_finish_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._finish_schedule" title="Link to this definition">#</a></dt>
+<dd><p>Finishes the instruction schedule.</p>
+<ul class="simple">
+<li><p>filters out zero-duration Blocks and Waits</p></li>
+<li><p>converts all spacer instructions used during scheduling to Waits</p></li>
+<li><p>merges consequent Waits</p></li>
+<li><p>removes channels that only have Waits in them</p></li>
+</ul>
+<p>This should be the final step of the schedule building process, after this the
+resulting Schedule can no longer be consistently extended with another (since
+all the spacer instructions are gone).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>schedule</strong> (<a class="reference internal" href="iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><em>Schedule</em></a>) – schedule to finish</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>finished copy of <code class="docutils literal notranslate"><span class="pre">schedule</span></code></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><em>Schedule</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._fuse_long_distance_virtual_rzs">
+<span class="sig-name descname"><span class="pre">_fuse_long_distance_virtual_rzs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._fuse_long_distance_virtual_rzs" title="Link to this definition">#</a></dt>
+<dd><p>Fuse long-distance (i.e. out-of-gate-locus) VirtualRZ corrections with the next drive pulse
+happening after the FluxPulse they are correcting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>schedule</strong> (<a class="reference internal" href="iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><em>Schedule</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><em>Schedule</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.resolve_timebox">
+<span class="sig-name descname"><span class="pre">resolve_timebox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhood</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_neighborhood_hard_boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.resolve_timebox" title="Link to this definition">#</a></dt>
+<dd><p>Resolve a TimeBox.</p>
+<p>Resolves recursively each of the children of the box, and then concatenates the resulting
+Schedules into a new one using a specific scheduling strategy and algorithm.</p>
+<p>The supported algorithms are <code class="docutils literal notranslate"><span class="pre">HARD_BOUNDARY</span></code>, which treats each composite TimeBox as a solid rectangle (the
+longest channel within defines the duration) and <code class="docutils literal notranslate"><span class="pre">TETRIS</span></code>, which packs the schedule as tightly as possible
+(solid instructions still cannot overlap) regardless of the TimeBox boundaries.</p>
+<p>Modifies <code class="docutils literal notranslate"><span class="pre">box</span></code> so that it becomes atomic, if it isn’t already.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>box</strong> (<a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a>) – TimeBox to resolve</p></li>
+<li><p><strong>neighborhood</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – During scheduling, block control channels of neighboring QPU components this far
+from the locus. Values higher than 0 may help defend against crosstalk, at the expense
+of a longer instruction schedule and thus more decoherence.</p></li>
+<li><p><strong>compute_neighborhood_hard_boundary</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether to precompute the neighborhood components while resolving
+a composite <code class="docutils literal notranslate"><span class="pre">TimeBox</span></code> in the <code class="docutils literal notranslate"><span class="pre">HARD_BOUNDARY</span></code> algorithm. Typically one does not want to do this on
+the top layer composite <code class="docutils literal notranslate"><span class="pre">TimeBox</span></code>, since it would be unused. The algorithm sets this <code class="docutils literal notranslate"><span class="pre">True</span></code> on
+lower layers, where it improves the performance as the neighborhood components are needed in scheduling.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>instruction schedule that implements <code class="docutils literal notranslate"><span class="pre">box</span></code></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><em>Schedule</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._resolve_timebox_hard_boundary">
+<span class="sig-name descname"><span class="pre">_resolve_timebox_hard_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhood</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compute_neighborhood</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._resolve_timebox_hard_boundary" title="Link to this definition">#</a></dt>
+<dd><p>Resolves a TimeBox using the <code class="docutils literal notranslate"><span class="pre">HARD_BOUNDARY</span></code> algorithm, which treats each composite TimeBox as a solid
+rectangle (the longest channel within defines the duration).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>box</strong> (<a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a>)</p></li>
+<li><p><strong>neighborhood</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>)</p></li>
+<li><p><strong>compute_neighborhood</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><em>Schedule</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._get_neighborhood_hard_boundary">
+<span class="sig-name descname"><span class="pre">_get_neighborhood_hard_boundary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhood</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._get_neighborhood_hard_boundary" title="Link to this definition">#</a></dt>
+<dd><p>Computes and caches the blocking neighborhoods for HARD_BOUNDARY algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>box</strong> (<a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a>) – Atomic TimeBox whose neighborhood to compute.</p></li>
+<li><p><strong>neighborhood</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Return QPU components this far from the locus.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>QPU components (plus maybe channels?) belonging the the given neighborhood of <code class="docutils literal notranslate"><span class="pre">box</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#set" title="(in Python v3.11)"><em>set</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._resolve_timebox_tetris">
+<span class="sig-name descname"><span class="pre">_resolve_timebox_tetris</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">box</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhood</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._resolve_timebox_tetris" title="Link to this definition">#</a></dt>
+<dd><p>Resolves a TimeBox using the <code class="docutils literal notranslate"><span class="pre">TETRIS</span></code> algorithm, which packs the schedule as tightly as possible
+(solid instructions still cannot overlap) regardless of the TimeBox boundaries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>box</strong> (<a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a>)</p></li>
+<li><p><strong>neighborhood</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><em>Schedule</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._block_neighborhood_tetris">
+<span class="sig-name descname"><span class="pre">_block_neighborhood_tetris</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhood</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._block_neighborhood_tetris" title="Link to this definition">#</a></dt>
+<dd><p>Add additional blocked channels to the schedule, preventing their use during the schedule.</p>
+<p>In the idealized computational model we assume that in a (correctly calibrated) quantum computer
+there is no effective interaction between QPU components (in the computational frame and subspace) while
+a <a class="reference internal" href="iqm.pulse.playlist.instructions.Wait.html#iqm.pulse.playlist.instructions.Wait" title="iqm.pulse.playlist.instructions.Wait"><code class="xref py py-class docutils literal notranslate"><span class="pre">Wait</span></code></a> instruction is acting on the flux channel of the coupler connecting those components
+(i.e., the coupler is idling).
+Hence a QPU component experiences no effective evolution if Wait instructions are
+acting on its drive, flux and probe channels, and the flux channels of all its couplers.</p>
+<p>Of course, in reality the QPU will experience at least some decoherence during a Wait, and
+possibly some crosstalk.
+In some applications, e.g. decoherence experiments, it is essential to Wait for a specific time,
+since it’s precisely the decoherence that we are interested in.</p>
+<p>However, if we are only interested in applying well-defined local quantum operations on specific
+loci, it is essential to shut down all unwanted dynamics by adding <a class="reference internal" href="iqm.pulse.playlist.instructions.Block.html#iqm.pulse.playlist.instructions.Block" title="iqm.pulse.playlist.instructions.Block"><code class="xref py py-class docutils literal notranslate"><span class="pre">Block</span></code></a> instructions on
+control channels of the unused and neighboring channels.
+They act like Waits (and are converted into Waits at the end of the scheduling), but are allowed
+to overlap in time, since we are only interested in blocking those channels for the duration of the
+quantum operation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>schedule</strong> (<a class="reference internal" href="iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><em>Schedule</em></a>) – instruction schedule to modify</p></li>
+<li><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#set" title="(in Python v3.11)"><em>set</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – information-carrying QPU components <code class="docutils literal notranslate"><span class="pre">schedule</span></code> is meant to operate on (does not include couplers)</p></li>
+<li><p><strong>neighborhood</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – How far should we block neighboring QPU components?
+Zero means just the locus qubits, one means neighboring couplers, two means <em>their</em> neighboring
+qubits etc.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">schedule</span></code>, with added <a class="reference internal" href="iqm.pulse.playlist.instructions.Block.html#iqm.pulse.playlist.instructions.Block" title="iqm.pulse.playlist.instructions.Block"><code class="xref py py-class docutils literal notranslate"><span class="pre">Block</span></code></a> instructions on all the neighbor channels,
+for the duration of the schedule</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder.build_playlist">
+<span class="sig-name descname"><span class="pre">build_playlist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">finish_schedules</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder.build_playlist" title="Link to this definition">#</a></dt>
+<dd><p>Build a playlist from a number of instruction schedules.</p>
+<p>This involves compressing the schedules so that no duplicate information
+needs to be transferred to Station Control.</p>
+<p>All virtual channels are dropped at this point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>schedules</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference internal" href="iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><em>Schedule</em></a><em>]</em>) – finished instruction schedules to include in the playlist</p></li>
+<li><p><strong>finish_schedules</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – whether to finalise the schedules before building the playlist. Should be set <code class="docutils literal notranslate"><span class="pre">True</span></code>
+unless some process has already finalised them before calling this function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>playlist containing the schedules</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – if the schedules contain channels with non-uniform sampling rates</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Playlist</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.builder.ScheduleBuilder._set_gate_implementation_shortcut">
+<span class="sig-name descname"><span class="pre">_set_gate_implementation_shortcut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">op_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.builder.ScheduleBuilder._set_gate_implementation_shortcut" title="Link to this definition">#</a></dt>
+<dd><p>Create shortcut for <cite>self.get_implementation(&lt;op_name&gt;, …)</cite> as <cite>self.&lt;op_name&gt;(…)</cite>.</p>
+<p>If there is a name collision with another attribute in <code class="docutils literal notranslate"><span class="pre">self</span></code>, the shortcut method won’t be added and
+a warning is raised.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>op_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.pulse.builder.CircuitOperation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">CircuitOperation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.pulse.circuit_operations.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">circuit_operations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._cache"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._cache</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.composite_cache"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.composite_cache</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._channel_to_component"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._channel_to_component</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._channel_types"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._channel_types</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._require_scheduling_in_seconds"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._require_scheduling_in_seconds</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._channel_templates"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._channel_templates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.inject_calibration"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.inject_calibration()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.validate_calibration"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.validate_calibration()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_drive_channel"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_drive_channel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_flux_channel"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_flux_channel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_probe_channel"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_probe_channel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_virtual_feedback_channels"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_virtual_feedback_channels()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_virtual_feedback_channel_for"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_virtual_feedback_channel_for()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._get_channel_for_component"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._get_channel_for_component()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.has_calibration"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.has_calibration()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_calibration"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_calibration()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_control_channels"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_control_channels()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.wait"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.wait()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_implementation"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._find_implementation_and_locus"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._find_implementation_and_locus()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._get_implementation"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._get_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.get_implementation_class"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_implementation_class()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.validate_quantum_circuit"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.validate_quantum_circuit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.circuit_to_timebox"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.circuit_to_timebox()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.timeboxes_to_front_padded_playlist"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.timeboxes_to_front_padded_playlist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.timeboxes_to_playlist"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.timeboxes_to_playlist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.timebox_to_schedule"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.timebox_to_schedule()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._finish_schedule"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._finish_schedule()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._fuse_long_distance_virtual_rzs"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._fuse_long_distance_virtual_rzs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.resolve_timebox"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.resolve_timebox()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._resolve_timebox_hard_boundary"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._resolve_timebox_hard_boundary()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._get_neighborhood_hard_boundary"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._get_neighborhood_hard_boundary()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._resolve_timebox_tetris"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._resolve_timebox_tetris()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._block_neighborhood_tetris"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._block_neighborhood_tetris()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder.build_playlist"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.build_playlist()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.builder.ScheduleBuilder._set_gate_implementation_shortcut"><code class="docutils literal notranslate"><span class="pre">ScheduleBuilder._set_gate_implementation_shortcut()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2019-2025, IQM Finland Oy, Release 9.15.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-03-25.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

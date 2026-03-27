@@ -1,0 +1,539 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>iqm.cpc.compiler &#8212; IQM Pulla 5.28 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=fa5400d1"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.cpc.compiler';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="iqm.cpc.compiler.circuit_compilation_request_handler" href="iqm.cpc.compiler.circuit_compilation_request_handler.html" />
+    <link rel="prev" title="iqm.cpc" href="iqm.cpc.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-03-25"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Pulla 5.28 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 5.28 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">IQM Pulla</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../migration_guide.html">Migration guide</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../user_guides.html">User guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quick%20Start.html">Quick Start</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Configuration%20and%20Usage.html">Configuration and Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Compilation%20Stages.html">Compilation Stages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Custom%20Gates%20and%20Implementations.html">Custom Gates and Gate Implementations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Example%20-%20Measuring%20T1.html">Example: Measuring T1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Example%20-%20Simple%20Dynamical%20Decoupling.html">Example: Dynamical decoupling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Example%20-%20Executing%20QIR%20programs.html">Executing QIR programs</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.cpc.html">iqm.cpc</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">iqm.cpc.compiler</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.circuit_compilation_request_handler.html">iqm.cpc.compiler.circuit_compilation_request_handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.compiler.html">iqm.cpc.compiler.compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.dd.html">iqm.cpc.compiler.dd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.errors.html">iqm.cpc.compiler.errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.standard_stages.html">iqm.cpc.compiler.standard_stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.station_settings.html">iqm.cpc.compiler.station_settings</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cpc.interface.html">iqm.cpc.interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.interface.compiler.html">iqm.cpc.interface.compiler</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.pulla.html">iqm.pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.calibration.html">iqm.pulla.calibration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.calibration.CalibrationDataProvider.html">iqm.pulla.calibration.CalibrationDataProvider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.interface.html">iqm.pulla.interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CircuitMeasurementResults.html">iqm.pulla.interface.CircuitMeasurementResults</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CircuitMeasurementResultsBatch.html">iqm.pulla.interface.CircuitMeasurementResultsBatch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE.html">iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.Circuit.html">iqm.pulla.interface.Circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.Instruction.html">iqm.pulla.interface.Instruction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.StationControlResult.html">iqm.pulla.interface.StationControlResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.TaskStatus.html">iqm.pulla.interface.TaskStatus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CHADRetrievalException.html">iqm.pulla.interface.CHADRetrievalException</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.ChipLabelRetrievalException.html">iqm.pulla.interface.ChipLabelRetrievalException</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.SettingsRetrievalException.html">iqm.pulla.interface.SettingsRetrievalException</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.pulla.html">iqm.pulla.pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.pulla.Pulla.html">iqm.pulla.pulla.Pulla</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils.html">iqm.pulla.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.InstructionLocation.html">iqm.pulla.utils.InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.build_settings.html">iqm.pulla.utils.build_settings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.calset_from_observations.html">iqm.pulla.utils.calset_from_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.calset_to_cal_data_tree.html">iqm.pulla.utils.calset_to_cal_data_tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.circuit_operations_to_cpc.html">iqm.pulla.utils.circuit_operations_to_cpc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot.html">iqm.pulla.utils.convert_sweep_spot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.extract_readout_controller_result_names.html">iqm.pulla.utils.extract_readout_controller_result_names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.find_circuit_boundary.html">iqm.pulla.utils.find_circuit_boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.get_hash_for.html">iqm.pulla.utils.get_hash_for</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.initialize_schedule_builder.html">iqm.pulla.utils.initialize_schedule_builder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.iqm_circuit_to_gate_implementation.html">iqm.pulla.utils.iqm_circuit_to_gate_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.locate_instructions.html">iqm.pulla.utils.locate_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.map_qubit_indices.html">iqm.pulla.utils.map_qubit_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.map_sweep_results_to_logical_qubits.html">iqm.pulla.utils.map_sweep_results_to_logical_qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.print_channel.html">iqm.pulla.utils.print_channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.print_schedule.html">iqm.pulla.utils.print_schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.replace_instruction_in_place.html">iqm.pulla.utils.replace_instruction_in_place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.InstructionLocation.html">iqm.pulla.utils.InstructionLocation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_cirq.html">iqm.pulla.utils_cirq</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_cirq.cirq_to_cpc.html">iqm.pulla.utils_cirq.cirq_to_cpc</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_dd.html">iqm.pulla.utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_dd.generate_phases_of_urn_sequence.html">iqm.pulla.utils_dd.generate_phases_of_urn_sequence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_qir.html">iqm.pulla.utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qir.qir_to_pulla.html">iqm.pulla.utils_qir.qir_to_pulla</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_qiskit.html">iqm.pulla.utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.qiskit_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.station_control_result_to_qiskit.html">iqm.pulla.utils_qiskit.station_control_result_to_qiskit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.DummyJob.html">iqm.pulla.utils_qiskit.DummyJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.IQMPullaBackend.html">iqm.pulla.utils_qiskit.IQMPullaBackend</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../common_errors.html">Common errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../authors.html">Contributors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/iqm.cpc.compiler.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>iqm.cpc.compiler</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-iqm.cpc.compiler">
+<span id="iqm-cpc-compiler"></span><h1>iqm.cpc.compiler<a class="headerlink" href="#module-iqm.cpc.compiler" title="Link to this heading">#</a></h1>
+<p>Compile quantum circuits into instruction schedules and settings that can be executed on a station.</p>
+<p class="rubric">Subpackages and modules</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.compiler.circuit_compilation_request_handler.html#module-iqm.cpc.compiler.circuit_compilation_request_handler" title="iqm.cpc.compiler.circuit_compilation_request_handler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">circuit_compilation_request_handler</span></code></a></p></td>
+<td><p>Convert quantum circuits into instruction schedules.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.compiler.compiler.html#module-iqm.cpc.compiler.compiler" title="iqm.cpc.compiler.compiler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compiler</span></code></a></p></td>
+<td><p>Convert quantum circuits into instruction schedules.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.compiler.dd.html#module-iqm.cpc.compiler.dd" title="iqm.cpc.compiler.dd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dd</span></code></a></p></td>
+<td><p>Dynamical decoupling utilities.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.compiler.errors.html#module-iqm.cpc.compiler.errors" title="iqm.cpc.compiler.errors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">errors</span></code></a></p></td>
+<td><p>Definitions of error classes used to raise issues during circuit compilation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cpc.compiler.standard_stages.html#module-iqm.cpc.compiler.standard_stages" title="iqm.cpc.compiler.standard_stages"><code class="xref py py-obj docutils literal notranslate"><span class="pre">standard_stages</span></code></a></p></td>
+<td><p>Standard compilation stages, their constituent compiler passes, and functions for implementing them.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.cpc.compiler.station_settings.html#module-iqm.cpc.compiler.station_settings" title="iqm.cpc.compiler.station_settings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">station_settings</span></code></a></p></td>
+<td><p>Mapping calibration observations to station settings.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.cpc.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">iqm.cpc</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.cpc.compiler.circuit_compilation_request_handler.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">iqm.cpc.compiler.circuit_compilation_request_handler</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Pulla developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2024, IQM.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-03-25.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
