@@ -1,0 +1,108 @@
+name: Build and Deploy Documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'sdk*.txt'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'sdk*.txt'
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+    # Allow manual triggering
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: '3.11'
+
+      - name: Analyze SDK files and set version ranges
+        id: analyze-sdk
+        run: |
+          # Find all SDK files and determine the maximum version ranges
+          MAX_MAJOR=3
+          MAX_MINOR=0
+          
+          for file in sdk*.txt; do
+            if [[ -f "$file" ]]; then
+              echo "Found SDK file: $file"
+              # Extract major and minor version from filename
+              if [[ $file =~ sdk([0-9]+)_([0-9]+)(_default)?\.txt ]]; then
+                major=${BASH_REMATCH[1]}
+                minor=${BASH_REMATCH[2]}
+                echo "  Version: $major.$minor"
+                
+                # Update maximum versions
+                if [[ $major -gt $MAX_MAJOR ]]; then
+                  MAX_MAJOR=$major
+                elif [[ $major -eq $MAX_MAJOR && $minor -gt $MAX_MINOR ]]; then
+                  MAX_MINOR=$minor
+                fi
+              fi
+            fi
+          done
+          
+          echo "Determined maximum version range: $MAX_MAJOR.$MAX_MINOR"
+          echo "MAX_MAJOR=$MAX_MAJOR" >> $GITHUB_OUTPUT
+          echo "MAX_MINOR=$MAX_MINOR" >> $GITHUB_OUTPUT
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+           uv pip install setuptools
+           sudo apt-get install graphviz
+
+      - name: Build documentation
+        run: |
+          bash build.sh
+
+      - name: Copy SDK files to React public directory
+        working-directory: ./docs
+        run: |
+          chmod +x copy-sdk-files.sh
+          ./copy-sdk-files.sh
+
+      - name: Install and build React project
+        working-directory: ./docs
+        env:
+          VITE_SDK_MAX_MAJOR_VERSION: ${{ steps.analyze-sdk.outputs.MAX_MAJOR }}
+          VITE_SDK_MAX_MINOR_VERSION: ${{ steps.analyze-sdk.outputs.MAX_MINOR }}
+        run: |
+          echo "Building with SDK version range: $VITE_SDK_MAX_MAJOR_VERSION.$VITE_SDK_MAX_MINOR_VERSION"
+          npm ci
+          npm run build
+
+      - name: Copy React build to public folder
+        working-directory: ./docs
+        run: |
+          mkdir -p public
+          cp -r dist/* public/
+          cp src/favicon.ico public/favicon.ico
+
+      - name: Publish to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        # Only run this step on push to main
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          folder: docs/public
+          git-config-name: 'IQM'
+          git-config-email: 'support@meetiqm.com'
