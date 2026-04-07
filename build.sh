@@ -29,7 +29,7 @@ mkdir -p public
 mkdir -p temp
 
 # Install the requirements for building the docs
-uv pip install pip packaging wheel setuptools setuptools_scm
+uv pip install pip packaging wheel setuptools setuptools_scm<10
 uv pip install -r requirements.txt
 
 # Function to verify all packages from SDK file were successfully built
