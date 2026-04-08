@@ -2,266 +2,233 @@
 
 set -ex
 
-cd docs
+REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
+cd "$REPO_ROOT/docs"
 
-# Find the default SDK file (the one with _default suffix)
-DEFAULT_SDK_FILE=""
-for sdk_file in ../sdk*_default.txt; do
-    if [ -f "$sdk_file" ]; then
-        DEFAULT_SDK_FILE="$sdk_file"
-        break
-    fi
+# --- Parse arguments ---
+# --current-only : skip building old SDK versions (faster for local testing)
+# --local-pypi DIR : use a local PEP 503 Simple Repository (e.g. for unreleased packages)
+BUILD_OLD_VERSIONS=true
+LOCAL_PYPI=""
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --current-only) BUILD_OLD_VERSIONS=false; shift ;;
+        --local-pypi)   LOCAL_PYPI="$2"; shift 2 ;;
+        *) echo "Unknown option: $1"; exit 1 ;;
+    esac
 done
 
-if [ -z "$DEFAULT_SDK_FILE" ]; then
-    echo "Error: No default SDK file found (looking for sdk*_default.txt)"
-    exit 1
-fi
-
+# --- Find the default SDK file ---
+DEFAULT_SDK_FILE=""
+for f in ../sdk*_default.txt; do
+    [ -f "$f" ] && DEFAULT_SDK_FILE="$f" && break
+done
+[ -z "$DEFAULT_SDK_FILE" ] && { echo "Error: No sdk*_default.txt found"; exit 1; }
 echo "Using default SDK file: $DEFAULT_SDK_FILE"
 
-# Put package names into environment variable; later used for creating directories and for the React app
-PACKAGES=$(awk '{print $1}' "$DEFAULT_SDK_FILE" | tr '\n' ' ' | sed 's/ $//')
+mkdir -p public temp
 
-echo "Building documentation for packages: $PACKAGES"
+# Build extra-index arguments (used throughout the script)
+# When a local PyPI is specified, add it as an extra index and tell uv to
+# consider all indexes equally (unsafe-best-match), otherwise uv's default
+# strategy ignores indexes once it finds the package name on another one.
+UV_LOCAL_ARGS=""
+if [ -n "$LOCAL_PYPI" ]; then
+    LOCAL_INDEX_URL="file://$LOCAL_PYPI"
+    UV_LOCAL_ARGS="--extra-index-url $LOCAL_INDEX_URL --index-strategy unsafe-best-match"
+    echo "Using local PyPI: $LOCAL_PYPI"
+fi
 
-# Public directory for the final site build
-mkdir -p public
-# Temporary directory for downloading and extracting the packages
-mkdir -p temp
-
-# Install the requirements for building the docs
+# Install doc build requirements
 uv pip install pip packaging wheel setuptools "setuptools_scm<10"
 uv pip install -r requirements.txt
 
-# Function to verify all packages from SDK file were successfully built
-verify_packages() {
-    local SDK_FILE=$1
-    local OUTPUT_DIR=$2
+# --- Helper functions ---
 
-    echo "Verifying all packages from $SDK_FILE were built..."
+# Extract bare package name from a requirements line (strips extras and version specifiers)
+pkg_name() { echo "$1" | sed 's/\[.*//;s/[<>=!~].*//'; }
 
-    # Get list of packages from the filtered SDK file (excluding external packages)
-    local TEMP_FILTERED=$(mktemp)
-    grep -v -E "^(qrisp|iqm-benchmarks)(\[|==|>=|<=|>|<|!=|~=|$)" "$SDK_FILE" > "$TEMP_FILTERED"
+is_external() { [[ "$1" =~ ^(qrisp|iqm-benchmarks)$ ]]; }
 
-    local MISSING_PACKAGES=()
-
+# Print non-external package names from an SDK file
+sdk_packages() {
     while IFS= read -r line; do
-        # Skip empty lines and comments
         [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue
-
-        # Extract package name (first field, before any version specifier or extras)
-        PKG_NAME=$(echo "$line" | awk '{print $1}' | sed 's/\[.*$//' | sed 's/[<>=!~].*//')
-
-        # Check if package directory exists in output
-        if [ ! -d "$OUTPUT_DIR/$PKG_NAME" ]; then
-            MISSING_PACKAGES+=("$PKG_NAME")
-        fi
-    done < "$TEMP_FILTERED"
-
-    rm -f "$TEMP_FILTERED"
-
-    if [ ${#MISSING_PACKAGES[@]} -gt 0 ]; then
-        echo "❌ ERROR: The following packages from $SDK_FILE are MISSING in $OUTPUT_DIR:"
-        for pkg in "${MISSING_PACKAGES[@]}"; do
-            echo "  - $pkg"
-        done
-        return 1
-    else
-        echo "✅ All packages from $SDK_FILE were successfully built"
-        return 0
-    fi
+        local name; name=$(pkg_name "$line")
+        is_external "$name" || echo "$name"
+    done < "$1"
 }
 
-# Function to build documentation for a given SDK file and output directory
-build_docs() {
-    local SDK_FILE=$1
-    local OUTPUT_DIR=$2
-    local TEMP_SUBDIR=$3
+# Track conf.py files that need restoring on exit
+CONF_BACKUPS=()
+cleanup_conf_backups() {
+    for bak in "${CONF_BACKUPS[@]}"; do
+        [ -f "$bak" ] && mv "$bak" "${bak%.bak}"
+    done
+}
+trap cleanup_conf_backups EXIT
 
-    echo "Building documentation for $SDK_FILE into $OUTPUT_DIR"
+# Build Sphinx docs for a single package source tree.
+# Usage: build_sphinx <source-dir> <output-base-dir>
+build_sphinx() {
+    local src=$1 out_base=$2
+    [ -f "$src/pyproject.toml" ] || { echo "Skip $src (no pyproject.toml)"; return 0; }
+    [ -d "$src/docs" ]           || { echo "Skip $src (no docs/)"; return 0; }
 
-    # Create subdirectories
-    mkdir -p "$OUTPUT_DIR"
-    mkdir -p "temp/$TEMP_SUBDIR"
-    CONSTRAINTS_FILE="temp/$TEMP_SUBDIR/constraints.txt"
-    FILTERED_SDK_FILE="temp/$TEMP_SUBDIR/filtered_sdk.txt"
+    local name
+    name=$(python -c "import tomllib; print(tomllib.load(open('$src/pyproject.toml','rb'))['project']['name'])")
+    local out="$out_base/$name"
+    echo "==> Building docs: $name"
 
-    # Create a filtered SDK file that excludes external packages (qrisp, iqm-benchmarks)
-    # These packages should remain in the original SDK files for the React app to display,
-    # but should not be included in the documentation build process
-    # The pattern handles package names with version specifiers, extras, etc.
-    echo "Creating filtered SDK file (excluding external packages)..."
-    grep -v -E "^(qrisp|iqm-benchmarks)(\[|==|>=|<=|>|<|!=|~=|$)" "$SDK_FILE" > "$FILTERED_SDK_FILE"
+    # Temporarily append shared intersphinx config
+    cp "$src/docs/conf.py" "$src/docs/conf.py.bak"
+    CONF_BACKUPS+=("$src/docs/conf.py.bak")
+    cat "$REPO_ROOT/sphinx_docs_conf.py" >> "$src/docs/conf.py"
 
-    echo "Original SDK file packages:"
-    cat "$SDK_FILE"
-    echo "Filtered SDK file packages (for build):"
-    cat "$FILTERED_SDK_FILE"
+    (cd "$src" && python -m sphinx docs "$out")
+    touch "$out/.nojekyll"
 
-    # Try to compile a constraint file from the filtered SDK file
-    echo "Attempting to compile constraints for $FILTERED_SDK_FILE..."
-    if uv pip compile --upgrade --no-emit-index-url --no-emit-find-links --no-header --no-cache --no-annotate \
-        --output-file "$CONSTRAINTS_FILE" "$FILTERED_SDK_FILE"; then
-        echo "Successfully compiled constraints file"
+    # Restore original conf.py
+    mv "$src/docs/conf.py.bak" "$src/docs/conf.py"
+}
+
+# Verify all expected packages were built
+verify_packages() {
+    local sdk_file=$1 out_dir=$2
+    local missing=()
+    for name in $(sdk_packages "$sdk_file"); do
+        [ -d "$out_dir/$name" ] || missing+=("$name")
+    done
+    if [ ${#missing[@]} -gt 0 ]; then
+        echo "❌ Missing packages in $out_dir: ${missing[*]}"
+        return 1
+    fi
+    echo "✅ All packages built in $out_dir"
+}
+
+# ============================================================
+# Download, install, and build docs for a given SDK file
+# ============================================================
+# Usage: build_version <sdk-file> <output-dir> <temp-subdir>
+build_version() {
+    local sdk_file=$1 out_dir=$2 tmp_dir=$3
+
+    echo "Building documentation for $sdk_file into $out_dir"
+    mkdir -p "$out_dir" "$tmp_dir"
+
+    local filtered="$tmp_dir/filtered.txt"
+    grep -v -E "^(qrisp|iqm-benchmarks)(\[|==|>=|<=|>|<|!=|~=|$)" "$sdk_file" > "$filtered"
+
+    # Compile constraints and download sdists
+    if uv pip compile --upgrade --no-emit-index-url --no-emit-find-links \
+        --no-header --no-cache --no-annotate \
+        $UV_LOCAL_ARGS \
+        --output-file "$tmp_dir/constraints.txt" "$filtered" 2>/dev/null; then
         USE_CONSTRAINTS=true
     else
-        echo "Warning: Failed to compile constraints file for $FILTERED_SDK_FILE (likely due to incompatible dependencies)"
-        echo "Proceeding without constraints..."
+        echo "Warning: constraint compilation failed, proceeding without constraints..."
         USE_CONSTRAINTS=false
     fi
 
-    # Download and extract the packages' source distributions.
-    # --no-binary=:all: forces sdist downloads; --no-build-isolation prevents pip from
-    # installing build tools from source (it uses setuptools/setuptools_scm already in the venv).
-    # This is necesary to avoid circular dependencies in build tools build.
-    if [ "$USE_CONSTRAINTS" = true ]; then
-        echo "Downloading packages with constraints..."
-        uv run -m pip download --no-deps --no-binary=:all: --no-build-isolation -c "$CONSTRAINTS_FILE" -r "$FILTERED_SDK_FILE" -d "./temp/$TEMP_SUBDIR"
-
-        # Install the packages into the virtual environment; needed for Sphinx to resolve namespaces
-        uv pip install -r "$CONSTRAINTS_FILE"
-    else
-        echo "Downloading packages without constraints (may result in version conflicts)..."
-        uv run -m pip download --no-deps --no-binary=:all: --no-build-isolation -r "$FILTERED_SDK_FILE" -d "./temp/$TEMP_SUBDIR" || echo "Some package downloads failed, continuing with available packages..."
-
-        uv pip install -r "$FILTERED_SDK_FILE" || echo "Some package installations failed, continuing with available packages..."
+    # Copy sdists from local PyPI directory (pip can't reliably use file:// PEP 503 indexes)
+    if [ -n "$LOCAL_PYPI" ]; then
+        while IFS= read -r line; do
+            [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue
+            local pkg; pkg=$(pkg_name "$line")
+            local ver; ver=$(echo "$line" | grep -oE '==([0-9]+(\.[0-9]+)*)' | sed 's/==//')
+            [ -z "$ver" ] && continue
+            local pkg_under="${pkg//-/_}"
+            local sdist="$LOCAL_PYPI/$pkg/${pkg_under}-${ver}.tar.gz"
+            if [ -f "$sdist" ]; then
+                echo "Copying local sdist: $sdist"
+                cp "$sdist" "$tmp_dir/"
+            fi
+        done < "$filtered"
     fi
 
-    echo "Downloaded packages for $SDK_FILE:"
-    ls -la "temp/$TEMP_SUBDIR"
-
-    # Check if we have any packages to process
-    PACKAGE_COUNT=$(find "./temp/$TEMP_SUBDIR" -name "*.tar.gz" 2>/dev/null | wc -l)
-    if [ "$PACKAGE_COUNT" -eq 0 ]; then
-        echo "Warning: No packages were successfully downloaded for $SDK_FILE, skipping documentation build"
-        return
-    fi
-    echo "Found $PACKAGE_COUNT packages to process"
-
-    # Iterate over the downloaded source distributions
-    for SDIST_FILE in "./temp/$TEMP_SUBDIR"/*.tar.gz; do
-        # Skip if no files match the pattern
-        [ -f "$SDIST_FILE" ] || continue
-
-        # Extract the package sdist to temp directory
-        echo "Extracting $SDIST_FILE..."
-        tar -xzf "$SDIST_FILE" -C "./temp/$TEMP_SUBDIR"
-
-        # Get the extracted directory name (remove .tar.gz and path)
-        BASENAME=$(basename "$SDIST_FILE" .tar.gz)
-        SRC_DIR="./temp/$TEMP_SUBDIR/$BASENAME"
-        echo "Extracted to ${SRC_DIR}"
-
-        # Check if the extracted directory exists
-        if [ ! -d "$SRC_DIR" ]; then
-            echo "Error: Extracted directory $SRC_DIR does not exist"
-            continue
+    # Download any remaining sdists from remote indexes
+    # Build a requirements file excluding packages already obtained locally
+    local remaining="$tmp_dir/remaining.txt"
+    > "$remaining"
+    while IFS= read -r line; do
+        [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue
+        local pkg; pkg=$(pkg_name "$line")
+        local pkg_under="${pkg//-/_}"
+        # Check if we already have this package's sdist
+        if ! ls "$tmp_dir"/${pkg_under}-*.tar.gz &>/dev/null; then
+            echo "$line" >> "$remaining"
         fi
+    done < "$filtered"
 
-        # Go to the package source directory
-        cd "$SRC_DIR"
-
-        # Check if pyproject.toml exists
-        if [ ! -f "pyproject.toml" ]; then
-            echo "Error: pyproject.toml not found in $SRC_DIR"
-            cd ../../..
-            continue
-        fi
-
-        # Get the package name from the pyproject.toml file
-        PKG_NAME=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['name'])")
-
-        # Check if docs directory exists
-        if [ ! -d "docs" ]; then
-            echo "Warning: docs directory not found in $SRC_DIR, skipping..."
-            cd ../../..
-            continue
-        fi
-
-        # Build the docs and save to the specified output directory
-        # Calculate the relative path back to the docs directory based on nesting level
-        if [[ "$TEMP_SUBDIR" == "current" ]]; then
-            RELATIVE_PATH="../../../"
+    if [ -s "$remaining" ]; then
+        echo "Downloading remaining packages from remote indexes..."
+        if [ "$USE_CONSTRAINTS" = true ]; then
+            uv run -m pip download --no-deps --no-binary=:all: --no-build-isolation \
+                -c "$tmp_dir/constraints.txt" -r "$remaining" -d "$tmp_dir"
         else
-            RELATIVE_PATH="../../../../"
+            uv run -m pip download --no-deps --no-binary=:all: --no-build-isolation \
+                -r "$remaining" -d "$tmp_dir" || true
         fi
+    fi
 
-        OUTPUT_PATH="../../../$OUTPUT_DIR/${PKG_NAME%[*}"
-        cat "${RELATIVE_PATH}sphinx_docs_conf.py" >> docs/conf.py
-        python -m sphinx docs "$OUTPUT_PATH"
-        # add .nojekyll in order to stop Github from treating the directory as a Jekyll blog generator,
-        # which ignores directories starting with underscore
-        touch "$OUTPUT_PATH/.nojekyll"
+    # Install packages into venv (Sphinx needs them to resolve imports)
+    if [ "$USE_CONSTRAINTS" = true ]; then
+        uv pip install $UV_LOCAL_ARGS -r "$tmp_dir/constraints.txt"
+    else
+        uv pip install $UV_LOCAL_ARGS -r "$filtered" || true
+    fi
 
-        # Go back to the docs directory
-        cd ../../..
+    # Extract and build each downloaded sdist
+    for tarball in "$tmp_dir"/*.tar.gz; do
+        [ -f "$tarball" ] || continue
+        tar -xzf "$tarball" -C "$tmp_dir"
+        local src_dir="$tmp_dir/$(basename "$tarball" .tar.gz)"
+        [ -d "$src_dir" ] || continue
+        build_sphinx "$src_dir" "$(cd "$out_dir" && pwd)"
     done
 }
 
-# Build current/default version from the default SDK file
+# ============================================================
+# Build default/current version
+# ============================================================
+
 echo "=== Building default/current version ==="
-if ! build_docs "$DEFAULT_SDK_FILE" "public" "current"; then
-    echo "Warning: Failed to build default version documentation, but continuing..."
-    exit 1
-fi
+build_version "$DEFAULT_SDK_FILE" "public" "temp/current"
+verify_packages "$DEFAULT_SDK_FILE" "public"
 
-# Verify all packages were built successfully
-if ! verify_packages "$DEFAULT_SDK_FILE" "public"; then
-    echo "Error: Package verification failed for default version"
-    exit 1
-fi
+# ============================================================
+# Build older SDK versions
+# ============================================================
 
-# Build all other versions from SDK version files (excluding the default one)
-for sdk_file in ../sdk*.txt; do
-    if [ -f "$sdk_file" ]; then
-        # Skip the default SDK file as it's already been processed
-        if [ "$sdk_file" = "$DEFAULT_SDK_FILE" ]; then
-            continue
-        fi
+if $BUILD_OLD_VERSIONS; then
+    for sdk_file in ../sdk*.txt; do
+        [ -f "$sdk_file" ] || continue
+        [ "$sdk_file" = "$DEFAULT_SDK_FILE" ] && continue
 
-        # Extract version from filename (e.g., sdk4_1.txt -> sdk4_1, sdk5_1.txt -> sdk5_1)
         version=$(basename "$sdk_file" .txt)
-        echo "=== Building documentation for $version from $sdk_file ==="
-        if ! build_docs "$sdk_file" "public/$version" "$version"; then
-            echo "Warning: Failed to build documentation for $version, but continuing with other versions..."
-        fi
+        echo "=== Building $version ==="
+        build_version "$sdk_file" "public/$version" "temp/$version"
+        verify_packages "$sdk_file" "public/$version"
+    done
+fi
 
-        # Verify all packages were built successfully
-        if ! verify_packages "$sdk_file" "public/$version"; then
-            echo "Error: Package verification failed for $version"
-            exit 1
-        fi
-    fi
-done
+# ============================================================
+# Cleanup and search index generation
+# ============================================================
 
-# Remove the Jupyter notebook execution directory and pickled doctree caches
 rm -rf public/jupyter_execute
 find public -type d -name .doctrees -exec rm -rf {} +
-
-# add .nojekyll in order to stop Github from treating the directory as a Jekyll blog generator,
-# which ignores directories starting with underscore
 touch public/.nojekyll
 
-# Generate search index for main/current version
 echo "Generating search index for main version..."
 python generate_search_index.py
-cp search.json public/ || echo "No search index found"
+cp search.json public/ 2>/dev/null || echo "No search index found"
 
-# Generate search indices for each SDK version
 for version_dir in public/sdk*; do
-    if [ -d "$version_dir" ]; then
-        version_name=$(basename "$version_dir")
-        echo "Generating search index for $version_name..."
-
-        # Use the generate_search_index.py script for versioned documentation
-        python generate_search_index.py "$version_name" "$version_dir/" "search_${version_name}.json"
-
-        # Copy the search index to the version directory
-        cp "search_${version_name}.json" "$version_dir/" || echo "No search index found for $version_name"
-
-        # Clean up temporary file
-        rm "search_${version_name}.json" 2>/dev/null || true
-    fi
+    [ -d "$version_dir" ] || continue
+    version_name=$(basename "$version_dir")
+    echo "Generating search index for $version_name..."
+    python generate_search_index.py "$version_name" "$version_dir/" "search_${version_name}.json"
+    cp "search_${version_name}.json" "$version_dir/" 2>/dev/null || true
+    rm -f "search_${version_name}.json"
 done
