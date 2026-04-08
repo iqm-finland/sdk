@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -ex
+
 cd docs
 
 # Find the default SDK file (the one with _default suffix)
@@ -202,6 +204,7 @@ build_docs() {
 echo "=== Building default/current version ==="
 if ! build_docs "$DEFAULT_SDK_FILE" "public" "current"; then
     echo "Warning: Failed to build default version documentation, but continuing..."
+    exit 1
 fi
 
 # Verify all packages were built successfully
