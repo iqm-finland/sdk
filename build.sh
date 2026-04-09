@@ -65,6 +65,7 @@ cleanup_conf_backups() {
     for bak in "${CONF_BACKUPS[@]}"; do
         [ -f "$bak" ] && mv "$bak" "${bak%.bak}"
     done
+    true  # ensure trap doesn't set a non-zero exit code
 }
 trap cleanup_conf_backups EXIT
 
