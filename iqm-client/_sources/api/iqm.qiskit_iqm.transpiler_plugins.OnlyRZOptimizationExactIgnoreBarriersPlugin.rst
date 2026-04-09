@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.transpiler\_plugins.OnlyRZOptimizationExactIgnoreBarriersPlugin
-===============================================================================
+OnlyRZOptimizationExactIgnoreBarriersPlugin
+===========================================
 
 .. currentmodule:: iqm.qiskit_iqm.transpiler_plugins
+
+Module: :mod:`iqm.qiskit_iqm.transpiler_plugins`
 
 .. autoclass:: OnlyRZOptimizationExactIgnoreBarriersPlugin
    :members:
@@ -17,6 +19,15 @@ iqm.qiskit\_iqm.transpiler\_plugins.OnlyRZOptimizationExactIgnoreBarriersPlugin
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactIgnoreBarriersPlugin
+   :parts: 1
+   :private-bases:

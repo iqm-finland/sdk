@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.iqm\_job.IQMJob
-===============================
+IQMJob
+======
 
 .. currentmodule:: iqm.qiskit_iqm.iqm_job
+
+Module: :mod:`iqm.qiskit_iqm.iqm_job`
 
 .. autoclass:: IQMJob
    :members:
@@ -22,9 +24,8 @@ iqm.qiskit\_iqm.iqm\_job.IQMJob
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~IQMJob._iqm_format_measurement_results
-      ~IQMJob._iqm_format_results
       ~IQMJob.cancel
       ~IQMJob.error_message
       ~IQMJob.queue_position
@@ -33,3 +34,11 @@ iqm.qiskit\_iqm.iqm\_job.IQMJob
       ~IQMJob.submit
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.iqm_job.IQMJob
+   :parts: 1
+   :private-bases:

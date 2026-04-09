@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>utils &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>utils &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/documentation_options.js?v=c7d539cd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>window.MathJax = {"TeX": {"Macros": {"I": "\\mathbb{I}", "R": "\\mathbb{R}", "C": "\\mathbb{C}", "tr": "\\text{Tr}", "diag": "\\text{diag}", "ket": ["\\left| #1 \\right\\rangle", 1], "bra": ["\\left\\langle #1 \\right|", 1]}}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -48,7 +51,7 @@
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="iqm.pulse.utils.fuse_iq_pulses" href="iqm.pulse.utils.fuse_iq_pulses.html" />
+    <link rel="next" title="iqm.pulse.utils.TOLERANCE" href="iqm.pulse.utils.TOLERANCE.html" />
     <link rel="prev" title="TimeBox" href="iqm.pulse.timebox.TimeBox.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -142,8 +145,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -220,6 +223,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
@@ -242,6 +246,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -259,6 +264,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -266,6 +272,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">utils</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -395,10 +402,19 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-iqm.pulse.utils">
-<span id="utils"></span><h1>utils<a class="headerlink" href="#module-iqm.pulse.utils" title="Link to this heading">#</a></h1>
-<p>Utility functions.</p>
+  <section id="utils">
+<h1>utils<a class="headerlink" href="#utils" title="Link to this heading">#</a></h1>
 <p>Full path: iqm.pulse.utils</p>
+<p id="module-iqm.pulse.utils">Utility functions.</p>
+<p class="rubric">Module Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html#iqm.pulse.utils.TOLERANCE" title="iqm.pulse.utils.TOLERANCE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TOLERANCE</span></code></a></p></td>
+<td><p>Tolerance for floating point artefacts in waveform computations.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p class="rubric">Functions</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -408,7 +424,7 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html#iqm.pulse.utils.map_waveform_param_types" title="iqm.pulse.utils.map_waveform_param_types"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_waveform_param_types</span></code></a>(type_hint)</p></td>
 <td><p>Map a python typehint into EXA Parameter's <cite>(DataType, CollectionType)</cite> tuple.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html#iqm.pulse.utils.modulate_iq" title="iqm.pulse.utils.modulate_iq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modulate_iq</span></code></a>(pulse)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html#iqm.pulse.utils.modulate_iq" title="iqm.pulse.utils.modulate_iq"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modulate_iq</span></code></a>(pulse[, assert_ranges])</p></td>
 <td><p>Sampled baseband waveform of an IQ pulse.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.utils.normalize_angle.html#iqm.pulse.utils.normalize_angle" title="iqm.pulse.utils.normalize_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize_angle</span></code></a>(angle)</p></td>
@@ -443,11 +459,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="iqm.pulse.utils.fuse_iq_pulses.html"
+       href="iqm.pulse.utils.TOLERANCE.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">iqm.pulse.utils.fuse_iq_pulses</p>
+        <p class="prev-next-title">iqm.pulse.utils.TOLERANCE</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -473,7 +489,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

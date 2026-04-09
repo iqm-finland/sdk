@@ -1,0 +1,821 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CircuitOperationList &#8212; iqm.pulse 12.7.5 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.circuit_operations.CircuitOperationList';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="gate_implementation" href="iqm.pulse.gate_implementation.html" />
+    <link rel="prev" title="Circuit" href="iqm.pulse.circuit_operations.Circuit.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-04-09"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../concepts.html">Concepts and classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../using_builder.html">Using ScheduleBuilder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../custom_gates.html">Custom gate implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pulse_timing.html">Pulse timing</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.pulse.html">pulse</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.base_utils.html">base_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.base_utils.merge_dicts.html">iqm.pulse.base_utils.merge_dicts</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.builder.html">builder</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.build_quantum_ops.html">iqm.pulse.builder.build_quantum_ops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.load_config.html">iqm.pulse.builder.load_config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.validate_quantum_circuit.html">iqm.pulse.builder.validate_quantum_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html">CircuitOperation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.builder.ScheduleBuilder.html">ScheduleBuilder</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.pulse.circuit_operations.html">circuit_operations</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.get_unitary_from_circuit.html">iqm.pulse.circuit_operations.get_unitary_from_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.get_unitary_from_op.html">iqm.pulse.circuit_operations.get_unitary_from_op</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.reorder.html">iqm.pulse.circuit_operations.reorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.reshape_unitary.html">iqm.pulse.circuit_operations.reshape_unitary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.circuit_operations.Circuit.html">Circuit</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">CircuitOperationList</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.gate_implementation.html">gate_implementation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.Locus.html">iqm.pulse.gate_implementation.Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.OILCalibrationData.html">iqm.pulse.gate_implementation.OILCalibrationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.OICalibrationData.html">iqm.pulse.gate_implementation.OICalibrationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.OCalibrationData.html">iqm.pulse.gate_implementation.OCalibrationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.OpCalibrationDataTree.html">iqm.pulse.gate_implementation.OpCalibrationDataTree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.NestedParams.html">iqm.pulse.gate_implementation.NestedParams</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_DRIVE_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_DRIVE_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_READOUT_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_READOUT_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_FLUX_AWG_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.SINGLE_COMPONENTS_WITH_FLUX_AWG_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.PROBE_LINES_LOCUS_MAPPING.html">iqm.pulse.gate_implementation.PROBE_LINES_LOCUS_MAPPING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.get_waveform_parameters.html">iqm.pulse.gate_implementation.get_waveform_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.init_subclass_composite.html">iqm.pulse.gate_implementation.init_subclass_composite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.CompositeCache.html">CompositeCache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.CompositeGate.html">CompositeGate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.CustomIQWaveforms.html">CustomIQWaveforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.GateImplementation.html">GateImplementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gate_implementation.SinglePulseGate.html">SinglePulseGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.gates.html">gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.expose_implementation.html">iqm.pulse.gates.expose_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.get_implementation_class.html">iqm.pulse.gates.get_implementation_class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.register_implementation.html">iqm.pulse.gates.register_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.register_operation.html">iqm.pulse.gates.register_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.barrier.html">barrier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.conditional.html">conditional</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.cz.html">cz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.default_gates.html">default_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.reset.html">reset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.rz.html">rz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.sx.html">sx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.u.html">u</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.playlist.html">playlist</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.channel.html">channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.fast_drag.html">fast_drag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.hd_drag.html">hd_drag</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.instructions.html">instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.playlist.html">playlist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.schedule.html">schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.visualisation.html">visualisation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.playlist.waveforms.html">waveforms</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.scheduler.html">scheduler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.NONSOLID.html">iqm.pulse.scheduler.NONSOLID</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.BLOCKING.html">iqm.pulse.scheduler.BLOCKING</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.extend_hard_boundary.html">iqm.pulse.scheduler.extend_hard_boundary</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.extend_hard_boundary_in_seconds.html">iqm.pulse.scheduler.extend_hard_boundary_in_seconds</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.extend_schedule.html">iqm.pulse.scheduler.extend_schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.extend_schedule_new.html">iqm.pulse.scheduler.extend_schedule_new</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.scheduler.SegmentPointer.html">SegmentPointer</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html">TimeBox</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.normalize_angle.html">iqm.pulse.utils.normalize_angle</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.phase_transformation.html">iqm.pulse.utils.phase_transformation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.validation.html">validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.validate_awg_and_schedule_compatibility.html">iqm.pulse.validation.validate_awg_and_schedule_compatibility</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.validate_channel.html">iqm.pulse.validation.validate_channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.validate_instruction_and_wf_length.html">iqm.pulse.validation.validate_instruction_and_wf_length</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.validate_playlist_compatibility.html">iqm.pulse.validation.validate_playlist_compatibility</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.AWGScheduleValidationData.html">AWGScheduleValidationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.AWGScheduleValidationError.html">iqm.pulse.validation.AWGScheduleValidationError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.InvalidInstructionError.html">iqm.pulse.validation.InvalidInstructionError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.validation.PlaylistValidationError.html">iqm.pulse.validation.PlaylistValidationError</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CircuitOperationList</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.find_qubits"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.find_qubits()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.add_qubits"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.add_qubits()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.get_unitary"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.get_unitary()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.add_op"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.add_op()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.barrier"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.barrier()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.compose"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.compose()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.count_ops"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.count_ops()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.map_loci"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.map_loci()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList._set_specific_operation_shortcut"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList._set_specific_operation_shortcut()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="circuitoperationlist">
+<h1>CircuitOperationList<a class="headerlink" href="#circuitoperationlist" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="iqm.pulse.circuit_operations.CircuitOperationList">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.circuit_operations.</span></span><span class="sig-name descname"><span class="pre">CircuitOperationList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.circuit_operations.CircuitOperationList" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p>
+<p>List of <a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html#iqm.pulse.builder.CircuitOperation" title="iqm.pulse.builder.CircuitOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code></a> objects representing a quantum circuit.</p>
+<p>The class is used to work with CircuitOperations directly. It is mostly meant as
+convenience to enable easy creation of circuits, calculations of their properties, and mapping them onto physical
+qubits. In addition to the circuit contents, this class has two important attributes:
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">table</span></code>.</p>
+<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code> defines the list of qubits which are allowed to be in the loci of all the
+CircuitOperations present in the list. Think about it as Qiskit’s QuantumRegister.</p>
+<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">table</span></code> is a <code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOpTable</span></code>, which contains all the
+<a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code></a> s which are allowed in the circuit. In most cases, the table is
+simply taken to contain all the default operations defined in <a class="reference internal" href="iqm.pulse.html#module-iqm.pulse" title="iqm.pulse"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse</span></code></a>.
+When you use this class with a <a class="reference internal" href="iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="iqm.pulse.builder.ScheduleBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code></a>, it is good practice to set
+<code class="docutils literal notranslate"><span class="pre">table</span> <span class="pre">=</span> <span class="pre">builder.op_table</span></code>. The QuantumOpTable is mutable, so any additional registered
+gates can automatically be usable in any CircuitOperationList associated with that
+ScheduleBuilder instance.</p>
+<p>The fundamental use of the class would be to first define a new instance:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">circuit</span> <span class="o">=</span> <span class="n">CircuitOperationList</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">num_qubits</span></code> parameter populates the <code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code> attribute with qubits QB1-QBn,
+in this case <code class="docutils literal notranslate"><span class="pre">['QB1',</span> <span class="pre">'QB2']</span></code>.</p>
+<p>Alternatively, you can provide <code class="docutils literal notranslate"><span class="pre">qubits</span></code> directly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">circuit</span> <span class="o">=</span> <span class="n">CircuitOperationList</span><span class="p">(</span><span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;QB1&#39;</span><span class="p">,</span> <span class="s1">&#39;QB2&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>To add your own QuantumOpTable, initialize like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">circuit</span> <span class="o">=</span> <span class="n">CircuitOperationList</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="n">my_table</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Remembering that the table is mutable.</p>
+<p>If you already have a list of CircuitOperations, you can initialize with it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">circuit</span> <span class="o">=</span> <span class="n">CircuitOperationList</span><span class="p">(</span><span class="n">circuit_ops</span><span class="p">,</span> <span class="n">table</span><span class="o">=</span><span class="n">my_table</span><span class="p">)</span>
+<span class="n">circuit</span><span class="o">.</span><span class="n">find_qubits</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Calling the <a class="reference internal" href="#iqm.pulse.circuit_operations.CircuitOperationList.find_qubits" title="iqm.pulse.circuit_operations.CircuitOperationList.find_qubits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">find_qubits()</span></code></a> method populates the <code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code> attribute with the qubits found in loci of
+the operations in the original circuit. If the list is empty, it will set <code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code> to an empty list,
+which most of the time is not what you want to do.</p>
+<p>The class has the <code class="docutils literal notranslate"><span class="pre">__add__</span></code>, <code class="docutils literal notranslate"><span class="pre">__mul__</span></code> and <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> methods redefined, which means
+<code class="docutils literal notranslate"><span class="pre">circuit</span> <span class="pre">*</span> <span class="pre">3</span></code>, <code class="docutils literal notranslate"><span class="pre">circuit1</span> <span class="pre">+</span> <span class="pre">circuit2</span></code> and <code class="docutils literal notranslate"><span class="pre">circuit[0:4]</span></code> will produce a CircuitOperationList
+with the same <code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">table</span></code> attributes as the original.</p>
+<p>To add a <code class="docutils literal notranslate"><span class="pre">prx</span></code> operation to the list, call:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">circuit</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="s1">&#39;prx&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">angle</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="n">impl_name</span><span class="o">=</span><span class="s1">&#39;drag_crf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The class also has shortcut methods defined, so the above can be shortened to</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">circuit</span><span class="o">.</span><span class="n">prx</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">phase</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">impl_name</span><span class="o">=</span><span class="s1">&#39;drag_crf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which is exactly the same syntax as in Qiskit, with the addition of the implementation name
+which usually does not need to be used. The names of the shortcut methods are taken from the
+attached <code class="docutils literal notranslate"><span class="pre">table</span></code> at init. All the operations with non-zero arity
+will be added as shortcuts.</p>
+<p>If all the operations in the circuit are unitary, you can calculate the unitary propagator of
+the entire circuit by calling:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">U</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">get_unitary</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The dimension of the unitary will always be defined by the <code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code> attribute. In particular, if your circuit
+contains 3 qubits, <code class="docutils literal notranslate"><span class="pre">'QB1',</span> <span class="pre">'QB2',</span> <span class="pre">'QB3'</span></code>, but you only add gates to the first two, the resulting unitary will
+still be an 8x8 matrix, corresponding to the three qubits <code class="docutils literal notranslate"><span class="pre">'QB1',</span> <span class="pre">'QB2',</span> <span class="pre">'QB3'</span></code>, in the big endian convention.
+With no operations affecting <code class="docutils literal notranslate"><span class="pre">'QB3'</span></code>, the action of the unitary on this qubit is identity.</p>
+<p>To map the circuit onto physical qubits, all you need to do is call:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">physical_circuit</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">map_loci</span><span class="p">(</span><span class="n">physical_qubits</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will create a copy of the circuit, with all the placeholder qubits replaced by the physical qubits, with the
+order defined by the <code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code> attribute. For example, if <code class="docutils literal notranslate"><span class="pre">qubits</span> <span class="pre">=</span> <span class="pre">['QB1',</span> <span class="pre">'Alice',</span> <span class="pre">'ZZZ']</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">physical_qubits</span> <span class="pre">=</span> <span class="pre">['QB2',</span> <span class="pre">'QB5',</span> <span class="pre">'QB10']</span></code>, all occurrences of <code class="docutils literal notranslate"><span class="pre">'QB1'</span></code> will be mapped to <code class="docutils literal notranslate"><span class="pre">'QB2'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Alice'</span></code>
+to <code class="docutils literal notranslate"><span class="pre">'QB5'</span></code> and <code class="docutils literal notranslate"><span class="pre">'ZZZ'</span></code> to <code class="docutils literal notranslate"><span class="pre">'QB10'</span></code>. The original circuit is not modified, so you can create many copies with
+different physical qubits, which is helpful when running parallel experiments on a large chip.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>contents</strong> (<em>Iterable</em><em>[</em><a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html#iqm.pulse.builder.CircuitOperation" title="iqm.pulse.builder.CircuitOperation"><em>CircuitOperation</em></a><em>]</em>) – Circuit operations to initialize the circuit with. Can be left out.</p></li>
+<li><p><strong>qubits</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – Qubits allowed to be used in operation loci in the circuit.</p></li>
+<li><p><strong>num_qubits</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of qubits in the circuit, will initialize <code class="docutils literal notranslate"><span class="pre">qubits</span></code> with <code class="docutils literal notranslate"><span class="pre">['QB1',</span> <span class="pre">'QB2',</span> <span class="pre">...]</span></code>.
+Ignored if <code class="docutils literal notranslate"><span class="pre">qubits</span></code> is given.</p></li>
+<li><p><strong>table</strong> (<em>QuantumOpTable</em><em> | </em><em>None</em>) – Allowed quantum operations.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Module: <a class="reference internal" href="iqm.pulse.circuit_operations.html#module-iqm.pulse.circuit_operations" title="iqm.pulse.circuit_operations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.circuit_operations</span></code></a></p>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">qubits</span></code></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.circuit_operations.CircuitOperationList.add_op" title="iqm.pulse.circuit_operations.CircuitOperationList.add_op"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_op</span></code></a></p></td>
+<td><p>Adds a new <code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code> to the circuit.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.circuit_operations.CircuitOperationList.add_qubits" title="iqm.pulse.circuit_operations.CircuitOperationList.add_qubits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_qubits</span></code></a></p></td>
+<td><p>Adds generic placeholder qubits from 1 to n.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.circuit_operations.CircuitOperationList.barrier" title="iqm.pulse.circuit_operations.CircuitOperationList.barrier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">barrier</span></code></a></p></td>
+<td><p>Add barrier to the circuit</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.circuit_operations.CircuitOperationList.compose" title="iqm.pulse.circuit_operations.CircuitOperationList.compose"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compose</span></code></a></p></td>
+<td><p>A safer way to add circuits together, but will probably take time.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.circuit_operations.CircuitOperationList.count_ops" title="iqm.pulse.circuit_operations.CircuitOperationList.count_ops"><code class="xref py py-obj docutils literal notranslate"><span class="pre">count_ops</span></code></a></p></td>
+<td><p>Count each type of operation in the circuit.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.circuit_operations.CircuitOperationList.find_qubits" title="iqm.pulse.circuit_operations.CircuitOperationList.find_qubits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_qubits</span></code></a></p></td>
+<td><p>Set attribute qubits to qubits in the loci of operations in the list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.circuit_operations.CircuitOperationList.get_unitary" title="iqm.pulse.circuit_operations.CircuitOperationList.get_unitary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_unitary</span></code></a></p></td>
+<td><p>Calculate the overall unitary implemented by a sequence of CircuitOperations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.pulse.circuit_operations.CircuitOperationList.map_loci" title="iqm.pulse.circuit_operations.CircuitOperationList.map_loci"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_loci</span></code></a></p></td>
+<td><p>Creates a new list of <code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code> s with locus mapped onto physical qubits.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.circuit_operations.CircuitOperationList.find_qubits">
+<span class="sig-name descname"><span class="pre">find_qubits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.circuit_operations.CircuitOperationList.find_qubits" title="Link to this definition">#</a></dt>
+<dd><p>Set attribute qubits to qubits in the loci of operations in the list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.circuit_operations.CircuitOperationList.add_qubits">
+<span class="sig-name descname"><span class="pre">add_qubits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.circuit_operations.CircuitOperationList.add_qubits" title="Link to this definition">#</a></dt>
+<dd><p>Adds generic placeholder qubits from 1 to n.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.circuit_operations.CircuitOperationList.get_unitary">
+<span class="sig-name descname"><span class="pre">get_unitary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.circuit_operations.CircuitOperationList.get_unitary" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the overall unitary implemented by a sequence of CircuitOperations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – list of CircuitOperations in order</p></li>
+<li><p><strong>qubit_names</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – Optionally, the ordering of the qubits.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array describing the action of the circuit in big endian convention.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.circuit_operations.CircuitOperationList.add_op">
+<span class="sig-name descname"><span class="pre">add_op</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus_indices</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.circuit_operations.CircuitOperationList.add_op" title="Link to this definition">#</a></dt>
+<dd><p>Adds a new <code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code> to the circuit.</p>
+<p>Appends a new <a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html#iqm.pulse.builder.CircuitOperation" title="iqm.pulse.builder.CircuitOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code></a> at the end of the list. The
+<code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code> is created using a <a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code></a> name from the
+QuantumOpTable attached to the CircuitOperationList. The locus of that
+<a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html#iqm.pulse.builder.CircuitOperation" title="iqm.pulse.builder.CircuitOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code></a> is built from the qubits stored in <code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code>, by selecting
+the qubits at indices given by <code class="docutils literal notranslate"><span class="pre">locus_indices</span></code>. For example, if <code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code> is <code class="docutils literal notranslate"><span class="pre">['QB1',</span> <span class="pre">'QB2',</span>
+<span class="pre">'QB4']</span></code>, and the <code class="docutils literal notranslate"><span class="pre">locus_indices</span></code> is <code class="docutils literal notranslate"><span class="pre">[2,</span> <span class="pre">1]</span></code>, the locus of the new
+<a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html#iqm.pulse.builder.CircuitOperation" title="iqm.pulse.builder.CircuitOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code></a> will be <code class="docutils literal notranslate"><span class="pre">('QB4',</span> <span class="pre">'QB2')</span></code>. All arguments for the values of the
+params of the requested <a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code></a> need to be provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the <code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code> which will generate a new <code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code>.</p></li>
+<li><p><strong>locus_indices</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – Indices of the qubits in the attribute .qubits which will become the locus of the operation.</p></li>
+<li><p><strong>args</strong> – Any arguments the CircuitOperation needs, must correspond to the params of the <code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code>.</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – Name of the implementation to use when converting the <code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code> into
+a <code class="xref py py-class docutils literal notranslate"><span class="pre">Timebox</span></code> later.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.circuit_operations.CircuitOperationList.barrier">
+<span class="sig-name descname"><span class="pre">barrier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">locus_indices</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.circuit_operations.CircuitOperationList.barrier" title="Link to this definition">#</a></dt>
+<dd><p>Add barrier to the circuit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.circuit_operations.CircuitOperationList.compose">
+<span class="sig-name descname"><span class="pre">compose</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.circuit_operations.CircuitOperationList.compose" title="Link to this definition">#</a></dt>
+<dd><p>A safer way to add circuits together, but will probably take time.</p>
+<p>All the <a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html#iqm.pulse.builder.CircuitOperation" title="iqm.pulse.builder.CircuitOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code></a> s from the <code class="docutils literal notranslate"><span class="pre">'other'</span></code> list are appended to the end of
+this list. The wire <code class="docutils literal notranslate"><span class="pre">k</span></code> of the second circuit is connected to wire <code class="docutils literal notranslate"><span class="pre">locus_indices[k]</span></code> of the first. This
+is achieved by mapping the locus of each operation in the second circuit onto the qubits of the first.</p>
+<p>For example, if the <code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code> of the first list are <code class="docutils literal notranslate"><span class="pre">['QB1',</span> <span class="pre">'QB2']</span></code>, the second list has
+<code class="docutils literal notranslate"><span class="pre">['QB3',</span> <span class="pre">'QB4']</span></code>, and the locus_indices argument is <code class="docutils literal notranslate"><span class="pre">[1,0]</span></code>, all the operations in the second list will have
+their <code class="docutils literal notranslate"><span class="pre">'QB3'</span></code> mapped to <code class="docutils literal notranslate"><span class="pre">'QB2'</span></code> and <code class="docutils literal notranslate"><span class="pre">'QB4'</span></code> mapped to <code class="docutils literal notranslate"><span class="pre">'QB1'</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>other</strong> – Second CircuitOperationList. Must have less or equal qubits than this one.</p></li>
+<li><p><strong>locus_indices</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>] </em><em>| </em><em>None</em>) – Indices of the qubits in this CircuitOperationList onto which the qubits in the second
+circuit ar mapped.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Self, with new operations added.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Self" title="(in Python v3.11)"><em>Self</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.circuit_operations.CircuitOperationList.count_ops">
+<span class="sig-name descname"><span class="pre">count_ops</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.circuit_operations.CircuitOperationList.count_ops" title="Link to this definition">#</a></dt>
+<dd><p>Count each type of operation in the circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Counter mapping operation names to numbers of times they occur in the circuit.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/collections.html#collections.Counter" title="(in Python v3.11)"><em>Counter</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.circuit_operations.CircuitOperationList.map_loci">
+<span class="sig-name descname"><span class="pre">map_loci</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">make_circuit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.circuit_operations.CircuitOperationList.map_loci" title="Link to this definition">#</a></dt>
+<dd><p>Creates a new list of <code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code> s with locus mapped onto physical qubits.</p>
+<p>Creates a fresh list of fresh <a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html#iqm.pulse.builder.CircuitOperation" title="iqm.pulse.builder.CircuitOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code></a> s with fresh arguments. If
+<code class="docutils literal notranslate"><span class="pre">locus</span></code> is provided, it needs to have the same length as the total number of qubits across the circuit,
+and the qubits will then be mapped onto the new locus. If it is not provided, this is identical to a deepcopy
+of the original list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – List of new qubits to replace the qubits in the loci of the operations in the circuit.</p></li>
+<li><p><strong>make_circuit</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If True, creates a <a class="reference internal" href="#iqm.pulse.circuit_operations.CircuitOperationList" title="iqm.pulse.circuit_operations.CircuitOperationList"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperationList</span></code></a>. If False, it is just a list.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>New CircuitOperationList with loci mapped onto new locus.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#iqm.pulse.circuit_operations.CircuitOperationList" title="iqm.pulse.circuit_operations.CircuitOperationList"><em>CircuitOperationList</em></a> | <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>[<a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html#iqm.pulse.builder.CircuitOperation" title="iqm.pulse.builder.CircuitOperation"><em>CircuitOperation</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.pulse.circuit_operations.CircuitOperationList._set_specific_operation_shortcut">
+<span class="sig-name descname"><span class="pre">_set_specific_operation_shortcut</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.circuit_operations.CircuitOperationList._set_specific_operation_shortcut" title="Link to this definition">#</a></dt>
+<dd><p>Add the convenience methods for adding new operations, based on the default <code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOpTable</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.pulse.circuit_operations.Circuit.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Circuit</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.pulse.gate_implementation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">gate_implementation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.find_qubits"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.find_qubits()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.add_qubits"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.add_qubits()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.get_unitary"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.get_unitary()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.add_op"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.add_op()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.barrier"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.barrier()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.compose"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.compose()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.count_ops"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.count_ops()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList.map_loci"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList.map_loci()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.circuit_operations.CircuitOperationList._set_specific_operation_shortcut"><code class="docutils literal notranslate"><span class="pre">CircuitOperationList._set_specific_operation_shortcut()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-04-09.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

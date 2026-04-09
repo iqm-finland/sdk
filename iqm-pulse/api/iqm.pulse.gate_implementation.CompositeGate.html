@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>CompositeGate &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>CompositeGate &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/documentation_options.js?v=c7d539cd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.gate_implementation.CompositeGate';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -218,6 +221,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
@@ -240,6 +244,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -257,6 +262,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -264,6 +270,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -412,6 +419,7 @@ document.write(`
                   
   <section id="compositegate">
 <h1>CompositeGate<a class="headerlink" href="#compositegate" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.pulse.gate_implementation.html#module-iqm.pulse.gate_implementation" title="iqm.pulse.gate_implementation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gate_implementation</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.CompositeGate">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gate_implementation.</span></span><span class="sig-name descname"><span class="pre">CompositeGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.CompositeGate" title="Link to this definition">#</a></dt>
@@ -426,12 +434,17 @@ verify that they are calibrated, using the <a class="reference internal" href="#
 by listing their names in <a class="reference internal" href="#iqm.pulse.gate_implementation.CompositeGate.customizable_gates" title="iqm.pulse.gate_implementation.CompositeGate.customizable_gates"><code class="xref py py-attr docutils literal notranslate"><span class="pre">customizable_gates</span></code></a> class attribute.
 However, if no custom calibration data is provided, the composite gate will use
 the common calibration for the member operations.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Inheriting this class and defining <code class="docutils literal notranslate"><span class="pre">registered_gates</span> <span class="pre">=</span> <span class="pre">(&quot;prx&quot;,</span> <span class="pre">&quot;cz&quot;)</span></code>, <code class="docutils literal notranslate"><span class="pre">customizable_gates</span> <span class="pre">=</span> <span class="pre">(&quot;prx&quot;,)</span></code>
+allows one to use <code class="docutils literal notranslate"><span class="pre">prx</span></code> and <code class="docutils literal notranslate"><span class="pre">cz</span></code> gates as member operations, and calibrate <code class="docutils literal notranslate"><span class="pre">prx</span></code> independently of
+the common calibration.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code class="xref py py-meth docutils literal notranslate"><span class="pre">CompositeGate.needs_calibration()</span></code> only tells whether the implementation class itself needs
 calibration data, not whether the member gates need some.</p>
 </div>
-<p>Module: <a class="reference internal" href="iqm.pulse.gate_implementation.html#module-iqm.pulse.gate_implementation" title="iqm.pulse.gate_implementation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gate_implementation</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -507,7 +520,8 @@ common default as its default implementation.</p>
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.CompositeGate.optional_calibration_keys">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">optional_calibration_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.CompositeGate.optional_calibration_keys" title="Link to this definition">#</a></dt>
 <dd><p>Optional calibration data keys for this class, in addition to the required items in <code class="xref py py-attr docutils literal notranslate"><span class="pre">parameters</span></code>.</p>
-<p>These keys are not required to be present in <a class="reference internal" href="iqm.pulse.gate_implementation.OILCalibrationData.html#iqm.pulse.gate_implementation.OILCalibrationData" title="iqm.pulse.gate_implementation.OILCalibrationData"><code class="xref py py-attr docutils literal notranslate"><span class="pre">OILCalibrationData</span></code></a> when validating it.</p>
+<p>These keys are not required to be present in <a class="reference internal" href="iqm.pulse.gate_implementation.OILCalibrationData.html#iqm.pulse.gate_implementation.OILCalibrationData" title="iqm.pulse.gate_implementation.OILCalibrationData"><code class="xref py py-attr docutils literal notranslate"><span class="pre">OILCalibrationData</span></code></a> when validating it.
+E.g. custom calibration keys for <a class="reference internal" href="#iqm.pulse.gate_implementation.CompositeGate" title="iqm.pulse.gate_implementation.CompositeGate"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeGate</span></code></a> member gates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Optional top-level calibration data keys.</p>
@@ -549,7 +563,13 @@ should not be used.</p></li>
 
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-00cf3b146533b510237c220d414223877b827571.png" alt="Inheritance diagram of iqm.pulse.gate_implementation.CompositeGate" usemap="#inheritancef3ca08d32c" class="inheritance graphviz" /></div>
+<map id="inheritancef3ca08d32c" name="inheritancef3ca08d32c">
+<area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
+<area shape="rect" id="node3" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" target="_top" title="ABC for implementing quantum gates and other quantum operations using instruction schedules." alt="" coords="125,5,283,31"/>
+<area shape="rect" id="node2" href="#iqm.pulse.gate_implementation.CompositeGate" target="_top" title="Base class for gate implementations that are defined in terms of other gate implementations." alt="" coords="331,5,453,31"/>
+</map></section>
 
 
                 </article>
@@ -624,7 +644,7 @@ should not be used.</p></li>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

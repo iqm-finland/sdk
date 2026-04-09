@@ -1,8 +1,9 @@
-iqm.cirq\_iqm.optimizers
-========================
+optimizers
+==========
+
+Full path: iqm.cirq_iqm.optimizers
 
 .. automodule:: iqm.cirq_iqm.optimizers
-
    
    
    
@@ -24,10 +25,12 @@ iqm.cirq\_iqm.optimizers
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       DropRZBeforeMeasurement
       MergeOneParameterGroupGates
+   
    
    
 
@@ -45,4 +48,5 @@ iqm.cirq\_iqm.optimizers
 
 .. inheritance-diagram:: iqm.cirq_iqm.optimizers
    :parts: 1
+   :private-bases:
 

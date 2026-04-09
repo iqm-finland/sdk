@@ -1,8 +1,9 @@
-iqm.pulla.utils
-===============
+utils
+=====
+
+Full path: iqm.pulla.utils
 
 .. automodule:: iqm.pulla.utils
-
    
    
    .. rubric:: Module Attributes
@@ -21,7 +22,6 @@ iqm.pulla.utils
    .. autosummary::
       :toctree:
    
-      build_settings
       calset_from_observations
       calset_to_cal_data_tree
       circuit_operations_to_cpc
@@ -30,7 +30,6 @@ iqm.pulla.utils
       convert_sweep_spot_to_arrays_with_heralding_mode_zero
       convert_sweep_spot_with_heralding_mode_zero
       extract_readout_controller_result_names
-      find_circuit_boundary
       get_hash_for
       initialize_schedule_builder
       iqm_circuit_to_gate_implementation
@@ -49,6 +48,7 @@ iqm.pulla.utils
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       InstructionLocation

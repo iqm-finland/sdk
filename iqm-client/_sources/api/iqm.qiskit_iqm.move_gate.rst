@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.move\_gate
-==========================
+move\_gate
+==========
+
+Full path: iqm.qiskit_iqm.move_gate
 
 .. automodule:: iqm.qiskit_iqm.move_gate
-
    
    
    .. rubric:: Module Attributes
@@ -24,9 +25,11 @@ iqm.qiskit\_iqm.move\_gate
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       MoveGate
+   
    
    
 
@@ -44,4 +47,5 @@ iqm.qiskit\_iqm.move\_gate
 
 .. inheritance-diagram:: iqm.qiskit_iqm.move_gate
    :parts: 1
+   :private-bases:
 

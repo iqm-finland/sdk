@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.iqm\_backend
-============================
+iqm\_backend
+============
+
+Full path: iqm.qiskit_iqm.iqm_backend
 
 .. automodule:: iqm.qiskit_iqm.iqm_backend
-
    
    
    
@@ -17,9 +18,11 @@ iqm.qiskit\_iqm.iqm\_backend
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMBackendBase
+   
    
    
 
@@ -37,4 +40,5 @@ iqm.qiskit\_iqm.iqm\_backend
 
 .. inheritance-diagram:: iqm.qiskit_iqm.iqm_backend
    :parts: 1
+   :private-bases:
 

@@ -1,7 +1,9 @@
-iqm.pulla.utils.InstructionLocation
-===================================
+InstructionLocation
+===================
 
 .. currentmodule:: iqm.pulla.utils
+
+Module: :mod:`iqm.pulla.utils`
 
 .. autoclass:: InstructionLocation
    :members:
@@ -25,12 +27,14 @@ iqm.pulla.utils.InstructionLocation
    .. rubric:: Methods
 
    .. autosummary::
-   
-      ~InstructionLocation.__getnewargs__
-      ~InstructionLocation.__new__
-      ~InstructionLocation.__repr__
-      ~InstructionLocation._asdict
-      ~InstructionLocation._make
-      ~InstructionLocation._replace
+      :nosignatures:
    
    
+   
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.pulla.utils.InstructionLocation
+   :parts: 1

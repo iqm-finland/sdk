@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>FluxMultiplexer_SampleLinear &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>FluxMultiplexer_SampleLinear &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/documentation_options.js?v=c7d539cd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>window.MathJax = {"TeX": {"Macros": {"I": "\\mathbb{I}", "R": "\\mathbb{R}", "C": "\\mathbb{C}", "tr": "\\text{Tr}", "diag": "\\text{diag}", "ket": ["\\left| #1 \\right\\rangle", 1], "bra": ["\\left\\langle #1 \\right|", 1]}}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -48,7 +51,7 @@
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="measure" href="iqm.pulse.gates.measure.html" />
+    <link rel="next" title="lru" href="iqm.pulse.gates.lru.html" />
     <link rel="prev" title="iqm.pulse.gates.flux_multiplexer.TOLERANCE" href="iqm.pulse.gates.flux_multiplexer.TOLERANCE.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -142,8 +145,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -220,6 +223,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4 current active"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
@@ -242,6 +246,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -259,6 +264,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -266,6 +272,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -411,6 +418,7 @@ document.write(`
                   
   <section id="fluxmultiplexer-samplelinear">
 <h1>FluxMultiplexer_SampleLinear<a class="headerlink" href="#fluxmultiplexer-samplelinear" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html#module-iqm.pulse.gates.flux_multiplexer" title="iqm.pulse.gates.flux_multiplexer"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gates.flux_multiplexer</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.gates.flux_multiplexer.FluxMultiplexer_SampleLinear">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gates.flux_multiplexer.</span></span><span class="sig-name descname"><span class="pre">FluxMultiplexer_SampleLinear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.flux_multiplexer.FluxMultiplexer_SampleLinear" title="Link to this definition">#</a></dt>
@@ -425,7 +433,6 @@ dict- or xarray-valued Parameters yet…). Parameter <code class="docutils liter
 matrix as a flat <code class="docutils literal notranslate"><span class="pre">np.array</span></code> of strings of the form <code class="docutils literal notranslate"><span class="pre">&lt;flux</span> <span class="pre">component</span> <span class="pre">i&gt;__&lt;flux</span> <span class="pre">component</span> <span class="pre">j&gt;</span></code>. Parameter
 <code class="docutils literal notranslate"><span class="pre">matrix_elements</span></code> lists the corresponding matrix values <span class="math notranslate nohighlight">\(C_ij\)</span> (the lengths of these arrays must match).</p>
 <p>TODO: this is for now an experimental R&amp;D implementation, and everything here is subject to change still</p>
-<p>Module: <a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html#module-iqm.pulse.gates.flux_multiplexer" title="iqm.pulse.gates.flux_multiplexer"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gates.flux_multiplexer</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -474,7 +481,7 @@ matrix as a flat <code class="docutils literal notranslate"><span class="pre">np
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>chip_topology</strong> (<em>ChipTopology</em>)</p></li>
+<li><p><strong>chip_topology</strong> (<a class="reference external" href="../../iqm-exa-common/api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology" title="(in exa-common v27.4.5)"><em>ChipTopology</em></a>)</p></li>
 <li><p><strong>component_to_channels</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Mapping" title="(in Python v3.11)"><em>Mapping</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>]</em>)</p></li>
 </ul>
 </dd>
@@ -486,7 +493,13 @@ matrix as a flat <code class="docutils literal notranslate"><span class="pre">np
 
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-2b85c41f7ed8c87837a004c1d917dcf1b2667574.png" alt="Inheritance diagram of iqm.pulse.gates.flux_multiplexer.FluxMultiplexer_SampleLinear" usemap="#inheritanceca8fa5b985" class="inheritance graphviz" /></div>
+<map id="inheritanceca8fa5b985" name="inheritanceca8fa5b985">
+<area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
+<area shape="rect" id="node3" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" target="_top" title="ABC for implementing quantum gates and other quantum operations using instruction schedules." alt="" coords="125,5,283,31"/>
+<area shape="rect" id="node2" href="#iqm.pulse.gates.flux_multiplexer.FluxMultiplexer_SampleLinear" target="_top" title="Linear flux pulse multiplexed (user for correcting flux crosstalk)." alt="" coords="331,5,549,31"/>
+</map></section>
 
 
                 </article>
@@ -509,11 +522,11 @@ matrix as a flat <code class="docutils literal notranslate"><span class="pre">np
       </div>
     </a>
     <a class="right-next"
-       href="iqm.pulse.gates.measure.html"
+       href="iqm.pulse.gates.lru.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">measure</p>
+        <p class="prev-next-title">lru</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -558,7 +571,7 @@ matrix as a flat <code class="docutils literal notranslate"><span class="pre">np
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

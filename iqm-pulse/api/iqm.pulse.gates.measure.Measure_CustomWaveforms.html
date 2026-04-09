@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Measure_CustomWaveforms &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>Measure_CustomWaveforms &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/documentation_options.js?v=c7d539cd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.gates.measure.Measure_CustomWaveforms';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -218,6 +221,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4 current active"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
@@ -240,6 +244,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -257,6 +262,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -264,6 +270,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -393,12 +400,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.root_parameters"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms.root_parameters</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._multiplexed_timeboxes"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms._multiplexed_timeboxes</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._time_traces"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms._time_traces</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._build_instructions"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms._build_instructions()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.probe_timebox"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms.probe_timebox()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._call"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms._call()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._get_probe_timebox_for_time_trace"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms._get_probe_timebox_for_time_trace()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.time_trace"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms.time_trace()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.duration_in_seconds"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms.duration_in_seconds()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.get_locus_mapping_name"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms.get_locus_mapping_name()</span></code></a></li>
@@ -418,6 +420,7 @@ document.write(`
                   
   <section id="measure-customwaveforms">
 <h1>Measure_CustomWaveforms<a class="headerlink" href="#measure-customwaveforms" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.pulse.gates.measure.html#module-iqm.pulse.gates.measure" title="iqm.pulse.gates.measure"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gates.measure</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.gates.measure.Measure_CustomWaveforms">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gates.measure.</span></span><span class="sig-name descname"><span class="pre">Measure_CustomWaveforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms" title="Link to this definition">#</a></dt>
@@ -438,7 +441,6 @@ by the readout phase of the component.</p>
 <p>The measurement is implemented using a <a class="reference internal" href="iqm.pulse.playlist.instructions.ReadoutTrigger.html#iqm.pulse.playlist.instructions.ReadoutTrigger" title="iqm.pulse.playlist.instructions.ReadoutTrigger"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadoutTrigger</span></code></a> instruction, with a duration set by the
 requirements of the acquisition(s). Note that this is typically different from
 <code class="docutils literal notranslate"><span class="pre">gates.measure.constant.{locus}.duration</span></code>, which is the probe pulse duration.</p>
-<p>Module: <a class="reference internal" href="iqm.pulse.gates.measure.html#module-iqm.pulse.gates.measure" title="iqm.pulse.gates.measure"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gates.measure</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -499,40 +501,9 @@ requirements of the acquisition(s). Note that this is typically different from
 to all such implementations.</p>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="iqm.pulse.gates.measure.Measure_CustomWaveforms._multiplexed_timeboxes">
-<span class="sig-name descname"><span class="pre">_multiplexed_timeboxes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><span class="pre">TimeBox</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._multiplexed_timeboxes" title="Link to this definition">#</a></dt>
-<dd><p>Cache for <a class="reference internal" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.probe_timebox" title="iqm.pulse.gates.measure.Measure_CustomWaveforms.probe_timebox"><code class="xref py py-meth docutils literal notranslate"><span class="pre">probe_timebox()</span></code></a>.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="iqm.pulse.gates.measure.Measure_CustomWaveforms._time_traces">
-<span class="sig-name descname"><span class="pre">_time_traces</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><span class="pre">TimeBox</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._time_traces" title="Link to this definition">#</a></dt>
-<dd><p>Cache for <a class="reference internal" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.time_trace" title="iqm.pulse.gates.measure.Measure_CustomWaveforms.time_trace"><code class="xref py py-meth docutils literal notranslate"><span class="pre">time_trace()</span></code></a>.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.pulse.gates.measure.Measure_CustomWaveforms._build_instructions">
-<span class="sig-name descname"><span class="pre">_build_instructions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">waveform_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">if_freq</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._build_instructions" title="Link to this definition">#</a></dt>
-<dd><p>Builds a probe pulse and an acquisition method using the calibration data.</p>
-<p>Subclasses may override this method if needed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>waveform_params</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em>)</p></li>
-<li><p><strong>root_params</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em>)</p></li>
-<li><p><strong>if_freq</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a>[<a class="reference internal" href="iqm.pulse.playlist.instructions.IQPulse.html#iqm.pulse.playlist.instructions.IQPulse" title="iqm.pulse.playlist.instructions.IQPulse"><em>IQPulse</em></a>, <a class="reference internal" href="iqm.pulse.playlist.instructions.AcquisitionMethod.html#iqm.pulse.playlist.instructions.AcquisitionMethod" title="iqm.pulse.playlist.instructions.AcquisitionMethod"><em>AcquisitionMethod</em></a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.gates.measure.Measure_CustomWaveforms.probe_timebox">
-<span class="sig-name descname"><span class="pre">probe_timebox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feedback_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_acquisition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.probe_timebox" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">probe_timebox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feedback_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_acquisition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.probe_timebox" title="Link to this definition">#</a></dt>
 <dd><p>Returns a “naked” probe timebox that supports convenient multiplexing through
 <code class="docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBox.__add__</span></code>.</p>
 <p>This method can be used if the user wants to control the multiplexing explicitly. With two
@@ -554,59 +525,6 @@ fast feedback purposes. See <code class="xref py py-meth docutils literal notran
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.pulse.gates.measure.Measure_CustomWaveforms._call">
-<span class="sig-name descname"><span class="pre">_call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feedback_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._call" title="Link to this definition">#</a></dt>
-<dd><p>Returns a TimeBox containing the multiplexed simultaneous measurement.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">len(self.locus)</span> <span class="pre">==</span> <span class="pre">1</span></code>, the TimeBox contains the measurement for just that component, otherwise
-the measurements of components that belong to the same probeline are multiplexed together.</p>
-<p>The returned <a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeBox</span></code></a> instances behave like any other TimeBox in scheduling and circuit
-generation. With measurement TimeBoxes <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> the result <code class="docutils literal notranslate"><span class="pre">A</span> <span class="pre">+</span> <span class="pre">B</span></code> first plays the <code class="docutils literal notranslate"><span class="pre">ReadoutTrigger</span></code>
-instructions of <code class="docutils literal notranslate"><span class="pre">A</span></code> and only then those of <code class="docutils literal notranslate"><span class="pre">B</span></code> in each probe channel. If the multiplexing features of
-<a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html#iqm.pulse.timebox.MultiplexedProbeTimeBox" title="iqm.pulse.timebox.MultiplexedProbeTimeBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBox</span></code></a> are needed, the method <a class="reference internal" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.probe_timebox" title="iqm.pulse.gates.measure.Measure_CustomWaveforms.probe_timebox"><code class="xref py py-meth docutils literal notranslate"><span class="pre">probe_timebox()</span></code></a> can be used.</p>
-<p>In scheduling, the returned TimeBox blocks the locus components and the probe
-lines they are associated with.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Readout results generated on this trigger will be assigned to the acquisition labels
-<code class="docutils literal notranslate"><span class="pre">f&quot;{qubit}__{key}&quot;</span></code>, where <code class="docutils literal notranslate"><span class="pre">qubit</span></code> goes over the component names in <code class="docutils literal notranslate"><span class="pre">self.locus</span></code>.
-If empty, the key <code class="docutils literal notranslate"><span class="pre">&quot;readout.result&quot;</span></code> will be used to maintain backwards compatibility.</p></li>
-<li><p><strong>feedback_key</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – If the readout mode is “threshold”, the results generated by this <code class="docutils literal notranslate"><span class="pre">measure</span></code> operation
-are routed using the label <code class="docutils literal notranslate"><span class="pre">f&quot;{qubit}__{feedback_key}&quot;</span></code> for fast feedback purposes.
-The signals are picked up by <code class="xref py py-class docutils literal notranslate"><span class="pre">ConditionalInstruction`s</span> <span class="pre">that</span> <span class="pre">have</span> <span class="pre">the</span> <span class="pre">same</span> <span class="pre">label.</span>
-<span class="pre">The</span> <span class="pre">default</span> <span class="pre">value</span> <span class="pre">`</span></code>””`` means the signal is not routed anywhere. TODO: currently the HW does not
-support multiple feedback keys per drive channel, so the actual key used will be <code class="docutils literal notranslate"><span class="pre">FEEDBACK_KEY</span></code>
-whenever any non-empty key is inputted. When the HW is improved, the actual key the user inputs
-should be passed.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>TimeBox containing the <a class="reference internal" href="iqm.pulse.playlist.instructions.ReadoutTrigger.html#iqm.pulse.playlist.instructions.ReadoutTrigger" title="iqm.pulse.playlist.instructions.ReadoutTrigger"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadoutTrigger</span></code></a> instruction.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.pulse.gates.measure.Measure_CustomWaveforms._get_probe_timebox_for_time_trace">
-<span class="sig-name descname"><span class="pre">_get_probe_timebox_for_time_trace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feedback_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._get_probe_timebox_for_time_trace" title="Link to this definition">#</a></dt>
-<dd><p>Utility method that can be overridden in subclasses if they have a return type <cite>.probe_pulse</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
-<li><p><strong>feedback_key</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -688,7 +606,14 @@ will be initialised as <code class="docutils literal notranslate"><span class="p
 
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-5a2cc2c7b8ffab5c9644f1ea742f8729151503bb.png" alt="Inheritance diagram of iqm.pulse.gates.measure.Measure_CustomWaveforms" usemap="#inheritancea6607fef00" class="inheritance graphviz" /></div>
+<map id="inheritancea6607fef00" name="inheritancea6607fef00">
+<area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
+<area shape="rect" id="node3" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" target="_top" title="ABC for implementing quantum gates and other quantum operations using instruction schedules." alt="" coords="125,5,283,31"/>
+<area shape="rect" id="node2" href="iqm.pulse.gate_implementation.CustomIQWaveforms.html#iqm.pulse.gate_implementation.CustomIQWaveforms" target="_top" title="Base class for GateImplementations using custom waveform definition with IQPulses." alt="" coords="331,5,491,31"/>
+<area shape="rect" id="node4" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms" target="_top" title="Base class for implementing dispersive measurement operations with custom probe pulse waveforms." alt="" coords="539,5,748,31"/>
+</map></section>
 
 
                 </article>
@@ -737,12 +662,7 @@ will be initialised as <code class="docutils literal notranslate"><span class="p
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.root_parameters"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms.root_parameters</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._multiplexed_timeboxes"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms._multiplexed_timeboxes</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._time_traces"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms._time_traces</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._build_instructions"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms._build_instructions()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.probe_timebox"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms.probe_timebox()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._call"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms._call()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms._get_probe_timebox_for_time_trace"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms._get_probe_timebox_for_time_trace()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.time_trace"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms.time_trace()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.duration_in_seconds"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms.duration_in_seconds()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.measure.Measure_CustomWaveforms.get_locus_mapping_name"><code class="docutils literal notranslate"><span class="pre">Measure_CustomWaveforms.get_locus_mapping_name()</span></code></a></li>
@@ -769,7 +689,7 @@ will be initialised as <code class="docutils literal notranslate"><span class="p
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

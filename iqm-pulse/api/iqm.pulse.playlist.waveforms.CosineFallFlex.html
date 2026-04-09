@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>CosineFallFlex &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>CosineFallFlex &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/documentation_options.js?v=c7d539cd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.playlist.waveforms.CosineFallFlex';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -218,6 +221,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
@@ -240,6 +244,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -257,6 +262,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -264,6 +270,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -391,10 +398,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.CosineFallFlex"><code class="docutils literal notranslate"><span class="pre">CosineFallFlex</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.CosineFallFlex._sample"><code class="docutils literal notranslate"><span class="pre">CosineFallFlex._sample()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.CosineFallFlex"><code class="docutils literal notranslate"><span class="pre">CosineFallFlex</span></code></a></li>
 </ul>
             </nav>
         </div>
@@ -408,15 +412,18 @@ document.write(`
                   
   <section id="cosinefallflex">
 <h1>CosineFallFlex<a class="headerlink" href="#cosinefallflex" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.pulse.playlist.waveforms.html#module-iqm.pulse.playlist.waveforms" title="iqm.pulse.playlist.waveforms"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.playlist.waveforms</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.playlist.waveforms.CosineFallFlex">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.playlist.waveforms.</span></span><span class="sig-name descname"><span class="pre">CosineFallFlex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rise_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.playlist.waveforms.CosineFallFlex" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Waveform</span></code></p>
 <p>Cosine fall waveform with an extra duration buffer.</p>
-<p>The waveform is a piecewise function: <a href="#id1"><span class="problematic" id="id2">|flat plateau|cosine fall|buffer|</span></a>, where:
-- buffer is a ‘leftover’ constant signal with amplitude = 0, generally with duration of duration - full_width
-- cosine fall is a cosine fall pulse with a duration of rise_time
-- flat plateau is a constant signal with amplitude = 1, generally with duration of full_width - rise_time</p>
+<p>The waveform is a piecewise function: (flat plateau, cosine fall, buffer), where:</p>
+<ul class="simple">
+<li><p>buffer is a ‘leftover’ constant signal with amplitude = 0, generally with duration of <code class="docutils literal notranslate"><span class="pre">duration</span> <span class="pre">-</span> <span class="pre">full_width</span></code></p></li>
+<li><p>cosine fall is a cosine fall pulse with a duration of <code class="docutils literal notranslate"><span class="pre">rise_time</span></code></p></li>
+<li><p>flat plateau is a constant signal with amplitude = 1, generally with duration of <code class="docutils literal notranslate"><span class="pre">full_width</span> <span class="pre">-</span> <span class="pre">rise_time</span></code></p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -429,7 +436,6 @@ document.write(`
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – Error is raised if full_width or rise_time is more than duration</p>
 </dd>
 </dl>
-<p>Module: <a class="reference internal" href="iqm.pulse.playlist.waveforms.html#module-iqm.pulse.playlist.waveforms" title="iqm.pulse.playlist.waveforms"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.playlist.waveforms</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -451,26 +457,13 @@ document.write(`
 </tbody>
 </table>
 </div>
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.pulse.playlist.waveforms.CosineFallFlex._sample">
-<span class="sig-name descname"><span class="pre">_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_coords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.playlist.waveforms.CosineFallFlex._sample" title="Link to this definition">#</a></dt>
-<dd><p>Actually samples the waveform.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sample_coords</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a>) – coordinates of the samples to be returned</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>array of samples (same shape as <code class="docutils literal notranslate"><span class="pre">sample_coords</span></code>, <code class="docutils literal notranslate"><span class="pre">dtype</span> <span class="pre">==</span> <span class="pre">float</span></code>)</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a></p>
-</dd>
-</dl>
 </dd></dl>
 
-</dd></dl>
-
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-7ffb6ac299d969e01c401fbe965a261d02c0893c.png" alt="Inheritance diagram of iqm.pulse.playlist.waveforms.CosineFallFlex" usemap="#inheritance2138765609" class="inheritance graphviz" /></div>
+<map id="inheritance2138765609" name="inheritance2138765609">
+<area shape="rect" id="node1" href="#iqm.pulse.playlist.waveforms.CosineFallFlex" target="_top" title="Cosine fall waveform with an extra duration buffer." alt="" coords="143,5,259,31"/>
+</map></section>
 
 
                 </article>
@@ -517,10 +510,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.CosineFallFlex"><code class="docutils literal notranslate"><span class="pre">CosineFallFlex</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.CosineFallFlex._sample"><code class="docutils literal notranslate"><span class="pre">CosineFallFlex._sample()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.CosineFallFlex"><code class="docutils literal notranslate"><span class="pre">CosineFallFlex</span></code></a></li>
 </ul>
   </nav></div>
 
@@ -541,7 +531,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

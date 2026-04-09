@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>reset &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>reset &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/documentation_options.js?v=c7d539cd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>window.MathJax = {"TeX": {"Macros": {"I": "\\mathbb{I}", "R": "\\mathbb{R}", "C": "\\mathbb{C}", "tr": "\\text{Tr}", "diag": "\\text{diag}", "ket": ["\\left| #1 \\right\\rangle", 1], "bra": ["\\left\\langle #1 \\right|", 1]}}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -142,8 +145,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -220,6 +223,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
@@ -242,6 +246,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -259,6 +264,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -266,6 +272,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -395,11 +402,11 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-iqm.pulse.gates.reset">
-<span id="reset"></span><h1>reset<a class="headerlink" href="#module-iqm.pulse.gates.reset" title="Link to this heading">#</a></h1>
-<p>Resetting qubits to the zero state.</p>
-<p>The reset operation is a non-unitary quantum channel that sets the state of a qubit to <span class="math notranslate nohighlight">\(|0\rangle\)</span>.</p>
+  <section id="reset">
+<h1>reset<a class="headerlink" href="#reset" title="Link to this heading">#</a></h1>
 <p>Full path: iqm.pulse.gates.reset</p>
+<p id="module-iqm.pulse.gates.reset">Qubit reset operations.</p>
+<p>The reset operation is a non-unitary quantum channel that sets the state of a qubit to <span class="math notranslate nohighlight">\(|0\rangle\)</span>.</p>
 <p class="rubric">Module Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -418,6 +425,12 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.reset.Reset_Conditional.html#iqm.pulse.gates.reset.Reset_Conditional" title="iqm.pulse.gates.reset.Reset_Conditional"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reset_Conditional</span></code></a></p></td>
 <td><p>Conditional reset operation.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.reset.Reset_F0G1.html#iqm.pulse.gates.reset.Reset_F0G1" title="iqm.pulse.gates.reset.Reset_F0G1"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reset_F0G1</span></code></a></p></td>
+<td><p>Reset by driving the <span class="math notranslate nohighlight">\(|f0\rangle \leftrightarrow |g1\rangle\)</span> transition.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.pulse.gates.reset.Reset_F0G1_Composite.html#iqm.pulse.gates.reset.Reset_F0G1_Composite" title="iqm.pulse.gates.reset.Reset_F0G1_Composite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reset_F0G1_Composite</span></code></a></p></td>
+<td><p>Reset by applying a <code class="docutils literal notranslate"><span class="pre">prx_12(pi)</span></code> gate followed by the <code class="docutils literal notranslate"><span class="pre">lru.f0g1</span></code> operation.</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="iqm.pulse.gates.reset.Reset_Wait.html#iqm.pulse.gates.reset.Reset_Wait" title="iqm.pulse.gates.reset.Reset_Wait"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reset_Wait</span></code></a></p></td>
 <td><p>Reset operation by relaxation (idling for a time comparable to the relaxation time of the component).</p></td>
 </tr>
@@ -425,13 +438,16 @@ document.write(`
 </table>
 </div>
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-af6a618fd5dc9c6c7c228cea2e0ddd2d90c23bd8.png" alt="Inheritance diagram of iqm.pulse.gates.reset" usemap="#inheritancecdfdf9e5af" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-044b74f99710d453ec49c3cd699e59ef103d6932.png" alt="Inheritance diagram of iqm.pulse.gates.reset" usemap="#inheritancecdfdf9e5af" class="inheritance graphviz" /></div>
 <map id="inheritancecdfdf9e5af" name="inheritancecdfdf9e5af">
-<area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,31,77,56"/>
-<area shape="rect" id="node3" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" target="_top" title="ABC for implementing quantum gates and other quantum operations using instruction schedules." alt="" coords="125,31,283,56"/>
-<area shape="rect" id="node2" href="iqm.pulse.gate_implementation.CompositeGate.html#iqm.pulse.gate_implementation.CompositeGate" target="_top" title="Base class for gate implementations that are defined in terms of other gate implementations." alt="" coords="331,5,453,31"/>
-<area shape="rect" id="node4" href="iqm.pulse.gates.reset.Reset_Conditional.html#iqm.pulse.gates.reset.Reset_Conditional" target="_top" title="Conditional reset operation." alt="" coords="501,5,641,31"/>
-<area shape="rect" id="node5" href="iqm.pulse.gates.reset.Reset_Wait.html#iqm.pulse.gates.reset.Reset_Wait" target="_top" title="Reset operation by relaxation (idling for a time comparable to the relaxation time of the component)." alt="" coords="345,55,439,80"/>
+<area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,104,77,129"/>
+<area shape="rect" id="node3" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" target="_top" title="ABC for implementing quantum gates and other quantum operations using instruction schedules." alt="" coords="125,104,283,129"/>
+<area shape="rect" id="node2" href="iqm.pulse.gate_implementation.CompositeGate.html#iqm.pulse.gate_implementation.CompositeGate" target="_top" title="Base class for gate implementations that are defined in terms of other gate implementations." alt="" coords="333,55,456,80"/>
+<area shape="rect" id="node4" href="iqm.pulse.gates.reset.Reset_Conditional.html#iqm.pulse.gates.reset.Reset_Conditional" target="_top" title="Conditional reset operation." alt="" coords="525,5,665,31"/>
+<area shape="rect" id="node7" href="iqm.pulse.gates.reset.Reset_F0G1_Composite.html#iqm.pulse.gates.reset.Reset_F0G1_Composite" target="_top" title="Reset by applying a ``prx_12(pi)`` gate followed by the ``lru.f0g1`` operation." alt="" coords="507,55,684,80"/>
+<area shape="rect" id="node6" href="iqm.pulse.gate_implementation.SinglePulseGate.html#iqm.pulse.gate_implementation.SinglePulseGate" target="_top" title="Base class for GateImplementations that play a single pulse on a single channel." alt="" coords="331,104,459,129"/>
+<area shape="rect" id="node8" href="iqm.pulse.gates.reset.Reset_Wait.html#iqm.pulse.gates.reset.Reset_Wait" target="_top" title="Reset operation by relaxation (idling for a time comparable to the relaxation time of the component)." alt="" coords="347,153,442,179"/>
+<area shape="rect" id="node5" href="iqm.pulse.gates.reset.Reset_F0G1.html#iqm.pulse.gates.reset.Reset_F0G1" target="_top" title="Reset by driving the :math:`|f0
 </map></section>
 
 
@@ -485,7 +501,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

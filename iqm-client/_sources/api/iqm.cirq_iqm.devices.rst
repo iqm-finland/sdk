@@ -1,8 +1,9 @@
-iqm.cirq\_iqm.devices
-=====================
+devices
+=======
+
+Full path: iqm.cirq_iqm.devices
 
 .. automodule:: iqm.cirq_iqm.devices
-
    
    
    

@@ -1,8 +1,9 @@
-iqm.cirq\_iqm.devices.iqm\_device
-=================================
+iqm\_device
+===========
+
+Full path: iqm.cirq_iqm.devices.iqm_device
 
 .. automodule:: iqm.cirq_iqm.devices.iqm_device
-
    
    
    
@@ -17,9 +18,11 @@ iqm.cirq\_iqm.devices.iqm\_device
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMDevice
+   
    
    
 
@@ -37,4 +40,5 @@ iqm.cirq\_iqm.devices.iqm\_device
 
 .. inheritance-diagram:: iqm.cirq_iqm.devices.iqm_device
    :parts: 1
+   :private-bases:
 

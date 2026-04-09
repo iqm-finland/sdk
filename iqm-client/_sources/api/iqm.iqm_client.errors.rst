@@ -1,8 +1,9 @@
-iqm.iqm\_client.errors
-======================
+errors
+======
+
+Full path: iqm.iqm_client.errors
 
 .. automodule:: iqm.iqm_client.errors
-
    
    
    

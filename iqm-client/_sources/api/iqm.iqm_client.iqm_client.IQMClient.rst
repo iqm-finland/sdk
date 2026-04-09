@@ -1,7 +1,9 @@
-iqm.iqm\_client.iqm\_client.IQMClient
-=====================================
+IQMClient
+=========
 
 .. currentmodule:: iqm.iqm_client.iqm_client
+
+Module: :mod:`iqm.iqm_client.iqm_client`
 
 .. autoclass:: IQMClient
    :members:
@@ -17,10 +19,8 @@ iqm.iqm\_client.iqm\_client.IQMClient
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~IQMClient._get_calibration_quality_metrics
-      ~IQMClient._get_dut_label
-      ~IQMClient._get_submit_circuits_payload
       ~IQMClient.cancel_job
       ~IQMClient.create_run_request
       ~IQMClient.delete_job
@@ -39,3 +39,11 @@ iqm.iqm\_client.iqm\_client.IQMClient
       ~IQMClient.submit_run_request
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.iqm_client.iqm_client.IQMClient
+   :parts: 1
+   :private-bases:

@@ -1,8 +1,9 @@
-iqm.iqm\_client.transpile
-=========================
+transpile
+=========
+
+Full path: iqm.iqm_client.transpile
 
 .. automodule:: iqm.iqm_client.transpile
-
    
    
    .. rubric:: Module Attributes
@@ -33,9 +34,11 @@ iqm.iqm\_client.transpile
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       ExistingMoveHandlingOptions
+   
    
    
 
@@ -53,4 +56,5 @@ iqm.iqm\_client.transpile
 
 .. inheritance-diagram:: iqm.iqm_client.transpile
    :parts: 1
+   :private-bases:
 

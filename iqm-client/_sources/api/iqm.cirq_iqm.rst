@@ -1,8 +1,9 @@
-﻿iqm.cirq\_iqm
-=============
+﻿cirq\_iqm
+=========
+
+Full path: iqm.cirq_iqm
 
 .. automodule:: iqm.cirq_iqm
-
    
    
    

@@ -1,8 +1,9 @@
-iqm.iqm\_client.iqm\_client
-===========================
+iqm\_client
+===========
+
+Full path: iqm.iqm_client.iqm_client
 
 .. automodule:: iqm.iqm_client.iqm_client
-
    
    
    
@@ -17,10 +18,12 @@ iqm.iqm\_client.iqm\_client
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       CircuitJob
       IQMClient
+   
    
    
 
@@ -38,4 +41,5 @@ iqm.iqm\_client.iqm\_client
 
 .. inheritance-diagram:: iqm.iqm_client.iqm_client
    :parts: 1
+   :private-bases:
 

@@ -1,8 +1,9 @@
-iqm.cpc.interface
-=================
+interface
+=========
+
+Full path: iqm.cpc.interface
 
 .. automodule:: iqm.cpc.interface
-
    
    
    
@@ -28,7 +29,7 @@ iqm.cpc.interface
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.cpc.interface.compiler
+   ~iqm.cpc.interface.circuit_execution
 
 
 

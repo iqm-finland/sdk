@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.fake\_backends.fake\_apollo
-===========================================
+fake\_apollo
+============
+
+Full path: iqm.qiskit_iqm.fake_backends.fake_apollo
 
 .. automodule:: iqm.qiskit_iqm.fake_backends.fake_apollo
-
    
    
    

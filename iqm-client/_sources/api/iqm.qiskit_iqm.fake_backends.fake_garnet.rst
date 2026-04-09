@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.fake\_backends.fake\_garnet
-===========================================
+fake\_garnet
+============
+
+Full path: iqm.qiskit_iqm.fake_backends.fake_garnet
 
 .. automodule:: iqm.qiskit_iqm.fake_backends.fake_garnet
-
    
    
    

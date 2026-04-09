@@ -1,7 +1,9 @@
-iqm.cirq\_iqm.devices.iqm\_device.IQMDevice
-===========================================
+IQMDevice
+=========
 
 .. currentmodule:: iqm.cirq_iqm.devices.iqm_device
+
+Module: :mod:`iqm.cirq_iqm.devices.iqm_device`
 
 .. autoclass:: IQMDevice
    :members:
@@ -23,8 +25,8 @@ iqm.cirq\_iqm.devices.iqm\_device.IQMDevice
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~IQMDevice.__eq__
       ~IQMDevice.check_qubit_connectivity
       ~IQMDevice.decompose_circuit
       ~IQMDevice.decompose_operation
@@ -40,3 +42,11 @@ iqm.cirq\_iqm.devices.iqm\_device.IQMDevice
       ~IQMDevice.validate_operation
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.cirq_iqm.devices.iqm_device.IQMDevice
+   :parts: 1
+   :private-bases:

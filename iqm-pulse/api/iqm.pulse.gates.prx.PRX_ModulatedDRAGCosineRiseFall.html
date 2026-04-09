@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>PRX_ModulatedDRAGCosineRiseFall &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>PRX_ModulatedDRAGCosineRiseFall &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,15 +39,17 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/documentation_options.js?v=c7d539cd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="PRX_SinglePulse_GateImplementation" href="iqm.pulse.gates.prx.PRX_SinglePulse_GateImplementation.html" />
+    <link rel="next" title="PRX_Samples" href="iqm.pulse.gates.prx.PRX_Samples.html" />
     <link rel="prev" title="PRX_ModulatedCustomWaveForms" href="iqm.pulse.gates.prx.PRX_ModulatedCustomWaveForms.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -218,6 +221,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4 current active"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
@@ -240,6 +244,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -257,6 +262,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -264,6 +270,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -397,7 +404,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall.wave_i"><code class="docutils literal notranslate"><span class="pre">PRX_ModulatedDRAGCosineRiseFall.wave_i</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall.wave_q"><code class="docutils literal notranslate"><span class="pre">PRX_ModulatedDRAGCosineRiseFall.wave_q</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall.excluded_parameters"><code class="docutils literal notranslate"><span class="pre">PRX_ModulatedDRAGCosineRiseFall.excluded_parameters</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall._get_pulse"><code class="docutils literal notranslate"><span class="pre">PRX_ModulatedDRAGCosineRiseFall._get_pulse()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -413,12 +419,12 @@ document.write(`
                   
   <section id="prx-modulateddragcosinerisefall">
 <h1>PRX_ModulatedDRAGCosineRiseFall<a class="headerlink" href="#prx-modulateddragcosinerisefall" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.pulse.gates.prx.html#module-iqm.pulse.gates.prx" title="iqm.pulse.gates.prx"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gates.prx</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gates.prx.</span></span><span class="sig-name descname"><span class="pre">PRX_ModulatedDRAGCosineRiseFall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.pulse.gates.prx.PRX_ModulatedCustomWaveForms.html#iqm.pulse.gates.prx.PRX_ModulatedCustomWaveForms" title="iqm.pulse.gates.prx.PRX_ModulatedCustomWaveForms"><code class="xref py py-class docutils literal notranslate"><span class="pre">PRX_ModulatedCustomWaveForms</span></code></a></p>
 <p>Modulated PRX pulse with cosine rise fall waveform</p>
-<p>Module: <a class="reference internal" href="iqm.pulse.gates.prx.html#module-iqm.pulse.gates.prx" title="iqm.pulse.gates.prx"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gates.prx</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -490,20 +496,21 @@ will be initialised as <code class="docutils literal notranslate"><span class="p
 parameters are not wanted in that class (also parameters defined by the waveforms can be excluded).</p>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall._get_pulse">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_get_pulse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall._get_pulse" title="Link to this definition">#</a></dt>
-<dd><p>Return the IQPulse with modulated arbitrary waveform based on the calibration data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="iqm.pulse.playlist.instructions.IQPulse.html#iqm.pulse.playlist.instructions.IQPulse" title="iqm.pulse.playlist.instructions.IQPulse"><em>IQPulse</em></a></p>
-</dd>
-</dl>
 </dd></dl>
 
-</dd></dl>
-
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-142369bb23124fcfe06ae8dabf24385ba766e1ed.png" alt="Inheritance diagram of iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall" usemap="#inheritance628849d4be" class="inheritance graphviz" /></div>
+<map id="inheritance628849d4be" name="inheritance628849d4be">
+<area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="2,25,36,37"/>
+<area shape="rect" id="node3" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" target="_top" title="ABC for implementing quantum gates and other quantum operations using instruction schedules." alt="" coords="58,25,130,37"/>
+<area shape="rect" id="node2" href="iqm.pulse.gate_implementation.CustomIQWaveforms.html#iqm.pulse.gate_implementation.CustomIQWaveforms" target="_top" title="Base class for GateImplementations using custom waveform definition with IQPulses." alt="" coords="283,2,357,14"/>
+<area shape="rect" id="node4" href="iqm.pulse.gates.prx.PRX_CustomWaveforms.html#iqm.pulse.gates.prx.PRX_CustomWaveforms" target="_top" title="Base class for PRX gates implemented using a single IQ pulse and hot&#45;swappable waveforms." alt="" coords="405,14,487,26"/>
+<area shape="rect" id="node8" href="iqm.pulse.gate_implementation.SinglePulseGate.html#iqm.pulse.gate_implementation.SinglePulseGate" target="_top" title="Base class for GateImplementations that play a single pulse on a single channel." alt="" coords="164,25,223,37"/>
+<area shape="rect" id="node9" href="iqm.pulse.gates.prx.PrxGateImplementation.html#iqm.pulse.gates.prx.PrxGateImplementation" target="_top" title="ABC for different implementations of the PRX gate." alt="" coords="153,48,235,60"/>
+<area shape="rect" id="node6" href="iqm.pulse.gates.prx.PRX_ModulatedCustomWaveForms.html#iqm.pulse.gates.prx.PRX_ModulatedCustomWaveForms" target="_top" title="Base class for PRX gates with modulated frequency, hot&#45;swappable waveforms." alt="" coords="510,14,625,26"/>
+<area shape="rect" id="node5" href="iqm.pulse.gates.prx.PRX_SinglePulse_GateImplementation.html#iqm.pulse.gates.prx.PRX_SinglePulse_GateImplementation" target="_top" title="Base class for PRX gates implemented using a single IQ pulse." alt="" coords="257,25,383,37"/>
+<area shape="rect" id="node7" href="#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall" target="_top" title="Modulated PRX pulse with cosine rise fall waveform" alt="" coords="647,14,766,26"/>
+</map></section>
 
 
                 </article>
@@ -526,11 +533,11 @@ parameters are not wanted in that class (also parameters defined by the waveform
       </div>
     </a>
     <a class="right-next"
-       href="iqm.pulse.gates.prx.PRX_SinglePulse_GateImplementation.html"
+       href="iqm.pulse.gates.prx.PRX_Samples.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">PRX_SinglePulse_GateImplementation</p>
+        <p class="prev-next-title">PRX_Samples</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -556,7 +563,6 @@ parameters are not wanted in that class (also parameters defined by the waveform
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall.wave_i"><code class="docutils literal notranslate"><span class="pre">PRX_ModulatedDRAGCosineRiseFall.wave_i</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall.wave_q"><code class="docutils literal notranslate"><span class="pre">PRX_ModulatedDRAGCosineRiseFall.wave_q</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall.excluded_parameters"><code class="docutils literal notranslate"><span class="pre">PRX_ModulatedDRAGCosineRiseFall.excluded_parameters</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.gates.prx.PRX_ModulatedDRAGCosineRiseFall._get_pulse"><code class="docutils literal notranslate"><span class="pre">PRX_ModulatedDRAGCosineRiseFall._get_pulse()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -579,7 +585,7 @@ parameters are not wanted in that class (also parameters defined by the waveform
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

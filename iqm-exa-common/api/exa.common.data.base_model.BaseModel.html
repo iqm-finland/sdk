@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>BaseModel &#8212; exa-common 27.4.5 documentation</title>
+    <title>BaseModel &#8212; exa-common 27.5.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=80f13c01"></script>
+    <script src="../_static/documentation_options.js?v=7c360f4a"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/exa.common.data.base_model.BaseModel';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="exa-common 27.4.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="exa-common 27.4.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="exa-common 27.5.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="exa-common 27.5.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -161,7 +164,10 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="exa.common.html">common</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="exa.common.api.html">api</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.common.api.html">api</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.common.api.proto_serialization.html">proto_serialization</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="exa.common.control.html">control</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.control.sweep.html">sweep</a></li>
 </ul>
@@ -183,6 +189,7 @@
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.deprecation.html">deprecation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.json_helper.html">json_helper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.numpy_helper.html">numpy_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.software_version_helper.html">software_version_helper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.yaml_helper.html">yaml_helper</a></li>
 </ul>
 </details></li>
@@ -329,6 +336,7 @@ document.write(`
                   
   <section id="basemodel">
 <h1>BaseModel<a class="headerlink" href="#basemodel" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="exa.common.data.base_model.html#module-exa.common.data.base_model" title="exa.common.data.base_model"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exa.common.data.base_model</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="exa.common.data.base_model.BaseModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BaseModel</span></span><a class="headerlink" href="#exa.common.data.base_model.BaseModel" title="Link to this definition">#</a></dt>
@@ -340,7 +348,6 @@ Note that setting model_config in child classes will merge the configs rather th
 <p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
 validated to form a valid model.</p>
 <p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
-<p>Module: <a class="reference internal" href="exa.common.data.base_model.html#module-exa.common.data.base_model" title="exa.common.data.base_model"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exa.common.data.base_model</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -354,10 +361,10 @@ validated to form a valid model.</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#exa.common.data.base_model.BaseModel.copy" title="exa.common.data.base_model.BaseModel.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a></p></td>
-<td><p>Returns a copy of the model.</p></td>
+<td><p>Copy the model.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#exa.common.data.base_model.BaseModel.model_copy" title="exa.common.data.base_model.BaseModel.model_copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_copy</span></code></a></p></td>
-<td><p>Returns a copy of the model.</p></td>
+<td><p>Copy the model.</p></td>
 </tr>
 </tbody>
 </table>
@@ -366,15 +373,16 @@ validated to form a valid model.</p>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exa.common.data.base_model.BaseModel.model_config">
-<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'ignore',</span> <span class="pre">'frozen':</span> <span class="pre">True,</span> <span class="pre">'ser_json_inf_nan':</span> <span class="pre">'constants',</span> <span class="pre">'validate_assignment':</span> <span class="pre">True,</span> <span class="pre">'validate_default':</span> <span class="pre">True}</span></em><a class="headerlink" href="#exa.common.data.base_model.BaseModel.model_config" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'ignore',</span> <span class="pre">'frozen':</span> <span class="pre">True,</span> <span class="pre">'ser_json_inf_nan':</span> <span class="pre">'constants',</span> <span class="pre">'validate_assignment':</span> <span class="pre">True,</span> <span class="pre">'validate_default':</span> <span class="pre">False}</span></em><a class="headerlink" href="#exa.common.data.base_model.BaseModel.model_config" title="Link to this definition">#</a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="exa.common.data.base_model.BaseModel.model_copy">
-<span class="sig-name descname"><span class="pre">model_copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.common.data.base_model.BaseModel.model_copy" title="Link to this definition">#</a></dt>
-<dd><p>Returns a copy of the model.</p>
-<p>Overrides the Pydantic default ‘model_copy’ to set ‘deep=True’ by default.</p>
+<span class="sig-name descname"><span class="pre">model_copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.common.data.base_model.BaseModel.model_copy" title="Link to this definition">#</a></dt>
+<dd><p>Copy the model.</p>
+<p>Without <code class="docutils literal notranslate"><span class="pre">deep</span></code> or <code class="docutils literal notranslate"><span class="pre">update</span></code>, return <code class="docutils literal notranslate"><span class="pre">self</span></code> (immutable fast path);
+otherwise defer to Pydantic’s standard <code class="docutils literal notranslate"><span class="pre">model_copy</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -391,7 +399,7 @@ validated to form a valid model.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="exa.common.data.base_model.BaseModel.copy">
 <span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.common.data.base_model.BaseModel.copy" title="Link to this definition">#</a></dt>
-<dd><p>Returns a copy of the model.</p>
+<dd><p>Copy the model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Self" title="(in Python v3.11)"><em>Self</em></a></p>
@@ -401,7 +409,11 @@ validated to form a valid model.</p>
 
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-8730231ec35f450e98a5e3e67ab085a9c512cca5.png" alt="Inheritance diagram of exa.common.data.base_model.BaseModel" usemap="#inheritanceb7058e33ea" class="inheritance graphviz" /></div>
+<map id="inheritanceb7058e33ea" name="inheritanceb7058e33ea">
+<area shape="rect" id="node1" href="#exa.common.data.base_model.BaseModel" target="_top" title="!!! abstract &quot;Usage Documentation&quot;" alt="" coords="5,29,100,55"/>
+</map></section>
 
 
                 </article>
@@ -474,7 +486,7 @@ validated to form a valid model.</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 27.4.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 27.5.1.
       <br/>
     
   </p>

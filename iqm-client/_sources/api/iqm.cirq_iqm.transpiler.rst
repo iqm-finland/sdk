@@ -1,8 +1,9 @@
-iqm.cirq\_iqm.transpiler
-========================
+transpiler
+==========
+
+Full path: iqm.cirq_iqm.transpiler
 
 .. automodule:: iqm.cirq_iqm.transpiler
-
    
    
    

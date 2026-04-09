@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Slepian &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>Slepian &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/documentation_options.js?v=c7d539cd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>window.MathJax = {"TeX": {"Macros": {"I": "\\mathbb{I}", "R": "\\mathbb{R}", "C": "\\mathbb{C}", "tr": "\\text{Tr}", "diag": "\\text{diag}", "ket": ["\\left| #1 \\right\\rangle", 1], "bra": ["\\left\\langle #1 \\right|", 1]}}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -142,8 +145,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -220,6 +223,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
@@ -242,6 +246,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -259,6 +264,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -266,6 +272,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -395,10 +402,6 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.Slepian"><code class="docutils literal notranslate"><span class="pre">Slepian</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.Slepian.non_timelike_attributes"><code class="docutils literal notranslate"><span class="pre">Slepian.non_timelike_attributes()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.Slepian._sample"><code class="docutils literal notranslate"><span class="pre">Slepian._sample()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.Slepian._sample_normalized_slepian"><code class="docutils literal notranslate"><span class="pre">Slepian._sample_normalized_slepian()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.Slepian._t_tau"><code class="docutils literal notranslate"><span class="pre">Slepian._t_tau()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.Slepian._theta_tau"><code class="docutils literal notranslate"><span class="pre">Slepian._theta_tau()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -414,6 +417,7 @@ document.write(`
                   
   <section id="slepian">
 <h1>Slepian<a class="headerlink" href="#slepian" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.pulse.playlist.waveforms.html#module-iqm.pulse.playlist.waveforms" title="iqm.pulse.playlist.waveforms"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.playlist.waveforms</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.playlist.waveforms.Slepian">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.playlist.waveforms.</span></span><span class="sig-name descname"><span class="pre">Slepian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency_initial_normalized</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency_to_minimize_normalized</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coupling_strength_normalized</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">squid_asymmetry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.playlist.waveforms.Slepian" title="Link to this definition">#</a></dt>
@@ -430,7 +434,7 @@ waveform with the following steps:</p>
 <li><p>Calculate <span class="math notranslate nohighlight">\(V(t)\)</span> (Slepian in the lab frame and in voltage space)</p></li>
 </ol>
 <p>Since the waveform is normalized, any voltage pre-factor should go into the pulse amplitude.</p>
-<p>The user is advised to look up <span id="id1">[<a class="reference internal" href="../references.html#id4" title="John M. Martinis and Michael R. Geller. Fast adiabatic qubit gates using only $\sigma _z$ control. Phys. Rev. A, 90:022307, Aug 2014. arXiv:1402.5467, doi:10.1103/PhysRevA.90.022307.">2</a>]</span> for further details, since the derivation is mathematically
+<p>The user is advised to look up <span id="id1">[<a class="reference internal" href="../references.html#id4" title="John M. Martinis and Michael R. Geller. Fast adiabatic qubit gates using only $\sigma _z$ control. Phys. Rev. A, 90:022307, Aug 2014. arXiv:1402.5467, doi:10.1103/PhysRevA.90.022307.">3</a>]</span> for further details, since the derivation is mathematically
 heavy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -450,7 +454,6 @@ normalized by the maximum frequency of the pulsed component.</p></li>
 </ul>
 </dd>
 </dl>
-<p>Module: <a class="reference internal" href="iqm.pulse.playlist.waveforms.html#module-iqm.pulse.playlist.waveforms" title="iqm.pulse.playlist.waveforms"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.playlist.waveforms</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -512,87 +515,13 @@ window duration.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.pulse.playlist.waveforms.Slepian._sample">
-<span class="sig-name descname"><span class="pre">_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_coords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.playlist.waveforms.Slepian._sample" title="Link to this definition">#</a></dt>
-<dd><p>Actually samples the waveform.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sample_coords</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a>) – coordinates of the samples to be returned</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>array of samples (same shape as <code class="docutils literal notranslate"><span class="pre">sample_coords</span></code>, <code class="docutils literal notranslate"><span class="pre">dtype</span> <span class="pre">==</span> <span class="pre">float</span></code>)</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a></p>
-</dd>
-</dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.pulse.playlist.waveforms.Slepian._sample_normalized_slepian">
-<span class="sig-name descname"><span class="pre">_sample_normalized_slepian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.playlist.waveforms.Slepian._sample_normalized_slepian" title="Link to this definition">#</a></dt>
-<dd><p>Calculate the samples of the actual Slepian waveform.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>coords</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a>) – normalized sample coordinates, in <span class="math notranslate nohighlight">\([0, 1]\)</span></p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>samples of the Slepian waveform</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.pulse.playlist.waveforms.Slepian._t_tau">
-<span class="sig-name descname"><span class="pre">_t_tau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">129</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.playlist.waveforms.Slepian._t_tau" title="Link to this definition">#</a></dt>
-<dd><p>Convert time in the accelerated frame to the lab frame (real time).</p>
-<p>Since the conversion is defined via an integral, finding an analytical solution was not possible. Therefore, we
-integrate the expression numerically with <a class="reference external" href="https://docs.scipy.org/doc/scipy-1.6.3/reference/generated/scipy.integrate.romb.html#scipy.integrate.romb" title="(in SciPy v1.6.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.integrate.romb()</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>tau</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a>) – Time in the accelerated frame.</p></li>
-<li><p><strong>num_samples</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of samples for the numerical integration. Must be of the form 2 ** k + 1.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">tau</span></code> converted to the lab frame</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.pulse.playlist.waveforms.Slepian._theta_tau">
-<span class="sig-name descname"><span class="pre">_theta_tau</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tau</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.playlist.waveforms.Slepian._theta_tau" title="Link to this definition">#</a></dt>
-<dd><p>Parametrization of the Slepian waveform in the accelerated frame.</p>
-<p>The Slepian waveform is parametrized using Fourier base functions, where we only take the cosine terms into
-account (<span id="id2">[<a class="reference internal" href="../references.html#id4" title="John M. Martinis and Michael R. Geller. Fast adiabatic qubit gates using only $\sigma _z$ control. Phys. Rev. A, 90:022307, Aug 2014. arXiv:1402.5467, doi:10.1103/PhysRevA.90.022307.">2</a>]</span> has shown that this is a reasonable assumption).
-Here, <span class="math notranslate nohighlight">\(\lambda_n\)</span> is the amplitude of the <span class="math notranslate nohighlight">\(n\)</span>-th term of the Fourier base function.
-It is usually sufficient to take only up to second order terms into account, i.e. only <span class="math notranslate nohighlight">\(\lambda_1\)</span> and
-<span class="math notranslate nohighlight">\(\lambda_2\)</span> are non-zero.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>tau</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a>) – Time in the accelerated frame, normalized to [0, 1] with tau_pulse.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Slepian waveform in the theta space and accelerated frame.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><em>ndarray</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-861d897707bc401c63e0a1c5fc659736cd617bcf.png" alt="Inheritance diagram of iqm.pulse.playlist.waveforms.Slepian" usemap="#inheritance0dbecae361" class="inheritance graphviz" /></div>
+<map id="inheritance0dbecae361" name="inheritance0dbecae361">
+<area shape="rect" id="node1" href="#iqm.pulse.playlist.waveforms.Slepian" target="_top" title="Slepian waveform, which minimizes non&#45;adiabatic errors during a gate." alt="" coords="143,5,215,31"/>
+</map></section>
 
 
                 </article>
@@ -641,10 +570,6 @@ It is usually sufficient to take only up to second order terms into account, i.e
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.Slepian"><code class="docutils literal notranslate"><span class="pre">Slepian</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.Slepian.non_timelike_attributes"><code class="docutils literal notranslate"><span class="pre">Slepian.non_timelike_attributes()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.Slepian._sample"><code class="docutils literal notranslate"><span class="pre">Slepian._sample()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.Slepian._sample_normalized_slepian"><code class="docutils literal notranslate"><span class="pre">Slepian._sample_normalized_slepian()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.Slepian._t_tau"><code class="docutils literal notranslate"><span class="pre">Slepian._t_tau()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.playlist.waveforms.Slepian._theta_tau"><code class="docutils literal notranslate"><span class="pre">Slepian._theta_tau()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -667,7 +592,7 @@ It is usually sufficient to take only up to second order terms into account, i.e
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

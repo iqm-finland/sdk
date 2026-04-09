@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.examples.transpile\_example
-===========================================
+transpile\_example
+==================
+
+Full path: iqm.qiskit_iqm.examples.transpile_example
 
 .. automodule:: iqm.qiskit_iqm.examples.transpile_example
-
    
    
    

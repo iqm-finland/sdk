@@ -1,8 +1,9 @@
-iqm.cirq\_iqm.devices.adonis
-============================
+adonis
+======
+
+Full path: iqm.cirq_iqm.devices.adonis
 
 .. automodule:: iqm.cirq_iqm.devices.adonis
-
    
    
    
@@ -17,9 +18,11 @@ iqm.cirq\_iqm.devices.adonis
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       Adonis
+   
    
    
 
@@ -37,4 +40,5 @@ iqm.cirq\_iqm.devices.adonis
 
 .. inheritance-diagram:: iqm.cirq_iqm.devices.adonis
    :parts: 1
+   :private-bases:
 

@@ -1,8 +1,9 @@
-﻿iqm.qiskit\_iqm
-===============
+﻿qiskit\_iqm
+===========
+
+Full path: iqm.qiskit_iqm
 
 .. automodule:: iqm.qiskit_iqm
-
    
    
    

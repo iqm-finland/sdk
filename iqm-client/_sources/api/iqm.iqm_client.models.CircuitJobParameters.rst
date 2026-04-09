@@ -1,7 +1,9 @@
-iqm.iqm\_client.models.CircuitJobParameters
-===========================================
+CircuitJobParameters
+====================
 
 .. currentmodule:: iqm.iqm_client.models
+
+Module: :mod:`iqm.iqm_client.models`
 
 .. autoclass:: CircuitJobParameters
    :members:
@@ -25,11 +27,15 @@ iqm.iqm\_client.models.CircuitJobParameters
    .. rubric:: Methods
 
    .. autosummary::
-   
-      ~CircuitJobParameters.__delattr__
-      ~CircuitJobParameters.__eq__
-      ~CircuitJobParameters.__hash__
-      ~CircuitJobParameters.__repr__
-      ~CircuitJobParameters.__setattr__
+      :nosignatures:
    
    
+   
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.iqm_client.models.CircuitJobParameters
+   :parts: 1
+   :private-bases:

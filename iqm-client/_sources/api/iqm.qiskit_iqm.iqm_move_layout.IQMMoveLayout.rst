@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.iqm\_move\_layout.IQMMoveLayout
-===============================================
+IQMMoveLayout
+=============
 
 .. currentmodule:: iqm.qiskit_iqm.iqm_move_layout
+
+Module: :mod:`iqm.qiskit_iqm.iqm_move_layout`
 
 .. autoclass:: IQMMoveLayout
    :members:
@@ -22,11 +24,17 @@ iqm.qiskit\_iqm.iqm\_move\_layout.IQMMoveLayout
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~IQMMoveLayout._calculate_requirements
-      ~IQMMoveLayout._determine_restrictions
-      ~IQMMoveLayout._is_restricted_gate
       ~IQMMoveLayout.get_initial_layout
       ~IQMMoveLayout.run
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout
+   :parts: 1
+   :private-bases:

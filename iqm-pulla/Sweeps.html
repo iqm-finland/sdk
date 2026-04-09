@@ -1,0 +1,879 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Sweeps &#8212; IQM Pulla 13.0.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=1e775836"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Sweeps';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Compilation Stages" href="Compilation%20Stages.html" />
+    <link rel="prev" title="Configuration and Usage" href="Configuration%20and%20Usage.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-04-09"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM Pulla 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 13.0.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">IQM Pulla</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="user_guides.html">User guides</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Quick%20Start.html">Quick Start</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="Configuration%20and%20Usage.html">Configuration and Usage</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Sweeps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compilation%20Stages.html">Compilation Stages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Custom%20Gates%20and%20Implementations.html">Custom Gates and Gate Implementations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Measuring%20T1.html">Example: Measuring T1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Simple%20Dynamical%20Decoupling.html">Example: Dynamical decoupling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Executing%20QIR%20programs.html">Executing QIR programs</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.cpc.html">cpc</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.compiler.html">compiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compilation_stage.html">compilation_stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compiler.html">compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.dd.html">dd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.errors.html">errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.layering_stages.html">layering_stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.post_process.html">post_process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.standard_stages.html">standard_stages</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.config.html">config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.run_result.html">run_result</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.interface.circuit_execution.html">circuit_execution</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CalibrationSetValues.html">iqm.pulla.interface.CalibrationSetValues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CHADRetrievalException.html">iqm.pulla.interface.CHADRetrievalException</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.ChipLabelRetrievalException.html">iqm.pulla.interface.ChipLabelRetrievalException</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html">Pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.PullaJob.html">PullaJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.PullaStash.html">PullaStash</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.html">quantum_architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture.html">iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.create_static_quantum_architecture.html">iqm.pulla.quantum_architecture.create_static_quantum_architecture</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.calset_from_observations.html">iqm.pulla.utils.calset_from_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.calset_to_cal_data_tree.html">iqm.pulla.utils.calset_to_cal_data_tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.circuit_operations_to_cpc.html">iqm.pulla.utils.circuit_operations_to_cpc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot.html">iqm.pulla.utils.convert_sweep_spot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_to_arrays.html">iqm.pulla.utils.convert_sweep_spot_to_arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.extract_readout_controller_result_names.html">iqm.pulla.utils.extract_readout_controller_result_names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.get_hash_for.html">iqm.pulla.utils.get_hash_for</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.initialize_schedule_builder.html">iqm.pulla.utils.initialize_schedule_builder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.iqm_circuit_to_gate_implementation.html">iqm.pulla.utils.iqm_circuit_to_gate_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.locate_instructions.html">iqm.pulla.utils.locate_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.map_qubit_indices.html">iqm.pulla.utils.map_qubit_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.map_sweep_results_to_logical_qubits.html">iqm.pulla.utils.map_sweep_results_to_logical_qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.print_channel.html">iqm.pulla.utils.print_channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.print_schedule.html">iqm.pulla.utils.print_schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.replace_instruction_in_place.html">iqm.pulla.utils.replace_instruction_in_place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.PostSelectionError.html">iqm.pulla.utils.PostSelectionError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_cirq.html">utils_cirq</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_cirq.cirq_to_cpc.html">iqm.pulla.utils_cirq.cirq_to_cpc</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_dd.html">utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_dd.generate_phases_of_urn_sequence.html">iqm.pulla.utils_dd.generate_phases_of_urn_sequence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_parallelization.html">utils_parallelization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_parallelization.parallelize_timeboxes.html">iqm.pulla.utils_parallelization.parallelize_timeboxes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qir.html">utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping.html">iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qir.qir_to_pulla.html">iqm.pulla.utils_qir.qir_to_pulla</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.html">utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.get_qiskit_compiler.html">iqm.pulla.utils_qiskit.get_qiskit_compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.parallelize_and_transpile.html">iqm.pulla.utils_qiskit.parallelize_and_transpile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.sweep_job_to_qiskit.html">iqm.pulla.utils_qiskit.sweep_job_to_qiskit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.QiskitCompiler.html">QiskitCompiler</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="common_errors.html">Common errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Sweeps.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Sweeps</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qiskit-compiler">Qiskit Compiler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Sweeps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-investigate-spectator-errors">Example: investigate spectator errors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-parametric-circuits-and-multi-dimensional-sweeps">Example: parametric circuits and multi-dimensional sweeps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-advanced-pulse-level-access-with-timebox-inputs">Example: advanced pulse-level access with TimeBox inputs</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="sweeps">
+<h1>Sweeps<a class="headerlink" href="#sweeps" title="Link to this heading">#</a></h1>
+<p>This notebooks explains <em>sweeping</em> in Pulla, that is, performing a loop over a <code class="docutils literal notranslate"><span class="pre">settings</span></code> value. It is recommended to run <code class="docutils literal notranslate"><span class="pre">Configuration</span> <span class="pre">and</span> <span class="pre">Usage.ipynb</span></code> before this notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.core.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">visualization</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.compiler</span><span class="w"> </span><span class="kn">import</span> <span class="n">transpile</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulla.pulla</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pulla</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulla.utils_qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">qiskit_to_pulla</span><span class="p">,</span> <span class="n">sweep_job_to_qiskit</span><span class="p">,</span> <span class="n">get_qiskit_compiler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.playlist.visualisation.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">inspect_playlist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">exa.common.control.sweep.sweep</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sweep</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">exa.common.control.sweep.option</span><span class="w"> </span><span class="kn">import</span> <span class="n">CenterSpanOptions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.timebox</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeBox</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScheduleBuilder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.playlist.schedule</span><span class="w"> </span><span class="kn">import</span> <span class="n">Segment</span><span class="p">,</span> <span class="n">Schedule</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.playlist.instructions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Block</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">iqm_server_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PULLA_IQM_SERVER_URL&#39;</span><span class="p">]</span>  <span class="c1"># or set the URL directly here</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;IQM_TOKEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IQM_TOKEN&quot;</span><span class="p">)</span>  <span class="c1"># or set the token directly here</span>
+
+<span class="n">pulla</span> <span class="o">=</span> <span class="n">Pulla</span><span class="p">(</span><span class="n">iqm_server_url</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="n">iqm_server_url</span><span class="p">)</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="qiskit-compiler">
+<h2>Qiskit Compiler<a class="headerlink" href="#qiskit-compiler" title="Link to this heading">#</a></h2>
+<p>When running Qiskit circuits through IQM Pulla, one way is to first transpile the circuit manually in your notebook/script, convert the circuit to the IQM representation, and finally compile the circuit for execution.</p>
+<p>However, when working in the pulse-level, one usually wants to control the routing and transpilation exactly (e.g. route to specific qubits in the chip), whereas the Qiskit transpiler is stochastic in nature. For facilitating pulse-level access in the context of Qiskit, one can use the function <code class="docutils literal notranslate"><span class="pre">get_qiskit_compiler</span></code>. It returns a Pulla compiler which contains the transpilation and conversion to IQM format compiler passes, so that users may just provide native Qiskit <code class="docutils literal notranslate"><span class="pre">QuantumCircuit</span></code>s directly. It also allows easy routing to a subset of a chip.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compiler</span> <span class="o">=</span> <span class="n">get_qiskit_compiler</span><span class="p">(</span><span class="n">pulla</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
+
+<span class="c1"># Show the settings for the transpilation stage pass</span>
+<span class="n">compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="p">[])</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">qiskit_transpilation</span><span class="o">.</span><span class="n">parallelize_and_transpile</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Display the docstring for the stage pass</span>
+<span class="n">compiler</span><span class="o">.</span><span class="n">show_stages</span><span class="p">(</span><span class="n">pass_name</span><span class="o">=</span><span class="s2">&quot;parallelize_and_transpile&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compile a Qiskit circuit while fixing some of the transpilation features</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+<span class="n">settings</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="p">[</span><span class="n">qc</span><span class="p">])</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">qiskit_transpilation</span><span class="o">.</span><span class="n">parallelize_and_transpile</span><span class="o">.</span><span class="n">seed_transpiler</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># fix the seed for more deterministic behaviour</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">qiskit_transpilation</span><span class="o">.</span><span class="n">parallelize_and_transpile</span><span class="o">.</span><span class="n">optimize_single_qubits</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># do not remove the two redundant x(0)s</span>
+
+<span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="n">circuits</span><span class="o">=</span><span class="p">[</span><span class="n">qc</span><span class="p">],</span>
+    <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB5&quot;</span><span class="p">],</span>  <span class="c1"># this routes the circuit to QB3 and QB5</span>
+    <span class="n">settings</span><span class="o">=</span><span class="n">settings</span>
+<span class="p">)</span>
+
+<span class="c1"># Visualize</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>It should be noted that the transpilation options exposed in <code class="docutils literal notranslate"><span class="pre">settings.stages.qiskit_transpilation.parallelize_and_transpile</span></code> are not exhaustive. For highly customized transpilation one should still transpile manually and avoid the Qiskit compiler.</p>
+</section>
+<section id="id1">
+<h2>Sweeps<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>The specified circuit will be executed with the specified values, resulting in a data point for each different value of the swept quantity. Every setting in the settings tree is in principle sweepable (sweeping some of them makes little sense in practice, but still <em>doable</em>).</p>
+<section id="example-investigate-spectator-errors">
+<h3>Example: investigate spectator errors<a class="headerlink" href="#example-investigate-spectator-errors" title="Link to this heading">#</a></h3>
+<p>For optimal QPU performance, each physical component should be “parked” to a flux voltage value that minimizes parasitic interactions with the neighbouring components. The parking is part of the standard calibration of an IQM QPU, but we can investigate its effects by running a two-qubit gate on a connected pair while sweeping a neighbouring coupler’s flux voltage. We should see the gate performance getting worse as we get further away from the correct parking voltage.</p>
+<p>Create four circuits to prepare the four states <code class="docutils literal notranslate"><span class="pre">|00&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">|01&gt;</span></code> <code class="docutils literal notranslate"><span class="pre">|10&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">|11&gt;</span></code> and then perform a CNOT gate between the two qubits. CNOT should map <code class="docutils literal notranslate"><span class="pre">|10&gt;</span></code> to <code class="docutils literal notranslate"><span class="pre">|11&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">|11&gt;</span></code> to <code class="docutils literal notranslate"><span class="pre">|10&gt;</span></code>, while leaving the other two states intact. We can measure the probability of being in the correct state in all of these cases, which gives us a rough estimate of how much the bad parking affected the gate operation (it should be noted that this is not a scientifically sound method of state/process tomography, but just a simple example for educational purposes).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compiler</span> <span class="o">=</span> <span class="n">get_qiskit_compiler</span><span class="p">(</span><span class="n">pulla</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
+
+<span class="c1"># Prepare |00&gt;</span>
+<span class="n">qc1</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> 
+<span class="n">qc1</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qc1</span><span class="o">.</span><span class="n">measure</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    
+<span class="c1"># Prepare |10&gt;</span>
+<span class="n">qc2</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> 
+<span class="n">qc2</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc2</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qc2</span><span class="o">.</span><span class="n">measure</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    
+<span class="c1"># Prepare |01&gt;</span>
+<span class="n">qc3</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> 
+<span class="n">qc3</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qc3</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qc3</span><span class="o">.</span><span class="n">measure</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    
+<span class="c1"># Prepare |11&gt;</span>
+<span class="n">qc4</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">qc4</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc4</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qc4</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qc4</span><span class="o">.</span><span class="n">measure</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">circuits</span><span class="o">=</span><span class="p">[</span><span class="n">qc1</span><span class="p">,</span> <span class="n">qc2</span><span class="p">,</span> <span class="n">qc3</span><span class="p">,</span> <span class="n">qc4</span><span class="p">]</span>
+
+<span class="c1"># First compile without sweeps</span>
+<span class="n">settings</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">)</span>
+<span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">,</span>
+    <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB5&quot;</span><span class="p">],</span>  <span class="c1"># run on the pair 3-5</span>
+    <span class="n">settings</span><span class="o">=</span><span class="n">settings</span>
+<span class="p">)</span>
+
+<span class="c1"># Run the circuits</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">pulla</span><span class="o">.</span><span class="n">submit_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">wait_for_completion</span><span class="p">()</span>
+
+<span class="c1"># Instead of the default `job.result()` run the post-processing stages in `compiler` to get the return data in an Xarray Dataset</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="n">compiler</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">dataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># In the result dataset, find the bit string probabilities from the data variable &quot;counter.result&quot;, and pick the result</span>
+<span class="c1"># corresponding to each of the four created circuits. Compare the obtained result to the expected theoretical result.</span>
+<span class="n">result_for_00</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;counter.result&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="s2">&quot;circuit_index&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span><span class="o">.</span><span class="n">data</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;|00&gt; should be mapped to [1.0, 0.0, 0.0, 0.0], we got </span><span class="si">{</span><span class="n">result_for_00</span><span class="si">}</span><span class="s2">, the error is </span><span class="si">{</span><span class="mi">1</span><span class="o">-</span><span class="n">result_for_00</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">result_for_10</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;counter.result&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="s2">&quot;circuit_index&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span><span class="o">.</span><span class="n">data</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;|10&gt; should be mapped to [0.0, 0.0, 0.0, 1.0], we got </span><span class="si">{</span><span class="n">result_for_10</span><span class="si">}</span><span class="s2">, the error is </span><span class="si">{</span><span class="mi">1</span><span class="o">-</span><span class="n">result_for_10</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">result_for_01</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;counter.result&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="s2">&quot;circuit_index&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span><span class="o">.</span><span class="n">data</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;|01&gt; should be mapped to [0.0, 1.0, 0.0, 0.0], we got </span><span class="si">{</span><span class="n">result_for_01</span><span class="si">}</span><span class="s2">, the error is </span><span class="si">{</span><span class="mi">1</span><span class="o">-</span><span class="n">result_for_01</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">result_for_11</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;counter.result&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="s2">&quot;circuit_index&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span><span class="o">.</span><span class="n">data</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;|11&gt; should be mapped to [0.0, 0.0, 1.0, 0.0], we got </span><span class="si">{</span><span class="n">result_for_11</span><span class="si">}</span><span class="s2">, the error is </span><span class="si">{</span><span class="mi">1</span><span class="o">-</span><span class="n">result_for_11</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the sweep over the couper flux voltage (centered at the correct value, span 0.5V, 100 points)</span>
+<span class="n">settings</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">)</span>
+<span class="n">voltage</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">controllers</span><span class="p">[</span><span class="s2">&quot;TC-2-3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">voltage</span>
+<span class="n">voltage_sweep</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span><span class="n">parameter</span><span class="o">=</span><span class="n">voltage</span><span class="o">.</span><span class="n">parameter</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">CenterSpanOptions</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="n">voltage</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">span</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Compile and execute</span>
+<span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">,</span>
+    <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB5&quot;</span><span class="p">],</span>  <span class="c1"># run on the pair 3-5</span>
+    <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span>
+    <span class="n">sweeps</span><span class="o">=</span><span class="p">[</span><span class="n">voltage_sweep</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Run the circuits</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">pulla</span><span class="o">.</span><span class="n">submit_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">wait_for_completion</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="n">compiler</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the resulting errors as a function of the flux voltage with native Xarray plotting (Matplotlib) </span>
+<span class="n">error_for_00</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">result</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;counter.result&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="s2">&quot;circuit_index&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;counter_index&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+<span class="n">error_for_10</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">result</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;counter.result&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="s2">&quot;circuit_index&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;counter_index&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span>
+<span class="n">error_for_01</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">result</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;counter.result&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="s2">&quot;circuit_index&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;counter_index&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">error_for_11</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">result</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;counter.result&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="s2">&quot;circuit_index&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;counter_index&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="n">cumulative_error</span> <span class="o">=</span> <span class="n">error_for_00</span> <span class="o">+</span> <span class="n">error_for_10</span> <span class="o">+</span> <span class="n">error_for_01</span> <span class="o">+</span> <span class="n">error_for_11</span>
+<span class="n">cumulative_error</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-parametric-circuits-and-multi-dimensional-sweeps">
+<h3>Example: parametric circuits and multi-dimensional sweeps<a class="headerlink" href="#example-parametric-circuits-and-multi-dimensional-sweeps" title="Link to this heading">#</a></h3>
+<p>You might have wondered why <code class="docutils literal notranslate"><span class="pre">compiler.get_settings(circuits)</span></code> requires the circuits as an argument. The reason is that the circuit can be a function that creates the actual circuits. The arguments of the circuit generation function then become settings and are thus sweepable, like any other settings.</p>
+<p>Compilation also works with multiple sweeps and sweep settings in parallel.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_my_circuit</span><span class="p">(</span><span class="n">n_cz</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform `n_cz` num of CZ operations on a pair of qubits.&quot;&quot;&quot;</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cz</span><span class="p">):</span>
+        <span class="n">qc</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">qc</span><span class="p">]</span>
+
+<span class="n">settings</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">_my_circuit</span><span class="p">)</span>
+
+<span class="c1"># n_cz is now a setting in circuit</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sweep over n_cz</span>
+<span class="n">n_cz_sweep</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span><span class="n">parameter</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">n_cz</span><span class="o">.</span><span class="n">parameter</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]))</span>
+
+<span class="c1"># Sweep over the default PRX amplitude in parallel for the two qubits such that in a single sweep we sweep both amplitudes</span>
+<span class="n">amp_sweep</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+    <span class="n">Sweep</span><span class="p">(</span><span class="n">parameter</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">get_gate_node_for_locus</span><span class="p">(</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span><span class="o">.</span><span class="n">amplitude_i</span><span class="o">.</span><span class="n">parameter</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]))</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB5&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="c1"># Compile with both sweeps. With multiple sweeps like this the &quot;Cartesian product&quot; of the sweep dimensions is executed,</span>
+<span class="c1"># such that:</span>
+<span class="c1"># 1st sweep spot: (n_cz=1, amps=0.1)</span>
+<span class="c1"># 2nd sweep spot: (n_cz=2, amps=0.1)</span>
+<span class="c1"># ...</span>
+<span class="c1"># 4th sweep spot: (n_cz=1, amps=0.2)</span>
+<span class="c1"># ...</span>
+<span class="c1"># 6th sweep spot: (n_cz=3, amps=0.2)</span>
+
+<span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="n">circuits</span><span class="o">=</span><span class="n">_my_circuit</span><span class="p">,</span>
+    <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB5&quot;</span><span class="p">],</span>
+    <span class="n">sweeps</span><span class="o">=</span><span class="p">[</span><span class="n">amp_sweep</span><span class="p">,</span> <span class="n">n_cz_sweep</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">))))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-advanced-pulse-level-access-with-timebox-inputs">
+<h3>Example: advanced pulse-level access with TimeBox inputs<a class="headerlink" href="#example-advanced-pulse-level-access-with-timebox-inputs" title="Link to this heading">#</a></h3>
+<p>IQM Pulla allows for pulse-level access for circuits written in the gate-level (e.g. Qiskit circuits), but there are phenomena that simply cannot be studied with a gate-level circuit. For this reason, Pulla allows compiling circuits written in the native IQM TimeBox intermediate representation.</p>
+<p>As an example, compile and run a single-qubit circuit that consists of 1) measuring a qubit, 2) performing an X180 gate, and 3) measuring again, but make the X180 pulse coincide with the first measurement. Then sweep the exact timing of the drive pulse relative to the beginning of the probe instruction. Of course, reading out a qubit while driving an X rotation probably breaks both of the operations and not achieve an X180 rotation. But sweeping the offset from the probe’s start, at some point the actual physical probe pulse has ended and the qubit is projected to the ground state and <em>can</em> perform the X180 rotation. <em>If</em> there is some buffer at the end of the probe instruction (after the physical probe pulse has ended), a more efficient timing is achievable by overlapping the X180 with the probe instruction.</p>
+<p>Performing this experiment in the circuit-level is simply impossible. The measurement operation will block its locus (QB1) for its full duration when compiling from the gate-level (as it should for consistent operation), so it cannot overlap with the drive pulse. But working natively in the pulse-level it can!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_drive_and_probe_overlap_circuit</span><span class="p">(</span><span class="n">builder</span><span class="p">:</span> <span class="n">ScheduleBuilder</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">TimeBox</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Drive and probe pulse overlapping in a circuit.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        builder: The ScheduleBuilder (Compiler&#39;s default tool for pulse-level compilation).</span>
+<span class="sd">        offset: When the drive pulse starts relative from the start of the probe pulse. In integer samples (sampling rate 2 GHz).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m1</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">measure</span><span class="p">((</span><span class="s2">&quot;QB1&quot;</span><span class="p">,))(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;m1&quot;</span><span class="p">)</span>
+    <span class="n">m2</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">measure</span><span class="p">((</span><span class="s2">&quot;QB1&quot;</span><span class="p">,))(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;m2&quot;</span><span class="p">)</span>
+    <span class="n">prx</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">((</span><span class="s2">&quot;QB1&quot;</span><span class="p">,))</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="c1"># Put PRX &quot;inside&quot; the probe TimeBox so the instructions overlap</span>
+    <span class="n">drive_channel_name</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_drive_channel</span><span class="p">(</span><span class="s2">&quot;QB1&quot;</span><span class="p">)</span>
+    <span class="n">prx_instruction</span> <span class="o">=</span> <span class="n">prx</span><span class="o">.</span><span class="n">atom</span><span class="p">[</span><span class="n">drive_channel_name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">probe_schedule</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">resolve_timebox</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">neighborhood</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>  <span class="c1"># deepcopy, otherwise the cached result would get altered</span>
+    <span class="n">probe_schedule</span><span class="p">[</span><span class="n">drive_channel_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">([</span><span class="n">Block</span><span class="p">(</span><span class="n">offset</span><span class="p">),</span> <span class="n">prx_instruction</span><span class="p">])</span>
+    <span class="n">probe_and_prx_box</span> <span class="o">=</span> <span class="n">TimeBox</span><span class="o">.</span><span class="n">atomic</span><span class="p">(</span><span class="n">probe_schedule</span><span class="p">,</span> <span class="n">locus_components</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;QB1&quot;</span><span class="p">,),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;probe and prx for QB1&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">probe_and_prx_box</span> <span class="o">+</span> <span class="n">m2</span><span class="p">]</span>
+
+<span class="n">compiler</span> <span class="o">=</span> <span class="n">pulla</span><span class="o">.</span><span class="n">get_standard_compiler</span><span class="p">()</span>
+<span class="n">settings</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">timeboxes</span><span class="o">=</span><span class="n">_drive_and_probe_overlap_circuit</span><span class="p">)</span>
+<span class="n">offset_sweep</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span><span class="n">parameter</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">offset</span><span class="o">.</span><span class="n">parameter</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="mi">320</span> <span class="o">+</span> <span class="mi">64</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">)))</span>
+
+<span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="n">timeboxes</span><span class="o">=</span><span class="n">_drive_and_probe_overlap_circuit</span><span class="p">,</span>
+    <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;QB1&quot;</span><span class="p">],</span>
+    <span class="n">sweeps</span><span class="o">=</span><span class="p">[</span><span class="n">offset_sweep</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># Inspect the playlist and see that the drive pulse overlaps with the probe instruction and moves to the right with the sweep</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">))))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job</span> <span class="o">=</span> <span class="n">pulla</span><span class="o">.</span><span class="n">submit_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">wait_for_completion</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="n">compiler</span><span class="p">)</span>
+
+<span class="c1"># Plot the QB1 excited state probability in the second measurement</span>
+<span class="n">result</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;QB1__m2_excited_state_probability&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Configuration%20and%20Usage.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Configuration and Usage</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Compilation%20Stages.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Compilation Stages</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qiskit-compiler">Qiskit Compiler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Sweeps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-investigate-spectator-errors">Example: investigate spectator errors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-parametric-circuits-and-multi-dimensional-sweeps">Example: parametric circuits and multi-dimensional sweeps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-advanced-pulse-level-access-with-timebox-inputs">Example: advanced pulse-level access with TimeBox inputs</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Pulla developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024-2026, IQM Finland Oy, Release 13.0.1.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-04-09.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>MultiplexedProbeTimeBox &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>MultiplexedProbeTimeBox &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,15 +39,17 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/documentation_options.js?v=c7d539cd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.timebox.MultiplexedProbeTimeBox';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ProbeTimeBoxes" href="iqm.pulse.timebox.ProbeTimeBoxes.html" />
+    <link rel="next" title="ProbeBlockBox" href="iqm.pulse.timebox.ProbeBlockBox.html" />
     <link rel="prev" title="timebox" href="iqm.pulse.timebox.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -218,6 +221,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
@@ -240,6 +244,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -257,6 +262,7 @@
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -264,6 +270,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -408,13 +415,13 @@ document.write(`
                   
   <section id="multiplexedprobetimebox">
 <h1>MultiplexedProbeTimeBox<a class="headerlink" href="#multiplexedprobetimebox" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.pulse.timebox.html#module-iqm.pulse.timebox" title="iqm.pulse.timebox"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.timebox</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.timebox.MultiplexedProbeTimeBox">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.timebox.</span></span><span class="sig-name descname"><span class="pre">MultiplexedProbeTimeBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus_components</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheduling=SchedulingStrategy.ASAP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheduling_algorithm=SchedulingAlgorithm.HARD_BOUNDARY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhood_components=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.timebox.MultiplexedProbeTimeBox" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeBox</span></code></a></p>
 <p>A <code class="docutils literal notranslate"><span class="pre">TimeBox</span></code> that contains any number of multiplexed readout pulses for probe channels.</p>
-<p>A <code class="docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBox</span></code>’s atom contains exactly one <code class="docutils literal notranslate"><span class="pre">ReadoutTrigger</span></code> for each probe channel.</p>
-<p>Module: <a class="reference internal" href="iqm.pulse.timebox.html#module-iqm.pulse.timebox" title="iqm.pulse.timebox"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.timebox</span></code></a></p>
+<p>A MultiplexedProbeTimeBox’s atom contains exactly one <code class="docutils literal notranslate"><span class="pre">ReadoutTrigger</span></code> for each probe channel.</p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -440,7 +447,7 @@ document.write(`
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.timebox.MultiplexedProbeTimeBox.from_readout_trigger" title="iqm.pulse.timebox.MultiplexedProbeTimeBox.from_readout_trigger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_readout_trigger</span></code></a></p></td>
-<td><p>Build an atomic <code class="docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBox`</span> <span class="pre">from</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">``ReadoutTrigger</span></code> instruction.</p></td>
+<td><p>Build an atomic MultiplexedProbeTimeBox from a single ReadoutTrigger instruction.</p></td>
 </tr>
 </tbody>
 </table>
@@ -461,7 +468,7 @@ document.write(`
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.timebox.MultiplexedProbeTimeBox.from_readout_trigger">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_readout_trigger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">readout_trigger</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe_channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus_components</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.timebox.MultiplexedProbeTimeBox.from_readout_trigger" title="Link to this definition">#</a></dt>
-<dd><p>Build an atomic <code class="docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBox`</span> <span class="pre">from</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">``ReadoutTrigger</span></code> instruction.</p>
+<dd><p>Build an atomic MultiplexedProbeTimeBox from a single ReadoutTrigger instruction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -474,7 +481,7 @@ document.write(`
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>atomic timebox containing <code class="docutils literal notranslate"><span class="pre">readout_trigger</span></code> in the channel <code class="docutils literal notranslate"><span class="pre">probe_channel</span></code>.</p>
+<dd class="field-even"><p>Atomic timebox containing <code class="docutils literal notranslate"><span class="pre">readout_trigger</span></code> in the channel <code class="docutils literal notranslate"><span class="pre">probe_channel</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#iqm.pulse.timebox.MultiplexedProbeTimeBox" title="iqm.pulse.timebox.MultiplexedProbeTimeBox"><em>MultiplexedProbeTimeBox</em></a></p>
@@ -484,7 +491,12 @@ document.write(`
 
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-383464fa4485bc727b2651173e71d7a9230367ab.png" alt="Inheritance diagram of iqm.pulse.timebox.MultiplexedProbeTimeBox" usemap="#inheritance4ff8dad25b" class="inheritance graphviz" /></div>
+<map id="inheritance4ff8dad25b" name="inheritance4ff8dad25b">
+<area shape="rect" id="node1" href="#iqm.pulse.timebox.MultiplexedProbeTimeBox" target="_top" title="A ``TimeBox`` that contains any number of multiplexed readout pulses for probe channels." alt="" coords="133,5,327,31"/>
+<area shape="rect" id="node2" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" target="_top" title="Container for one or more instruction schedule fragments, to be scheduled according to a given strategy." alt="" coords="5,5,85,31"/>
+</map></section>
 
 
                 </article>
@@ -507,11 +519,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="iqm.pulse.timebox.ProbeTimeBoxes.html"
+       href="iqm.pulse.timebox.ProbeBlockBox.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">ProbeTimeBoxes</p>
+        <p class="prev-next-title">ProbeBlockBox</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -555,7 +567,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

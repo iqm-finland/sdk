@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.iqm\_transpilation
-==================================
+iqm\_transpilation
+==================
+
+Full path: iqm.qiskit_iqm.iqm_transpilation
 
 .. automodule:: iqm.qiskit_iqm.iqm_transpilation
-
    
    
    
@@ -24,10 +25,12 @@ iqm.qiskit\_iqm.iqm\_transpilation
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMOptimizeSingleQubitGates
       IQMReplaceGateWithUnitaryPass
+   
    
    
 
@@ -45,4 +48,5 @@ iqm.qiskit\_iqm.iqm\_transpilation
 
 .. inheritance-diagram:: iqm.qiskit_iqm.iqm_transpilation
    :parts: 1
+   :private-bases:
 

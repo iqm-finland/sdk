@@ -1,8 +1,9 @@
-iqm.cpc.compiler.compiler
-=========================
+compiler
+========
+
+Full path: iqm.cpc.compiler.compiler
 
 .. automodule:: iqm.cpc.compiler.compiler
-
    
    
    .. rubric:: Module Attributes
@@ -10,19 +11,11 @@ iqm.cpc.compiler.compiler
    .. autosummary::
       :toctree:
    
-      PassFunction
+      Components
    
    
 
    
-   
-   .. rubric:: Functions
-
-   .. autosummary::
-      :toctree:
-   
-      compiler_pass
-      pass_function_idempotent
    
    
 
@@ -32,10 +25,12 @@ iqm.cpc.compiler.compiler
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
-      CompilationStage
       Compiler
+      CompilerOptions
+      CompilerStages
    
    
 

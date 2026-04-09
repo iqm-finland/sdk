@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.iqm\_provider.IQMBackend
-========================================
+IQMBackend
+==========
 
 .. currentmodule:: iqm.qiskit_iqm.iqm_provider
+
+Module: :mod:`iqm.qiskit_iqm.iqm_provider`
 
 .. autoclass:: IQMBackend
    :members:
@@ -27,11 +29,19 @@ iqm.qiskit\_iqm.iqm\_provider.IQMBackend
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~IQMBackend._default_options
       ~IQMBackend.create_run_request
       ~IQMBackend.retrieve_job
       ~IQMBackend.run
       ~IQMBackend.serialize_circuit
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.iqm_provider.IQMBackend
+   :parts: 1
+   :private-bases:

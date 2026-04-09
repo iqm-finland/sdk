@@ -1,8 +1,9 @@
-iqm.pulla.pulla
-===============
+pulla
+=====
+
+Full path: iqm.pulla.pulla
 
 .. automodule:: iqm.pulla.pulla
-
    
    
    
@@ -17,10 +18,12 @@ iqm.pulla.pulla
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       Pulla
-      SweepJob
+      PullaJob
+      PullaStash
    
    
 

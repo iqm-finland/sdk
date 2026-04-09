@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ProbeTimeBoxes &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>ProbeTimeBoxes &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,16 +39,18 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/documentation_options.js?v=c7d539cd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.timebox.ProbeTimeBoxes';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="SchedulingAlgorithm" href="iqm.pulse.timebox.SchedulingAlgorithm.html" />
-    <link rel="prev" title="MultiplexedProbeTimeBox" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html" />
+    <link rel="prev" title="ProbeBlockBox" href="iqm.pulse.timebox.ProbeBlockBox.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
     <meta name="docbuild:last-update" content="2026-04-09"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -218,6 +221,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
@@ -240,6 +244,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -257,6 +262,7 @@
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -264,6 +270,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -405,20 +412,20 @@ document.write(`
                   
   <section id="probetimeboxes">
 <h1>ProbeTimeBoxes<a class="headerlink" href="#probetimeboxes" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.pulse.timebox.html#module-iqm.pulse.timebox" title="iqm.pulse.timebox"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.timebox</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.timebox.ProbeTimeBoxes">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.timebox.</span></span><span class="sig-name descname"><span class="pre">ProbeTimeBoxes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeboxes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.timebox.ProbeTimeBoxes" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p>
-<p>Allows multiplexing lists of probe TimeBoxes with each other and <a href="#id1"><span class="problematic" id="id2">``</span></a>MultiplexedProbeTimeBox``es.</p>
-<p>The first element is a <code class="docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBox</span></code> and the second an atomic <code class="docutils literal notranslate"><span class="pre">TimeBox</span></code> containing <code class="docutils literal notranslate"><span class="pre">Block</span></code>
-instructions on probe channels (corresponding to e.g. the integration time).</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">A</span></code> is a <code class="docutils literal notranslate"><span class="pre">ProbeTimeBoxes</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> is a <code class="docutils literal notranslate"><span class="pre">ProbeTimeBoxes</span></code>, then <code class="docutils literal notranslate"><span class="pre">A+B</span></code> is also a ProbeTimeBoxes instance
-with the timings adjusted correctly and the <code class="docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBox``es</span> <span class="pre">in</span> <span class="pre">each</span> <span class="pre">multiplexed</span> <span class="pre">together.</span>
-<span class="pre">If</span> <span class="pre">``A</span></code> is a <code class="docutils literal notranslate"><span class="pre">ProbeTimeBoxes</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> is a <code class="docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBox</span></code> where the probe instructions are
+<p>Allows multiplexing lists of probe TimeBoxes with each other and MultiplexedProbeTimeBoxes.</p>
+<p>The first element is a <a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html#iqm.pulse.timebox.MultiplexedProbeTimeBox" title="iqm.pulse.timebox.MultiplexedProbeTimeBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBox</span></code></a> and the second an atomic <a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeBox</span></code></a> containing
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Block</span></code> instructions on probe channels (corresponding to e.g. the integration time).</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">A</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> are <code class="docutils literal notranslate"><span class="pre">ProbeTimeBoxes</span></code> instances, then <code class="docutils literal notranslate"><span class="pre">A+B</span></code> is also a ProbeTimeBoxes instance
+with the timings adjusted correctly and the <code class="docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBox</span></code> instances in each multiplexed together.
+If <code class="docutils literal notranslate"><span class="pre">A</span></code> is a <code class="docutils literal notranslate"><span class="pre">ProbeTimeBoxes</span></code> and <code class="docutils literal notranslate"><span class="pre">B</span></code> is a <code class="docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBox</span></code> where the probe instructions are
 multiplexed together and the duration is <code class="docutils literal notranslate"><span class="pre">max(A[0].duration,</span> <span class="pre">B.duration)</span></code> (the addition is symmetric).
-Otherwise (if <code class="docutils literal notranslate"><span class="pre">B</span></code> is a list of <code class="docutils literal notranslate"><span class="pre">Timebox``es</span> <span class="pre">or</span> <span class="pre">a</span> <span class="pre">non-probe</span> <span class="pre">``TimeBox</span></code>), <code class="docutils literal notranslate"><span class="pre">A+B</span></code> works like
-<code class="docutils literal notranslate"><span class="pre">TimeBox.__add__</span></code>.</p>
-<p>Module: <a class="reference internal" href="iqm.pulse.timebox.html#module-iqm.pulse.timebox" title="iqm.pulse.timebox"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.timebox</span></code></a></p>
+Otherwise (if <code class="docutils literal notranslate"><span class="pre">B</span></code> is a list of Timeboxes or a non-probe TimeBox), <code class="docutils literal notranslate"><span class="pre">A+B</span></code> works like
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeBox.__add__()</span></code>.</p>
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -432,7 +439,11 @@ Otherwise (if <code class="docutils literal notranslate"><span class="pre">B</sp
 </dl>
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-683b9ba38c9e5740d8939340db229e9814fa1eb8.png" alt="Inheritance diagram of iqm.pulse.timebox.ProbeTimeBoxes" usemap="#inheritance74a9df7347" class="inheritance graphviz" /></div>
+<map id="inheritance74a9df7347" name="inheritance74a9df7347">
+<area shape="rect" id="node1" href="#iqm.pulse.timebox.ProbeTimeBoxes" target="_top" title="Allows multiplexing lists of probe TimeBoxes with each other and MultiplexedProbeTimeBoxes." alt="" coords="5,5,136,31"/>
+</map></section>
 
 
                 </article>
@@ -446,12 +457,12 @@ Otherwise (if <code class="docutils literal notranslate"><span class="pre">B</sp
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html"
+       href="iqm.pulse.timebox.ProbeBlockBox.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">MultiplexedProbeTimeBox</p>
+        <p class="prev-next-title">ProbeBlockBox</p>
       </div>
     </a>
     <a class="right-next"
@@ -500,7 +511,7 @@ Otherwise (if <code class="docutils literal notranslate"><span class="pre">B</sp
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

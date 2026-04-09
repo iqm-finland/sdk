@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Using ScheduleBuilder &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>Using ScheduleBuilder &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="_static/documentation_options.js?v=c7d539cd"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'using_builder';</script>
     <link rel="icon" href="_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -218,6 +221,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.prx.html">prx</a></li>
@@ -240,6 +244,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -257,6 +262,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -264,6 +270,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -411,7 +418,7 @@ document.write(`
 <h1>Using ScheduleBuilder<a class="headerlink" href="#using-schedulebuilder" title="Link to this heading">#</a></h1>
 <p>This section describes how to use <a class="reference internal" href="api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="iqm.pulse.builder.ScheduleBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code></a> to compose instruction schedules.
 ScheduleBuilder encapsulates the registered <a class="reference internal" href="api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOps</span></code></a> and <a class="reference internal" href="api/iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><code class="xref py py-class docutils literal notranslate"><span class="pre">GateImplementations</span></code></a>, their calibration
-information, the <code class="xref py py-class docutils literal notranslate"><span class="pre">QPU</span> <span class="pre">components</span> <span class="pre">and</span> <span class="pre">their</span> <span class="pre">topology</span></code>,
+information, the <a class="reference external" href="../iqm-exa-common/api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology" title="(in exa-common v27.4.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QPU</span> <span class="pre">components</span> <span class="pre">and</span> <span class="pre">their</span> <span class="pre">topology</span></code></a>,
 and the <a class="reference internal" href="api/iqm.pulse.playlist.channel.ChannelProperties.html#iqm.pulse.playlist.channel.ChannelProperties" title="iqm.pulse.playlist.channel.ChannelProperties"><code class="xref py py-class docutils literal notranslate"><span class="pre">control</span> <span class="pre">channel</span> <span class="pre">properties</span></code></a>, i.e.
 all you need to construct <a class="reference internal" href="api/iqm.pulse.playlist.schedule.Schedule.html#iqm.pulse.playlist.schedule.Schedule" title="iqm.pulse.playlist.schedule.Schedule"><code class="xref py py-class docutils literal notranslate"><span class="pre">Schedules</span></code></a> and
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Playlists</span></code>.</p>
@@ -503,6 +510,11 @@ Use the pipe to ensure that certain operations execute before some others.</p></
 <span class="n">circuit3</span> <span class="o">=</span> <span class="n">circuit1</span> <span class="o">|</span> <span class="n">circuit2</span> <span class="o">|</span> <span class="n">circuit1</span>
 </pre></div>
 </div>
+<p>The method <a class="reference internal" href="api/iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox.set_alap" title="iqm.pulse.timebox.TimeBox.set_alap"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeBox.set_alap()</span></code></a> is used to change the <a class="reference internal" href="api/iqm.pulse.timebox.SchedulingStrategy.html#iqm.pulse.timebox.SchedulingStrategy" title="iqm.pulse.timebox.SchedulingStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">SchedulingStrategy</span></code></a> of the composite TimeBox from
+ASAP (as soon as possible, the default) to ALAP (as late as possible). The method <a class="reference internal" href="api/iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox.set_asap" title="iqm.pulse.timebox.TimeBox.set_asap"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TimeBox.set_asap()</span></code></a> can be used
+to change it back. In the example above, the circuits concatenated with the <code class="docutils literal notranslate"><span class="pre">|</span></code> operator are scheduled separately,
+where the contents of <code class="docutils literal notranslate"><span class="pre">circuit1</span></code> are scheduled as late as possible, and the contents of <code class="docutils literal notranslate"><span class="pre">circuit2</span></code> as soon as
+possible. Let us now discuss resolving and scheduling in more detail.</p>
 </section>
 <section id="resolving-timeboxes-into-a-schedule">
 <h2>Resolving TimeBoxes into a Schedule<a class="headerlink" href="#resolving-timeboxes-into-a-schedule" title="Link to this heading">#</a></h2>
@@ -603,6 +615,14 @@ to give:</p>
 </pre></div>
 </div>
 </li>
+<li><p>Accidentally unpacking a TimeBox using a <code class="docutils literal notranslate"><span class="pre">+</span></code> operator instead of a <code class="docutils literal notranslate"><span class="pre">|</span></code> operator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qubits</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB20&quot;</span><span class="p">]</span>
+<span class="n">circ</span> <span class="o">=</span> <span class="n">TimeBox</span><span class="o">.</span><span class="n">composite</span><span class="p">([</span><span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">([</span><span class="n">qubit</span><span class="p">])(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">])</span><span class="o">.</span><span class="n">set_alap</span><span class="p">()</span>
+<span class="n">circ</span> <span class="o">+=</span> <span class="n">builder</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qubits</span><span class="p">)()</span> <span class="c1"># measurements END simultaneously</span>
+<span class="n">circ</span> <span class="o">|=</span> <span class="n">builder</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qubits</span><span class="p">)()</span> <span class="c1"># measurements START simultaneously</span>
+</pre></div>
+</div>
+</li>
 </ul>
 </section>
 </section>
@@ -677,7 +697,7 @@ to give:</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

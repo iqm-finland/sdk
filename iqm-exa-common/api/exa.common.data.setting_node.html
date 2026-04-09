@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>setting_node &#8212; exa-common 27.4.5 documentation</title>
+    <title>setting_node &#8212; exa-common 27.5.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=80f13c01"></script>
+    <script src="../_static/documentation_options.js?v=7c360f4a"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/exa.common.data.setting_node';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="exa-common 27.4.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="exa-common 27.4.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="exa-common 27.5.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="exa-common 27.5.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -161,7 +164,10 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="exa.common.html">common</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="exa.common.api.html">api</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.common.api.html">api</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.common.api.proto_serialization.html">proto_serialization</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="exa.common.control.html">control</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.control.sweep.html">sweep</a></li>
 </ul>
@@ -183,6 +189,7 @@
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.deprecation.html">deprecation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.json_helper.html">json_helper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.numpy_helper.html">numpy_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.software_version_helper.html">software_version_helper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.yaml_helper.html">yaml_helper</a></li>
 </ul>
 </details></li>
@@ -324,9 +331,10 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-exa.common.data.setting_node">
-<span id="setting-node"></span><h1>setting_node<a class="headerlink" href="#module-exa.common.data.setting_node" title="Link to this heading">#</a></h1>
-<p>A tree-structured container for <a class="reference internal" href="exa.common.data.parameter.Setting.html#exa.common.data.parameter.Setting" title="exa.common.data.parameter.Setting"><code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code></a>.</p>
+  <section id="setting-node">
+<h1>setting_node<a class="headerlink" href="#setting-node" title="Link to this heading">#</a></h1>
+<p>Full path: exa.common.data.setting_node</p>
+<p id="module-exa.common.data.setting_node">A tree-structured container for <a class="reference internal" href="exa.common.data.parameter.Setting.html#exa.common.data.parameter.Setting" title="exa.common.data.parameter.Setting"><code class="xref py py-class docutils literal notranslate"><span class="pre">Settings</span></code></a>.</p>
 <p>The <a class="reference internal" href="exa.common.data.setting_node.SettingNode.html#exa.common.data.setting_node.SettingNode" title="exa.common.data.setting_node.SettingNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">SettingNode</span></code></a> class combines a bunch of Settings together.
 It may also contain other SettingNodes.
 Together, the contents form a tree structure that provides a useful way of grouping Settings.</p>
@@ -396,7 +404,7 @@ since it cannot be made to work consistently if nodes are allowed to be named di
 </pre></div>
 </div>
 <p>It is usually a good idea to make a copy of the original node, so that it won’t be modified accidentally.</p>
-<p>The path notation of <a href="#id1"><span class="problematic" id="id2">``</span></a>SettingNode``also works when inserting:</p>
+<p>The path notation of <code class="docutils literal notranslate"><span class="pre">SettingNode</span></code> also works when inserting:</p>
 <div class="highlight-pycon notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">node</span><span class="p">[</span><span class="s1">&#39;flux.my.new.path.foo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Setting</span><span class="p">(</span><span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -456,7 +464,6 @@ flag is used.</p>
 </pre></div>
 </div>
 </section>
-<p>Full path: exa.common.data.setting_node</p>
 <p class="rubric">Classes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -541,7 +548,7 @@ flag is used.</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 27.4.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 27.5.1.
       <br/>
     
   </p>

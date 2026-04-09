@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.examples
-========================
+examples
+========
+
+Full path: iqm.qiskit_iqm.examples
 
 .. automodule:: iqm.qiskit_iqm.examples
-
    
    
    

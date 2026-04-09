@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.iqm\_naive\_move\_pass.IQMNaiveResonatorMoving
-==============================================================
+IQMNaiveResonatorMoving
+=======================
 
 .. currentmodule:: iqm.qiskit_iqm.iqm_naive_move_pass
+
+Module: :mod:`iqm.qiskit_iqm.iqm_naive_move_pass`
 
 .. autoclass:: IQMNaiveResonatorMoving
    :members:
@@ -22,12 +24,16 @@ iqm.qiskit\_iqm.iqm\_naive\_move\_pass.IQMNaiveResonatorMoving
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~IQMNaiveResonatorMoving._calculate_final_layout
-      ~IQMNaiveResonatorMoving._calculate_initial_layout
-      ~IQMNaiveResonatorMoving._insert_move_gate
-      ~IQMNaiveResonatorMoving._insert_parameterized_gates
-      ~IQMNaiveResonatorMoving._remove_parameterized_gates
       ~IQMNaiveResonatorMoving.run
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.iqm_naive_move_pass.IQMNaiveResonatorMoving
+   :parts: 1
+   :private-bases:

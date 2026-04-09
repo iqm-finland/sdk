@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>iqm.station_control.interface.models.circuit.CircuitMeasurementCountsBatch &#8212; station-control-client 12.0.5 documentation</title>
+    <title>CircuitMeasurementCountsBatch &#8212; station-control-client 12.1.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,16 +39,18 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=f69daea4"></script>
+    <script src="../_static/documentation_options.js?v=0a5a9def"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.station_control.interface.models.circuit.CircuitMeasurementCountsBatch';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="CircuitMeasurementCounts" href="iqm.station_control.interface.models.circuit.CircuitMeasurementCounts.html" />
-    <link rel="prev" title="iqm.station_control.interface.models.circuit.QubitMapping" href="iqm.station_control.interface.models.circuit.QubitMapping.html" />
+    <link rel="prev" title="QubitMapping" href="iqm.station_control.interface.models.circuit.QubitMapping.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
     <meta name="docbuild:last-update" content="2026-04-09"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 12.0.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="station-control-client 12.0.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 12.1.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="station-control-client 12.1.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -162,7 +165,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="iqm.station_control.client.html">client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.station_control.client.authentication.html">authentication</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.AuthHeaderCallback.html">iqm.station_control.client.authentication.AuthHeaderCallback</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.AuthHeaderCallback.html">AuthHeaderCallback</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.ExternalToken.html">ExternalToken</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.TokenManager.html">TokenManager</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.TokenProviderInterface.html">TokenProviderInterface</a></li>
@@ -188,17 +191,20 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.station_control.client.qon.html">qon</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.LOCUS_SEPARATOR.html">iqm.station_control.client.qon.LOCUS_SEPARATOR</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Locus.html">iqm.station_control.client.qon.Locus</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Suffixes.html">iqm.station_control.client.qon.Suffixes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.GATE_FIDELITY_METHODS.html">iqm.station_control.client.qon.GATE_FIDELITY_METHODS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.LOCUS_SEPARATOR.html">LOCUS_SEPARATOR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Locus.html">Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Suffixes.html">Suffixes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.GATE_FIDELITY_METHODS.html">GATE_FIDELITY_METHODS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.locus_str_to_locus.html">iqm.station_control.client.qon.locus_str_to_locus</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.locus_to_locus_str.html">iqm.station_control.client.qon.locus_to_locus_str</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Domain.html">Domain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.LocusQON.html">LocusQON</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.ObservationFinder.html">ObservationFinder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QON.html">QON</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONCharacterization.html">QONCharacterization</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONControllerSetting.html">QONControllerSetting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateCharacterization.html">QONGateCharacterization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateDefinition.html">QONGateDefinition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateMetric.html">QONGateMetric</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateParam.html">QONGateParam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONMetric.html">QONMetric</a></li>
@@ -353,7 +359,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>iqm.station_control.interface.models.circuit.CircuitMeasurementCountsBatch</h1>
+    <h1>CircuitMeasurementCountsBatch</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -375,8 +381,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="iqm-station-control-interface-models-circuit-circuitmeasurementcountsbatch">
-<h1>iqm.station_control.interface.models.circuit.CircuitMeasurementCountsBatch<a class="headerlink" href="#iqm-station-control-interface-models-circuit-circuitmeasurementcountsbatch" title="Link to this heading">#</a></h1>
+  <section id="circuitmeasurementcountsbatch">
+<h1>CircuitMeasurementCountsBatch<a class="headerlink" href="#circuitmeasurementcountsbatch" title="Link to this heading">#</a></h1>
 <dl class="py data">
 <dt class="sig sig-object py" id="iqm.station_control.interface.models.circuit.CircuitMeasurementCountsBatch">
 <span class="sig-name descname"><span class="pre">CircuitMeasurementCountsBatch</span></span><a class="headerlink" href="#iqm.station_control.interface.models.circuit.CircuitMeasurementCountsBatch" title="Link to this definition">#</a></dt>
@@ -403,7 +409,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">iqm.station_control.interface.models.circuit.QubitMapping</p>
+        <p class="prev-next-title">QubitMapping</p>
       </div>
     </a>
     <a class="right-next"
@@ -452,7 +458,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.0.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 12.1.1.
       <br/>
     
   </p>

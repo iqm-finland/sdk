@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.qiskit\_to\_iqm.MeasurementKey
-==============================================
+MeasurementKey
+==============
 
 .. currentmodule:: iqm.qiskit_iqm.qiskit_to_iqm
+
+Module: :mod:`iqm.qiskit_iqm.qiskit_to_iqm`
 
 .. autoclass:: MeasurementKey
    :members:
@@ -26,14 +28,17 @@ iqm.qiskit\_iqm.qiskit\_to\_iqm.MeasurementKey
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~MeasurementKey.__delattr__
-      ~MeasurementKey.__eq__
-      ~MeasurementKey.__hash__
-      ~MeasurementKey.__repr__
-      ~MeasurementKey.__setattr__
-      ~MeasurementKey.__str__
       ~MeasurementKey.from_clbit
       ~MeasurementKey.from_string
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey
+   :parts: 1
+   :private-bases:

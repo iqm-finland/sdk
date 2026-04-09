@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.move\_gate.MoveGate
-===================================
+MoveGate
+========
 
 .. currentmodule:: iqm.qiskit_iqm.move_gate
+
+Module: :mod:`iqm.qiskit_iqm.move_gate`
 
 .. autoclass:: MoveGate
    :members:
@@ -22,7 +24,15 @@ iqm.qiskit\_iqm.move\_gate.MoveGate
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~MoveGate._define
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.move_gate.MoveGate
+   :parts: 1
+   :private-bases:

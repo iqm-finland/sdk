@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>iqm.pulla.interface.ChipLabelRetrievalException &#8212; IQM Pulla 12.0.5 documentation</title>
+    <title>iqm.pulla.interface.ChipLabelRetrievalException &#8212; IQM Pulla 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,15 +39,17 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=386ede98"></script>
+    <script src="../_static/documentation_options.js?v=1e775836"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulla.interface.ChipLabelRetrievalException';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="iqm.pulla.interface.SettingsRetrievalException" href="iqm.pulla.interface.SettingsRetrievalException.html" />
+    <link rel="next" title="pulla" href="iqm.pulla.pulla.html" />
     <link rel="prev" title="iqm.pulla.interface.CHADRetrievalException" href="iqm.pulla.interface.CHADRetrievalException.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Pulla 12.0.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 12.0.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Pulla 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -160,15 +163,14 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">IQM Pulla</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../migration_guide.html">Migration guide</a></li>
 </ul>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../user_guides.html">User guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../Quick%20Start.html">Quick Start</a></li>
 
 
-
 <li class="toctree-l2"><a class="reference internal" href="../Configuration%20and%20Usage.html">Configuration and Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Sweeps.html">Sweeps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Compilation%20Stages.html">Compilation Stages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Custom%20Gates%20and%20Implementations.html">Custom Gates and Gate Implementations</a></li>
 </ul>
@@ -180,47 +182,50 @@
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.cpc.html">iqm.cpc</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cpc.compiler.html">iqm.cpc.compiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.compiler.html">iqm.cpc.compiler.compiler</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.dd.html">iqm.cpc.compiler.dd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.errors.html">iqm.cpc.compiler.errors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.standard_stages.html">iqm.cpc.compiler.standard_stages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.station_settings.html">iqm.cpc.compiler.station_settings</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.cpc.html">cpc</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cpc.compiler.html">compiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.compilation_stage.html">compilation_stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.compiler.html">compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.dd.html">dd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.errors.html">errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.layering_stages.html">layering_stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.post_process.html">post_process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.standard_stages.html">standard_stages</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cpc.interface.html">iqm.cpc.interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.interface.compiler.html">iqm.cpc.interface.compiler</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cpc.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.core.config.html">config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.core.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.core.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.core.run_result.html">run_result</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cpc.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.interface.circuit_execution.html">circuit_execution</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.pulla.html">iqm.pulla</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.calibration.html">iqm.pulla.calibration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.calibration.CalibrationDataProvider.html">iqm.pulla.calibration.CalibrationDataProvider</a></li>
-</ul>
-</details></li>
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.pulla.interface.html">iqm.pulla.interface</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.pulla.html">pulla</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.pulla.interface.html">interface</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CalibrationSetValues.html">iqm.pulla.interface.CalibrationSetValues</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE.html">iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CHADRetrievalException.html">iqm.pulla.interface.CHADRetrievalException</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">iqm.pulla.interface.ChipLabelRetrievalException</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.SettingsRetrievalException.html">iqm.pulla.interface.SettingsRetrievalException</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.pulla.html">iqm.pulla.pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.pulla.Pulla.html">iqm.pulla.pulla.Pulla</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.pulla.SweepJob.html">iqm.pulla.pulla.SweepJob</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.pulla.Pulla.html">Pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.pulla.PullaJob.html">PullaJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.pulla.PullaStash.html">PullaStash</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.quantum_architecture.html">iqm.pulla.quantum_architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.quantum_architecture.html">quantum_architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture.html">iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.quantum_architecture.create_static_quantum_architecture.html">iqm.pulla.quantum_architecture.create_static_quantum_architecture</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils.html">iqm.pulla.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.InstructionLocation.html">iqm.pulla.utils.InstructionLocation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.build_settings.html">iqm.pulla.utils.build_settings</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.calset_from_observations.html">iqm.pulla.utils.calset_from_observations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.calset_to_cal_data_tree.html">iqm.pulla.utils.calset_to_cal_data_tree</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.circuit_operations_to_cpc.html">iqm.pulla.utils.circuit_operations_to_cpc</a></li>
@@ -229,7 +234,6 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.extract_readout_controller_result_names.html">iqm.pulla.utils.extract_readout_controller_result_names</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.find_circuit_boundary.html">iqm.pulla.utils.find_circuit_boundary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.get_hash_for.html">iqm.pulla.utils.get_hash_for</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.initialize_schedule_builder.html">iqm.pulla.utils.initialize_schedule_builder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.iqm_circuit_to_gate_implementation.html">iqm.pulla.utils.iqm_circuit_to_gate_implementation</a></li>
@@ -239,29 +243,35 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.print_channel.html">iqm.pulla.utils.print_channel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.print_schedule.html">iqm.pulla.utils.print_schedule</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.replace_instruction_in_place.html">iqm.pulla.utils.replace_instruction_in_place</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.InstructionLocation.html">iqm.pulla.utils.InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.PostSelectionError.html">iqm.pulla.utils.PostSelectionError</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_cirq.html">iqm.pulla.utils_cirq</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_cirq.html">utils_cirq</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_cirq.cirq_to_cpc.html">iqm.pulla.utils_cirq.cirq_to_cpc</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_dd.html">iqm.pulla.utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_dd.html">utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_dd.generate_phases_of_urn_sequence.html">iqm.pulla.utils_dd.generate_phases_of_urn_sequence</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_qir.html">iqm.pulla.utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_parallelization.html">utils_parallelization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_parallelization.parallelize_timeboxes.html">iqm.pulla.utils_parallelization.parallelize_timeboxes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_qir.html">utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping.html">iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qir.qir_to_pulla.html">iqm.pulla.utils_qir.qir_to_pulla</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_qiskit.html">iqm.pulla.utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_qiskit.html">utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.get_qiskit_compiler.html">iqm.pulla.utils_qiskit.get_qiskit_compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.parallelize_and_transpile.html">iqm.pulla.utils_qiskit.parallelize_and_transpile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.qiskit_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_to_pulla</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.sweep_job_to_qiskit.html">iqm.pulla.utils_qiskit.sweep_job_to_qiskit</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.DummyJob.html">iqm.pulla.utils_qiskit.DummyJob</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.IQMPullaBackend.html">iqm.pulla.utils_qiskit.IQMPullaBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.QiskitCompiler.html">QiskitCompiler</a></li>
 </ul>
 </details></li>
 </ul>
@@ -271,7 +281,6 @@
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../common_errors.html">Common errors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../authors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
@@ -466,11 +475,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="iqm.pulla.interface.SettingsRetrievalException.html"
+       href="iqm.pulla.pulla.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">iqm.pulla.interface.SettingsRetrievalException</p>
+        <p class="prev-next-title">pulla</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -515,7 +524,7 @@ By IQM Pulla developers
 
   <p class="copyright">
     
-      © Copyright 2024-2025, IQM Finland Oy, Release 12.0.5.
+      © Copyright 2024-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

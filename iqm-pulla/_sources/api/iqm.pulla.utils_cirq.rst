@@ -1,8 +1,9 @@
-iqm.pulla.utils\_cirq
-=====================
+utils\_cirq
+===========
+
+Full path: iqm.pulla.utils_cirq
 
 .. automodule:: iqm.pulla.utils_cirq
-
    
    
    

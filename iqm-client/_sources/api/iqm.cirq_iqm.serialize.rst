@@ -1,8 +1,9 @@
-iqm.cirq\_iqm.serialize
-=======================
+serialize
+=========
+
+Full path: iqm.cirq_iqm.serialize
 
 .. automodule:: iqm.cirq_iqm.serialize
-
    
    
    

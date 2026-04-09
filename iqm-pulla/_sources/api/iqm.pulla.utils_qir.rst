@@ -1,8 +1,9 @@
-iqm.pulla.utils\_qir
-====================
+utils\_qir
+==========
+
+Full path: iqm.pulla.utils_qir
 
 .. automodule:: iqm.pulla.utils_qir
-
    
    
    

@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.iqm\_naive\_move\_pass
-======================================
+iqm\_naive\_move\_pass
+======================
+
+Full path: iqm.qiskit_iqm.iqm_naive_move_pass
 
 .. automodule:: iqm.qiskit_iqm.iqm_naive_move_pass
-
    
    
    
@@ -24,9 +25,11 @@ iqm.qiskit\_iqm.iqm\_naive\_move\_pass
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMNaiveResonatorMoving
+   
    
    
 
@@ -44,4 +47,5 @@ iqm.qiskit\_iqm.iqm\_naive\_move\_pass
 
 .. inheritance-diagram:: iqm.qiskit_iqm.iqm_naive_move_pass
    :parts: 1
+   :private-bases:
 

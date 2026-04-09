@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>TimeBox &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>TimeBox &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/documentation_options.js?v=c7d539cd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.timebox.TimeBox';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -218,6 +221,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
@@ -240,6 +244,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -257,6 +262,7 @@
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -264,6 +270,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -404,7 +411,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.timebox.TimeBox.validate"><code class="docutils literal notranslate"><span class="pre">TimeBox.validate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.timebox.TimeBox.set_asap"><code class="docutils literal notranslate"><span class="pre">TimeBox.set_asap()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.timebox.TimeBox.set_alap"><code class="docutils literal notranslate"><span class="pre">TimeBox.set_alap()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.timebox.TimeBox._add_children"><code class="docutils literal notranslate"><span class="pre">TimeBox._add_children()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.timebox.TimeBox.print"><code class="docutils literal notranslate"><span class="pre">TimeBox.print()</span></code></a></li>
 </ul>
 </li>
@@ -421,6 +427,7 @@ document.write(`
                   
   <section id="timebox">
 <h1>TimeBox<a class="headerlink" href="#timebox" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.pulse.timebox.html#module-iqm.pulse.timebox" title="iqm.pulse.timebox"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.timebox</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.timebox.TimeBox">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.timebox.</span></span><span class="sig-name descname"><span class="pre">TimeBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus_components</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheduling=SchedulingStrategy.ASAP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheduling_algorithm=SchedulingAlgorithm.HARD_BOUNDARY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhood_components=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.timebox.TimeBox" title="Link to this definition">#</a></dt>
@@ -458,7 +465,6 @@ The time duration of the box is determined by its contents and the way they are 
 <span class="n">all_together</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">|</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">set_alap</span><span class="p">()</span> <span class="o">|</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span> <span class="o">+</span> <span class="p">(</span><span class="n">c</span> <span class="o">|</span> <span class="n">d</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Module: <a class="reference internal" href="iqm.pulse.timebox.html#module-iqm.pulse.timebox" title="iqm.pulse.timebox"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.timebox</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -569,10 +575,11 @@ Has no meaning for an atomic TimeBox.</p>
 <dd><p>Dict of neighborhood range integers mapped to sets of components neighboring the locus of this <code class="docutils literal notranslate"><span class="pre">TimeBox</span></code>.
 These are used in the scheduling when the corresponding neighborhood range is used.
 The scheduling algorithm computes the neighborhood components (unless it has been already precomputed by
-e.g. the <cite>GateImplementation</cite>) and caches them under this attribute. Neighborhood range 0 means just the components
-affected by one of the channels in <code class="docutils literal notranslate"><span class="pre">self.atom</span></code> + <code class="docutils literal notranslate"><span class="pre">self.locus</span></code>, 1 means also neighboring couplers, 2 the
-components connected to those couplers, and so on. Note: range 0 may differ from <code class="docutils literal notranslate"><span class="pre">self.locus_components</span></code>: it can
-have additional components that have occupied channels in <code class="docutils literal notranslate"><span class="pre">self</span></code> but are not defined as a part of the ‘locus’ of
+e.g. the <a class="reference internal" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><code class="xref py py-class docutils literal notranslate"><span class="pre">GateImplementation</span></code></a>) and caches them under this attribute.
+Neighborhood range 0 means just the components affected by one of the channels in <code class="docutils literal notranslate"><span class="pre">self.atom</span></code> + <code class="docutils literal notranslate"><span class="pre">self.locus</span></code>,
+1 means also neighboring couplers, 2 the components connected to those couplers, and so on.
+Note: range 0 may differ from <code class="docutils literal notranslate"><span class="pre">self.locus_components</span></code>: it can have additional components that
+have occupied channels in <code class="docutils literal notranslate"><span class="pre">self</span></code> but are not defined as a part of the locus of
 this <code class="docutils literal notranslate"><span class="pre">TimeBox</span></code> for any reason.</p>
 </dd></dl>
 
@@ -583,7 +590,7 @@ this <code class="docutils literal notranslate"><span class="pre">TimeBox</span>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>boxes</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference internal" href="#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference internal" href="#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a><em>]</em><em>]</em>) – contents of the new timebox. Any iterables of timeboxes will be flattened (recursively) and extended
+<li><p><strong>boxes</strong> (<a class="reference internal" href="#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference internal" href="#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference internal" href="#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a><em>]</em><em>]</em>) – contents of the new timebox. Any iterables of timeboxes will be flattened (recursively) and extended
 to the contents in the same order.</p></li>
 <li><p><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – label of the new timebox</p></li>
 <li><p><strong>scheduling</strong> (<a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html#iqm.pulse.timebox.SchedulingStrategy" title="iqm.pulse.timebox.SchedulingStrategy"><em>SchedulingStrategy</em></a>) – scheduling strategy to use when resolving the new timebox</p></li>
@@ -657,20 +664,6 @@ to the contents in the same order.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="iqm.pulse.timebox.TimeBox._add_children">
-<span class="sig-name descname"><span class="pre">_add_children</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.timebox.TimeBox._add_children" title="Link to this definition">#</a></dt>
-<dd><p>Concat the children of self and other together.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a>)</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><em>TimeBox</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.timebox.TimeBox.print">
 <span class="sig-name descname"><span class="pre">print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_idxs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.timebox.TimeBox.print" title="Link to this definition">#</a></dt>
 <dd><p>Print a simple representation of the contents of this box.</p>
@@ -686,7 +679,11 @@ to the contents in the same order.</p></li>
 
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-597dc385c1d25a4dd96e4690da75f21dd37a4443.png" alt="Inheritance diagram of iqm.pulse.timebox.TimeBox" usemap="#inheritance6b70c9c0c0" class="inheritance graphviz" /></div>
+<map id="inheritance6b70c9c0c0" name="inheritance6b70c9c0c0">
+<area shape="rect" id="node1" href="#iqm.pulse.timebox.TimeBox" target="_top" title="Container for one or more instruction schedule fragments, to be scheduled according to a given strategy." alt="" coords="5,5,85,31"/>
+</map></section>
 
 
                 </article>
@@ -746,7 +743,6 @@ to the contents in the same order.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.timebox.TimeBox.validate"><code class="docutils literal notranslate"><span class="pre">TimeBox.validate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.timebox.TimeBox.set_asap"><code class="docutils literal notranslate"><span class="pre">TimeBox.set_asap()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.timebox.TimeBox.set_alap"><code class="docutils literal notranslate"><span class="pre">TimeBox.set_alap()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.timebox.TimeBox._add_children"><code class="docutils literal notranslate"><span class="pre">TimeBox._add_children()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.pulse.timebox.TimeBox.print"><code class="docutils literal notranslate"><span class="pre">TimeBox.print()</span></code></a></li>
 </ul>
 </li>
@@ -770,7 +766,7 @@ to the contents in the same order.</p></li>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

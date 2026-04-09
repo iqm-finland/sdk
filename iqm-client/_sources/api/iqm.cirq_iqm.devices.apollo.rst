@@ -1,8 +1,9 @@
-iqm.cirq\_iqm.devices.apollo
-============================
+apollo
+======
+
+Full path: iqm.cirq_iqm.devices.apollo
 
 .. automodule:: iqm.cirq_iqm.devices.apollo
-
    
    
    
@@ -17,9 +18,11 @@ iqm.cirq\_iqm.devices.apollo
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       Apollo
+   
    
    
 
@@ -37,4 +40,5 @@ iqm.cirq\_iqm.devices.apollo
 
 .. inheritance-diagram:: iqm.cirq_iqm.devices.apollo
    :parts: 1
+   :private-bases:
 

@@ -1,7 +1,9 @@
-iqm.iqm\_client.models.CircuitCompilationOptions
-================================================
+CircuitCompilationOptions
+=========================
 
 .. currentmodule:: iqm.iqm_client.models
+
+Module: :mod:`iqm.iqm_client.models`
 
 .. autoclass:: CircuitCompilationOptions
    :members:
@@ -29,12 +31,15 @@ iqm.iqm\_client.models.CircuitCompilationOptions
    .. rubric:: Methods
 
    .. autosummary::
-   
-      ~CircuitCompilationOptions.__delattr__
-      ~CircuitCompilationOptions.__eq__
-      ~CircuitCompilationOptions.__hash__
-      ~CircuitCompilationOptions.__post_init__
-      ~CircuitCompilationOptions.__repr__
-      ~CircuitCompilationOptions.__setattr__
+      :nosignatures:
    
    
+   
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.iqm_client.models.CircuitCompilationOptions
+   :parts: 1
+   :private-bases:

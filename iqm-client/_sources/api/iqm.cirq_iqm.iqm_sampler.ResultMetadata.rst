@@ -1,7 +1,9 @@
-iqm.cirq\_iqm.iqm\_sampler.ResultMetadata
-=========================================
+ResultMetadata
+==============
 
 .. currentmodule:: iqm.cirq_iqm.iqm_sampler
+
+Module: :mod:`iqm.cirq_iqm.iqm_sampler`
 
 .. autoclass:: ResultMetadata
    :members:
@@ -25,8 +27,15 @@ iqm.cirq\_iqm.iqm\_sampler.ResultMetadata
    .. rubric:: Methods
 
    .. autosummary::
-   
-      ~ResultMetadata.__eq__
-      ~ResultMetadata.__repr__
+      :nosignatures:
    
    
+   
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.cirq_iqm.iqm_sampler.ResultMetadata
+   :parts: 1
+   :private-bases:

@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.iqm\_provider.IQMFacadeBackend
-==============================================
+IQMFacadeBackend
+================
 
 .. currentmodule:: iqm.qiskit_iqm.iqm_provider
+
+Module: :mod:`iqm.qiskit_iqm.iqm_provider`
 
 .. autoclass:: IQMFacadeBackend
    :members:
@@ -26,8 +28,16 @@ iqm.qiskit\_iqm.iqm\_provider.IQMFacadeBackend
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~IQMFacadeBackend._validate_no_empty_cregs
       ~IQMFacadeBackend.run
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend
+   :parts: 1
+   :private-bases:

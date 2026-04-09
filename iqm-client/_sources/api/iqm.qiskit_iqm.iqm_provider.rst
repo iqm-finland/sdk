@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.iqm\_provider
-=============================
+iqm\_provider
+=============
+
+Full path: iqm.qiskit_iqm.iqm_provider
 
 .. automodule:: iqm.qiskit_iqm.iqm_provider
-
    
    
    
@@ -17,11 +18,13 @@ iqm.qiskit\_iqm.iqm\_provider
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMBackend
       IQMFacadeBackend
       IQMProvider
+   
    
    
 
@@ -39,4 +42,5 @@ iqm.qiskit\_iqm.iqm\_provider
 
 .. inheritance-diagram:: iqm.qiskit_iqm.iqm_provider
    :parts: 1
+   :private-bases:
 

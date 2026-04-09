@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.fake\_backends.fake\_deneb
-==========================================
+fake\_deneb
+===========
+
+Full path: iqm.qiskit_iqm.fake_backends.fake_deneb
 
 .. automodule:: iqm.qiskit_iqm.fake_backends.fake_deneb
-
    
    
    

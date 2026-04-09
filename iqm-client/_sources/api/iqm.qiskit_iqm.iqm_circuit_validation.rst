@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.iqm\_circuit\_validation
-========================================
+iqm\_circuit\_validation
+========================
+
+Full path: iqm.qiskit_iqm.iqm_circuit_validation
 
 .. automodule:: iqm.qiskit_iqm.iqm_circuit_validation
-
    
    
    

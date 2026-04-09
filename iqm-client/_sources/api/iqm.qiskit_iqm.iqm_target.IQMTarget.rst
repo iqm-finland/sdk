@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.iqm\_target.IQMTarget
-=====================================
+IQMTarget
+=========
 
 .. currentmodule:: iqm.qiskit_iqm.iqm_target
+
+Module: :mod:`iqm.qiskit_iqm.iqm_target`
 
 .. autoclass:: IQMTarget
    :members:
@@ -23,14 +25,17 @@ iqm.qiskit\_iqm.iqm\_target.IQMTarget
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~IQMTarget._add_instructions_cz_gates
-      ~IQMTarget._add_instructions_from_DQA
-      ~IQMTarget._create_fictional_cz_properties
-      ~IQMTarget._create_gate_properties
-      ~IQMTarget._create_qubit_properties
-      ~IQMTarget._determine_fictional_cz_loci
       ~IQMTarget.locus_to_idx
       ~IQMTarget.restrict_to_qubits
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.iqm_target.IQMTarget
+   :parts: 1
+   :private-bases:

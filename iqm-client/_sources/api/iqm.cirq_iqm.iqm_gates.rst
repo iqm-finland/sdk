@@ -1,8 +1,9 @@
-iqm.cirq\_iqm.iqm\_gates
-========================
+iqm\_gates
+==========
+
+Full path: iqm.cirq_iqm.iqm_gates
 
 .. automodule:: iqm.cirq_iqm.iqm_gates
-
    
    
    
@@ -17,9 +18,11 @@ iqm.cirq\_iqm.iqm\_gates
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMMoveGate
+   
    
    
 
@@ -37,4 +40,5 @@ iqm.cirq\_iqm.iqm\_gates
 
 .. inheritance-diagram:: iqm.cirq_iqm.iqm_gates
    :parts: 1
+   :private-bases:
 

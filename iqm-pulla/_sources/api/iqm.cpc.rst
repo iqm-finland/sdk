@@ -1,8 +1,9 @@
-﻿iqm.cpc
-=======
+﻿cpc
+===
+
+Full path: iqm.cpc
 
 .. automodule:: iqm.cpc
-
    
    
    
@@ -29,6 +30,7 @@
    :recursive:
 
    ~iqm.cpc.compiler
+   ~iqm.cpc.core
    ~iqm.cpc.interface
 
 

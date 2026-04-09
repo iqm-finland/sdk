@@ -1,8 +1,9 @@
-iqm.iqm\_client.validation
-==========================
+validation
+==========
+
+Full path: iqm.iqm_client.validation
 
 .. automodule:: iqm.iqm_client.validation
-
    
    
    

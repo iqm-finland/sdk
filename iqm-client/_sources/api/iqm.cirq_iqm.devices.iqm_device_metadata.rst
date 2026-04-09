@@ -1,8 +1,9 @@
-iqm.cirq\_iqm.devices.iqm\_device\_metadata
-===========================================
+iqm\_device\_metadata
+=====================
+
+Full path: iqm.cirq_iqm.devices.iqm_device_metadata
 
 .. automodule:: iqm.cirq_iqm.devices.iqm_device_metadata
-
    
    
    
@@ -17,9 +18,11 @@ iqm.cirq\_iqm.devices.iqm\_device\_metadata
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMDeviceMetadata
+   
    
    
 
@@ -37,4 +40,5 @@ iqm.cirq\_iqm.devices.iqm\_device\_metadata
 
 .. inheritance-diagram:: iqm.cirq_iqm.devices.iqm_device_metadata
    :parts: 1
+   :private-bases:
 

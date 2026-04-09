@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.iqm\_job
-========================
+iqm\_job
+========
+
+Full path: iqm.qiskit_iqm.iqm_job
 
 .. automodule:: iqm.qiskit_iqm.iqm_job
-
    
    
    
@@ -17,9 +18,11 @@ iqm.qiskit\_iqm.iqm\_job
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMJob
+   
    
    
 
@@ -37,4 +40,5 @@ iqm.qiskit\_iqm.iqm\_job
 
 .. inheritance-diagram:: iqm.qiskit_iqm.iqm_job
    :parts: 1
+   :private-bases:
 

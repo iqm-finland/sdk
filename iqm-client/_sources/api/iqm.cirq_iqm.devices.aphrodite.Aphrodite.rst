@@ -1,7 +1,9 @@
-iqm.cirq\_iqm.devices.aphrodite.Aphrodite
-=========================================
+Aphrodite
+=========
 
 .. currentmodule:: iqm.cirq_iqm.devices.aphrodite
+
+Module: :mod:`iqm.cirq_iqm.devices.aphrodite`
 
 .. autoclass:: Aphrodite
    :members:
@@ -22,6 +24,15 @@ iqm.cirq\_iqm.devices.aphrodite.Aphrodite
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.cirq_iqm.devices.aphrodite.Aphrodite
+   :parts: 1
+   :private-bases:

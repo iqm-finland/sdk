@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.transpiler\_plugins.IQMSchedulingPlugin
-=======================================================
+IQMSchedulingPlugin
+===================
 
 .. currentmodule:: iqm.qiskit_iqm.transpiler_plugins
+
+Module: :mod:`iqm.qiskit_iqm.transpiler_plugins`
 
 .. autoclass:: IQMSchedulingPlugin
    :members:
@@ -17,7 +19,16 @@ iqm.qiskit\_iqm.transpiler\_plugins.IQMSchedulingPlugin
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
       ~IQMSchedulingPlugin.pass_manager
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.transpiler_plugins.IQMSchedulingPlugin
+   :parts: 1
+   :private-bases:

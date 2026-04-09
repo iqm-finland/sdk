@@ -1,8 +1,9 @@
-iqm.cpc.compiler.errors
-=======================
+errors
+======
+
+Full path: iqm.cpc.compiler.errors
 
 .. automodule:: iqm.cpc.compiler.errors
-
    
    
    

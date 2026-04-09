@@ -1,8 +1,9 @@
-iqm.cpc.compiler.dd
-===================
+dd
+==
+
+Full path: iqm.cpc.compiler.dd
 
 .. automodule:: iqm.cpc.compiler.dd
-
    
    
    .. rubric:: Module Attributes

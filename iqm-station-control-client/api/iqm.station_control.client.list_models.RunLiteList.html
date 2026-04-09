@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>RunLiteList &#8212; station-control-client 12.0.5 documentation</title>
+    <title>RunLiteList &#8212; station-control-client 12.1.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=f69daea4"></script>
+    <script src="../_static/documentation_options.js?v=0a5a9def"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.station_control.client.list_models.RunLiteList';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 12.0.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="station-control-client 12.0.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 12.1.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="station-control-client 12.1.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -162,7 +165,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.station_control.client.html">client</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.station_control.client.authentication.html">authentication</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.AuthHeaderCallback.html">iqm.station_control.client.authentication.AuthHeaderCallback</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.AuthHeaderCallback.html">AuthHeaderCallback</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.ExternalToken.html">ExternalToken</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.TokenManager.html">TokenManager</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.TokenProviderInterface.html">TokenProviderInterface</a></li>
@@ -188,17 +191,20 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.station_control.client.qon.html">qon</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.LOCUS_SEPARATOR.html">iqm.station_control.client.qon.LOCUS_SEPARATOR</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Locus.html">iqm.station_control.client.qon.Locus</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Suffixes.html">iqm.station_control.client.qon.Suffixes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.GATE_FIDELITY_METHODS.html">iqm.station_control.client.qon.GATE_FIDELITY_METHODS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.LOCUS_SEPARATOR.html">LOCUS_SEPARATOR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Locus.html">Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Suffixes.html">Suffixes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.GATE_FIDELITY_METHODS.html">GATE_FIDELITY_METHODS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.locus_str_to_locus.html">iqm.station_control.client.qon.locus_str_to_locus</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.locus_to_locus_str.html">iqm.station_control.client.qon.locus_to_locus_str</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Domain.html">Domain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.LocusQON.html">LocusQON</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.ObservationFinder.html">ObservationFinder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QON.html">QON</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONCharacterization.html">QONCharacterization</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONControllerSetting.html">QONControllerSetting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateCharacterization.html">QONGateCharacterization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateDefinition.html">QONGateDefinition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateMetric.html">QONGateMetric</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateParam.html">QONGateParam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONMetric.html">QONMetric</a></li>
@@ -380,6 +386,7 @@ document.write(`
                   
   <section id="runlitelist">
 <h1>RunLiteList<a class="headerlink" href="#runlitelist" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.station_control.client.list_models.html#module-iqm.station_control.client.list_models" title="iqm.station_control.client.list_models"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.station_control.client.list_models</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.station_control.client.list_models.RunLiteList">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">RunLiteList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PydanticUndefined</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.list_models.RunLiteList" title="Link to this definition">#</a></dt>
@@ -388,7 +395,6 @@ document.write(`
 <p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
 validated to form a valid model.</p>
 <p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
-<p>Module: <a class="reference internal" href="iqm.station_control.client.list_models.html#module-iqm.station_control.client.list_models" title="iqm.station_control.client.list_models"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.station_control.client.list_models</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -420,7 +426,13 @@ validated to form a valid model.</p>
 
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-e4889792185b880336dbd5c6aa4be4693120039f.png" alt="Inheritance diagram of iqm.station_control.client.list_models.RunLiteList" usemap="#inheritancec14c3caa6d" class="inheritance graphviz" /></div>
+<map id="inheritancec14c3caa6d" name="inheritancec14c3caa6d">
+<area shape="rect" id="node2" href="https://docs.python.org/3.11/library/typing.html#typing.Generic" target="_top" title="Abstract base class for generic types." alt="" coords="17,55,89,80"/>
+<area shape="rect" id="node3" href="iqm.station_control.client.list_models.ListModel.html#iqm.station_control.client.list_models.ListModel" target="_top" title="A Pydantic `BaseModel` for a container model of a list of objects." alt="" coords="288,31,373,56"/>
+<area shape="rect" id="node5" href="#iqm.station_control.client.list_models.RunLiteList" target="_top" title="RunLiteList" alt="" coords="421,31,516,56"/>
+</map></section>
 
 
                 </article>
@@ -491,7 +503,7 @@ validated to form a valid model.</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.0.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 12.1.1.
       <br/>
     
   </p>

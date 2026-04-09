@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>QONControllerSetting &#8212; station-control-client 12.0.5 documentation</title>
+    <title>QONControllerSetting &#8212; station-control-client 12.1.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,15 +39,17 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=f69daea4"></script>
+    <script src="../_static/documentation_options.js?v=0a5a9def"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.station_control.client.qon.QONControllerSetting';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="QONGateMetric" href="iqm.station_control.client.qon.QONGateMetric.html" />
+    <link rel="next" title="QONGateCharacterization" href="iqm.station_control.client.qon.QONGateCharacterization.html" />
     <link rel="prev" title="QONCharacterization" href="iqm.station_control.client.qon.QONCharacterization.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 12.0.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="station-control-client 12.0.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 12.1.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="station-control-client 12.1.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -162,7 +165,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.station_control.client.html">client</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.station_control.client.authentication.html">authentication</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.AuthHeaderCallback.html">iqm.station_control.client.authentication.AuthHeaderCallback</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.AuthHeaderCallback.html">AuthHeaderCallback</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.ExternalToken.html">ExternalToken</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.TokenManager.html">TokenManager</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.TokenProviderInterface.html">TokenProviderInterface</a></li>
@@ -188,17 +191,20 @@
 </ul>
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.station_control.client.qon.html">qon</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.LOCUS_SEPARATOR.html">iqm.station_control.client.qon.LOCUS_SEPARATOR</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Locus.html">iqm.station_control.client.qon.Locus</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Suffixes.html">iqm.station_control.client.qon.Suffixes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.GATE_FIDELITY_METHODS.html">iqm.station_control.client.qon.GATE_FIDELITY_METHODS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.LOCUS_SEPARATOR.html">LOCUS_SEPARATOR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Locus.html">Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Suffixes.html">Suffixes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.GATE_FIDELITY_METHODS.html">GATE_FIDELITY_METHODS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.locus_str_to_locus.html">iqm.station_control.client.qon.locus_str_to_locus</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.locus_to_locus_str.html">iqm.station_control.client.qon.locus_to_locus_str</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Domain.html">Domain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.LocusQON.html">LocusQON</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.ObservationFinder.html">ObservationFinder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QON.html">QON</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONCharacterization.html">QONCharacterization</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">QONControllerSetting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateCharacterization.html">QONGateCharacterization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateDefinition.html">QONGateDefinition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateMetric.html">QONGateMetric</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateParam.html">QONGateParam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONMetric.html">QONMetric</a></li>
@@ -367,7 +373,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONControllerSetting.controller"><code class="docutils literal notranslate"><span class="pre">QONControllerSetting.controller</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONControllerSetting.rest"><code class="docutils literal notranslate"><span class="pre">QONControllerSetting.rest</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONControllerSetting.domain"><code class="docutils literal notranslate"><span class="pre">QONControllerSetting.domain</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONControllerSetting._parse"><code class="docutils literal notranslate"><span class="pre">QONControllerSetting._parse()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -383,13 +388,13 @@ document.write(`
                   
   <section id="qoncontrollersetting">
 <h1>QONControllerSetting<a class="headerlink" href="#qoncontrollersetting" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.station_control.client.qon.html#module-iqm.station_control.client.qon" title="iqm.station_control.client.qon"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.station_control.client.qon</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.station_control.client.qon.QONControllerSetting">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">QONControllerSetting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">controller</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rest</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.QONControllerSetting" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.station_control.client.qon.QON.html#iqm.station_control.client.qon.QON" title="iqm.station_control.client.qon.QON"><code class="xref py py-class docutils literal notranslate"><span class="pre">QON</span></code></a></p>
 <p>QON representing a controller setting observation.</p>
 <p>Has the form <code class="docutils literal notranslate"><span class="pre">controllers.{controller}[.{subcontroller}]*.{setting}</span></code>.</p>
-<p>Module: <a class="reference internal" href="iqm.station_control.client.qon.html#module-iqm.station_control.client.qon" title="iqm.station_control.client.qon"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.station_control.client.qon</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -437,26 +442,14 @@ document.write(`
 <dd><p>Type/purpose of the observation.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.station_control.client.qon.QONControllerSetting._parse">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">_parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">controller</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">controller_specific_part</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.QONControllerSetting._parse" title="Link to this definition">#</a></dt>
-<dd><p>Parse a controller setting observation name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>controller</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
-<li><p><strong>controller_specific_part</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#iqm.station_control.client.qon.QONControllerSetting" title="iqm.station_control.client.qon.QONControllerSetting"><em>QONControllerSetting</em></a></p>
-</dd>
-</dl>
 </dd></dl>
 
-</dd></dl>
-
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-46a626efc92167af291cb7d648e0d3daaa8e17d3.png" alt="Inheritance diagram of iqm.station_control.client.qon.QONControllerSetting" usemap="#inheritance627aec2bff" class="inheritance graphviz" /></div>
+<map id="inheritance627aec2bff" name="inheritance627aec2bff">
+<area shape="rect" id="node1" href="iqm.station_control.client.qon.QON.html#iqm.station_control.client.qon.QON" target="_top" title="ABC for qualified observation names." alt="" coords="5,5,77,31"/>
+<area shape="rect" id="node2" href="#iqm.station_control.client.qon.QONControllerSetting" target="_top" title="QON representing a controller setting observation." alt="" coords="125,5,288,31"/>
+</map></section>
 
 
                 </article>
@@ -479,11 +472,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="iqm.station_control.client.qon.QONGateMetric.html"
+       href="iqm.station_control.client.qon.QONGateCharacterization.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">QONGateMetric</p>
+        <p class="prev-next-title">QONGateCharacterization</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -507,7 +500,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONControllerSetting.controller"><code class="docutils literal notranslate"><span class="pre">QONControllerSetting.controller</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONControllerSetting.rest"><code class="docutils literal notranslate"><span class="pre">QONControllerSetting.rest</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONControllerSetting.domain"><code class="docutils literal notranslate"><span class="pre">QONControllerSetting.domain</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.QONControllerSetting._parse"><code class="docutils literal notranslate"><span class="pre">QONControllerSetting._parse()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -530,7 +522,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.0.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 12.1.1.
       <br/>
     
   </p>

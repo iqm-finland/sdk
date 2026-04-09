@@ -1,8 +1,9 @@
-iqm.cirq\_iqm.devices.aphrodite
-===============================
+aphrodite
+=========
+
+Full path: iqm.cirq_iqm.devices.aphrodite
 
 .. automodule:: iqm.cirq_iqm.devices.aphrodite
-
    
    
    
@@ -17,9 +18,11 @@ iqm.cirq\_iqm.devices.aphrodite
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       Aphrodite
+   
    
    
 
@@ -37,4 +40,5 @@ iqm.cirq\_iqm.devices.aphrodite
 
 .. inheritance-diagram:: iqm.cirq_iqm.devices.aphrodite
    :parts: 1
+   :private-bases:
 

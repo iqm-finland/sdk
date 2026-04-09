@@ -1,7 +1,9 @@
-iqm.iqm\_client.transpile.ExistingMoveHandlingOptions
-=====================================================
+ExistingMoveHandlingOptions
+===========================
 
 .. currentmodule:: iqm.iqm_client.transpile
+
+Module: :mod:`iqm.iqm_client.transpile`
 
 .. autoclass:: ExistingMoveHandlingOptions
    :members:
@@ -25,10 +27,15 @@ iqm.iqm\_client.transpile.ExistingMoveHandlingOptions
    .. rubric:: Methods
 
    .. autosummary::
-   
-      ~ExistingMoveHandlingOptions.__new__
-      ~ExistingMoveHandlingOptions.__repr__
-      ~ExistingMoveHandlingOptions.__str__
-      ~ExistingMoveHandlingOptions.__format__
+      :nosignatures:
    
    
+   
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.iqm_client.transpile.ExistingMoveHandlingOptions
+   :parts: 1
+   :private-bases:

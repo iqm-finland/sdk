@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.transpiler\_plugins
-===================================
+transpiler\_plugins
+===================
+
+Full path: iqm.qiskit_iqm.transpiler_plugins
 
 .. automodule:: iqm.qiskit_iqm.transpiler_plugins
-
    
    
    
@@ -17,6 +18,7 @@ iqm.qiskit\_iqm.transpiler\_plugins
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMDefaultSchedulingPlugin
@@ -37,6 +39,7 @@ iqm.qiskit\_iqm.transpiler\_plugins
       OnlyRZOptimizationPlugin
    
    
+   
 
    
    
@@ -52,4 +55,5 @@ iqm.qiskit\_iqm.transpiler\_plugins
 
 .. inheritance-diagram:: iqm.qiskit_iqm.transpiler_plugins
    :parts: 1
+   :private-bases:
 

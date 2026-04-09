@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ChipTopology &#8212; exa-common 27.4.5 documentation</title>
+    <title>ChipTopology &#8212; exa-common 27.5.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=80f13c01"></script>
+    <script src="../_static/documentation_options.js?v=7c360f4a"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/exa.common.qcm_data.chip_topology.ChipTopology';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="exa-common 27.4.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="exa-common 27.4.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="exa-common 27.5.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="exa-common 27.5.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -161,7 +164,10 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="exa.common.html">common</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="exa.common.api.html">api</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.common.api.html">api</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.common.api.proto_serialization.html">proto_serialization</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="exa.common.control.html">control</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.control.sweep.html">sweep</a></li>
 </ul>
@@ -183,6 +189,7 @@
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.deprecation.html">deprecation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.json_helper.html">json_helper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.numpy_helper.html">numpy_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.software_version_helper.html">software_version_helper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.yaml_helper.html">yaml_helper</a></li>
 </ul>
 </details></li>
@@ -336,7 +343,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology.is_probe_line"><code class="docutils literal notranslate"><span class="pre">ChipTopology.is_probe_line()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology.is_computational_resonator"><code class="docutils literal notranslate"><span class="pre">ChipTopology.is_computational_resonator()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology.set_locus_mapping"><code class="docutils literal notranslate"><span class="pre">ChipTopology.set_locus_mapping()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology._validate_locus_mapping"><code class="docutils literal notranslate"><span class="pre">ChipTopology._validate_locus_mapping()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology.map_locus"><code class="docutils literal notranslate"><span class="pre">ChipTopology.map_locus()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology.map_to_locus"><code class="docutils literal notranslate"><span class="pre">ChipTopology.map_to_locus()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology.get_loci"><code class="docutils literal notranslate"><span class="pre">ChipTopology.get_loci()</span></code></a></li>
@@ -357,6 +363,7 @@ document.write(`
                   
   <section id="chiptopology">
 <h1>ChipTopology<a class="headerlink" href="#chiptopology" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="exa.common.qcm_data.chip_topology.html#module-exa.common.qcm_data.chip_topology" title="exa.common.qcm_data.chip_topology"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exa.common.qcm_data.chip_topology</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="exa.common.qcm_data.chip_topology.ChipTopology">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ChipTopology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">computational_resonators</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">couplers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probe_lines</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.common.qcm_data.chip_topology.ChipTopology" title="Link to this definition">#</a></dt>
@@ -374,7 +381,6 @@ document.write(`
 </ul>
 </dd>
 </dl>
-<p>Module: <a class="reference internal" href="exa.common.qcm_data.chip_topology.html#module-exa.common.qcm_data.chip_topology" title="exa.common.qcm_data.chip_topology"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exa.common.qcm_data.chip_topology</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -769,13 +775,13 @@ subgraph of the coupling topology.</p>
 <dd><p>Add a custom mapping from a gate locus to a set of components required for the gate operation.</p>
 <p>The mapping is of the form {&lt;locus&gt;: &lt;components mapped to locus&gt;}, where a locus can be mapped to one or more
 components. The locus itself can be a frozenset (denoting a symmetric gate) or a tuple (non-symmetric gate).</p>
-<p>Some examples:
-- <code class="docutils literal notranslate"><span class="pre">DEFAULT_2QB_MAPPING</span></code> (added in <code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code>) maps pairs of qubits to their common coupler symmetrically.
-- Fast flux CZ-gate maps pairs of qubits to their couplers non-symmetrically (first locus qubit can perform flux pulses).
-- A two-qubit gate implementation that includes playing pulses on neighboring components in addition to the</p>
-<blockquote>
-<div><p>connecting coupler.</p>
-</div></blockquote>
+<p>Some examples:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DEFAULT_2QB_MAPPING</span></code> (added in <code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code>) maps pairs of qubits to their common coupler symmetrically.</p></li>
+<li><p>Fast flux CZ-gate maps pairs of qubits to their couplers non-symmetrically (first locus qubit can perform flux pulses).</p></li>
+<li><p>A two-qubit gate implementation that includes playing pulses on neighboring components in addition to the
+connecting coupler.</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -783,20 +789,6 @@ components. The locus itself can be a frozenset (denoting a symmetric gate) or a
 <code class="docutils literal notranslate"><span class="pre">&quot;&lt;gate</span> <span class="pre">name&gt;.&lt;implementation</span> <span class="pre">name&gt;&quot;</span></code>).</p></li>
 <li><p><strong>mapping</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#frozenset" title="(in Python v3.11)"><em>frozenset</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>]</em><em>]</em>) – The locus mapping to be added.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>None</em></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="exa.common.qcm_data.chip_topology.ChipTopology._validate_locus_mapping">
-<span class="sig-name descname"><span class="pre">_validate_locus_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.common.qcm_data.chip_topology.ChipTopology._validate_locus_mapping" title="Link to this definition">#</a></dt>
-<dd><p>Validate that the components given in mapping are found in self and the mapping is correctly formed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>mapping</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#frozenset" title="(in Python v3.11)"><em>frozenset</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>]</em><em>]</em>)</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><em>None</em></p>
@@ -922,7 +914,11 @@ qubit components via tunable couplers.</p>
 
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-e66d40569eac40572b8fa8b77d592bc5ea6bbea0.png" alt="Inheritance diagram of exa.common.qcm_data.chip_topology.ChipTopology" usemap="#inheritance0081dbfd77" class="inheritance graphviz" /></div>
+<map id="inheritance0081dbfd77" name="inheritance0081dbfd77">
+<area shape="rect" id="node1" href="#exa.common.qcm_data.chip_topology.ChipTopology" target="_top" title="Topology information for a chip (typically a QPU)." alt="" coords="5,5,115,31"/>
+</map></section>
 
 
                 </article>
@@ -995,7 +991,6 @@ qubit components via tunable couplers.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology.is_probe_line"><code class="docutils literal notranslate"><span class="pre">ChipTopology.is_probe_line()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology.is_computational_resonator"><code class="docutils literal notranslate"><span class="pre">ChipTopology.is_computational_resonator()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology.set_locus_mapping"><code class="docutils literal notranslate"><span class="pre">ChipTopology.set_locus_mapping()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology._validate_locus_mapping"><code class="docutils literal notranslate"><span class="pre">ChipTopology._validate_locus_mapping()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology.map_locus"><code class="docutils literal notranslate"><span class="pre">ChipTopology.map_locus()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology.map_to_locus"><code class="docutils literal notranslate"><span class="pre">ChipTopology.map_to_locus()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.qcm_data.chip_topology.ChipTopology.get_loci"><code class="docutils literal notranslate"><span class="pre">ChipTopology.get_loci()</span></code></a></li>
@@ -1023,7 +1018,7 @@ qubit components via tunable couplers.</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 27.4.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 27.5.1.
       <br/>
     
   </p>

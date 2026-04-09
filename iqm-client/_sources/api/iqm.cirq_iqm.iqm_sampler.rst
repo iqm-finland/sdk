@@ -1,8 +1,9 @@
-iqm.cirq\_iqm.iqm\_sampler
-==========================
+iqm\_sampler
+============
+
+Full path: iqm.cirq_iqm.iqm_sampler
 
 .. automodule:: iqm.cirq_iqm.iqm_sampler
-
    
    
    
@@ -17,11 +18,13 @@ iqm.cirq\_iqm.iqm\_sampler
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMResult
       IQMSampler
       ResultMetadata
+   
    
    
 
@@ -39,4 +42,5 @@ iqm.cirq\_iqm.iqm\_sampler
 
 .. inheritance-diagram:: iqm.cirq_iqm.iqm_sampler
    :parts: 1
+   :private-bases:
 

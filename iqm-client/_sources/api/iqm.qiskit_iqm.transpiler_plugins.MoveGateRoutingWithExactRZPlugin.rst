@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.transpiler\_plugins.MoveGateRoutingWithExactRZPlugin
-====================================================================
+MoveGateRoutingWithExactRZPlugin
+================================
 
 .. currentmodule:: iqm.qiskit_iqm.transpiler_plugins
+
+Module: :mod:`iqm.qiskit_iqm.transpiler_plugins`
 
 .. autoclass:: MoveGateRoutingWithExactRZPlugin
    :members:
@@ -17,6 +19,15 @@ iqm.qiskit\_iqm.transpiler\_plugins.MoveGateRoutingWithExactRZPlugin
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithExactRZPlugin
+   :parts: 1
+   :private-bases:

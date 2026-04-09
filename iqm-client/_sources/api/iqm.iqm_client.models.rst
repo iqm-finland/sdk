@@ -1,8 +1,9 @@
-iqm.iqm\_client.models
-======================
+models
+======
+
+Full path: iqm.iqm_client.models
 
 .. automodule:: iqm.iqm_client.models
-
    
    
    .. rubric:: Module Attributes
@@ -31,12 +32,12 @@ iqm.iqm\_client.models
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       CircuitCompilationOptions
       CircuitJobParameters
-      QuantumArchitecture
-      QuantumArchitectureSpecification
+   
    
    
 
@@ -54,4 +55,5 @@ iqm.iqm\_client.models
 
 .. inheritance-diagram:: iqm.iqm_client.models
    :parts: 1
+   :private-bases:
 

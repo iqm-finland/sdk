@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ObservationFinder &#8212; station-control-client 12.0.5 documentation</title>
+    <title>ObservationFinder &#8212; station-control-client 12.1.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,16 +39,18 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=f69daea4"></script>
+    <script src="../_static/documentation_options.js?v=0a5a9def"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.station_control.client.qon.ObservationFinder';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="QON" href="iqm.station_control.client.qon.QON.html" />
-    <link rel="prev" title="Domain" href="iqm.station_control.client.qon.Domain.html" />
+    <link rel="prev" title="LocusQON" href="iqm.station_control.client.qon.LocusQON.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
     <meta name="docbuild:last-update" content="2026-04-09"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 12.0.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="station-control-client 12.0.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="station-control-client 12.1.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="station-control-client 12.1.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -162,7 +165,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.station_control.client.html">client</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.station_control.client.authentication.html">authentication</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.AuthHeaderCallback.html">iqm.station_control.client.authentication.AuthHeaderCallback</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.AuthHeaderCallback.html">AuthHeaderCallback</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.ExternalToken.html">ExternalToken</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.TokenManager.html">TokenManager</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.authentication.TokenProviderInterface.html">TokenProviderInterface</a></li>
@@ -188,17 +191,20 @@
 </ul>
 </details></li>
 <li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.station_control.client.qon.html">qon</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.LOCUS_SEPARATOR.html">iqm.station_control.client.qon.LOCUS_SEPARATOR</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Locus.html">iqm.station_control.client.qon.Locus</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Suffixes.html">iqm.station_control.client.qon.Suffixes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.GATE_FIDELITY_METHODS.html">iqm.station_control.client.qon.GATE_FIDELITY_METHODS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.LOCUS_SEPARATOR.html">LOCUS_SEPARATOR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Locus.html">Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Suffixes.html">Suffixes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.GATE_FIDELITY_METHODS.html">GATE_FIDELITY_METHODS</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.locus_str_to_locus.html">iqm.station_control.client.qon.locus_str_to_locus</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.locus_to_locus_str.html">iqm.station_control.client.qon.locus_to_locus_str</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.Domain.html">Domain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.LocusQON.html">LocusQON</a></li>
 <li class="toctree-l4 current active"><a class="current reference internal" href="#">ObservationFinder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QON.html">QON</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONCharacterization.html">QONCharacterization</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONControllerSetting.html">QONControllerSetting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateCharacterization.html">QONGateCharacterization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateDefinition.html">QONGateDefinition</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateMetric.html">QONGateMetric</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONGateParam.html">QONGateParam</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.station_control.client.qon.QONMetric.html">QONMetric</a></li>
@@ -364,14 +370,11 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder"><code class="docutils literal notranslate"><span class="pre">ObservationFinder</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder._build_dict"><code class="docutils literal notranslate"><span class="pre">ObservationFinder._build_dict()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder._follow_path"><code class="docutils literal notranslate"><span class="pre">ObservationFinder._follow_path()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder._get_path_value"><code class="docutils literal notranslate"><span class="pre">ObservationFinder._get_path_value()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder._get_path_node"><code class="docutils literal notranslate"><span class="pre">ObservationFinder._get_path_node()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder.get_coherence_times"><code class="docutils literal notranslate"><span class="pre">ObservationFinder.get_coherence_times()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder.get_gate_duration"><code class="docutils literal notranslate"><span class="pre">ObservationFinder.get_gate_duration()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder.get_gate_fidelity"><code class="docutils literal notranslate"><span class="pre">ObservationFinder.get_gate_fidelity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder.get_measure_errors"><code class="docutils literal notranslate"><span class="pre">ObservationFinder.get_measure_errors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder.get_measure_repeatability"><code class="docutils literal notranslate"><span class="pre">ObservationFinder.get_measure_repeatability()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder.get_qubit_frequency"><code class="docutils literal notranslate"><span class="pre">ObservationFinder.get_qubit_frequency()</span></code></a></li>
 </ul>
 </li>
@@ -388,6 +391,7 @@ document.write(`
                   
   <section id="observationfinder">
 <h1>ObservationFinder<a class="headerlink" href="#observationfinder" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.station_control.client.qon.html#module-iqm.station_control.client.qon" title="iqm.station_control.client.qon"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.station_control.client.qon</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.station_control.client.qon.ObservationFinder">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ObservationFinder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_unparseable</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.ObservationFinder" title="Link to this definition">#</a></dt>
@@ -409,7 +413,6 @@ raise an exception.</p></li>
 </ul>
 </dd>
 </dl>
-<p>Module: <a class="reference internal" href="iqm.station_control.client.qon.html#module-iqm.station_control.client.qon" title="iqm.station_control.client.qon"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.station_control.client.qon</span></code></a></p>
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -425,81 +428,15 @@ raise an exception.</p></li>
 <tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.ObservationFinder.get_measure_errors" title="iqm.station_control.client.qon.ObservationFinder.get_measure_errors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_measure_errors</span></code></a></p></td>
 <td><p>Measurement errors of the given gate/implementation/locus, or None if not found.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.ObservationFinder.get_qubit_frequency" title="iqm.station_control.client.qon.ObservationFinder.get_qubit_frequency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_qubit_frequency</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.ObservationFinder.get_measure_repeatability" title="iqm.station_control.client.qon.ObservationFinder.get_measure_repeatability"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_measure_repeatability</span></code></a></p></td>
+<td><p>Repeatability of the measurement and given implementation/locus, or None if not found.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.station_control.client.qon.ObservationFinder.get_qubit_frequency" title="iqm.station_control.client.qon.ObservationFinder.get_qubit_frequency"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_qubit_frequency</span></code></a></p></td>
 <td><p>Qubit drive frequency, or None if not found.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.station_control.client.qon.ObservationFinder._build_dict">
-<span class="sig-name descname"><span class="pre">_build_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pre_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">post_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.ObservationFinder._build_dict" title="Link to this definition">#</a></dt>
-<dd><p>Get the same property for multiple path elements, if it exists.</p>
-<p>Follows <code class="docutils literal notranslate"><span class="pre">pre_path</span></code> to a base node, then for every item in <code class="docutils literal notranslate"><span class="pre">keys</span></code> follows <code class="docutils literal notranslate"><span class="pre">[key]</span> <span class="pre">+</span> <span class="pre">post_path</span></code>
-and gets the corresponding value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>pre_path</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – Initial path in the tree to the base node.</p></li>
-<li><p><strong>keys</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – Path elements under the base node to retrieve.</p></li>
-<li><p><strong>post_path</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – Final path to follow for each of <code class="docutils literal notranslate"><span class="pre">keys</span></code>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Mapping from <code class="docutils literal notranslate"><span class="pre">keys</span></code> to the corresponding values. If a key is missing or
-<code class="docutils literal notranslate"><span class="pre">[key]</span> <span class="pre">+</span> <span class="pre">post_path</span></code> could not be followed, that particular key does not appear in the mapping.</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – Could not follow <code class="docutils literal notranslate"><span class="pre">pre_path</span></code>.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.station_control.client.qon.ObservationFinder._follow_path">
-<span class="sig-name descname"><span class="pre">_follow_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.ObservationFinder._follow_path" title="Link to this definition">#</a></dt>
-<dd><p>Follow <code class="docutils literal notranslate"><span class="pre">path</span></code>, return the final node/value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>)</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>] | <a class="reference internal" href="iqm.station_control.interface.models.observation.ObservationBase.html#iqm.station_control.interface.models.observation.ObservationBase" title="iqm.station_control.interface.models.observation.ObservationBase"><em>ObservationBase</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.station_control.client.qon.ObservationFinder._get_path_value">
-<span class="sig-name descname"><span class="pre">_get_path_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.ObservationFinder._get_path_value" title="Link to this definition">#</a></dt>
-<dd><p>Follow <code class="docutils literal notranslate"><span class="pre">path</span></code>, return the final value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>)</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="iqm.station_control.client.qon.ObservationFinder._get_path_node">
-<span class="sig-name descname"><span class="pre">_get_path_node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.ObservationFinder._get_path_node" title="Link to this definition">#</a></dt>
-<dd><p>Follow <code class="docutils literal notranslate"><span class="pre">path</span></code>, return the final node.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Iterable" title="(in Python v3.11)"><em>Iterable</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>)</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.station_control.client.qon.ObservationFinder.get_coherence_times">
 <span class="sig-name descname"><span class="pre">get_coherence_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">components</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.ObservationFinder.get_coherence_times" title="Link to this definition">#</a></dt>
@@ -570,6 +507,24 @@ and gets the corresponding value.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="iqm.station_control.client.qon.ObservationFinder.get_measure_repeatability">
+<span class="sig-name descname"><span class="pre">get_measure_repeatability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.ObservationFinder.get_measure_repeatability" title="Link to this definition">#</a></dt>
+<dd><p>Repeatability of the measurement and given implementation/locus, or None if not found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>locus</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>]</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a> | <em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="iqm.station_control.client.qon.ObservationFinder.get_qubit_frequency">
 <span class="sig-name descname"><span class="pre">get_qubit_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.station_control.client.qon.ObservationFinder.get_qubit_frequency" title="Link to this definition">#</a></dt>
 <dd><p>Qubit drive frequency, or None if not found.</p>
@@ -585,7 +540,11 @@ and gets the corresponding value.</p>
 
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-e33ef8a3cfe73c2eaa00895e68cca7ac7db3b0fe.png" alt="Inheritance diagram of iqm.station_control.client.qon.ObservationFinder" usemap="#inheritance8266610694" class="inheritance graphviz" /></div>
+<map id="inheritance8266610694" name="inheritance8266610694">
+<area shape="rect" id="node1" href="#iqm.station_control.client.qon.ObservationFinder" target="_top" title="Query structure for a set of observations." alt="" coords="5,5,147,31"/>
+</map></section>
 
 
                 </article>
@@ -599,12 +558,12 @@ and gets the corresponding value.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="iqm.station_control.client.qon.Domain.html"
+       href="iqm.station_control.client.qon.LocusQON.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Domain</p>
+        <p class="prev-next-title">LocusQON</p>
       </div>
     </a>
     <a class="right-next"
@@ -633,14 +592,11 @@ and gets the corresponding value.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder"><code class="docutils literal notranslate"><span class="pre">ObservationFinder</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder._build_dict"><code class="docutils literal notranslate"><span class="pre">ObservationFinder._build_dict()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder._follow_path"><code class="docutils literal notranslate"><span class="pre">ObservationFinder._follow_path()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder._get_path_value"><code class="docutils literal notranslate"><span class="pre">ObservationFinder._get_path_value()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder._get_path_node"><code class="docutils literal notranslate"><span class="pre">ObservationFinder._get_path_node()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder.get_coherence_times"><code class="docutils literal notranslate"><span class="pre">ObservationFinder.get_coherence_times()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder.get_gate_duration"><code class="docutils literal notranslate"><span class="pre">ObservationFinder.get_gate_duration()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder.get_gate_fidelity"><code class="docutils literal notranslate"><span class="pre">ObservationFinder.get_gate_fidelity()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder.get_measure_errors"><code class="docutils literal notranslate"><span class="pre">ObservationFinder.get_measure_errors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder.get_measure_repeatability"><code class="docutils literal notranslate"><span class="pre">ObservationFinder.get_measure_repeatability()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.station_control.client.qon.ObservationFinder.get_qubit_frequency"><code class="docutils literal notranslate"><span class="pre">ObservationFinder.get_qubit_frequency()</span></code></a></li>
 </ul>
 </li>
@@ -664,7 +620,7 @@ and gets the corresponding value.</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.0.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 12.1.1.
       <br/>
     
   </p>

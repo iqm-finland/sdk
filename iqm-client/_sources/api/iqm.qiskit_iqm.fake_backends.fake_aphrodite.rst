@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.fake\_backends.fake\_aphrodite
-==============================================
+fake\_aphrodite
+===============
+
+Full path: iqm.qiskit_iqm.fake_backends.fake_aphrodite
 
 .. automodule:: iqm.qiskit_iqm.fake_backends.fake_aphrodite
-
    
    
    

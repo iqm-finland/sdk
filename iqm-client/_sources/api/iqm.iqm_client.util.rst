@@ -1,8 +1,9 @@
-iqm.iqm\_client.util
-====================
+util
+====
+
+Full path: iqm.iqm_client.util
 
 .. automodule:: iqm.iqm_client.util
-
    
    
    
@@ -24,9 +25,11 @@ iqm.iqm\_client.util
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMJSONEncoder
+   
    
    
 
@@ -44,4 +47,5 @@ iqm.iqm\_client.util
 
 .. inheritance-diagram:: iqm.iqm_client.util
    :parts: 1
+   :private-bases:
 

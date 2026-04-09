@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.iqm\_circuit
-============================
+iqm\_circuit
+============
+
+Full path: iqm.qiskit_iqm.iqm_circuit
 
 .. automodule:: iqm.qiskit_iqm.iqm_circuit
-
    
    
    
@@ -17,9 +18,11 @@ iqm.qiskit\_iqm.iqm\_circuit
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMCircuit
+   
    
    
 
@@ -37,4 +40,5 @@ iqm.qiskit\_iqm.iqm\_circuit
 
 .. inheritance-diagram:: iqm.qiskit_iqm.iqm_circuit
    :parts: 1
+   :private-bases:
 

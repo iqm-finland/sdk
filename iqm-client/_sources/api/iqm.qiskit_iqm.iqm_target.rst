@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.iqm\_target
-===========================
+iqm\_target
+===========
+
+Full path: iqm.qiskit_iqm.iqm_target
 
 .. automodule:: iqm.qiskit_iqm.iqm_target
-
    
    
    .. rubric:: Module Attributes
@@ -25,9 +26,11 @@ iqm.qiskit\_iqm.iqm\_target
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMTarget
+   
    
    
 
@@ -45,4 +48,5 @@ iqm.qiskit\_iqm.iqm\_target
 
 .. inheritance-diagram:: iqm.qiskit_iqm.iqm_target
    :parts: 1
+   :private-bases:
 

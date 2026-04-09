@@ -1,8 +1,9 @@
-﻿iqm.iqm\_client
-===============
+﻿iqm\_client
+===========
+
+Full path: iqm.iqm_client
 
 .. automodule:: iqm.iqm_client
-
    
    
    

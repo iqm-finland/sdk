@@ -1,8 +1,9 @@
-iqm.pulla.interface
-===================
+interface
+=========
+
+Full path: iqm.pulla.interface
 
 .. automodule:: iqm.pulla.interface
-
    
    
    .. rubric:: Module Attributes
@@ -11,7 +12,6 @@ iqm.pulla.interface
       :toctree:
    
       CalibrationSetValues
-      BUFFER_AFTER_MEASUREMENT_PROBE
    
    
 
@@ -32,7 +32,6 @@ iqm.pulla.interface
    
       CHADRetrievalException
       ChipLabelRetrievalException
-      SettingsRetrievalException
    
    
 

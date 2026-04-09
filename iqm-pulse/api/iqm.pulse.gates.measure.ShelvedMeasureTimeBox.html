@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>ShelvedMeasureTimeBox &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>ShelvedMeasureTimeBox &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="../_static/documentation_options.js?v=c7d539cd"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.gates.measure.ShelvedMeasureTimeBox';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -218,6 +221,7 @@
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4 current active"><a class="reference internal" href="iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.gates.prx.html">prx</a></li>
@@ -240,6 +244,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -257,6 +262,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -264,6 +270,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -405,21 +412,23 @@ document.write(`
                   
   <section id="shelvedmeasuretimebox">
 <h1>ShelvedMeasureTimeBox<a class="headerlink" href="#shelvedmeasuretimebox" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.pulse.gates.measure.html#module-iqm.pulse.gates.measure" title="iqm.pulse.gates.measure"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gates.measure</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.gates.measure.ShelvedMeasureTimeBox">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gates.measure.</span></span><span class="sig-name descname"><span class="pre">ShelvedMeasureTimeBox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus_components</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheduling=SchedulingStrategy.ASAP</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheduling_algorithm=SchedulingAlgorithm.HARD_BOUNDARY</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighborhood_components=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.measure.ShelvedMeasureTimeBox" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" title="iqm.pulse.timebox.TimeBox"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeBox</span></code></a></p>
 <p>TimeBox representing a shelved measurement (ReadoutTrigger sandwiched between two PRX_12 operations).</p>
-<p>ShelvedMeasureTimeBox is a composite TimeBox containing two children:
-* first one being the first PRX_12 operation for the locus components of the measure
-* second one being the ReadoutTrigger (MultiplexedProbeTimeBox) that includes the second PRX_12 operation.</p>
+<p>ShelvedMeasureTimeBox is a composite TimeBox containing two children:</p>
+<ol class="arabic simple">
+<li><p>First PRX_12 operation for the locus components of the measure.</p></li>
+<li><p>ReadoutTrigger (MultiplexedProbeTimeBox) that includes the second PRX_12 operation.</p></li>
+</ol>
 <p>Multiplexing is achieved so that ShelvedMeasureTimeBoxes support <code class="docutils literal notranslate"><span class="pre">__add__</span></code> and <code class="docutils literal notranslate"><span class="pre">__radd__</span></code> operations with other
 boxes of the same type and MultiplexedProbeTimeBoxes. The multiplexing operation is defined such that the
 initial PRX_12 boxes are added together (in case one of the multiplexed boxes is a MultiplexedProbeTimeBoxes, the
 initial PRX_12 is considered empty), and the probe boxes are multiplexed together via the logic defined in
-<code class="docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBoxes.__add__</span></code>. This behaviour results in the correct timings of the associated pulses
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">MultiplexedProbeTimeBoxes.__add__()</span></code>. This behaviour results in the correct timings of the associated pulses
 after the multiplexing.</p>
-<p>Module: <a class="reference internal" href="iqm.pulse.gates.measure.html#module-iqm.pulse.gates.measure" title="iqm.pulse.gates.measure"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gates.measure</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -468,7 +477,12 @@ after the multiplexing.</p>
 </dl>
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-54b784bc6b9bedc39aaff22c8180408137946dd5.png" alt="Inheritance diagram of iqm.pulse.gates.measure.ShelvedMeasureTimeBox" usemap="#inheritance8c8d765eda" class="inheritance graphviz" /></div>
+<map id="inheritance8c8d765eda" name="inheritance8c8d765eda">
+<area shape="rect" id="node1" href="#iqm.pulse.gates.measure.ShelvedMeasureTimeBox" target="_top" title="TimeBox representing a shelved measurement (ReadoutTrigger sandwiched between two PRX_12 operations)." alt="" coords="133,5,321,31"/>
+<area shape="rect" id="node2" href="iqm.pulse.timebox.TimeBox.html#iqm.pulse.timebox.TimeBox" target="_top" title="Container for one or more instruction schedule fragments, to be scheduled according to a given strategy." alt="" coords="5,5,85,31"/>
+</map></section>
 
 
                 </article>
@@ -536,7 +550,7 @@ after the multiplexing.</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

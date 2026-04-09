@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>CollectionType &#8212; exa-common 27.4.5 documentation</title>
+    <title>CollectionType &#8212; exa-common 27.5.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,16 +39,18 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=80f13c01"></script>
+    <script src="../_static/documentation_options.js?v=7c360f4a"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/exa.common.data.parameter.CollectionType';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="DataType" href="exa.common.data.parameter.DataType.html" />
-    <link rel="prev" title="exa.common.data.parameter.SourceType" href="exa.common.data.parameter.SourceType.html" />
+    <link rel="prev" title="exa.common.data.parameter.setting_value_to_observation" href="exa.common.data.parameter.setting_value_to_observation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
     <meta name="docbuild:last-update" content="2026-04-09"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="exa-common 27.4.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="exa-common 27.4.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="exa-common 27.5.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="exa-common 27.5.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -161,7 +164,10 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="exa.common.html">common</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="exa.common.api.html">api</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.common.api.html">api</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.common.api.proto_serialization.html">proto_serialization</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="exa.common.control.html">control</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.control.sweep.html">sweep</a></li>
 </ul>
@@ -183,6 +189,7 @@
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.deprecation.html">deprecation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.json_helper.html">json_helper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.numpy_helper.html">numpy_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.software_version_helper.html">software_version_helper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.yaml_helper.html">yaml_helper</a></li>
 </ul>
 </details></li>
@@ -330,12 +337,12 @@ document.write(`
                   
   <section id="collectiontype">
 <h1>CollectionType<a class="headerlink" href="#collectiontype" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="exa.common.data.parameter.html#module-exa.common.data.parameter" title="exa.common.data.parameter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exa.common.data.parameter</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="exa.common.data.parameter.CollectionType">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CollectionType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.common.data.parameter.CollectionType" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/enum.html#enum.IntEnum" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></a></p>
 <p>Parameter collection type.</p>
-<p>Module: <a class="reference internal" href="exa.common.data.parameter.html#module-exa.common.data.parameter" title="exa.common.data.parameter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exa.common.data.parameter</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -394,7 +401,14 @@ document.write(`
 
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-17e649288a90de5620b037e5eb28422e0fd73287.png" alt="Inheritance diagram of exa.common.data.parameter.CollectionType" usemap="#inheritanceb06fc40a76" class="inheritance graphviz" /></div>
+<map id="inheritanceb06fc40a76" name="inheritanceb06fc40a76">
+<area shape="rect" id="node1" href="#exa.common.data.parameter.CollectionType" target="_top" title="Parameter collection type." alt="" coords="387,5,504,31"/>
+<area shape="rect" id="node2" href="https://docs.python.org/3.11/library/enum.html#enum.IntEnum" target="_top" title="Enum where members are also (and must be) ints" alt="" coords="263,5,339,31"/>
+<area shape="rect" id="node3" href="https://docs.python.org/3.11/library/enum.html#enum.Enum" target="_top" title="Create a collection of name/value pairs." alt="" coords="5,5,77,31"/>
+<area shape="rect" id="node4" href="https://docs.python.org/3.11/library/enum.html#enum.ReprEnum" target="_top" title="Only changes the repr(), leaving str() and format() to the mixed&#45;in type." alt="" coords="125,5,215,31"/>
+</map></section>
 
 
                 </article>
@@ -408,12 +422,12 @@ document.write(`
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="exa.common.data.parameter.SourceType.html"
+       href="exa.common.data.parameter.setting_value_to_observation.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">exa.common.data.parameter.SourceType</p>
+        <p class="prev-next-title">exa.common.data.parameter.setting_value_to_observation</p>
       </div>
     </a>
     <a class="right-next"
@@ -468,7 +482,7 @@ document.write(`
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 27.4.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 27.5.1.
       <br/>
     
   </p>

@@ -1,7 +1,9 @@
-iqm.cirq\_iqm.optimizers.MergeOneParameterGroupGates
-====================================================
+MergeOneParameterGroupGates
+===========================
 
 .. currentmodule:: iqm.cirq_iqm.optimizers
+
+Module: :mod:`iqm.cirq_iqm.optimizers`
 
 .. autoclass:: MergeOneParameterGroupGates
    :members:
@@ -25,8 +27,16 @@ iqm.cirq\_iqm.optimizers.MergeOneParameterGroupGates
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~MergeOneParameterGroupGates._normalize_par
       ~MergeOneParameterGroupGates.optimization_at
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates
+   :parts: 1
+   :private-bases:

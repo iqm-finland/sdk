@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.transpiler\_plugins.MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin
-=========================================================================================
+MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin
+=====================================================
 
 .. currentmodule:: iqm.qiskit_iqm.transpiler_plugins
+
+Module: :mod:`iqm.qiskit_iqm.transpiler_plugins`
 
 .. autoclass:: MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin
    :members:
@@ -17,6 +19,15 @@ iqm.qiskit\_iqm.transpiler\_plugins.MoveGateRoutingWithRZOptimizationIgnoreBarri
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin
+   :parts: 1
+   :private-bases:

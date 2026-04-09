@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Parameter &#8212; exa-common 27.4.5 documentation</title>
+    <title>Parameter &#8212; exa-common 27.5.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=80f13c01"></script>
+    <script src="../_static/documentation_options.js?v=7c360f4a"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/exa.common.data.parameter.Parameter';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="exa-common 27.4.5 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="exa-common 27.4.5 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="exa-common 27.5.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="exa-common 27.5.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -161,7 +164,10 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="exa.common.html">common</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="exa.common.api.html">api</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.common.api.html">api</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.common.api.proto_serialization.html">proto_serialization</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="exa.common.control.html">control</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.control.sweep.html">sweep</a></li>
 </ul>
@@ -183,6 +189,7 @@
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.deprecation.html">deprecation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.json_helper.html">json_helper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.numpy_helper.html">numpy_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.software_version_helper.html">software_version_helper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="exa.common.helpers.yaml_helper.html">yaml_helper</a></li>
 </ul>
 </details></li>
@@ -317,6 +324,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.data_type"><code class="docutils literal notranslate"><span class="pre">Parameter.data_type</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.collection_type"><code class="docutils literal notranslate"><span class="pre">Parameter.collection_type</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.element_indices"><code class="docutils literal notranslate"><span class="pre">Parameter.element_indices</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.fast_construct"><code class="docutils literal notranslate"><span class="pre">Parameter.fast_construct()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.get_cache_key"><code class="docutils literal notranslate"><span class="pre">Parameter.get_cache_key()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.parent_name"><code class="docutils literal notranslate"><span class="pre">Parameter.parent_name</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.parent_label"><code class="docutils literal notranslate"><span class="pre">Parameter.parent_label</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.set"><code class="docutils literal notranslate"><span class="pre">Parameter.set()</span></code></a></li>
@@ -341,6 +350,7 @@ document.write(`
                   
   <section id="parameter">
 <h1>Parameter<a class="headerlink" href="#parameter" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="exa.common.data.parameter.html#module-exa.common.data.parameter" title="exa.common.data.parameter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exa.common.data.parameter</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="exa.common.data.parameter.Parameter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DataType.FLOAT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">CollectionType.SCALAR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.common.data.parameter.Parameter" title="Link to this definition">#</a></dt>
@@ -354,7 +364,6 @@ like the number of averages in a measurement.</p>
 <p>Raises [<cite>ValidationError</cite>][pydantic_core.ValidationError] if the input data cannot be
 validated to form a valid model.</p>
 <p><cite>self</cite> is explicitly positional-only to allow <cite>self</cite> as a field name.</p>
-<p>Module: <a class="reference internal" href="exa.common.data.parameter.html#module-exa.common.data.parameter" title="exa.common.data.parameter"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exa.common.data.parameter</span></code></a></p>
 <p class="rubric">Attributes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
@@ -399,6 +408,12 @@ validated to form a valid model.</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#exa.common.data.parameter.Parameter.create_element_parameter_for" title="exa.common.data.parameter.Parameter.create_element_parameter_for"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_element_parameter_for</span></code></a></p></td>
 <td><p>Utility for creating an element-wise parameter for a single value in a collection valued parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.common.data.parameter.Parameter.fast_construct" title="exa.common.data.parameter.Parameter.fast_construct"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fast_construct</span></code></a></p></td>
+<td><p>Fast construction alternative to __init__ from trusted serialized dict  using model_construct.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.common.data.parameter.Parameter.get_cache_key" title="exa.common.data.parameter.Parameter.get_cache_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_cache_key</span></code></a></p></td>
+<td><p>Generates a hashable tuple from parameter metadata for cache lookups.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#exa.common.data.parameter.Parameter.model_post_init" title="exa.common.data.parameter.Parameter.model_post_init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model_post_init</span></code></a></p></td>
 <td><p>This function is meant to behave like a BaseModel method to initialise private attributes.</p></td>
@@ -469,6 +484,50 @@ of that value. If populated, the <code class="docutils literal notranslate"><spa
 the indices (becoming <code class="docutils literal notranslate"><span class="pre">&quot;&lt;parent</span> <span class="pre">name&gt;__&lt;index0&gt;__&lt;index1&gt;__...__&lt;indexN&gt;&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;&lt;parent</span> <span class="pre">label&gt;</span> <span class="pre">&lt;indices&gt;&quot;</span></code>
 , respectively). The parent name can then be retrieved with <code class="docutils literal notranslate"><span class="pre">self.parent_name</span></code> and the parent label with
 <code class="docutils literal notranslate"><span class="pre">self.parent_label</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.common.data.parameter.Parameter.fast_construct">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fast_construct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">DataType.FLOAT</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">CollectionType.SCALAR</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_indices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.common.data.parameter.Parameter.fast_construct" title="Link to this definition">#</a></dt>
+<dd><p>Fast construction alternative to __init__ from trusted serialized dict  using model_construct.</p>
+<p>Does NOT call __init__, i.e. no validation, etc.
+Intended for already-normalised / trusted data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>unit</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>data_type</strong> (<a class="reference internal" href="exa.common.data.parameter.DataType.html#exa.common.data.parameter.DataType" title="exa.common.data.parameter.DataType"><em>DataType</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference internal" href="exa.common.data.parameter.DataType.html#exa.common.data.parameter.DataType" title="exa.common.data.parameter.DataType"><em>DataType</em></a><em>, </em><em>...</em><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>collection_type</strong> (<a class="reference internal" href="exa.common.data.parameter.CollectionType.html#exa.common.data.parameter.CollectionType" title="exa.common.data.parameter.CollectionType"><em>CollectionType</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>element_indices</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#exa.common.data.parameter.Parameter" title="exa.common.data.parameter.Parameter"><em>Parameter</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.common.data.parameter.Parameter.get_cache_key">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_cache_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collection_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_indices</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.common.data.parameter.Parameter.get_cache_key" title="Link to this definition">#</a></dt>
+<dd><p>Generates a hashable tuple from parameter metadata for cache lookups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>unit</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>data_type</strong> (<a class="reference internal" href="exa.common.data.parameter.DataType.html#exa.common.data.parameter.DataType" title="exa.common.data.parameter.DataType"><em>DataType</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference internal" href="exa.common.data.parameter.DataType.html#exa.common.data.parameter.DataType" title="exa.common.data.parameter.DataType"><em>DataType</em></a><em>, </em><em>...</em><em>]</em>)</p></li>
+<li><p><strong>collection_type</strong> (<a class="reference internal" href="exa.common.data.parameter.CollectionType.html#exa.common.data.parameter.CollectionType" title="exa.common.data.parameter.CollectionType"><em>CollectionType</em></a>)</p></li>
+<li><p><strong>element_indices</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -581,7 +640,7 @@ that gets its name, units, and dimension names (unless explicitly given) from th
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="exa.common.data.parameter.Parameter.model_config">
-<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'ignore',</span> <span class="pre">'frozen':</span> <span class="pre">True,</span> <span class="pre">'ser_json_inf_nan':</span> <span class="pre">'constants',</span> <span class="pre">'validate_assignment':</span> <span class="pre">True,</span> <span class="pre">'validate_default':</span> <span class="pre">True}</span></em><a class="headerlink" href="#exa.common.data.parameter.Parameter.model_config" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'ignore',</span> <span class="pre">'frozen':</span> <span class="pre">True,</span> <span class="pre">'ser_json_inf_nan':</span> <span class="pre">'constants',</span> <span class="pre">'validate_assignment':</span> <span class="pre">True,</span> <span class="pre">'validate_default':</span> <span class="pre">False}</span></em><a class="headerlink" href="#exa.common.data.parameter.Parameter.model_config" title="Link to this definition">#</a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
 
@@ -605,7 +664,12 @@ that gets its name, units, and dimension names (unless explicitly given) from th
 
 </dd></dl>
 
-</section>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-3d00489b81172a4b8496f28cb9c331b530de3bab.png" alt="Inheritance diagram of exa.common.data.parameter.Parameter" usemap="#inheritancecd8f24f19b" class="inheritance graphviz" /></div>
+<map id="inheritancecd8f24f19b" name="inheritancecd8f24f19b">
+<area shape="rect" id="node1" href="exa.common.data.base_model.BaseModel.html#exa.common.data.base_model.BaseModel" target="_top" title="!!! abstract &quot;Usage Documentation&quot;" alt="" coords="5,29,100,55"/>
+<area shape="rect" id="node2" href="#exa.common.data.parameter.Parameter" target="_top" title="A basic data structure that represents a single variable." alt="" coords="148,29,237,55"/>
+</map></section>
 
 
                 </article>
@@ -659,6 +723,8 @@ that gets its name, units, and dimension names (unless explicitly given) from th
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.data_type"><code class="docutils literal notranslate"><span class="pre">Parameter.data_type</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.collection_type"><code class="docutils literal notranslate"><span class="pre">Parameter.collection_type</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.element_indices"><code class="docutils literal notranslate"><span class="pre">Parameter.element_indices</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.fast_construct"><code class="docutils literal notranslate"><span class="pre">Parameter.fast_construct()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.get_cache_key"><code class="docutils literal notranslate"><span class="pre">Parameter.get_cache_key()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.parent_name"><code class="docutils literal notranslate"><span class="pre">Parameter.parent_name</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.parent_label"><code class="docutils literal notranslate"><span class="pre">Parameter.parent_label</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.common.data.parameter.Parameter.set"><code class="docutils literal notranslate"><span class="pre">Parameter.set()</span></code></a></li>
@@ -690,7 +756,7 @@ that gets its name, units, and dimension names (unless explicitly given) from th
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 27.4.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 27.5.1.
       <br/>
     
   </p>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>CHANGELOG &#8212; exa-common 27.4.5 documentation</title>
+    <title>CHANGELOG &#8212; exa-common 27.5.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=80f13c01"></script>
+    <script src="_static/documentation_options.js?v=7c360f4a"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'changelog';</script>
     <link rel="icon" href="_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="exa-common 27.4.5 documentation - Home"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="exa-common 27.4.5 documentation - Home"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-light" alt="exa-common 27.5.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="exa-common 27.5.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -161,7 +164,10 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="api/exa.common.html">common</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/exa.common.api.html">api</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/exa.common.api.html">api</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/exa.common.api.proto_serialization.html">proto_serialization</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/exa.common.control.html">control</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/exa.common.control.sweep.html">sweep</a></li>
 </ul>
@@ -183,6 +189,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/exa.common.helpers.deprecation.html">deprecation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/exa.common.helpers.json_helper.html">json_helper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/exa.common.helpers.numpy_helper.html">numpy_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/exa.common.helpers.software_version_helper.html">software_version_helper</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/exa.common.helpers.yaml_helper.html">yaml_helper</a></li>
 </ul>
 </details></li>
@@ -314,669 +321,503 @@ document.write(`
                   
   <section id="changelog">
 <span id="id1"></span><h1>CHANGELOG<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Version 27.4.5 (2026-02-13)
-===========================
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Changelog
 
-- Patch release, no functional changes.
+## Version 27.5.1
 
-Version 27.4.4 (2026-01-27)
-===========================
+### Bug fixes
 
-- Patch release, no functional changes.
+- `Setting` s with no value now can have no source either.
+- Fixed a bug where `SettingNode` cache was out-of-sync with the actual tree.
+- Fixed a bug where `Setting.source` was not always properly set.
 
-Version 27.4.3 (2026-01-15)
-===========================
+### Features
 
-- Patch release, no functional changes.
+- `Setting.read_only` is now included in the full Setting Protobuf message,
+    so the information is sent from Station Control to the clients.
+- Deprecated `exa.common.helpers.data_helper.add_data_array()`
+- Remove unused `~exa.common.helpers.software_version_helper.get_vcs_description`.
+- Removed the use of `pkg_resources` in favor of `importlib` for accessing
+  package data in `exa.common.helpers.software_version_helper` improving
+  compatibility and performance.
+  This fixes compatibility issues with `setuptools&gt;=82.0.0`.
 
-Version 27.4.2 (2025-12-09)
-===========================
+## Version 27.4.0 (2025-11-19)
 
-- Patch fix for a release. No functional changes.
+### Features
 
-Version 27.4.1 (2025-12-02)
-===========================
+- Add new error types `PayloadTooLargeError` and `TooManyRequestsError` used by IQMServer in REST API responses.
+- Add a shortcut `Setting.sweep(values)` to create a `Sweep`.
 
-Bug fixes
----------
+### Bug fixes
 
-- Fix version ranges in python package dependencies.
-
-Version 27.4.0 (2025-11-19)
-===========================
-
-Features
---------
-
-- Add new error types ``PayloadTooLargeError`` and ``TooManyRequestsError`` used by IQMServer in REST API responses.
-- Add a shortcut ``Setting.sweep(values)`` to create a ``Sweep``.
-
-Bug fixes
----------
-
-- When adding a DataArray with the name of an existing DataArray to a dataset using :func:``add_data_array``,
+- When adding a DataArray with the name of an existing DataArray to a dataset using `add_data_array`,
   update the attributes of the DataArray itself.
 
-Version 27.3.0 (2025-10-06)
-===========================
+## Version 27.3.0 (2025-10-06)
 
-Features
---------
+### Features
 
-- Minor update to ``format_deprecated`` to accept datetimes only in one format for consistency.
+- Minor update to `format_deprecated` to accept datetimes only in one format for consistency.
 
-Version 27.2.0 (2025-10-03)
-===========================
+## Version 27.2.0 (2025-10-03)
 
-Bug fixes
----------
+### Bug fixes
 
-- Skip following mypy imports to iqm-data-definitions until errors are fixed. :issue:`SW-1670`
+- Skip following mypy imports to iqm-data-definitions until errors are fixed.
 
-Version 27.1.0 (2025-09-19)
-===========================
+## Version 27.1.0 (2025-09-19)
 
-Features
---------
+### Features
 
 - Add chip layout to hold the coordinates of the chip design record.
 
-Version 27.0.0 (2025-09-12)
-===========================
+## Version 27.0.0 (2025-09-12)
 
-Breaking changes
-----------------
+### Breaking changes
 
 - Remove deprecated sweeps.
 
-Version 26.33.0 (2025-09-03)
-============================
+## Version 26.33.0 (2025-09-03)
 
-Features
---------
+### Features
 
 - Enable ruff rule for missing annotations and mark exemptions.
 
-Version 26.32.0 (2025-08-27)
-============================
+## Version 26.32.0 (2025-08-27)
 
-Bug fixes
----------
+### Bug fixes
 
 - Fix empty list of editable software packages.
 
-Version 26.31.0 (2025-08-13)
-============================
+## Version 26.31.0 (2025-08-13)
 
-Bug fixes
----------
+### Bug fixes
 
 - Catch deprecation warning for pkg resources.
 
-Version 26.30.0 (2025-08-11)
-============================
+## Version 26.30.0 (2025-08-11)
 
-Bug fixes
----------
+### Bug fixes
 
 - Fix SettingNode.merge producing wrong paths/names in certain programmatic usage.
 
-Version 26.29.0 (2025-07-24)
-============================
+## Version 26.29.0 (2025-07-24)
 
-Features
---------
+### Features
 
-- Added log level to :class:`StationControlError`.
+- Added log level to `StationControlError`.
 
-Version 26.28.0 (2025-07-09)
-============================
+## Version 26.28.0 (2025-07-09)
 
-Features
---------
+### Features
 
-- Enable mypy type checking in CI and add temporary type ignores to the source code. :issue:`SW-1615`
+- Enable mypy type checking in CI and add temporary type ignores to the source code.
 
-Version 26.27.0 (2025-07-04)
-============================
+## Version 26.27.0 (2025-07-04)
 
-Features
---------
+### Features
 
 - Setting now has a private field _source and an associated property which can be used to store e.g. the observation that is the source of the Setting&#39;s value.
 
-Version 26.26.0 (2025-07-02)
-============================
+## Version 26.26.0 (2025-07-02)
 
-Bug fixes
----------
+### Bug fixes
 
 - Fix type errors raised by mypy.
 
-Version 26.25.0 (2025-06-17)
-============================
+## Version 26.25.0 (2025-06-17)
 
-Features
---------
+### Features
 
 - Add missing jinja2 requirement
 
-Version 26.24.0 (2025-06-17)
-============================
+## Version 26.24.0 (2025-06-17)
 
-Bug fixes
----------
+### Bug fixes
 
 - Bump iqm-pulse dependency. No functional changes.
 
-Version 26.23.0 (2025-06-17)
-============================
+## Version 26.23.0 (2025-06-17)
 
-Features
---------
+### Features
 
-- Improve errors in :mod:`exa.common.src.exa.common.errors.station_control_errors`.
+- Improve errors in `exa.common.src.exa.common.errors.station_control_errors`.
 
-Version 26.22.0 (2025-06-13)
-============================
+## Version 26.22.0 (2025-06-13)
 
-Features
---------
+### Features
 
-- Rename ``server_errors.py`` to ``station_control_errors.py`` for better clarity.
-- Add two new :class:`StationControlError` subclasses, :class:`BadGatewayError` and :class:`GatewayTimeoutError`.
+- Rename `server_errors.py` to `station_control_errors.py` for better clarity.
+- Add two new `StationControlError` subclasses, `BadGatewayError` and `GatewayTimeoutError`.
 
-Version 26.21.0 (2025-06-10)
-============================
+## Version 26.21.0 (2025-06-10)
 
-Features
---------
+### Features
 
-- Refine error code mapping in :mod:`exa.common.errors.server_errors`. :issue:`SW-1515`
+- Refine error code mapping in `exa.common.errors.server_errors`.
 
-Version 26.20.0 (2025-05-21)
-============================
+## Version 26.20.0 (2025-05-21)
 
-Features
---------
+### Features
 
 - Fix cocos path in ruff isort to run isort for cocos correctly.
 
-Version 26.19.0 (2025-05-20)
-============================
+## Version 26.19.0 (2025-05-20)
 
-Features
---------
+### Features
 
 - Bump NumPy dependency to 1.26.4.
-- Bump ``iqm-data-definitions``.
+- Bump `iqm-data-definitions`.
 
-Version 26.18.0 (2025-05-12)
-============================
+## Version 26.18.0 (2025-05-12)
 
-Features
---------
+### Features
 
 - Changes in CI and image build logic, no functional changes.
 
-Version 26.17.1 (2025-05-12)
-============================
+## Version 26.17.1 (2025-05-12)
 
-- Test patch versioning, no functional changes. :issue:`SW-1429`
+- Test patch versioning, no functional changes.
 
-Version 26.17.0 (2025-05-09)
-============================
+## Version 26.17.0 (2025-05-09)
 
-Features
---------
+### Features
 
-- Modify :func:`get_connected_probe_lines` such that it also works for qubits without readout, :issue:`QPUC-603`.
+- Modify `get_connected_probe_lines` such that it also works for qubits without readout.
 
-Version 26.16.0 (2025-05-06)
-============================
+## Version 26.16.0 (2025-05-06)
 
-Bug fixes
----------
+### Bug fixes
 
 - Fix copy deprecation warning.
 
-Version 26.15.0 (2025-04-29)
-============================
+## Version 26.15.0 (2025-04-29)
 
-Features
---------
+### Features
 
-- Add method ``ChipTopology.get_connected_coupler_map``, which returns a dictionary mapping couplers to components based on the output of ``ChipTopology.get_connecting_couplers``.
+- Add method `ChipTopology.get_connected_coupler_map`, which returns a dictionary mapping couplers to components based on the output of `ChipTopology.get_connecting_couplers`.
 
-Version 26.14.0 (2025-04-22)
-============================
+## Version 26.14.0 (2025-04-22)
 
-Features
---------
+### Features
 
 - Trigger new version with improved CI workflow
 
-Version 26.13.0 (2025-04-11)
-============================
+## Version 26.13.0 (2025-04-11)
 
-Bug fixes
----------
+### Bug fixes
 
 - Update license
 
-Version 26.12.0 (2025-04-10)
-============================
+## Version 26.12.0 (2025-04-10)
 
-Features
---------
+### Features
 
 - Fix vulnerability issue with YAML loading, use safe_load to avoid potential harmful remote code execution.
-  :issue:`SW-1378`
 
-Version 26.11.0 (2025-04-07)
-============================
+## Version 26.11.0 (2025-04-07)
 
-Features
---------
+### Features
 
 - Add new error class ConflictError designed for client-server communication via station control client.
-  :issue:`SW-1361`
 
-Version 26.10.0 (2025-04-07)
-============================
+## Version 26.10.0 (2025-04-07)
 
-Features
---------
+### Features
 
-- Fix package version in published docs footers, :issue:`SW-1392`.
+- Fix package version in published docs footers.
 
-Version 26.9.0 (2025-04-03)
-===========================
+## Version 26.9.0 (2025-04-03)
 
 Feature
-*******
 
-- Format code and enable PEP 604 in linting rules, :issue:`SW-1230`.
+- Format code and enable PEP 604 in linting rules.
 
-Version 26.8.0 (2025-04-02)
-===========================
+## Version 26.8.0 (2025-04-02)
 
-Features
-********
+### Features
 
 - Update the documentation footer to display the package version.
 
-Version 26.7.0 (2025-04-01)
-===========================
+## Version 26.7.0 (2025-04-01)
 
-Features
---------
+### Features
 
-- Use standard process of deprecation. No functional changes. :issue:`SW-450`
+- Use standard process of deprecation. No functional changes.
 
-Version 26.6.0 (2025-03-21)
-===========================
+## Version 26.6.0 (2025-03-21)
 
-Features
-********
+### Features
 
-* Rename QPU chip types, based on either &quot;crystal&quot; or &quot;star&quot; architecture and number of qubits. For example,
+- Rename QPU chip types, based on either &quot;crystal&quot; or &quot;star&quot; architecture and number of qubits. For example,
   &quot;crystal_5&quot; or &quot;star_6&quot;. For &quot;mini&quot; chips, like &quot;mini_crystal_20&quot;, the number is not based on the actual number
-  of qubits but to the chip it&#39;s trying to &quot;minimize&quot; instead, like &quot;crystal_20&quot;. :issue:`SW-1059`
+  of qubits but to the chip it&#39;s trying to &quot;minimize&quot; instead, like &quot;crystal_20&quot;.
 
-Version 26.5.0 (2025-03-19)
-===========================
+## Version 26.5.0 (2025-03-19)
 
-Bug fixes
----------
+### Bug fixes
 
 - Fix Parameters with element_indices having those indices duplicated in the name when deserialised
 
-Version 26.4.0 (2025-03-11)
-===========================
+## Version 26.4.0 (2025-03-11)
 
-Features
---------
+### Features
 
 - Bump pulla
 
-Version 26.3.0 (2025-03-05)
-===========================
+## Version 26.3.0 (2025-03-05)
 
-Features
---------
+### Features
 
 - Add new error classes designed for client-server communication via station control client.
 - Remove general RequestError and use new specific error classes instead.
 
-Version 26.2.0 (2025-03-03)
-===========================
+## Version 26.2.0 (2025-03-03)
 
-Bug fix
--------
+### Bug fixes
+
 - Fix numpy numeric types serialization in sweeps
 
-Version 26.1.0 (2025-02-28)
-===========================
+## Version 26.1.0 (2025-02-28)
 
+### Bug fixes
 
-Bug fix
--------
 - Fix protobuf deserialisation to not align SettingNode names
 
-Version 26.0.0 (2025-02-27)
-===========================
+## Version 26.0.0 (2025-02-27)
 
+### Breaking changes
 
-Features
---------
+- Remove Pydantic based `ParameterModel`, `SettingModel`, `SettingNodeModel`, and `SweepModel`,
+  and inherit `Parameter`, `Setting`, `SettingNode`, and `Sweep` from Pydantic model directly.
+  As a result, the signature of usage has changed.
 
-Breaking changes
-****************
+  - Instead of `copy`, `model_copy` (with an optional `update` parameter) should be used.
+  - For deserialization, for now, use `SettingNode.deserialize` (Pydantic native approach will be implemented later)
+- `FunctionSweep` and `FunctionOptions` has been deleted.
+- `.SettingNode` now supports &quot;the path notation&quot; when inserting/getting nodes
 
-- Remove Pydantic based ``ParameterModel``, ``SettingModel``, ``SettingNodeModel``, and ``SweepModel``,
-  and inherit ``Parameter``, ``Setting``, ``SettingNode``, and ``Sweep`` from Pydantic model directly.
-  As a result, the signature of usage has changed. :issue:`SW-798`
-    - Instead of ``copy``, ``model_copy`` (with an optional ``update`` parameter) should be used.
-    - For deserialization, for now, use :meth:`SettingNode.deserialize` (Pydantic native approach will be implemented later)
-- ``FunctionSweep`` and ``FunctionOptions`` has been deleted.
-- :class:`.SettingNode` now supports &quot;the path notation&quot; when inserting/getting nodes
-
-  - Example: ``settings[&quot;flux.my.new.path.foo&quot;] = SettingNode(...)`` adds the specified node under the specified path.
+  - Example: `settings[&quot;flux.my.new.path.foo&quot;] = SettingNode(...)` adds the specified node under the specified path.
     Any missing subnodes will be added.
 
-- :class:`.SettingNode` and :class:`.Setting` now have an attribute ``path`` which will be populated by their relative
+- `.SettingNode` and `.Setting` now have an attribute `path` which will be populated by their relative
   path within the settings tree when inserting/creating the node. The base class will also automatically align the name
-  of a node with its path, but there is an attribute ``align_name`` which can be set to ``False`` to not align
+  of a node with its path, but there is an attribute `align_name` which can be set to `False` to not align
   (used e.g. in the controllers section of the EXA settings tree).
-- Remove deprecated ``QCMClient.get_chad`` and ``QCMClient.get_qubit_design_properties``.
+- Remove deprecated `QCMClient.get_chad` and `QCMClient.get_qubit_design_properties`.
 
-Features
---------
+### Features
 
-- Settings can now be declared read-only by setting ``read_only = True`` when
+- Settings can now be declared read-only by setting `read_only = True` when
   initialising the setting.
 - Modified the html representation of settings tree to support read_only settings.
-- Methods :meth:`.SettingNode.get_gate_node_for_locus`, :meth:`.SettingNode.get_gate_properties_for_locus`,
-  :meth:`.SettingNode.get_default_implementation`, and :meth:`.SettingNode.get_locus_node_paths_for` added
+- Methods `.SettingNode.get_gate_node_for_locus`, `.SettingNode.get_gate_properties_for_locus`,
+  `.SettingNode.get_default_implementation`, and `.SettingNode.get_locus_node_paths_for` added
   for accessing EXA-specific gate/characterization nodes in the settings tree.
-- Methods :meth:`.SettingNode.add_for_path` and :meth:`.get_node_for_path` that facilitate dealing with long paths
+- Methods `.SettingNode.add_for_path` and `.get_node_for_path` that facilitate dealing with long paths
   in setting trees.
   in setting trees.
-- ``Sweep.options`` is deprecated, use ``Sweep.data`` instead. ``data`` can be still generated using different
+- `Sweep.options` is deprecated, use `Sweep.data` instead. `data` can be still generated using different
   sweep options.
-- ``ExponentialSweep``, ``FixedSweep``, and ``LinearSweep`` are deprecated, use ``Sweep`` instead.
-- Split ``DataType.NUMBER`` to ``DataType.FLOAT`` and ``DataType.INT``. ``DataType.NUMBER`` is now handled as a
-  deprecated alias for ``DataType.FLOAT``.
+- `ExponentialSweep`, `FixedSweep`, and `LinearSweep` are deprecated, use `Sweep` instead.
+- Split `DataType.NUMBER` to `DataType.FLOAT` and `DataType.INT`. `DataType.NUMBER` is now handled as a
+  deprecated alias for `DataType.FLOAT`.
 
-Version 25.34.0 (2025-02-06)
-============================
+## Version 25.34.0 (2025-02-06)
 
-Bug fixes
----------
+### Bug fixes
 
 - Bump mechanize test dependency.
 
-Version 25.33.0 (2025-02-04)
-============================
+## Version 25.33.0 (2025-02-04)
 
-Features
---------
+### Features
 
-- Refactor codebase to new lint rules. No functional changes. :issue:`SW-467`
+- Refactor codebase to new lint rules. No functional changes.
 
+## Version 25.32.0 (2025-02-04)
 
-Version 25.32.0 (2025-02-04)
-============================
+### Features
 
-Features
---------
+- Refactor codebase to new lint rules. No functional changes.
 
-- Refactor codebase to new lint rules. No functional changes. :issue:`SW-467`
+## Version 25.31.0 (2025-01-28)
 
+### Features
 
-Version 25.31.0 (2025-01-28)
-============================
-
-Features
-********
 - Support broader range of `numpy` versions and verify compatibily with ruff, see migration guide `https://numpy.org/doc/stable/numpy_2_0_migration_guide.html`.
 
-Version 25.30.0 (2025-01-28)
-============================
+## Version 25.30.0 (2025-01-28)
 
-Bug Fixes
----------
+### Bug fixes
 
-- Method ``ChipTopology.get_all_common_resonators`` can never return a set containing components which are not
+- Method `ChipTopology.get_all_common_resonators` can never return a set containing components which are not
   computational resonators.
 
-Version 25.29.0 (2025-01-27)
-============================
+## Version 25.29.0 (2025-01-27)
 
-Features
---------
+### Features
 
-- Bump version for an updated repo organization. No functional changes. :issue:`SW-1042`
+- Bump version for an updated repo organization. No functional changes.
 
-Version 25.28.0 (2025-01-08)
-============================
+## Version 25.28.0 (2025-01-08)
 
-Features
---------
+### Features
 
-- Remove gitlab links from public pages. :issue:`SW-776`
+- Remove gitlab links from public pages.
 
-Version 25.27.0 (2024-12-19)
-============================
+## Version 25.27.0 (2024-12-19)
 
-Features
-********
+### Features
+
 - Bumps xarray
 
-Version 25.26.0 (2024-12-12)
-============================
+## Version 25.26.0 (2024-12-12)
 
-Features
---------
+### Features
 
 - Bump exa-experiments
 
-Version 25.25.0 (2024-12-11)
-============================
+## Version 25.25.0 (2024-12-11)
 
-Features
---------
+### Features
 
-- Fix public PyPI publishing. :issue:`SW-776`
+- Fix public PyPI publishing.
 
-Version 25.24.0 (2024-12-11)
-============================
+## Version 25.24.0 (2024-12-11)
 
-Features
---------
+### Features
 
-- Change license info to Apache 2.0. :issue:`SW-776`
+- Change license info to Apache 2.0.
 
-Version 25.23.0 (2024-12-09)
-============================
+## Version 25.23.0 (2024-12-09)
 
-Features
---------
+### Features
 
-Fix extlinks to MRs and issues in sphinx docs config :issue:`SW-916`
+Fix extlinks to MRs and issues in sphinx docs config
 
-Version 25.22.0 (2024-12-05)
-============================
+## Version 25.22.0 (2024-12-05)
 
-Features
---------
+### Features
 
-- Fix intersphinx reference paths in docs :issue:`SW-916`
+- Fix intersphinx reference paths in docs
 
-Version 25.21.0 (2024-12-04)
-============================
+## Version 25.21.0 (2024-12-04)
 
-Test
-****
+### Features
+
 - Adds unit test for sorting couplers
 
-Version 25.20.0 (2024-12-04)
-============================
+## Version 25.20.0 (2024-12-04)
 
-Features
---------
+### Features
 
-- Bump version for an updated repo organization. No functional changes. :issue:`SW-665`
+- Bump version for an updated repo organization. No functional changes.
 
-Version 25.19.0 (2024-11-29)
-============================
+## Version 25.19.0 (2024-11-29)
 
-Features
---------
+### Features
 
 - Include computational resonators as possible locus components for `DEFAULT_2QB_MAPPING`, which is used for slow CZ
-  gates, required for :issue:`GBC-589`.
+  gates, required for.
 
-Version 25.18.0 (2024-11-27)
-============================
+## Version 25.18.0 (2024-11-27)
 
-Features
---------
+### Features
 
 - Expand allowed CHEDDAR versions in `qcm_data_client` to include versions 2.x.
 
-Version 25.17.0 (2024-11-19)
-============================
+## Version 25.17.0 (2024-11-19)
 
-Features
---------
+### Features
 
-- Bump version for an updated repo organization. No functional changes. :issue:`SW-774`
+- Bump version for an updated repo organization. No functional changes.
 
-Version 25.16.0 (2024-11-15)
-============================
+## Version 25.16.0 (2024-11-15)
 
-Bug fixes
----------
+### Bug fixes
 
 - Remove iqm-internal web links in customer docs artifacts.
 
-Version 25.15.0 (2024-11-08)
-============================
+## Version 25.15.0 (2024-11-08)
 
-Features
---------
+### Features
 
-- New changelog workflow, no functional changes. :issue:`SW-774`
+- New changelog workflow, no functional changes.
 
-Version 25.14 (2024-10-30)
-==========================
+## Version 25.14 (2024-10-30)
 
-- Bump Pydantic to version 2.9.2, :issue:`SW-804`.
+- Bump Pydantic to version 2.9.2.
 
-
-Version 25.13 (2024-10-28)
-==========================
+## Version 25.13 (2024-10-28)
 
 - Bump NumPy to version 1.25.2.
 
+## Version 25.12 (2024-10-24)
 
-Version 25.12 (2024-10-24)
-==========================
+- Add sweep validation to `convert_sweeps_to_list_of_tuples` function.
 
-- Add sweep validation to :func:`convert_sweeps_to_list_of_tuples` function.
+## Version 25.11 (2024-10-11)
 
+- Add `get_all_common_resonators`
 
-Version 25.11 (2024-10-11)
-==========================
-
-- Add :func:`get_all_common_resonators`
-
-
-Version 25.10 (2024-10-02)
-==========================
+## Version 25.10 (2024-10-02)
 
 - Bump `iqm-data-definitions` to 2.0.
 
-
-Version 25.9 (2024-09-23)
-=========================
+## Version 25.9 (2024-09-23)
 
 - Bump dependency `requests` to version 2.32.3
 
+## Version 25.8 (2024-09-10)
 
-Version 25.8 (2024-09-10)
-=========================
+### Features
 
-Features
---------
-- Add ``EmptyComponentListError``.
+- Add `EmptyComponentListError`.
 
+## Version 25.7 (2024-08-23)
 
+### Bug fixes
 
-Version 25.7 (2024-08-23)
-=========================
+- Fix `Setting.__eq__` not working between values of type `np.ndarray` and `None`.
 
-Bug fix
--------
-- Fix :meth:`Setting.__eq__` not working between values of type ``np.ndarray`` and ``None``.
+## Version 25.6 (2024-08-16)
 
-
-Version 25.6 (2024-08-16)
-=========================
-
-Bug fix
--------
+### Bug fixes
 
 - Fix `QCMDataClient.get_chip_design_record` not working on remote targets.
 
+## Version 25.5 (2024-08-15)
 
-Version 25.5 (2024-08-15)
-=========================
+### Features
 
-Features
---------
-
-- Add `QCMDataClient.get_chip_design_record`. Can be used in place of `get_chad`. :issue:`EXA-2077`
+- Add `QCMDataClient.get_chip_design_record`. Can be used in place of `get_chad`.
 - Deprecate `QCMDataClient.get_qubit_design_properties` as the chip design_record (CHEDDAR) contains the same data.
 - Add more utility methods to `ChipTopology`.
 
+## Version 25.4 (2024-07-12)
 
-Version 25.4 (2024-07-12)
-=========================
-
-Features
---------
+### Features
 
 - Add an optional fallback URL to `QCMDataClient`.
 
+## Version 25.3 (2024-07-05)
 
-Version 25.3 (2024-07-05)
-=========================
+### Features
 
-Features
---------
+- Add `_repr_html_` method for `SettingNode`. This method overrides the
+ default `repr` in notebooks.
 
-- Add `_repr_html_` method for :class:`SettingNode`. This method overrides the
- default `repr` in notebooks. :issue:`EXA-1975`
+## Version 25.2 (2024-07-04)
 
+### Features
 
+- Add couplers to data components of `ChipTopology`.
 
-Version 25.2 (2024-07-04)
-=========================
+## Version 25.1 (2024-06-27)
 
-Features
---------
-
-- Add couplers to data components of :class:`ChipTopology`. :issue:`EXA-2056`
-
-
-Version 25.1 (2024-06-27)
-=========================
-
-Features
---------
+### Features
 
 - First changelog for exa-common. No functional changes.
 </pre></div>
@@ -1034,7 +875,7 @@ Features
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 27.4.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 27.5.1.
       <br/>
     
   </p>

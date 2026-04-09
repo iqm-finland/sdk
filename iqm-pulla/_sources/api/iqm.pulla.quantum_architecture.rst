@@ -1,8 +1,9 @@
-iqm.pulla.quantum\_architecture
-===============================
+quantum\_architecture
+=====================
+
+Full path: iqm.pulla.quantum_architecture
 
 .. automodule:: iqm.pulla.quantum_architecture
-
    
    
    

@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.iqm\_circuit.IQMCircuit
-=======================================
+IQMCircuit
+==========
 
 .. currentmodule:: iqm.qiskit_iqm.iqm_circuit
+
+Module: :mod:`iqm.qiskit_iqm.iqm_circuit`
 
 .. autoclass:: IQMCircuit
    :members:
@@ -23,7 +25,16 @@ iqm.qiskit\_iqm.iqm\_circuit.IQMCircuit
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
       ~IQMCircuit.move
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.iqm_circuit.IQMCircuit
+   :parts: 1
+   :private-bases:

@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.iqm\_transpilation.IQMOptimizeSingleQubitGates
-==============================================================
+IQMOptimizeSingleQubitGates
+===========================
 
 .. currentmodule:: iqm.qiskit_iqm.iqm_transpilation
+
+Module: :mod:`iqm.qiskit_iqm.iqm_transpilation`
 
 .. autoclass:: IQMOptimizeSingleQubitGates
    :members:
@@ -22,12 +24,16 @@ iqm.qiskit\_iqm.iqm\_transpilation.IQMOptimizeSingleQubitGates
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~IQMOptimizeSingleQubitGates._apply_final_r_gates
-      ~IQMOptimizeSingleQubitGates._handle_c_if_blocks
-      ~IQMOptimizeSingleQubitGates._handle_if_else_block
-      ~IQMOptimizeSingleQubitGates._handle_u_gates
-      ~IQMOptimizeSingleQubitGates._validate_ops
       ~IQMOptimizeSingleQubitGates.run
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.iqm_transpilation.IQMOptimizeSingleQubitGates
+   :parts: 1
+   :private-bases:

@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.iqm\_move\_layout
-=================================
+iqm\_move\_layout
+=================
+
+Full path: iqm.qiskit_iqm.iqm_move_layout
 
 .. automodule:: iqm.qiskit_iqm.iqm_move_layout
-
    
    
    
@@ -24,9 +25,11 @@ iqm.qiskit\_iqm.iqm\_move\_layout
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMMoveLayout
+   
    
    
 
@@ -44,4 +47,5 @@ iqm.qiskit\_iqm.iqm\_move\_layout
 
 .. inheritance-diagram:: iqm.qiskit_iqm.iqm_move_layout
    :parts: 1
+   :private-bases:
 

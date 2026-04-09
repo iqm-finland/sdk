@@ -1,7 +1,9 @@
-iqm.iqm\_client.iqm\_client.CircuitJob
-======================================
+CircuitJob
+==========
 
 .. currentmodule:: iqm.iqm_client.iqm_client
+
+Module: :mod:`iqm.iqm_client.iqm_client`
 
 .. autoclass:: CircuitJob
    :members:
@@ -23,10 +25,17 @@ iqm.iqm\_client.iqm\_client.CircuitJob
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~CircuitJob.__eq__
-      ~CircuitJob.__repr__
       ~CircuitJob.payload
       ~CircuitJob.result
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.iqm_client.iqm_client.CircuitJob
+   :parts: 1
+   :private-bases:

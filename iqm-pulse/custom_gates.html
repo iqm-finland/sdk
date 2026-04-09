@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Custom gate implementations &#8212; iqm.pulse 12.7.5 documentation</title>
+    <title>Custom gate implementations &#8212; iqm.pulse 13.0.1 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,9 +39,11 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=1ebeef14"></script>
+    <script src="_static/documentation_options.js?v=c7d539cd"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'custom_gates';</script>
     <link rel="icon" href="_static/favicon.ico"/>
@@ -140,8 +143,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="iqm.pulse 12.7.5 documentation - Home"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 12.7.5 documentation - Home"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-light" alt="iqm.pulse 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -218,6 +221,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.delay.html">delay</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.enums.html">enums</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.flux_multiplexer.html">flux_multiplexer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.lru.html">lru</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.measure.html">measure</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.move.html">move</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.gates.prx.html">prx</a></li>
@@ -240,6 +244,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.quantum_ops.html">quantum_ops</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.QuantumOpTable.html">iqm.pulse.quantum_ops.QuantumOpTable</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.diff_cal_data.html">iqm.pulse.quantum_ops.diff_cal_data</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.validate_locus_calibration.html">iqm.pulse.quantum_ops.validate_locus_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.validate_op_calibration.html">iqm.pulse.quantum_ops.validate_op_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.quantum_ops.QuantumOp.html">QuantumOp</a></li>
@@ -257,6 +262,7 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.timebox.html">timebox</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.MultiplexedProbeTimeBox.html">MultiplexedProbeTimeBox</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.ProbeBlockBox.html">ProbeBlockBox</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.ProbeTimeBoxes.html">ProbeTimeBoxes</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.SchedulingAlgorithm.html">SchedulingAlgorithm</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.timebox.SchedulingStrategy.html">SchedulingStrategy</a></li>
@@ -264,6 +270,7 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
@@ -506,7 +513,7 @@ info on scheduling and the ScheduleBuilder):</p>
 </div>
 <p>The base class <code class="xref py py-meth docutils literal notranslate"><span class="pre">__call__()</span></code> method does automatic TimeBox caching based
 on the unique values of the call arguments, and in many cases, one does not want to reimplement this caching in their own
-implementations. For this reason, there is the method <a class="reference internal" href="api/iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation._call" title="iqm.pulse.gate_implementation.GateImplementation._call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">_call()</span></code></a> which contains just the pure TimeBox creation logic.
+implementations. For this reason, there is the method <code class="xref py py-meth docutils literal notranslate"><span class="pre">_call()</span></code> which contains just the pure TimeBox creation logic.
 Developers should override that instead of <code class="xref py py-meth docutils literal notranslate"><span class="pre">__call__()</span></code> in cases where the call args are hashable Python types,
 so they can utilize the caching of TimeBoxes from the base class.</p>
 <p>When writing a GateImplementation, a developer should consider what parts of the logic should go to the class init and
@@ -546,7 +553,7 @@ loci are supported to a client application (e.g. EXA). In addition, the gate imp
 use this information <code class="docutils literal notranslate"><span class="pre">self.builder.chip_topology</span></code>.</p>
 <p>For example, a PRX can be defined on all single components that are connected to a drive line, and CZ can be defined on
 connected pairs of qubits. Locus mappings live in <code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.chip_topology</span></code> which is a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">ChipTopology</span></code> object. Locus mapping is a dict whose keys are the loci
+<a class="reference external" href="../iqm-exa-common/api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology" title="(in exa-common v27.4.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChipTopology</span></code></a> object. Locus mapping is a dict whose keys are the loci
 (<code class="docutils literal notranslate"><span class="pre">tuple[str,</span> <span class="pre">...]</span></code> keys denote asymmetric loci where the order of the components matter, and <code class="docutils literal notranslate"><span class="pre">frozenset[str]</span></code> type
 loci denote symmetric ones), and the values are groups of components, typed <code class="docutils literal notranslate"><span class="pre">tuple[str,</span> <span class="pre">...]</span></code>, where each locus can be
 mapped with some additional components that are needed for the operation of the implementation. For example, some CZ
@@ -622,7 +629,7 @@ with the method <code class="xref py py-meth docutils literal notranslate"><span
 <a class="reference internal" href="api/iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><code class="xref py py-class docutils literal notranslate"><span class="pre">GateImplementation</span></code></a> itself.</p>
 <p><a class="reference internal" href="api/iqm.pulse.gate_implementation.CompositeGate.html#iqm.pulse.gate_implementation.CompositeGate" title="iqm.pulse.gate_implementation.CompositeGate"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeGate</span></code></a> allows quick implementation of gates in terms of other gates,
 using a similar syntax as with creating/scheduling several TimeBoxes together (see <a class="reference internal" href="using_builder.html"><span class="doc">Using ScheduleBuilder</span></a>). At it
-simplest, a CompositeGate is just the <a class="reference internal" href="api/iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation._call" title="iqm.pulse.gate_implementation.GateImplementation._call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">_call()</span></code></a> method:</p>
+simplest, a CompositeGate is just the <code class="xref py py-meth docutils literal notranslate"><span class="pre">_call()</span></code> method:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">CompositeHadamard</span><span class="p">(</span><span class="n">CompositeGate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Composite Hadamard that uses PRX&quot;&quot;&quot;</span>
     <span class="n">registered_gates</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;prx&quot;</span><span class="p">,)</span>
@@ -770,7 +777,7 @@ above method will always work.</p>
 
   <p class="copyright">
     
-      © Copyright 2019-2025, IQM Finland Oy, Release 12.7.5.
+      © Copyright 2019-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>

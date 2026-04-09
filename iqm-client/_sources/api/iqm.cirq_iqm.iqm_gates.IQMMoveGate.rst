@@ -1,7 +1,9 @@
-iqm.cirq\_iqm.iqm\_gates.IQMMoveGate
-====================================
+IQMMoveGate
+===========
 
 .. currentmodule:: iqm.cirq_iqm.iqm_gates
+
+Module: :mod:`iqm.cirq_iqm.iqm_gates`
 
 .. autoclass:: IQMMoveGate
    :members:
@@ -22,12 +24,16 @@ iqm.cirq\_iqm.iqm\_gates.IQMMoveGate
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~IQMMoveGate.__str__
-      ~IQMMoveGate._circuit_diagram_info_
-      ~IQMMoveGate._eigen_components
-      ~IQMMoveGate._num_qubits_
-      ~IQMMoveGate._qid_shape_
       ~IQMMoveGate.num_qubits
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.cirq_iqm.iqm_gates.IQMMoveGate
+   :parts: 1
+   :private-bases:

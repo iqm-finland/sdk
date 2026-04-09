@@ -1,8 +1,9 @@
-iqm.pulla.utils\_dd
-===================
+utils\_dd
+=========
+
+Full path: iqm.pulla.utils_dd
 
 .. automodule:: iqm.pulla.utils_dd
-
    
    
    

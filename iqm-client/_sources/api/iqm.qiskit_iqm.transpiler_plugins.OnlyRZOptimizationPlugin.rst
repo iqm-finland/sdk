@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.transpiler\_plugins.OnlyRZOptimizationPlugin
-============================================================
+OnlyRZOptimizationPlugin
+========================
 
 .. currentmodule:: iqm.qiskit_iqm.transpiler_plugins
+
+Module: :mod:`iqm.qiskit_iqm.transpiler_plugins`
 
 .. autoclass:: OnlyRZOptimizationPlugin
    :members:
@@ -17,6 +19,15 @@ iqm.qiskit\_iqm.transpiler\_plugins.OnlyRZOptimizationPlugin
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin
+   :parts: 1
+   :private-bases:

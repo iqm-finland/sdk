@@ -1,8 +1,9 @@
-iqm.cirq\_iqm.extended\_qasm\_parser
-====================================
+extended\_qasm\_parser
+======================
+
+Full path: iqm.cirq_iqm.extended_qasm_parser
 
 .. automodule:: iqm.cirq_iqm.extended_qasm_parser
-
    
    
    

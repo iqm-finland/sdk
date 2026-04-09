@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.fake\_backends.iqm\_fake\_backend.IQMErrorProfile
-=================================================================
+IQMErrorProfile
+===============
 
 .. currentmodule:: iqm.qiskit_iqm.fake_backends.iqm_fake_backend
+
+Module: :mod:`iqm.qiskit_iqm.fake_backends.iqm_fake_backend`
 
 .. autoclass:: IQMErrorProfile
    :members:
@@ -30,9 +32,16 @@ iqm.qiskit\_iqm.fake\_backends.iqm\_fake\_backend.IQMErrorProfile
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~IQMErrorProfile.__eq__
-      ~IQMErrorProfile.__repr__
       ~IQMErrorProfile.thermal_relaxation
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMErrorProfile
+   :parts: 1
+   :private-bases:

@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.fake\_backends
-==============================
+fake\_backends
+==============
+
+Full path: iqm.qiskit_iqm.fake_backends
 
 .. automodule:: iqm.qiskit_iqm.fake_backends
-
    
    
    

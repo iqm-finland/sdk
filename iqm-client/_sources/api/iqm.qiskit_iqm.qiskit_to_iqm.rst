@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.qiskit\_to\_iqm
-===============================
+qiskit\_to\_iqm
+===============
+
+Full path: iqm.qiskit_iqm.qiskit_to_iqm
 
 .. automodule:: iqm.qiskit_iqm.qiskit_to_iqm
-
    
    
    
@@ -25,9 +26,11 @@ iqm.qiskit\_iqm.qiskit\_to\_iqm
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       MeasurementKey
+   
    
    
 
@@ -52,4 +55,5 @@ iqm.qiskit\_iqm.qiskit\_to\_iqm
 
 .. inheritance-diagram:: iqm.qiskit_iqm.qiskit_to_iqm
    :parts: 1
+   :private-bases:
 

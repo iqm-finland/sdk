@@ -1,7 +1,9 @@
-iqm.pulla.pulla.Pulla
-=====================
+Pulla
+=====
 
 .. currentmodule:: iqm.pulla.pulla
+
+Module: :mod:`iqm.pulla.pulla`
 
 .. autoclass:: Pulla
    :members:
@@ -17,14 +19,20 @@ iqm.pulla.pulla.Pulla
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~Pulla._get_station_control_settings
-      ~Pulla.fetch_calibration_set_values_by_id
-      ~Pulla.fetch_default_calibration_set
-      ~Pulla.get_channel_properties
+      ~Pulla.get_calibration_stash
       ~Pulla.get_chip_label
       ~Pulla.get_chip_topology
+      ~Pulla.get_job
       ~Pulla.get_standard_compiler
       ~Pulla.submit_playlist
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.pulla.pulla.Pulla
+   :parts: 1

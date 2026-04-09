@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.fake\_backends.fake\_adonis
-===========================================
+fake\_adonis
+============
+
+Full path: iqm.qiskit_iqm.fake_backends.fake_adonis
 
 .. automodule:: iqm.qiskit_iqm.fake_backends.fake_adonis
-
    
    
    

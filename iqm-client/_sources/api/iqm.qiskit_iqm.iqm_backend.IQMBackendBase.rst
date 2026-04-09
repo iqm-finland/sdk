@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.iqm\_backend.IQMBackendBase
-===========================================
+IQMBackendBase
+==============
 
 .. currentmodule:: iqm.qiskit_iqm.iqm_backend
+
+Module: :mod:`iqm.qiskit_iqm.iqm_backend`
 
 .. autoclass:: IQMBackendBase
    :members:
@@ -13,6 +15,7 @@ iqm.qiskit\_iqm.iqm\_backend.IQMBackendBase
 
    .. autosummary::
    
+      ~IQMBackendBase.max_circuits
       ~IQMBackendBase.physical_qubits
       ~IQMBackendBase.target
       ~IQMBackendBase.target_with_resonators
@@ -29,6 +32,7 @@ iqm.qiskit\_iqm.iqm\_backend.IQMBackendBase
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
       ~IQMBackendBase.get_real_target
       ~IQMBackendBase.get_scheduling_stage_plugin
@@ -37,3 +41,11 @@ iqm.qiskit\_iqm.iqm\_backend.IQMBackendBase
       ~IQMBackendBase.qubit_name_to_index
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.iqm_backend.IQMBackendBase
+   :parts: 1
+   :private-bases:

@@ -23,7 +23,6 @@ Contents
    user_guide_cirq
    changelog
    license
-   authors
 
 .. toctree::
    :maxdepth: 1

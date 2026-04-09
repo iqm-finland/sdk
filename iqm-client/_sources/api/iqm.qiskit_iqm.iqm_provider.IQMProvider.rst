@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.iqm\_provider.IQMProvider
-=========================================
+IQMProvider
+===========
 
 .. currentmodule:: iqm.qiskit_iqm.iqm_provider
+
+Module: :mod:`iqm.qiskit_iqm.iqm_provider`
 
 .. autoclass:: IQMProvider
    :members:
@@ -17,7 +19,16 @@ iqm.qiskit\_iqm.iqm\_provider.IQMProvider
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
       ~IQMProvider.get_backend
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.iqm_provider.IQMProvider
+   :parts: 1
+   :private-bases:

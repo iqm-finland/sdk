@@ -1,7 +1,9 @@
-iqm.cirq\_iqm.devices.apollo.Apollo
-===================================
+Apollo
+======
 
 .. currentmodule:: iqm.cirq_iqm.devices.apollo
+
+Module: :mod:`iqm.cirq_iqm.devices.apollo`
 
 .. autoclass:: Apollo
    :members:
@@ -22,6 +24,15 @@ iqm.cirq\_iqm.devices.apollo.Apollo
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.cirq_iqm.devices.apollo.Apollo
+   :parts: 1
+   :private-bases:

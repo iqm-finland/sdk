@@ -1,8 +1,9 @@
-iqm.qiskit\_iqm.fake\_backends.iqm\_fake\_backend
-=================================================
+iqm\_fake\_backend
+==================
+
+Full path: iqm.qiskit_iqm.fake_backends.iqm_fake_backend
 
 .. automodule:: iqm.qiskit_iqm.fake_backends.iqm_fake_backend
-
    
    
    
@@ -17,10 +18,12 @@ iqm.qiskit\_iqm.fake\_backends.iqm\_fake\_backend
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    
       IQMErrorProfile
       IQMFakeBackend
+   
    
    
 
@@ -38,4 +41,5 @@ iqm.qiskit\_iqm.fake\_backends.iqm\_fake\_backend
 
 .. inheritance-diagram:: iqm.qiskit_iqm.fake_backends.iqm_fake_backend
    :parts: 1
+   :private-bases:
 

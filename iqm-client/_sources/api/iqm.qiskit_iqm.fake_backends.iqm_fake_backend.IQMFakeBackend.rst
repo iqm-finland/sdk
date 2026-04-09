@@ -1,7 +1,9 @@
-iqm.qiskit\_iqm.fake\_backends.iqm\_fake\_backend.IQMFakeBackend
-================================================================
+IQMFakeBackend
+==============
 
 .. currentmodule:: iqm.qiskit_iqm.fake_backends.iqm_fake_backend
+
+Module: :mod:`iqm.qiskit_iqm.fake_backends.iqm_fake_backend`
 
 .. autoclass:: IQMFakeBackend
    :members:
@@ -14,7 +16,6 @@ iqm.qiskit\_iqm.fake\_backends.iqm\_fake\_backend.IQMFakeBackend
    .. autosummary::
    
       ~IQMFakeBackend.error_profile
-      ~IQMFakeBackend.max_circuits
       ~IQMFakeBackend.name
       ~IQMFakeBackend.description
       ~IQMFakeBackend.online_date
@@ -28,12 +29,18 @@ iqm.qiskit\_iqm.fake\_backends.iqm\_fake\_backend.IQMFakeBackend
    .. rubric:: Methods
 
    .. autosummary::
+      :nosignatures:
    
-      ~IQMFakeBackend._create_noise_model
-      ~IQMFakeBackend._default_options
-      ~IQMFakeBackend._validate_architecture_and_error_profile
       ~IQMFakeBackend.copy_with_error_profile
       ~IQMFakeBackend.run
       ~IQMFakeBackend.validate_compatible_architecture
    
    
+
+
+
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: iqm.qiskit_iqm.fake_backends.iqm_fake_backend.IQMFakeBackend
+   :parts: 1
+   :private-bases:

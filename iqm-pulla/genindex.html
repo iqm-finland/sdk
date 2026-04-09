@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; IQM Pulla 12.0.5 documentation</title>
+    <title>Index &#8212; IQM Pulla 13.0.1 documentation</title>
   
   
   
@@ -30,6 +30,7 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -37,9 +38,11 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=386ede98"></script>
+    <script src="_static/documentation_options.js?v=1e775836"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
     <link rel="icon" href="_static/favicon.ico"/>
@@ -139,8 +142,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="IQM Pulla 12.0.5 documentation - Home"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 12.0.5 documentation - Home"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM Pulla 13.0.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 13.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -159,15 +162,14 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="readme.html">IQM Pulla</a></li>
-<li class="toctree-l1"><a class="reference internal" href="migration_guide.html">Migration guide</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="user_guides.html">User guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="Quick%20Start.html">Quick Start</a></li>
 
 
-
 <li class="toctree-l2"><a class="reference internal" href="Configuration%20and%20Usage.html">Configuration and Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Sweeps.html">Sweeps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Compilation%20Stages.html">Compilation Stages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Custom%20Gates%20and%20Implementations.html">Custom Gates and Gate Implementations</a></li>
 </ul>
@@ -179,47 +181,50 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.cpc.html">iqm.cpc</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.compiler.html">iqm.cpc.compiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compiler.html">iqm.cpc.compiler.compiler</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.dd.html">iqm.cpc.compiler.dd</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.errors.html">iqm.cpc.compiler.errors</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.standard_stages.html">iqm.cpc.compiler.standard_stages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.station_settings.html">iqm.cpc.compiler.station_settings</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.cpc.html">cpc</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.compiler.html">compiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compilation_stage.html">compilation_stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compiler.html">compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.dd.html">dd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.errors.html">errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.layering_stages.html">layering_stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.post_process.html">post_process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.standard_stages.html">standard_stages</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.interface.html">iqm.cpc.interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.interface.compiler.html">iqm.cpc.interface.compiler</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.config.html">config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.run_result.html">run_result</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.interface.circuit_execution.html">circuit_execution</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.pulla.html">iqm.pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.calibration.html">iqm.pulla.calibration</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.calibration.CalibrationDataProvider.html">iqm.pulla.calibration.CalibrationDataProvider</a></li>
-</ul>
-</details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.interface.html">iqm.pulla.interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CalibrationSetValues.html">iqm.pulla.interface.CalibrationSetValues</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE.html">iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CHADRetrievalException.html">iqm.pulla.interface.CHADRetrievalException</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.ChipLabelRetrievalException.html">iqm.pulla.interface.ChipLabelRetrievalException</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.SettingsRetrievalException.html">iqm.pulla.interface.SettingsRetrievalException</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.pulla.html">iqm.pulla.pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html">iqm.pulla.pulla.Pulla</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.SweepJob.html">iqm.pulla.pulla.SweepJob</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html">Pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.PullaJob.html">PullaJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.PullaStash.html">PullaStash</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.html">iqm.pulla.quantum_architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.html">quantum_architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture.html">iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.create_static_quantum_architecture.html">iqm.pulla.quantum_architecture.create_static_quantum_architecture</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils.html">iqm.pulla.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.InstructionLocation.html">iqm.pulla.utils.InstructionLocation</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.build_settings.html">iqm.pulla.utils.build_settings</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.calset_from_observations.html">iqm.pulla.utils.calset_from_observations</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.calset_to_cal_data_tree.html">iqm.pulla.utils.calset_to_cal_data_tree</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.circuit_operations_to_cpc.html">iqm.pulla.utils.circuit_operations_to_cpc</a></li>
@@ -228,7 +233,6 @@
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.extract_readout_controller_result_names.html">iqm.pulla.utils.extract_readout_controller_result_names</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.find_circuit_boundary.html">iqm.pulla.utils.find_circuit_boundary</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.get_hash_for.html">iqm.pulla.utils.get_hash_for</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.initialize_schedule_builder.html">iqm.pulla.utils.initialize_schedule_builder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.iqm_circuit_to_gate_implementation.html">iqm.pulla.utils.iqm_circuit_to_gate_implementation</a></li>
@@ -238,29 +242,35 @@
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.print_channel.html">iqm.pulla.utils.print_channel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.print_schedule.html">iqm.pulla.utils.print_schedule</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.replace_instruction_in_place.html">iqm.pulla.utils.replace_instruction_in_place</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.InstructionLocation.html">iqm.pulla.utils.InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.PostSelectionError.html">iqm.pulla.utils.PostSelectionError</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_cirq.html">iqm.pulla.utils_cirq</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_cirq.html">utils_cirq</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_cirq.cirq_to_cpc.html">iqm.pulla.utils_cirq.cirq_to_cpc</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_dd.html">iqm.pulla.utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_dd.html">utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_dd.generate_phases_of_urn_sequence.html">iqm.pulla.utils_dd.generate_phases_of_urn_sequence</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qir.html">iqm.pulla.utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_parallelization.html">utils_parallelization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_parallelization.parallelize_timeboxes.html">iqm.pulla.utils_parallelization.parallelize_timeboxes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qir.html">utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping.html">iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qir.qir_to_pulla.html">iqm.pulla.utils_qir.qir_to_pulla</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.html">iqm.pulla.utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.html">utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.get_qiskit_compiler.html">iqm.pulla.utils_qiskit.get_qiskit_compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.parallelize_and_transpile.html">iqm.pulla.utils_qiskit.parallelize_and_transpile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_to_pulla</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.sweep_job_to_qiskit.html">iqm.pulla.utils_qiskit.sweep_job_to_qiskit</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.DummyJob.html">iqm.pulla.utils_qiskit.DummyJob</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.IQMPullaBackend.html">iqm.pulla.utils_qiskit.IQMPullaBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.QiskitCompiler.html">QiskitCompiler</a></li>
 </ul>
 </details></li>
 </ul>
@@ -270,7 +280,6 @@
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="common_errors.html">Common errors</a></li>
-<li class="toctree-l1"><a class="reference internal" href="authors.html">Contributors</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">CHANGELOG</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
@@ -388,6 +397,8 @@ document.write(`
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
@@ -396,6 +407,7 @@ document.write(`
  | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  
@@ -403,23 +415,55 @@ document.write(`
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.AC_STARK_SHIFT_E.html#iqm.cpc.core.observation.observation_parameters.AC_STARK_SHIFT_E">AC_STARK_SHIFT_E (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.ACTIVE_RESET_FIDELITY.html#iqm.cpc.core.observation.observation_parameters.ACTIVE_RESET_FIDELITY">ACTIVE_RESET_FIDELITY (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.add_conventional_controller_mapping">add_conventional_controller_mapping() (iqm.cpc.core.config.ExperimentConfiguration method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.add_counter_averaged_readout.html#iqm.cpc.compiler.post_process.add_counter_averaged_readout">add_counter_averaged_readout() (in module iqm.cpc.compiler.post_process)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.add_counts_for.html#iqm.cpc.compiler.post_process.add_counts_for">add_counts_for() (in module iqm.cpc.compiler.post_process)</a>
+</li>
       <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.add_implementation">add_implementation() (iqm.cpc.compiler.compiler.Compiler method)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.compiler.CompilationStage.html#iqm.cpc.compiler.compiler.CompilationStage.add_passes">add_passes() (iqm.cpc.compiler.compiler.CompilationStage method)</a>
+      <li><a href="api/iqm.cpc.core.dataset.add_many_data_arrays.html#iqm.cpc.core.dataset.add_many_data_arrays">add_many_data_arrays() (in module iqm.cpc.core.dataset)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitBoundaryMode.html#iqm.cpc.interface.compiler.CircuitBoundaryMode.ALL">ALL (iqm.cpc.interface.compiler.CircuitBoundaryMode attribute)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.html#iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.add_observations">add_observations() (iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.CompilationStage.html#iqm.cpc.compiler.compilation_stage.CompilationStage.add_passes">add_passes() (iqm.cpc.compiler.compilation_stage.CompilationStage method)</a>
+</li>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitBoundaryMode.html#iqm.cpc.interface.circuit_execution.CircuitBoundaryMode.ALL">ALL (iqm.cpc.interface.circuit_execution.CircuitBoundaryMode attribute)</a>
 
       <ul>
-        <li><a href="api/iqm.cpc.interface.compiler.MeasurementMode.html#iqm.cpc.interface.compiler.MeasurementMode.ALL">(iqm.cpc.interface.compiler.MeasurementMode attribute)</a>
+        <li><a href="api/iqm.cpc.interface.circuit_execution.MeasurementMode.html#iqm.cpc.interface.circuit_execution.MeasurementMode.ALL">(iqm.cpc.interface.circuit_execution.MeasurementMode attribute)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.amend_calibration_for_gate_implementation">amend_calibration_for_gate_implementation() (iqm.cpc.compiler.compiler.Compiler method)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.ANHARMONICITY.html#iqm.cpc.core.observation.observation_parameters.ANHARMONICITY">ANHARMONICITY (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.dataset.annotate.html#iqm.cpc.core.dataset.annotate">annotate() (in module iqm.cpc.core.dataset)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.StagesList.html#iqm.cpc.compiler.compilation_stage.StagesList.append">append() (iqm.cpc.compiler.compilation_stage.StagesList method)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.dataset.apply_along_coordinate.html#iqm.cpc.core.dataset.apply_along_coordinate">apply_along_coordinate() (in module iqm.cpc.core.dataset)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.standard_stages.apply_dd_strategy.html#iqm.cpc.compiler.standard_stages.apply_dd_strategy">apply_dd_strategy() (in module iqm.cpc.compiler.standard_stages)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.standard_stages.apply_move_gate_phase_corrections.html#iqm.cpc.compiler.standard_stages.apply_move_gate_phase_corrections">apply_move_gate_phase_corrections() (in module iqm.cpc.compiler.standard_stages)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.CacheableLoadRule.html#iqm.cpc.core.observation.observation_loading_rules.CacheableLoadRule.attributes">attributes (iqm.cpc.core.observation.observation_loading_rules.CacheableLoadRule property)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.AVERAGE_RESPONSE_E.html#iqm.cpc.core.observation.observation_parameters.AVERAGE_RESPONSE_E">AVERAGE_RESPONSE_E (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.AVERAGE_RESPONSE_F.html#iqm.cpc.core.observation.observation_parameters.AVERAGE_RESPONSE_F">AVERAGE_RESPONSE_F (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.AVERAGE_RESPONSE_G.html#iqm.cpc.core.observation.observation_parameters.AVERAGE_RESPONSE_G">AVERAGE_RESPONSE_G (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.AVERAGE_RESPONSE_PHASE.html#iqm.cpc.core.observation.observation_parameters.AVERAGE_RESPONSE_PHASE">AVERAGE_RESPONSE_PHASE (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.average_single_shot_data.html#iqm.cpc.compiler.post_process.average_single_shot_data">average_single_shot_data() (in module iqm.cpc.compiler.post_process)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -427,19 +471,11 @@ document.write(`
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE.html#iqm.pulla.interface.BUFFER_AFTER_MEASUREMENT_PROBE">BUFFER_AFTER_MEASUREMENT_PROBE (in module iqm.pulla.interface)</a>
-</li>
-      <li><a href="api/iqm.cpc.compiler.standard_stages.build_playlist.html#iqm.cpc.compiler.standard_stages.build_playlist">build_playlist() (in module iqm.cpc.compiler.standard_stages)</a>
+      <li><a href="api/iqm.cpc.compiler.standard_stages.BUFFER_AFTER_MEASUREMENT_PROBE.html#iqm.cpc.compiler.standard_stages.BUFFER_AFTER_MEASUREMENT_PROBE">BUFFER_AFTER_MEASUREMENT_PROBE (in module iqm.cpc.compiler.standard_stages)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.pulla.utils.build_settings.html#iqm.pulla.utils.build_settings">build_settings() (in module iqm.pulla.utils)</a>
-
-      <ul>
-        <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.build_settings">(iqm.cpc.compiler.compiler.Compiler method)</a>
-</li>
-      </ul></li>
-      <li><a href="api/iqm.cpc.compiler.station_settings.build_station_settings.html#iqm.cpc.compiler.station_settings.build_station_settings">build_station_settings() (in module iqm.cpc.compiler.station_settings)</a>
+      <li><a href="api/iqm.cpc.compiler.standard_stages.build_playlist_and_merge_contexts.html#iqm.cpc.compiler.standard_stages.build_playlist_and_merge_contexts">build_playlist_and_merge_contexts() (in module iqm.cpc.compiler.standard_stages)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -447,11 +483,9 @@ document.write(`
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.pulla.calibration.CalibrationDataProvider.html#iqm.pulla.calibration.CalibrationDataProvider">CalibrationDataProvider (class in iqm.pulla.calibration)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.CacheableLoadRule.html#iqm.cpc.core.observation.observation_loading_rules.CacheableLoadRule">CacheableLoadRule (class in iqm.cpc.core.observation.observation_loading_rules)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.errors.CalibrationError.html#iqm.cpc.compiler.errors.CalibrationError">CalibrationError</a>
-</li>
-      <li><a href="api/iqm.cpc.compiler.standard_stages.CalibrationErrors.html#iqm.cpc.compiler.standard_stages.CalibrationErrors">CalibrationErrors (in module iqm.cpc.compiler.standard_stages)</a>
 </li>
       <li><a href="api/iqm.pulla.interface.CalibrationSetValues.html#iqm.pulla.interface.CalibrationSetValues">CalibrationSetValues (in module iqm.pulla.interface)</a>
 </li>
@@ -461,33 +495,47 @@ document.write(`
 </li>
       <li><a href="api/iqm.pulla.interface.CHADRetrievalException.html#iqm.pulla.interface.CHADRetrievalException">CHADRetrievalException</a>
 </li>
+      <li><a href="api/iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.html#iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.change_load_rules">change_load_rules() (iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase method)</a>
+</li>
       <li><a href="api/iqm.pulla.utils.InstructionLocation.html#iqm.pulla.utils.InstructionLocation.channel_name">channel_name (iqm.pulla.utils.InstructionLocation attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.characterization">characterization (iqm.cpc.core.config.ExperimentConfiguration attribute)</a>
 </li>
       <li><a href="api/iqm.pulla.interface.ChipLabelRetrievalException.html#iqm.pulla.interface.ChipLabelRetrievalException">ChipLabelRetrievalException</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.standard_stages.choose_op_implementations.html#iqm.cpc.compiler.standard_stages.choose_op_implementations">choose_op_implementations() (in module iqm.cpc.compiler.standard_stages)</a>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.MeasurementMode.html#iqm.cpc.interface.circuit_execution.MeasurementMode.CIRCUIT">CIRCUIT (iqm.cpc.interface.circuit_execution.MeasurementMode attribute)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.MeasurementMode.html#iqm.cpc.interface.compiler.MeasurementMode.CIRCUIT">CIRCUIT (iqm.cpc.interface.compiler.MeasurementMode attribute)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.CIRCUIT_EXECUTION_CONSTANT_OVERHEAD.html#iqm.cpc.core.observation.observation_parameters.CIRCUIT_EXECUTION_CONSTANT_OVERHEAD">CIRCUIT_EXECUTION_CONSTANT_OVERHEAD (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitCompilationResult.html#iqm.cpc.interface.compiler.CircuitCompilationResult.circuit_metrics">circuit_metrics (iqm.cpc.interface.compiler.CircuitCompilationResult attribute)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.CIRCUIT_EXECUTION_EXCESS_TIME_PER_GATE.html#iqm.cpc.core.observation.observation_parameters.CIRCUIT_EXECUTION_EXCESS_TIME_PER_GATE">CIRCUIT_EXECUTION_EXCESS_TIME_PER_GATE (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.CircuitExecutionResults.html#iqm.cpc.compiler.post_process.CircuitExecutionResults.circuit_measurement_results">circuit_measurement_results (iqm.cpc.compiler.post_process.CircuitExecutionResults attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitCompilationResult.html#iqm.cpc.interface.circuit_execution.CircuitCompilationResult.circuit_metrics">circuit_metrics (iqm.cpc.interface.circuit_execution.CircuitCompilationResult attribute)</a>
 </li>
       <li><a href="api/iqm.pulla.utils.circuit_operations_to_cpc.html#iqm.pulla.utils.circuit_operations_to_cpc">circuit_operations_to_cpc() (in module iqm.pulla.utils)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitBatch.html#iqm.cpc.interface.compiler.CircuitBatch">CircuitBatch (in module iqm.cpc.interface.compiler)</a>
+      <li><a href="api/iqm.cpc.compiler.compiler.CompilerStages.html#iqm.cpc.compiler.compiler.CompilerStages.circuit_stages">circuit_stages (iqm.cpc.compiler.compiler.CompilerStages attribute)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitBoundaryMode.html#iqm.cpc.interface.compiler.CircuitBoundaryMode">CircuitBoundaryMode (class in iqm.cpc.interface.compiler)</a>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitBatch.html#iqm.cpc.interface.circuit_execution.CircuitBatch">CircuitBatch (in module iqm.cpc.interface.circuit_execution)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitCompilationResult.html#iqm.cpc.interface.compiler.CircuitCompilationResult">CircuitCompilationResult (class in iqm.cpc.interface.compiler)</a>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitBoundaryMode.html#iqm.cpc.interface.circuit_execution.CircuitBoundaryMode">CircuitBoundaryMode (class in iqm.cpc.interface.circuit_execution)</a>
+</li>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitCompilationResult.html#iqm.cpc.interface.circuit_execution.CircuitCompilationResult">CircuitCompilationResult (class in iqm.cpc.interface.circuit_execution)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.errors.CircuitError.html#iqm.cpc.compiler.errors.CircuitError">CircuitError</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitExecutionOptions.html#iqm.cpc.interface.compiler.CircuitExecutionOptions">CircuitExecutionOptions (class in iqm.cpc.interface.compiler)</a>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitExecutionOptions.html#iqm.cpc.interface.circuit_execution.CircuitExecutionOptions">CircuitExecutionOptions (class in iqm.cpc.interface.circuit_execution)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitMetrics.html#iqm.cpc.interface.compiler.CircuitMetrics">CircuitMetrics (class in iqm.cpc.interface.compiler)</a>
+      <li><a href="api/iqm.cpc.compiler.post_process.CircuitExecutionResults.html#iqm.cpc.compiler.post_process.CircuitExecutionResults">CircuitExecutionResults (class in iqm.cpc.compiler.post_process)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.layering_stages.CircuitLayer.html#iqm.cpc.compiler.layering_stages.CircuitLayer">CircuitLayer (class in iqm.cpc.compiler.layering_stages)</a>
+</li>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitMetrics.html#iqm.cpc.interface.circuit_execution.CircuitMetrics">CircuitMetrics (class in iqm.cpc.interface.circuit_execution)</a>
 </li>
       <li><a href="api/iqm.pulla.utils_cirq.cirq_to_cpc.html#iqm.pulla.utils_cirq.cirq_to_cpc">cirq_to_cpc() (in module iqm.pulla.utils_cirq)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.classify_two_states.html#iqm.cpc.compiler.post_process.classify_two_states">classify_two_states() (in module iqm.cpc.compiler.post_process)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.standard_stages.clean_schedule.html#iqm.cpc.compiler.standard_stages.clean_schedule">clean_schedule() (in module iqm.cpc.compiler.standard_stages)</a>
 </li>
@@ -495,19 +543,79 @@ document.write(`
 </li>
       <li><a href="api/iqm.cpc.compiler.errors.CompilationPassError.html#iqm.cpc.compiler.errors.CompilationPassError">CompilationPassError</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.compiler.CompilationStage.html#iqm.cpc.compiler.compiler.CompilationStage">CompilationStage (class in iqm.cpc.compiler.compiler)</a>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.CompilationStage.html#iqm.cpc.compiler.compilation_stage.CompilationStage">CompilationStage (class in iqm.cpc.compiler.compilation_stage)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.compile">compile() (iqm.cpc.compiler.compiler.Compiler method)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler">Compiler (class in iqm.cpc.compiler.compiler)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.compiler_context">compiler_context() (iqm.cpc.compiler.compiler.Compiler method)</a>
+
+      <ul>
+        <li><a href="api/iqm.pulla.utils_qiskit.QiskitCompiler.html#iqm.pulla.utils_qiskit.QiskitCompiler.compiler_context">(iqm.pulla.utils_qiskit.QiskitCompiler method)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.compiler.compiler_pass.html#iqm.cpc.compiler.compiler.compiler_pass">compiler_pass() (in module iqm.cpc.compiler.compiler)</a>
+      </ul></li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.compiler_pass.html#iqm.cpc.compiler.compilation_stage.compiler_pass">compiler_pass() (in module iqm.cpc.compiler.compilation_stage)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitMetrics.html#iqm.cpc.interface.compiler.CircuitMetrics.component_pairs_with_gates">component_pairs_with_gates (iqm.cpc.interface.compiler.CircuitMetrics attribute)</a>
+      <li><a href="api/iqm.cpc.compiler.compiler.CompilerOptions.html#iqm.cpc.compiler.compiler.CompilerOptions">CompilerOptions (class in iqm.cpc.compiler.compiler)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitMetrics.html#iqm.cpc.interface.compiler.CircuitMetrics.components">components (iqm.cpc.interface.compiler.CircuitMetrics attribute)</a>
+      <li><a href="api/iqm.cpc.compiler.compiler.CompilerStages.html#iqm.cpc.compiler.compiler.CompilerStages">CompilerStages (class in iqm.cpc.compiler.compiler)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.COMPONENT_FREQUENCY.html#iqm.cpc.core.observation.observation_parameters.COMPONENT_FREQUENCY">COMPONENT_FREQUENCY (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.component_groups">component_groups (iqm.cpc.core.config.ExperimentConfiguration attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.component_names">component_names (iqm.cpc.core.config.ExperimentConfiguration property)</a>
+</li>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitMetrics.html#iqm.cpc.interface.circuit_execution.CircuitMetrics.component_pairs_with_gates">component_pairs_with_gates (iqm.cpc.interface.circuit_execution.CircuitMetrics attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ComponentGroup.html#iqm.cpc.core.config.ComponentGroup">ComponentGroup (class in iqm.cpc.core.config)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ComponentGrouping.html#iqm.cpc.core.config.ComponentGrouping">ComponentGrouping (class in iqm.cpc.core.config)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ComponentGroupingMode.html#iqm.cpc.core.config.ComponentGroupingMode">ComponentGroupingMode (class in iqm.cpc.core.config)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compiler.Components.html#iqm.cpc.compiler.compiler.Components">Components (in module iqm.cpc.compiler.compiler)</a>
+
+      <ul>
+        <li><a href="api/iqm.cpc.core.config.Components.html#iqm.cpc.core.config.Components">(in module iqm.cpc.core.config)</a>
+</li>
+      </ul></li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.components">components (iqm.cpc.core.config.ExperimentConfiguration attribute)</a>
+
+      <ul>
+        <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitMetrics.html#iqm.cpc.interface.circuit_execution.CircuitMetrics.components">(iqm.cpc.interface.circuit_execution.CircuitMetrics attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/iqm.cpc.core.dataset.compute_1d_fit.html#iqm.cpc.core.dataset.compute_1d_fit">compute_1d_fit() (in module iqm.cpc.core.dataset)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.dataset.compute_2d_fit.html#iqm.cpc.core.dataset.compute_2d_fit">compute_2d_fit() (in module iqm.cpc.core.dataset)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.compute_excitation_probability_from_data.html#iqm.cpc.compiler.post_process.compute_excitation_probability_from_data">compute_excitation_probability_from_data() (in module iqm.cpc.compiler.post_process)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.construct_circuit_execution_results.html#iqm.cpc.compiler.post_process.construct_circuit_execution_results">construct_circuit_execution_results() (in module iqm.cpc.compiler.post_process)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.construct_run_result.html#iqm.cpc.compiler.post_process.construct_run_result">construct_run_result() (in module iqm.cpc.compiler.post_process)</a>
+
+      <ul>
+        <li><a href="api/iqm.cpc.core.run_result.construct_run_result.html#iqm.cpc.core.run_result.construct_run_result">(in module iqm.cpc.core.run_result)</a>
+</li>
+      </ul></li>
+      <li><a href="api/iqm.cpc.core.config.ComponentGrouping.html#iqm.cpc.core.config.ComponentGrouping.contains">contains() (iqm.cpc.core.config.ComponentGrouping method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.contrast_data.html#iqm.cpc.compiler.post_process.contrast_data">contrast_data() (in module iqm.cpc.compiler.post_process)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ComponentGroup.html#iqm.cpc.core.config.ComponentGroup.controllers">controllers (iqm.cpc.core.config.ComponentGroup attribute)</a>
+
+      <ul>
+        <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.controllers">(iqm.cpc.core.config.ExperimentConfiguration attribute)</a>
+</li>
+        <li><a href="api/iqm.cpc.core.config.ExperimentDefaultsConfiguration.html#iqm.cpc.core.config.ExperimentDefaultsConfiguration.controllers">(iqm.cpc.core.config.ExperimentDefaultsConfiguration attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/iqm.cpc.core.dataset.convert_2d_model.html#iqm.cpc.core.dataset.convert_2d_model">convert_2d_model() (in module iqm.cpc.core.dataset)</a>
 </li>
       <li><a href="api/iqm.pulla.utils.convert_sweep_spot.html#iqm.pulla.utils.convert_sweep_spot">convert_sweep_spot() (in module iqm.pulla.utils)</a>
 </li>
@@ -517,11 +625,27 @@ document.write(`
 </li>
       <li><a href="api/iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero.html#iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero">convert_sweep_spot_with_heralding_mode_zero() (in module iqm.pulla.utils)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitExecutionOptions.html#iqm.cpc.interface.compiler.CircuitExecutionOptions.convert_terminal_measurements">convert_terminal_measurements (iqm.cpc.interface.compiler.CircuitExecutionOptions attribute)</a>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitExecutionOptions.html#iqm.cpc.interface.circuit_execution.CircuitExecutionOptions.convert_terminal_measurements">convert_terminal_measurements (iqm.cpc.interface.circuit_execution.CircuitExecutionOptions attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ComponentGrouping.html#iqm.cpc.core.config.ComponentGrouping.copy">copy() (iqm.cpc.core.config.ComponentGrouping method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.COUNTER_INDEX.html#iqm.cpc.compiler.post_process.COUNTER_INDEX">COUNTER_INDEX (in module iqm.cpc.compiler.post_process)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.COUPLER_IDLING_POINT.html#iqm.cpc.core.observation.observation_parameters.COUPLER_IDLING_POINT">COUPLER_IDLING_POINT (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.CPHASE_DERIVATIVE.html#iqm.cpc.core.observation.observation_parameters.CPHASE_DERIVATIVE">CPHASE_DERIVATIVE (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.CPHASE_PI_DISTANCE.html#iqm.cpc.core.observation.observation_parameters.CPHASE_PI_DISTANCE">CPHASE_PI_DISTANCE (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
       <li><a href="api/iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture.html#iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture">create_dynamic_quantum_architecture() (in module iqm.pulla.quantum_architecture)</a>
 </li>
+      <li><a href="api/iqm.cpc.compiler.post_process.create_ragged_data_index.html#iqm.cpc.compiler.post_process.create_ragged_data_index">create_ragged_data_index() (in module iqm.cpc.compiler.post_process)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.standard_stages.create_run_definition.html#iqm.cpc.compiler.standard_stages.create_run_definition">create_run_definition() (in module iqm.cpc.compiler.standard_stages)</a>
+</li>
       <li><a href="api/iqm.pulla.quantum_architecture.create_static_quantum_architecture.html#iqm.pulla.quantum_architecture.create_static_quantum_architecture">create_static_quantum_architecture() (in module iqm.pulla.quantum_architecture)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.CRITICAL_PHOTON_NUMBER.html#iqm.cpc.core.observation.observation_parameters.CRITICAL_PHOTON_NUMBER">CRITICAL_PHOTON_NUMBER (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -529,15 +653,31 @@ document.write(`
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.RuleCache.html#iqm.cpc.core.observation.observation_loading_rules.RuleCache.data">data (iqm.cpc.core.observation.observation_loading_rules.RuleCache attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.run_result.RunResult.html#iqm.cpc.core.run_result.RunResult.dataset">dataset (iqm.cpc.core.run_result.RunResult attribute)</a>
+</li>
       <li><a href="api/iqm.cpc.compiler.dd.DDError.html#iqm.cpc.compiler.dd.DDError">DDError</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.standard_stages.derive_readout_mappings.html#iqm.cpc.compiler.standard_stages.derive_readout_mappings">derive_readout_mappings() (in module iqm.cpc.compiler.standard_stages)</a>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.DEFAULT_CONTEXT_KEYS.html#iqm.cpc.compiler.compilation_stage.DEFAULT_CONTEXT_KEYS">DEFAULT_CONTEXT_KEYS (in module iqm.cpc.compiler.compilation_stage)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.DEFAULT_STAGE_ARGS.html#iqm.cpc.compiler.compilation_stage.DEFAULT_STAGE_ARGS">DEFAULT_STAGE_ARGS (in module iqm.cpc.compiler.compilation_stage)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.DISPERSIVE_SHIFT.html#iqm.cpc.core.observation.observation_parameters.DISPERSIVE_SHIFT">DISPERSIVE_SHIFT (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.pulla.utils_qiskit.DummyJob.html#iqm.pulla.utils_qiskit.DummyJob">DummyJob (class in iqm.pulla.utils_qiskit)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.DRIVE_FREQUENCY.html#iqm.cpc.core.observation.observation_parameters.DRIVE_FREQUENCY">DRIVE_FREQUENCY (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.DRIVE_OFFSET_CH0.html#iqm.cpc.core.observation.observation_parameters.DRIVE_OFFSET_CH0">DRIVE_OFFSET_CH0 (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.DRIVE_OFFSET_CH1.html#iqm.cpc.core.observation.observation_parameters.DRIVE_OFFSET_CH1">DRIVE_OFFSET_CH1 (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.DRIVE_TRIGGER_DELAY.html#iqm.cpc.core.observation.observation_parameters.DRIVE_TRIGGER_DELAY">DRIVE_TRIGGER_DELAY (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
       <li><a href="api/iqm.pulla.utils.InstructionLocation.html#iqm.pulla.utils.InstructionLocation.duration">duration (iqm.pulla.utils.InstructionLocation attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.dut_label">dut_label (iqm.cpc.core.config.ExperimentConfiguration attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -545,7 +685,21 @@ document.write(`
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.EF_PULSE_AMPLITUDE.html#iqm.cpc.core.observation.observation_parameters.EF_PULSE_AMPLITUDE">EF_PULSE_AMPLITUDE (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration">ExperimentConfiguration (class in iqm.cpc.core.config)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentDefaultsConfiguration.html#iqm.cpc.core.config.ExperimentDefaultsConfiguration">ExperimentDefaultsConfiguration (class in iqm.cpc.core.config)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.StagesList.html#iqm.cpc.compiler.compilation_stage.StagesList.extend">extend() (iqm.cpc.compiler.compilation_stage.StagesList method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.extract_counter_group_data.html#iqm.cpc.compiler.post_process.extract_counter_group_data">extract_counter_group_data() (in module iqm.cpc.compiler.post_process)</a>
+</li>
       <li><a href="api/iqm.pulla.utils.extract_readout_controller_result_names.html#iqm.pulla.utils.extract_readout_controller_result_names">extract_readout_controller_result_names() (in module iqm.pulla.utils)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.EXTREME_FLUX_PULSE_AMPLITUDES.html#iqm.cpc.core.observation.observation_parameters.EXTREME_FLUX_PULSE_AMPLITUDES">EXTREME_FLUX_PULSE_AMPLITUDES (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -553,15 +707,35 @@ document.write(`
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla.fetch_calibration_set_values_by_id">fetch_calibration_set_values_by_id() (iqm.pulla.pulla.Pulla method)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.F0G1_PULSE_STARK_SHIFT_POLYNOMIAL_COEFFICIENTS.html#iqm.cpc.core.observation.observation_parameters.F0G1_PULSE_STARK_SHIFT_POLYNOMIAL_COEFFICIENTS">F0G1_PULSE_STARK_SHIFT_POLYNOMIAL_COEFFICIENTS (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
-      <li><a href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla.fetch_default_calibration_set">fetch_default_calibration_set() (iqm.pulla.pulla.Pulla method)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.Fail.html#iqm.cpc.core.observation.observation_loading_rules.Fail">Fail (class in iqm.cpc.core.observation.observation_loading_rules)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.filter_components">filter_components() (iqm.cpc.core.config.ExperimentConfiguration method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compiler.CompilerStages.html#iqm.cpc.compiler.compiler.CompilerStages.final_stages">final_stages (iqm.cpc.compiler.compiler.CompilerStages attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.finalize">finalize() (iqm.cpc.compiler.compiler.Compiler method)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ComponentGrouping.html#iqm.cpc.core.config.ComponentGrouping.flatten">flatten() (iqm.cpc.core.config.ComponentGrouping method)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.FLUX_OFFSET.html#iqm.cpc.core.observation.observation_parameters.FLUX_OFFSET">FLUX_OFFSET (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.pulla.utils.find_circuit_boundary.html#iqm.pulla.utils.find_circuit_boundary">find_circuit_boundary() (in module iqm.pulla.utils)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.FLUX_PERIOD.html#iqm.cpc.core.observation.observation_parameters.FLUX_PERIOD">FLUX_PERIOD (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.station_settings.find_observation.html#iqm.cpc.compiler.station_settings.find_observation">find_observation() (in module iqm.cpc.compiler.station_settings)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.FLUX_PULSE_SPINE_POLYNOMIAL_COEFFICIENTS.html#iqm.cpc.core.observation.observation_parameters.FLUX_PULSE_SPINE_POLYNOMIAL_COEFFICIENTS">FLUX_PULSE_SPINE_POLYNOMIAL_COEFFICIENTS (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.FLUX_TRIGGER_DELAY.html#iqm.cpc.core.observation.observation_parameters.FLUX_TRIGGER_DELAY">FLUX_TRIGGER_DELAY (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.FLUX_VOLTAGE.html#iqm.cpc.core.observation.observation_parameters.FLUX_VOLTAGE">FLUX_VOLTAGE (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.format_stages.html#iqm.cpc.compiler.compilation_stage.format_stages">format_stages() (in module iqm.cpc.compiler.compilation_stage)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ComponentGroup.html#iqm.cpc.core.config.ComponentGroup.from_dict">from_dict() (iqm.cpc.core.config.ComponentGroup static method)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.CacheableLoadRule.html#iqm.cpc.core.observation.observation_loading_rules.CacheableLoadRule.full_name">full_name (iqm.cpc.core.observation.observation_loading_rules.CacheableLoadRule property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -569,35 +743,51 @@ document.write(`
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitMetrics.html#iqm.cpc.interface.compiler.CircuitMetrics.gate_loci">gate_loci (iqm.cpc.interface.compiler.CircuitMetrics attribute)</a>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.gate_definitions">gate_definitions (iqm.cpc.core.config.ExperimentConfiguration attribute)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.gates">gates (iqm.cpc.compiler.compiler.Compiler property)</a>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitMetrics.html#iqm.cpc.interface.circuit_execution.CircuitMetrics.gate_loci">gate_loci (iqm.cpc.interface.circuit_execution.CircuitMetrics attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.gates">gates (iqm.cpc.core.config.ExperimentConfiguration attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.dataset.generate_fit_parameter.html#iqm.cpc.core.dataset.generate_fit_parameter">generate_fit_parameter() (in module iqm.cpc.core.dataset)</a>
 </li>
       <li><a href="api/iqm.pulla.utils_dd.generate_phases_of_urn_sequence.html#iqm.pulla.utils_dd.generate_phases_of_urn_sequence">generate_phases_of_urn_sequence() (in module iqm.pulla.utils_dd)</a>
 </li>
       <li><a href="api/iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping.html#iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping">generate_qiskit_qir_qubit_mapping() (in module iqm.pulla.utils_qir)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.get_calibration_set_values">get_calibration_set_values() (iqm.cpc.compiler.compiler.Compiler method)</a>
-
-      <ul>
-        <li><a href="api/iqm.pulla.calibration.CalibrationDataProvider.html#iqm.pulla.calibration.CalibrationDataProvider.get_calibration_set_values">(iqm.pulla.calibration.CalibrationDataProvider method)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla.get_channel_properties">get_channel_properties() (iqm.pulla.pulla.Pulla method)</a>
+      <li><a href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla.get_calibration_stash">get_calibration_stash() (iqm.pulla.pulla.Pulla method)</a>
 </li>
       <li><a href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla.get_chip_label">get_chip_label() (iqm.pulla.pulla.Pulla method)</a>
 </li>
       <li><a href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla.get_chip_topology">get_chip_topology() (iqm.pulla.pulla.Pulla method)</a>
 </li>
-      <li><a href="api/iqm.pulla.calibration.CalibrationDataProvider.html#iqm.pulla.calibration.CalibrationDataProvider.get_default_calibration_set">get_default_calibration_set() (iqm.pulla.calibration.CalibrationDataProvider method)</a>
+      <li><a href="api/iqm.cpc.core.config.get_conventional_control_mapping.html#iqm.cpc.core.config.get_conventional_control_mapping">get_conventional_control_mapping() (in module iqm.cpc.core.config)</a>
 </li>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.get_global_default_observation_loading_rules.html#iqm.cpc.core.observation.observation_loading_rules.get_global_default_observation_loading_rules">get_global_default_observation_loading_rules() (in module iqm.cpc.core.observation.observation_loading_rules)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.pulla.utils.get_hash_for.html#iqm.pulla.utils.get_hash_for">get_hash_for() (in module iqm.pulla.utils)</a>
+</li>
+      <li><a href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla.get_job">get_job() (iqm.pulla.pulla.Pulla method)</a>
+</li>
+      <li><a href="api/iqm.pulla.pulla.PullaStash.html#iqm.pulla.pulla.PullaStash.get_latest_observation">get_latest_observation() (iqm.pulla.pulla.PullaStash method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.CompilationStage.html#iqm.cpc.compiler.compilation_stage.CompilationStage.get_pass_args">get_pass_args() (iqm.cpc.compiler.compilation_stage.CompilationStage method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.CompilationStage.html#iqm.cpc.compiler.compilation_stage.CompilationStage.get_pass_metadata">get_pass_metadata() (iqm.cpc.compiler.compilation_stage.CompilationStage static method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.CompilationStage.html#iqm.cpc.compiler.compilation_stage.CompilationStage.get_pass_names">get_pass_names() (iqm.cpc.compiler.compilation_stage.CompilationStage method)</a>
+</li>
+      <li><a href="api/iqm.pulla.utils_qiskit.get_qiskit_compiler.html#iqm.pulla.utils_qiskit.get_qiskit_compiler">get_qiskit_compiler() (in module iqm.pulla.utils_qiskit)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.html#iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.get_rule_names_and_attributes">get_rule_names_and_attributes() (iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.get_settings">get_settings() (iqm.cpc.compiler.compiler.Compiler method)</a>
 </li>
       <li><a href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla.get_standard_compiler">get_standard_compiler() (iqm.pulla.pulla.Pulla method)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.standard_stages.get_standard_stages.html#iqm.cpc.compiler.standard_stages.get_standard_stages">get_standard_stages() (in module iqm.cpc.compiler.standard_stages)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.html#iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.get_value">get_value() (iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -605,15 +795,25 @@ document.write(`
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.id">id (iqm.cpc.core.config.ExperimentConfiguration attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compiler.CompilerOptions.html#iqm.cpc.compiler.compiler.CompilerOptions.idempotent_stages">idempotent_stages (iqm.cpc.compiler.compiler.CompilerOptions attribute)</a>
+</li>
       <li><a href="api/iqm.pulla.utils.InstructionLocation.html#iqm.pulla.utils.InstructionLocation.index">index (iqm.pulla.utils.InstructionLocation attribute)</a>
 </li>
       <li><a href="api/iqm.pulla.utils.initialize_schedule_builder.html#iqm.pulla.utils.initialize_schedule_builder">initialize_schedule_builder() (in module iqm.pulla.utils)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.StagesList.html#iqm.cpc.compiler.compilation_stage.StagesList.insert">insert() (iqm.cpc.compiler.compilation_stage.StagesList method)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.dd.insert_dd_sequences.html#iqm.cpc.compiler.dd.insert_dd_sequences">insert_dd_sequences() (in module iqm.cpc.compiler.dd)</a>
 </li>
       <li><a href="api/iqm.pulla.utils.InstructionLocation.html#iqm.pulla.utils.InstructionLocation">InstructionLocation (class in iqm.pulla.utils)</a>
 </li>
+      <li><a href="api/iqm.cpc.compiler.layering_stages.CircuitLayer.html#iqm.cpc.compiler.layering_stages.CircuitLayer.instructions">instructions (iqm.cpc.compiler.layering_stages.CircuitLayer attribute)</a>
+</li>
       <li><a href="api/iqm.cpc.compiler.errors.InsufficientContextError.html#iqm.cpc.compiler.errors.InsufficientContextError">InsufficientContextError</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.INTEGRATED_DEPHASING.html#iqm.cpc.core.observation.observation_parameters.INTEGRATED_DEPHASING">INTEGRATED_DEPHASING (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
       <li>
     iqm.cpc
@@ -627,6 +827,13 @@ document.write(`
 
       <ul>
         <li><a href="api/iqm.cpc.compiler.html#module-iqm.cpc.compiler">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cpc.compiler.compilation_stage
+
+      <ul>
+        <li><a href="api/iqm.cpc.compiler.compilation_stage.html#module-iqm.cpc.compiler.compilation_stage">module</a>
 </li>
       </ul></li>
       <li>
@@ -651,6 +858,20 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    iqm.cpc.compiler.layering_stages
+
+      <ul>
+        <li><a href="api/iqm.cpc.compiler.layering_stages.html#module-iqm.cpc.compiler.layering_stages">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cpc.compiler.post_process
+
+      <ul>
+        <li><a href="api/iqm.cpc.compiler.post_process.html#module-iqm.cpc.compiler.post_process">module</a>
+</li>
+      </ul></li>
+      <li>
     iqm.cpc.compiler.standard_stages
 
       <ul>
@@ -658,10 +879,61 @@ document.write(`
 </li>
       </ul></li>
       <li>
-    iqm.cpc.compiler.station_settings
+    iqm.cpc.core
 
       <ul>
-        <li><a href="api/iqm.cpc.compiler.station_settings.html#module-iqm.cpc.compiler.station_settings">module</a>
+        <li><a href="api/iqm.cpc.core.html#module-iqm.cpc.core">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cpc.core.config
+
+      <ul>
+        <li><a href="api/iqm.cpc.core.config.html#module-iqm.cpc.core.config">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cpc.core.dataset
+
+      <ul>
+        <li><a href="api/iqm.cpc.core.dataset.html#module-iqm.cpc.core.dataset">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    iqm.cpc.core.observation
+
+      <ul>
+        <li><a href="api/iqm.cpc.core.observation.html#module-iqm.cpc.core.observation">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cpc.core.observation.observation_handler_base
+
+      <ul>
+        <li><a href="api/iqm.cpc.core.observation.observation_handler_base.html#module-iqm.cpc.core.observation.observation_handler_base">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cpc.core.observation.observation_loading_rules
+
+      <ul>
+        <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.html#module-iqm.cpc.core.observation.observation_loading_rules">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cpc.core.observation.observation_parameters
+
+      <ul>
+        <li><a href="api/iqm.cpc.core.observation.observation_parameters.html#module-iqm.cpc.core.observation.observation_parameters">module</a>
+</li>
+      </ul></li>
+      <li>
+    iqm.cpc.core.run_result
+
+      <ul>
+        <li><a href="api/iqm.cpc.core.run_result.html#module-iqm.cpc.core.run_result">module</a>
 </li>
       </ul></li>
       <li>
@@ -672,26 +944,17 @@ document.write(`
 </li>
       </ul></li>
       <li>
-    iqm.cpc.interface.compiler
+    iqm.cpc.interface.circuit_execution
 
       <ul>
-        <li><a href="api/iqm.cpc.interface.compiler.html#module-iqm.cpc.interface.compiler">module</a>
+        <li><a href="api/iqm.cpc.interface.circuit_execution.html#module-iqm.cpc.interface.circuit_execution">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     iqm.pulla
 
       <ul>
         <li><a href="api/iqm.pulla.html#module-iqm.pulla">module</a>
-</li>
-      </ul></li>
-      <li>
-    iqm.pulla.calibration
-
-      <ul>
-        <li><a href="api/iqm.pulla.calibration.html#module-iqm.pulla.calibration">module</a>
 </li>
       </ul></li>
       <li>
@@ -737,6 +1000,13 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    iqm.pulla.utils_parallelization
+
+      <ul>
+        <li><a href="api/iqm.pulla.utils_parallelization.html#module-iqm.pulla.utils_parallelization">module</a>
+</li>
+      </ul></li>
+      <li>
     iqm.pulla.utils_qir
 
       <ul>
@@ -752,7 +1022,25 @@ document.write(`
       </ul></li>
       <li><a href="api/iqm.pulla.utils.iqm_circuit_to_gate_implementation.html#iqm.pulla.utils.iqm_circuit_to_gate_implementation">iqm_circuit_to_gate_implementation() (in module iqm.pulla.utils)</a>
 </li>
-      <li><a href="api/iqm.pulla.utils_qiskit.IQMPullaBackend.html#iqm.pulla.utils_qiskit.IQMPullaBackend">IQMPullaBackend (class in iqm.pulla.utils_qiskit)</a>
+  </ul></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.J_RR_PR.html#iqm.cpc.core.observation.observation_parameters.J_RR_PR">J_RR_PR (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.KAPPA_EFF_E.html#iqm.cpc.core.observation.observation_parameters.KAPPA_EFF_E">KAPPA_EFF_E (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.KAPPA_PURCELL.html#iqm.cpc.core.observation.observation_parameters.KAPPA_PURCELL">KAPPA_PURCELL (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -760,7 +1048,33 @@ document.write(`
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.LatestFromStash.html#iqm.cpc.core.observation.observation_loading_rules.LatestFromStash">LatestFromStash (class in iqm.cpc.core.observation.observation_loading_rules)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.layering_stages.layer_circuits.html#iqm.cpc.compiler.layering_stages.layer_circuits">layer_circuits() (in module iqm.cpc.compiler.layering_stages)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.layering_stages.layer_schedules.html#iqm.cpc.compiler.layering_stages.layer_schedules">layer_schedules() (in module iqm.cpc.compiler.layering_stages)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.layering_stages.CircuitLayer.html#iqm.cpc.compiler.layering_stages.CircuitLayer.layer_type">layer_type (iqm.cpc.compiler.layering_stages.CircuitLayer attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ComponentGrouping.html#iqm.cpc.core.config.ComponentGrouping.limit_by_components">limit_by_components() (iqm.cpc.core.config.ComponentGrouping method)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.RuleCache.html#iqm.cpc.core.observation.observation_loading_rules.RuleCache.load_cache">load_cache() (iqm.cpc.core.observation.observation_loading_rules.RuleCache method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.RuleCache.html#iqm.cpc.core.observation.observation_loading_rules.RuleCache.load_function_mapping">load_function_mapping (iqm.cpc.core.observation.observation_loading_rules.RuleCache attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.html#iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.load_observations">load_observations() (iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase method)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.html#iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.load_rules">load_rules (iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.html#iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.loaded_observations">loaded_observations (iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.LoadFunction.html#iqm.cpc.core.observation.observation_loading_rules.LoadFunction">LoadFunction (in module iqm.cpc.core.observation.observation_loading_rules)</a>
+</li>
       <li><a href="api/iqm.pulla.utils.locate_instructions.html#iqm.pulla.utils.locate_instructions">locate_instructions() (in module iqm.pulla.utils)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.layering_stages.CircuitLayer.html#iqm.cpc.compiler.layering_stages.CircuitLayer.locus_components">locus_components (iqm.cpc.compiler.layering_stages.CircuitLayer attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -768,25 +1082,21 @@ document.write(`
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.cpc.compiler.station_settings.Map.html#iqm.cpc.compiler.station_settings.Map">Map (class in iqm.cpc.compiler.station_settings)</a>
-</li>
       <li><a href="api/iqm.cpc.compiler.standard_stages.map_components.html#iqm.cpc.compiler.standard_stages.map_components">map_components() (in module iqm.cpc.compiler.standard_stages)</a>
-</li>
-      <li><a href="api/iqm.cpc.compiler.standard_stages.map_old_operations.html#iqm.cpc.compiler.standard_stages.map_old_operations">map_old_operations() (in module iqm.cpc.compiler.standard_stages)</a>
 </li>
       <li><a href="api/iqm.pulla.utils.map_qubit_indices.html#iqm.pulla.utils.map_qubit_indices">map_qubit_indices() (in module iqm.pulla.utils)</a>
 </li>
       <li><a href="api/iqm.pulla.utils.map_sweep_results_to_logical_qubits.html#iqm.pulla.utils.map_sweep_results_to_logical_qubits">map_sweep_results_to_logical_qubits() (in module iqm.pulla.utils)</a>
 </li>
-      <li><a href="api/iqm.pulla.utils_qiskit.IQMPullaBackend.html#iqm.pulla.utils_qiskit.IQMPullaBackend.max_circuits">max_circuits (iqm.pulla.utils_qiskit.IQMPullaBackend property)</a>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.MeasurementMode.html#iqm.cpc.interface.circuit_execution.MeasurementMode">MeasurementMode (class in iqm.cpc.interface.circuit_execution)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.MeasurementMode.html#iqm.cpc.interface.compiler.MeasurementMode">MeasurementMode (class in iqm.cpc.interface.compiler)</a>
-</li>
-      <li><a href="api/iqm.cpc.compiler.standard_stages.merge_multiplexed_timeboxes.html#iqm.cpc.compiler.standard_stages.merge_multiplexed_timeboxes">merge_multiplexed_timeboxes() (in module iqm.cpc.compiler.standard_stages)</a>
+      <li><a href="api/iqm.cpc.core.config.ComponentGroup.html#iqm.cpc.core.config.ComponentGroup.member_names">member_names (iqm.cpc.core.config.ComponentGroup attribute)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.dd.merge_wait_instructions_in_schedule.html#iqm.cpc.compiler.dd.merge_wait_instructions_in_schedule">merge_wait_instructions_in_schedule() (in module iqm.cpc.compiler.dd)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitMetrics.html#iqm.cpc.interface.compiler.CircuitMetrics.min_execution_time">min_execution_time (iqm.cpc.interface.compiler.CircuitMetrics attribute)</a>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitMetrics.html#iqm.cpc.interface.circuit_execution.CircuitMetrics.min_execution_time">min_execution_time (iqm.cpc.interface.circuit_execution.CircuitMetrics attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.MINIMAL_FEEDBACK_DELAY.html#iqm.cpc.core.observation.observation_parameters.MINIMAL_FEEDBACK_DELAY">MINIMAL_FEEDBACK_DELAY (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
       <li>
     module
@@ -796,23 +1106,41 @@ document.write(`
 </li>
         <li><a href="api/iqm.cpc.compiler.html#module-iqm.cpc.compiler">iqm.cpc.compiler</a>
 </li>
+        <li><a href="api/iqm.cpc.compiler.compilation_stage.html#module-iqm.cpc.compiler.compilation_stage">iqm.cpc.compiler.compilation_stage</a>
+</li>
         <li><a href="api/iqm.cpc.compiler.compiler.html#module-iqm.cpc.compiler.compiler">iqm.cpc.compiler.compiler</a>
 </li>
         <li><a href="api/iqm.cpc.compiler.dd.html#module-iqm.cpc.compiler.dd">iqm.cpc.compiler.dd</a>
 </li>
         <li><a href="api/iqm.cpc.compiler.errors.html#module-iqm.cpc.compiler.errors">iqm.cpc.compiler.errors</a>
 </li>
+        <li><a href="api/iqm.cpc.compiler.layering_stages.html#module-iqm.cpc.compiler.layering_stages">iqm.cpc.compiler.layering_stages</a>
+</li>
+        <li><a href="api/iqm.cpc.compiler.post_process.html#module-iqm.cpc.compiler.post_process">iqm.cpc.compiler.post_process</a>
+</li>
         <li><a href="api/iqm.cpc.compiler.standard_stages.html#module-iqm.cpc.compiler.standard_stages">iqm.cpc.compiler.standard_stages</a>
 </li>
-        <li><a href="api/iqm.cpc.compiler.station_settings.html#module-iqm.cpc.compiler.station_settings">iqm.cpc.compiler.station_settings</a>
+        <li><a href="api/iqm.cpc.core.html#module-iqm.cpc.core">iqm.cpc.core</a>
+</li>
+        <li><a href="api/iqm.cpc.core.config.html#module-iqm.cpc.core.config">iqm.cpc.core.config</a>
+</li>
+        <li><a href="api/iqm.cpc.core.dataset.html#module-iqm.cpc.core.dataset">iqm.cpc.core.dataset</a>
+</li>
+        <li><a href="api/iqm.cpc.core.observation.html#module-iqm.cpc.core.observation">iqm.cpc.core.observation</a>
+</li>
+        <li><a href="api/iqm.cpc.core.observation.observation_handler_base.html#module-iqm.cpc.core.observation.observation_handler_base">iqm.cpc.core.observation.observation_handler_base</a>
+</li>
+        <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.html#module-iqm.cpc.core.observation.observation_loading_rules">iqm.cpc.core.observation.observation_loading_rules</a>
+</li>
+        <li><a href="api/iqm.cpc.core.observation.observation_parameters.html#module-iqm.cpc.core.observation.observation_parameters">iqm.cpc.core.observation.observation_parameters</a>
+</li>
+        <li><a href="api/iqm.cpc.core.run_result.html#module-iqm.cpc.core.run_result">iqm.cpc.core.run_result</a>
 </li>
         <li><a href="api/iqm.cpc.interface.html#module-iqm.cpc.interface">iqm.cpc.interface</a>
 </li>
-        <li><a href="api/iqm.cpc.interface.compiler.html#module-iqm.cpc.interface.compiler">iqm.cpc.interface.compiler</a>
+        <li><a href="api/iqm.cpc.interface.circuit_execution.html#module-iqm.cpc.interface.circuit_execution">iqm.cpc.interface.circuit_execution</a>
 </li>
         <li><a href="api/iqm.pulla.html#module-iqm.pulla">iqm.pulla</a>
-</li>
-        <li><a href="api/iqm.pulla.calibration.html#module-iqm.pulla.calibration">iqm.pulla.calibration</a>
 </li>
         <li><a href="api/iqm.pulla.interface.html#module-iqm.pulla.interface">iqm.pulla.interface</a>
 </li>
@@ -826,6 +1154,8 @@ document.write(`
 </li>
         <li><a href="api/iqm.pulla.utils_dd.html#module-iqm.pulla.utils_dd">iqm.pulla.utils_dd</a>
 </li>
+        <li><a href="api/iqm.pulla.utils_parallelization.html#module-iqm.pulla.utils_parallelization">iqm.pulla.utils_parallelization</a>
+</li>
         <li><a href="api/iqm.pulla.utils_qir.html#module-iqm.pulla.utils_qir">iqm.pulla.utils_qir</a>
 </li>
         <li><a href="api/iqm.pulla.utils_qiskit.html#module-iqm.pulla.utils_qiskit">iqm.pulla.utils_qiskit</a>
@@ -833,6 +1163,8 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.dataset.multifit_along_coordinates.html#iqm.cpc.core.dataset.multifit_along_coordinates">multifit_along_coordinates() (in module iqm.cpc.core.dataset)</a>
+</li>
       <li><a href="api/iqm.cpc.compiler.standard_stages.multiplex_readout.html#iqm.cpc.compiler.standard_stages.multiplex_readout">multiplex_readout() (in module iqm.cpc.compiler.standard_stages)</a>
 </li>
   </ul></td>
@@ -841,7 +1173,11 @@ document.write(`
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitBoundaryMode.html#iqm.cpc.interface.compiler.CircuitBoundaryMode.NEIGHBOUR">NEIGHBOUR (iqm.cpc.interface.compiler.CircuitBoundaryMode attribute)</a>
+      <li><a href="api/iqm.cpc.core.config.SweepDefaultsConfiguration.html#iqm.cpc.core.config.SweepDefaultsConfiguration.name">name (iqm.cpc.core.config.SweepDefaultsConfiguration attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitBoundaryMode.html#iqm.cpc.interface.circuit_execution.CircuitBoundaryMode.NEIGHBOUR">NEIGHBOUR (iqm.cpc.interface.circuit_execution.CircuitBoundaryMode attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -849,7 +1185,13 @@ document.write(`
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.cpc.compiler.station_settings.Map.html#iqm.cpc.compiler.station_settings.Map.observation_path">observation_path() (iqm.cpc.compiler.station_settings.Map method)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.html#iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase">ObservationHandlerBase (class in iqm.cpc.core.observation.observation_handler_base)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.pulla.pulla.PullaStash.html#iqm.pulla.pulla.PullaStash.observations">observations (iqm.pulla.pulla.PullaStash attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.SweepDefaultsConfiguration.html#iqm.cpc.core.config.SweepDefaultsConfiguration.options">options (iqm.cpc.core.config.SweepDefaultsConfiguration attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -857,31 +1199,59 @@ document.write(`
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.cpc.compiler.compiler.pass_function_idempotent.html#iqm.cpc.compiler.compiler.pass_function_idempotent">pass_function_idempotent() (in module iqm.cpc.compiler.compiler)</a>
+      <li><a href="api/iqm.pulla.utils_qiskit.parallelize_and_transpile.html#iqm.pulla.utils_qiskit.parallelize_and_transpile">parallelize_and_transpile() (in module iqm.pulla.utils_qiskit)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.compiler.PassFunction.html#iqm.cpc.compiler.compiler.PassFunction">PassFunction (in module iqm.cpc.compiler.compiler)</a>
+      <li><a href="api/iqm.pulla.utils_parallelization.parallelize_timeboxes.html#iqm.pulla.utils_parallelization.parallelize_timeboxes">parallelize_timeboxes() (in module iqm.pulla.utils_parallelization)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitCompilationResult.html#iqm.cpc.interface.compiler.CircuitCompilationResult.playlist">playlist (iqm.cpc.interface.compiler.CircuitCompilationResult attribute)</a>
+      <li><a href="api/iqm.cpc.core.config.SweepDefaultsConfiguration.html#iqm.cpc.core.config.SweepDefaultsConfiguration.parameter">parameter (iqm.cpc.core.config.SweepDefaultsConfiguration attribute)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.postprocess">postprocess() (iqm.cpc.compiler.compiler.Compiler method)</a>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.pass_function_idempotent.html#iqm.cpc.compiler.compilation_stage.pass_function_idempotent">pass_function_idempotent() (in module iqm.cpc.compiler.compilation_stage)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.PassFunction.html#iqm.cpc.compiler.compilation_stage.PassFunction">PassFunction (in module iqm.cpc.compiler.compilation_stage)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.PHOTON_CONVERSION_FACTOR_E.html#iqm.cpc.core.observation.observation_parameters.PHOTON_CONVERSION_FACTOR_E">PHOTON_CONVERSION_FACTOR_E (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.PHOTON_NUMBER_E.html#iqm.cpc.core.observation.observation_parameters.PHOTON_NUMBER_E">PHOTON_NUMBER_E (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.PHOTON_NUMBER_OFFSET_E.html#iqm.cpc.core.observation.observation_parameters.PHOTON_NUMBER_OFFSET_E">PHOTON_NUMBER_OFFSET_E (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitCompilationResult.html#iqm.cpc.interface.circuit_execution.CircuitCompilationResult.playlist">playlist (iqm.cpc.interface.circuit_execution.CircuitCompilationResult attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.html#iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.populate_from">populate_from() (iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.post_process">post_process() (iqm.cpc.compiler.compiler.Compiler method)</a>
 </li>
       <li><a href="api/iqm.pulla.utils.PostSelectionError.html#iqm.pulla.utils.PostSelectionError">PostSelectionError</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.standard_stages.prepend_heralding.html#iqm.cpc.compiler.standard_stages.prepend_heralding">prepend_heralding() (in module iqm.cpc.compiler.standard_stages)</a>
+      <li><a href="api/iqm.cpc.compiler.compiler.CompilerStages.html#iqm.cpc.compiler.compiler.CompilerStages.pp_stages">pp_stages (iqm.cpc.compiler.compiler.CompilerStages attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.cpc.compiler.standard_stages.prepend_reset.html#iqm.cpc.compiler.standard_stages.prepend_reset">prepend_reset() (in module iqm.cpc.compiler.standard_stages)</a>
+      <li><a href="api/iqm.cpc.compiler.standard_stages.prepend_heralding.html#iqm.cpc.compiler.standard_stages.prepend_heralding">prepend_heralding() (in module iqm.cpc.compiler.standard_stages)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.print_all_implementations_trees">print_all_implementations_trees() (iqm.cpc.compiler.compiler.Compiler method)</a>
+      <li><a href="api/iqm.cpc.compiler.standard_stages.prepend_reset.html#iqm.cpc.compiler.standard_stages.prepend_reset">prepend_reset() (in module iqm.cpc.compiler.standard_stages)</a>
 </li>
       <li><a href="api/iqm.pulla.utils.print_channel.html#iqm.pulla.utils.print_channel">print_channel() (in module iqm.pulla.utils)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.print_implementations_trees">print_implementations_trees() (iqm.cpc.compiler.compiler.Compiler method)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.html#iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.print_observations">print_observations() (iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase method)</a>
 </li>
       <li><a href="api/iqm.pulla.utils.print_schedule.html#iqm.pulla.utils.print_schedule">print_schedule() (in module iqm.pulla.utils)</a>
 </li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.PROBE_LINE_TRIGGER_DELAY.html#iqm.cpc.core.observation.observation_parameters.PROBE_LINE_TRIGGER_DELAY">PROBE_LINE_TRIGGER_DELAY (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.process_metadata.html#iqm.cpc.compiler.post_process.process_metadata">process_metadata() (in module iqm.cpc.compiler.post_process)</a>
+</li>
       <li><a href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla">Pulla (class in iqm.pulla.pulla)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.PullaData.html#iqm.cpc.compiler.post_process.PullaData">PullaData (class in iqm.cpc.compiler.post_process)</a>
+</li>
+      <li><a href="api/iqm.pulla.pulla.PullaJob.html#iqm.pulla.pulla.PullaJob">PullaJob (class in iqm.pulla.pulla)</a>
+</li>
+      <li><a href="api/iqm.pulla.pulla.PullaStash.html#iqm.pulla.pulla.PullaStash">PullaStash (class in iqm.pulla.pulla)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compiler.CompilerStages.html#iqm.cpc.compiler.compiler.CompilerStages.pulse_stages">pulse_stages (iqm.cpc.compiler.compiler.CompilerStages attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.PURCELL_FREQUENCY.html#iqm.cpc.core.observation.observation_parameters.PURCELL_FREQUENCY">PURCELL_FREQUENCY (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -891,11 +1261,23 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.pulla.utils_qir.qir_to_pulla.html#iqm.pulla.utils_qir.qir_to_pulla">qir_to_pulla() (in module iqm.pulla.utils_qir)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits.html#iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits">qiskit_circuits_to_iqm_circuits() (in module iqm.pulla.utils_qiskit)</a>
+</li>
       <li><a href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html#iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla">qiskit_circuits_to_pulla() (in module iqm.pulla.utils_qiskit)</a>
 </li>
       <li><a href="api/iqm.pulla.utils_qiskit.qiskit_to_pulla.html#iqm.pulla.utils_qiskit.qiskit_to_pulla">qiskit_to_pulla() (in module iqm.pulla.utils_qiskit)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.pulla.utils_qiskit.QiskitCompiler.html#iqm.pulla.utils_qiskit.QiskitCompiler">QiskitCompiler (class in iqm.pulla.utils_qiskit)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.QUANTUM_EFFICIENCY.html#iqm.cpc.core.observation.observation_parameters.QUANTUM_EFFICIENCY">QUANTUM_EFFICIENCY (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.QUBIT_FREQUENCY_SWEET_SPOT.html#iqm.cpc.core.observation.observation_parameters.QUBIT_FREQUENCY_SWEET_SPOT">QUBIT_FREQUENCY_SWEET_SPOT (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.QUBIT_RESONATOR_COUPLING.html#iqm.cpc.core.observation.observation_parameters.QUBIT_RESONATOR_COUPLING">QUBIT_RESONATOR_COUPLING (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.QUBIT_RESONATOR_DETUNING.html#iqm.cpc.core.observation.observation_parameters.QUBIT_RESONATOR_DETUNING">QUBIT_RESONATOR_DETUNING (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -903,39 +1285,63 @@ document.write(`
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitCompilationResult.html#iqm.cpc.interface.compiler.CircuitCompilationResult.readout_mappings">readout_mappings (iqm.cpc.interface.compiler.CircuitCompilationResult attribute)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.READOUT_FREQUENCY_E.html#iqm.cpc.core.observation.observation_parameters.READOUT_FREQUENCY_E">READOUT_FREQUENCY_E (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.ReadoutMapping.html#iqm.cpc.interface.compiler.ReadoutMapping">ReadoutMapping (in module iqm.cpc.interface.compiler)</a>
-</li>
-      <li><a href="api/iqm.cpc.interface.compiler.ReadoutMappingBatch.html#iqm.cpc.interface.compiler.ReadoutMappingBatch">ReadoutMappingBatch (in module iqm.cpc.interface.compiler)</a>
-</li>
-      <li><a href="api/iqm.cpc.compiler.compiler.CompilationStage.html#iqm.cpc.compiler.compiler.CompilationStage.ready">ready() (iqm.cpc.compiler.compiler.CompilationStage method)</a>
+      <li><a href="api/iqm.cpc.compiler.post_process.CircuitExecutionResults.html#iqm.cpc.compiler.post_process.CircuitExecutionResults.readout_mappings">readout_mappings (iqm.cpc.compiler.post_process.CircuitExecutionResults attribute)</a>
 
       <ul>
-        <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.ready">(iqm.cpc.compiler.compiler.Compiler method)</a>
+        <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitCompilationResult.html#iqm.cpc.interface.circuit_execution.CircuitCompilationResult.readout_mappings">(iqm.cpc.interface.circuit_execution.CircuitCompilationResult attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.ReadoutMapping.html#iqm.cpc.interface.circuit_execution.ReadoutMapping">ReadoutMapping (in module iqm.cpc.interface.circuit_execution)</a>
+</li>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.ReadoutMappingBatch.html#iqm.cpc.interface.circuit_execution.ReadoutMappingBatch">ReadoutMappingBatch (in module iqm.cpc.interface.circuit_execution)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.register_gate_implementation">register_gate_implementation() (iqm.cpc.core.config.ExperimentConfiguration method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.rename_data_variables.html#iqm.cpc.compiler.post_process.rename_data_variables">rename_data_variables() (in module iqm.cpc.compiler.post_process)</a>
+</li>
       <li><a href="api/iqm.pulla.utils.replace_instruction_in_place.html#iqm.pulla.utils.replace_instruction_in_place">replace_instruction_in_place() (in module iqm.pulla.utils)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.layering_stages.CircuitLayer.html#iqm.cpc.compiler.layering_stages.CircuitLayer.resolve">resolve() (iqm.cpc.compiler.layering_stages.CircuitLayer method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.resolve_circuit_function_and_stages.html#iqm.cpc.compiler.compilation_stage.resolve_circuit_function_and_stages">resolve_circuit_function_and_stages() (in module iqm.cpc.compiler.compilation_stage)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.standard_stages.resolve_circuits.html#iqm.cpc.compiler.standard_stages.resolve_circuits">resolve_circuits() (in module iqm.cpc.compiler.standard_stages)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.CacheableLoadRule.html#iqm.cpc.core.observation.observation_loading_rules.CacheableLoadRule.resolve_from_cache">resolve_from_cache() (iqm.cpc.core.observation.observation_loading_rules.CacheableLoadRule method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.layering_stages.resolve_layers.html#iqm.cpc.compiler.layering_stages.resolve_layers">resolve_layers() (in module iqm.cpc.compiler.layering_stages)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.cpc.compiler.standard_stages.resolve_circuits.html#iqm.cpc.compiler.standard_stages.resolve_circuits">resolve_circuits() (in module iqm.cpc.compiler.standard_stages)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.resolve_rules.html#iqm.cpc.core.observation.observation_loading_rules.resolve_rules">resolve_rules() (in module iqm.cpc.core.observation.observation_loading_rules)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.standard_stages.resolve_timeboxes.html#iqm.cpc.compiler.standard_stages.resolve_timeboxes">resolve_timeboxes() (in module iqm.cpc.compiler.standard_stages)</a>
 </li>
-      <li><a href="api/iqm.pulla.pulla.SweepJob.html#iqm.pulla.pulla.SweepJob.result">result() (iqm.pulla.pulla.SweepJob method)</a>
-
-      <ul>
-        <li><a href="api/iqm.pulla.utils_qiskit.DummyJob.html#iqm.pulla.utils_qiskit.DummyJob.result">(iqm.pulla.utils_qiskit.DummyJob method)</a>
+      <li><a href="api/iqm.pulla.pulla.PullaJob.html#iqm.pulla.pulla.PullaJob.result">result() (iqm.pulla.pulla.PullaJob method)</a>
 </li>
-      </ul></li>
-      <li><a href="api/iqm.cpc.compiler.compiler.CompilationStage.html#iqm.cpc.compiler.compiler.CompilationStage.run">run() (iqm.cpc.compiler.compiler.CompilationStage method)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.RuleCache.html#iqm.cpc.core.observation.observation_loading_rules.RuleCache">RuleCache (class in iqm.cpc.core.observation.observation_loading_rules)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.RuleCacheDataType.html#iqm.cpc.core.observation.observation_loading_rules.RuleCacheDataType">RuleCacheDataType (in module iqm.cpc.core.observation.observation_loading_rules)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.RuleType.html#iqm.cpc.core.observation.observation_loading_rules.RuleType">RuleType (in module iqm.cpc.core.observation.observation_loading_rules)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.CompilationStage.html#iqm.cpc.compiler.compilation_stage.CompilationStage.run">run() (iqm.cpc.compiler.compilation_stage.CompilationStage method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.post_process.CircuitExecutionResults.html#iqm.cpc.compiler.post_process.CircuitExecutionResults.run_data">run_data (iqm.cpc.compiler.post_process.CircuitExecutionResults attribute)</a>
 
       <ul>
-        <li><a href="api/iqm.pulla.utils_qiskit.IQMPullaBackend.html#iqm.pulla.utils_qiskit.IQMPullaBackend.run">(iqm.pulla.utils_qiskit.IQMPullaBackend method)</a>
+        <li><a href="api/iqm.cpc.compiler.post_process.PullaData.html#iqm.cpc.compiler.post_process.PullaData.run_data">(iqm.cpc.compiler.post_process.PullaData attribute)</a>
+</li>
+        <li><a href="api/iqm.cpc.core.run_result.RunResult.html#iqm.cpc.core.run_result.RunResult.run_data">(iqm.cpc.core.run_result.RunResult attribute)</a>
 </li>
       </ul></li>
       <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.run_stages">run_stages() (iqm.cpc.compiler.compiler.Compiler method)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.run_result.RunResult.html#iqm.cpc.core.run_result.RunResult">RunResult (class in iqm.cpc.core.run_result)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.RZ_ANGLE.html#iqm.cpc.core.observation.observation_parameters.RZ_ANGLE">RZ_ANGLE (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -943,37 +1349,117 @@ document.write(`
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitMetrics.html#iqm.cpc.interface.compiler.CircuitMetrics.schedule_duration">schedule_duration (iqm.cpc.interface.compiler.CircuitMetrics attribute)</a>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitMetrics.html#iqm.cpc.interface.circuit_execution.CircuitMetrics.schedule_duration">schedule_duration (iqm.cpc.interface.circuit_execution.CircuitMetrics attribute)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.set_calibration_set_values">set_calibration_set_values() (iqm.cpc.compiler.compiler.Compiler method)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.SELF_KERR_E.html#iqm.cpc.core.observation.observation_parameters.SELF_KERR_E">SELF_KERR_E (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
+      <li><a href="api/iqm.cpc.core.config.set_calibration_data_for_gate_implementation.html#iqm.cpc.core.config.set_calibration_data_for_gate_implementation">set_calibration_data_for_gate_implementation() (in module iqm.cpc.core.config)</a>
+
+      <ul>
+        <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.set_calibration_data_for_gate_implementation">(iqm.cpc.core.config.ExperimentConfiguration method)</a>
+</li>
+      </ul></li>
       <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.set_default_implementation">set_default_implementation() (iqm.cpc.compiler.compiler.Compiler method)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.set_default_implementation_for_loci">set_default_implementation_for_loci() (iqm.cpc.compiler.compiler.Compiler method)</a>
 </li>
-      <li><a href="api/iqm.cpc.interface.compiler.CircuitCompilationResult.html#iqm.cpc.interface.compiler.CircuitCompilationResult.settings">settings (iqm.cpc.interface.compiler.CircuitCompilationResult attribute)</a>
+      <li><a href="api/iqm.cpc.core.config.set_gate_implementation_as_default.html#iqm.cpc.core.config.set_gate_implementation_as_default">set_gate_implementation_as_default() (in module iqm.cpc.core.config)</a>
+
+      <ul>
+        <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.set_gate_implementation_as_default">(iqm.cpc.core.config.ExperimentConfiguration method)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.station_settings.Map.html#iqm.cpc.compiler.station_settings.Map.settings_path">settings_path() (iqm.cpc.compiler.station_settings.Map method)</a>
+      </ul></li>
+      <li><a href="api/iqm.cpc.core.observation.observation_loading_rules.set_global_default_observation_loading_rules.html#iqm.cpc.core.observation.observation_loading_rules.set_global_default_observation_loading_rules">set_global_default_observation_loading_rules() (in module iqm.cpc.core.observation.observation_loading_rules)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.layering_stages.set_layer_transformations.html#iqm.cpc.compiler.layering_stages.set_layer_transformations">set_layer_transformations() (in module iqm.cpc.compiler.layering_stages)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.html#iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.set_load_rules">set_load_rules() (iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase method)</a>
+</li>
+      <li><a href="api/iqm.cpc.interface.circuit_execution.CircuitCompilationResult.html#iqm.cpc.interface.circuit_execution.CircuitCompilationResult.settings">settings (iqm.cpc.interface.circuit_execution.CircuitCompilationResult attribute)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.errors.SettingsConventionError.html#iqm.cpc.compiler.errors.SettingsConventionError">SettingsConventionError</a>
 </li>
+      <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.show_stages">show_stages() (iqm.cpc.compiler.compiler.Compiler method)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.SINGLE_SHOT_01_ERROR.html#iqm.cpc.core.observation.observation_parameters.SINGLE_SHOT_01_ERROR">SINGLE_SHOT_01_ERROR (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.SINGLE_SHOT_10_ERROR.html#iqm.cpc.core.observation.observation_parameters.SINGLE_SHOT_10_ERROR">SINGLE_SHOT_10_ERROR (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.pulla.interface.SettingsRetrievalException.html#iqm.pulla.interface.SettingsRetrievalException">SettingsRetrievalException</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.SINGLE_SHOT_READOUT_E.html#iqm.cpc.core.observation.observation_parameters.SINGLE_SHOT_READOUT_E">SINGLE_SHOT_READOUT_E (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
-      <li><a href="api/iqm.cpc.compiler.compiler.Compiler.html#iqm.cpc.compiler.compiler.Compiler.show_stages">show_stages() (iqm.cpc.compiler.compiler.Compiler method)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.SINGLE_SHOT_READOUT_G.html#iqm.cpc.core.observation.observation_parameters.SINGLE_SHOT_READOUT_G">SINGLE_SHOT_READOUT_G (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.dataset.split_along_dimension.html#iqm.cpc.core.dataset.split_along_dimension">split_along_dimension() (in module iqm.cpc.core.dataset)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.dataset.stack_along_dimension.html#iqm.cpc.core.dataset.stack_along_dimension">stack_along_dimension() (in module iqm.cpc.core.dataset)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.stages">stages (iqm.cpc.core.config.ExperimentConfiguration attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compilation_stage.StagesList.html#iqm.cpc.compiler.compilation_stage.StagesList">StagesList (class in iqm.cpc.compiler.compilation_stage)</a>
 </li>
       <li><a href="api/iqm.cpc.compiler.dd.STANDARD_DD_STRATEGY.html#iqm.cpc.compiler.dd.STANDARD_DD_STRATEGY">STANDARD_DD_STRATEGY (in module iqm.cpc.compiler.dd)</a>
 </li>
-      <li><a href="api/iqm.pulla.utils_qiskit.DummyJob.html#iqm.pulla.utils_qiskit.DummyJob.status">status() (iqm.pulla.utils_qiskit.DummyJob method)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.STATE_FIDELITY.html#iqm.cpc.core.observation.observation_parameters.STATE_FIDELITY">STATE_FIDELITY (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
-      <li><a href="api/iqm.pulla.utils_qiskit.DummyJob.html#iqm.pulla.utils_qiskit.DummyJob.submit">submit() (iqm.pulla.utils_qiskit.DummyJob method)</a>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.STATE_FIDELITY_ESTIMATE.html#iqm.cpc.core.observation.observation_parameters.STATE_FIDELITY_ESTIMATE">STATE_FIDELITY_ESTIMATE (in module iqm.cpc.core.observation.observation_parameters)</a>
 </li>
       <li><a href="api/iqm.pulla.pulla.Pulla.html#iqm.pulla.pulla.Pulla.submit_playlist">submit_playlist() (iqm.pulla.pulla.Pulla method)</a>
 </li>
+      <li><a href="api/iqm.cpc.compiler.standard_stages.subscribe_and_probe.html#iqm.cpc.compiler.standard_stages.subscribe_and_probe">subscribe_and_probe() (in module iqm.cpc.compiler.standard_stages)</a>
+</li>
       <li><a href="api/iqm.pulla.utils_qiskit.sweep_job_to_qiskit.html#iqm.pulla.utils_qiskit.sweep_job_to_qiskit">sweep_job_to_qiskit() (in module iqm.pulla.utils_qiskit)</a>
 </li>
-      <li><a href="api/iqm.pulla.pulla.SweepJob.html#iqm.pulla.pulla.SweepJob">SweepJob (class in iqm.pulla.pulla)</a>
+      <li><a href="api/iqm.cpc.compiler.post_process.CircuitExecutionResults.html#iqm.cpc.compiler.post_process.CircuitExecutionResults.sweep_results">sweep_results (iqm.cpc.compiler.post_process.CircuitExecutionResults attribute)</a>
+
+      <ul>
+        <li><a href="api/iqm.cpc.compiler.post_process.PullaData.html#iqm.cpc.compiler.post_process.PullaData.sweep_results">(iqm.cpc.compiler.post_process.PullaData attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/iqm.cpc.core.config.SweepDefaultsConfiguration.html#iqm.cpc.core.config.SweepDefaultsConfiguration">SweepDefaultsConfiguration (class in iqm.cpc.core.config)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentDefaultsConfiguration.html#iqm.cpc.core.config.ExperimentDefaultsConfiguration.sweeps">sweeps (iqm.cpc.core.config.ExperimentDefaultsConfiguration attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.T1_TIME.html#iqm.cpc.core.observation.observation_parameters.T1_TIME">T1_TIME (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.T1_TIME_DURING_READOUT.html#iqm.cpc.core.observation.observation_parameters.T1_TIME_DURING_READOUT">T1_TIME_DURING_READOUT (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.T1_TIME_FITS.html#iqm.cpc.core.observation.observation_parameters.T1_TIME_FITS">T1_TIME_FITS (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.T2_ECHO_EXP_TIME_FITS.html#iqm.cpc.core.observation.observation_parameters.T2_ECHO_EXP_TIME_FITS">T2_ECHO_EXP_TIME_FITS (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.T2_ECHO_GAUSS_TIME_FITS.html#iqm.cpc.core.observation.observation_parameters.T2_ECHO_GAUSS_TIME_FITS">T2_ECHO_GAUSS_TIME_FITS (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.T2_ECHO_TIME.html#iqm.cpc.core.observation.observation_parameters.T2_ECHO_TIME">T2_ECHO_TIME (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.T2_ECHO_TIME_FITS.html#iqm.cpc.core.observation.observation_parameters.T2_ECHO_TIME_FITS">T2_ECHO_TIME_FITS (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.T2_RAMSEY_EXP_TIME_FITS.html#iqm.cpc.core.observation.observation_parameters.T2_RAMSEY_EXP_TIME_FITS">T2_RAMSEY_EXP_TIME_FITS (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.T2_RAMSEY_GAUSS_TIME_FITS.html#iqm.cpc.core.observation.observation_parameters.T2_RAMSEY_GAUSS_TIME_FITS">T2_RAMSEY_GAUSS_TIME_FITS (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.T2_RAMSEY_TIME.html#iqm.cpc.core.observation.observation_parameters.T2_RAMSEY_TIME">T2_RAMSEY_TIME (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_parameters.T2_RAMSEY_TIME_FITS.html#iqm.cpc.core.observation.observation_parameters.T2_RAMSEY_TIME_FITS">T2_RAMSEY_TIME_FITS (in module iqm.cpc.core.observation.observation_parameters)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ComponentGrouping.html#iqm.cpc.core.config.ComponentGrouping.to_json_serializable">to_json_serializable() (iqm.cpc.core.config.ComponentGrouping method)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ComponentGrouping.html#iqm.cpc.core.config.ComponentGrouping.to_list">to_list() (iqm.cpc.core.config.ComponentGrouping method)</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.layering_stages.CircuitLayer.html#iqm.cpc.compiler.layering_stages.CircuitLayer.transformations">transformations (iqm.cpc.compiler.layering_stages.CircuitLayer attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.dataset.turn_variable_to_coordinate.html#iqm.cpc.core.dataset.turn_variable_to_coordinate">turn_variable_to_coordinate() (in module iqm.cpc.core.dataset)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.SweepDefaultsConfiguration.html#iqm.cpc.core.config.SweepDefaultsConfiguration.type">type (iqm.cpc.core.config.SweepDefaultsConfiguration attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -983,11 +1469,15 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.cpc.compiler.errors.UnknownCircuitExecutionOptionError.html#iqm.cpc.compiler.errors.UnknownCircuitExecutionOptionError">UnknownCircuitExecutionOptionError</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.cpc.compiler.errors.UnknownHardwareComponentError.html#iqm.cpc.compiler.errors.UnknownHardwareComponentError">UnknownHardwareComponentError</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.cpc.compiler.errors.UnknownLogicalQubitError.html#iqm.cpc.compiler.errors.UnknownLogicalQubitError">UnknownLogicalQubitError</a>
+</li>
+      <li><a href="api/iqm.cpc.compiler.compiler.CompilerOptions.html#iqm.cpc.compiler.compiler.CompilerOptions.update_settings">update_settings (iqm.cpc.compiler.compiler.CompilerOptions attribute)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.user">user (iqm.cpc.core.config.ExperimentConfiguration attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -997,9 +1487,13 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/iqm.cpc.compiler.standard_stages.validate_circuits.html#iqm.cpc.compiler.standard_stages.validate_circuits">validate_circuits() (in module iqm.cpc.compiler.standard_stages)</a>
 </li>
+      <li><a href="api/iqm.cpc.core.config.ExperimentConfiguration.html#iqm.cpc.core.config.ExperimentConfiguration.validate_controllers">validate_controllers() (iqm.cpc.core.config.ExperimentConfiguration method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/iqm.cpc.compiler.standard_stages.validate_execution_options.html#iqm.cpc.compiler.standard_stages.validate_execution_options">validate_execution_options() (in module iqm.cpc.compiler.standard_stages)</a>
+      <li><a href="api/iqm.cpc.compiler.standard_stages.validate_settings.html#iqm.cpc.compiler.standard_stages.validate_settings">validate_settings() (in module iqm.cpc.compiler.standard_stages)</a>
+</li>
+      <li><a href="api/iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.html#iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase.value_dict">value_dict() (iqm.cpc.core.observation.observation_handler_base.ObservationHandlerBase method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1042,7 +1536,7 @@ By IQM Pulla developers
 
   <p class="copyright">
     
-      © Copyright 2024-2025, IQM Finland Oy, Release 12.0.5.
+      © Copyright 2024-2026, IQM Finland Oy, Release 13.0.1.
       <br/>
     
   </p>
