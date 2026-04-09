@@ -163,10 +163,10 @@ build_version() {
     if [ -s "$remaining" ]; then
         echo "Downloading remaining packages from remote indexes..."
         if [ "$USE_CONSTRAINTS" = true ]; then
-            uv run -m pip download --no-deps --no-binary=:all: --no-build-isolation \
+            uv run -m pip download --no-deps --no-binary=:all: \
                 -c "$tmp_dir/constraints.txt" -r "$remaining" -d "$tmp_dir"
         else
-            uv run -m pip download --no-deps --no-binary=:all: --no-build-isolation \
+            uv run -m pip download --no-deps --no-binary=:all: \
                 -r "$remaining" -d "$tmp_dir" || true
         fi
     fi
@@ -232,3 +232,5 @@ for version_dir in public/sdk*; do
     cp "search_${version_name}.json" "$version_dir/" 2>/dev/null || true
     rm -f "search_${version_name}.json"
 done
+
+echo "Done."
