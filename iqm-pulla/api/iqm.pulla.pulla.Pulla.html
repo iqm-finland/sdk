@@ -53,7 +53,7 @@
     <link rel="prev" title="pulla" href="iqm.pulla.pulla.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2026-04-09"/>
+    <meta name="docbuild:last-update" content="2026-04-10"/>
   </head>
   
   
@@ -510,14 +510,14 @@ for example the version information of the caller.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>loading_rules</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>, </em><a class="reference external" href="../../iqm-station-control-client/api/iqm.station_control.interface.models.observation.ObservationBase.html#iqm.station_control.interface.models.observation.ObservationBase" title="(in station-control-client v12.0.5)"><em>ObservationBase</em></a><em> | </em><em>None</em><em>]</em><em>] </em><em>| </em><em>None</em>) – Observation loading rules. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will use the current default calibration set.</p></li>
+<li><p><strong>loading_rules</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>, </em><a class="reference external" href="../../iqm-station-control-client/api/iqm.station_control.interface.models.observation.ObservationBase.html#iqm.station_control.interface.models.observation.ObservationBase" title="(in station-control-client v12.1.1)"><em>ObservationBase</em></a><em> | </em><em>None</em><em>]</em><em>] </em><em>| </em><em>None</em>) – Observation loading rules. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will use the current default calibration set.</p></li>
 <li><p><strong>exa_style_pp</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether to do EXA-style dataset post-processing by default.</p></li>
 <li><p><strong>controller_mapping</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – Dictionary that maps physical QPU component names to their device controller names.
 The dictionary is of the form: <code class="docutils literal notranslate"><span class="pre">{&lt;component_name&gt;:</span> <span class="pre">{&lt;operation_name&gt;:</span> <span class="pre">&lt;controller</span> <span class="pre">name&gt;}}</span></code>,
 where operation is one of the following: “drive”, “readout”, “flux”
 (not all components have all operations supported).
 If None, use the default controller mapping for the connected quantum computer.</p></li>
-<li><p><strong>gate_definitions</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v12.7.5)"><em>QuantumOp</em></a><em>] </em><em>| </em><em>None</em>) – Names of quantum operations mapped to their definitions, see <code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code>.
+<li><p><strong>gate_definitions</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v13.0.1)"><em>QuantumOp</em></a><em>] </em><em>| </em><em>None</em>) – Names of quantum operations mapped to their definitions, see <code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code>.
 If None, use the default quantum operations.</p></li>
 </ul>
 </dd>
@@ -547,7 +547,7 @@ If None, use the default quantum operations.</p></li>
 <dd><p>Chip topology of the current quantum computer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="../../iqm-exa-common/api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology" title="(in exa-common v27.4.5)"><em>ChipTopology</em></a></p>
+<dd class="field-odd"><p><a class="reference external" href="../../iqm-exa-common/api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology" title="(in exa-common v27.5.1)"><em>ChipTopology</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -559,7 +559,7 @@ If None, use the default quantum operations.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>run_definition</strong> (<a class="reference external" href="../../iqm-station-control-client/api/iqm.station_control.interface.models.run.RunDefinition.html#iqm.station_control.interface.models.run.RunDefinition" title="(in station-control-client v12.0.5)"><em>RunDefinition</em></a>)</p></li>
+<li><p><strong>run_definition</strong> (<a class="reference external" href="../../iqm-station-control-client/api/iqm.station_control.interface.models.run.RunDefinition.html#iqm.station_control.interface.models.run.RunDefinition" title="(in station-control-client v12.1.1)"><em>RunDefinition</em></a>)</p></li>
 <li><p><strong>context</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em>)</p></li>
 <li><p><strong>use_timeslot</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>)</p></li>
 </ul>
@@ -582,7 +582,7 @@ If None, use the default quantum operations.</p></li>
 <dd class="field-even"><p>JobData object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>JobData</em></p>
+<dd class="field-odd"><p><a class="reference external" href="../../iqm-client/api/iqm.iqm_server_client.models.JobData.html#iqm.iqm_server_client.models.JobData" title="(in IQM client v34.0.1)"><em>JobData</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -696,7 +696,7 @@ By IQM Pulla developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2026-04-09.
+  Last updated on 2026-04-10.
   <br/>
 </p>
   </div>
