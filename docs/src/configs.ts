@@ -194,7 +194,8 @@ export const versionConfigs: VersionConfig[] = [
       'iqm-client',
       'iqm-qaoa',
       'qrisp',
-      'iqm-benchmarks'
+      'iqm-benchmarks',
+      'iqm-qubit-selector'
     ]
   }
 ];

@@ -48,15 +48,28 @@ uv pip install -r requirements.txt
 # Extract bare package name from a requirements line (strips extras and version specifiers)
 pkg_name() { echo "$1" | sed 's/\[.*//;s/[<>=!~].*//'; }
 
-is_external() { [[ "$1" =~ ^(qrisp|iqm-benchmarks)$ ]]; }
+# Packages that are always external (never built locally)
+ALWAYS_EXTERNAL="qrisp"
+# Packages that are external only in non-default (older) SDK versions
+LEGACY_EXTERNAL="iqm-benchmarks|iqm-qubit-selector"
+
+is_external() {
+    local pkg=$1 sdk_file=$2
+    [[ "$pkg" =~ ^($ALWAYS_EXTERNAL)$ ]] && return 0
+    if [[ ! "$sdk_file" =~ _default\.txt$ ]] && [[ "$pkg" =~ ^($LEGACY_EXTERNAL)$ ]]; then
+        return 0
+    fi
+    return 1
+}
 
 # Print non-external package names from an SDK file
 sdk_packages() {
+    local sdk_file=$1
     while IFS= read -r line; do
         [[ -z "$line" || "$line" =~ ^[[:space:]]*# ]] && continue
         local name; name=$(pkg_name "$line")
-        is_external "$name" || echo "$name"
-    done < "$1"
+        is_external "$name" "$sdk_file" || echo "$name"
+    done < "$sdk_file"
 }
 
 # Track conf.py files that need restoring on exit
@@ -118,7 +131,13 @@ build_version() {
     mkdir -p "$out_dir" "$tmp_dir"
 
     local filtered="$tmp_dir/filtered.txt"
-    grep -v -E "^(qrisp|iqm-benchmarks)(\[|==|>=|<=|>|<|!=|~=|$)" "$sdk_file" > "$filtered"
+    local ext_pattern
+    if [[ "$sdk_file" =~ _default\.txt$ ]]; then
+        ext_pattern="^($ALWAYS_EXTERNAL)(\[|==|>=|<=|>|<|!=|~=|$)"
+    else
+        ext_pattern="^($ALWAYS_EXTERNAL|$LEGACY_EXTERNAL)(\[|==|>=|<=|>|<|!=|~=|$)"
+    fi
+    grep -v -E "$ext_pattern" "$sdk_file" > "$filtered"
 
     # Compile constraints and download sdists
     if uv pip compile --upgrade --no-emit-index-url --no-emit-find-links \
