@@ -60,6 +60,10 @@ intersphinx_mapping.update(
             "../iqm-qaoa",
             "https://docs.meetiqm.com/iqm-qaoa/objects.inv",
         ),
+        "iqm.qubit_selector": (
+            "../iqm-qubit-selector",
+            "https://docs.meetiqm.com/iqm-qubit-selector/objects.inv",
+        ),
     }
 )
 

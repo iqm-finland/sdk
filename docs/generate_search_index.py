@@ -61,7 +61,7 @@ def build_search_index(docs_dir="./public/", output_file="./search.json", versio
             package_dirs = os.getenv("PACKAGES").split()
         except:
             # Default package directories
-            package_dirs = ["iqm-exa-common", "iqm-pulla", "iqm-pulse", "iqm-station-control-client", "iqm-qaoa", "iqm-data-definitions", "iqm-benchmarks", "iqm-client"]
+            package_dirs = ["iqm-exa-common", "iqm-pulla", "iqm-pulse", "iqm-station-control-client", "iqm-qaoa", "iqm-data-definitions", "iqm-benchmarks", "iqm-client", "iqm-qubit-selector"]
 
         for package in package_dirs:
             package_path = os.path.join(docs_dir, package)
