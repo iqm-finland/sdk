@@ -336,7 +336,7 @@ function App() {
         )}
 
         <footer className="mt-8 text-center text-sm text-gray-500 border-gray-300 border-t pt-4 pb-20">
-          <span>Copyright IQM Quantum Computers 2021-2025.</span>
+          <span>Copyright IQM Quantum Computers 2021-2026.</span>
           <br />
           <span>Need assistance? Contact us <a href="mailto:support@meetiqm.com">support@meetiqm.com</a></span>
         </footer>
