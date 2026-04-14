@@ -161,7 +161,8 @@ function App() {
     { package: "iqm-data-definitions", title: "IQM Data Definitions", description: "A common place for data definitions shared inside IQM." },
     { package: "qrisp", title: "Qrisp", description: "Use Eclipse Qrisp to run your circuits on IQM hardware.", external: "https://qrisp.eu/reference/index.html", image: QrispLogo },
     { package: "qiskit-iqm", title: "Qiskit on IQM", description: "Qiskit provider for accessing IQM quantum computers. Only used up to IQM OS 3.4"},
-    { package: "cirq-iqm", title: "Cirq on IQM", description: "Cirq provider for accessing IQM quantum computers. Only used up to IQM OS 3.4"}
+    { package: "cirq-iqm", title: "Cirq on IQM", description: "Cirq provider for accessing IQM quantum computers. Only used up to IQM OS 3.4"},
+    { package: "iqm-qubit-selector", title: "IQM Qubit Selector", description: "Tools for selecting optimal qubits for quantum circuits." }
 
   ];
 
