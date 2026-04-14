@@ -29,7 +29,7 @@ intersphinx_mapping.update(
             "https://docs.meetiqm.com/iqm-data-definitions/objects.inv",
         ),
 
-        "iqm.data_definitions": (
+        "iqm.pulla": (
             "../iqm-pulla",
             "https://docs.meetiqm.com/iqm-pulla/objects.inv",
         ),
