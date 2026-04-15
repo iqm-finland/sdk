@@ -49,6 +49,7 @@ from iqm.pulse.gates.cz import (
 from iqm.pulse.gates.default_gates import _implementation_library, _quantum_ops_library
 from iqm.pulse.gates.delay import Delay
 from iqm.pulse.gates.flux_multiplexer import FluxMultiplexer_SampleLinear
+from iqm.pulse.gates.lru import LRU_F0G1
 from iqm.pulse.gates.measure import (
     Fast_Measure_Constant,
     Measure_Constant,
@@ -67,9 +68,10 @@ from iqm.pulse.gates.prx import (
     PRX_HdDrag,
     PRX_HdDragSX,
     PRX_ModulatedDRAGCosineRiseFall,
+    PRX_Samples,
     get_unitary_prx,
 )
-from iqm.pulse.gates.reset import Reset_Conditional, Reset_Wait
+from iqm.pulse.gates.reset import Reset_Conditional, Reset_F0G1_Composite, Reset_Wait
 from iqm.pulse.gates.rz import (
     RZ_ACStarkShift_CosineRiseFall,
     RZ_ACStarkShift_smoothConstant,
@@ -94,6 +96,7 @@ _exposed_implementations: dict[str, type[GateImplementation]] = {
         PRX_FastDrag,
         PRX_HdDrag,
         PRX_HdDragSX,
+        PRX_Samples,
         SXGate,
         UGate,
         RZ_PRX_Composite,
@@ -122,6 +125,8 @@ _exposed_implementations: dict[str, type[GateImplementation]] = {
         CCPRX_Composite_DRAGCosineRiseFall,
         CCPRX_Composite_DRAGGaussian,
         Reset_Conditional,
+        Reset_F0G1_Composite,
+        LRU_F0G1,
     )
 }
 """These GateImplementations can be referred to in the configuration YAML."""
@@ -241,7 +246,7 @@ def register_implementation(
         # add the new implementation
         op.implementations[impl_name] = impl_class
 
-    if set_as_default:
+    if set_as_default or not op.default_implementation:
         op.set_default_implementation(impl_name)
 
     if get_implementation_class(impl_class.__name__) is None:

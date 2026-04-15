@@ -18,14 +18,12 @@ from iqm.station_control.client.serializers.datetime_serializers import deserial
 from iqm.station_control.client.serializers.run_serializers import (
     deserialize_run_data,
     deserialize_run_definition,
-    serialize_run_data,
     serialize_run_definition,
 )
 from iqm.station_control.client.serializers.sweep_serializers import (
     deserialize_sweep_data,
     deserialize_sweep_definition,
     deserialize_sweep_results,
-    serialize_sweep_data,
     serialize_sweep_definition,
     serialize_sweep_results,
 )

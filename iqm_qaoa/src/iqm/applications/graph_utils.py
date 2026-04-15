@@ -23,11 +23,15 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass
+import heapq
+from itertools import combinations
 from typing import TYPE_CHECKING, Any, Final, Literal
 import warnings
 
+from iqm.qaoa.transpiler.quantum_hardware import LogEdge
+from iqm.qaoa.transpiler.sparse.edge_coloring import find_edge_coloring
 import matplotlib.pyplot as plt
 import networkx as nx
 import numpy as np
@@ -36,9 +40,17 @@ if TYPE_CHECKING:
     from iqm.applications.mis import ISInstance
     from iqm.applications.qubo import QUBOInstance
 
-# Priority lists for node and edge attributes
 NODE_ATTR_PRIORITY: tuple[str, ...] = ("bias", "weight", "field", "value", "h")
+"""Ordered names of node attributes that may store node weights.
+
+When extracting node weights from a graph, attributes are checked in this order and the first match is used. This
+allows the library to accept graphs originating from different conventions (e.g. "weight", "field", etc.)."""
+
 EDGE_ATTR_PRIORITY: tuple[str, ...] = ("bias", "weight", "coupling", "interaction", "J")
+"""Ordered names of edge attributes that may store edge weights.
+
+When extracting edge weights from a graph, attributes are checked in this order and the first match is used. This
+allows the library to accept graphs originating from different conventions (e.g. "weight", "coupling", etc.)."""
 
 
 def _get_attr_with_priority(data: dict[str, int | float], priority_list: tuple[str, ...]) -> int | float | None:
@@ -134,6 +146,43 @@ def _generate_desired_graph(
         f"Failed to generate a connected graph after {max_iterations} attempts. "
         "Increase `max_iterations` or adjust graph parameters."
     )
+
+
+def get_top_n_color_pairs(
+    max_color_pairs: int, problem_graph: nx.Graph | None = None, color_sets: Iterable[set[LogEdge]] | None = None
+) -> list[tuple[set[LogEdge], set[LogEdge]]]:
+    """Helper function for the greedy router.
+
+    Finds an edge coloring of a graph, and then returns ``max_color_pairs`` largest (by the number of edges)
+    pairs of colors. If there is less than ``max_color_pairs`` color pairs, then it returns all of them.
+
+    Args:
+        max_color_pairs: The maximum number of edge color pairs to return.
+        problem_graph: The graph to be colored. Ignored if ``color_sets`` is provided.
+        color_sets: Edge coloring of the graph. If None, obtained by coloring ``problem_graph`` with
+            :func:`iqm.qaoa.transpiler.sparse.edge_coloring.find_edge_coloring`.
+
+    Returns:
+        The largest color pairs.
+
+    Raises:
+        ValueError: If both ``problem_graph`` and ``color_sets`` are ``None``.
+
+    """
+    if color_sets is None:
+        # Find the color sets (i.e., sets of edges of the same color).
+        if problem_graph is None:
+            raise ValueError(
+                "``problem_graph`` and ``color_sets`` can not both be ``None``. Provide either a graph to"
+                "be colored or a list of sets of colors."
+            )
+        color_sets, _ = find_edge_coloring(problem_graph)
+    # Get all possible pairs of color sets (in an iterator)
+    pairs_of_colors = combinations(color_sets, 2)
+    # Iterate over all possible color pairs, keep the ``max_color_pairs`` largest pairs.
+    top_n_color_pairs = heapq.nlargest(max_color_pairs, pairs_of_colors, key=lambda p: len(p[0]) + len(p[1]))
+
+    return top_n_color_pairs
 
 
 # ============================================================
@@ -412,7 +461,7 @@ def plot_graph(plot_data: PlotData) -> None:
 # ============================================================
 
 
-def draw_problem(  # noqa: D417
+def draw_problem(
     problem_instance: QUBOInstance | ISInstance | None = None,
     *,
     graph_to_plot: nx.Graph | None = None,

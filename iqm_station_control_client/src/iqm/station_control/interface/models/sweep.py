@@ -13,8 +13,11 @@
 # limitations under the License.
 """Sweep related station control interface models."""
 
+from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime
+from functools import cached_property
+import math
 import uuid
 
 from iqm.models.playlist import Playlist
@@ -48,6 +51,44 @@ class SweepDefinition(SweepBase):
 
     playlist: Playlist | None
     """A :class:`~iqm.models.playlist.Playlist` that should be uploaded to the controllers."""
+
+    @cached_property
+    def qpu_runtime(self) -> float:
+        """Rough estimate of the sweep's QPU runtime in seconds."""
+        end_delay_setting = self.settings.find_by_name("options.end_delay")
+        playlist_repeats_setting = self.settings.find_by_name("options.playlist_repeats")
+        if end_delay_setting is None or end_delay_setting.value is None:
+            raise RuntimeError("settings.options.end_delay is missing.")
+        if playlist_repeats_setting is None or playlist_repeats_setting.value is None:
+            raise RuntimeError("settings.options.playlist_repeats is missing.")
+        repetitions = playlist_repeats_setting.value
+        if not isinstance(repetitions, int):
+            raise RuntimeError(f"settings.options.playlist_repeats is a {type(repetitions)}, must be a int.")
+
+        end_delay = end_delay_setting.value
+        if not isinstance(end_delay, float):
+            raise RuntimeError(f"settings.options.end_delay is a {type(end_delay)}, must be a float.")
+
+        playlist = self.playlist
+        if playlist is None:
+            return 0  # degenerate sweep, just sets instrument settings
+
+        playlist_duration_seconds = end_delay * len(playlist.segments) * repetitions
+        for segment in playlist.segments:
+            # Take some channel in the segment, and assume all channels have the same duration.
+            channel_name, instructions = next(iter(segment.instructions.items()))
+            channel = playlist.channel_descriptions[channel_name]
+
+            samples = sum(
+                channel.instruction_table[idx].duration_samples * count for idx, count in Counter(instructions).items()
+            )
+            playlist_duration_seconds += repetitions * samples / channel.channel_config.sampling_rate
+
+        n_spots = math.prod(len(sweep_dim[0].data) for sweep_dim in self.sweeps)
+
+        qpu_runtime = playlist_duration_seconds * n_spots
+
+        return qpu_runtime
 
 
 @dataclass(kw_only=True)

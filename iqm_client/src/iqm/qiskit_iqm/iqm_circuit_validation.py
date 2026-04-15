@@ -22,12 +22,12 @@ from iqm.pulse import Circuit
 from iqm.station_control.interface.models import MoveGateValidationMode
 
 
-def validate_circuit(  # noqa: ANN201
+def validate_circuit(
     circuit: QuantumCircuit,
     backend: IQMBackendBase,
     validate_moves: MoveGateValidationMode | None = None,
     qubit_index_to_name: dict[int, str] | None = None,
-):
+) -> None:
     """Validate a circuit against the backend."""
     if qubit_index_to_name is None:
         qubit_index_to_name = backend._idx_to_qb

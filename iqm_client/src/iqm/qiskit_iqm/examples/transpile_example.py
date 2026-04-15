@@ -11,8 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""This file is an example of using Qiskit on IQM to run a simple but non-trivial quantum circuit on an IQM quantum
-computer.
+"""An example of using Qiskit on IQM to run a simple but non-trivial quantum circuit on an IQM quantum computer.
 
 See the Qiskit on IQM user guide for instructions, found in the documentation at
 https://docs.meetiqm.com/iqm-client/
@@ -29,17 +28,20 @@ def num_connected_qubits(backend: IQMBackend) -> int:
     return max(backend.coupling_map.connected_components(), key=lambda cmap: cmap.size()).size()
 
 
-def transpile_example(server_url: str) -> tuple[QuantumCircuit, dict[str, int]]:
+def transpile_example(server_url: str, *, quantum_computer: str | None = None) -> tuple[QuantumCircuit, dict[str, int]]:
     """Run a GHZ circuit transpiled using the Qiskit transpile function.
 
     Args:
-        server_url: URL of the IQM Server used for execution
+        server_url: URL of the IQM Server used for execution (e.g. "https://resonance.meetiqm.com/").
+        quantum_computer: ID or alias of the quantum computer to connect to, if the IQM Server
+            instance controls more than one (e.g. "garnet"). ``None`` means connect to the
+            default one.
 
     Returns:
         transpiled circuit, a mapping of bitstrings representing qubit measurement results to counts for each result
 
     """
-    backend = IQMProvider(server_url).get_backend()
+    backend = IQMProvider(server_url, quantum_computer=quantum_computer).get_backend()
 
     num_qubits = min(num_connected_qubits(backend), 5)  # use at most 5 qubits
     circuit = QuantumCircuit(num_qubits)
@@ -58,10 +60,15 @@ if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
         "--url",
-        help="IQM Server URL",
-        # For example https://cocos.resonance.meetiqm.com/garnet
+        help="IQM Server URL, for example 'https://resonance.meetiqm.com/'",
         default="https://<IQM SERVER>",
     )
-    circuit_transpiled, results = transpile_example(argparser.parse_args().url)
+    argparser.add_argument(
+        "--qc",
+        help="ID or alias of the quantum computer to connect to, if the IQM Server instance controls more than one "
+        '(e.g. "garnet")',
+    )
+    args = argparser.parse_args()
+    circuit_transpiled, results = transpile_example(args.url, quantum_computer=args.qc)
     print(circuit_transpiled)
     print(results)

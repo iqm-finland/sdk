@@ -11,14 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Implementations for IQM specific quantum gates"""
+"""Implementations for IQM specific quantum gates."""
 
 from cirq import CircuitDiagramInfo, CircuitDiagramInfoArgs, EigenGate
 import numpy as np
 
 
 class IQMMoveGate(EigenGate):
-    r"""The MOVE operation is a unitary population exchange operation between a qubit and a resonator.
+    r"""The MOVE gate, a unitary population exchange operation between a qubit and a resonator.
+
     Its effect is only defined in the invariant subspace :math:`S = \text{span}\{|00\rangle, |01\rangle, |10\rangle\}`,
     where it swaps the populations of the states :math:`|01\rangle` and :math:`|10\rangle`.
     Its effect on the orthogonal subspace is undefined.

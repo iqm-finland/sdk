@@ -31,6 +31,7 @@ import copy
 from functools import lru_cache
 from typing import TYPE_CHECKING
 
+from iqm.models.playlist.waveforms import Samples
 import numpy as np
 
 from exa.common.data.parameter import Parameter, Setting
@@ -109,6 +110,9 @@ class PrxGateImplementation(GateImplementation):
 
         """
         raise NotImplementedError
+
+    def __call__(self, *args, **kwargs) -> TimeBox:  # For type narrowing
+        return super().__call__(*args, **kwargs)  # type: ignore[return-value]
 
     def rx(self, angle: float) -> TimeBox:
         """X rotation gate.
@@ -228,16 +232,29 @@ class PRX_CustomWaveforms(PRX_SinglePulse_GateImplementation, CustomIQWaveforms)
         *,
         amplitude_i: float,
         amplitude_q: float,
-        n_samples: int,
         **rest_of_calibration_data,
     ) -> IQPulse:
         """Builds an x_pi pulse out of the calibration data."""
+        n_samples = rest_of_calibration_data.get("n_samples")
         if cls.dependent_waves:
-            wave_i = cls.wave_i(n_samples=n_samples, **rest_of_calibration_data)
-            wave_q = cls.wave_q(n_samples=n_samples, **rest_of_calibration_data)
+            wave_i = cls.wave_i(**rest_of_calibration_data)
+            wave_q = cls.wave_q(**rest_of_calibration_data)
         else:
-            wave_i = cls.wave_i(n_samples=n_samples, **rest_of_calibration_data["i"])
-            wave_q = cls.wave_q(n_samples=n_samples, **rest_of_calibration_data["q"])
+            calibration_i = rest_of_calibration_data["i"]
+            calibration_q = rest_of_calibration_data["q"]
+            if n_samples is not None:
+                calibration_i["n_samples"] = n_samples
+                calibration_q["n_samples"] = n_samples
+            wave_i = cls.wave_i(**calibration_i)
+            wave_q = cls.wave_q(**calibration_q)
+        if n_samples is None:
+            # for sampled non-parametrized i & q waveforms n_samples is just the length of the sample array
+            if wave_q.n_samples != wave_i.n_samples:
+                raise ValueError(
+                    "Sampled I and Q waveforms must have the same number of samples. Your waveforms have "
+                    f"these lengths: i: {wave_i.n_samples}, and q: {wave_q.n_samples}."
+                )
+            n_samples = wave_i.n_samples
         return IQPulse(
             n_samples,
             wave_i=wave_i,
@@ -247,6 +264,15 @@ class PRX_CustomWaveforms(PRX_SinglePulse_GateImplementation, CustomIQWaveforms)
             phase=0,
             phase_increment=0,
         )
+
+
+class PRX_Samples(PRX_CustomWaveforms, wave_i=Samples, wave_q=Samples, dependent_waves=False):  # type:ignore[call-arg]
+    """PRX gate with sampled waveforms as I and Q.
+
+    See :class:`.PRX_CustomWaveforms`.
+    """
+
+    excluded_parameters = ["duration"]
 
 
 class PRX_DRAGGaussian(PRX_CustomWaveforms, wave_i=TruncatedGaussian, wave_q=TruncatedGaussianD):  # type:ignore[call-arg]

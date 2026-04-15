@@ -57,7 +57,7 @@ class IQMSchedulingPlugin(PassManagerStagePlugin):
     def pass_manager(
         self, pass_manager_config: PassManagerConfig, optimization_level: int | None = None
     ) -> PassManager:
-        """Build scheduling stage PassManager"""
+        """Build scheduling stage PassManager."""
         scheduling = PassManager()
         if self.optimize_sqg:
             scheduling.append(
@@ -79,7 +79,7 @@ class IQMSchedulingPlugin(PassManagerStagePlugin):
 
 
 class MoveGateRoutingPlugin(IQMSchedulingPlugin):
-    """Plugin class for IQM single qubit gate optimization and MoveGate routing as a scheduling stage."""
+    """IQM single qubit gate optimization and MoveGate routing as a scheduling stage."""
 
     def __init__(
         self,
@@ -92,14 +92,14 @@ class MoveGateRoutingPlugin(IQMSchedulingPlugin):
 
 
 class MoveGateRoutingOnlyPlugin(MoveGateRoutingPlugin):
-    """Plugin class for MoveGate routing without single qubit gate optimization as a scheduling stage."""
+    """MoveGate routing without single qubit gate optimization as a scheduling stage."""
 
     def __init__(self):
         super().__init__(optimize_sqg=False)
 
 
 class MoveGateRoutingKeepExistingMovesPlugin(MoveGateRoutingPlugin):
-    """Plugin class for single qubit gate optimization and MoveGate routing where existing moves are kept."""
+    """Single qubit gate optimization and MoveGate routing where existing moves are kept."""
 
     def __init__(self):
         super().__init__(
@@ -109,7 +109,7 @@ class MoveGateRoutingKeepExistingMovesPlugin(MoveGateRoutingPlugin):
 
 
 class MoveGateRoutingRemoveExistingMovesPlugin(MoveGateRoutingPlugin):
-    """Plugin class for single qubit gate optimization and MoveGate routing where existing moves are removed."""
+    """Single qubit gate optimization and MoveGate routing where existing moves are removed."""
 
     def __init__(self):
         super().__init__(
@@ -119,7 +119,7 @@ class MoveGateRoutingRemoveExistingMovesPlugin(MoveGateRoutingPlugin):
 
 
 class MoveGateRoutingTrustExistingMovesPlugin(MoveGateRoutingPlugin):
-    """Plugin class for single qubit gate optimization and MoveGate routing where existing moves are not checked."""
+    """Single qubit gate optimization and MoveGate routing where existing moves are not checked."""
 
     def __init__(self):
         super().__init__(
@@ -129,18 +129,14 @@ class MoveGateRoutingTrustExistingMovesPlugin(MoveGateRoutingPlugin):
 
 
 class MoveGateRoutingWithExactRZPlugin(MoveGateRoutingPlugin):
-    """Plugin class for single qubit gate optimization and MoveGate routing where
-    trailing RZ gates are kept in the circuit.
-    """
+    """Single qubit gate optimization and MoveGate routing where trailing RZ gates are kept in the circuit."""
 
     def __init__(self):
         super().__init__(optimize_sqg=True, drop_final_rz=False)
 
 
 class MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin(MoveGateRoutingPlugin):
-    """Plugin class for single qubit gate optimization and MoveGate routing where barriers are ignored during
-    optimization.
-    """
+    """Single qubit gate optimization and MoveGate routing where barriers are ignored during optimization."""
 
     def __init__(self):
         super().__init__(
@@ -150,9 +146,7 @@ class MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin(MoveGateRoutingPlugi
 
 
 class MoveGateRoutingOnlyKeepExistingMovesPlugin(MoveGateRoutingPlugin):
-    """Plugin class for MoveGate routing without single qubit gate optimization
-    where existing moves are kept.
-    """
+    """MoveGate routing without single qubit gate optimization where existing moves are kept."""
 
     def __init__(self):
         super().__init__(
@@ -162,9 +156,7 @@ class MoveGateRoutingOnlyKeepExistingMovesPlugin(MoveGateRoutingPlugin):
 
 
 class MoveGateRoutingOnlyRemoveExistingMovesPlugin(MoveGateRoutingPlugin):
-    """Plugin class for MoveGate routing without single qubit gate optimization
-    where existing moves are removed.
-    """
+    """MoveGate routing without single qubit gate optimization where existing moves are removed."""
 
     def __init__(self):
         super().__init__(
@@ -174,9 +166,7 @@ class MoveGateRoutingOnlyRemoveExistingMovesPlugin(MoveGateRoutingPlugin):
 
 
 class MoveGateRoutingOnlyTrustExistingMovesPlugin(MoveGateRoutingPlugin):
-    """Plugin class for MoveGate routing without single qubit gate optimization
-    where existing moves are not checked.
-    """
+    """MoveGate routing without single qubit gate optimization where existing moves are not checked."""
 
     def __init__(self):
         super().__init__(
@@ -186,43 +176,39 @@ class MoveGateRoutingOnlyTrustExistingMovesPlugin(MoveGateRoutingPlugin):
 
 
 class OnlyRZOptimizationPlugin(IQMSchedulingPlugin):
-    """Plugin class for single qubit gate optimization without MOVE gate routing."""
+    """Single qubit gate optimization without MOVE gate routing."""
 
     def __init__(
         self,
-        drop_final_rz=True,  # noqa: ANN001
-        ignore_barriers=False,  # noqa: ANN001
+        drop_final_rz: bool = True,
+        ignore_barriers: bool = False,
     ):
         super().__init__(False, True, drop_final_rz, ignore_barriers, None)
 
 
 class OnlyRZOptimizationExactPlugin(OnlyRZOptimizationPlugin):
-    """Plugin class for single qubit gate optimization without MOVE gate routing and
-    the final RZ gates are not dropped.
-    """
+    """Single qubit gate optimization without MOVE gate routing and the final RZ gates are not dropped."""
 
     def __init__(self):
         super().__init__(drop_final_rz=False)
 
 
 class OnlyRZOptimizationIgnoreBarriersPlugin(OnlyRZOptimizationPlugin):
-    """Plugin class for single qubit gate optimization without MOVE gate routing where barriers are ignored."""
+    """Single qubit gate optimization without MOVE gate routing where barriers are ignored."""
 
     def __init__(self):
         super().__init__(ignore_barriers=True)
 
 
 class OnlyRZOptimizationExactIgnoreBarriersPlugin(OnlyRZOptimizationPlugin):
-    """Plugin class for single qubit gate optimization without MOVE gate routing and
-    the final RZ gates are not dropped.
-    """
+    """Single qubit gate optimization without MOVE gate routing and the final RZ gates are not dropped."""
 
     def __init__(self):
         super().__init__(drop_final_rz=False, ignore_barriers=True)
 
 
 class IQMDefaultSchedulingPlugin(IQMSchedulingPlugin):
-    """Plugin class for IQM single qubit gate optimization and MoveGate routing as a scheduling stage."""
+    """IQM single qubit gate optimization and MoveGate routing as a scheduling stage."""
 
     def __init__(self) -> None:
         super().__init__(
@@ -232,7 +218,7 @@ class IQMDefaultSchedulingPlugin(IQMSchedulingPlugin):
     def pass_manager(
         self, pass_manager_config: PassManagerConfig, optimization_level: int | None = None
     ) -> PassManager:
-        """Build scheduling stage PassManager"""
+        """Build scheduling stage PassManager."""
         if optimization_level == 0:
             self.optimize_sqg = False
         return super().pass_manager(pass_manager_config, optimization_level)

@@ -20,14 +20,17 @@ import uuid
 from iqm.data_definitions.common.v1.data_types_pb2 import Arrays as ArraysProto
 from iqm.data_definitions.station_control.v1.sweep_request_pb2 import SweepRequest as SweepDefinitionProto
 from iqm.data_definitions.station_control.v2.task_service_pb2 import SweepResultsResponse as SweepResultsResponseProto
+from opentelemetry import trace
 
 from exa.common.api import proto_serialization
 from exa.common.api.proto_serialization import array
 from exa.common.data.setting_node import SettingNode
-from exa.common.sweep.database_serialization import decode_and_validate_sweeps, encode_nd_sweeps
-from iqm.station_control.client.serializers.datetime_serializers import deserialize_datetime, serialize_datetime
+from exa.common.sweep.database_serialization import decode_and_validate_sweeps
+from iqm.station_control.client.serializers.datetime_serializers import deserialize_datetime
 from iqm.station_control.client.serializers.playlist_serializers import pack_playlist, unpack_playlist
 from iqm.station_control.interface.models import JobExecutorStatus, SweepData, SweepDefinition, SweepResults
+
+tracer = trace.get_tracer(__name__)
 
 
 def serialize_sweep_definition(sweep_definition: SweepDefinition) -> SweepDefinitionProto:
@@ -44,6 +47,7 @@ def serialize_sweep_definition(sweep_definition: SweepDefinition) -> SweepDefini
     return sweep_definition_proto
 
 
+@tracer.start_as_current_span("deserialize_sweep_definition")
 def deserialize_sweep_definition(sweep_definition_proto: SweepDefinitionProto) -> SweepDefinition:
     """Convert sweep proto into SweepDefinition."""
     playlist = None
@@ -62,28 +66,15 @@ def deserialize_sweep_definition(sweep_definition_proto: SweepDefinitionProto) -
     return sweep_definition
 
 
-def serialize_sweep_data(sweep_data: SweepData) -> dict:
-    """Convert SweepData into JSON serializable dictionary."""
-    return {
-        "sweep_id": str(sweep_data.sweep_id),
-        "dut_label": sweep_data.dut_label,
-        "settings": sweep_data.settings.model_dump_json() if sweep_data.settings else None,
-        "sweeps": encode_nd_sweeps(sweep_data.sweeps),
-        "return_parameters": sweep_data.return_parameters,
-        "created_timestamp": serialize_datetime(sweep_data.created_timestamp),
-        "modified_timestamp": serialize_datetime(sweep_data.modified_timestamp),
-        "begin_timestamp": serialize_datetime(sweep_data.begin_timestamp),
-        "end_timestamp": serialize_datetime(sweep_data.end_timestamp),
-        "job_status": sweep_data.job_status.value,
-    }
-
-
 def deserialize_sweep_data(data: dict) -> SweepData:
     """Convert JSON serializable dictionary into SweepData."""
     return SweepData(
         sweep_id=uuid.UUID(data["sweep_id"]),
         dut_label=data["dut_label"],
-        settings=SettingNode(**json.loads(data["settings"])),
+        # TODO: Add "path" to protobuf to avoid generate_paths=True here
+        #  This is quite slow/expensive recursive step for big trees,
+        #  and we could avoid it if "path" was part of the protobuf data.
+        settings=SettingNode.fast_construct(**json.loads(data["settings"]), generate_paths=True),
         sweeps=decode_and_validate_sweeps(data["sweeps"]),  # type: ignore[arg-type]
         return_parameters=data["return_parameters"],
         created_timestamp=deserialize_datetime(data["created_timestamp"]),  # type: ignore[arg-type]

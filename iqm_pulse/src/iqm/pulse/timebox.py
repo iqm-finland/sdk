@@ -53,9 +53,8 @@ class TimeBox:
     of *locus components*, using some of their control channels.  It can be either *atomic* or
     *composite*.
 
-    * An atomic box only contains a single :class:`.Schedule`.
-
-    * A composite box contains a sequence of other TimeBoxes as its children.
+    - An atomic box only contains a single :class:`.Schedule`.
+    - A composite box contains a sequence of other TimeBoxes as its children.
       The locus components are the union of the locus components of the children.
       If two children use the same channel so that they cannot happen simultaneously, they must
       happen in the order they occur in the sequence.
@@ -65,11 +64,9 @@ class TimeBox:
 
     TimeBoxes can be concatenated with the following rules:
 
-    * Addition concatenates the children of the operands into a single TimeBox.
-
-    * The pipe operation groups two TimeBoxes together without concatenating.
-
-    * Iterables of Boxes are treated as the sum of the elements.
+    - Addition concatenates the children of the operands into a single TimeBox.
+    - The pipe operation groups two TimeBoxes together without concatenating.
+    - Iterables of Boxes are treated as the sum of the elements.
 
     Let ``a, b, c, d`` be TimeBoxes. Then
 
@@ -115,17 +112,18 @@ class TimeBox:
     """Dict of neighborhood range integers mapped to sets of components neighboring the locus of this ``TimeBox``.
      These are used in the scheduling when the corresponding neighborhood range is used.
      The scheduling algorithm computes the neighborhood components (unless it has been already precomputed by
-     e.g. the `GateImplementation`) and caches them under this attribute. Neighborhood range 0 means just the components
-     affected by one of the channels in ``self.atom`` + ``self.locus``, 1 means also neighboring couplers, 2 the
-     components connected to those couplers, and so on. Note: range 0 may differ from ``self.locus_components``: it can
-     have additional components that have occupied channels in ``self`` but are not defined as a part of the 'locus' of
+     e.g. the :class:`.GateImplementation`) and caches them under this attribute.
+     Neighborhood range 0 means just the components affected by one of the channels in ``self.atom`` + ``self.locus``,
+     1 means also neighboring couplers, 2 the components connected to those couplers, and so on.
+     Note: range 0 may differ from ``self.locus_components``: it can have additional components that
+     have occupied channels in ``self`` but are not defined as a part of the locus of
      this ``TimeBox`` for any reason.
     """
 
     @classmethod
     def composite(
         cls,
-        boxes: Iterable[TimeBox | Iterable[TimeBox]],
+        boxes: TimeBox | Iterable[TimeBox | Iterable[TimeBox]],
         *,
         label: str = "",
         scheduling: SchedulingStrategy = SchedulingStrategy.ASAP,
@@ -145,7 +143,7 @@ class TimeBox:
 
         """
         children = []
-        for child in boxes:
+        for child in boxes:  # type: ignore[union-attr]
             if isinstance(child, TimeBox):
                 child_box = child
                 children.append(child_box)
@@ -232,7 +230,7 @@ class TimeBox:
         The add operation is associative: for boxes ``a, b, c``, these are equivalent:
         ``a+b+c == (a+b)+c == a+(b+c) == a+[b,c] == [a,b]+c``.
 
-        The scheduling strategy and label are given by `self`, i.e. the leftmost operand.
+        The scheduling strategy and label are given by ``self``, i.e. the leftmost operand.
 
         Args:
              other: TimeBox or an iterable of TimeBoxes whose contents to merge.
@@ -279,7 +277,7 @@ class TimeBox:
         return self
 
     def __or__(self, other: TimeBox | Iterable[TimeBox]) -> TimeBox:
-        """Construct a new composite TimeBox that contains `self` and `other`.
+        """Construct a new composite TimeBox that contains ``self`` and ``other``.
 
         Used to group two TimeBoxes without mixing their properties.
         Useful for separating boxes which serve a logically distinct purpose.
@@ -295,7 +293,7 @@ class TimeBox:
              other: TimeBox to append.
 
         Returns:
-            A new TimeBox containing self and `other` as children.
+            A new TimeBox containing ``self`` and ``other`` as children.
 
         """
         if isinstance(other, TimeBox):
@@ -319,7 +317,7 @@ class TimeBox:
 class MultiplexedProbeTimeBox(TimeBox):
     """A ``TimeBox`` that contains any number of multiplexed readout pulses for probe channels.
 
-    A ``MultiplexedProbeTimeBox``'s atom contains exactly one ``ReadoutTrigger`` for each probe channel.
+    A MultiplexedProbeTimeBox's atom contains exactly one ``ReadoutTrigger`` for each probe channel.
     """
 
     def _multiplex(self, other_atom: Schedule) -> dict[str, Segment]:
@@ -335,7 +333,7 @@ class MultiplexedProbeTimeBox(TimeBox):
         return new_segments
 
     def __add__(self, other: TimeBox | Iterable[TimeBox]) -> TimeBox:
-        """Override ``__add__`` for two atomic ``MultiplexedProbeTimeBox`` instances such that ``ReadoutTrigger``s
+        """Override ``__add__`` for two atomic ``MultiplexedProbeTimeBox`` instances such that ``ReadoutTrigger`` s
         belonging to the same probe channel are multiplexed together. Otherwise, behaves exactly like
         ``TimeBox.__add__``, returning a normal ``TimeBox``.
         """
@@ -378,7 +376,7 @@ class MultiplexedProbeTimeBox(TimeBox):
         block_channels: Iterable[str] = (),
         block_duration: int = 0,
     ) -> MultiplexedProbeTimeBox:
-        """Build an atomic ``MultiplexedProbeTimeBox` from a single ``ReadoutTrigger`` instruction.
+        """Build an atomic MultiplexedProbeTimeBox from a single ReadoutTrigger instruction.
 
         Args:
             readout_trigger: Readout trigger instruction.
@@ -389,7 +387,7 @@ class MultiplexedProbeTimeBox(TimeBox):
             block_duration: Duration of the required blocking (in samples).
 
         Returns:
-            atomic timebox containing ``readout_trigger`` in the channel ``probe_channel``.
+            Atomic timebox containing ``readout_trigger`` in the channel ``probe_channel``.
 
         """
         schedule = {probe_channel: [readout_trigger]}
@@ -406,18 +404,31 @@ class MultiplexedProbeTimeBox(TimeBox):
         return box
 
 
+class ProbeBlockBox(TimeBox):
+    """Atomic TimeBox that contains extra Blocks after measurements in a probe channel."""
+
+    def __post_init__(self):
+        if self.children:
+            raise ValueError("ProbeBlockBox must be atomic.")
+        for channel, seg in self.atom.items():
+            if "PL" not in channel:
+                raise ValueError("ProbeBlockBox can only contain instructions for probe channels.")
+            if not all(isinstance(inst, Block) for inst in seg):
+                raise TypeError("ProbeBlockBox can only contain Block instructions.")
+
+
 class ProbeTimeBoxes(list):
-    """Allows multiplexing lists of probe TimeBoxes with each other and ``MultiplexedProbeTimeBox``es.
+    """Allows multiplexing lists of probe TimeBoxes with each other and MultiplexedProbeTimeBoxes.
 
-    The first element is a ``MultiplexedProbeTimeBox`` and the second an atomic ``TimeBox`` containing ``Block``
-    instructions on probe channels (corresponding to e.g. the integration time).
+    The first element is a :class:`MultiplexedProbeTimeBox` and the second an atomic :class:`TimeBox` containing
+    :class:`Block` instructions on probe channels (corresponding to e.g. the integration time).
 
-    If ``A`` is a ``ProbeTimeBoxes`` and ``B`` is a ``ProbeTimeBoxes``, then ``A+B`` is also a ProbeTimeBoxes instance
-    with the timings adjusted correctly and the ``MultiplexedProbeTimeBox``es in each multiplexed together.
+    If ``A`` and ``B`` are ``ProbeTimeBoxes`` instances, then ``A+B`` is also a ProbeTimeBoxes instance
+    with the timings adjusted correctly and the ``MultiplexedProbeTimeBox`` instances in each multiplexed together.
     If ``A`` is a ``ProbeTimeBoxes`` and ``B`` is a ``MultiplexedProbeTimeBox`` where the probe instructions are
     multiplexed together and the duration is ``max(A[0].duration, B.duration)`` (the addition is symmetric).
-    Otherwise (if ``B`` is a list of ``Timebox``es or a non-probe ``TimeBox``), ``A+B`` works like
-    ``TimeBox.__add__``.
+    Otherwise (if ``B`` is a list of Timeboxes or a non-probe TimeBox), ``A+B`` works like
+    :meth:`TimeBox.__add__`.
     """
 
     # FIXME: does not yet work with ShelvedProbeTimeBox
@@ -449,7 +460,7 @@ class ProbeTimeBoxes(list):
             extra_wait_duration = max(duration_self, duration_other) - max(duration_probe_self, duration_probe_other)
             extra_wait_channels = [*self[1].atom.channels(), *other[1].atom.channels()]
             probe_box = self[0] + other[0]
-            extra_wait_box = TimeBox.atomic(
+            extra_wait_box = ProbeBlockBox.atomic(
                 Schedule({ch: Segment([Block(extra_wait_duration)]) for ch in extra_wait_channels}),
                 locus_components=set(self[1].locus_components).union(other[1].locus_components),
                 label="Virtual probe channel Block",

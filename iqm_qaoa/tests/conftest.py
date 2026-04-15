@@ -22,18 +22,19 @@
 """Common fixtures go here."""
 
 from collections.abc import Callable
-import random
 from uuid import UUID
 
 from dimod import BinaryQuadraticModel
 from dimod.generators import uniform
 from iqm.applications.maxcut import MaxCutInstance, maxcut_generator
 from iqm.applications.mis import MISInstance
+from iqm.applications.qubo import QUBOInstance
 from iqm.applications.sk import SherringtonKirkpatrick, sk_generator
 from iqm.iqm_client import DynamicQuantumArchitecture, GateImplementationInfo, GateInfo
-from iqm.qaoa.backends import SamplerBackend
+from iqm.qaoa.backends import EstimatorBackend, SamplerBackend
 from iqm.qaoa.generic_qaoa import QAOA
-from iqm.qaoa.transpiler.quantum_hardware import QPU, Grid2DQPU, HardEdge
+from iqm.qaoa.qubo_qaoa import QUBOQAOA
+from iqm.qaoa.transpiler.quantum_hardware import QPU, Grid2DQPU, HardEdge, LogQubit
 from iqm.qaoa.transpiler.routing import Layer
 from iqm.qaoa.tree_calculation.generate_basis import get_z_basis_m, get_z_basis_m_t
 from iqm.qaoa.tree_calculation.tree_calculation import get_exp_vals
@@ -256,33 +257,79 @@ def graphs_for_ec() -> list[nx.Graph]:
 
 
 @pytest.fixture
-def custom_rigged_sampler() -> SamplerBackend:
-    """Returns a sampler object that always 'samples' the same bitstring."""
+def custom_rigged_sampler() -> Callable[[dict[str, float]], SamplerBackend]:
+    """Returns a sampler object that 'samples' deterministically."""
 
     class RiggedSampler(SamplerBackend):
-        """Locally defined rigged sampler, designed to solve the MIS problem on ``special_g`` defined above."""
+        """Locally defined rigged sampler, designed to give exactly a fixed output distribution.
+
+        The sampler takes a 'probability distribution' of bitstrings on input and outputs a dictionary of samples
+        exactly corresponding to this distribution.
+
+        Args:
+            bitstring_distribution: A distribution of bitstrings that the :class:`RiggedSampler` should 'sample' from.
+                It's a dictionary whose keys are the bitstrings and values their 'probabilities'. The output from
+                :meth:`sample` will be a dictionary whose values are exactly the values of `bitstring_distribution`
+                multiplied by `shots` (rounded to an integer, if necessary).
+
+        Raises:
+            ValueError: If the input distribution isn't a proper probability distribution (values don't sum up to 1).
+
+        """
+
+        def __init__(self, bitstring_distribution: dict[str, float]) -> None:
+            if sum(bitstring_distribution.values()) != 1:
+                raise ValueError(f"The values in the input distribution {bitstring_distribution} don't sum up to 1.")
+            self.bitstring_distribution = bitstring_distribution
 
         def sample(self, qaoa_object: QAOA, shots: int) -> dict[str, int]:
-            return {"0111000": shots}
+            # Step 1: Multiply each float by ``shots``
+            prop_counts = {bit_str: prob * shots for bit_str, prob in self.bitstring_distribution.items()}
 
-    return RiggedSampler()
+            # Step 2: Take floor of each value
+            floored_counts = {bit_str: int(count) for bit_str, count in prop_counts.items()}
+
+            # Step 3: Compute how many units are missing
+            remainder = shots - sum(floored_counts.values())
+
+            # Step 4: Compute fractional parts
+            missing_parts = {bit_str: prop_counts[bit_str] - floored_counts[bit_str] for bit_str in prop_counts}
+
+            # Step 5: Sort keys by largest fractional parts
+            sorted_bit_strs = sorted(missing_parts, key=lambda k: missing_parts[k], reverse=True)
+
+            # Step 6: Add 1 to top 'remainder' keys
+            for k in sorted_bit_strs[:remainder]:
+                floored_counts[k] += 1
+
+            return floored_counts
+
+    def _factory(bitstrings_dist: dict[str, float]) -> RiggedSampler:
+        return RiggedSampler(bitstrings_dist)
+
+    return _factory
 
 
 @pytest.fixture
 def samples_dict(sparse_mis_instance: MISInstance) -> dict[str, int]:
-    """Return a quasi-random dictionary of samples."""
+    """Return a quasi-random dictionary of samples using NumPy RNG."""
     n = sparse_mis_instance.dim
     shots = 10000
     unique_bitstrings = 200
-    random.seed(1337)
 
-    bp = sorted(random.sample(range(1, shots), unique_bitstrings - 1))  # bp = breakpoints
-    vals = [bp[0]] + [bp[i] - bp[i - 1] for i in range(1, unique_bitstrings - 1)] + [shots - bp[-1]]
+    rng = np.random.default_rng(seed=1337)
 
+    # Generate breakpoints
+    bp = np.sort(rng.choice(np.arange(1, shots), size=unique_bitstrings - 1, replace=False))
+    vals = [bp[0]] + [int(bp[i] - bp[i - 1]) for i in range(1, unique_bitstrings - 1)] + [int(shots - bp[-1])]
+
+    # Generate unique bitstrings
     set_of_unique_bitstrings: set[str] = set()
     while len(set_of_unique_bitstrings) < unique_bitstrings:
-        bit_str_to_add = "".join(random.choice("01") for _ in range(n))
+        bits = rng.integers(0, 2, size=n)  # array of 0/1 ints
+        bit_str_to_add = "".join(bits.astype(str))
         set_of_unique_bitstrings.add(bit_str_to_add)
+
     list_bit_strings = list(set_of_unique_bitstrings)
 
     return dict(zip(list_bit_strings, vals, strict=True))
@@ -347,3 +394,46 @@ def make_fun_to_min() -> Callable[[int, int, float], Callable[[NDArray[np.float6
         return fun_to_min
 
     return _make_fun_to_min
+
+
+@pytest.fixture
+def graph_with_uncommon_node_labels() -> nx.Graph:
+    """Creates an arbitrary networkx graph whose nodes are all different kinds of objects.
+
+    In networkx, anything hashable except for `None` can be a graph node. So here we use ``string``, ``int``, ``float``
+    and ``tuple[int, int]``.
+    """
+    g = nx.Graph()
+    g.add_edges_from([("A", 25), ("B", (10, 3)), ("A", 1.4), ("A", "B"), ((10, 3), 25), ("B", 1.4)])
+    return g
+
+
+@pytest.fixture
+def dummy_qaoa() -> QUBOQAOA:
+    """Dummy QUBOQAOA instance (contains trivial cost function)."""
+    dummy_qubo_instance = QUBOInstance(np.array([[0]]))
+    return QUBOQAOA(dummy_qubo_instance, num_layers=1)
+
+
+class SignatureRichEstimator(EstimatorBackend):
+    """A class for a dummy estimator to be used during testing.
+
+    The point here is to overwrite the `estimate` method by one which shares a keyword argument with
+    :func:`scipy.optimize.minimize` to use in a test that check this case.
+    """
+
+    def estimate(self, qaoa_object: QUBOQAOA, method: str = "Arbitrary") -> float:
+        """Dummy `estimate` with an extra kwarg added to test kwarg overlap with :func:`scipy.optimize.minimize`."""
+        return 1337.0
+
+    def estimate_correlations_z(
+        self, qaoa_object: QUBOQAOA, target_qubits: set[LogQubit] | list[set[LogQubit]]
+    ) -> float:
+        """Dummy `estimate_correlations_z` because the method of the parent class is abstract."""
+        return 13.37
+
+
+@pytest.fixture
+def dummy_estimator() -> SignatureRichEstimator:
+    """Create an instance of :class:`SignatureRichEstimator`."""
+    return SignatureRichEstimator()

@@ -1,17 +1,52 @@
 [build-system]
-build-backend = "setuptools.build_meta"
-requires = [ "setuptools", "setuptools_scm[toml]",]
+requires = [
+    "hatchling",
+]
+build-backend = "hatchling.build"
 
 [project]
-classifiers = [ "Development Status :: 4 - Beta", "Programming Language :: Python :: 3 :: Only", "Topic :: Scientific/Engineering :: Physics", "Intended Audience :: Science/Research", "License :: OSI Approved :: Apache Software License",]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+]
 description = "Client library for accessing an IQM quantum computer"
-dynamic = [ "version", "dependencies", "optional-dependencies",]
 name = "iqm-client"
 readme = "README.rst"
-requires-python = ">=3.10, <3.13"
-[[project.authors]]
-name = "IQM Finland Oy"
-email = "developers@meetiqm.com"
+requires-python = ">=3.10, <3.14"
+dependencies = [
+    "iqm-pulse",
+    "iqm-station-control-client",
+    "numpy<3.0,>=2.0",
+    "packaging<25.0,>=24.0",
+    "pydantic<3.0,>=2.9.2",
+    "requests==2.32.3",
+]
+authors = [
+    { name = "IQM Finland Oy", email = "developers@meetiqm.com" },
+]
+version = "34.0.1"
+
+[project.optional-dependencies]
+cirq = [
+    "cirq-core[contrib]~=1.2",
+    "llvmlite>=0.44.0",
+    "numba>=0.61.0",
+    "ply==3.11",
+]
+cli = [
+    "click<9,>=8.1.6",
+    "jsonschema>=4.6.0",
+    "psutil>=5.9.2",
+    "python-daemon>=2.3.0",
+    "types-psutil",
+]
+qiskit = [
+    "qiskit-aer<0.18,>=0.13.1",
+    "qiskit<2.2,>=1.0",
+]
 
 [project.license]
 file = "LICENSE.txt"
@@ -22,27 +57,6 @@ iqmclient = "iqm.iqm_client.cli.cli:iqmclient"
 [project.urls]
 Documentation = "https://docs.meetiqm.com/iqm-client/"
 Homepage = "https://pypi.org/project/iqm-client/"
-
-[tool.mypy]
-explicit_package_bases = true
-mypy_path = "$MYPY_CONFIG_FILE_DIR/src"
-namespace_packages = true
-[[tool.mypy.overrides]]
-module = [ "daemon.*", "quimb.*", "qiskit.*", "qiskit_aer.*", "grpc.*", "lmfit.*", "emukit.*", "mockito.*", "sklearn.*", "dill.*", "uncertainties.*", "GPy.*", "pythonjsonlogger.*",]
-ignore_missing_imports = true
-
-[[tool.mypy.overrides]]
-module = [ "iqm.data_definitions.*", "iqm.models.*",]
-follow_imports = "skip"
-follow_imports_for_stubs = true
-
-[tool.ruff]
-exclude = [ "*.ipynb", "*.rst",]
-extend-include = [ "sub-setup-py.template",]
-line-length = 120
-
-[tool.setuptools_scm]
-fallback_version = "0.1"
 
 [project.entry-points."qiskit.transpiler.scheduling"]
 iqm_default_scheduling = "iqm.qiskit_iqm:IQMDefaultSchedulingPlugin"
@@ -61,37 +75,124 @@ only_rz_optimization_exact_global_phase = "iqm.qiskit_iqm:OnlyRZOptimizationExac
 only_rz_optimization_exact_global_phase_ignore_barriers = "iqm.qiskit_iqm:OnlyRZOptimizationExactIgnoreBarriersPlugin"
 only_rz_optimization_ignore_barriers = "iqm.qiskit_iqm:OnlyRZOptimizationIgnoreBarriersPlugin"
 
-[tool.coverage.paths]
-source = [ "src/", "*/site-packages/",]
+[tool.hatch.build.targets.wheel]
+packages = [
+    "src/iqm",
+]
 
-[tool.coverage.report]
-exclude_lines = [ "pragma: no cover", "def __repr__", "if self\\.debug", "raise AssertionError", "raise NotImplementedError", "if 0:", "if __name__ == .__main__.:",]
+[tool.mypy]
+explicit_package_bases = true
+mypy_path = "$MYPY_CONFIG_FILE_DIR/src"
+namespace_packages = true
 
-[tool.coverage.run]
-branch = true
-source = [ "iqm",]
+[[tool.mypy.overrides]]
+module = [
+    "daemon.*",
+    "quimb.*",
+    "qiskit.*",
+    "qiskit_aer.*",
+    "grpc.*",
+    "lmfit.*",
+    "emukit.*",
+    "mockito.*",
+    "sklearn.*",
+    "dill.*",
+    "uncertainties.*",
+    "pythonjsonlogger.*",
+]
+ignore_missing_imports = true
 
-[tool.pytest.ini_options]
-nb_diff_ignore = [ "/metadata/language_info", "/metadata/widgets", "/cells/*/execution_count", "/cells/*/outputs",]
+[[tool.mypy.overrides]]
+module = [
+    "iqm.data_definitions.*",
+    "iqm.models.*",
+]
+follow_imports = "skip"
+follow_imports_for_stubs = true
+
+[tool.ruff]
+exclude = [
+    "*.ipynb",
+    "*.rst",
+]
+extend-include = [
+    "sub-setup-py.template",
+]
+line-length = 120
 
 [tool.ruff.lint]
-ignore = [ "D203", "D213",]
-select = [ "E4", "E7", "E9", "E5", "F", "Q", "PL", "I", "D", "UP007", "UP006", "UP035", "ANN001", "ANN201", "ANN202", "NPY201",]
-unfixable = [ "F401",]
+ignore = [
+    "D107",
+    "D203",
+    "D213",
+    "ANN002",
+    "ANN003",
+    "ANN204",
+    "ANN401",
+]
+select = [
+    "E4",
+    "E7",
+    "E9",
+    "E5",
+    "F",
+    "Q",
+    "PL",
+    "I",
+    "D",
+    "UP007",
+    "UP006",
+    "UP035",
+    "ANN",
+    "NPY",
+]
+unfixable = [
+    "F401",
+]
 
 [tool.ruff.lint.isort]
 force-sort-within-sections = true
-known-first-party = [ "exa.experiments", "exa.core", "exa.common", "iqm.cocos", "gbc", "calibration_graphs", "iqm.pulse", "iqm.cpc", "iqm.pulla", "iqm.station_control", "tests",]
-known-local-folder = [ "src",]
-known-third-party = [ "exa", "iqm",]
+known-first-party = [
+    "exa.experiments",
+    "exa.core",
+    "exa.common",
+    "iqm.cocos",
+    "gbc",
+    "calibration_graphs",
+    "iqm.pulse",
+    "iqm.cpc",
+    "iqm.pulla",
+    "iqm.station_control",
+    "tests",
+]
+known-local-folder = [
+    "src",
+]
+known-third-party = [
+    "exa",
+    "iqm",
+]
 relative-imports-order = "closest-to-furthest"
 
 [tool.ruff.lint.per-file-ignores]
-"**/__init__.py" = [ "D104", "F401", "PLR0402",]
-"**/docs/*" = [ "E402", "D100",]
-"**/setup.py" = [ "D100", "D103", "I001", "ANN201",]
-"**/src/*" = [ "PLR2004", "D400", "D415", "D205", "D401", "D417", "D100", "D107", "D105", "D102", "D404",]
-"**/tests/*" = [ "F632", "PLR2004", "PLR0402", "PLC0414", "D", "ANN001", "ANN201", "ANN202",]
+"**/__init__.py" = [
+    "F401",
+]
+"src/*" = [
+    "D105",
+    "D401",
+]
+"tests/*" = [
+    "PLR2004",
+    "PLR0402",
+    "PLC0414",
+    "D",
+    "ANN001",
+    "ANN201",
+    "ANN202",
+    "ANN205",
+    "ANN206",
+]
 
 [tool.ruff.lint.pylint]
 max-args = 8
@@ -100,14 +201,33 @@ max-locals = 21
 max-returns = 9
 max-statements = 60
 
-[tool.setuptools.dynamic.dependencies]
-file = "requirements/base.txt"
+[tool.coverage.paths]
+source = [
+    "src/",
+    "*/site-packages/",
+]
 
-[tool.setuptools.dynamic.optional-dependencies.cirq]
-file = "requirements/cirq.txt"
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self\\.debug",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
 
-[tool.setuptools.dynamic.optional-dependencies.cli]
-file = "requirements/cli.txt"
+[tool.coverage.run]
+branch = true
+source = [
+    "iqm",
+]
 
-[tool.setuptools.dynamic.optional-dependencies.qiskit]
-file = "requirements/qiskit.txt"
+[tool.pytest.ini_options]
+nb_diff_ignore = [
+    "/metadata/language_info",
+    "/metadata/widgets",
+    "/cells/*/execution_count",
+    "/cells/*/outputs",
+]

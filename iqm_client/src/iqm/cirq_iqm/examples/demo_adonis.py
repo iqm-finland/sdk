@@ -11,8 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Demonstrates importing a quantum circuit from an OpenQASM 2.0 file, transforming it into
-the Adonis native gateset and connectivity, and then executing it on a simulator.
+"""Transpilation and simulation demo for the IQM Crystal-5 architecture.
+
+Demonstrates importing a quantum circuit from an OpenQASM 2.0 file, transforming it into
+the Crystal-5 native gateset and connectivity, and then executing it on a simulator.
 """
 
 import cirq
@@ -23,8 +25,8 @@ from .demo_common import demo
 
 
 def demo_adonis(use_qsim: bool = False) -> None:
-    """Run the demo using the Adonis architecture."""
-    print("\nAdonis demo\n===========\n")
+    """Run the demo using the Crystal-5 architecture."""
+    print("\nCrystal-5 demo\n===========\n")
     device = Adonis()
     qasm_program = """
         OPENQASM 2.0;

@@ -104,7 +104,7 @@ class UGate(CompositeGate):
 
         prx_gate = self.build("prx", self.locus)
         pulse_train = prx_gate(theta, np.pi / 2).atom[  # type: ignore[union-attr]
-            prx_gate.channel  # type: ignore[index,attr-defined]
+            prx_gate.channel  # type: ignore[index, attr-defined]
         ]  # RY pulse
 
         # Check if the pulse train have one or several pulses.

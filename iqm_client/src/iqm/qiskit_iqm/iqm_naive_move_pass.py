@@ -140,6 +140,7 @@ class IQMNaiveResonatorMoving(TransformationPass):
 
     def _calculate_final_layout(self, dag: DAGCircuit, layout: Layout) -> Layout:
         """Calculate the final physical to logical qubit layout after the circuit.
+
         The original final layout from the previous passes uses the old qubit registers that are no longer valid.
 
         Args:
@@ -290,7 +291,7 @@ def transpile_to_IQM(  # noqa: PLR0913
         existing_moves_handling: How to handle existing MOVE gates in the circuit, required if the circuit contains
             MOVE gates.
         restrict_to_qubits: Restrict the transpilation to only use these specific physical qubits. Note that you will
-            also have to pass this information to :meth:`.IQMBackend.run` using the ``qubit_mapping`` parameter.
+            also have to pass this information to :meth:`.IQMBackend.run` using the ``qubit_index_to_name`` parameter.
         qiskit_transpiler_kwargs: Arguments to be passed to the Qiskit transpiler.
 
     Returns:

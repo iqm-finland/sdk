@@ -28,12 +28,14 @@ for external use. The function :func:`plot_edge_coloring` may be used for debugg
 
 from __future__ import annotations
 
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, TypeAlias, cast
 
-from iqm.qaoa.transpiler.quantum_hardware import LogEdge
 import networkx as nx
 
-Color = int
+if TYPE_CHECKING:
+    from iqm.qaoa.transpiler.quantum_hardware import LogEdge
+
+Color: TypeAlias = int
 
 
 def ec_is_valid(graph: nx.Graph) -> bool:

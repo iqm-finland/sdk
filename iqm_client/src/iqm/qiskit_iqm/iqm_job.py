@@ -148,6 +148,7 @@ class IQMJob(JobV1):
         ]
 
     def submit(self) -> None:
+        """Not implemented."""
         raise NotImplementedError(
             "You should never have to submit jobs by calling this method. When running circuits through "
             "RemoteIQMBackend, the submission will happen under the hood. The job instance that you get is only for "
@@ -254,6 +255,7 @@ class IQMJob(JobV1):
         return Result.from_dict(result_dict)
 
     def status(self) -> JobStatus:
+        """Get the current job status."""
         job = self._iqm_job
         # terminal statuses need not be updated, they're terminal
         status = job.status if job.status in IQMJobStatus.terminal_statuses() else job.update()

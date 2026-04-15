@@ -58,7 +58,7 @@ class IQMDeviceMetadata(devices.DeviceMetadata):
         """Construct an IQMDeviceMetadata object."""
         nx_graph = nx.Graph()  # type: ignore[var-annotated]
         for edge in connectivity:
-            if len(edge) != 2:
+            if len(edge) != 2:  # noqa: PLR2004
                 raise ValueError("Connectivity must be an iterable of 2-tuples.")
             nx_graph.add_edge(edge[0], edge[1])
         super().__init__(qubits, nx_graph)
@@ -87,7 +87,7 @@ class IQMDeviceMetadata(devices.DeviceMetadata):
 
     @property
     def resonator_set(self) -> frozenset[NamedQid]:
-        """Returns the set of resonators on the device.
+        """Return the set of resonators on the device.
 
         Returns:
             Frozenset of resonators on device.
@@ -97,7 +97,7 @@ class IQMDeviceMetadata(devices.DeviceMetadata):
 
     @classmethod
     def from_architecture(cls, architecture: DynamicQuantumArchitecture) -> IQMDeviceMetadata:
-        """Returns device metadata object created based on dynamic quantum architecture"""
+        """Return device metadata object created based on dynamic quantum architecture."""
         qubits = tuple(NamedQid(qb, dimension=2) for qb in architecture.qubits)
         resonators = tuple(
             NamedQid(cr, dimension=cls.RESONATOR_DIMENSION) for cr in architecture.computational_resonators
@@ -119,7 +119,7 @@ class IQMDeviceMetadata(devices.DeviceMetadata):
             get_qid_locus(locus)
             for gate_info in architecture.gates.values()
             for locus in gate_info.loci
-            if len(locus) == 2
+            if len(locus) == 2  # noqa: PLR2004
         )
         operations: dict[type[cirq.Gate], list[tuple[NamedQid, ...]]] = {
             cirq_op: [get_qid_locus(locus) for locus in gate_info.loci]
@@ -142,7 +142,7 @@ class IQMDeviceMetadata(devices.DeviceMetadata):
         connectivity_indices: Iterable[set[int]],
         gateset: tuple[type[cirq.Gate]] | None = None,
     ) -> IQMDeviceMetadata:
-        """Returns device metadata object created based on connectivity specified using qubit indices only."""
+        """Return device metadata object created based on connectivity specified using qubit indices only."""
         qubits = tuple(NamedQid.range(1, qubit_count + 1, prefix=cls.QUBIT_NAME_PREFIX, dimension=2))
         if set(map(len, connectivity_indices)) != {2}:
             raise ValueError("connectivity_indices must be an iterable of 2-sets.")
@@ -164,8 +164,8 @@ class IQMDeviceMetadata(devices.DeviceMetadata):
 
     @property
     def gateset(self) -> cirq.Gateset:
-        """Returns the ``cirq.Gateset`` of supported gates on this device."""
+        """Return the ``cirq.Gateset`` of supported gates on this device."""
         return self._gateset
 
-    def _value_equality_values_(self):  # noqa: ANN202
+    def _value_equality_values_(self) -> tuple:
         return *super()._value_equality_values_(), self._gateset

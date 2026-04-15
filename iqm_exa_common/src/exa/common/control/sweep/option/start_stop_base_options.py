@@ -43,9 +43,9 @@ class StartStopBaseOptions(SweepOptions):
     count: int = DEFAULT_COUNT
     #: Number, that is raised to the power `start` or `stop`. Default to
     #: :const:`exa.common.control.sweep.option.constants.DEFAULT_BASE`.
-    base: int = DEFAULT_BASE
+    base: int | float = DEFAULT_BASE
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if self.start == 0 or self.stop == 0:
             raise ValueError("Exponential range sweep start and stop values must not be zero.")
 

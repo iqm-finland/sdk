@@ -19,7 +19,6 @@ from collections.abc import Callable
 import dataclasses
 from dataclasses import dataclass, field
 import random
-import re
 
 from iqm.pulse.playlist.waveforms import Waveform
 
@@ -35,20 +34,8 @@ class Instruction:
     """Time duration of the instruction. In samples at the channel sample rate."""
 
     def __post_init__(self):
-        """Add a unique id for caching purposes, which can be used if the instruction is not hashable.
-
-        Rounds ``phase`` and ``phase_increment`` to a fixed precision.
-        """
+        """Add a unique id for caching purposes, which can be used if the instruction is not hashable."""
         object.__setattr__(self, "id", random.getrandbits(64))
-
-        # HACK round phases to 8th decimal place to prevent essentially identical instructions bloating
-        # the ZI command table, caused by phase differences beyond machine precision.
-        # Phase precision for ZI is in the order of 10**-5 radians (19-bit resolution).
-        # In the future this should be done on the station-control side for all instruments that benefit from it.
-        if hasattr(self, "phase_increment"):
-            object.__setattr__(self, "phase_increment", round(self.phase_increment, 8))
-        if hasattr(self, "phase"):
-            object.__setattr__(self, "phase", round(self.phase, 8))
 
     def validate(self) -> None:
         """Validate the instruction attributes.
@@ -353,7 +340,7 @@ class ReadoutMetrics:
             field = getattr(self, field_name)
             field_copy = field.copy()
             for label, contents in field.items():
-                component, key = re.split("__[_]*", label)
+                component, key = label.split("__", maxsplit=1)
                 if component in components or key in keys or label in labels:
                     del field_copy[label]
             setattr(self, field_name, field_copy)
@@ -382,7 +369,7 @@ class ReadoutMetrics:
             The applicable components in self.
 
         """
-        return self._get(lambda label: re.split("__[_]*", label)[0], integration=integration, timetrace=timetrace)
+        return self._get(lambda label: label.split("__", maxsplit=1)[0], integration=integration, timetrace=timetrace)
 
     def get_keys(self, integration: bool = True, timetrace: bool = True) -> set[str]:
         """Get all readout keys in the labels in self
@@ -395,7 +382,7 @@ class ReadoutMetrics:
             The applicable readout keys in self.
 
         """
-        return self._get(lambda label: re.split("__[_]*", label)[1], integration=integration, timetrace=timetrace)
+        return self._get(lambda label: label.split("__", maxplit=1)[1], integration=integration, timetrace=timetrace)
 
     def _get(self, func: Callable, integration: bool = True, timetrace: bool = True) -> set[str]:
         contents = []

@@ -1,7 +1,8 @@
-{{ fullname | escape | underline}}
+{{ name | escape | underline}}
+
+Full path: {{ fullname }}
 
 .. automodule:: {{ fullname }}
-
    {% block attributes %}
    {% if attributes %}
    .. rubric:: Module Attributes
@@ -32,10 +33,14 @@
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    {% for item in classes %}
       {{ item }}
    {%- endfor %}
+   {% if fullname == 'iqm.iqm_server_client.iqm_server_client' %}
+      _IQMServerClient
+   {% endif %}
    {% endif %}
    {% endblock %}
 
@@ -71,5 +76,6 @@
 
 .. inheritance-diagram:: {{ fullname }}
    :parts: 1
+   :private-bases:
 {% endif %}
 {% endblock %}

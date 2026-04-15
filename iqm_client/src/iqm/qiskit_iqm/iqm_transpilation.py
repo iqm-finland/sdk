@@ -68,7 +68,7 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
         self._ignore_barriers = ignore_barriers
 
     def run(self, dag: DAGCircuit, decompose_rz_to_r: bool = True) -> DAGCircuit:
-        """Runs the single-qubit gate optimization pass.
+        """Run the single-qubit gate optimization pass.
 
         Args:
             dag: The input DAG circuit to optimize.
@@ -138,7 +138,7 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
         return dag
 
     def _apply_final_r_gates(self, dag: DAGCircuit, rz_angles: list[float]) -> tuple[DAGCircuit, list[float]]:
-        """Helper function that adds the final PRX/R gates to the circuit according to the accumulated angles.
+        """Add the final PRX/R gates to the circuit according to the accumulated angles.
 
         Returns the updated dag and a list of zero angles since the final RZ rotations are already applied.
 
@@ -161,8 +161,7 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
     def _handle_u_gates(
         self, dag: DAGCircuit, node: DAGOpNode, rz_angles: list[float]
     ) -> tuple[DAGCircuit, list[float]]:
-        """Helper function that converts U gates to PRXs and RZ gates,
-        so that the RZ gates can be commuted to the end of the circuit.
+        """Convert U gates to PRXs and RZ gates, so that the RZ gates can be commuted to the end of the circuit.
 
         Args:
             dag: The input DAG circuit we are optimizing.
@@ -227,7 +226,7 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
             # Find the last node on the qubit
             final_rzs = [list(block_dag.nodes_on_wire(qubit, only_ops=True))[-1] for block_dag in sub_dags]
             # Assertions because this cannot go wrong by user error
-            assert len(final_rzs) == 2, "IfElseOp should have exactly two circuit blocks"
+            assert len(final_rzs) == 2, "IfElseOp should have exactly two circuit blocks"  # noqa: PLR2004
             assert final_rzs[0].name == "rz" and final_rzs[1].name == "rz", (
                 "The last operation on each qubit in an IfElseOp should be an RZ gate, "
                 + f"found {final_rzs[0].name} and {final_rzs[1].name} instead"
@@ -279,7 +278,7 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
         return dag, rz_angles
 
     def _handle_c_if_blocks(self, dag: DAGCircuit) -> DAGCircuit:
-        """Helper function that replaces all classically controlled RGates with an if_else operator.
+        """Replace all classically controlled RGates with an if_else operator.
 
         This is needed because the BasisTranslator pass does not retain the condition on the nodes.
         This is only needed for Qiskit versions < 2.0.0.
@@ -312,9 +311,8 @@ class IQMOptimizeSingleQubitGates(TransformationPass):
                 )
         return dag
 
-    def _validate_ops(self, dag: DAGCircuit):  # noqa: ANN202
-        """Helper function that validates that the operations in the circuit are compatible
-        with the IQMOptimizeSingleQubitGates pass.
+    def _validate_ops(self, dag: DAGCircuit) -> None:
+        """Validate that the operations in the circuit are compatible with the IQMOptimizeSingleQubitGates pass.
 
         Args:
             dag: The input DAG circuit to validate before optimization.
@@ -377,7 +375,8 @@ class IQMReplaceGateWithUnitaryPass(TransformationPass):
         self.gate = gate
         self.unitary = unitary
 
-    def run(self, dag):  # noqa: ANN001, ANN201
+    def run(self, dag: DAGCircuit) -> DAGCircuit:
+        """Run the pass on the given circuit."""
         for node in dag.op_nodes():
             if node.name == self.gate:
                 dag.substitute_node(node, UnitaryGate(self.unitary))

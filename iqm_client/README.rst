@@ -1,10 +1,10 @@
 IQM Client
-###########
+##########
 
 Client-side Python library for connecting to an `IQM <https://meetiqm.com/>`_ quantum computer.
 
 Includes as an optional feature `Qiskit <https://qiskit.org/>`_ and `Cirq <https://quantumai.google/cirq>`_
-adapters for `IQM's <https://www.meetiqm.com>`_ quantum computers, which allow you to:
+adapters for IQM's quantum computers, which allow you to:
 
 * Transpile arbitrary quantum circuits for IQM quantum architectures
 * Simulate execution on IQM quantum architectures with IQM-specific noise models
@@ -25,12 +25,12 @@ An example showing how to install from the public Python Package Index (PyPI):
 
 .. note::
 
-    If you have previously installed the (now deprecated) ``qiskit-iqm`` or ``cirq-iqm`` packages in your
+    If you have previously installed the (now obsolete) ``qiskit-iqm`` or ``cirq-iqm`` packages in your
     Python environment, you should first uninstall them with ``$ pip uninstall qiskit-iqm cirq-iqm``.
     In this case, you should also include the ``--force-reinstall`` option in the ``iqm-client`` installation command.
 
-IQM Client by itself is not intended to be used directly by human users. If you want just the base IQM Client library,
-though, you can install it with
+The base IQM Client library by itself has limited functionality for human users.
+If you want just the base, you can install it with
 
 .. code-block:: bash
 
@@ -62,4 +62,4 @@ Copyright
 
 IQM Client is free software, released under the Apache License, version 2.0.
 
-Copyright 2021-2026 IQM Client developers.
+Copyright 2021-2026 IQM

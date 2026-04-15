@@ -18,19 +18,21 @@ import uuid
 # FIXME: Re-enable `no-name-in-module` after pylint supports .pyi files: https://github.com/PyCQA/pylint/issues/4987
 from iqm.data_definitions.station_control.v1.sweep_request_pb2 import SweepRequest as SweepDefinitionProto
 from iqm.data_definitions.station_control.v2.run_definition_pb2 import RunDefinition as RunDefinitionProto
+from opentelemetry import trace
 
 from exa.common.api import proto_serialization
-from exa.common.sweep.database_serialization import decode_and_validate_sweeps, encode_nd_sweeps
+from exa.common.sweep.database_serialization import decode_and_validate_sweeps
 from exa.common.sweep.util import convert_sweeps_to_list_of_tuples
-from iqm.station_control.client.serializers.datetime_serializers import deserialize_datetime, serialize_datetime
+from iqm.station_control.client.serializers.datetime_serializers import deserialize_datetime
 from iqm.station_control.client.serializers.struct_serializer import deserialize_struct, serialize_struct
 from iqm.station_control.client.serializers.sweep_serializers import (
     deserialize_sweep_data,
     deserialize_sweep_definition,
-    serialize_sweep_data,
     serialize_sweep_definition,
 )
 from iqm.station_control.interface.models import RunData, RunDefinition
+
+tracer = trace.get_tracer(__name__)
 
 
 def serialize_run_definition(run_definition: RunDefinition) -> RunDefinitionProto:
@@ -56,6 +58,7 @@ def serialize_run_definition(run_definition: RunDefinition) -> RunDefinitionProt
     return run_definition_proto
 
 
+@tracer.start_as_current_span("deserialize_run_definition")
 def deserialize_run_definition(run_definition_proto: RunDefinitionProto) -> RunDefinition:
     """Convert run proto into RunDefinition."""
     if run_definition_proto.sweep_definition.sweep_id:
@@ -83,28 +86,6 @@ def deserialize_run_definition(run_definition_proto: RunDefinitionProto) -> RunD
         sweep_definition=deserialize_sweep_definition(sweep_definition_pb),
     )
     return run_definition
-
-
-def serialize_run_data(run_data: RunData) -> dict:
-    """Convert RunData object to a JSON serializable dictionary."""
-    return {
-        "run_id": str(run_data.run_id),
-        "username": run_data.username,
-        "experiment_name": run_data.experiment_name,
-        "experiment_label": run_data.experiment_label,
-        "options": run_data.options,
-        "additional_run_properties": run_data.additional_run_properties,
-        "software_version_set_id": run_data.software_version_set_id,
-        "hard_sweeps": {key: encode_nd_sweeps(value) for key, value in run_data.hard_sweeps.items()},
-        "components": run_data.components,
-        "default_data_parameters": run_data.default_data_parameters,
-        "default_sweep_parameters": run_data.default_sweep_parameters,
-        "sweep_data": serialize_sweep_data(run_data.sweep_data),
-        "created_timestamp": serialize_datetime(run_data.created_timestamp),
-        "modified_timestamp": serialize_datetime(run_data.modified_timestamp),
-        "begin_timestamp": serialize_datetime(run_data.begin_timestamp),
-        "end_timestamp": serialize_datetime(run_data.end_timestamp),
-    }
 
 
 def deserialize_run_data(data: dict) -> RunData:

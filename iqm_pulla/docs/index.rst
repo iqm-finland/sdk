@@ -13,7 +13,6 @@ Contents
    :maxdepth: 1
 
    readme
-   migration_guide
 
 .. toctree::
    :maxdepth: 2
@@ -26,7 +25,6 @@ Contents
    :maxdepth: 1
 
    common_errors
-   authors
    changelog
    license
    References <references>

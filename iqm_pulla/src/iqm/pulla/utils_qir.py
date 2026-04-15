@@ -38,7 +38,7 @@ from qiskit import QuantumCircuit
 from qiskit.providers import BackendV2
 
 from iqm.cpc.compiler.compiler import Compiler
-from iqm.cpc.interface.compiler import Circuit as CPC_Circuit
+from iqm.cpc.interface.circuit_execution import Circuit as CPC_Circuit
 from iqm.pulse import CircuitOperation
 from iqm.station_control.interface.models import QubitMapping
 
@@ -113,7 +113,7 @@ def _gate_inst_to_str(inst: Call) -> CircuitOperation | None:
     try:
         qir_logger.debug("Processing %s with args: %s", operation, inst.args)
         params = operation_handlers[operation](inst.args)
-        return CircuitOperation(**params)  # type: ignore[arg-type]  # type: ignore[arg-type]  # type: ignore[arg-type]  # type: ignore[arg-type]
+        return CircuitOperation(**params)  # type: ignore[arg-type]
     except (IndexError, ValueError, AttributeError) as e:
         qir_logger.error("Error processing operation %s: %s", operation, e)
         raise ValueError(f"Error processing operation {operation}: {e}") from e
@@ -127,10 +127,7 @@ def _find_arg_by_type(args, type_check_func):  # noqa: ANN001, ANN202
 
 
 def _find_args_by_type(args, type_check_func):  # noqa: ANN001, ANN202
-    matches = []
-    for arg in args:
-        if type_check_func(arg.type):
-            matches.append(arg)
+    matches = [arg for arg in args if type_check_func(arg.type)]
     return matches
 
 

@@ -12,7 +12,7 @@ from pathlib import Path
 from setuptools import setup
 
 
-def get_version():
+def get_version() -> str:
     """Get version from the file version.txt."""
     build_version_fpath = Path("version.txt")
     if build_version_fpath.exists():

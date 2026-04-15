@@ -1,8 +1,11 @@
 # Configuration file for the Sphinx documentation builder.
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
+"""Sphinx configuration."""
 
 import os
 import sys
+
+import sphinx_book_theme
 
 # -- Path setup --------------------------------------------------------------
 
@@ -31,7 +34,7 @@ except ImportError:
 else:
     release = version
 
-copyright = "2024-2025, IQM Finland Oy, Release {}".format(release)
+copyright = "2024-2026, IQM Finland Oy, Release {}".format(release)
 
 # -- General configuration ---------------------------------------------------
 
@@ -50,6 +53,7 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.extlinks",
     "sphinx.ext.intersphinx",
+    "sphinx_copybutton",
     "sphinxcontrib.bibtex",
     "myst_nb",
 ]
@@ -70,10 +74,6 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".*"]
 # today = ''
 # Else, today_fmt is used as the format for a strftime call.
 today_fmt = "%Y-%m-%d"
-
-# If true, sectionauthor and moduleauthor directives will be shown in the
-# output. They are ignored by default.
-show_authors = True
 
 
 # -- Autodoc ------------------------------------------------------------
@@ -98,8 +98,6 @@ autosummary_generate = True
 
 
 # -- Options for HTML output -------------------------------------------------
-
-import sphinx_book_theme
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -154,60 +152,28 @@ mathjax3_config = {
 
 # -- External mapping ------------------------------------------------------------
 
+
+def _path_to_local_objects_inv(component_name: str) -> str:
+    # Build path defined in Makefile
+    return f"../../build/docs/{component_name}/objects.inv"
+
+
 python_version = ".".join(map(str, sys.version_info[0:2]))
 intersphinx_mapping = {
     "python": ("https://docs.python.org/" + python_version, None),
     "matplotlib": ("https://matplotlib.org/stable", None),
     "numpy": ("https://numpy.org/doc/stable", None),
-    "iqm.station_control.client": (
-        "../station-control-client",
-        "../../station-control-client/build/sphinx/objects.inv",
-    ),
-    "iqm.station_control.interface": (
-        "../station-control-client",
-        "../../station-control-client/build/sphinx/objects.inv",
-    ),
-    "iqm.pulse": ("../iqm-pulse", "../../iqm-pulse/build/sphinx/objects.inv"),
-    "exa.common": ("../exa-common", "../../exa-common/build/sphinx/objects.inv"),
-    "iqm.iqm_client": ("../iqm-client", "../../iqm-client/build/sphinx/objects.inv"),
-    "iqm.qiskit_iqm": ("../iqm-client", "../../iqm-client/build/sphinx/objects.inv"),
+    # iqm-station-control-client contains iqm.station_control.client and iqm.station_control.interface namespaces.
+    # The keys in this dict are just labels for reference. Sphinx will resolve symbols
+    # from both iqm.models and iqm.data_definitions namespaces using the single inventory file.
+    "iqm-station-control-client": ("../station-control-client", _path_to_local_objects_inv("station-control-client")),
+    "iqm.pulse": ("../iqm-pulse", _path_to_local_objects_inv("iqm-pulse")),
+    "exa.common": ("../exa-common", _path_to_local_objects_inv("exa-common")),
+    # iqm-client contains iqm.iqm_client, iqm.qiskit_iqm, and iqm.cirq_iqm namespaces.
+    # The keys in this dict are just labels for reference. Sphinx will resolve symbols
+    # from both iqm.models and iqm.data_definitions namespaces using the single inventory file.
+    "iqm-client": ("../iqm-client", _path_to_local_objects_inv("iqm-client")),
 }
-
-# update intersphinx_mapping so it reads inventory from gitlab pages, but
-# generate links to the pages under local file path
-# this is used only in `docs with generated links to local target` ci\cd job
-use_local_target = os.getenv("USE_LOCAL_TARGET", "").lower()
-if use_local_target == "true":
-    intersphinx_mapping.update(
-        {
-            "iqm.station_control.client": (
-                "../station-control-client",
-                "https://iqm.gitlab-pages.iqm.fi/qccsw/exa/exa-repo/station-control-client/objects.inv",
-            ),
-            "iqm.station_control.interface": (
-                "../station-control-client",
-                "https://iqm.gitlab-pages.iqm.fi/qccsw/exa/exa-repo/station-control-client/objects.inv",
-            ),
-            "iqm.pulse": ("../iqm-pulse", "https://iqm.gitlab-pages.iqm.fi/qccsw/exa/exa-repo/iqm-pulse/objects.inv"),
-            "exa.common": (
-                "../exa-common",
-                "https://iqm.gitlab-pages.iqm.fi/qccsw/exa/exa-repo/exa-common/objects.inv",
-            ),
-            "iqm.iqm_client": (
-                "../iqm-client",
-                "https://iqm.gitlab-pages.iqm.fi/qccsw/exa/exa-repo/iqm-client/objects.inv",
-            ),
-            "iqm.qiskit_iqm": (
-                "../iqm-client",
-                "https://iqm.gitlab-pages.iqm.fi/qccsw/exa/exa-repo/iqm-client/objects.inv",
-            ),
-        }
-    )
-else:
-    extlinks = {
-        "issue": ("https://jira.iqm.fi/browse/%s", "issue %s"),
-        "mr": ("https://gitlab.iqm.fi/iqm/qccsw/exa/exa-repo/-/merge_requests/%s", "MR %s"),
-    }
 
 # -- Options for MyST-NB ---------------------------------------------------------
 nb_execution_mode = "off"

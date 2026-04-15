@@ -55,7 +55,7 @@ def _numpy_to_builtin_types(data: list[tuple[str, Any]]):  # noqa: ANN202
 
 
 def _get_waveform(wave: Waveform, scale: float, wave_q: Waveform | None = None, scale_q: float | None = None) -> str:
-    import matplotlib.pyplot as plt
+    import matplotlib.pyplot as plt  # noqa: PLC0415
 
     def fig_to_base64(fig):  # noqa: ANN001, ANN202
         img = io.BytesIO()
@@ -70,7 +70,7 @@ def _get_waveform(wave: Waveform, scale: float, wave_q: Waveform | None = None, 
     html_text = ""
     with plt.ioff():
         fig, ax = plt.subplots(1, 1)
-        ax.set_ylim([-1, 1])
+        ax.set_ylim(-1, 1)
         ax.plot(scaled_wave, marker=".")
         if wave_q:
             ax.plot(scaled_wave_q, marker=".")

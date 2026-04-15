@@ -19,6 +19,7 @@ from dataclasses import dataclass
 from functools import cache, lru_cache
 import logging
 import os
+import pprint
 from typing import Any
 from uuid import UUID
 import warnings
@@ -59,8 +60,7 @@ logger = logging.getLogger(__name__)
 
 
 class IQMClient:
-    """Provides access to IQM quantum computers, enabling quantum circuit execution with
-    the selected quantum computer.
+    """Provides access to IQM quantum computers, enabling e.g. quantum circuit execution.
 
     Args:
         iqm_server_url: URL for accessing the IQM Server. Has to start with http or https.
@@ -103,12 +103,19 @@ class IQMClient:
         self._dynamic_quantum_architectures: dict[UUID, DynamicQuantumArchitecture] = {}
 
     def get_health(self) -> dict[str, Any]:
-        """Status of the quantum computer."""
+        """Health status of the quantum computer."""
         return self._iqm_server_client.get_health()
 
     def get_about(self) -> dict[str, Any]:
         """Information about the quantum computer."""
         return self._iqm_server_client.get_about()
+
+    def _debug_info(self) -> None:
+        """Print information about the client and server versions, and the Python environment.
+
+        Please include the output of this method in your bug reports.
+        """
+        pprint.pp(self._iqm_server_client._debug_info())
 
     def submit_circuits(
         self,
@@ -135,8 +142,7 @@ class IQMClient:
 
         Returns:
             Job object, containing the ID for the created job.
-            This ID is needed to query the job status and the execution results.
-            Alternatively you can use the methods of the job object.
+            You can query the job status and the execution results using the methods of this object.
 
         """
         run_request = self.create_run_request(
@@ -224,7 +230,7 @@ class IQMClient:
         )
 
     def submit_run_request(self, run_request: RunRequest, use_timeslot: bool = False) -> CircuitJob:
-        """Submit a run request for execution on a quantum computer.
+        """Submit a request to execute a circuit batch to a quantum computer.
 
         This is called in :meth:`submit_circuits` and does not need to be called separately in normal usage.
 
@@ -235,8 +241,6 @@ class IQMClient:
 
         Returns:
             Job object, containing the ID for the created job.
-            This ID is needed to query the job status and the execution results.
-            Alternatively you can use the methods of the job object.
 
         """
         if os.environ.get("IQM_CLIENT_DEBUG") == "1":
@@ -246,13 +250,15 @@ class IQMClient:
         return CircuitJob(_iqm_client=self, data=job_data)
 
     def get_job(self, job_id: UUID) -> CircuitJob:
-        """Query the status and results of a submitted job.
+        """Build a new job object for a submitted job.
+
+        Can be used e.g. when you wish to query the results of a job submitted in a different Python session.
 
         Args:
             job_id: ID of the job to query.
 
         Returns:
-            Status of the job, can be used to query the results if the job has finished.
+            Job object, can be used to query the results.
 
         """
         job_data = self._iqm_server_client.get_job(job_id)
@@ -264,7 +270,11 @@ class IQMClient:
         return CircuitJob(_iqm_client=self, data=job_data)
 
     def cancel_job(self, job_id: UUID) -> None:
-        """Cancel a job that was submitted for execution.
+        """Cancel a job that has been submitted for execution.
+
+        A canceled job will remain in the server database, but it will not be executed.
+        If the job is currently being executed, it is interrupted.
+        If the job was already executed (or failed), it will remain in its current terminal state.
 
         Args:
             job_id: ID of the job to be canceled.
@@ -273,6 +283,16 @@ class IQMClient:
         self._iqm_server_client.cancel_job(job_id)
 
     def delete_job(self, job_id: UUID) -> None:
+        """Delete a job that has been submitted for execution.
+
+        Works like :meth:`cancel_job`, but also removes the job from the IQM Server database.
+
+        .. warning:: There is no way to recover a deleted job.
+
+        Args:
+            job_id: ID of the job to be deleted.
+
+        """
         self._iqm_server_client.delete_job(job_id)
 
     @cache
@@ -283,9 +303,6 @@ class IQMClient:
 
         Returns:
             Static quantum architecture of the server.
-
-        Raises:
-            ClientAuthenticationError: no valid authentication provided
 
         """
         self._get_dut_label()  # Called just to make sure that there will be only one DUT available
@@ -302,9 +319,6 @@ class IQMClient:
         Returns:
             Requested quality metric set.
 
-        Raises:
-            ClientAuthenticationError: no valid authentication provided
-
         """
         _calibration_set_id: StrUUIDOrDefault = calibration_set_id if calibration_set_id is not None else "default"
         quality_metrics = self._iqm_server_client.get_calibration_set_quality_metric_set(_calibration_set_id)
@@ -319,9 +333,6 @@ class IQMClient:
 
         Returns:
             Requested calibration set.
-
-        Raises:
-            ClientAuthenticationError: no valid authentication provided
 
         """
         _calibration_set_id: StrUUIDOrDefault = calibration_set_id if calibration_set_id is not None else "default"
@@ -341,9 +352,6 @@ class IQMClient:
 
         Returns:
             Dynamic quantum architecture corresponding to the given calibration set.
-
-        Raises:
-            ClientAuthenticationError: no valid authentication provided
 
         """
         if calibration_set_id in self._dynamic_quantum_architectures:
@@ -367,9 +375,6 @@ class IQMClient:
             Feedback groups. Within a group, any qubit can receive real-time feedback from any other qubit in
                 the same group. A qubit can belong to multiple groups.
                 If there is only one group, there are no restrictions regarding feedback routing.
-
-        Raises:
-            ClientAuthenticationError: no valid authentication provided
 
         """
         channel_properties = self._iqm_server_client.get_channel_properties()
@@ -399,9 +404,6 @@ class IQMClient:
 
         Returns:
             For each circuit in the batch, measurement results in histogram representation.
-
-        Raises:
-            ClientAuthenticationError: no valid authentication provided
 
         """
         return self._iqm_server_client.get_job_artifact_measurement_counts(job_id)
@@ -453,9 +455,6 @@ class IQMClient:
 
         Returns:
             Requested calibration set and related quality metrics in a searchable structure.
-
-        Raises:
-            ClientAuthenticationError: no valid authentication provided
 
         """
         logger.warning(

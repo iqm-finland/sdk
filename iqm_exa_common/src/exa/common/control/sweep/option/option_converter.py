@@ -45,32 +45,34 @@ def convert_to_options(config: dict[str, Any]) -> SweepOptions:
 
     """
     config = {k.lower(): v for k, v in config.items()}
-    if {OPTIONS_TYPE.get("start"), OPTIONS_TYPE.get("stop")}.issubset(set(config)):  # type:ignore[arg-type]
-        updated_config = __update_config(config, OPTIONS_TYPE.get("start_stop_list"))  # type:ignore[arg-type]
+    if {OPTIONS_TYPE.get("start", ""), OPTIONS_TYPE.get("stop", "")}.issubset(set(config)):
+        updated_config = __update_config(config, OPTIONS_TYPE.get("start_stop_list", ""))
         return StartStopOptions(**updated_config)
-    elif {OPTIONS_TYPE.get("start_exp"), OPTIONS_TYPE.get("stop_exp")}.issubset(set(config)):  # type:ignore[arg-type]
-        __rename_key(config, OPTIONS_TYPE.get("start_exp"), OPTIONS_TYPE.get("start"))  # type:ignore[arg-type]
-        __rename_key(config, OPTIONS_TYPE.get("stop_exp"), OPTIONS_TYPE.get("stop"))  # type:ignore[arg-type]
-        updated_config = __update_config(config, OPTIONS_TYPE.get("start_stop_base_list"))  # type:ignore[arg-type]
+    if {OPTIONS_TYPE.get("start_exp", ""), OPTIONS_TYPE.get("stop_exp", "")}.issubset(set(config)):
+        __rename_key(config, OPTIONS_TYPE.get("start_exp", ""), OPTIONS_TYPE.get("start", ""))
+        __rename_key(config, OPTIONS_TYPE.get("stop_exp", ""), OPTIONS_TYPE.get("stop", ""))
+        updated_config = __update_config(config, OPTIONS_TYPE.get("start_stop_base_list", ""))
         return StartStopBaseOptions(**updated_config)
-    elif {OPTIONS_TYPE.get("center"), OPTIONS_TYPE.get("span")}.issubset(set(config)):  # type:ignore[arg-type]
-        updated_config = __update_config(config, OPTIONS_TYPE.get("center_span_list"))  # type:ignore[arg-type]
+    if {OPTIONS_TYPE.get("center", ""), OPTIONS_TYPE.get("span", "")}.issubset(set(config)):
+        updated_config = __update_config(config, OPTIONS_TYPE.get("center_span_list", ""))
         return CenterSpanOptions(**updated_config)
-    elif {OPTIONS_TYPE.get("center_exp"), OPTIONS_TYPE.get("span_exp")}.issubset(set(config)):  # type:ignore[arg-type]
-        __rename_key(config, OPTIONS_TYPE.get("center_exp"), OPTIONS_TYPE.get("center"))  # type:ignore[arg-type]
-        __rename_key(config, OPTIONS_TYPE.get("span_exp"), OPTIONS_TYPE.get("span"))  # type:ignore[arg-type]
-        updated_config = __update_config(config, OPTIONS_TYPE.get("center_span_base_list"))  # type:ignore[arg-type]
+    if {OPTIONS_TYPE.get("center_exp", ""), OPTIONS_TYPE.get("span_exp", "")}.issubset(set(config)):
+        __rename_key(config, OPTIONS_TYPE.get("center_exp", ""), OPTIONS_TYPE.get("center", ""))
+        __rename_key(config, OPTIONS_TYPE.get("span_exp", ""), OPTIONS_TYPE.get("span", ""))
+        updated_config = __update_config(config, OPTIONS_TYPE.get("center_span_base_list", ""))
         return CenterSpanBaseOptions(**updated_config)
-    elif OPTIONS_TYPE.get("fixed") in set(config):
-        updated_config = __update_config(config, OPTIONS_TYPE.get("fixed"))  # type:ignore[arg-type]
+    if OPTIONS_TYPE.get("fixed", "") in set(config):
+        updated_config = __update_config(config, OPTIONS_TYPE.get("fixed", ""))
         return FixedOptions(**updated_config)
-    else:
-        raise ValueError(f"Config {config} cannot be converted to range options")
+
+    raise ValueError(f"Config {config} cannot be converted to range options")
 
 
-def __update_config(config: dict[str, Any], keys: list[str]) -> dict[str, Any]:
+def __update_config(config: dict[str, Any], keys: str | list[str]) -> dict[str, Any]:
     return {key: ast.literal_eval("".join(str(value).strip())) for key, value in config.items() if key in keys}
 
 
-def __rename_key(config: dict[str, Any], old_key: str, new_key: str) -> None:
+def __rename_key(config: dict[str, Any], old_key: str | list[str], new_key: str | list[str]) -> None:
+    if not (isinstance(old_key, str) and isinstance(new_key, str)):
+        raise TypeError(f"Types {type(old_key)=} and {type(new_key)} must be str.")
     config[new_key] = config.pop(old_key)

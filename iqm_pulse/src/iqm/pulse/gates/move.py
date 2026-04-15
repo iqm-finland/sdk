@@ -323,7 +323,7 @@ def validate_move_instructions(
         if inst.name == "move":
             qubit, resonator = inst.locus
             if not (chip_topology.is_qubit(qubit) and chip_topology.is_computational_resonator(resonator)):
-                raise ValueError(f"Move operation locus must always be (qubit, resonator), got '{inst.locus}'")
+                raise ValueError(f"MOVE locus must always be (qubit, resonator), got {inst.locus}")
 
             if (resonator_qubit := resonator_occupations.get(resonator)) is None:
                 # Beginning MOVE: check that the qubit hasn't been moved to another resonator

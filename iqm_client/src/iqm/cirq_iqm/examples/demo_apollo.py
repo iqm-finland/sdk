@@ -11,8 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Demonstrates importing a quantum circuit from an OpenQASM 2.0 file, transforming it into
-the Apollo native gateset and connectivity, and then executing it on a simulator.
+"""Transpilation and simulation demo for the IQM Crystal-20 architecture.
+
+Demonstrates importing a quantum circuit from an OpenQASM 2.0 file, transforming it into
+the Crystal-20 native gateset and connectivity, and then executing it on a simulator.
 """
 
 import cirq
@@ -23,8 +25,8 @@ from .demo_common import demo
 
 
 def demo_apollo(use_qsim: bool = False) -> None:
-    """Run the demo using the Apollo architecture."""
-    print("\nApollo demo\n===========\n")
+    """Run the demo using the Crystal-20 architecture."""
+    print("\nCrystal-20 demo\n===========\n")
     device = Apollo()
     qasm_program = """
         OPENQASM 2.0;

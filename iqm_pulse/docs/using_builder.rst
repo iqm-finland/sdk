@@ -116,6 +116,11 @@ Together, these rules provide a handy way of defining complex circuits easily:
     # Concatenate boxes, preserving their internal alignment:
     circuit3 = circuit1 | circuit2 | circuit1
 
+The method :meth:`.TimeBox.set_alap` is used to change the :class:`.SchedulingStrategy` of the composite TimeBox from
+ASAP (as soon as possible, the default) to ALAP (as late as possible). The method :meth:`.TimeBox.set_asap` can be used
+to change it back. In the example above, the circuits concatenated with the ``|`` operator are scheduled separately,
+where the contents of ``circuit1`` are scheduled as late as possible, and the contents of ``circuit2`` as soon as
+possible. Let us now discuss resolving and scheduling in more detail.
 
 Resolving TimeBoxes into a Schedule
 -----------------------------------
@@ -232,3 +237,12 @@ Some typical errors that are easy to make with the syntax:
 
       builder.prx("QB3")  # Error! "Q" is not a valid component
       builder.prx(["QB3"])  # Correct
+
+* Accidentally unpacking a TimeBox using a ``+`` operator instead of a ``|`` operator:
+
+  .. code-block:: python
+
+      qubits = ["QB1", "QB20"]
+      circ = TimeBox.composite([builder.prx([qubit])(np.pi, 0.0) for qubit in qubits]).set_alap()
+      circ += builder.measure(qubits)() # measurements END simultaneously
+      circ |= builder.measure(qubits)() # measurements START simultaneously

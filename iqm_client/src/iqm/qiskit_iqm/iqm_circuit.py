@@ -11,9 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""A simple extension of the QuantumCircuit class to allow the MOVE
-gate to be applied with a .move(qubit, resonator) shortcut.
-"""
+"""Extension of the QuantumCircuit class that adds the .move(qubit, resonator) shortcut for the MOVE gate."""
 
 from iqm.qiskit_iqm.move_gate import MoveGate
 from qiskit import QuantumCircuit
@@ -22,7 +20,7 @@ from qiskit import QuantumCircuit
 class IQMCircuit(QuantumCircuit):
     """Extends the QuantumCircuit class, adding a shortcut for applying the MOVE gate."""
 
-    def move(self, qubit: int, resonator: int):  # noqa: ANN201
+    def move(self, qubit: int, resonator: int) -> None:
         """Applies the MOVE gate to the circuit.
 
         Note: at this point the circuit layout is only guaranteed to work if the order

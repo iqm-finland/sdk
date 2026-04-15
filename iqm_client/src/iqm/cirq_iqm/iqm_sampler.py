@@ -70,7 +70,7 @@ class IQMSampler(cirq.work.Sampler):
         compiler_options: CircuitCompilationOptions | None = None,
         use_timeslot: bool = False,
         **user_auth_args,  # contains keyword args token or tokens_file
-    ):
+    ) -> None:
         self._client = IQMClient(url, quantum_computer=quantum_computer, **user_auth_args)
         dqa = self._client.get_dynamic_quantum_architecture(calibration_set_id)
         server_device_metadata = IQMDeviceMetadata.from_architecture(dqa)
@@ -100,6 +100,7 @@ class IQMSampler(cirq.work.Sampler):
     def run_sweep(  # type: ignore[override]
         self, program: cirq.Circuit, params: cirq.Sweepable, repetitions: int = 1
     ) -> list[IQMResult]:
+        """Execute the given quantum circuit for various values of the given parameters."""
         circuits, resolvers = self._resolve_parameters(program, params)
         results, metadata = self._send_circuits(
             circuits,
@@ -138,7 +139,7 @@ class IQMSampler(cirq.work.Sampler):
     def create_run_request(
         self, programs: cirq.Circuit | list[cirq.Circuit], *, params: cirq.Sweepable = None, repetitions: int = 1
     ) -> RunRequest:
-        """Creates a run request without submitting it for execution.
+        """Create a run request without submitting it for execution.
 
         This takes the same parameters as :meth:`run` and :meth:`run_iqm_batch`, and can be used to check the
         run request that would be sent when calling those functions.

@@ -1,18 +1,46 @@
-# This file is managed by monotool.py, do not edit by hand
 [build-system]
-build-backend = "setuptools.build_meta"
-requires = [ "setuptools", "setuptools_scm[toml]",]
+requires = [
+    "hatchling",
+]
+build-backend = "hatchling.build"
 
 [project]
-classifiers = [ "Programming Language :: Python :: 3", "Topic :: Scientific/Engineering :: Physics", "Intended Audience :: Science/Research",]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Intended Audience :: Science/Research",
+]
 description = "Set up and run QAOA experiments"
-dynamic = [ "version", "dependencies", "optional-dependencies",]
 name = "iqm-qaoa"
 readme = "README.rst"
 requires-python = ">=3.11"
-[[project.authors]]
-name = "IQM Finland Oy"
-email = "developers@meetiqm.com"
+dependencies = [
+    "cvxpy>=1.5.3",
+    "dimod>=0.12.17",
+    "iqm-client[qiskit]",
+    "llvmlite>=0.44.0",
+    "matplotlib<4.0,>=3.9.0",
+    "networkx>=3.3",
+    "numba>=0.61.0",
+    "numpy<3.0,>=2.0",
+    "qiskit-aer>=0.14.2",
+    "qiskit>=1.2.4",
+    "quimb>=1.10.0",
+    "requests>=2.32.3",
+    "scipy-stubs",
+    "scipy>=1.13.0",
+    "types-networkx",
+]
+authors = [
+    { name = "IQM Finland Oy", email = "developers@meetiqm.com" },
+]
+version = "1.40.1"
+
+[project.optional-dependencies]
+notebook = [
+    "nbclient~=0.5.10",
+    "notebook>=6.5.2",
+]
 
 [project.license]
 file = "LICENSE.txt"
@@ -20,6 +48,11 @@ file = "LICENSE.txt"
 [project.urls]
 Documentation = "https://docs.meetiqm.com/iqm-qaoa/"
 Homepage = "https://pypi.org/project/iqm-qaoa/"
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "src/iqm",
+]
 
 [tool.mypy]
 disallow_incomplete_defs = true
@@ -30,55 +63,133 @@ namespace_packages = true
 no_implicit_optional = true
 warn_redundant_casts = true
 warn_unused_ignores = true
+
 [[tool.mypy.overrides]]
-module = [ "daemon.*", "quimb.*", "qiskit.*", "qiskit_aer.*", "grpc.*", "lmfit.*", "emukit.*", "mockito.*", "sklearn.*", "dill.*", "uncertainties.*", "GPy.*", "pythonjsonlogger.*",]
+module = [
+    "daemon.*",
+    "quimb.*",
+    "qiskit.*",
+    "qiskit_aer.*",
+    "grpc.*",
+    "lmfit.*",
+    "emukit.*",
+    "mockito.*",
+    "sklearn.*",
+    "dill.*",
+    "uncertainties.*",
+    "pythonjsonlogger.*",
+]
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = [ "iqm.data_definitions.*", "iqm.models.*",]
+module = [
+    "iqm.data_definitions.*",
+    "iqm.models.*",
+]
 follow_imports = "skip"
 follow_imports_for_stubs = true
 
 [tool.ruff]
-exclude = [ "*.ipynb", "*.rst",]
-extend-include = [ "sub-setup-py.template",]
+exclude = [
+    "*.ipynb",
+    "*.rst",
+]
+extend-include = [
+    "sub-setup-py.template",
+]
 line-length = 120
 
-[tool.setuptools_scm]
-fallback_version = "0.1"
-
-[tool.coverage.paths]
-source = [ "src/", "*/site-packages/",]
-
-[tool.coverage.report]
-exclude_lines = [ "pragma: no cover", "def __repr__", "if self\\.debug", "raise AssertionError", "raise NotImplementedError", "if 0:", "if __name__ == .__main__.:",]
-
-[tool.coverage.run]
-branch = true
-source = [ "iqm",]
-
-[tool.pytest.ini_options]
-nb_diff_ignore = [ "/metadata/language_info", "/metadata/widgets", "/cells/*/execution_count", "/cells/*/outputs",]
-
 [tool.ruff.lint]
-ignore = [ "D203", "D213", "S311", "C901",]
-select = [ "E4", "E7", "E9", "E5", "E1", "F", "Q", "PL", "I", "D", "UP007", "UP006", "UP035", "W", "B", "C", "S", "N", "ANN001", "ANN201", "ANN202",]
-unfixable = [ "F401", "B905",]
+ignore = [
+    "D203",
+    "D213",
+    "S311",
+    "C901",
+]
+select = [
+    "E4",
+    "E7",
+    "E9",
+    "E5",
+    "E1",
+    "F",
+    "Q",
+    "PL",
+    "I",
+    "D",
+    "UP007",
+    "UP006",
+    "UP035",
+    "W",
+    "B",
+    "C",
+    "S",
+    "N",
+    "ANN001",
+    "ANN201",
+    "ANN202",
+    "NPY201",
+]
+unfixable = [
+    "F401",
+    "B905",
+]
 
 [tool.ruff.lint.isort]
 combine-as-imports = true
 force-sort-within-sections = true
-known-first-party = [ "exa.experiments", "exa.core", "exa.common", "iqm.cocos", "gbc", "calibration_graphs", "iqm.pulse", "iqm.cpc", "iqm.pulla", "iqm.station_control", "tests",]
-known-local-folder = [ "src",]
-known-third-party = [ "exa", "iqm",]
+known-first-party = [
+    "exa.experiments",
+    "exa.core",
+    "exa.common",
+    "iqm.cocos",
+    "gbc",
+    "calibration_graphs",
+    "iqm.pulse",
+    "iqm.cpc",
+    "iqm.pulla",
+    "iqm.station_control",
+    "tests",
+]
+known-local-folder = [
+    "src",
+]
+known-third-party = [
+    "exa",
+    "iqm",
+]
 relative-imports-order = "closest-to-furthest"
 
 [tool.ruff.lint.per-file-ignores]
-"**/__init__.py" = [ "F401", "PLR0402",]
-"**/docs/*" = [ "E402", "D100", "ANN001", "ANN201", "ANN202",]
-"**/setup.py" = [ "D100", "D103", "I001", "ANN201",]
-"**/src/*" = [ "D400", "D401", "D107",]
-"**/tests/*" = [ "PLR2004", "D400", "D401", "D107", "S101",]
+"**/__init__.py" = [
+    "F401",
+    "PLR0402",
+]
+"**/docs/*" = [
+    "E402",
+    "D100",
+    "ANN001",
+    "ANN201",
+    "ANN202",
+]
+"**/setup.py" = [
+    "D100",
+    "D103",
+    "I001",
+    "ANN201",
+]
+"**/src/*" = [
+    "D400",
+    "D401",
+    "D107",
+]
+"**/tests/*" = [
+    "PLR2004",
+    "D400",
+    "D401",
+    "D107",
+    "S101",
+]
 
 [tool.ruff.lint.pylint]
 max-args = 8
@@ -87,8 +198,33 @@ max-locals = 21
 max-returns = 9
 max-statements = 60
 
-[tool.setuptools.dynamic.dependencies]
-file = "requirements/base.txt"
+[tool.coverage.paths]
+source = [
+    "src/",
+    "*/site-packages/",
+]
 
-[tool.setuptools.dynamic.optional-dependencies.notebook]
-file = "requirements/notebook.txt"
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self\\.debug",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
+
+[tool.coverage.run]
+branch = true
+source = [
+    "iqm",
+]
+
+[tool.pytest.ini_options]
+nb_diff_ignore = [
+    "/metadata/language_info",
+    "/metadata/widgets",
+    "/cells/*/execution_count",
+    "/cells/*/outputs",
+]

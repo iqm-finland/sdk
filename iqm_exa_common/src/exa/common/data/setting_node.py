@@ -126,7 +126,7 @@ Adding and deleting new Settings and nodes is simple:
 
 It is usually a good idea to make a copy of the original node, so that it won't be modified accidentally.
 
-The path notation of ``SettingNode``also works when inserting:
+The path notation of ``SettingNode`` also works when inserting:
 
 .. doctest:: pulse
 
@@ -207,13 +207,13 @@ flag is used.
 
 from __future__ import annotations
 
-from collections.abc import Generator, ItemsView, Iterable, Iterator
+from collections.abc import Generator, ItemsView, Iterable, Iterator, Mapping
 from copy import copy
 from itertools import permutations
 import logging
 import numbers
 import pathlib
-from typing import Any
+from typing import Any, Self
 
 import jinja2
 import numpy as np
@@ -221,32 +221,97 @@ import numpy as np
 from exa.common.data.base_model import BaseModel
 from exa.common.data.parameter import CollectionType, Parameter, Setting, SourceType
 from exa.common.errors.exa_error import UnknownSettingError
+from exa.common.helpers import json_helper
 from exa.common.qcm_data.chip_topology import sort_components
 
 logger = logging.getLogger(__name__)
 
 
 def _fix_path_recursive(node: SettingNode, path: str) -> SettingNode:
-    """Recursively travel the settings tree and fix the ``path``attribute (also aligns ``name``,
-    based on the node type). Deep copies all the child nodes.
+    """Recursively rebuilds a SettingNode tree with updated hierarchical paths.
+
+    Instead of deep-copying the entire tree, this method performs a high-speed
+    reconstruction using model_construct and fast_construct. This bypasses
+    Pydantic's validation and setter overhead, which is safe because the
+    source node is already validated.
+
+    Args:
+        node: The source SettingNode to replicate.
+        path: The new hierarchical path prefix for this node.
+
+    Returns:
+        A new SettingNode instance with corrected paths and established parent links.
+
     """
+    align_name = node.align_name
     settings: dict[str, Setting] = {}
-    subtrees: dict[str, SettingNode] = {}
+
     for key, setting in node.settings.items():
         child_path = f"{path}.{key}"
-        update_dict = {"path": child_path}
-        if node.align_name:
-            update_dict["parameter"] = setting.parameter.model_copy(update={"name": child_path})
-        settings[key] = setting.model_copy(update=update_dict)
-    for key, subnode in node.subtrees.items():
-        subtrees[key] = _fix_path_recursive(subnode, f"{path}.{key}")
-    node_update_dict = {"path": path, "settings": settings, "subtrees": subtrees}
-    if node.align_name:
-        node_update_dict["name"] = path
-    return node.model_copy(update=node_update_dict, deep=False)
+        old_param = setting.parameter
+
+        if align_name:
+            new_param = Parameter.model_construct(
+                name=child_path,
+                label=old_param.label,
+                unit=old_param.unit,
+                data_type=old_param.data_type,
+                collection_type=old_param.collection_type,
+                element_indices=old_param.element_indices,
+            )
+            object.__setattr__(new_param, "_parent_name", old_param._parent_name)
+            object.__setattr__(new_param, "_parent_label", old_param._parent_label)
+            if old_param.element_indices is not None:
+                new_param._finalize_element_indices()
+        else:
+            new_param = old_param
+
+        settings[key] = Setting.fast_construct(
+            parameter=new_param,
+            value=setting.value,
+            read_only=setting.read_only,
+            path=child_path,
+            source=setting._source,
+        )
+
+    # Recurse first: children return already-linked sub-subtrees
+    subtrees = {key: _fix_path_recursive(subnode, f"{path}.{key}") for key, subnode in node.subtrees.items()}
+
+    new_node = node.model_copy(
+        update={"path": path, "settings": settings, "subtrees": subtrees, "name": path if align_name else node.name},
+        deep=False,
+    )
+    # Link children to the new parent instance so that cache invalidation works correctly
+    new_node._link_children()
+
+    return new_node
 
 
-class SettingNode(BaseModel):
+_INDEX_ATTRIBUTES = {
+    "_parent": lambda: None,
+    "_index_by_name": dict,
+    "_index_nodes_by_type": dict,
+    "_index_dirty": lambda: True,
+}
+"""Names and default value factories of private index attributes on :class:`.SettingNode`.
+
+These attributes store cached indices used when querying nodes
+from the tree and are treated as internal implementation details.
+"""
+# - ``_parent``: A back-pointer to the parent node, used for dirty-flag bubbling.
+# - ``_index_by_name``: Maps names to their corresponding nodes.
+# - ``_index_nodes_by_type``: Groups nodes based on their type.
+# - ``_index_dirty``: Flags whether the index structures require rebuilding.
+#
+# We keep this variable to explicitly distinguish these index-related
+# privates from other private attributes on a node. Normal private
+# attributes may themselves hold :class:`.SettingNode`, :class:`.Setting`,
+# or :class:`.Parameter` objects and are therefore processed like regular
+# child attributes, whereas the attributes listed here must always behave as
+# plain Python objects and never as part of the setting-tree structure.
+
+
+class SettingNode(BaseModel):  # noqa: PLW1641 (Object does not implement `__hash__` method)
     """A tree-structured :class:`.Setting` container.
 
     Each child of the node is a :class:`.Setting`, or another :class:`SettingNode`.
@@ -281,6 +346,7 @@ class SettingNode(BaseModel):
         subtrees: Dict of child node path fraqment names (usually the same as the child node name) to the settings.
             Mostly used when deserialising and otherwise left empty.
         path: Optionally give a path for the node, by default empty.
+        align_name: Whether to align `node.name = node.path` in this node and all of its child nodes, by default True.
         generate_paths: If set ``True``, all subnodes will get their paths autogenerated correctly. Only set to
             ``False`` if the subnodes already have correct paths set (e.g. when deserialising).
         kwargs: The children given as keyword arguments. Each argument must be a :class:`.Setting`,
@@ -304,21 +370,19 @@ class SettingNode(BaseModel):
         *,
         path: str = "",
         align_name: bool = True,
-        generate_paths: bool = True,
-        **kwargs,
+        generate_paths: bool | None = None,
+        **kwargs: Any,
     ):
+        # Manually initialise internal attributes. This bypasses Pydantic’s
+        # costly `init_private_attributes` step, since these fields are not
+        # part of the validation logic and don’t require Pydantic handling.
+        self._ensure_index_attributes()
+
         settings = settings or {}
         subtrees = subtrees or {}
 
-        for key, child in kwargs.items():
-            if isinstance(child, Setting):
-                settings[key] = child
-            elif isinstance(child, Parameter):
-                settings[key] = Setting(parameter=child, value=None, path=key)
-            elif isinstance(child, SettingNode):
-                subtrees[key] = child
-            else:
-                raise ValueError(f"{key} should be a Parameter, Setting or a SettingNode, not {type(child)}.")
+        self._populate_children_from_kwargs(settings, subtrees, kwargs)
+
         super().__init__(
             name=name,
             settings=settings,
@@ -328,29 +392,124 @@ class SettingNode(BaseModel):
             **kwargs,
         )
 
-        if generate_paths:
-            self._generate_paths_and_names()
+        # Decide default behaviour for generate_paths only if not explicitly given
+        if generate_paths is None:
+            # If path is empty, we’re likely creating a fresh tree in Python code:
+            # generate paths once for this subtree.
+            # If path is non-empty (e.g. from serialized data), assume paths are correct already.
+            generate_paths = self.path == ""
 
-    def _generate_paths_and_names(self) -> None:
-        """This method generates the paths and aligns the names when required."""
-        for key, child in self.subtrees.items():
-            update_path = f"{self.path}.{key}" if self.path else key
-            self.subtrees[key] = _fix_path_recursive(child, update_path)
-        for key, child in self.settings.items():
-            update_path = f"{self.path}.{key}" if self.path else key
+        if generate_paths:
+            # Single pass: _generate_paths_and_names handles both path reconstruction and parent linking.
+            # We fuse these operations here to avoid two separate tree traversals.
+            self._generate_paths_and_names()
+        else:
+            # If paths are not being generated, we must link parents separately to ensure cache consistency
+            self._link_children_recursive()
+
+    @classmethod
+    def fast_construct(
+        cls,
+        name: str,
+        settings: dict[str, Any] | None = None,
+        subtrees: dict[str, Any] | None = None,
+        *,
+        path: str = "",
+        align_name: bool = True,
+        generate_paths: bool = False,
+        **kwargs: Any,
+    ) -> SettingNode:
+        """Fast construction alternative to __init__ from trusted serialized dict  using model_construct.
+
+        This is the "middle ground" between ``__init__`` (full validation and normalization) and
+        ``BaseModel.model_construct`` (no normalization).
+
+        The key purpose is performance: when loading large trees (e.g. tens of thousands of settings)
+        that were already validated before being written to the database, re-running Pydantic validation
+        and index construction in ``__init__`` is unnecessary and expensive. ``fast_construct`` lets us
+        reuse that trusted data as-is and skip the extra work.
+
+        This must only be used with already validated / trusted data (DB rows, internal API payloads, etc.).
+        It intentionally skips Pydantic validation and coercion, so untrusted input should always go through
+        the normal constructor instead.
+        """
+        settings = settings or {}
+        subtrees = subtrees or {}
+
+        cls._populate_children_from_kwargs(settings, subtrees, kwargs)
+
+        # Fast path: normalise settings/subtrees and skip validation
+        norm_settings: dict[str, Setting] = {}
+        for key, child in settings.items():
             if isinstance(child, Setting):
-                update_dict = {"path": update_path}
-                if self.align_name:
-                    update_dict["parameter"] = child.parameter.model_copy(update={"name": update_path})
-                self[key] = child.model_copy(update=update_dict)
-            elif self.align_name:
-                self[key] = Setting(
-                    parameter=child.model_copy(update={"name": update_path}), value=None, path=update_path
+                norm_settings[key] = child
+            elif isinstance(child, Parameter):
+                norm_settings[key] = Setting.fast_construct(parameter=child, value=None, path=key)
+            elif isinstance(child, dict):
+                # TRUSTED DB / API payload: skip validation
+                raw_value = child.get("value")
+                if "value" in child:
+                    value = json_helper.decode_json(raw_value)
+                else:
+                    value = None
+
+                param_data = child["parameter"]
+                parameter = Parameter.fast_construct(**param_data)
+                norm_settings[key] = Setting.fast_construct(
+                    parameter=parameter,
+                    value=value,
+                    read_only=child.get("read_only", False),
+                    path=child.get("path", ""),
                 )
-        if self.path and self.align_name:
-            self.name = self.path
+            else:
+                raise TypeError(f"Unsupported type for settings['{key}']: {type(child)}")
+
+        norm_subtrees: dict[str, SettingNode] = {}
+        for key, child in subtrees.items():
+            if isinstance(child, SettingNode):
+                norm_subtrees[key] = child
+            elif isinstance(child, dict):
+                norm_subtrees[key] = cls.fast_construct(**child)
+            else:
+                raise TypeError(f"Unsupported type for subtrees['{key}']: {type(child)}")
+
+        setting_node = cls.model_construct(
+            name=name,
+            settings=norm_settings,
+            subtrees=norm_subtrees,
+            path=path,
+            align_name=align_name,
+        )
+
+        # Manually initialise internal attributes
+        setting_node._ensure_index_attributes()
+
+        if generate_paths:
+            # Single pass: _generate_paths_and_names handles both path reconstruction and parent linking.
+            # We fuse these operations here to avoid two separate tree traversals.
+            setting_node._generate_paths_and_names()
+        else:
+            # If paths are not being generated, we must link parents separately to ensure cache consistency
+            setting_node._link_children_recursive()
+        return setting_node
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}{self.children}"
+
+    def __str__(self):
+        content = ", ".join(f"{key}={node.__class__.__name__}" for key, node in self.children.items())
+        return f"{self.__class__.__name__}({content})"
+
+    def __eq__(self, other: Any) -> bool:
+        return isinstance(other, SettingNode) and (
+            (self.name, self.settings, self.subtrees) == (other.name, other.settings, other.subtrees)
+        )
 
     def __getattr__(self, key):  # noqa: ANN001
+        if key in _INDEX_ATTRIBUTES:
+            self._ensure_index_attributes()
+            # Private / internal attributes: behave like normal Python objects
+            return object.__getattribute__(self, key)
         if key == "settings":
             # Prevent infinite recursion. If settings actually exists, this method is not called anyway
             raise AttributeError
@@ -362,18 +521,16 @@ class SettingNode(BaseModel):
             f'{self.__class__.__name__} "{self.name}" has no attribute {key}. Children: {self.children.keys()}.'
         )
 
-    def __dir__(self):
-        """List settings and subtree names, so they occur in IPython autocomplete after ``node.<TAB>``."""
-        return [name for name in list(self.settings) + list(self.subtrees) if name.isidentifier()] + super().__dir__()
-
-    def _ipython_key_completions_(self):  # noqa: ANN202
-        """List items and subtree names, so they occur in IPython autocomplete after ``node[<TAB>``"""
-        return [*self.settings, *self.subtrees]
-
-    def __setattr__(self, key, value):  # noqa: ANN001
+    def __setattr__(self, key: str, value: Any) -> None:
         """Overrides default attribute assignment to allow the following syntax: ``self.foo = 3`` which is
         equivalent to ``self.foo.value.update(3)`` (if ``foo`` is a :class:`.Setting`).
         """
+        if key in _INDEX_ATTRIBUTES:
+            # Private / internal attributes: behave like normal Python objects
+            object.__setattr__(self, key, value)
+            return
+
+        self._mark_index_dirty()
         path = self._get_path(key)
         if isinstance(value, (Setting, Parameter)):
             if isinstance(value, Parameter):
@@ -385,23 +542,47 @@ class SettingNode(BaseModel):
                 if self.align_name:
                     update_dict["parameter"] = value.parameter.model_copy(update={"name": path})
                 value = value.model_copy(update=update_dict)
+
+            # Explicitly link the new setting instance back to this node
+            value._parent = self
             self.settings[key] = value
             self.subtrees.pop(key, None)
+
         elif isinstance(value, SettingNode):
-            self.subtrees[key] = _fix_path_recursive(value, path)
+            # Recursively fix paths and internal parent links of the new subtree
+            fixed_node = _fix_path_recursive(value, path)
+            # Link the top of the fixed subtree back to this node
+            fixed_node._parent = self
+            self.subtrees[key] = fixed_node
             self.settings.pop(key, None)
-        elif key != "settings" and key in self.settings:  # != prevents infinite recursion
-            self.settings[key] = self.settings[key].update(value)
+
+        elif key != "settings" and key in self.settings:
+            # Handle the self.key = value syntax (updating a setting's value)
+            updated_setting = self.settings[key].update(value)
+            updated_setting._parent = self
+            self.settings[key] = updated_setting
         else:
             self.__dict__[key] = value
 
     def __delattr__(self, key):  # noqa: ANN001
+        self._mark_index_dirty()
         if key in self.settings:
             del self.settings[key]
         elif key in self.subtrees:
             del self.subtrees[key]
         else:
             del self.__dict__[key]
+
+    def __dir__(self):
+        """List settings and subtree names, so they occur in IPython autocomplete after ``node.<TAB>``."""
+        return [name for name in list(self.settings) + list(self.subtrees) if name.isidentifier()] + super().__dir__()
+
+    def __iter__(self):
+        """Breadth-first iteration through the tree."""
+        yield self
+        yield from iter(self.settings.values())
+        for subtree in self.subtrees.values():
+            yield from iter(subtree)
 
     def __getitem__(self, item: str) -> Setting | SettingNode:
         """Allows dictionary syntax."""
@@ -433,12 +614,93 @@ class SettingNode(BaseModel):
         """Allows dictionary syntax."""
         self.__delattr__(key)
 
-    def __iter__(self):
-        """Allows breadth-first iteration through the tree."""
-        yield self
-        yield from iter(self.settings.values())
-        for subtree in self.subtrees.values():
-            yield from iter(subtree)
+    def __deepcopy__(self, memo: dict[int, Any] | None = None) -> SettingNode:
+        """Compatibility for copy.deepcopy; delegate to _fast_deep_copy.
+
+        The ``memo`` argument is ignored on purpose; this keeps the implementation simple
+        and reuses the same fast path as model_copy(deep=True). Python’s copy.deepcopy normally
+        uses the memo dict to keep track of objects it has already copied, so it can handle cycles
+        and shared references in arbitrary object graphs. For SettingNode we know the structure is
+        always a tree (no cycles), so we don’t need that machinery.
+        """
+        return self._fast_deep_copy()
+
+    def _fast_deep_copy(self) -> SettingNode:
+        """Fast deep copy of this SettingNode tree.
+
+        - Preserves the dynamic class of each node (subclasses stay subclasses).
+        - Reuses Setting and Parameter instances (assumed immutable).
+        - Shallow-copies non-tree attributes (those not in the core fields and
+          not starting with '_index').
+
+        This function underpins both ``__deepcopy__`` and the optimized path in
+        :meth:`model_copy(deep=True)`. It is intended specifically for fast cloning of
+        large ``SettingNode`` trees, avoiding the work that a generic deep copy would do.
+
+        Instead of recursively copying every object, we only duplicate the tree
+        structure (the ``SettingNode`` instances and their subtrees) and reuse
+        structure (the ``SettingNode`` instances and their subtrees) and reuse
+        underlying ``Setting`` and ``Parameter`` objects, which are treated as
+        immutable. This makes the operation much faster while still producing a
+        structurally identical tree.
+
+        Note: if you attach extra mutable attributes to a ``SettingNode`` instance,
+        they are shallow-copied here. If those attributes contain shared mutable state,
+        the cloned node will reference the same objects.
+        """
+
+        def clone(node: SettingNode) -> SettingNode:
+            cls = node.__class__  # Preserve subclass type
+
+            # Reuse Setting instances – they are assumed immutable
+            new_settings: dict[str, Setting] = dict(node.settings)
+
+            # Recursively clone subtrees (pure tree, no cycles)
+            new_subtrees: dict[str, SettingNode] = {name: clone(child) for name, child in node.subtrees.items()}
+
+            # Use the subclass' fast_construct to avoid __init__ overhead
+            new_node = cls.fast_construct(  # type: ignore[attr-defined]
+                name=node.name,
+                settings=new_settings,
+                subtrees=new_subtrees,
+                path=node.path,
+                align_name=node.align_name,
+            )
+
+            # Copy non-tree attributes (e.g. controller-specific stuff)
+            for attr, value in node.__dict__.items():
+                # Skip core fields – already set by fast_construct
+                if attr in ("name", "settings", "subtrees", "path", "align_name"):
+                    continue
+
+                # Skip indices – let them be rebuilt lazily if needed
+                if attr in _INDEX_ATTRIBUTES:
+                    continue
+
+                # If fast_construct / BaseModel already set this, don't overwrite
+                if attr in new_node.__dict__:
+                    continue
+
+                # IMPORTANT: shallow copy here to avoid recursion via SettingNode attributes
+                setattr(new_node, attr, value)
+
+            return new_node
+
+        return clone(self)
+
+    def model_copy(self, *, update: Mapping[str, Any] | None = None, deep: bool = True) -> Self:
+        """Copy the model.
+
+        - ``deep=True`` and no ``update`` → use fast tree clone (``_fast_deep_copy``).
+        - ``deep=False`` and no ``update`` → return ``self`` (no copy).
+        - Any ``update`` → fall back to Pydantic's ``model_copy`` for correct update handling.
+        """
+        # Note: default deep=True so that `model_copy()` produces a real clone for SettingNode.
+        if deep and update is None:
+            # Fast path: pure deep tree clone, no update
+            return self._fast_deep_copy()
+
+        return super().model_copy(deep=deep, update=update)
 
     def nodes_by_type(
         self,
@@ -459,9 +721,29 @@ class SettingNode(BaseModel):
              Iterator that yields the filtered nodes.
 
         """
+        if self._index_dirty:
+            self._rebuild_index()
         node_types = node_types or (Setting, SettingNode)
-        iterable = self if recursive else self.children.values()
-        return filter(lambda node: isinstance(node, node_types), iterable)
+
+        # Non-recursive: behave exactly as before
+        if not recursive:
+            for child in self.children.values():
+                if isinstance(child, node_types):
+                    yield child
+            return
+
+        # Recursive: cache by node_types, but preserve original iteration semantics
+        key = node_types if isinstance(node_types, tuple) else (node_types,)
+
+        # If the tree changed, you should clear this cache in _mark_index_dirty
+        cached = self._index_nodes_by_type.get(key)
+        if cached is None:
+            # IMPORTANT: iterate over `self`, not over _index_by_name
+            # This preserves duplicates and order exactly as before.
+            cached = [node for node in self if isinstance(node, node_types)]
+            self._index_nodes_by_type[key] = cached
+
+        yield from cached
 
     def update_setting(self, setting: Setting) -> None:
         """Update an existing `Setting` in this tree.
@@ -543,7 +825,9 @@ class SettingNode(BaseModel):
             First found item, or None if nothing is found.
 
         """
-        return next((item for item in self if item.name == name), None)
+        if self._index_dirty:
+            self._rebuild_index()
+        return self._index_by_name.get(name, None)
 
     @staticmethod
     def merge(
@@ -576,9 +860,9 @@ class SettingNode(BaseModel):
         for key, item in first.settings.items():
             if merge_nones or item.value is not None:
                 if align_name:
-                    new[key] = item.model_copy(update={"name": item.name.replace(f"{first.name}.", "")})
+                    new[key] = item.model_copy(update={"name": item.name.replace(f"{first.name}.", "")}, deep=True)
                 else:
-                    new.settings[key] = item.model_copy()
+                    new.settings[key] = item.model_copy(deep=True)
         for key, item in first.subtrees.items():
             update = {"name": item.name.replace(f"{first.name}.", "")} if align_name else {}
             item_copy = item.model_copy(update=update, deep=deep_copy)
@@ -606,7 +890,7 @@ class SettingNode(BaseModel):
         """
         for key, item in other.settings.items():
             if key in self.settings and (prioritize_other or (self[key].value is None)):
-                self.settings[key] = Setting(self.settings[key].parameter, item.value, source=self.settings[key].source)
+                self[key] = Setting(self.settings[key].parameter, item.value, source=self.settings[key].source)
         for key, item in other.subtrees.items():
             if key in self.subtrees:
                 self.subtrees[key].merge_values(copy(item), prioritize_other)
@@ -653,18 +937,6 @@ class SettingNode(BaseModel):
         append_lines(self, lines, [])
         print("\n", "\n".join(lines))
 
-    def __eq__(self, other: Any) -> bool:
-        return isinstance(other, SettingNode) and (
-            (self.name, self.settings, self.subtrees) == (other.name, other.settings, other.subtrees)
-        )
-
-    def __repr__(self):
-        return f"{self.__class__.__name__}{self.children}"
-
-    def __str__(self):
-        content = ", ".join(f"{key}={node.__class__.__name__}" for key, node in self.children.items())
-        return f"{self.__class__.__name__}({content})"
-
     @classmethod
     def transform_node_types(cls, node: SettingNode) -> SettingNode:
         """Reduce any subclass of SettingNode and it's contents into instances of `cls`.
@@ -676,7 +948,7 @@ class SettingNode(BaseModel):
             A new SettingNode with the same structure as the original, but where node instances are of type `cls`.
 
         """
-        new = cls(name=node.name, **node.settings, align_name=node.align_name, generate_paths=False)
+        new = cls.fast_construct(name=node.name, align_name=node.align_name, **node.settings)
         for key, subnode in node.subtrees.items():
             new.subtrees[key] = cls.transform_node_types(subnode)
         return new
@@ -699,6 +971,7 @@ class SettingNode(BaseModel):
             UnknownSettingError: If the condition of ``strict`` happens.
 
         """
+        self._mark_index_dirty()
         for key, value in dct.items():
             if key not in self.children:
                 error = UnknownSettingError(f"Tried to set {key} to {value}, but no such node exists in {self.name}.")
@@ -707,10 +980,10 @@ class SettingNode(BaseModel):
                     raise error
                 continue
             if isinstance(value, dict) and isinstance(self[key], SettingNode):
-                self[key].set_from_dict(value)
+                self[key].set_from_dict(value, source=source)
             elif type(value) is str:
                 self.settings[key] = Setting(
-                    self.settings[key].name,
+                    self.settings[key].parameter,
                     self.settings[key].parameter.data_type.cast(value),
                     path=self.settings[key].path,
                     source=source,
@@ -808,38 +1081,6 @@ class SettingNode(BaseModel):
 
         return diff
 
-    def _withsiprefix(self, val, unit):  # noqa: ANN001, ANN202
-        """Turn a numerical value and unit, and return rescaled value and SI prefixed unit.
-
-        Unit must be a whitelisted SI base unit.
-        """
-        if not isinstance(val, numbers.Real):
-            return val, unit
-        if unit not in {"Hz", "rad", "s", "V"}:
-            return val, unit
-
-        val = float(val)
-
-        pfx = ""
-        for p in "kMGP":
-            if abs(val) <= 10e3:
-                break
-            val *= 1e-3
-            pfx = p
-        for p in "mμnp":
-            if not 1 > abs(val) > 0:
-                break
-            val *= 1e3
-            pfx = p
-
-        return val, f"{pfx}{unit}"
-
-    def _repr_html_(self):  # noqa: ANN202
-        tmpl_path = pathlib.Path(__file__).parent
-        jenv = jinja2.Environment(loader=jinja2.FileSystemLoader(tmpl_path), auto_reload=True)
-
-        return jenv.get_template("settingnode_v2.html.jinja2").render(s=self, withsi=self._withsiprefix, startopen=0)
-
     def get_node_for_path(self, path: str) -> Setting | SettingNode:
         """Return the node corresponding to the given path.
 
@@ -884,6 +1125,7 @@ class SettingNode(BaseModel):
                 found in self, the associated nodes will be created automatically.
             override_values: Optionally override the values for the `Settings` corresponding to ``nodes``. This dict
                 should have the same structure as ``nodes``, including matching names.
+                NOTE: If an override's value is None, it is ignored.
             override_source: Optionally override the source for the ``Settings`` corresponding to ``nodes``. All the
                 settings will then have this same source.
 
@@ -912,10 +1154,13 @@ class SettingNode(BaseModel):
                 latest_node[key] = node
             else:
                 default_value = node.value if isinstance(node, Setting) else None
-                source = override_source or (node.source if isinstance(node, Setting) else None)
+                default_source = node.source if isinstance(node, Setting) else None
                 parameter = node.parameter if isinstance(node, Setting) else node
-                value = override_values.get(node.name) if override_values.get(node.name) is not None else default_value
-                latest_node[key] = Setting(parameter, value, source=source)
+                override_value = override_values.get(node.name)
+                if override_value is None:
+                    latest_node[key] = Setting(parameter, default_value, source=default_source)
+                else:
+                    latest_node[key] = Setting(parameter, override_value, source=override_source)
 
     def get_default_implementation_name(self, gate: str, locus: str | Iterable[str]) -> str:
         """Get the default implementation name for a given gate and locus.
@@ -1048,19 +1293,136 @@ class SettingNode(BaseModel):
 
         raise ValueError(f"Locus {locus} cannot be found in the gate properties characterization settings.")
 
-    def set_source(self, source: SourceType, ignore_nones: bool = True) -> None:
+    def set_shots(self, shots: int, averaging_bins: int | None = None) -> None:
+        """Set ``playlist_repeats`` and ``averaging_bins`` under ``self.controllers.options``.
+
+        Args:
+            shots: The number of shots.
+            averaging_bins: The number of averaging bins. If ``None``, the same value as in ``shots`` will be used,
+                i.e. no averaging is done.
+
+        """
+        self._mark_index_dirty()
+        controller_settings = self["controllers"] if "controllers" in self.children else self
+        if "options" not in controller_settings.subtrees:
+            raise KeyError("CommonOptionsControllers cannot be found in the controller settings.")
+        controller_settings.options.playlist_repeats = shots
+        controller_settings.options.averaging_bins = averaging_bins if averaging_bins is not None else shots
+
+    def set_source(self, source: SourceType, ignore_nones: bool = True, ignore_populated: bool = False) -> None:
         """Set source recursively to all Settings in ``self``.
 
         Args:
             source: The source to set.
             ignore_nones: If ``True``, the source will not be set for Settings with ``None`` value.
+            ignore_populated: If ``True``, the source will not be set for Settings that already have a source.
 
         """
+        self._mark_index_dirty()
         for setting in self.settings.values():
-            if not ignore_nones or setting.value is not None:
+            if (not ignore_nones or setting.value is not None) and (not ignore_populated or setting._source is None):
                 setting._source = source
         for subtree in self.subtrees.values():
             subtree.set_source(source, ignore_nones=ignore_nones)
+
+    def _repr_html_(self) -> str:
+        tmpl_path = pathlib.Path(__file__).parent
+        jenv = jinja2.Environment(loader=jinja2.FileSystemLoader(tmpl_path), auto_reload=True)
+
+        return jenv.get_template("settingnode_v2.html.jinja2").render(s=self, withsi=self._withsiprefix, startopen=0)
+
+    def _get_path(self, key: str) -> str:
+        """Return the full path for a key.
+
+        If ``self.path`` is empty, the key is returned as-is. Otherwise,
+        the key is appended to ``self.path`` using dot notation (e.g., ``"parent.child"``).
+
+        Args:
+            key: Name of the entry.
+
+        Returns:
+            The full dotted path for the given key.
+
+        """
+        if not self.path:
+            return key
+        return f"{self.path}.{key}"
+
+    def _generate_paths_and_names(self) -> None:
+        """In-place tree reconstruction to align node paths and parameter names.
+
+        This method performs a single-pass reconstruction of the subtree. It replaces
+        existing children with new instances that carry the correct hierarchical path.
+        Children are linked to their parents during this process so that updates can
+        propagate upward, allowing parents to invalidate their caches when a child changes.
+        """
+        path = self.path
+        align_name = self.align_name
+
+        for key, child in self.subtrees.items():
+            update_path = f"{path}.{key}" if path else key
+            new_node = _fix_path_recursive(child, update_path)
+            new_node._parent = self
+            self.subtrees[key] = new_node
+        for key, child in self.settings.items():
+            update_path = f"{path}.{key}" if path else key
+            if isinstance(child, Setting):
+                new_param = child.parameter
+                if align_name:
+                    # Use model_construct to bypass validation during the rename
+                    new_param = Parameter.fast_construct(
+                        name=update_path,
+                        label=new_param.label,
+                        unit=new_param.unit,
+                        data_type=new_param.data_type,
+                        collection_type=new_param.collection_type,
+                        element_indices=new_param.element_indices,
+                    )
+                self.settings[key] = Setting.fast_construct(
+                    parameter=new_param,
+                    value=child.value,
+                    read_only=child.read_only,
+                    path=update_path,
+                    source=child._source,
+                )
+            elif align_name:
+                new_param = Parameter.fast_construct(
+                    name=update_path,
+                    label=child.label,
+                    unit=child.unit,
+                    data_type=child.data_type,
+                    collection_type=child.collection_type,
+                    element_indices=child.element_indices,
+                )
+                self.settings[key] = Setting.fast_construct(parameter=new_param, value=None, path=update_path)
+        if path and align_name:
+            self.name = path
+
+    def _withsiprefix(self, val: Any, unit: str) -> tuple[Any, str]:
+        """Turn a numerical value and unit, and return rescaled value and SI prefixed unit.
+
+        Unit must be a whitelisted SI base unit.
+        """
+        if not isinstance(val, numbers.Real):
+            return val, unit
+        if unit not in {"Hz", "rad", "s", "V"}:
+            return val, unit
+
+        val = float(val)
+
+        pfx = ""
+        for p in "kMGP":
+            if abs(val) <= 10e3:
+                break
+            val *= 1e-3
+            pfx = p
+        for p in "mμnp":
+            if not 1 > abs(val) > 0:
+                break
+            val *= 1e3
+            pfx = p
+
+        return val, f"{pfx}{unit}"
 
     def _get_symmetric_loci(self, gate: str, implementation: str, locus: str | Iterable[str]) -> list[str]:
         if not isinstance(locus, str):
@@ -1074,7 +1436,108 @@ class SettingNode(BaseModel):
             str_loci = [locus]
         return str_loci
 
-    def _get_path(self, key) -> str:  # noqa: ANN001
-        if not self.path:
-            return key
-        return f"{self.path}.{key}"
+    def _ipython_key_completions_(self) -> list[str]:
+        """List items and subtree names, so they occur in IPython autocomplete after ``node[<TAB>``"""
+        return [*self.settings, *self.subtrees]
+
+    @staticmethod
+    def _populate_children_from_kwargs(
+        settings: dict[str, Any],
+        subtrees: dict[str, Any],
+        kwargs: dict[str, Any],
+    ) -> None:
+        """Move children from kwargs into settings and subtrees in-place, and remove them from kwargs."""
+        to_delete: list[str] = []
+
+        for key, child in kwargs.items():
+            if isinstance(child, Setting):
+                settings[key] = child
+                to_delete.append(key)
+            elif isinstance(child, Parameter):
+                settings[key] = Setting(parameter=child, value=None, path=key)
+                to_delete.append(key)
+            elif isinstance(child, SettingNode):
+                subtrees[key] = child
+                to_delete.append(key)
+            # else: leave it in kwargs for BaseModel / callers to see
+
+        for key in to_delete:
+            kwargs.pop(key)
+
+    def _ensure_index_attributes(self) -> None:
+        """Make sure index-related attributes exist.
+
+        This is defensive: some code paths may touch the indices
+        before __init__/fast_construct has fully initialised them.
+        """
+        for index_attr, factory in _INDEX_ATTRIBUTES.items():
+            if index_attr not in self.__dict__:
+                object.__setattr__(self, index_attr, factory())
+
+    def _mark_index_dirty(self) -> None:
+        """Mark this node and all ancestors as needing index rebuild."""
+        self._ensure_index_attributes()
+        self._index_by_name.clear()
+        self._index_nodes_by_type.clear()
+        self._index_dirty = True
+
+        # Bubble up: if the parent exists, it is also now dirty
+        if self._parent:
+            self._parent._mark_index_dirty()
+
+    def _rebuild_index(self) -> None:
+        """Rebuild name -> [Setting|SettingNode] index for this subtree."""
+        index: dict[str, Setting | SettingNode] = {}
+        stack: list[SettingNode] = [self]
+
+        while stack:
+            node = stack.pop()
+
+            if node.name in index:
+                # This is strange, but the current logic expects that duplicates are simply ignored
+                continue
+            index[node.name] = node
+
+            for setting in node.settings.values():
+                if setting.name in index:
+                    # This is strange, but the current logic expects that duplicates are simply ignored
+                    continue
+                index[setting.name] = setting
+
+            stack.extend(node.subtrees.values())
+
+        self._index_by_name = {key: value for key, value in index.items()}
+        self._index_dirty = False
+        self._index_nodes_by_type.clear()
+
+    def _link_children_recursive(self) -> None:
+        """Iteratively establish parent links to minimize function call overhead.
+
+        We use an iterative stack-based approach instead of a recursive call to
+        avoid Python's function call overhead. On large trees with millions of nodes,
+        the overhead of creating a new  function scope/frame for millions of calls
+        adds a significant delay to execution time.
+        """
+        stack = [self]
+        # Local cache of object.__setattr__ to shave off lookup time in the loop
+        set_attr = object.__setattr__
+
+        while stack:
+            current = stack.pop()
+
+            # Link immediate settings
+            for setting in current.settings.values():
+                set_attr(setting, "_parent", current)
+            # Link subtrees and add them to the stack for processing
+            for subtree in current.subtrees.values():
+                set_attr(subtree, "_parent", current)
+                stack.append(subtree)
+
+    def _link_children(self) -> None:
+        """Establish parent links for immediate children only."""
+        # Link immediate settings
+        for child in self.settings.values():
+            child._parent = self
+            object.__setattr__(child, "_parent", self)
+        for child in self.subtrees.values():
+            object.__setattr__(child, "_parent", self)

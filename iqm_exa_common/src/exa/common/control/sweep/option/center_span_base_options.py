@@ -37,24 +37,16 @@ class CenterSpanBaseOptions(SweepOptions):
     span: int | float
     #: Number of values to generate. Default to
     #: :const:`exa.common.control.sweep.option.constants.DEFAULT_COUNT`.
-    count: int | None = None
+    count: int = DEFAULT_COUNT
     #: Number, that is raised to the power of the range with the center `center` and the size of `span`.
     # Default to :const:`exa.common.control.sweep.option.constants.DEFAULT_BASE`.
-    base: int | float | None = None
+    base: int | float = DEFAULT_BASE
     #: Order of generated values. Default to ascending
-    asc: bool | None = None
-
-    def __post_init__(self):
-        if self.count is None:
-            object.__setattr__(self, "count", DEFAULT_COUNT)
-        if self.base is None:
-            object.__setattr__(self, "base", DEFAULT_BASE)
-        if self.asc is None:
-            object.__setattr__(self, "asc", True)
+    asc: bool = True
 
     @property
-    def data(self) -> list[int | float | complex]:
+    def data(self) -> list[int | float]:
         start = self.center - (self.span / 2)
         stop = self.center + (self.span / 2)
         (start, stop) = (start, stop) if self.asc else (stop, start)
-        return StartStopBaseOptions(start, stop, count=self.count, base=self.base).data  # type:ignore[arg-type,return-value]
+        return StartStopBaseOptions(start, stop, count=self.count, base=self.base).data

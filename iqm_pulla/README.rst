@@ -1,74 +1,60 @@
 IQM Pulla
 #########
 
-Pulla (pulse-level access) is a client-side software which allows the user to control the generation and
-execution of pulse schedules on a quantum computer. Within the existing IQM QCCSW stack, Pulla is somewhere between
-circuit-level execution and EXA-experiment.
+Pulla (pulse-level access) is a client-side Python library which enables the generation and
+execution of pulse-level jobs on an `IQM <https://meetiqm.com/>`_  quantum computer.
+Within the existing IQM QCCSW stack, Pulla is somewhere between
+circuit-level execution and EXA experiments.
 
-An interactive user guide is available as a Jupyter notebook in the `docs` folder.
+An interactive user guide is available as a Jupyter notebook in the ``docs`` folder.
 
-Use
-===
 
-Create a virtual environment and install dependencies:
+Installation
+============
+
+Create and activate a virtual environment, and install Pulla with some extras:
 
 .. code-block:: bash
 
-    conda create -y -n pulla python=3.11 pip=23.0
-    conda activate pulla
-    pip install "iqm-pulla[notebook, qiskit, qir]"
+    $ uv pip install "iqm-pulla[notebook, qiskit, qir]"
 
-The ``[qiskit]`` option is to enable Qiskit-related features and utilities, like converting Qiskit circuits to Pulla circuits, constructing a compatible compiler instance, or constructing a ``PullaBackend`` for running Qiskit jobs.
+The ``[notebook]`` option is to be able to run the example Jupyter notebooks:
+
+.. code-block:: bash
+
+    $ jupyter-notebook
+
+The ``[qiskit]`` option is to enable Qiskit-related features and utilities, like converting Qiskit circuits
+to Pulla circuits, or constructing a Qiskit-compatible compiler instance.
 
 The ``[qir]`` option is to enable QIR support, e.g. the ``qir_to_pulla`` function.
 
-The ``[notebook]`` option is to be able to run the example notebooks, using
-and run it in Jupyter Notebook:
+.. note::
 
-.. code-block:: bash
+    `uv <https://docs.astral.sh/uv/>`_ is highly recommended for practical Python environment and package management.
 
-    jupyter-notebook
 
-Development
-===========
+Documentation
+=============
 
-Install development and testing dependencies:
+Documentation for the latest version is `available online <https://docs.meetiqm.com/iqm-pulla/>`_.
 
-.. code-block:: bash
 
-    pip install -e ".[dev,notebook,qiskit,qir,testing,docs]"
+Testing
+=======
 
-e2e testing is execution of all user guides (Jupyter notebooks). User guides cover the majority of user-level features,
-so we achieve two things: end-to-end-test Pulla as a client library, and make sure the user guides are correct.
-(Server-side use of Pulla is e2e-tested as part of CoCoS.)
-
-You have to provide IQM Server URL as environment variable:
-
-.. code-block:: bash
-
-    IQM_SERVER_URL=<IQM_SERVER_URL> tox -e e2e
-
-Notebooks are executed using `jupyter execute` command. It does not print any output if there are no errors. If you want
-to run a particular notebook and see the output cells printed in the terminal, you can use ``nbconvert`` with ``jq``
+If you want to run a particular notebook and see the output cells printed in the terminal, you can use ``nbconvert`` with ``jq``
 (https://jqlang.github.io/jq/download/) like so:
 
 .. code-block:: bash
 
     jupyter nbconvert --to notebook --execute  docs/Quick\ Start.ipynb --stdout | jq -r '.cells[] | select(.outputs) | .outputs[] | select(.output_type == "stream") | .text[]'
 
-Run unit tests, build docs, build package:
-
-.. code-block:: bash
-
-    tox
-    tox -e docs
-    tox -e build
-
 
 Copyright
 =========
 
-Copyright 2025 IQM
+Copyright 2025-2026 IQM
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

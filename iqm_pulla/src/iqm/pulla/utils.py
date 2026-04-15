@@ -1,4 +1,4 @@
-# Copyright 2024-2026 IQM
+# Copyright 2024-2025 IQM
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,38 +15,39 @@
 """Utility functions for IQM Pulla."""
 
 from collections import namedtuple
-from collections.abc import Hashable, Iterable, Iterator, Sequence, Set
+from collections.abc import Hashable, Iterable, Iterator, Sequence
 from dataclasses import replace
 from itertools import chain
 import logging
 from typing import Any, TypeAlias
+import uuid
 
 import numpy as np
 from typing_extensions import deprecated
 
-from exa.common.data.setting_node import SettingNode
 from exa.common.data.value import ObservationValue
 from exa.common.helpers.deprecation import format_deprecated
 from exa.common.qcm_data.chip_topology import ChipTopology
-from iqm.cpc.compiler.errors import CalibrationError, InsufficientContextError, UnknownCircuitExecutionOptionError
-from iqm.cpc.compiler.station_settings import build_station_settings
-from iqm.cpc.interface.compiler import Circuit as CPC_Circuit
-from iqm.cpc.interface.compiler import (
-    CircuitBoundaryMode,
-    CircuitExecutionOptions,
-    CircuitMetrics,
-    HeraldingMode,
+from iqm.cpc.compiler.errors import CalibrationError, InsufficientContextError
+from iqm.cpc.interface.circuit_execution import Circuit as CPC_Circuit
+from iqm.cpc.interface.circuit_execution import (
     ReadoutMappingBatch,
 )
 from iqm.pulla.interface import HERALDING_KEY, CalibrationSetValues
+from iqm.pulla.quantum_architecture import create_dynamic_quantum_architecture
 from iqm.pulse.builder import CircuitOperation, ScheduleBuilder, build_quantum_ops
 from iqm.pulse.gate_implementation import CompositeGate, OpCalibrationDataTree
 from iqm.pulse.playlist.channel import ChannelProperties
 from iqm.pulse.playlist.instructions import Instruction
 from iqm.pulse.playlist.schedule import Schedule, Segment
 from iqm.pulse.timebox import TimeBox
-from iqm.station_control.client.qon import locus_str_to_locus
-from iqm.station_control.interface.models import CircuitMeasurementResultsBatch, ObservationBase, QubitMapping
+from iqm.station_control.client.qon import locus_str_to_locus, locus_to_locus_str
+from iqm.station_control.interface.models import (
+    CircuitMeasurementResultsBatch,
+    HeraldingMode,
+    ObservationBase,
+    QubitMapping,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -275,9 +276,7 @@ def convert_sweep_spot_to_arrays_with_heralding_mode_zero(
         if not np.any(mask):
             # TODO this is the best we can do right now, since the current iqm-client transfer format
             # cannot handle returning zero shots
-            raise RuntimeError(
-                f'Execution of circuit {circuit_idx} in heralding mode "{HeraldingMode.ZEROS}" discarded all the shots.'
-            )
+            raise RuntimeError(f"Execution of circuit {circuit_idx} in with heralding discarded all the shots.")
         yield {
             mk: np.stack(
                 [results[label][mask, _result_idx(label, circuit_idx, labels_for_circuit)] for label in labels],
@@ -464,7 +463,7 @@ def get_hash_for(circuit: CPC_Circuit) -> int:
     """
     str_repr = ""
     for idx, inst in enumerate(circuit.instructions):
-        locus_str = "__".join(inst.locus)
+        locus_str = locus_to_locus_str(inst.locus)
         str_repr += f"{idx}_{inst.name}_{locus_str}"
     return hash(str_repr)
 
@@ -520,6 +519,19 @@ def initialize_schedule_builder(
     """
     op_table = build_quantum_ops({})
 
+    # set default implementations in op_table, based on the calset
+    # TODO provide the real calset id
+    dqa = create_dynamic_quantum_architecture(
+        uuid.UUID("00000000-0000-0000-0000-000000000000"),
+        calibration_set_values,
+        chip_topology,
+    )
+    for gate_name, gate_info in dqa.gates.items():
+        op = op_table[gate_name]
+        op.set_default_implementation(gate_info.default_implementation)
+        for locus, def_impl in gate_info.override_default_implementation.items():
+            op.set_default_implementation_for_locus(def_impl, locus)
+
     channel_properties = _update_channel_props_from_calibration(
         channel_properties, component_channels, calibration_set_values
     )
@@ -566,109 +578,6 @@ def _update_channel_props_from_calibration(  # noqa: ANN202
             replacements[channel_name] = replace(channel_properties[channel_name], center_frequency=center_frequency)  # type: ignore[call-arg]
 
     return channel_properties | replacements
-
-
-def find_circuit_boundary(
-    mode: CircuitBoundaryMode,
-    circuit_components: set[str] | frozenset[str],
-    circuit_couplers: set[str],
-    device: ChipTopology,
-) -> tuple[Set[str], Set[str]]:
-    """Determine the boundary of a circuit executed on the QPU.
-
-    See :class:`.CircuitBoundaryMode` for the definitions of the circuit boundaries.
-
-    Args:
-        mode: method of determining the circuit border
-        circuit_components: all locus components used in the circuit
-        circuit_couplers: all couplers used in the circuit to apply gates
-        device: describes the QPU topology
-
-    Returns:
-        boundary locus components, boundary couplers
-
-    Raises:
-        UnknownCircuitExecutionOptionError: unknown ``mode``
-
-    """
-    if mode == CircuitBoundaryMode.NEIGHBOUR:
-        boundary_components = device.get_neighbor_locus_components(circuit_components)
-        boundary_couplers = {
-            coupler for coupler in device.get_neighbor_couplers(circuit_components) if coupler not in circuit_couplers
-        }
-    elif mode == CircuitBoundaryMode.ALL:
-        # maybe safer/better: all unused locus components/couplers are considered boundary
-        boundary_components = (device.qubits | device.computational_resonators) - circuit_components  # type: ignore[assignment]
-        boundary_couplers = device.couplers - circuit_couplers  # type: ignore[assignment]
-    else:
-        raise UnknownCircuitExecutionOptionError(f"Unknown circuit boundary mode '{str(mode)}'")
-    return boundary_components, boundary_couplers
-
-
-def build_settings(
-    shots: int,
-    calibration_set_values: CalibrationSetValues,
-    builder: ScheduleBuilder,
-    circuit_metrics: Iterable[CircuitMetrics],
-    *,
-    options: CircuitExecutionOptions,
-) -> SettingNode:
-    """Construct the Station Control settings needed for executing a batch of quantum circuits.
-
-    Args:
-        shots: number of times to execute/sample each circuit
-        calibration_set_values: calibration data for the station the circuits are executed on
-        builder: schedule builder object, encapsulating station properties and gate calibration data
-        circuit_metrics: statistics about the circuits to be executed
-        options: various discrete options for circuit execution that affect compilation
-
-    Returns:
-        Station Control settings
-
-    """
-    # NOTE: We prepare just one set of SC settings for the entire circuit batch!
-    device = builder.chip_topology
-    # coupling topology: mapping coupled locus component pairs to the name of the tunable coupler
-    device_coupled_pair_to_coupler: dict[frozenset[str], str] = {
-        frozenset(components): coupler
-        for coupler, components in device.coupler_to_components.items()
-        if len(components) == 2
-    }
-
-    # sets of components used by any of the circuits
-    circuit_components_set = frozenset.union(*(m.components for m in circuit_metrics))
-    circuit_component_pairs_set = frozenset.union(
-        *(frozenset(frozenset(pair) for pair in m.component_pairs_with_gates) for m in circuit_metrics)
-    )
-    # currently we assume all two-component gates require a coupler
-    # TODO this information should come from the gate implementation?
-    circuit_couplers_set = {device_coupled_pair_to_coupler[pair] for pair in circuit_component_pairs_set}
-
-    # build station settings using the calibration data
-    boundary_components, boundary_couplers = find_circuit_boundary(
-        options.circuit_boundary_mode,
-        circuit_components_set,
-        circuit_couplers_set,
-        device,
-    )
-    settings = build_station_settings(
-        circuit_qubits=circuit_components_set & device.qubits,
-        circuit_couplers=circuit_couplers_set,
-        # always turn all probe lines on, since figuring out exactly which lines we need for a batch
-        # of circuits is needlessly complicated and usually would yield a small benefit
-        measured_probe_lines=device.probe_lines,
-        shots=shots,
-        calibration_set_values=calibration_set_values,
-        boundary_qubits=boundary_components & device.qubits,
-        boundary_couplers=boundary_couplers,
-        flux_pulsed_qubits=[
-            component
-            for component, functions in builder.component_channels.items()
-            if "flux" in functions and component in device.qubits
-        ],
-    )
-
-    return settings
 
 
 def calset_from_observations(calset_observations: Iterable[ObservationBase]) -> dict[str, ObservationValue]:

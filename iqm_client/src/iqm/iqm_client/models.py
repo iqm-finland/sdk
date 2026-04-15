@@ -208,8 +208,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from uuid import UUID
 
-from pydantic import BaseModel, Field
-
 from iqm.pulse import Circuit
 from iqm.pulse.builder import build_quantum_ops
 from iqm.station_control.interface.models import (
@@ -226,8 +224,7 @@ _SUPPORTED_OPERATIONS = build_quantum_ops({})
 
 
 def _op_is_symmetric(name: str) -> bool:
-    """Returns True iff the given native operation is symmetric, i.e. the order of the
-    locus components does not matter.
+    """Return True iff the given native operation is symmetric, i.e. the order of the locus components does not matter.
 
     Args:
         name: name of the operation
@@ -272,73 +269,6 @@ def validate_circuit(circuit: Circuit) -> None:
         pass
     else:
         raise ValueError("Every circuit in a batch should be of type <Circuit> or <QIRCode>")
-
-
-class QuantumArchitectureSpecification(BaseModel):
-    """Quantum architecture specification."""
-
-    name: str = Field(...)
-    """Name of the quantum architecture."""
-    operations: dict[str, list[list[str]]] = Field(...)
-    """Operations supported by this quantum architecture, mapped to the allowed loci."""
-    qubits: list[str] = Field(...)
-    """List of qubits of this quantum architecture."""
-    qubit_connectivity: list[list[str]] = Field(...)
-    """Qubit connectivity of this quantum architecture."""
-
-    def __init__(self, **data):
-        operations = data.get("operations")
-        if isinstance(operations, list):
-            # backwards compatibility for the old quantum architecture format
-            qubits = data.get("qubits")
-            qubit_connectivity = data.get("qubit_connectivity")
-            # add all possible loci for the ops
-            data["operations"] = {
-                op: (qubit_connectivity if _op_arity(op) == 2 else [[qb] for qb in qubits]) for op in operations
-            }
-
-        super().__init__(**data)
-
-    def has_equivalent_operations(self, other: QuantumArchitectureSpecification) -> bool:
-        """Compares the given operation sets defined by the quantum architecture against
-        another architecture specification.
-
-        Returns:
-            True if the operation and the loci are equivalent.
-
-        """
-        return QuantumArchitectureSpecification.compare_operations(self.operations, other.operations)
-
-    @staticmethod
-    def compare_operations(ops1: dict[str, list[list[str]]], ops2: dict[str, list[list[str]]]) -> bool:
-        """Compares the given operation sets.
-
-        Returns:
-            True if the operation and the loci are equivalent.
-
-        """
-        if set(ops1) != set(ops2):
-            return False
-        for op, loci1 in ops1.items():
-            loci2 = ops2[op]
-            if _op_is_symmetric(op):
-                # for comparing symmetric instruction loci, sorting order does not matter as long as it's consistent
-                l1 = [tuple(sorted(locus)) for locus in loci1]
-                l2 = [tuple(sorted(locus)) for locus in loci2]
-            else:
-                l1 = [tuple(locus) for locus in loci1]
-                l2 = [tuple(locus) for locus in loci2]
-
-            if set(l1) != set(l2):
-                return False
-        return True
-
-
-class QuantumArchitecture(BaseModel):
-    """Quantum architecture as returned by server."""
-
-    quantum_architecture: QuantumArchitectureSpecification = Field(...)
-    """Details about the quantum architecture."""
 
 
 STANDARD_DD_STRATEGY = DDStrategy(gate_sequences=[(9, "XYXYYXYX", "asap"), (5, "YXYX", "asap"), (2, "XX", "center")])

@@ -15,12 +15,16 @@
 
 from collections.abc import Hashable
 
+from typing_extensions import deprecated
 import xarray as xr
+
+from exa.common.helpers.deprecation import format_deprecated
 
 """Helper methods for data manipulation.
 """
 
 
+@deprecated(format_deprecated(old="`add_data_array`", new="`xarray.Dataset.update`", since="2025-12-09"))
 def add_data_array(ds: xr.Dataset, da: xr.DataArray, name: Hashable | None = None) -> xr.Dataset:
     """Add data array `da` to dataset `ds`.
 
@@ -40,7 +44,7 @@ def add_data_array(ds: xr.Dataset, da: xr.DataArray, name: Hashable | None = Non
         if da.name is not None:
             name = da.name  # type: ignore[assignment]
         else:
-            raise ValueError("No name was given to the dataArray.")
+            raise ValueError("The DataArray to be added to the Dataset must have a name.")
     # Attributes of Dataset coordinates are dropped/replaced when adding a DataArray
     # https://github.com/pydata/xarray/issues/2245
     # So we need to temporarily store all coord attrs, and then add them back

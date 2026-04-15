@@ -23,10 +23,6 @@ class CHADRetrievalException(Exception):
     """Exception for CHAD retrieval failures."""
 
 
-class SettingsRetrievalException(Exception):
-    """Exception for Station Control settings retrieval failures."""
-
-
 class ChipLabelRetrievalException(Exception):
     """Exception for chip label retrieval failures."""
 
@@ -37,14 +33,4 @@ CalibrationSetValues: TypeAlias = dict[str, ObservationValue]
 
 ACQUISITION_LABEL_KEY = "m{idx}"
 ACQUISITION_LABEL = "{qubit}__{key}"
-MEASUREMENT_MODE_KEY = "__MEASUREMENT_MODE"
 HERALDING_KEY = "__HERALD"
-RESTRICTED_MEASUREMENT_KEYS = [MEASUREMENT_MODE_KEY, HERALDING_KEY]
-
-# NOTE the buffer duration needs to match all instrument granularities!
-# Integer multiples of 80 ns work with 1.8 GHz, 2.0 GHz and 2.4 GHz sample rates and 16 sample granularity,
-# which should cover all instruments currently in use. In s.
-_BUFFER_GRANULARITY = 80e-9
-BUFFER_AFTER_MEASUREMENT_PROBE = 4 * _BUFFER_GRANULARITY
-"""Buffer that allows the readout resonator and qubit state to stabilize after a probe pulse, in s.
-TODO: not needed after EXA-2089 is done."""

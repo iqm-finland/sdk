@@ -79,8 +79,10 @@ class IQMBackend(IQMBackendBase):
 
     @classmethod
     def _default_options(cls) -> Options:
-        """Qiskit method for defining the default options for running the backend. We don't use them since they would
-        not be documented here. Instead, we use the keyword arguments of the run method to pass options.
+        """Qiskit method for defining the default options for running the backend.
+
+        We don't use them since they would not be documented here.
+        Instead, we use the keyword arguments of the run method to pass options.
         """
         return Options()
 
@@ -135,7 +137,7 @@ class IQMBackend(IQMBackendBase):
         qubit_index_to_name: dict[int, str] | None = None,
         **unknown_options,
     ) -> RunRequest:
-        """Creates a run request without submitting it for execution.
+        """Create a run request without submitting it for execution.
 
         This can be used to check what would be submitted for execution by an equivalent call to :meth:`run`.
 
@@ -161,6 +163,7 @@ class IQMBackend(IQMBackendBase):
                 purpose.
             qubit_index_to_name: Mapping from qubit indices in the circuit to qubit names on the device.
                 If ``None``, :attr:`.IQMBackendBase.index_to_qubit_name` will be used.
+            unknown_options: Backwards compatibility for deprecated parameters.
 
         Returns:
             The created run request object
@@ -328,7 +331,7 @@ class IQMFacadeBackend(IQMBackend):
             self._fake_backend = backend
 
     def _validate_no_empty_cregs(self, circuit: QuantumCircuit) -> bool:
-        """Returns True if given circuit has no empty (unused) classical registers, False otherwise."""
+        """Return True if given circuit has no empty (unused) classical registers, False otherwise."""
         cregs_utilization = dict.fromkeys(circuit.cregs, 0)
         used_cregs = [circuit.find_bit(i.clbits[0]).registers[0][0] for i in circuit.data if len(i.clbits) > 0]
         for creg in used_cregs:
@@ -345,6 +348,7 @@ class IQMFacadeBackend(IQMBackend):
         use_timeslot: bool = False,
         **options,
     ) -> JobV1:
+        """Simulate the execution of quantum circuit(s)."""
         circuits = [run_input] if isinstance(run_input, QuantumCircuit) else run_input
         circuits_validated_cregs: list[bool] = [self._validate_no_empty_cregs(circuit) for circuit in circuits]
         if not all(circuits_validated_cregs):

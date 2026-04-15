@@ -31,17 +31,8 @@ def generate_phases_of_urn_sequence(n: int) -> list[float]:
     if (n <= 0) or (n % 2 != 0):
         raise ValueError("n should be a positive even number.")
 
-    phases = []
+    phi = pi / (n // 4) if n % 4 == 0 else 2 * (n // 4) * pi / (2 * (n // 4) + 1)
 
-    for index_pulse in range(n):
-        if n % 4 == 0:
-            phi = pi / (n // 4)
-            angle = index_pulse * (index_pulse - 1) * phi / 2 + index_pulse * pi / 2
-            phases.append(angle)
-        elif n % 2 == 0:
-            phi = 2 * (n // 4) * pi / (2 * (n // 4) + 1)
-            angle = index_pulse * (index_pulse - 1) * phi / 2 + index_pulse * pi / 2
-            phases.append(angle)
-
-    phases = [p % (2 * pi) for p in phases]  # Normalize phase angles to interval [0, 2 * pi)
+    # Normalize phase angles to interval [0, 2 * pi)
+    phases = [(index_pulse * (index_pulse - 1) * phi / 2 + index_pulse * pi / 2) % (2 * pi) for index_pulse in range(n)]
     return phases

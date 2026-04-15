@@ -88,11 +88,11 @@ class MergeOneParameterGroupGates(circuits.PointOptimizer):
 
     # TODO: ZZPowGate has a period of 2
     ONE_PARAMETER_FAMILIES = (ops.ISwapPowGate, ops.ZZPowGate)
-    PERIOD = 4
-    GATE_MERGING_TOLERANCE = 1e-10
+    PERIOD: float = 4
+    GATE_MERGING_TOLERANCE: float = 1e-10
 
     @classmethod
-    def _normalize_par(cls, par):  # noqa: ANN001
+    def _normalize_par(cls, par: float) -> float:
         """Normalizes the given parameter value to (-period/2, period/2]."""
         shift = cls.PERIOD / 2
         return operator.mod(par - shift, -cls.PERIOD) + shift

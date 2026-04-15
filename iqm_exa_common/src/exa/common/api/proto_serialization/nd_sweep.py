@@ -60,5 +60,6 @@ def _unpack_single_sweep(proto: spb_SingleParameterSweep) -> Sweep:
     if proto.HasField("parameter"):
         parameter = param_proto.unpack(proto.parameter)
     else:
-        parameter = Parameter(proto.parameter_name, data_type=DataType.ANYTHING)
+        # `model_construct()` creates a new model from trusted or pre-validated data, no validation is performed
+        parameter = Parameter.model_construct(name=proto.parameter_name, data_type=DataType.ANYTHING)
     return Sweep(parameter=parameter, data=sweep_values)

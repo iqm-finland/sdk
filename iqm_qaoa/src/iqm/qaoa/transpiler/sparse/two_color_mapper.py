@@ -35,13 +35,12 @@ from dimod import BinaryQuadraticModel, to_networkx_graph
 from iqm.applications.graph_utils import residual_degree
 from iqm.qaoa.transpiler.quantum_hardware import QPU, HardQubit, LogEdge, LogQubit
 from iqm.qaoa.transpiler.routing import Mapping
-from iqm.qaoa.transpiler.sparse.edge_coloring import find_edge_coloring
 import networkx as nx
 import numpy as np
 
 
 def _decompose_into_chains_and_loops(
-    problem_bqm: BinaryQuadraticModel,
+    problem_bqm: BinaryQuadraticModel, color_sets: tuple[set[LogEdge], set[LogEdge]]
 ) -> tuple[list[list[LogQubit]], list[list[LogQubit]]]:
     r"""Decomposes a subgraph of the problem graph into chains and loops.
 
@@ -52,6 +51,8 @@ def _decompose_into_chains_and_loops(
     Args:
         problem_bqm: The problem defined as :class:`~dimod.BinaryQuadraticModel`. The problem graph is obtained
             from this variable.
+        color_sets: The two sets of edges (of the problem graph) colored by two selected colors. This is necessary for
+            the initial placement of the problem qubits onto the hardware qubits.
 
     Returns:
         Two lists containing the chains and loops of :class:`LogQubit`\s defined by the two biggest colors.
@@ -59,16 +60,9 @@ def _decompose_into_chains_and_loops(
     """
     problem_graph: nx.Graph = to_networkx_graph(problem_bqm)
 
-    # Mark all nodes in the graph as NOT endnodes.
-    nx.set_node_attributes(G=problem_graph, values={node: False for node in problem_graph.nodes}, name="endnode")
-
-    # Find the color sets (i.e., sets of edges of the same color) and sort them by size.
-    color_sets, _ = find_edge_coloring(problem_graph)
-    color_sets = sorted(color_sets, key=len, reverse=True)
-
     # A list of edges of the two largest colors (remade so that they're tuples and not frozensets).
     # Because ``edge`` is a ``frozenset``, ``mypy`` doesn't know that ``tuple(edge)`` has length 2 without the ``cast``.
-    twocolor_edges = cast(list[tuple[LogQubit, LogQubit]], [tuple(edge) for edge in color_sets[0] | color_sets[1]])
+    twocolor_edges = [cast(tuple[LogQubit, LogQubit], tuple(edge)) for edge in color_sets[0] | color_sets[1]]
     # Create a subgraph, containing only the edges of the two largest colors.
     twocolor_graph = problem_graph.edge_subgraph(twocolor_edges)
     components = [twocolor_graph.subgraph(c).copy() for c in nx.connected_components(twocolor_graph)]
@@ -273,7 +267,9 @@ def _append_to_layer(mapping: Mapping, log_qb0: LogQubit, log_qb1: LogQubit, int
     int_layer.append(frozenset((hard_qb0, hard_qb1)))
 
 
-def two_color_mapper(problem_bqm: BinaryQuadraticModel, qpu: QPU) -> tuple[Mapping, list[list[LogEdge]]]:
+def two_color_mapper(
+    problem_bqm: BinaryQuadraticModel, qpu: QPU, color_sets: tuple[set[LogEdge], set[LogEdge]]
+) -> tuple[Mapping, list[list[LogEdge]]]:
     """Finds an initial mapping between logical and hardware qubits.
 
     The mapping is constructed so that almost all interactions of two colors of an edge coloring of the problem graph
@@ -286,6 +282,8 @@ def two_color_mapper(problem_bqm: BinaryQuadraticModel, qpu: QPU) -> tuple[Mappi
         problem_bqm: The :class:`~dimod.BinaryQuadraticModel` representation of the problem.
         qpu: The QPU, an object of the :class:`~iqm.qaoa.transpiler.quantum_hardware.QPU` class (or any of its
             subclasses).
+        color_sets: The two sets of edges (of the problem graph) colored by two selected colors. This is necessary for
+            the initial placement of the problem qubits onto the hardware qubits.
 
     Returns:
         The initial mapping (as :class:`~iqm.qaoa.transpiler.routing.Mapping`) and a list of two lists of
@@ -293,7 +291,7 @@ def two_color_mapper(problem_bqm: BinaryQuadraticModel, qpu: QPU) -> tuple[Mappi
         layers of the routing algorithm.
 
     """
-    chains, loops = _decompose_into_chains_and_loops(problem_bqm)
+    chains, loops = _decompose_into_chains_and_loops(problem_bqm, color_sets)
 
     # Concatenate all of the chains and loops in one long list.
     concatenated_chains_and_loops = list(itertools.chain(*chains, *loops))

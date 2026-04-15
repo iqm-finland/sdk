@@ -27,10 +27,13 @@ The module also contains four type aliases, which are imported by other modules 
 from __future__ import annotations
 
 from collections.abc import Iterator
+import re
 from typing import TYPE_CHECKING, Any, TypeAlias, cast
+import warnings
 
 from iqm.qaoa.transpiler.rx_to_nx import rustworkx_to_networkx
 from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
+from iqm.qiskit_iqm.iqm_provider import IQMBackend
 from matplotlib.axes import Axes
 import matplotlib.pyplot as plt
 import networkx as nx
@@ -171,6 +174,11 @@ class CrystalQPUFromBackend(QPU):
     shift). However, it appears difficult to calculate these coordinates just from the topology graph, so instead
     a helper function is used with hard-coded sets of coordinates for IQM's public QPU designs.
 
+    If the provided ``backend`` is an instance of :class:`~iqm.qiskit_iqm.iqm_provider.IQMBackend`, then it contains an
+    instance of :class:`~iqm.iqm_client.IQMClient` which can be used to get the calibration data (CZ gate fidelity).
+    This can be in turn used for more advanced transpilation methods (e.g., prioritizing applying gates on connections
+    with high CZ gate fidelity).
+
     Args:
         backend: The backend containing information about the QPU.
 
@@ -182,6 +190,37 @@ class CrystalQPUFromBackend(QPU):
         # The coupling map may be a directed graph, so we make it un-directed.
         if isinstance(hw_graph, nx.DiGraph):
             hw_graph = hw_graph.to_undirected()
+
+        if isinstance(backend, IQMBackend):
+            calibration_data = backend.client.get_calibration_quality_metrics()
+
+            for benchmarking_method in calibration_data["metrics"].values():
+                cz_gate_fidelities = benchmarking_method.get("cz", {})
+                for gate_implementation in cz_gate_fidelities.values():
+                    # We don't expect duplicates here (i.e., each gate is only implemented one way).
+                    for hardedge_name_string, hardedge_info in gate_implementation.items():
+                        qb1_name, qb2_name = map(int, re.findall(r"QB(\d+)", hardedge_name_string))
+                        if not hw_graph.has_edge(qb1_name - 1, qb2_name - 1):
+                            # Ignore fidelity data for edges not in the coupling map.
+                            warnings.warn(
+                                f"The edge between qubits {qb1_name - 1} and {qb2_name - 1}) does not exist in the "
+                                f"coupling map, but it has an entry in the calibration data {hardedge_name_string}. "
+                                f"This calibration data is being ignored.",
+                                RuntimeWarning,
+                                stacklevel=2,
+                            )
+                            continue
+
+                        cz_fidelity = hardedge_info["fidelity"].value
+                        # Qubit names start at 1, not 0.
+                        if "fidelity" in hw_graph[qb1_name - 1][qb2_name - 1]:
+                            raise KeyError(
+                                f"The connection between qubits {hardedge_name_string} has more than one "
+                                f"CZ fidelity entry in the calibration set."
+                            )
+
+                        hw_graph[qb1_name - 1][qb2_name - 1]["fidelity"] = cz_fidelity
+
         # For Crystal QPUs we get the layout here.
         hardware_layout = _layout_of_crystal(hw_graph.number_of_nodes())
         super().__init__(hw_graph, hardware_layout)

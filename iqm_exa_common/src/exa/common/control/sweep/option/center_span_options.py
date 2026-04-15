@@ -42,15 +42,13 @@ class CenterSpanOptions(SweepOptions):
     #: Size of spacing between values.
     step: int | float | complex | None = None
     #: Order of generated values. Default to ascending
-    asc: bool | None = None
+    asc: bool = True
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if self.count is not None and self.step is not None:
             object.__setattr__(self, "step", None)
         if self.count is None and self.step is None:
             object.__setattr__(self, "count", DEFAULT_COUNT)
-        if self.asc is None:
-            object.__setattr__(self, "asc", True)
 
     @property
     def data(self) -> list[int | float | complex]:

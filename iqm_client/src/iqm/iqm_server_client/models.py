@@ -44,7 +44,7 @@ class QuantumComputer(PydanticBase):
 
 
 class ListQuantumComputersResponse(PydanticBase):
-    """Response of GET /v1/quantum-computers"""
+    """Response of GET /v1/quantum-computers."""
 
     quantum_computers: list[QuantumComputer]
     """List of available quantum computers."""

@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 from abc import ABC
+import copy
 import logging
 from typing import Final
 
@@ -49,8 +50,10 @@ class IQMBackendBase(BackendV2, ABC):
         **kwargs,
     ):
         super().__init__(name=name, **kwargs)
+        architecture = self._filter_dqa(architecture)
         self.architecture = architecture
         self.metrics = metrics
+
         # Qiskit uses integer indices to refer to qubits, so we need to map component names to indices.
         # Because of the way the Target and the transpiler interact, the resonators need to have higher indices than
         # qubits, or else transpiling with optimization_level=0 will fail because of lacking resonator indices.
@@ -80,6 +83,22 @@ class IQMBackendBase(BackendV2, ABC):
         self._qb_to_idx = qb_to_idx
         self._idx_to_qb = {v: k for k, v in qb_to_idx.items()}
         self._coupling_map = self.target.build_coupling_map()
+
+    @staticmethod
+    def _filter_dqa(dqa: DynamicQuantumArchitecture) -> DynamicQuantumArchitecture:
+        """Remove unusable gates and qubits from the DQA.
+
+        Qiskit transpiler makes some assumptions about gate availability. We filter out from the DQA
+        all qubits and gate loci for which we do not have a "measure" operation available.
+        """
+        measurable_qubits = frozenset(q for locus in dqa.gates["measure"].loci for q in locus)
+        usable_locus_components = measurable_qubits | frozenset(dqa.computational_resonators)
+        dqa = copy.deepcopy(dqa)
+        dqa.qubits = [q for q in dqa.qubits if q in measurable_qubits]
+        for gate_info in dqa.gates.values():
+            for impl_info in gate_info.implementations.values():
+                impl_info.loci = tuple(locus for locus in impl_info.loci if set(locus) <= usable_locus_components)
+        return dqa
 
     @property
     def target(self) -> Target:
@@ -155,3 +174,11 @@ class IQMBackendBase(BackendV2, ABC):
     def get_scheduling_stage_plugin(self) -> str:
         """Return the plugin that should be used for scheduling the circuits on this backend."""
         return "iqm_default_scheduling"
+
+    @property
+    def max_circuits(self) -> int | None:
+        """Maximum number of circuits for a single job.
+
+        None means unlimited.
+        """
+        return None

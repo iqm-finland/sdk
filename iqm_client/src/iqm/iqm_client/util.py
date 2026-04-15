@@ -20,16 +20,17 @@ import numpy as np
 
 
 class IQMJSONEncoder(JSONEncoder):
-    """JSONEncoder that that adds support for some non-JSON datatypes"""
+    """JSONEncoder that that adds support for some non-JSON datatypes."""
 
-    def default(self, o: Any):  # noqa: ANN201
+    def default(self, o: Any) -> Any:
+        """Convert ``o`` into a serializable object."""
         if isinstance(o, np.ndarray):
             return o.tolist()
         return JSONEncoder.default(self, o)
 
 
 def to_json_dict(obj: dict[str, Any]) -> dict:
-    """Convert a dict to JSON serializable dict
+    """Convert a dict to JSON serializable dict.
 
     Args:
         obj: dict to convert

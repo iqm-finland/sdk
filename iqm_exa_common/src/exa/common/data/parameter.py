@@ -75,6 +75,20 @@ from exa.common.data.base_model import BaseModel
 from exa.common.data.value import ObservationValue
 from exa.common.errors.station_control_errors import ValidationError
 
+SettingValue: TypeAlias = ObservationValue | list | None
+"""Setting.value type system is wider than the one used by Observations. FIXME unify them."""
+
+
+def setting_value_to_observation(value: SettingValue) -> ObservationValue:
+    """Temporary helper function for converting Setting values to Observation values."""
+    if value is None:
+        raise ValueError("Tried to convert a None-valued Setting into an Observation.")
+    if isinstance(value, list):
+        # Observation serialization does not handle lists, convert to array
+        return np.array(value)
+    return value
+
+
 CastType: TypeAlias = str | list["CastType"] | None
 SourceType: TypeAlias = None | BaseModel | dict[str, Any]
 """Type for Setting sources."""
@@ -168,6 +182,10 @@ class CollectionType(IntEnum):
         return value
 
 
+_PARAMETER_CACHE = {}
+"""Flyweight parameter cache to deduplicate Parameter instances and bypass Pydantic construction overhead."""
+
+
 class Parameter(BaseModel):
     """A basic data structure that represents a single variable.
 
@@ -228,27 +246,82 @@ class Parameter(BaseModel):
             element_indices=element_indices,
             **kwargs,
         )
-        if self.element_indices is not None:
-            if self.collection_type is not CollectionType.SCALAR:
-                raise ValidationError("Element-wise parameter must have 'CollectionType.SCALAR' collection type.")
+        if element_indices is not None:
+            self._finalize_element_indices()
 
-            match self.element_indices:
-                case [_i, *_more_is] as idxs:
-                    # matches anything non-empty Sequence-ish, as a list, (but not dicts or str/bytes and such)
-                    idxs = list(idxs)
-                case int(idx):
-                    idxs = [idx]
-                case _:
-                    raise ValidationError("Parameter 'element_indices' must be one or more ints.")
-            object.__setattr__(self, "element_indices", idxs)
-            # there may be len(idxs) num of "__" separated indices at the end, remove those to get the parent name
-            seperated_indices = "__".join([str(idx) for idx in idxs])
-            parent_name = self.name.replace("__" + seperated_indices, "")
-            object.__setattr__(self, "_parent_name", parent_name)
-            object.__setattr__(self, "_parent_label", self.label.replace(f" {idxs}", ""))
-            object.__setattr__(self, "label", f"{self._parent_label} {idxs}")
-            name = parent_name + "__" + seperated_indices
-            object.__setattr__(self, "name", name)
+    @classmethod
+    def fast_construct(
+        cls,
+        name: str,
+        label: str = "",
+        unit: str = "",
+        data_type: DataType | tuple[DataType, ...] | int | str = DataType.FLOAT,
+        collection_type: CollectionType | int | str = CollectionType.SCALAR,
+        element_indices: int | list[int] | None = None,
+        **kwargs,
+    ) -> Parameter:
+        """Fast construction alternative to __init__ from trusted serialized dict  using model_construct.
+
+        Does NOT call __init__, i.e. no validation, etc.
+        Intended for already-normalised / trusted data.
+        """
+        # Check if this exact parameter already exists
+        key = cls.get_cache_key(name, label, unit, data_type, collection_type, element_indices)
+        if key in _PARAMETER_CACHE:
+            return _PARAMETER_CACHE[key]
+
+        # Normalize data_type
+        if isinstance(data_type, int):
+            data_type = DataType(data_type)
+        elif isinstance(data_type, str):
+            data_type = DataType[data_type]
+        if data_type == DataType.NUMBER:
+            warnings.warn(
+                "data_type 'DataType.NUMBER' is deprecated, use 'DataType.FLOAT' instead.",
+                DeprecationWarning,
+            )
+            # Consider DataType.NUMBER as a deprecated alias for DataType.FLOAT
+            data_type = DataType.FLOAT
+
+        # Normalize collection_type
+        if isinstance(collection_type, int):
+            collection_type = CollectionType(collection_type)
+        elif isinstance(collection_type, str):
+            collection_type = CollectionType[collection_type]
+
+        if not label:
+            label = name
+
+        # Build without validation
+        parameter = cls.model_construct(
+            name=name,
+            label=label,
+            unit=unit,
+            data_type=data_type,
+            collection_type=collection_type,
+            element_indices=element_indices,
+            **kwargs,
+        )
+
+        if element_indices is not None:
+            parameter._finalize_element_indices()
+
+        _PARAMETER_CACHE[key] = parameter
+        return parameter
+
+    @staticmethod
+    def get_cache_key(
+        name: str,
+        label: str,
+        unit: str,
+        data_type: DataType | tuple[DataType, ...],
+        collection_type: CollectionType,
+        element_indices: int | list[int] | None,
+    ) -> tuple:
+        """Generates a hashable tuple from parameter metadata for cache lookups."""
+        # Convert list to tuple for hashing; handle None/empty cases
+        indices = tuple(element_indices) if isinstance(element_indices, list) else element_indices
+        return name, label or name, unit, data_type, collection_type, indices
 
     @property
     def parent_name(self) -> str | None:
@@ -398,29 +471,49 @@ class Parameter(BaseModel):
             element_indices=indices,
         )
 
+    def _finalize_element_indices(self) -> None:
+        """Apply element_indices post-processing (name/label/parent_*)."""
+        if self.element_indices is None:
+            return
+
+        if self.collection_type is not CollectionType.SCALAR:
+            raise ValidationError("Element-wise parameter must have 'CollectionType.SCALAR' collection type.")
+
+        indices = []
+        match self.element_indices:
+            case [_i, *_more_is] as indices:
+                indices = list(indices)
+            case int(idx):
+                indices = [idx]
+            case _:
+                raise ValidationError("Parameter 'element_indices' must be one or more ints.")
+
+        object.__setattr__(self, "element_indices", indices)
+
+        separated_indices = "__".join(str(idx) for idx in indices)
+        parent_name = self.name.replace("__" + separated_indices, "")
+        object.__setattr__(self, "_parent_name", parent_name)
+        object.__setattr__(self, "_parent_label", self.label.replace(f" {indices}", ""))
+        object.__setattr__(self, "label", f"{self._parent_label} {indices}")
+        object.__setattr__(self, "name", parent_name + "__" + separated_indices)
+
 
 class Setting(BaseModel):
     """Physical quantity represented as a Parameter attached to a numerical value."""
 
     parameter: Parameter
     """The parameter this Setting represents."""
-    value: ObservationValue
-    """Data value attached to the parameter."""
+    value: SettingValue
+    """Data value attached to the parameter, or None to indicate no value."""
     read_only: bool = False
     """Indicates if the attribute is read-only."""
     path: str = ""
     """Path in the settings tree (starting from the root ``SettingNode``) for this setting."""
 
-    _source: SourceType = None
-    """The source for this Setting value. May contain an observation (ObservationDefinition or ObservationData)
-    or a source-dict (e.g. ``{"type": "configuration_source", "configurator": "defaults_from_yml"}``). By default,
-    ``None``, which denotes the source not being specified (e.g. hardcoded defaults). The source is stored in a private
-    attribute and thus is never serialized (the source field can contain non-serializable data such as Callables)."""
-
     def __init__(
         self,
         parameter: Parameter | None = None,
-        value: ObservationValue | None = None,
+        value: SettingValue = None,
         read_only: bool = False,
         path: str = "",
         source: SourceType = None,
@@ -433,7 +526,71 @@ class Setting(BaseModel):
             path=path,
             **kwargs,
         )
+        # Manually initialise internal attributes. This bypasses Pydantic’s
+        # costly `init_private_attributes` step, since these fields are not
+        # part of the validation logic and don’t require Pydantic handling.
+
+        # _parent must be initialized before other attributes (like _source) because
+        # assigning those attributes triggers __setattr__, which immediately
+        # attempts to access self._parent to propagate dirty flags.
+        # NOTE: _parent refers to the SettingNode hierarchy for dirty flag propagation.
+        # It is distinct from _parent_name/_parent_label, which are used for element-wise context.
+        self._parent = None
+        """Reference to the parent ``SettingNode``.
+        Used to propagate dirty state flags up the tree when values are modified."""
         self._source = source
+        """The source for this Setting value. May contain an observation (ObservationDefinition or ObservationData)
+        or a source-dict (e.g. ``{"type": "configuration_source", "configurator": "defaults_from_yml"}``). By default,
+        ``None``, which denotes the source not being specified.
+        The source is stored in a private attribute and thus is never serialized
+        (the source field can contain non-serializable data such as Callables)."""
+
+    @classmethod
+    def fast_construct(
+        cls,
+        parameter: Parameter,
+        value: Any,
+        read_only: bool = False,
+        path: str = "",
+        source: Any = None,
+    ) -> Self:
+        """High-performance constructor that bypasses Pydantic validation."""
+        obj = cls.model_construct(
+            parameter=parameter,
+            value=value,
+            read_only=read_only,
+            path=path,
+        )
+        # Initialize _parent first so __setattr__ doesn't crash when setting _source
+        # Bypass custom __setattr__ logic to avoid dirty-marking logic
+        object.__setattr__(obj, "_parent", None)
+        object.__setattr__(obj, "_source", source)
+        return obj
+
+    def __str__(self):
+        return f"Setting({self.parameter.label} = {self.value} {self.parameter.unit} {self.read_only=})"
+
+    def __hash__(self):
+        return hash(self.parameter)
+
+    def __eq__(self, other: Any) -> bool:
+        if not (isinstance(other, Setting) and self.parameter == other.parameter):
+            return False
+        if isinstance(self.value, np.ndarray):
+            if isinstance(other.value, np.ndarray):
+                return np.array_equal(self.value, other.value)
+            return False
+        if isinstance(other.value, np.ndarray):
+            return False
+        return self.value == other.value
+
+    def __lt__(self, other: Setting):
+        return self.parameter.__lt__(other.parameter)
+
+    def __setattr__(self, key: str, value: Any) -> None:
+        super().__setattr__(key, value)
+        if key != "_parent":
+            self._mark_index_dirty()
 
     @model_validator(mode="after")
     def validate_parameter_value_after(self) -> Self:
@@ -447,7 +604,7 @@ class Setting(BaseModel):
             raise ValidationError(f"Invalid value '{self.value}' for parameter '{self.parameter}'.")
         return self
 
-    def update(self, value: ObservationValue, source: SourceType = None) -> Setting:
+    def update(self, value: SettingValue, source: SourceType = None) -> Setting:
         """Create a new setting object with updated value and source.
 
         Args:
@@ -464,9 +621,24 @@ class Setting(BaseModel):
             )
         if isinstance(value, list) and self.parameter.collection_type == CollectionType.NDARRAY:
             value = np.array(value)
+
+        if value is None:
+            if source is not None:
+                raise ValueError("Setting with no value cannot have a source.")
+        elif source is None:
+            # to make interactive use nicer: by default use this source
+            source = {"type": "configuration_source", "configurator": "user"}
+
         # Need to create a new Setting here instead of using Pydantic model_copy().
         # model_copy() can't handle backdoor settings without errors, i.e. values with a list of 2 elements.
+        # We explicitly DO NOT set _parent here or mark it dirty.
+        # The new_setting is "detached" until it is inserted into a SettingNode.
         return Setting(self.parameter, value, self.read_only, self.path, source=source)
+
+    def _mark_index_dirty(self) -> None:
+        """Bubble the dirty signal to the parent node."""
+        if self._parent:
+            self._parent._mark_index_dirty()
 
     @property
     def name(self):  # noqa: ANN201
@@ -576,27 +748,6 @@ class Setting(BaseModel):
         """
         return self.parameter.create_element_parameter_for(indices)
 
-    def __hash__(self):
-        return hash(self.parameter)
-
-    def __eq__(self, other: Any) -> bool:
-        if not (isinstance(other, Setting) and self.parameter == other.parameter):
-            return False
-        if isinstance(self.value, np.ndarray):
-            if isinstance(other.value, np.ndarray):
-                return np.array_equal(self.value, other.value)
-            return False
-        else:
-            if isinstance(other.value, np.ndarray):
-                return False
-            return self.value == other.value
-
-    def __lt__(self, other: Setting):
-        return self.parameter.__lt__(other.parameter)
-
-    def __str__(self):
-        return f"Setting({self.parameter.label} = {self.value} {self.parameter.unit} {self.read_only=})"
-
     def with_path_name(self) -> Setting:
         """Copy of self with the parameter name replaced by the path name."""
         return self.model_copy(update={"parameter": self.parameter.model_copy(update={"name": self.path})})
@@ -623,6 +774,9 @@ class Sweep(BaseModel):
     data: SweepValues
     """List of values for :attr:`parameter`"""
 
-    def model_post_init(self, __context: Any) -> None:
+    @model_validator(mode="after")
+    def validate_parameter(self) -> Self:
         if not all(self.parameter.validate(value) for value in self.data):
             raise ValueError(f"Invalid range data {self.data} for parameter type {self.parameter.data_type}.")
+
+        return self

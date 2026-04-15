@@ -27,6 +27,9 @@ from exa.common.data.parameter import CollectionType, DataType
 from iqm.pulse.playlist import IQPulse
 from iqm.pulse.playlist.waveforms import Samples
 
+TOLERANCE = 1e-10
+"""Tolerance for floating point artefacts in waveform computations."""
+
 
 def map_waveform_param_types(type_hint: type) -> tuple[DataType, CollectionType]:
     """Map a python typehint into EXA Parameter's `(DataType, CollectionType)` tuple.
@@ -113,7 +116,7 @@ def phase_transformation(psi_1: float = 0.0, psi_2: float = 0.0) -> tuple[float,
     return psi_2, -(psi_1 + psi_2)
 
 
-def modulate_iq(pulse: IQPulse) -> np.ndarray:
+def modulate_iq(pulse: IQPulse, assert_ranges: bool = False) -> np.ndarray:
     """Sampled baseband waveform of an IQ pulse.
 
     Note that :attr:`IQPulse.phase_increment` has no effect on the sampled waveform.
@@ -124,6 +127,8 @@ def modulate_iq(pulse: IQPulse) -> np.ndarray:
 
     Args:
         pulse: IQ pulse.
+        assert_ranges: If True, check that the resulting waveform is in the range [-1, 1]. Small floating point
+            artifacts are tolerated and clipped to the range.
 
     Returns:
         The waveform of ``pulse`` as an array of complex-valued samples.
@@ -134,7 +139,19 @@ def modulate_iq(pulse: IQPulse) -> np.ndarray:
     # starting times of the samples, in units of inverse sample rate
     wave_sampletimes = np.arange(len(wave))
     wave *= np.exp(2j * np.pi * pulse.modulation_frequency * wave_sampletimes + 1j * pulse.phase)
-    return wave
+
+    if not assert_ranges:
+        return wave
+
+    max_norm = np.max(np.abs(wave))
+    if max_norm > 1.0 + TOLERANCE:
+        raise ValueError(
+            f"Modulated IQ pulse waveform not in range [-1, 1]. Reduce "
+            f"scale_i and scale_q. Max norm: {max_norm}. Amplitudes: "
+            f"{pulse.scale_i=}, {pulse.scale_q=}."
+        )
+
+    return np.clip(wave.real, -1, 1) + 1j * np.clip(wave.imag, -1, 1)
 
 
 def fuse_iq_pulses(iq_pulses: Iterable[IQPulse]) -> IQPulse:

@@ -84,7 +84,7 @@ def decode_and_validate_sweeps(sweeps_json: str) -> Sweeps:
     return cast(Sweeps, decoded)
 
 
-def decode_return_parameters(json_str: str) -> dict[Parameter, NdSweep | None]:
+def decode_return_parameters(json_str: str) -> dict[str, NdSweep | None]:
     """Deserialize return parameters.
 
     For backwards compatibility, changes values of the return parameters dict to a new,
@@ -113,7 +113,9 @@ def decode_return_parameters(json_str: str) -> dict[Parameter, NdSweep | None]:
         raise ValueError(f"Outer type is not list type when decoding: {json_str}")
 
     return_parameters = {
-        Parameter(**param_and_sweeps["parameter"]): param_and_sweeps["hard_sweeps"] for param_and_sweeps in decoded
+        # We have no need to build Pydantic objects here, we simply need the parameter "name"
+        param_and_sweeps["parameter"]["name"]: param_and_sweeps["hard_sweeps"]
+        for param_and_sweeps in decoded
     }
     return return_parameters
 
@@ -130,7 +132,7 @@ def decode_settings(json_str: str) -> SettingNode:
 
     """
     json_loads = json.loads(json_str)
-    return SettingNode(**json_loads)
+    return SettingNode.fast_construct(**json_loads)
 
 
 def _loads(*args, **kwargs) -> Any:
@@ -156,7 +158,8 @@ def _loads(*args, **kwargs) -> Any:
 
         if isinstance(obj, dict) and {"parameter", "data"}.issubset(obj):
             data = [json_helper.decode_json(d) for d in obj["data"]]
-            return Sweep(parameter=Parameter(**obj["parameter"]), data=data)
+            # `model_construct()` creates a new model from trusted or pre-validated data, no validation is performed
+            return Sweep.model_construct(parameter=Parameter.fast_construct(**obj["parameter"]), data=data)
         json_data_return = decode_json(obj)
         return json_data_return
 
@@ -179,9 +182,9 @@ class _SweepDataEncoder(json.JSONEncoder):
 
         """
         if isinstance(obj, Sweep):
-            obj = obj.model_copy().model_dump()
+            obj = obj.model_dump()
         elif isinstance(obj, Parameter):
-            obj = obj.model_copy().model_dump()
+            obj = obj.model_dump()
         elif isinstance(obj, tuple):
             obj = get_json_encoder()[tuple](obj)
         else:

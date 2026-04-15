@@ -40,6 +40,9 @@ LOCUS_SEPARATOR: Final[str] = "__"
 _PATTERN: Final[str] = r"^[A-Za-z_][A-Za-z0-9_]*$"
 """Regex that most observation name parts must follow."""
 
+_QPU_COMPONENT_PATTERN: Final[str] = r"^[A-Za-z_][A-Za-z0-9_-]*$"
+"""Regex that QPU component names must follow."""
+
 Locus: TypeAlias = tuple[str, ...]
 """Sequence of QPU component physical names a quantum operation acts on. The order may matter."""
 
@@ -68,6 +71,8 @@ class Domain(StrEnum):
     """Characterization data for the QPU."""
     METRIC = "metrics"
     """Quality metrics for quantum operations."""
+    GATE_DEFINITION = "gate_definitions"
+    """Definitions of the quantum operations."""
 
 
 class UnknownObservationError(RuntimeError):
@@ -89,7 +94,7 @@ def _parse_suffixes(suffixes: Iterable[str]) -> Suffixes:
 
 @dataclass(frozen=True, config={"extra": "forbid"})  # do not allow unknown keyword args
 class QON:
-    """Qualified observation name.
+    """ABC for qualified observation names.
 
     Used for representing, creating and parsing observation names that conform to the current convention.
     When the convention changes, the first thing you should do is to update the classes
@@ -137,12 +142,78 @@ class QON:
                 return QONMetric._parse(parts[1], parts[2])
             case Domain.CHARACTERIZATION if parts[1] == "model":
                 return QONCharacterization._parse(parts[2])
+            case Domain.CHARACTERIZATION if parts[1] == "gate_properties":
+                return QONGateCharacterization._parse(parts[2])
             case Domain.CONTROLLER_SETTING:
                 return QONControllerSetting._parse(parts[1], parts[2])
             case Domain.GATE_PARAMETER:
                 return QONGateParam._parse(parts[1], parts[2])
+            case Domain.GATE_DEFINITION:
+                return QONGateDefinition._parse(parts[1], parts[2])
 
         raise UnknownObservationError("Unknown observation domain.")
+
+
+@dataclass(frozen=True)
+class QONGateDefinition(QON):
+    """QON representing a part of a quantum operation definition.
+
+    Quantum operation properties have the form ``gate_definitions.{gate}.*``.
+
+    Implementation properties have the form ``gate_definitions.{gate}.{implementation}.*``.
+    """
+
+    gate: Annotated[str, Field(pattern=_PATTERN)]
+    """Name of the gate/quantum operation."""
+
+    implementation: str | None
+    """Name of the gate implementation, or None if not an implementation property."""
+
+    quantity: str
+    """Name of the quantity described by the observation."""
+
+    @property
+    def domain(self) -> Domain:
+        return Domain.GATE_DEFINITION
+
+    def __str__(self) -> str:
+        if self.implementation is None:
+            return _FIELD_SEPARATOR.join([self.domain, self.gate, self.quantity])
+        return _FIELD_SEPARATOR.join([self.domain, self.gate, self.implementation, self.quantity])
+
+    @classmethod
+    def _parse(cls, gate: str, rest: str) -> QONGateDefinition:
+        """Parse a gate definition observation name."""
+        parts = rest.split(_FIELD_SEPARATOR, maxsplit=1)
+        if len(parts) < 2:
+            # gate property
+            return cls(
+                gate=gate,
+                implementation=None,
+                quantity=rest,
+            )
+        if len(parts) > 2:
+            raise ValueError("gate_definitions observation name has more than 3 parts")
+
+        # implementation property
+        return QONGateDefinition(
+            gate=gate,
+            implementation=parts[0],
+            quantity=parts[1],
+        )
+
+
+@dataclass(frozen=True)
+class LocusQON(QON):
+    """ABC for QONs associated with a locus."""
+
+    locus_str: str
+    """Sequence of names of QPU components to which the observation applies, encoded into a string."""
+
+    @property
+    def locus(self) -> Locus:
+        """Locus of the observation."""
+        return locus_str_to_locus(self.locus_str)
 
 
 @dataclass(frozen=True)
@@ -161,6 +232,7 @@ class QONCharacterization(QON):
 
     component: str
     """Names of QPU component(s) that the observation describes."""
+
     quantity: str
     """Name of the quantity described by the observation."""
 
@@ -181,6 +253,44 @@ class QONCharacterization(QON):
         component, quantity = parts
         return cls(
             component=component,
+            quantity=quantity,
+        )
+
+
+@dataclass(frozen=True)
+class QONGateCharacterization(LocusQON):
+    """QON representing an auxiliary gate property, used e.g. during calibration or preprocessing.
+
+    Has the form ``characterization.gate_properties.{gate}.{implementation}.{locus_str}.{quantity}``.
+    """
+
+    gate: Annotated[str, Field(pattern=_PATTERN)]
+    """Name of the gate/quantum operation."""
+    implementation: Annotated[str, Field(pattern=_PATTERN)]
+    """Name of the gate implementation."""
+    quantity: str
+    """Name of the property. May have further dotted structure."""
+
+    @property
+    def domain(self) -> Domain:
+        return Domain.CHARACTERIZATION
+
+    def __str__(self) -> str:
+        return _FIELD_SEPARATOR.join(
+            [self.domain, "gate_properties", self.gate, self.implementation, self.locus_str, self.quantity]
+        )
+
+    @classmethod
+    def _parse(cls, rest: str) -> QONGateCharacterization:
+        """Parse a gate characterization observation name."""
+        parts = rest.split(_FIELD_SEPARATOR, maxsplit=3)
+        if len(parts) < 4:
+            raise ValueError("Gate characterization observation name has less than 6 parts")
+        gate, implementation, locus_str, quantity = parts
+        return cls(
+            gate=gate,
+            implementation=implementation,
+            locus_str=locus_str,
             quantity=quantity,
         )
 
@@ -249,16 +359,14 @@ class QONMetricRegistry:
 
 
 @dataclass(frozen=True)
-class QONMetric(QON):
+class QONMetric(LocusQON):
     """Base class for QON representing a gate quality metric.
 
     Subclasses implement parsing and string representation for specific methods.
     """
 
     method: Annotated[str, Field(pattern=_PATTERN)]
-    locus_str: str
-    """Sequence of names of QPU components on which the gate is applied, or on which the experiment is run,
-    encoded into a string."""
+    """Name of the method by which the metric was measured."""
     metric: Annotated[str, Field(pattern=r"^[A-Za-z_0-9][A-Za-z0-9_]*$")]
     """Measured metric."""
 
@@ -272,11 +380,6 @@ class QONMetric(QON):
     def domain(self) -> Domain:
         """Return the QON domain for metrics."""
         return Domain.METRIC
-
-    @property
-    def locus(self) -> Locus:
-        """Locus of the metric."""
-        return locus_str_to_locus(self.locus_str)
 
     @classmethod
     def _parse(cls, method: str, method_specific_part: str) -> QONMetric:
@@ -312,6 +415,7 @@ class QONMetric(QON):
         "ncz_swap",
         "entanglement_coherence",
         "conditional_reset",
+        "lru_benchmark",
     ]
 )
 @dataclass(frozen=True)
@@ -348,6 +452,16 @@ class QONGateMetric(QONMetric):
         locus_str: QB4
         metric: fidelity
         suffixes: {"par": "d2"}
+
+    ``metrics.irb.circuit.random_circuit.QB4.fidelity:par=d2``
+
+        method: irb
+        gate: circuit
+        implementation: random_circuit
+        locus_str: QB4
+        metric: fidelity
+        suffixes: {"par": "d2"}
+
     """
 
     gate: Annotated[str, Field(pattern=_PATTERN)]
@@ -403,15 +517,6 @@ class QONSystemMetric(QONMetric):
 
     Can parse/represent e.g. the following metrics:
 
-    ``metrics.irb.circuit.random_circuit.QB4.fidelity:par=d2``
-
-        method: irb
-        gate: circuit
-        implementation: random_circuit
-        locus_str: QB4
-        metric: fidelity
-        suffixes: {"par": "d2"}
-
     ``metrics.ghz_state.QB1__QB2.coherence_lower_bound``
 
         method: ghz_state
@@ -458,7 +563,7 @@ class QONControllerSetting(QON):
     Has the form ``controllers.{controller}[.{subcontroller}]*.{setting}``.
     """
 
-    controller: Annotated[str, Field(pattern=_PATTERN)]
+    controller: Annotated[str, Field(pattern=_QPU_COMPONENT_PATTERN)]
     """Name of the controller."""
     rest: str
     """Possible subcontroller names in a dotted structure, ending in the setting name."""
@@ -480,7 +585,7 @@ class QONControllerSetting(QON):
 
 
 @dataclass(frozen=True)
-class QONGateParam(QON):
+class QONGateParam(LocusQON):
     """QON representing a gate parameter observation.
 
     Has the form ``gates.{gate}.{implementation}.{locus_str}.{parameter}``.
@@ -490,19 +595,12 @@ class QONGateParam(QON):
     """Name of the gate/quantum operation."""
     implementation: Annotated[str, Field(pattern=_PATTERN)]
     """Name of the gate implementation."""
-    locus_str: str
-    """Sequence of names of QPU components on which the gate is applied, encoded into a string."""
     parameter: str
     """Name of the gate parameter. May have further dotted structure."""
 
     @property
     def domain(self) -> Domain:
         return Domain.GATE_PARAMETER
-
-    @property
-    def locus(self) -> Locus:
-        """Locus of the gate parameter."""
-        return locus_str_to_locus(self.locus_str)
 
     def __str__(self) -> str:
         return _FIELD_SEPARATOR.join([self.domain, self.gate, self.implementation, self.locus_str, self.parameter])
@@ -549,6 +647,7 @@ def _convert_to_float(value: Any) -> float:
 GATE_FIDELITY_METHODS = {
     "prx": "rb",
     "measure": "ssro",
+    "measure_fidelity": "ssro",
 }
 """Mapping from quantum operation name to the standard methods for obtaining its fidelity.
 The default is "irb" for ops not mentioned here."""
@@ -609,6 +708,9 @@ class ObservationFinder(dict):
                 case Domain.GATE_PARAMETER:
                     if len(path) < 5:
                         raise ValueError("Gate parameter observation name has less than 5 parts.")
+                case Domain.GATE_DEFINITION:
+                    if len(path) < 3:
+                        raise ValueError("Gate definition observation name has less than 3 parts.")
                 case _:
                     raise UnknownObservationError("Unknown observation domain.")
             for path_element in path[:-1]:
@@ -751,6 +853,15 @@ class ObservationFinder(dict):
             return _convert_to_float(error_0_to_1), _convert_to_float(error_1_to_0)
         except KeyError:
             logger.warning("Missing errors for %s.%s.%s.", gate_name, impl_name, locus_str)
+            return None
+
+    def get_measure_repeatability(self, gate_name: str, impl_name: str, locus: Locus) -> float | None:
+        """Repeatability of the measurement and given implementation/locus, or None if not found."""
+        locus_str = locus_to_locus_str(locus)
+        try:
+            return self._get_path_value(["metrics", "qndness", gate_name, impl_name, locus_str, "repeatability"])
+        except KeyError:
+            logger.warning("Missing repeatability for %s.%s.%s.", gate_name, impl_name, locus_str)
             return None
 
     def get_qubit_frequency(self, qubit: str) -> float | None:

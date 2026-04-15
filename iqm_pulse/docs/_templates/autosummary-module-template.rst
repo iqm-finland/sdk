@@ -1,9 +1,8 @@
 {{ name | escape | underline}}
 
+Full path: {{ fullname }}
+
 .. automodule:: {{ fullname }}
-
-   Full path: {{ fullname }}
-
    {% block attributes %}
    {% if attributes %}
    .. rubric:: Module Attributes

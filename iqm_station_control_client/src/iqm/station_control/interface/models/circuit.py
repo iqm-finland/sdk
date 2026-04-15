@@ -21,6 +21,7 @@ from typing import Annotated, Any, TypeAlias
 from uuid import UUID
 
 from pydantic import AliasChoices, BeforeValidator, Field, PlainSerializer, WithJsonSchema, computed_field
+from typing_extensions import deprecated
 
 from exa.common.helpers.deprecation import format_deprecated
 from iqm.pulse import Circuit, CircuitOperation
@@ -34,7 +35,14 @@ QIRCode: TypeAlias = str
 """QIR program code in string representation."""
 
 
-# TODO: remove when CUDA-Q supports the new circuit format
+# TODO: remove when CUDA-Q and AWS support the new circuit format
+@deprecated(
+    format_deprecated(
+        old="`iqm.station_control.interface.models.circuit._Instruction`",
+        new="`iqm.pulse.CircuitOperation`",
+        since="2025-11-05",
+    )
+)
 @dataclass
 class _Instruction:
     """An instruction in a quantum circuit. Old format."""
@@ -54,7 +62,12 @@ class _Instruction:
         )
 
 
-# TODO: remove when CUDA-Q supports the new circuit format
+# TODO: remove when CUDA-Q and AWS support the new circuit format
+@deprecated(
+    format_deprecated(
+        old="`iqm.station_control.interface.models.circuit._Circuit`", new="`iqm.pulse.Circuit`", since="2025-11-05"
+    )
+)
 @dataclass
 class _Circuit:
     """Quantum circuit to be executed. Old format."""

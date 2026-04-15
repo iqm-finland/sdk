@@ -20,14 +20,21 @@ from __future__ import annotations
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field, replace
 from itertools import permutations
-from typing import TYPE_CHECKING, Any, TypeAlias
+from typing import TYPE_CHECKING, TypeAlias
 
 import numpy as np
 
+from exa.common.data.parameter import Setting
 from iqm.pulse.base_utils import merge_dicts
 
 if TYPE_CHECKING:  # pragma: no cover
-    from iqm.pulse.gate_implementation import GateImplementation, Locus, OILCalibrationData, OpCalibrationDataTree
+    from iqm.pulse.gate_implementation import (
+        GateImplementation,
+        Locus,
+        NestedParams,
+        OILCalibrationData,
+        OpCalibrationDataTree,
+    )
 
 
 @dataclass(frozen=True)
@@ -85,8 +92,7 @@ class QuantumOp:
     implementations: dict[str, type[GateImplementation]] = field(default_factory=dict)
     """Maps implementation names to :class:`.GateImplementation` classes that provide them.
     Each such class should describe the implementation in detail in its docstring.
-    The implementations are in the dict in priority order, highest-priority (default) first. This global priority
-    order can be overridden per locus by the attribute ``defaults_for_locus``."""
+    """
     symmetric: bool = False
     """True iff the effect of operation is symmetric in the quantum subsystems it acts on.
     Only meaningful if ``self.arity != 1``."""
@@ -94,44 +100,51 @@ class QuantumOp:
     """True iff the operation is always factorizable to independent single-subsystem operations, which
     is also how it is implemented, for example parallel single-qubit measurements.
     In this case the operation calibration data is for individual subsystems as well."""
+    default_implementation: str = ""
+    """Use this implementation of the op by default. Must exist in :attr:`implementations`."""
     defaults_for_locus: dict[Locus, str] = field(default_factory=dict)
-    """Optionally define the implementation default individually per each locus. Maps the locus to the default
-    gate implementation name. If a locus is not found in this dict (by default, the dict is empty), falls back to the
-    global order defined in ``implementations``. The implementations must be first registered in ``implementations``."""
+    """Overrides :attr:`default_implementation` for some loci. Maps the locus to the gate
+    implementation name that should be the default for that locus. If a locus is not found in this
+    dict (by default, the dict is empty), :attr:`default_implementation` applies.
+    The listed implementations must all exist in :attr:`implementations`."""
     unitary: Callable[..., np.ndarray] | None = None
     """Unitary matrix that represents the effect of this quantum operation in the computational basis, or ``None``
     if the quantum operation is not unitary or the exact unitary is not known.
     The Callable needs to take exactly the arguments given in :attr:`params`, for example if
-    ``params={'angle': (float,), 'phase': (float,)}``, the function must have signature 
+    ``params={'angle': (float,), 'phase': (float,)}``, the function must have signature
     ``f(angle: float, phase: float) -> np.ndarray``.
     For operations acting on more than 1 qubit, unitary should be given in the big-endian order, i.e. in the basis
     ``np.kron(first_qubit_basis_ket, second_qubit_basis_ket)``."""
 
     def __post_init__(self):
-        for idx, impl_name in enumerate(self.implementations):
-            impl_cls = self.implementations[impl_name]
+        for impl_name, impl_cls in self.implementations.items():
             if impl_cls.symmetric and not self.symmetric:
                 raise ValueError(f"{self.name}.{impl_name}: non-symmetric gate cannot have a symmetric implementation.")
-            if idx == 0 and impl_cls.special_implementation:
-                raise ValueError(
-                    f"{self.name}.{impl_name}: a special implementation cannot be set as the default "
-                    "(i.e. highest priority) implementation."
-                )
+
+        # use the first implementation by default if nothing else is given
+        if self.implementations and not self.default_implementation:
+            self.__dict__["default_implementation"] = next(iter(self.implementations))  # QuantumOp is frozen
+
+        if self.default_implementation:
+            self._verify_impl_can_be_default(self.default_implementation)
+
         for impl_name in self.defaults_for_locus.values():
             if self.implementations[impl_name].special_implementation:
                 raise ValueError(
-                    f"{self.name}.{impl_name}: a special implementation cannot be set as a locus specific"
-                    " default implementation."
+                    f"{self.name}: a special implementation '{impl_name}' cannot be set as a locus specific default."
                 )
 
     def copy(self, **changes) -> QuantumOp:
         """Make a copy of ``self`` with the given changes applied to the contents."""
         return replace(self, **changes)
 
-    @property
-    def default_implementation(self) -> str:
-        """Name of the default implementation (the global default)."""
-        return next(iter(self.implementations))
+    def _verify_impl_can_be_default(self, impl_name: str) -> None:
+        """Raises a ValueError if ``impl_name`` cannot be a default implementation."""
+        if (impl := self.implementations.get(impl_name)) is None:
+            raise ValueError(f"Operation '{self.name}' has no implementation named '{impl_name}'.")
+
+        if impl.special_implementation:
+            raise ValueError(f"{self.name}: a special implementation '{impl_name}' cannot be set as a default.")
 
     def set_default_implementation(self, default: str) -> None:
         """Sets the given implementation as the default.
@@ -143,59 +156,48 @@ class QuantumOp:
             ValueError: ``default`` is unknown or is a special implementation.
 
         """
-        if (impl := self.implementations.get(default)) is None:
-            raise ValueError(f"Operation '{self.name}' has no implementation named '{default}'.")
-
-        if impl.special_implementation:
-            raise ValueError(f"{default} is a special implementation and cannot be set as the default.")
-
-        # QuantumOp is immutable, the dict is not
-        old = self.implementations.copy()
-        self.implementations.clear()
-        self.implementations[default] = impl
-        self.implementations.update(old)
+        self._verify_impl_can_be_default(default)
+        self.__dict__["default_implementation"] = default  # QuantumOp is frozen
 
     def get_default_implementation_for_locus(self, locus: Iterable[str]) -> str:
-        """Get the default (highest priority) implementation for the given locus.
+        """Get the default implementation for the given locus.
 
-        If no locus-specific priority is defined, returns the global default.
+        If no locus-specific default is defined, returns the global default.
 
         Args:
-            locus: tuple of component names defining the locus.
+            locus: Operation locus to check. For symmetric operations, checks for every locus permutation
+                in :attr:`defaults_for_locus` (starting with the original) before returning the global default.
 
         Returns:
-            The default implementation name.
+            Default implementation name for ``locus``.
 
         """
         if not self.defaults_for_locus:
             return self.default_implementation
-        if not isinstance(locus, tuple):
-            locus = tuple(locus)
+        if not isinstance(locus, Iterable) or isinstance(locus, str):
+            raise TypeError("locus must be an Iterable other than a string")
         if self.arity > 1 and self.symmetric:
             loci = list(permutations(locus))
         else:
-            loci = [locus]
+            loci = [tuple(locus)]
         for permuted_locus in loci:
-            if permuted_locus in self.defaults_for_locus:
-                return self.defaults_for_locus[permuted_locus]
+            if (default := self.defaults_for_locus.get(permuted_locus)) is not None:
+                return default
         return self.default_implementation
 
     def set_default_implementation_for_locus(self, default: str, locus: Iterable[str]) -> None:
         """Set the locus-specific default implementation.
 
         Args:
-            default: name of the new default implementation for ``locus``.
-            locus: tuple of component names defining the locus.
+            default: Name of the new default implementation for ``locus``.
+            locus: Operation locus to set.
 
         Raises:
             ValueError: if there is no implementation defined with the name ``default`` or ``default`` is a special
                 implementation.
 
         """
-        if (impl := self.implementations.get(default)) is None:
-            raise ValueError(f"Operation '{self.name}' has no implementation named '{default}'.")
-        if impl.special_implementation:
-            raise ValueError(f"{default} is a special implementation and cannot be set as a default.")
+        self._verify_impl_can_be_default(default)
         if not isinstance(locus, tuple):
             locus = tuple(locus)
         self.defaults_for_locus[locus] = default
@@ -231,7 +233,7 @@ def validate_op_calibration(calibration: OpCalibrationDataTree, ops: QuantumOpTa
 
             default_cal_data = loci.get((), {})
             for locus, cal_data in loci.items():
-                validate_locus_calibration(merge_dicts(default_cal_data, cal_data), impl, op, impl_name, locus)  # type: ignore[arg-type]
+                validate_locus_calibration(merge_dicts(default_cal_data, cal_data), impl, op, impl_name, locus)
 
 
 def validate_locus_calibration(
@@ -256,10 +258,8 @@ def validate_locus_calibration(
     # Some implementations have optional calibration parameters which we ignore here,
     # e.g. customizable member gate cal data for CompositeGates.
     # Since OILCalibrationData can have nested dicts, we do a recursive diff.
-    try:
-        _diff_dicts(cal_data, impl.parameters, set(impl.optional_calibration_keys()), [])
-    except ValueError as exc:
-        raise ValueError(f"{op.name}.{impl_name} at {locus}: {exc}") from exc
+    if error := diff_cal_data(cal_data, impl.parameters, impl.optional_calibration_keys()):
+        raise ValueError(f"{op.name}.{impl_name} at {locus}: {error}")
 
     n_components = len(locus)
     arity = op.arity
@@ -273,31 +273,47 @@ def validate_locus_calibration(
         raise ValueError(f"{op.name}.{impl_name} at {locus}: locus must have {arity} component(s)")
 
 
-def _diff_dicts(
-    cal_data: dict[str, Any], impl_parameters: dict[str, Any], ignored_keys: set[str], path: list[str]
-) -> None:
-    """Compare calibration data to the expected parameters."""
+def diff_cal_data(
+    cal_data: OILCalibrationData,
+    impl_parameters: NestedParams,
+    optional_keys: tuple[str, ...] = (),
+    path: tuple[str, ...] = (),
+) -> str | None:
+    """Compare GateImplementation calibration data to its parameters.
+
+    Args:
+        cal_data: Nested calibration data for a :class:`.GateImplementation` instance.
+        impl_parameters: Nested :class:`.GateImplementation` parameters.
+        optional_keys: Additional allowed but not required parameter names. Only on top level.
+        path: Pathname to the current nesting level.
+
+    Returns:
+        Error message, or None if ``cal_data`` matches ``impl_parameters``.
+
+    """
+    ok = set(optional_keys)
     all_parameters = set(impl_parameters)
-    # some gate params have default values
-    defaults = {k: v.value for k, v in impl_parameters.items() if hasattr(v, "value")}
-    # FIXME what is the defaults logic below? is it correct? needs a comment
-    have = {k for k, v in cal_data.items() if v is not None or (k in defaults and defaults[k] is None)}
-    need = all_parameters - set(defaults)
+    have = {k for k, v in cal_data.items() if v is not None}
+    # some gate params have a default value, others we need
+    need = {k for k, v in impl_parameters.items() if not isinstance(v, Setting)}
     if need == {"*"}:
-        return  # wildcard parameters are optional at any level
-    if diff := have - all_parameters - ignored_keys:
-        raise ValueError(f"Unknown calibration data {'.'.join(path)}.{diff}")
+        return None  # wildcard parameters are optional at any level
+    if diff := have - all_parameters - ok:
+        return f"Unknown calibration data {'.'.join(path)}.{diff}"
     if diff := need - have:
-        raise ValueError(f"Missing calibration data {'.'.join(path)}.{diff}")
+        return f"Missing calibration data {'.'.join(path)}.{diff}"
     for key, data in cal_data.items():
-        if key in ignored_keys:
+        if key in ok:
             continue
         required_value = impl_parameters[key]
-        new_path = path + [key]
+        new_path = path + (key,)
         if isinstance(required_value, dict):
             if isinstance(data, dict):
-                _diff_dicts(data, required_value, set(), new_path)
+                if error := diff_cal_data(data, required_value, (), new_path):  # recursion to nested data
+                    return error
             else:
-                raise ValueError(f"Calibration data item '{'.'.join(new_path)}' should be a dict")
+                return f"Calibration data item '{'.'.join(new_path)}' should be a dict"
         elif isinstance(data, dict):
-            raise ValueError(f"Calibration data item '{'.'.join(new_path)}' should be a scalar")
+            return f"Calibration data item '{'.'.join(new_path)}' should be a scalar"
+        # TODO could check that scalar data type matches
+    return None

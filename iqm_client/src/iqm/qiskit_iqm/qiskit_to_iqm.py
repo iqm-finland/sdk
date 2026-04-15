@@ -331,7 +331,7 @@ def serialize_instructions(  # noqa: PLR0912, PLR0915
 def deserialize_instructions(
     instructions: list[CircuitOperation], qubit_name_to_index: dict[str, int], layout: Layout
 ) -> QiskitQuantumCircuit:
-    """Helper function to turn a list of IQM Instructions into a Qiskit QuantumCircuit.
+    """Turn a list of IQM Instructions into a Qiskit QuantumCircuit.
 
     Args:
         instructions: The gates in the circuit.

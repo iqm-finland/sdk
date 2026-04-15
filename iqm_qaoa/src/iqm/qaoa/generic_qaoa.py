@@ -236,11 +236,12 @@ class QAOA(ABC):
             delta_gamma: The maximum gamma angle.
 
         """
-        for i in range(self.num_layers):
-            gamma = (i + 1) / self.num_layers * delta_gamma
-            self._angles[i] = gamma
-            beta = (1 - i / self.num_layers) * delta_beta
-            self._angles[i + 1] = beta
+        i = np.arange(self.num_layers)
+        gamma = (i + 1) / self.num_layers * delta_gamma
+        beta = (1 - i / self.num_layers) * delta_beta
+
+        self._angles[::2] = gamma
+        self._angles[1::2] = beta
 
         self._trained = True
 

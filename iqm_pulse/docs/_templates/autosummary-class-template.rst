@@ -2,12 +2,12 @@
 
 .. currentmodule:: {{ module }}
 
+Module: :mod:`{{ module }}`
+
 .. autoclass:: {{ objname }}
    :members:
-   :private-members:
    :show-inheritance:
 
-   Module: :mod:`{{ module }}`
    {% block attributes %}
    {% if attributes %}
    .. rubric:: {{ _('Attributes') }}
@@ -31,3 +31,11 @@
    {%- endfor %}
    {% endif %}
    {% endblock %}
+
+
+{% block inheritance_diagram %}
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: {{ fullname }}
+   :parts: 1
+{% endblock %}

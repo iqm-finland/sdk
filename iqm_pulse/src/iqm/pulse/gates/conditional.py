@@ -135,6 +135,9 @@ class CCPRX_Composite(CompositeGate):
             cond,
         ]
 
+    def __call__(self, *args, **kwargs) -> list[TimeBox]:  # for type narrowing
+        return super().__call__(*args, **kwargs)
+
 
 class CCPRX_Composite_DRAGCosineRiseFall(CCPRX_Composite):
     """Conditional drag_crf pulse."""

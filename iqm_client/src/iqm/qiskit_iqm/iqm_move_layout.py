@@ -25,8 +25,7 @@ from iqm.station_control.interface.models import DynamicQuantumArchitecture
 
 
 class IQMMoveLayout(TrivialLayout):
-    """Create a layout that is valid on the dynamic quantum architecture of the
-    given IQM target.
+    """Create a layout that is valid on the dynamic quantum architecture of the given IQM target.
 
     The architecture defines which gate loci are available. This class
     tries to map the virtual/logical components of the circuit to the physical QPU components
@@ -102,7 +101,7 @@ class IQMMoveLayout(TrivialLayout):
                 return False
         return True
 
-    def run(self, dag: DAGCircuit):  # noqa: ANN201
+    def run(self, dag: DAGCircuit) -> None:
         """Creates a valid layout for the given quantum circuit.
 
         Args:
@@ -195,7 +194,7 @@ class IQMMoveLayout(TrivialLayout):
         resonators: set[int] = set()
         qubit_to_idx: dict[Qubit, int] = {qubit: log_idx for log_idx, qubit in enumerate(dag.qubits)}
 
-        def _require_qubit_type(qubit: Qubit, required_type: str):  # noqa: ANN202
+        def _require_qubit_type(qubit: Qubit, required_type: str) -> None:
             """Add a requirement for the given qubit."""
             log_idx = qubit_to_idx[qubit]
             if log_idx in resonators:
@@ -205,7 +204,7 @@ class IQMMoveLayout(TrivialLayout):
                 )
             reqs.setdefault(log_idx, set()).add(required_type)
 
-        def _require_resonator(qubit: Qubit):  # noqa: ANN202
+        def _require_resonator(qubit: Qubit) -> None:
             """Add a requirement for the given resonator."""
             log_idx = qubit_to_idx[qubit]
             if log_idx in reqs:

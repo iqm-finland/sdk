@@ -23,30 +23,41 @@ from iqm.qiskit_iqm.iqm_provider import IQMProvider
 from qiskit import QuantumCircuit, transpile
 
 
-def bell_measure(server_url: str, token: str | None = None, shots: int = 1000) -> dict[str, int]:
+def bell_measure(
+    server_url: str, *, quantum_computer: str | None = None, token: str | None = None, shots: int = 1000
+) -> dict[str, int]:
     """Execute a quantum circuit that prepares and measures a generalized Bell (aka GHZ) state.
 
     Args:
-        server_url: URL of the IQM Server used for execution
-        token: API token for authentication. If not given, uses :env:`IQM_TOKEN`.
+        server_url: URL of the IQM Server used for execution (e.g. "https://resonance.meetiqm.com/").
+        quantum_computer: ID or alias of the quantum computer to connect to, if the IQM Server
+            instance controls more than one (e.g. "garnet"). ``None`` means connect to the
+            default one.
+        token: API token for authentication. If not given, uses :envvar:`IQM_TOKEN`.
         shots: Requested number of shots.
 
     Returns:
         Mapping of bitstrings representing qubit measurement results to counts for each result.
 
     """
-    print(f"Executing a circuit on {server_url}")
+    if quantum_computer is None:
+        print(f"Executing a circuit on {server_url}.")
+    else:
+        print(f"Executing circuit on {server_url} quantum computer '{quantum_computer}'.")
     # Initialize a backend without metrics as IQMClient._get_calibration_quality_metrics is not supported by resonance
-    backend = IQMProvider(server_url, token=token).get_backend()
-    if backend.num_qubits < 2:
+    backend = IQMProvider(server_url, quantum_computer=quantum_computer, token=token).get_backend()
+
+    dqa = backend.client.get_dynamic_quantum_architecture()
+    print(f"DQA={dqa}")
+
+    # Check how many qubits we can use. Pick a qubit with most neighbors.
+    coupling = backend.target.build_coupling_map()
+    n_qubits = max(coupling.connected_components(), key=lambda cmap: cmap.size()).size()
+    n_qubits = min(n_qubits, 5)  # use at most 5 qubits
+
+    if n_qubits < 2:  # noqa: PLR2004
         raise ValueError("We need two qubits for the Bell state.")
-
-    # Just to make sure that "get_static_quantum_architecture" method works
-    static_quantum_architecture = backend.client.get_static_quantum_architecture()
-    print(f"static_quantum_architecture={static_quantum_architecture}")
-
-    # Define a quantum circuit for a GHZ state
-    n_qubits = min(backend.num_qubits, 5)  # use at most 5 qubits
+    # Define a quantum circuit for a GHZ state.
     qc = QuantumCircuit(n_qubits)
     qc.h(0)
     for qb in range(1, n_qubits):
@@ -65,8 +76,11 @@ def bell_measure(server_url: str, token: str | None = None, shots: int = 1000) -
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
+    argparser.add_argument("--url", required=True, help='IQM Server URL, for example "https://resonance.meetiqm.com/"')
     argparser.add_argument(
-        "--url", required=True, help='IQM Server URL, for example "https://cocos.resonance.meetiqm.com/garnet"'
+        "--qc",
+        help="ID or alias of the quantum computer to connect to, if the IQM Server instance controls more than one "
+        '(e.g. "garnet")',
     )
     argparser.add_argument(
         "--token",
@@ -76,5 +90,5 @@ if __name__ == "__main__":
     )
 
     args = argparser.parse_args()
-    counts = bell_measure(args.url, args.token)
+    counts = bell_measure(args.url, quantum_computer=args.qc, token=args.token)
     print(counts)

@@ -23,7 +23,8 @@ import uuid
 
 from iqm.iqm_client import IQMClient
 from iqm.iqm_server_client.models import CalibrationSet, ListQuantumComputersResponse, QuantumComputer
-from mockito import ANY, mock, when
+from mockito import ANY, mock, verifyNoUnwantedInteractions, verifyStubbedInvocationsAreUsed, when
+from mockito import unstub as mockito_unstub
 import pytest
 import requests
 from requests import HTTPError, Response
@@ -31,6 +32,22 @@ from requests import HTTPError, Response
 from iqm.pulse import Circuit, CircuitOperation
 from iqm.station_control.interface import models as sc_models
 from iqm.station_control.interface.models import ObservationLite, ObservationSetData, QualityMetrics
+
+
+@pytest.fixture
+def unstub_():
+    """Guarantee that mockito.unstub() is used on teardown."""
+    yield mockito_unstub
+    mockito_unstub()
+
+
+@pytest.fixture
+def unstub(unstub_):
+    """Additionally to mockito.unstub() ensures that stubs are actually used."""
+    yield unstub_
+
+    verifyStubbedInvocationsAreUsed()
+    verifyNoUnwantedInteractions()
 
 
 def mock_quantum_computers_list_request(base_url: str, aliases: list[str]):

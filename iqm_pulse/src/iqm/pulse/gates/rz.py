@@ -114,8 +114,8 @@ class RZ_Virtual(GateImplementation):
     ):
         super().__init__(parent, name, locus, calibration_data, builder)
         drive_channel_name = builder.get_drive_channel(*locus)
-        self.channel = drive_channel_name
         self.duration = self.builder.min_allowed_instruction_duration
+        self.channel = drive_channel_name
 
     def _call(self, angle: float) -> TimeBox:  # type: ignore[override]
         """Z rotation gate.
@@ -258,8 +258,7 @@ class RZ_PRX_Composite(CompositeGate):
         prx = self.build("prx", self.locus)
         return TimeBox.composite(
             [
-                prx.ry(np.pi / 2),  # type: ignore[attr-defined]
-                prx.rx(angle),  # type: ignore[attr-defined]
-                prx.ry(-np.pi / 2),  # type: ignore[attr-defined]
+                prx(np.pi, 0),
+                prx(np.pi, angle / 2),
             ]
         )

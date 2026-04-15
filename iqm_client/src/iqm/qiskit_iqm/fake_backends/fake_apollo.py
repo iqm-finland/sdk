@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Fake (i.e. simulated) backend for IQM's 20-qubit Apollo architecture"""
+"""Fake (i.e. simulated) backend for IQM's 20-qubit Apollo architecture."""
 
 from iqm.qiskit_iqm.fake_backends.iqm_fake_backend import IQMErrorProfile, IQMFakeBackend
 

@@ -15,13 +15,12 @@ Contents
    readme
    examples
    API
+   changelog
    license
-   authors
 
 .. toctree::
    :maxdepth: 1
 
-   changelog
    References <references>
 
 

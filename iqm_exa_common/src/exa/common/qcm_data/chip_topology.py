@@ -301,6 +301,7 @@ class ChipTopology:
         components. The locus itself can be a frozenset (denoting a symmetric gate) or a tuple (non-symmetric gate).
 
         Some examples:
+
         - ``DEFAULT_2QB_MAPPING`` (added in :meth:`__init__`) maps pairs of qubits to their common coupler symmetrically.
         - Fast flux CZ-gate maps pairs of qubits to their couplers non-symmetrically (first locus qubit can perform flux pulses).
         - A two-qubit gate implementation that includes playing pulses on neighboring components in addition to the

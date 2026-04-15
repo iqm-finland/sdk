@@ -33,7 +33,9 @@ state, and acts as identity in the :math:`|11\rangle` subspace, thus being equal
 
 
 class MoveGate(Gate):
-    r"""The MOVE operation is a unitary population exchange operation between a qubit and a resonator.
+    r"""MOVE gate.
+
+    The MOVE operation is a unitary population exchange operation between a qubit and a resonator.
     Its effect is only defined in the invariant subspace :math:`S = \text{span}\{|00\rangle, |01\rangle, |10\rangle\}`,
     where it swaps the populations of the states :math:`|01\rangle` and :math:`|10\rangle`.
     Its effect on the orthogonal subspace is undefined.
@@ -53,13 +55,14 @@ class MoveGate(Gate):
        order ``[qubit, resonator]``, regardless of which component is currently holding the state.
     """
 
-    def __init__(self, label=None):  # noqa: ANN001
-        """Initializes the move gate"""
+    def __init__(self, label: str | None = None) -> None:
         super().__init__("move", 2, [], label=label)
         self.unitary = qi.Operator(MOVE_GATE_UNITARY)
 
-    def _define(self):  # noqa: ANN202
-        """This function is purposefully not defined so that that the Qiskit transpiler cannot accidentally
+    def _define(self) -> None:
+        """Gate definition.
+
+        Purposefully not defined so that that the Qiskit transpiler cannot accidentally
         decompose the MOVE gate into a sequence of other gates, instead it will throw an error.
         """
         return

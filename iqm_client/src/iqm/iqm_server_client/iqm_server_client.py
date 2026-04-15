@@ -20,7 +20,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime
 from functools import cache
-from importlib.metadata import version
+from importlib.metadata import distributions, version
 import json
 import logging
 import os
@@ -31,6 +31,7 @@ from urllib.parse import urlparse
 from uuid import UUID
 import warnings
 
+from iqm.data_definitions.station_control.v2.run_definition_pb2 import RunDefinition as RunDefinitionProto
 from iqm.iqm_server_client.models import (
     CalibrationSet,
     JobData,
@@ -46,7 +47,7 @@ from pydantic import BaseModel, TypeAdapter
 import requests
 
 from exa.common.data.setting_node import SettingNode
-from exa.common.errors.station_control_errors import map_from_status_code_to_error
+from exa.common.errors.station_control_errors import StationControlError, map_from_status_code_to_error
 from iqm.station_control.client.authentication import ClientConfigurationError, TokenManager
 from iqm.station_control.client.list_models import (
     DutList,
@@ -54,7 +55,9 @@ from iqm.station_control.client.list_models import (
     StaticQuantumArchitectureList,
 )
 from iqm.station_control.client.serializers import (
+    deserialize_run_definition,
     deserialize_sweep_results,
+    serialize_run_definition,
     serialize_sweep_job_request,
 )
 from iqm.station_control.client.serializers.channel_property_serializer import unpack_channel_properties
@@ -66,6 +69,7 @@ from iqm.station_control.interface.models import (
     DutData,
     DynamicQuantumArchitecture,
     ProgressCallback,
+    RunDefinition,
     RunRequest,
     StaticQuantumArchitecture,
     StrUUID,
@@ -82,19 +86,22 @@ CircuitCountsBatchAdapter = TypeAdapter(CircuitMeasurementCountsBatch)
 
 StrUUIDOrDefault: TypeAlias = str | UUID | Literal["default"]
 
-REQUESTS_TIMEOUT = float(os.environ.get("IQM_CLIENT_REQUESTS_TIMEOUT", 120))
+REQUESTS_TIMEOUT = float(os.environ.get("IQM_CLIENT_REQUESTS_TIMEOUT", "120"))
 
-_POLLING_INTERVAL: float = float(os.environ.get("IQM_CLIENT_SECONDS_BETWEEN_CALLS", 1.0))
+_POLLING_INTERVAL: float = float(os.environ.get("IQM_CLIENT_SECONDS_BETWEEN_CALLS", "1.0"))
 """IQM Server polling interval (in seconds)."""
 
-DEFAULT_TIMEOUT_SECONDS: float = 900.0
-"""Default timeout for waiting a job to finish."""
+DEFAULT_TIMEOUT_SECONDS: float = 10800.0  # 3 hours
+"""Default timeout (in seconds) for waiting a job to finish."""
 
 
-# INTERNAL: _IQMServerClient is an unstable, private API.
-# It may change without notice. Do not rely on it outside this package.
 class _IQMServerClient:
     """Client implementation for IQM Server REST API.
+
+    .. warning::
+
+       ``_IQMServerClient`` is an unstable, private API.
+       It may change without notice. Do not use it outside this package.
 
     Args:
         iqm_server_url: Remote IQM Server URL to connect to.
@@ -222,20 +229,69 @@ class _IQMServerClient:
         response = self._send_request(requests.get, f"quantum-computers/{self._quantum_computer}/health")
         return response.json()
 
+    def _debug_info(self) -> dict[str, Any]:
+        """Information about the client and server versions, and the platform.
+
+        .. note:: The output of this method is for internal use only, and may change without notice.
+        """
+
+        def mask_env_var(name: str) -> int | None:
+            """Mask the sensitive information in an env var, returning just its length."""
+            temp = os.environ.get(name)
+            return None if temp is None else len(temp)
+
+        # locally installed packages
+        local_dist_pkgs = distributions()
+
+        def pkg_filter(name: str) -> bool:
+            """Filter out the packages we are interested in."""
+            return name.startswith("iqm-") or name in {"cirq", "qiskit", "qiskit-aer", "qrisp"}
+
+        info = {
+            "platform.platform": platform.platform(),
+            "platform.version": platform.version(),
+            "platform.python_version": platform.python_version(),
+            "root_url": self.root_url,
+            "quantum_computer": self._quantum_computer,
+            "use_timeslot": self._use_timeslot,
+            "len(IQM_TOKEN)": mask_env_var("IQM_TOKEN"),
+            "len(IQM_TOKENS_FILE)": mask_env_var("IQM_TOKENS_FILE"),
+            "token_provider": type(self._token_manager._token_provider),
+            "auth_header_callback": self._token_manager._auth_header_callback,
+            "local packages": {dist.name: dist.version for dist in local_dist_pkgs if pkg_filter(dist.name)},
+        }
+        try:
+            info["about"] = self.get_about()
+            about_station = self.get_about_station()
+            info["about_station"] = {
+                "version": about_station["version"],
+                "software_versions": {
+                    key: value for key, value in about_station["software_versions"].items() if key.startswith("iqm-")
+                },
+            }
+        except StationControlError as exc:
+            info["server error"] = str(exc)
+        return info
+
     @cache
     def get_about(self) -> dict[str, Any]:
-        """Get information about the IQM Server."""
+        """Get information about IQM Server."""
+        response = self._send_request(requests.get, "about", use_api=False)
+        return response.json()
+
+    @cache
+    def get_about_station(self) -> dict[str, Any]:
+        """Get information about Station Control."""
         response = self._send_request(requests.get, f"quantum-computers/{self._quantum_computer}/artifacts/about")
         return response.json()
 
     def get_settings(self) -> SettingNode:
-        """Tree representation of the default settings of the quantum computer,
-        as defined in the configuration files.
-        """
+        """Default settings tree of the quantum computer, as defined in the configuration files."""
         return self._get_cached_settings().model_copy()
 
     @cache
     def _get_cached_settings(self) -> SettingNode:
+        """Get and cache the quantum computer default settings."""
         headers = {"Accept": "application/protobuf"}
         response = self._send_request(
             requests.get, f"quantum-computers/{self._quantum_computer}/artifacts/settings", headers=headers
@@ -308,9 +364,10 @@ class _IQMServerClient:
     def submit_sweep(
         self,
         sweep_definition: SweepDefinition,
+        *,
         use_timeslot: bool = False,
     ) -> JobData:
-        """Submit an N-dimensional sweep job for execution.
+        """Submit an N-dimensional sweep for execution.
 
         Args:
             sweep_definition: The content of the sweep to be created.
@@ -324,7 +381,30 @@ class _IQMServerClient:
         data = serialize_sweep_job_request(sweep_definition, queue_name="sweeps")
         return self._submit_job(job_type="sweep", protobuf_data=data, use_timeslot=use_timeslot)
 
-    def submit_circuits(self, run_request: RunRequest, use_timeslot: bool = False) -> JobData:
+    def submit_run(
+        self,
+        run_definition: RunDefinition,
+        *,
+        use_timeslot: bool = False,
+    ) -> JobData:
+        """Submit an experiment run for execution.
+
+        Args:
+            run_definition: The content of the run to be created.
+            use_timeslot: If ``True`` submit the job to the timeslot queue, otherwise
+                submit it to the shared FIFO queue.
+
+        Returns:
+            Upon successful submission: run job data, including the job ID that can be used to track it.
+
+        """
+        # We use purposefully "serialize_run_definition" here instead of "serialize_run_job_request"
+        # Enveloping run inside "SweepTaskRequestProto" isn't necessary when using the Core API.
+        # "submit_sweep" works still with the old way, new Core API works differently than the Station Control API.
+        data = serialize_run_definition(run_definition).SerializeToString()
+        return self._submit_job(job_type="run", protobuf_data=data, use_timeslot=use_timeslot)
+
+    def submit_circuits(self, run_request: RunRequest, *, use_timeslot: bool = False) -> JobData:
         """Submit a batch of quantum circuits for execution.
 
         Args:
@@ -347,7 +427,9 @@ class _IQMServerClient:
     def cancel_job(self, job_id: StrUUID) -> None:
         """Cancel a job.
 
-        If execution is in progress, it will be interrupted after the current sweep spot.
+        A canceled job will remain in the server database, but it will not be executed.
+        If the job is currently being executed, it is interrupted.
+        If the job was already executed (or failed), it will remain in its current terminal state.
 
         Args:
             job_id: The ID of the job to cancel.
@@ -356,8 +438,18 @@ class _IQMServerClient:
         self._send_request(requests.post, f"jobs/{job_id}/cancel")
 
     def delete_job(self, job_id: StrUUID) -> None:
-        """Delete a job with the given ID."""
+        """Delete a job with the given ID.
+
+        Works like :meth:`cancel_job`, but also removes the job from the IQM Server database.
+        """
         self._send_request(requests.delete, f"jobs/{job_id}")
+
+    def get_submit_run_payload(self, job_id: StrUUID) -> RunDefinition:
+        """Get the job payload, i.e. the contents of the run definition sent to IQM Server."""
+        response = self._send_request(requests.get, f"jobs/{job_id}/payload")
+        run_definition_proto = RunDefinitionProto()
+        run_definition_proto.ParseFromString(response.content)
+        return deserialize_run_definition(run_definition_proto)
 
     def get_submit_circuits_payload(self, job_id: StrUUID) -> RunRequest:
         """Get the job payload, i.e. the contents of the run request sent to IQM Server."""
@@ -381,6 +473,7 @@ class _IQMServerClient:
 
     def _submit_job(
         self,
+        *,
         job_type: str,
         json_data: str | None = None,
         protobuf_data: bytes | None = None,
@@ -414,7 +507,7 @@ class _IQMServerClient:
             job_id: The ID of the job to wait for.
             progress_callback: If not None, used to report the job progress to the caller while waiting.
                 Called with the relevant progress indicator info after each poll.
-            timeout_secs: If nonzero, give up after this time (in seconds), returning the last (nonterminal) status.
+            timeout_secs: If nonzero, stop polling after this many seconds and return the non-terminal status.
 
         Returns:
             Last seen job data.
@@ -425,23 +518,30 @@ class _IQMServerClient:
         # TODO How should the progress meter work? all the progress items should be in one list.
         max_seen_queue_position = 0
         start_time = datetime.now()
+
         while True:
             job_data = self.get_job(job_id)
+
             if job_data.queue_position is not None:
-                # still in iqm-server queue
+                # Job is still in the iqm-server queue
                 position = job_data.queue_position
                 max_seen_queue_position = max(max_seen_queue_position, position)
                 progress_callback([("Progress in queue", max_seen_queue_position - position, max_seen_queue_position)])
             elif (execution := job_data.execution) is not None:
-                # convert the progress info into the old format, report it using the callback
+                # Convert the progress info into the old format and report it using the callback
                 statuses = [(label, v.value, v.max_value) for label, v in execution.progress.items()]
                 progress_callback(statuses)
 
+            # Check for completion before enforcing the timeout to avoid false negatives
             if job_data.status in JobStatus.terminal_statuses():
                 return job_data
 
+            # Enforce the absolute timeout if one was requested
             if timeout_secs and (datetime.now() - start_time).total_seconds() >= timeout_secs:
-                # stop waiting, return a nonterminal status
+                logger.warning(
+                    f"Job {job_id} reached the timeout of {timeout_secs}s. "
+                    "Stopping polling and returning the current non-terminal status."
+                )
                 return job_data
 
             sleep(_POLLING_INTERVAL)
@@ -501,6 +601,7 @@ class _IQMServerClient:
         params: dict[str, Any] | None = None,
         json_data: str | None = None,
         protobuf_data: bytes | None = None,
+        use_api: bool = True,
     ) -> requests.Response:
         """Send an HTTP request.
 
@@ -514,6 +615,8 @@ class _IQMServerClient:
             params: HTTP query parameters to store in the query string of the request URL.
             json_data: JSON string to store in the body, may contain arbitrary Unicode characters.
             protobuf_data: Pre-serialized protobuf binary data to store in the body.
+            use_api: Iff False, append ``url_path`` to the root URL, otherwise insert the API path
+                between them.
 
         Returns:
             Response to the request.
@@ -532,7 +635,8 @@ class _IQMServerClient:
             protobuf_data=protobuf_data,
             timeout=self._timeout,
         )
-        url = f"{self.root_url}/api/{self.api_version}/{url_path}"
+        api_path = f"api/{self.api_version}/" if use_api else ""
+        url = f"{self.root_url}/{api_path}{url_path}"
         response = http_method(url, **request_kwargs)
         if not response.ok:
             try:
@@ -554,7 +658,7 @@ class _IQMServerClient:
         protobuf_data: bytes | None = None,
         timeout: float,
     ) -> dict[str, Any]:
-        """Prepare the keyword arguments for an HTTP request."""
+        """Return the keyword arguments for a :mod:`requests` HTTP method."""
         # Add default headers
         _headers = self._default_headers()
 
@@ -586,6 +690,7 @@ class _IQMServerClient:
         return _remove_empty_values(kwargs)
 
     def _default_headers(self) -> dict[str, str]:
+        """Return the default headers for an HTTP request to IQM Server."""
         headers = {
             "User-Agent": self._signature,
             "Accept": "application/json",
@@ -680,7 +785,7 @@ class IQMServerClientJob(abc.ABC):
     def cancel(self) -> None:
         """Cancel the job.
 
-        If execution is in progress, it will be interrupted after the current sweep spot.
+        See :meth:`_IQMServerClient.cancel_job`.
 
         """
         self._iqm_server_client.cancel_job(self.job_id)
@@ -690,8 +795,10 @@ class IQMServerClientJob(abc.ABC):
         *,
         timeout_secs: float = DEFAULT_TIMEOUT_SECONDS,
     ) -> JobStatus:
-        """Poll the server, updating the job status, until the job is either completed, failed, or cancelled,
-        or until we hit a timeout.
+        """Poll the server updating the job status, until the job reaches a terminal state, or until we hit a timeout.
+
+        The terminal states are "completed", "failed", and "cancelled".
+
 
         Will stop the polling (but does not cancel the job) upon receiving a KeyboardInterrupt (Ctrl-C).
         If you want to cancel the job, call :meth:`cancel`.
@@ -699,7 +806,7 @@ class IQMServerClientJob(abc.ABC):
         Modifies ``self``.
 
         Args:
-            timeout_secs: If nonzero, give up after this time (in seconds), returning the last (nonterminal) status.
+            timeout_secs: If nonzero, stop polling after this many seconds and return the non-terminal status.
 
         Returns:
             Last seen job status.

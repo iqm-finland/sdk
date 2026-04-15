@@ -28,7 +28,8 @@ the backend classes from the module :mod:`~iqm.qaoa.backends`.
 """
 
 from collections.abc import Sequence
-from typing import Any, Literal
+import inspect
+from typing import Any
 
 from dimod import BinaryQuadraticModel, to_networkx_graph
 from iqm.applications.qubo import ConstrainedQuadraticInstance, QUBOInstance
@@ -121,41 +122,9 @@ class QUBOQAOA(QAOA):
     def train(
         self,
         estimator: EstimatorBackend | None = None,
-        min_method: Literal[
-            "Nelder-Mead",
-            "nelder-mead",
-            "Powell",
-            "powell",
-            "CG",
-            "cg",
-            "BFGS",
-            "bfgs",
-            "Newton-CG",
-            "newton-cg",
-            "L-BFGS-B",
-            "l-bfgs-b",
-            "TNC",
-            "tnc",
-            "COBYLA",
-            "cobyla",
-            "COBYQA",
-            "cobyqa",
-            "SLSQP",
-            "slsqp",
-            "Trust-Constr",
-            "trust-constr",
-            "Dogleg",
-            "dogleg",
-            "Trust-NCG",
-            "trust-ncg",
-            "Trust-Exact",
-            "trust-exact",
-            "Trust-Krylov",
-            "trust-krylov",
-        ] = "COBYLA",
         **kwargs: Any,
     ) -> None:
-        """The function that performs the training of the angles.
+        r"""The function that performs the training of the angles.
 
         The training modifies :attr:`~iqm.qaoa.generic_qaoa.QAOA.angles` in-place using
         the :func:`~scipy.optimize.minimize` function from :mod:`scipy`. The training uses the provided ``estimator``.
@@ -163,16 +132,85 @@ class QUBOQAOA(QAOA):
         Args:
             estimator: An estimator :class:`~iqm.qaoa.backends.EstimatorBackend` to be used to calculating expectation
                 values for the minimization.
-            min_method: The minimization method passed to the :func:`~scipy.optimize.minimize` function.
             **kwargs: The keyword arguments to pass to the ``estimator``'s
-                :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate`.
+                :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate` and to the inner minimization
+                :func:`scipy.optimize.minimize`. The keyword arguments get passed to the correct function/method based
+                on their signatures. If any keyword argument is shared by both :func:`scipy.optimize.minimize` and
+                :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate`, its name should be prefixed by "estimate\_" or
+                "minimize\_". So for example calling `train(minimize_seed = 1337)` passes the argument `seed` into
+                :func:`scipy.optimize.minimize` and not into :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate`.
+
+        Raises:
+            TypeError: If a kwarg is prefixed with either "minimize\_" or "estimate\_", but that kwarg is not accepted
+                by :func:`scipy.optimize.minimize` / :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate`.
+            TypeError: If a kwarg is accepted by neither :func:`scipy.optimize.minimize` nor
+                :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate`
+            TypeError: If a kwarg is accepted by both :func:`scipy.optimize.minimize` and
+                :meth:`~iqm.qaoa.backends.EstimatorBackend.estimate`, but it's not prefixed, so it's ambigous where it
+                should be passed.
 
         """
+        # Assign default estimator based on number of layers.
         if estimator is None:
             if self._num_layers == 1:
                 estimator = EstimatorSingleLayer()
             else:
                 estimator = EstimatorStateVector()
+
+        # Inspect signatures.
+        sig_esti = inspect.signature(estimator.estimate).parameters
+        sig_min = inspect.signature(minimize).parameters
+
+        kwargs_esti = {}
+        kwargs_min = {}
+
+        for k, v in kwargs.items():
+            # Namespaced routing.
+            if k.startswith("estimate_"):
+                real_key = k[len("estimate_") :]
+                if real_key not in sig_esti:
+                    raise TypeError(
+                        f"Keyword '{k}' maps to '{real_key}', which is not accepted by estimator.estimate()."
+                    )
+                kwargs_esti[real_key] = v
+                continue
+
+            if k.startswith("minimize_"):
+                real_key = k[len("minimize_") :]
+                if real_key not in sig_min:
+                    raise TypeError(
+                        f"Keyword '{k}' maps to '{real_key}', which is not accepted by scipy.optimize.minimize()."
+                    )
+                kwargs_min[real_key] = v
+                continue
+
+            # Non-namespaced keyword — figure out where it goes.
+            in_esti = k in sig_esti
+            in_min = k in sig_min
+
+            if in_esti and not in_min:
+                kwargs_esti[k] = v
+            elif in_min and not in_esti:
+                kwargs_min[k] = v
+            elif in_esti and in_min:
+                # Ambiguous — require prefix.
+                raise TypeError(
+                    f"Ambiguous keyword argument '{k}': this parameter exists in both "
+                    f"estimator.estimate() and scipy.optimize.minimize().\n\n"
+                    f"To specify where it should go, use one of:\n"
+                    f"    estimate_{k}=...\n"
+                    f"    minimize_{k}=...\n\n"
+                    f"Example:\n"
+                    f"    train(..., estimate_{k}=value)   # send only to estimator.estimate()\n"
+                    f"    train(..., minimize_{k}=value)   # send only to scipy.optimize.minimize()\n\n"
+                    f"This design prevents silent misrouting of keyword arguments accepted by both functions."
+                )
+            else:
+                raise TypeError(
+                    f"Unknown keyword argument '{k}' — accepted keys are:\n"
+                    f"  estimator.estimate(): {list(sig_esti)}\n"
+                    f"  scipy.optimize.minimize(): {list(sig_min)}"
+                )
 
         def function_to_minimize(local_angles: np.ndarray) -> float:
             """Auxiliary function to be used in minimization.
@@ -191,9 +229,9 @@ class QUBOQAOA(QAOA):
 
             """
             self._angles = local_angles
-            return estimator.estimate(self, **kwargs)
+            return estimator.estimate(self, **kwargs_esti)
 
-        solution = minimize(function_to_minimize, x0=self.angles, method=min_method)
+        solution = minimize(function_to_minimize, x0=self.angles, **kwargs_min)
         self._angles = solution.x
         self._trained = True
 

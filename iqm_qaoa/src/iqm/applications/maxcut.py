@@ -85,7 +85,7 @@ class MaxCutInstance(QUBOInstance):
         self._graph = graph
         self._break_z2 = break_z2
 
-        linear = {node: 0 for node in self._graph.nodes()}
+        linear = dict.fromkeys(self._graph.nodes(), 0)
         quadratic: dict[tuple[int, int], int] = {}
         for i, j in self._graph.edges():
             quadratic[(i, j)] = quadratic.get((i, j), 0) + 2
@@ -190,13 +190,16 @@ class WeightedMaxCutInstance(QUBOInstance):
 
     Args:
         graph: The :class:`~networkx.Graph` describing the weighted maxcut problem. Each edge of the graph needs to have
-            an attribute called ``weight`` storing a number.
+            an attribute (something like "weight") storing a number. Specifically, the initialization method looks for
+            edge attributes from the tuple :py:data:`~iqm.applications.graph_utils.EDGE_ATTR_PRIORITY` (in order) and
+            takes the first one as the edge weight.
         break_z2: Boolean variable indicating whether the :math:`\mathbb{Z}_2` symmetry of the problem should be
             artificially broken, reducing the number of problem variables by 1.
 
     Raises:
         ValueError: If the input graph's nodes aren't labelled by integers starting from 0.
-        ValueError: If the input graph's edges don't all have an attribute ``weight``.
+        ValueError: If any of the input graph's edges doesn't have any attribute from the tuple of attributes
+            :py:data:`~iqm.applications.graph_utils.EDGE_ATTR_PRIORITY`.
         TypeError: If the weight of any node is a wrong data type (neither :class:`float` nor :class:`int`).
 
     """
@@ -220,7 +223,7 @@ class WeightedMaxCutInstance(QUBOInstance):
                     f"value of type {type(value).__name__}, expected ``float`` or ``int``."
                 )
 
-        linear = {node: 0 for node in self._graph.nodes()}
+        linear = dict.fromkeys(self._graph.nodes(), 0)
         quadratic: dict[tuple[int, int], int] = {}
         for i, j, edge_data in self._graph.edges(data=True):
             quadratic[(i, j)] = quadratic.get((i, j), 0) + 2 * edge_data["weight"]

@@ -69,8 +69,10 @@ class QUBOInstance(ProblemInstance):
     The class is initialized with a ``qubo_object`` variable, which stores the QUBO parameters. Valid ``qubo_object``
     is either a 2D square :class:`~numpy.ndarray`, :class:`~networkx.Graph` or
     :class:`~dimod.BinaryQuadraticModel`. In the case of a :class:`~networkx.Graph`, the interactions need to be
-    represented as the ``bias`` parameter of nodes / edges (treated as 0 if not present). Regardless of the type of
-    ``qubo_object``, the :meth:`__init__` method internally saves the problem description as :attr:`bqm`, which is a
+    represented as attributes of nodes / edges. The initialization method looks for the edge/node attributes in the
+    order specified by the tuples :py:data:`~iqm.applications.graph_utils.EDGE_ATTR_PRIORITY` and
+    :py:data:`~iqm.applications.graph_utils.NODE_ATTR_PRIORITY` respectively. Regardless of the type of ``qubo_object``,
+    the :meth:`__init__` method internally saves the problem description as :attr:`bqm`, which is a
     :class:`~dimod.BinaryQuadraticModel`.
 
     Args:
@@ -81,6 +83,14 @@ class QUBOInstance(ProblemInstance):
         allow_custom_var_names: Specifies whether the variable names should be renamed or if their original names should
             be kept. Internally, variables are labelled by consecutive integers starting from 0, so if the variables in
             the input ``qubo_object`` have different names, this should be set to ``True``.
+
+    Raises:
+        ValueError: If the provided ``qubo_object`` is a graph with a node or an edge without any attribute from
+            :py:data:`~iqm.applications.graph_utils.NODE_ATTR_PRIORITY` or
+            :py:data:`~iqm.applications.graph_utils.EDGE_ATTR_PRIORITY` respectively.
+        TypeError: If the provided ``qubo_object`` is a graph with a node or an edge with a correct attribute name, but
+            containing a value of incorrect type.
+        TypeError: If the input ``qubo_object`` is neither of the expected types.
 
     """
 
@@ -134,7 +144,7 @@ class QUBOInstance(ProblemInstance):
         elif isinstance(qubo_object, BinaryQuadraticModel):
             self._bqm = qubo_object
         else:
-            raise ValueError(
+            raise TypeError(
                 "The input is not a valid QUBO object. Valid objects are: 2D numpy array, networkx graph or dimod BQM."
             )
         if allow_custom_var_names:
@@ -196,7 +206,11 @@ class QUBOInstance(ProblemInstance):
         """
         return self._bqm
 
-    def fix_variables(self, variables: list[int] | dict[int, int]) -> None:
+    def fix_variables(
+        self,
+        variables: list[int] | list[Variable] | dict[int, int] | dict[Variable, int],
+        original_labels: bool = False,
+    ) -> None:
         """Fixes (assigns) some of the problem variables.
 
         Warning: For problems that come from a graph (such as maxcut), this doesn't change the original graph,
@@ -205,18 +219,40 @@ class QUBOInstance(ProblemInstance):
         Args:
             variables: Either a list of variables (which get all fixed to the value 1) or a dictionary with keys equal
                 to the variables to fix and whose values are equal to the values to fix them to (either 1 or 0).
+            original_labels: Is the input using the original variable labels (in case they were labeled with e.g.,
+                strings or non-consecutive integers)? This refers to the fact that the input to the problem instance
+                (in this case the input ``graph`` of :class:`ISInstance`) may have variables labelled by any hashable,
+                aliased as :class:`dimod.typing.Variable` in :mod:`dimod`. On initialization of the problem instance,
+                the problem variables are re-labeled by consecutive integers starting from 0 (for internal consistancy).
+                If ``original_labels`` is set to ``True``, this method :meth:`fix_variables` is expected to receive
+                the original names of the variables instead of their new integer labels.
+
 
         Raises:
             ValueError: If one of the variables has already been fixed previously to a different value.
 
         """
         if isinstance(variables, list):
-            variables = {var: 1 for var in variables}
-        for var in variables.keys():
-            if var in self._fixed_variables and self._fixed_variables[var] != variables[var]:
+            variables = dict.fromkeys(variables, 1)
+
+        if original_labels:
+            variables = {self.orig_to_new_labels[var_orig_label]: value for var_orig_label, value in variables.items()}
+        else:
+            for var_label in variables:
+                if not isinstance(var_label, int):
+                    raise TypeError(
+                        f"When `original_labels` is set to False (default), the types of variables to fix "
+                        f"need to be `int`. The variable {var_label} has type {type(var_label)}."
+                    )
+
+        # At this point ``variables`` should have the type ``dict[int, int]``, but mypy doesn't know that.
+        variables = cast(dict[int, int], variables)
+
+        for var, value in variables.items():
+            if var in self._fixed_variables and self._fixed_variables[var] != value:
                 raise ValueError(
                     f"The variable {var} has been fixed previously to {self._fixed_variables[var]}, "
-                    f"but now it's attempted to be fixed to {variables[var]}."
+                    f"but now it's attempted to be fixed to {value}."
                 )
         self._fixed_variables.update(variables)
         self._bqm.fix_variables(cast(Mapping[Variable, int], variables))
@@ -379,7 +415,11 @@ class ConstrainedQuadraticInstance(ProblemInstance):
 
         return bqm_to_return
 
-    def fix_variables(self, variables: list[int] | dict[int, int]) -> None:
+    def fix_variables(
+        self,
+        variables: list[int] | list[Variable] | dict[int, int] | dict[Variable, int],
+        original_labels: bool = False,
+    ) -> None:
         """Fixes (assigns) some of the problem variables.
 
         This method is not implemented in :class:`ConstrainedQuadraticInstance` because in the general case, fixing one
@@ -389,6 +429,13 @@ class ConstrainedQuadraticInstance(ProblemInstance):
         Args:
             variables: Either a list of variables (which get all fixed to the value 1) or a dictionary with keys equal
                 to the variables to fix and whose values are equal to the values to fix them to (either 1 or 0).
+            original_labels: Is the input using the original variable labels (in case they were labeled with e.g.,
+                strings or non-consecutive integers)? This refers to the fact that the input to the problem instance
+                (in this case the input ``graph`` of :class:`ISInstance`) may have variables labelled by any hashable,
+                aliased as :class:`dimod.typing.Variable` in :mod:`dimod`. On initialization of the problem instance,
+                the problem variables are re-labeled by consecutive integers starting from 0 (for internal consistancy).
+                If ``original_labels`` is set to ``True``, this method :meth:`fix_variables` is expected to receive
+                the original names of the variables instead of their new integer labels.
 
         """
         raise NotImplementedError(
@@ -466,9 +513,8 @@ class ConstrainedQuadraticInstance(ProblemInstance):
     def quality(self, bit_str: str) -> float:
         """The quality function overridden for constrainted problems.
 
-        For solutions violating the constraints, the "quality" isn't defined. If a user asks for the quality of
-        the solution, this function first checks if the constraints are satisfied, prints out a warning if they
-        aren't, and then returns the loss function.
+        Technically, for solutions violating the constraints, the "quality" isn't defined. The corresponding quantity is
+        :meth:`loss`. However, for simplicity, if a user calls this method, it just redirects to :meth:`loss`.
 
         Args:
             bit_str: A bitstring representing a solution.
@@ -477,12 +523,10 @@ class ConstrainedQuadraticInstance(ProblemInstance):
             The loss of the solution and a printed warning if the solution violates the constraints.
 
         """
-        if not self.constraints_checker(bit_str):
-            print("Constraint(s) violated, quality isn't defined, returning the loss function with default parameters")
         return self.loss(bit_str)
 
     def initialize_properties(self, max_size: int | None = 30) -> None:
-        """The initialization method for upper/lower bound, average/best quality.
+        """The initialization method for upper/lower bound, average/best quality and the corresponding bitstrings.
 
         This is the method from the parent class :class:`~iqm.applications.applications.ProblemInstance`, overridden so
         that the bruteforce search only includes solutions which satisfy the constraints.
@@ -502,16 +546,27 @@ class ConstrainedQuadraticInstance(ProblemInstance):
                 f" parameter or set it to ``None`` to bypass this error."
             )
 
-        upper_bound: float = self.quality("0" * self.dim)
-        lower_bound: float = self.quality("0" * self.dim)
+        upper_bound: float = -np.inf
+        lower_bound: float = np.inf
         average_quality: float = 0
         number_of_passing_solutions = 0
+        lowest_quality_bitstrings: set[str] = set()
+        highest_quality_bitstrings: set[str] = set()
 
         for bitstr in product("01", repeat=self.dim):
             if self.constraints_checker("".join(bitstr)):
                 qlty = self.quality("".join(bitstr))
-                upper_bound = max(upper_bound, qlty)
-                lower_bound = min(lower_bound, qlty)
+                if qlty == upper_bound:  # Quality matches upper bound -> Add bitstring to the set
+                    highest_quality_bitstrings.add("".join(bitstr))
+                elif qlty > upper_bound:  # New upper bound -> Rewrite the set of highest-quality bitstrings
+                    upper_bound = qlty
+                    highest_quality_bitstrings = {"".join(bitstr)}
+
+                if qlty == lower_bound:  # Quality matches lower bound -> Add bitstring to the set
+                    lowest_quality_bitstrings.add("".join(bitstr))
+                elif qlty < lower_bound:  # New lower bound -> Rewrite the set of lowest-quality bitstrings
+                    lower_bound = qlty
+                    lowest_quality_bitstrings = {"".join(bitstr)}
                 average_quality += qlty
                 number_of_passing_solutions += 1
 
@@ -519,6 +574,9 @@ class ConstrainedQuadraticInstance(ProblemInstance):
         self._lower_bound = lower_bound
         self._average_quality = average_quality / number_of_passing_solutions
         self._best_quality = lower_bound
+
+        self._highest_quality_bitstrings = highest_quality_bitstrings
+        self._lowest_quality_bitstrings = lowest_quality_bitstrings
 
     def fix_constraint_violation(self, counts: dict[str, int]) -> dict[str, int]:
         """Take a dictionary and change the bitstrings in it in some minimal way so that they satisfy the constraints.
@@ -611,7 +669,7 @@ def relabel_bqm_cqm_variables(
     """
     orig_to_new_names = {orig: new for new, orig in enumerate(bqm_or_cqm.variables)}
     new_to_orig_names = dict(enumerate(bqm_or_cqm.variables))
-    if set(bqm_or_cqm.variables) != set(range(bqm_or_cqm.num_variables)):
+    if set(bqm_or_cqm.variables) != set(range(len(bqm_or_cqm.variables))):
         re_named_bqm_or_cqm = bqm_or_cqm.relabel_variables(orig_to_new_names, inplace=False)
     else:
         re_named_bqm_or_cqm = bqm_or_cqm

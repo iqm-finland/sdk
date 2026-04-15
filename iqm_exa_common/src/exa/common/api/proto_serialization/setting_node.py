@@ -23,18 +23,33 @@ from exa.common.data.setting_node import Setting, SettingNode
 from exa.common.helpers.numpy_helper import coerce_numpy_type_to_native
 
 
-def _pack_setting(setting: Setting, optimize: bool) -> spb_SettingNode.Setting:
-    """Convert a Setting into protobuf representation."""
+def _pack_setting(setting: Setting, optimize: bool = False) -> spb_SettingNode.Setting:
+    """Convert a Setting into protobuf representation.
+
+    Args:
+        setting: Setting to serialize.
+        optimize: Iff True, serialize only the parameter name and value. Set to True
+            only when transmitting Settings from clients to Station Control, in the other
+            direction we need all the data.
+
+    Returns:
+        Protobuf representation of ``setting``.
+
+    """
     value = coerce_numpy_type_to_native(setting.value)
     try:
-        packed = datum.pack(value)
+        packed_value = datum.pack(value)
     except ValueError as err:
         raise ValueError(
             f"Failed to convert a value to protobuf. Value={setting.value}, Parameter={setting.parameter}."
         ) from err
     if optimize:
-        return spb_SettingNode.Setting(parameter_name=setting.name, value=packed)
-    return spb_SettingNode.Setting(parameter=param_proto.pack(setting.parameter), value=packed)
+        return spb_SettingNode.Setting(parameter_name=setting.name, value=packed_value)
+    return spb_SettingNode.Setting(
+        parameter=param_proto.pack(setting.parameter),
+        value=packed_value,
+        read_only=setting.read_only,
+    )
 
 
 def _unpack_setting(proto: spb_SettingNode.Setting) -> Setting:
@@ -42,13 +57,15 @@ def _unpack_setting(proto: spb_SettingNode.Setting) -> Setting:
     if proto.WhichOneof("parameter_desc") == "parameter":
         parameter = param_proto.unpack(proto.parameter)
     else:
-        parameter = Parameter(name=proto.parameter_name, data_type=DataType.ANYTHING)
+        # `model_construct()` creates a new model from trusted or pre-validated data, no validation is performed
+        parameter = Parameter.model_construct(name=proto.parameter_name, data_type=DataType.ANYTHING)
+
     try:
         value = datum.unpack(proto.value)
     except Exception as err:
         raise AttributeError(f"Unpacking of {parameter} {proto.value} failed.") from err
 
-    return Setting(parameter, value)  # type: ignore[arg-type]
+    return Setting(parameter, value, proto.read_only)
 
 
 def pack(node: SettingNode, minimal: bool) -> spb_SettingNode:
@@ -60,16 +77,18 @@ def pack(node: SettingNode, minimal: bool) -> spb_SettingNode:
 
     Args:
         node: SettingNode to pack, recursively.
-        minimal: If True, only the :attr:`.Parameter.name` of each Setting is preserved along with the setting value.
-            If False, the the whole :attr:`.Setting.parameter` is packed.
+        minimal: Iff True, only the :attr:`.Parameter.name` of each Setting is preserved along with the setting value.
+            Otherwise the the whole :attr:`.Setting` is packed.
+            Set to True only when transmitting Settings from clients to Station Control, in the other
+            direction we need all the data.
 
     Returns:
         Protobuf instance that represents `node`.
 
     """
     settings = {key: _pack_setting(item, minimal) for key, item in node.child_settings}
-    nodes = {key: pack(item, minimal) for key, item in node.child_nodes}
-    return spb_SettingNode(name=node.name, settings=settings, subnodes=nodes)
+    subnodes = {key: pack(item, minimal) for key, item in node.child_nodes}
+    return spb_SettingNode(name=node.name, settings=settings, subnodes=subnodes)
 
 
 def unpack(proto: spb_SettingNode) -> SettingNode:
@@ -84,7 +103,7 @@ def unpack(proto: spb_SettingNode) -> SettingNode:
 
     """
     settings = {key: _unpack_setting(content) for key, content in proto.settings.items()}
-    nodes = {key: unpack(content) for key, content in proto.subnodes.items()}
+    subnodes = {key: unpack(content) for key, content in proto.subnodes.items()}
     # Names are currently NEVER aligned with the paths when deserializing. This is safe to do, since currently nothing
     # in the server-side assumes path==name, but if such logic is added this needs to be reconsidered.
-    return SettingNode(name=proto.name, **(settings | nodes), align_name=False)  # type: ignore[arg-type]  # type: ignore[arg-type]  # type: ignore[arg-type]
+    return SettingNode.fast_construct(name=proto.name, settings=settings, subtrees=subnodes, align_name=False)

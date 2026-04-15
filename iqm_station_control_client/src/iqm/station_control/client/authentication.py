@@ -24,16 +24,16 @@ from typing import Any, TypeAlias
 REFRESH_MARGIN_SECONDS = 60
 
 
+AuthHeaderCallback: TypeAlias = Callable[[], str]
+"""Function that returns an authorization header containing a bearer token."""
+
+
 class ClientAuthenticationError(RuntimeError):
     """Something went wrong with user authentication."""
 
 
 class ClientConfigurationError(RuntimeError):
     """Wrong configuration provided."""
-
-
-AuthHeaderCallback: TypeAlias = Callable[[], str]
-"""Function that returns an authorization header containing a bearer token."""
 
 
 class TokenManager:

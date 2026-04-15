@@ -21,7 +21,6 @@ import numpy as np
 
 from exa.common.control.sweep.option.constants import DEFAULT_COUNT
 from exa.common.control.sweep.option.sweep_options import SweepOptions
-from exa.common.control.sweep.sweep_values import SweepValues
 
 
 @dataclass(frozen=True)
@@ -46,7 +45,7 @@ class StartStopOptions(SweepOptions):
     #: If both `count` and `step` are not empty, only `count` is used
     step: int | float | complex | None = None
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if self.count is not None and self.step is not None:
             object.__setattr__(self, "step", None)
         if self.count is None and self.step is None:
@@ -66,7 +65,7 @@ class StartStopOptions(SweepOptions):
             data = self._generate_by_count(count)
         else:
             data = self._generate_by_count(self.count if self.count is not None else DEFAULT_COUNT)
-        return data  # type: ignore[return-value]
+        return data
 
-    def _generate_by_count(self, count: int) -> SweepValues:
+    def _generate_by_count(self, count: int) -> list[int | float | complex]:
         return np.linspace(self.start, self.stop, count, endpoint=True).tolist()

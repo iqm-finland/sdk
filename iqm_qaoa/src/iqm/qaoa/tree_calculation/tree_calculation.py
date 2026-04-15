@@ -189,7 +189,7 @@ def prune_angles(
 
 @jit(nopython=True, fastmath=True)
 def big_g(a_t: int, beta_t: NDArray[np.float64]) -> np.complex128:
-    r"""Calculates the function :math:`G(a_t)` from equations (A45) and (A46) from :cite:`wybo_2024`.
+    r"""Calculates the function :math:`G(a_t)` from equations (A45) and (A46) from :cite:`Wybo_2024`.
 
     Args:
         a_t: The variable :math:`a_t`.
@@ -208,7 +208,7 @@ def big_g(a_t: int, beta_t: NDArray[np.float64]) -> np.complex128:
 
 @jit(nopython=True, fastmath=True)
 def big_g_tilde(a_t: int, beta_t: NDArray[np.float64]) -> np.complex128:
-    r"""Calculates the function :math:`\tilde{G}(a_t)` from equations (A47) and (A48) from :cite:`wybo_2024`.
+    r"""Calculates the function :math:`\tilde{G}(a_t)` from equations (A47) and (A48) from :cite:`Wybo_2024`.
 
     Args:
         a_t: The variable :math:`a_t`.

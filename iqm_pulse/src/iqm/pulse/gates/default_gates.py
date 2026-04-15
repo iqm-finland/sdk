@@ -38,6 +38,7 @@ from iqm.pulse.gates.cz import (
 )
 from iqm.pulse.gates.delay import Delay
 from iqm.pulse.gates.flux_multiplexer import FluxMultiplexer_SampleLinear
+from iqm.pulse.gates.lru import LRU_F0G1
 from iqm.pulse.gates.measure import (
     Fast_Measure_Constant,
     Measure_Constant,
@@ -52,7 +53,7 @@ from iqm.pulse.gates.prx import (
     PRX_ModulatedDRAGCosineRiseFall,
     get_unitary_prx,
 )
-from iqm.pulse.gates.reset import Reset_Conditional, Reset_Wait
+from iqm.pulse.gates.reset import Reset_Conditional, Reset_F0G1_Composite, Reset_Wait
 from iqm.pulse.gates.rz import (
     RZ_ACStarkShift_CosineRiseFall,
     RZ_PRX_Composite,
@@ -67,6 +68,7 @@ if TYPE_CHECKING:
     from iqm.pulse.gate_implementation import GateImplementation
 
 
+# The first listed implementation is the default one for each gate.
 _implementation_library: dict[str, dict[str, type[GateImplementation]]] = {
     "barrier": {"": Barrier},
     "delay": {"wait": Delay},
@@ -108,8 +110,14 @@ _implementation_library: dict[str, dict[str, type[GateImplementation]]] = {
         "prx_composite_drag_crf": CCPRX_Composite_DRAGCosineRiseFall,
         "prx_composite_drag_gaussian": CCPRX_Composite_DRAGGaussian,
     },
-    "reset": {"reset_conditional": Reset_Conditional},
+    "reset": {
+        "reset_conditional": Reset_Conditional,
+        "f0g1_composite": Reset_F0G1_Composite,
+    },
     "reset_wait": {"reset_wait": Reset_Wait},
+    "lru": {
+        "f0g1": LRU_F0G1,
+    },
     "flux_multiplexer": {"sample_linear": FluxMultiplexer_SampleLinear},
 }
 """For each canonical quantum operation name, maps its canonical implementation implementation names
@@ -234,6 +242,12 @@ _quantum_ops_library = {
             implementations=_implementation_library["reset_wait"],
             symmetric=True,
             factorizable=True,
+        ),
+        QuantumOp(
+            "lru",
+            1,
+            implementations=_implementation_library["lru"],
+            unitary=lambda: np.eye(2),
         ),
         QuantumOp(
             "flux_multiplexer",

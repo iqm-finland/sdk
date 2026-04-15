@@ -14,6 +14,8 @@
 
 """Convert native Python types and numpy arrays to protos and back."""
 
+from __future__ import annotations
+
 from collections.abc import Sequence
 
 from iqm.data_definitions.common.v1.data_types_pb2 import Complex128 as dpb_Complex128

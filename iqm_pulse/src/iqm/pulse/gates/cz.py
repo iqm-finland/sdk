@@ -215,6 +215,9 @@ class FluxPulseGate(GateImplementation):
         timebox.neighborhood_components[0] = self._affected_components
         return timebox
 
+    def __call__(self, *args, **kwargs) -> TimeBox:  # For type narrowing
+        return super().__call__(*args, **kwargs)  # type: ignore[return-value]
+
     def duration_in_seconds(self) -> float:
         if self._schedule.duration == 0:
             return 0.0
@@ -511,7 +514,7 @@ def split_flat_top_part_into_granular_parts(
 
 class FluxPulseGate_SmoothConstant(FluxPulseGate):
     """Flux pulse gate implementation realized as a 3-part pulse sequence,
-    consisting of |cosine rise|Constant|cosine fall|. Otherwise, works similar to FluxPulseGate.
+    consisting of (cosine rise, constant, cosine fall). Otherwise, works similar to FluxPulseGate.
 
     Args:
         flux_pulses: mapping from flux channel name to its flux pulse

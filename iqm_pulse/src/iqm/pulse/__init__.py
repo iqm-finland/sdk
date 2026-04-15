@@ -17,6 +17,7 @@ from importlib.metadata import PackageNotFoundError, version
 
 from iqm.pulse.builder import CircuitOperation
 from iqm.pulse.circuit_operations import Circuit
+from iqm.pulse.gate_implementation import Locus
 
 try:
     DIST_NAME = "iqm-pulse"

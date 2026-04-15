@@ -54,7 +54,7 @@ Locus: TypeAlias = tuple[str, ...]
 OILCalibrationData: TypeAlias = dict[str, Any]
 """Calibration data for a particular implementation of a particular quantum operation at a particular locus."""
 
-OICalibrationData: TypeAlias = dict[Locus | None, OILCalibrationData]
+OICalibrationData: TypeAlias = dict[Locus, OILCalibrationData]
 """For a particular implementation of a particular quantum operation, maps operation loci to their calibration data."""
 
 OCalibrationData: TypeAlias = dict[str, OICalibrationData]
@@ -110,8 +110,9 @@ class GateImplementation(abc.ABC):
     """
 
     symmetric: bool = False
-    """True iff the implementation is symmetric in its locus components.
-    Only meaningful if ``arity != 1``, and the locus components are of the same type."""
+    """True iff the implementation is symmetric in its locus components, meaning a permuted :attr:`locus`
+    produces the same Schedule/TimeBox.
+    Only meaningful if ``self.parent.arity != 1``, and the locus components are of the same type."""
 
     parameters: NestedParams = {}
     """Required calibration data, may be nested"""
@@ -143,7 +144,9 @@ class GateImplementation(abc.ABC):
 
     @classmethod
     def needs_calibration(cls) -> bool:
-        """True iff the implementation needs calibration data.
+        """True iff the implementation class needs calibration data.
+
+        Does not include the calibration data of :class:`CompositeGate` member gates.
 
         Returns:
             True iff :attr:`OpCalibrationDataTree` must contain a node ``f"{self.parent.name}.{self.name}.{self.locus}``
@@ -157,6 +160,7 @@ class GateImplementation(abc.ABC):
         """Optional calibration data keys for this class, in addition to the required items in :attr:`parameters`.
 
         These keys are not required to be present in :attr:`OILCalibrationData` when validating it.
+        E.g. custom calibration keys for :class:`CompositeGate` member gates.
 
         Returns:
             Optional top-level calibration data keys.
@@ -164,6 +168,7 @@ class GateImplementation(abc.ABC):
         """
         return ()
 
+    @final
     @classmethod
     def may_have_calibration(cls) -> bool:
         """True iff the implementation may have calibration data.
@@ -207,11 +212,11 @@ class GateImplementation(abc.ABC):
         Inheriting classes may override this method if the default :meth:`__call__` caching (based on the args & kwargs
         in the signature) is sufficient. Any additional caching may also be implemented inside this function if needed.
         """
-        return NotImplementedError  # type: ignore[return-value]
+        raise NotImplementedError
 
     @final
     @classmethod
-    def construct_factorizable(
+    def construct_aggregator(
         cls,
         parent: QuantumOp,
         name: str,
@@ -219,7 +224,7 @@ class GateImplementation(abc.ABC):
         builder: ScheduleBuilder,
         sub_implementations: dict[str, GateImplementation],
     ) -> GateImplementation:
-        """Construct an implementation for a factorizable operation.
+        """Construct an aggregator implementation for a factorizable operation.
 
         Instead of calibration data this method is given ``sub_implementations``, which contains single-qubit
         implementations for all the components in ``locus``.
@@ -289,7 +294,7 @@ class GateImplementation(abc.ABC):
 
         """
 
-        def convert(name: str, unit: str, value: Any, dur: float) -> Any:
+        def convert(unit: str, value: Any, dur: float) -> Any:
             """Convert time-like values to the units of multiples of ``duration`` and frequency-like values
             to the units of multiples of the inverse of duration.
             """
@@ -313,14 +318,18 @@ class GateImplementation(abc.ABC):
             return conversion(value)
 
         if duration is None:
-            # if not given, duration should be found in the outermost dict
-            duration = calibration_data["duration"]
-            if duration is None:
-                raise ValueError(f"Duration for {cls.__name__} has not been set.")
+            # if not given, duration can be found in the outermost dict.
+            # NOTE: duration might not be needed for all implementations (e.g. sampled waveforms)
+            if "duration" in calibration_data:
+                duration = calibration_data["duration"]
+                if duration is None:
+                    raise ValueError(f"Duration for {cls.__name__} has not been set.")
 
-        # n_samples will only be included on the top level
+        # n_samples will only be included on the top level if at all
         converted = (
-            {"n_samples": channel_props.duration_to_int_samples(duration) if duration > 0 else 0} if _top_level else {}
+            {"n_samples": channel_props.duration_to_int_samples(duration) if duration > 0 else 0}
+            if _top_level and duration is not None
+            else {}
         )
 
         for p_name, p in params.items():
@@ -328,7 +337,7 @@ class GateImplementation(abc.ABC):
                 # duration is not included in the converted data
                 data = calibration_data[p_name]
                 if isinstance(p, Setting | Parameter):
-                    value = convert(p_name, p.unit, data, duration)
+                    value = convert(p.unit, data, duration) if duration is not None else data
                 else:
                     # recursion for nested parameter dicts
                     value = cls.convert_calibration_data(data, p, channel_props, duration=duration, _top_level=False)
@@ -338,7 +347,13 @@ class GateImplementation(abc.ABC):
 
     @final
     @classmethod
-    def get_parameters(cls, locus: Iterable[str], path: Iterable[str] = ()) -> SettingNode:
+    def get_parameters(
+        cls,
+        locus: Iterable[str],
+        path: Iterable[str] = (),
+        *,
+        use_defaults: bool = True,
+    ) -> SettingNode:
         """Calibration data tree the GateImplementation subclass expects for each locus.
 
         Helper method for EXA use.
@@ -348,15 +363,17 @@ class GateImplementation(abc.ABC):
                 parameter names. One ``Setting`` will be generated for each component name in ``locus``.
                 If there are no wildcard characters in ``cls.parameters``, this argument has no effect.
             path: parts of the dotted name for the root node, if any.
+            use_defaults: Iff True, return default values for calibration data items that have one.
 
         Returns:
             EXA setting node describing the required calibration data for each locus.
-            All the Setting values are ``None``.
+            The setting values are ``None``, unless the corresponding gate parameter has a default value.
 
         """
 
         def build_node(path: Iterable[str], dictionary: dict[str, Any]) -> SettingNode:
-            node = SettingNode(".".join(path), path=".".join(path))
+            node_name = ".".join(path)
+            node = SettingNode(node_name, path=node_name)
             for key, value in dictionary.items():
                 wildcard_keys = [key.replace("*", q) for q in locus] if "*" in key else [key]
 
@@ -364,14 +381,16 @@ class GateImplementation(abc.ABC):
                     new_path = (*tuple(path), wkey)
                     if isinstance(value, dict):
                         node.subtrees[wkey] = build_node(new_path, value)
-                    elif isinstance(value, Setting | Parameter):
+                    elif isinstance(value, Parameter):
                         name = ".".join(new_path)
-                        if isinstance(value, Parameter):
-                            node.settings[wkey] = Setting(value.model_copy(update={"name": name}), None, path=name)
-                        else:
-                            node.settings[wkey] = Setting(
-                                value.parameter.model_copy(update={"name": name}), value.value, path=name
-                            )
+                        node.settings[wkey] = Setting(value.model_copy(update={"name": name}), value=None, path=name)
+                    elif isinstance(value, Setting):
+                        name = ".".join(new_path)
+                        node.settings[wkey] = Setting(
+                            value.parameter.model_copy(update={"name": name}),
+                            value=value.value if use_defaults else None,
+                            path=name,
+                        )
                     else:
                         raise TypeError(f"{wkey}: value {value} is neither a Parameter, Setting nor a dict.")
             return node
@@ -631,7 +650,7 @@ class CompositeGate(GateImplementation):
     However, if no custom calibration data is provided, the composite gate will use
     the common calibration for the member operations.
 
-    .. example::
+    .. hint::
 
        Inheriting this class and defining ``registered_gates = ("prx", "cz")``, ``customizable_gates = ("prx",)``
        allows one to use ``prx`` and ``cz`` gates as member operations, and calibrate ``prx`` independently of
@@ -745,14 +764,10 @@ class CompositeGate(GateImplementation):
         op = self.builder.op_table[op_name]
 
         # implementation to use: given or class default
-        impl_name = impl_name or self.default_implementations.get(op_name, None)
+        impl_name = impl_name or self.default_implementations.get(op_name)
         # or, finally, the global default
-        impl_name, locus = self.builder._find_implementation_and_locus(
-            op,
-            impl_name=impl_name,
-            locus=locus,
-            strict_locus=strict_locus,
-        )
+        if impl_name is None:
+            impl_name = op.get_default_implementation_for_locus(locus)
 
         def get_custom_oi(cal_impl: GateImplementation) -> OICalibrationData:
             """Return the custom calibration data node for the requested member op/implementation in
@@ -760,7 +775,9 @@ class CompositeGate(GateImplementation):
             """
             return cal_impl.calibration_data.get(op_name, {}).get(impl_name, {})
 
+        priority_calibration_factorizable: OICalibrationData = {}
         if priority_calibration is None:
+            priority_calibration = {}
             # Find the custom cal data for the member op (if allowed and present).
             if op_name in (self.customizable_gates or ()):
                 impl_class = self.builder.get_implementation_class(op_name, impl_name)
@@ -771,16 +788,19 @@ class CompositeGate(GateImplementation):
                         # It may only have factorizable or arity-1 member ops.
                         if op.factorizable:
                             # Combine the custom cal datas scattered in the sub_implementations.
-                            # priority calibration for factorizable ops is OICalibrationData
-                            priority_calibration = {}
+                            # This back-and-forth conversion is a little silly though.
                             for c in locus:
-                                priority_calibration |= get_custom_oi(self.sub_implementations[c])  # type: ignore[arg-type]
+                                priority_calibration_factorizable |= get_custom_oi(self.sub_implementations[c])
                         else:
-                            priority_calibration = get_custom_oi(self.sub_implementations[locus[0]]).get(locus)
+                            # op must be arity-1
+                            priority_calibration = get_custom_oi(self.sub_implementations[locus[0]]).get(locus, {})
                     else:
                         # self has normal cal data
                         oi = get_custom_oi(self)
-                        priority_calibration = oi if op.factorizable else oi.get(locus)  # type: ignore
+                        if op.factorizable:
+                            priority_calibration_factorizable = oi
+                        else:
+                            priority_calibration = oi.get(locus)
 
         return self.builder.get_implementation(
             op_name,
@@ -788,7 +808,7 @@ class CompositeGate(GateImplementation):
             impl_name=impl_name,
             strict_locus=strict_locus,
             priority_calibration=priority_calibration,
-            use_priority_order=True,
+            priority_calibration_factorizable=priority_calibration_factorizable,
         )
 
 

@@ -22,6 +22,7 @@ import json
 import logging
 import os
 import platform
+import time
 from time import sleep
 from typing import Any, TypeVar
 import uuid
@@ -138,6 +139,9 @@ class StationControlClient(StationControlInterface):
         qcm_data_url = os.environ.get("CHIP_DESIGN_RECORD_FALLBACK_URL", None)
         self._qcm_data_client = QCMDataClient(qcm_data_url) if qcm_data_url else None
 
+        # Timeout configurations (in seconds)
+        self.timeout_secs: float = 10800.0  # 3 hours for absolute maximum polling time
+
     @property
     def version(self) -> str:
         """Version of the Station Control API this client is using."""
@@ -169,7 +173,7 @@ class StationControlClient(StationControlInterface):
         return int(response.content)
 
     def get_settings(self) -> SettingNode:
-        return self._get_cached_settings().model_copy()
+        return self._get_cached_settings().model_copy(deep=True)
 
     @cache
     def _get_cached_settings(self) -> SettingNode:
@@ -381,9 +385,13 @@ class StationControlClient(StationControlInterface):
             job_status = self._poll_job_status_until_execution_start(job_id, update_progress_callback)
             if JobExecutorStatus(job_status) not in JobExecutorStatus.terminal_statuses():
                 self._poll_job_status_until_terminal(job_id, update_progress_callback)
-        except KeyboardInterrupt as exc:
+        except (KeyboardInterrupt, TimeoutError) as exc:
             logger.info("Caught %s, revoking job %s", exc, job_id)
             self.abort_job(uuid.UUID(job_id))
+
+            # Reraise TimeoutError to let the caller handle the failure explicitly.
+            if isinstance(exc, TimeoutError):
+                raise exc
             return True
         return False
 
@@ -412,10 +420,22 @@ class StationControlClient(StationControlInterface):
         job_id: str,
         update_progress_callback: ProgressCallback,
     ) -> None:
-        # Keep polling job status until it finishes, and update progress with `update_progress_callback`.
+        # Keep polling job status until it finishes or timeouts are hit,
+        # and update progress with `update_progress_callback`.
+        start_time = time.time()
+
         while True:
+            current_time = time.time()
+
+            # Check absolute timeout
+            if (current_time - start_time) > self.timeout_secs:
+                logger.error(f"Job {job_id} exceeded max polling timeout of {self.timeout_secs}s.")
+                raise TimeoutError(f"Job polling timed out after {self.timeout_secs} seconds.")
+
             job = self._poll_job(job_id)
-            update_progress_callback(job.job_result.parallel_sweep_progress)
+            current_progress = job.job_result.parallel_sweep_progress
+            update_progress_callback(current_progress)
+
             if job.job_status in JobExecutorStatus.terminal_statuses():
                 return
             sleep(1)
@@ -424,7 +444,10 @@ class StationControlClient(StationControlInterface):
         response = self._send_request(requests.get, f"jobs/{job_id}")
         job = self._deserialize_response(response, JobData)
         if job.job_status == JobExecutorStatus.FAILED:  # type: ignore[union-attr]
-            raise InternalServerError(f"Job: {job.job_id}\n{job.job_error}")  # type: ignore[union-attr]  # type: ignore[union-attr]
+            formatted_full_error_log = (
+                job.job_error.full_error_log.replace("\\n", "\n") if job.job_error else "Unknown error"  # type: ignore[union-attr]
+            )
+            raise InternalServerError(f"Job: {job.job_id}\n{formatted_full_error_log}")  # type: ignore[union-attr]
         return job  # type: ignore[return-value]
 
     @staticmethod

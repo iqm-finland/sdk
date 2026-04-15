@@ -329,11 +329,11 @@ def get_channel_properties(
     # TODO should this info come from a dedicated SC endpoint instead, so we would not have to parse SC settings:
     # EXA-1777
 
-    RESONATOR_VIRTUAL_DRIVE_CHANNEL = "{}__drive_virtual"
-    # Computational resonators use virtual drive channels to store VirtualRZ instructions coming
-    # from two-component gates applied on them. These virtual channels are eventually emptied in a
-    # schedule-level pass, and are never sent to the station. The z rotations are applied on one of
-    # the qubits instead. See :class:`.MoveMarker`."""
+    VIRTUAL_DRIVE_CHANNEL = "{}__drive_virtual"
+    # Computational resonators and qubits without a (real) drive controller connected, use virtual drive channels to
+    # store VirtualRZ instructions coming from two-component gates applied on them. These virtual channels are
+    # eventually emptied in a schedule-level pass, and are never sent to the station. The z rotations are applied on
+    # a neighboring qubit after the state has been moved there. See :class:`.MoveMarker`."""
 
     channel_properties: dict[str, ChannelProperties] = {}
     awg_sampling_rates = set()
@@ -390,9 +390,12 @@ def get_channel_properties(
     if awg_sampling_rates:
         rate = next(iter(awg_sampling_rates))
 
-        # add virtual drive channels for all comp. resonators
-        for component in chip_topology.computational_resonators_sorted:
-            channel_name = RESONATOR_VIRTUAL_DRIVE_CHANNEL.format(component)
+        # add virtual drive channels for all components without drive controller
+        qubit_components_without_drive = [
+            qubit for qubit in chip_topology.qubits_sorted if qubit not in drive_controllers
+        ]
+        for component in chip_topology.computational_resonators_sorted + tuple(qubit_components_without_drive):
+            channel_name = VIRTUAL_DRIVE_CHANNEL.format(component)
             component_to_channel.setdefault(component, {})["drive"] = channel_name
             channel_properties[channel_name] = ChannelProperties(
                 sample_rate=rate,

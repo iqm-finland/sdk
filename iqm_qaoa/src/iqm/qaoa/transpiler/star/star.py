@@ -26,20 +26,20 @@ import copy as cp
 from dimod import BinaryQuadraticModel, to_networkx_graph
 from dimod.typing import Variable
 from iqm.qaoa.transpiler.quantum_hardware import HardQubit, StarQPU
-from iqm.qaoa.transpiler.routing import Mapping, Routing
+from iqm.qaoa.transpiler.routing import BaseRouting, Mapping
 from iqm.qiskit_iqm.move_gate import MoveGate
 import matplotlib.pyplot as plt
 import networkx as nx
 from qiskit import QuantumCircuit
 
 
-class RoutingStar(Routing):
+class RoutingStar(BaseRouting):
     """Routing of a QAOA phase separator on the star topology.
 
-    The main difference from the parent class :class:`~iqm.qaoa.transpiler.routing.Routing` is that :class:`RoutingStar`
-    doesn't use :class:`~iqm.qaoa.transpiler.routing.Layer` for its layers. The layers in :class:`RoutingStar` are much
-    simpler (just one gate in each layer). Here a layer is just a tuple containing a string describing the gate and an
-    integer describing the :class:`~iqm.qaoa.transpiler.quantum_hardware.HardQubit` involved.
+    The routing layers in :class:`RoutingStar` are relatively simple (just one gate in each layer). A layer is
+    described by a tuple containing a string describing the gate and an integer describing the
+    :class:`~iqm.qaoa.transpiler.quantum_hardware.HardQubit` involved. The star QPUs don't support *swap* gates.
+    Instead, they use *move* gates.
 
     Args:
         problem_bqm: The optimization problem represented as :class:`~dimod.BinaryQuadraticModel`.
@@ -49,9 +49,16 @@ class RoutingStar(Routing):
     """
 
     def __init__(self, problem_bqm: BinaryQuadraticModel, qpu: StarQPU, initial_mapping: Mapping | None = None) -> None:
-        super().__init__(problem_bqm, qpu, initial_mapping)
+        super().__init__(problem_bqm, qpu)
         # For star QPU, each layer contains only one operation, so no need to use a sophisticated ``Layer`` class
         self._star_layers: list[tuple[str, HardQubit]] = []
+
+        if initial_mapping is None:
+            self.initial_mapping = Mapping(self.qpu, self.problem)
+        else:
+            self.initial_mapping = initial_mapping
+
+        self.mapping = cp.deepcopy(self.initial_mapping)
 
     @property
     def layers(self) -> list[tuple[str, HardQubit]]:
@@ -71,9 +78,9 @@ class RoutingStar(Routing):
             ValueError: If the target qubit doesn't contain a logical qubit.
 
         """
-        if 0 in self.mapping.hard2log:
+        if self.mapping.hard2log[0] is not None:
             raise ValueError("The central resonator is occupied, another qubit can't be moved in.")
-        if qubit not in self.mapping.hard2log:
+        if self.mapping.hard2log[qubit] is None:
             raise ValueError("The target qubit is not assigned a logical qubit.")
 
         self._star_layers.append(("move_in", qubit))
@@ -91,9 +98,9 @@ class RoutingStar(Routing):
             ValueError: If the target qubit is already occupied by a different logical qubit.
 
         """
-        if 0 not in self.mapping.hard2log:
+        if self.mapping.hard2log[0] is None:
             raise ValueError("The central resonator is empty, a qubit can't be moved out of it.")
-        if qubit in self.mapping.hard2log:
+        if self.mapping.hard2log[qubit] is not None:
             raise ValueError("The target qubit is already occupied by a logical qubit.")
 
         self._star_layers.append(("move_out", qubit))
@@ -113,9 +120,9 @@ class RoutingStar(Routing):
             ValueError: If the target qubit doesn't correspond to any logical qubit.
 
         """
-        if 0 not in self.mapping.hard2log:
+        if self.mapping.hard2log[0] is None:
             raise ValueError("The central resonator is empty, interaction can't be applied.")
-        if target not in self.mapping.hard2log:
+        if self.mapping.hard2log[target] is None:
             raise ValueError("The target qubit is 'empty', interaction can't be applied.")
 
         self._star_layers.append(("int", target))
@@ -141,9 +148,7 @@ class RoutingStar(Routing):
 
         return number_of_moves_in_layers
 
-    def build_qiskit(
-        self, betas: list[float], gammas: list[float], cancel_cnots: bool = True, measurement: bool = True
-    ) -> QuantumCircuit:
+    def build_qiskit(self, betas: list[float], gammas: list[float], measurement: bool = True) -> QuantumCircuit:
         """Build the entire QAOA circuit in :mod:`qiskit`.
 
         The :class:`~iqm.qaoa.transpiler.star.star.RoutingStar` object contains all the information needed to create
@@ -159,8 +164,6 @@ class RoutingStar(Routing):
         Args:
             betas: The QAOA parameters to be used in the driver (*RX* gate).
             gammas: The QAOA parameters to be used in the phase separator (*RZ* and *RZZ* gates).
-            cancel_cnots: Ignored because it's not relevant for routing on the star (but is included for compatibility
-                with superclass).
             measurement: Should the circuit contain a layer of measurements or not?
 
         Returns:
@@ -178,7 +181,7 @@ class RoutingStar(Routing):
         qiskit_circ = QuantumCircuit(len(qb_register), len(mapping.hard2log))
 
         # Prepare uniform superposition.
-        qiskit_circ.h(mapping.hard2log.keys())
+        qiskit_circ.h(mapping.log2hard.values())
 
         for gamma, beta in zip(gammas, betas, strict=True):  # Each pair of ``gamma, beta`` corresponds to a QAOA layer.
             # Apply phase separator.
@@ -202,8 +205,7 @@ class RoutingStar(Routing):
                     qiskit_circ.append(MoveGate(), [qubit, 0])
                     mapping.move_hard(source_qubit=0, target_qubit=qubit)
 
-            for hard_qb in mapping.hard2log:
-                log_qb = mapping.hard2log[hard_qb]
+            for log_qb, hard_qb in mapping.log2hard.items():
                 local_field = self.problem.get_linear(log_qb)
                 qiskit_circ.rz(2 * gamma * local_field, qb_register.index(hard_qb))
 
@@ -216,11 +218,11 @@ class RoutingStar(Routing):
             ]
 
             # Apply driver.
-            qiskit_circ.rx(2 * beta, mapping.hard2log.keys())
+            qiskit_circ.rx(2 * beta, mapping.log2hard.values())
 
         if measurement:
             qiskit_circ.barrier()
-            qiskit_circ.measure(mapping.hard2log.keys(), range(len(mapping.hard2log)))
+            qiskit_circ.measure(mapping.log2hard.values(), range(len(mapping.log2hard)))
 
         return qiskit_circ
 
@@ -311,6 +313,7 @@ def star_router(problem_bqm: BinaryQuadraticModel, qpu: StarQPU) -> RoutingStar:
     # The zip is not ``strict`` because there might be less variables than ``available_hard_qubits`` and that's fine.
     partial_initial_mapping = dict(zip(available_hard_qubits, bqm.variables, strict=False))
     initial_mapping = Mapping(qpu, bqm, partial_initial_mapping)
+    initial_mapping.hard2log[0] = None  # Explicitly add unassigned central resonator to the mapping.
     route = RoutingStar(bqm, qpu, initial_mapping)
 
     problem_graph = to_networkx_graph(bqm)  # The nodes of the graph have type ``Variable``

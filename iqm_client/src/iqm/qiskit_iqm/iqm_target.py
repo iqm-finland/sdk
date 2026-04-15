@@ -15,7 +15,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterable
+from collections.abc import Iterable, Mapping
 import logging
 from typing import TypeAlias
 
@@ -92,17 +92,14 @@ class IQMTarget(Target):
         self.iqm_metrics = metrics
         self._add_instructions_from_DQA()
 
-    def _add_instructions_from_DQA(self):  # noqa: ANN202
-        """Initializes the Target with instructions and properties that represent the
-        dynamic quantum architecture :attr:`iqm_dqa`.
-
-        """
+    def _add_instructions_from_DQA(self) -> None:
+        """Initialize the Target with instructions and properties from :attr:`iqm_dqa`."""
         dqa = self.iqm_dqa
         # mapping from op name to all its allowed loci
         op_loci = {gate_name: gate_info.loci for gate_name, gate_info in dqa.gates.items()}
 
         def add_gate(gate: str) -> None:
-            """Adds ``gate`` instructions to the Target."""
+            """Add ``gate`` instructions to the Target."""
             props = {self.locus_to_idx(locus): self._create_gate_properties(gate, locus) for locus in op_loci[gate]}
             self.add_instruction(_QISKIT_IQM_GATE_MAP[gate], props)
 
@@ -143,8 +140,8 @@ class IQMTarget(Target):
         if "cz" in op_loci:
             self._add_instructions_cz_gates(op_loci)
 
-    def _add_instructions_cz_gates(self, op_loci: dict[str, Iterable[Locus]]) -> None:
-        """Adds CZ gate instructions to the Qiskit Target.
+    def _add_instructions_cz_gates(self, op_loci: Mapping[str, Iterable[Locus]]) -> None:
+        """Add CZ gate instructions to the Qiskit Target.
 
         This method handles both "real" and "fictional" CZ gates based on the
         provided operation loci.
@@ -232,8 +229,9 @@ class IQMTarget(Target):
 
     @staticmethod
     def _determine_fictional_cz_loci(move_loci: Iterable[Locus], cz_loci: Iterable[Locus]) -> list[Locus]:
-        """Determine fictional CZ loci, i.e. pairs of qubits between which we can implement a CZ using MOVE gates and
-        an intermediate computational resonator.
+        """Determine pairs of qubits between which we can implement a CZ using MOVE gates.
+
+        The pair must share an intermediate computational resonator.
 
         Only applicable for the Star architecture.
 
@@ -262,7 +260,7 @@ class IQMTarget(Target):
     def _create_qubit_properties(
         qubits: Iterable[str], metrics: ObservationFinder | None
     ) -> list[QubitProperties] | None:
-        """Creates qubit properties from the quality metrics."""
+        """Create qubit properties from the quality metrics."""
         if metrics is None:
             return None
 
@@ -280,7 +278,7 @@ class IQMTarget(Target):
         return qubit_props
 
     def _create_gate_properties(self, gate_name: str, locus: Locus) -> InstructionProperties | None:
-        """Creates InstructionProperties for a single gate on a specific locus.
+        """Create InstructionProperties for a single gate on a specific locus.
 
         Args:
             gate_name: Name of the IQM native operation to look up properties for (e.g., 'cz' or 'move').
@@ -306,7 +304,7 @@ class IQMTarget(Target):
         return [self.iqm_idx_to_component[i] for i in range(self.num_qubits)]
 
     def restrict_to_qubits(self, qubits: list[int] | list[str]) -> IQMTarget:
-        """Generated a restricted transpilation target from this Target that only contains the given qubits.
+        """Generate a restricted transpilation target from this Target that only contains the given qubits.
 
         Args:
             qubits: Qubits to restrict the target to. Can be either a list of qubit indices or qubit names.
@@ -332,7 +330,7 @@ def _restrict_dqa_to_qubits(
     include_fictional_czs: bool,
     metrics: ObservationFinder | None = None,
 ) -> IQMTarget:
-    """Generated a restricted transpilation target that only contains the given QPU components.
+    """Generate a restricted transpilation target that only contains the given QPU components.
 
     Args:
         architecture: The dynamic quantum architecture to restrict.

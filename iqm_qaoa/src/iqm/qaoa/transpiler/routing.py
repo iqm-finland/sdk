@@ -29,20 +29,49 @@ the routing of the phase separator of the QAOA. The routing is saved as a list o
 
 from __future__ import annotations
 
+from abc import ABC, abstractmethod
 import copy as cp
-from typing import Any
-import warnings
+from itertools import zip_longest
+from typing import Any, TypeVar, cast
 
 from dimod import BINARY, SPIN, BinaryQuadraticModel, to_networkx_graph
 from iqm.qaoa.transpiler.quantum_hardware import QPU, HardEdge, HardQubit, LogEdge, LogQubit
 from matplotlib.axes import Axes
 import matplotlib.pyplot as plt
 import networkx as nx
-import numpy as np
 from qiskit import QuantumCircuit
 
+T = TypeVar("T", bound="BaseMapping")
 
-class Mapping:
+
+class BaseMapping:
+    """The base class for mapping used in routing of QAOA circuits on the QPU.
+
+    This class exists as a common parent for :class:`Mapping` and :class:`~iqm.qaoa.transpiler.ptn.ptn.LineMappingPTN`.
+    Even though these classes don't share much code, they are *at the same level*, so it makes sense to have a common
+    parent for them.
+    """
+
+    def __new__(cls: type[T], *args: Any, **kwargs: Any) -> T:
+        """Prevent direct instantiation of :class:`BaseMapping`.
+
+        Raises:
+            TypeError: If an attempt is made to instantiate :class:`BaseMapping` directly.
+
+        """
+        if cls is BaseMapping:
+            raise TypeError("BaseMapping cannot be instantiated directly")
+        return super().__new__(cls)
+
+    def __init__(self, qpu: QPU, problem_bqm: BinaryQuadraticModel) -> None:
+        if problem_bqm.vartype is BINARY:
+            problem_bqm.change_vartype(SPIN)
+
+        self.log_qbs = cast(set[int], set(problem_bqm.variables))  # The problem BQMs use integer variables.
+        self.hard_qbs = qpu.qubits
+
+
+class Mapping(BaseMapping):
     """Mapping between logical and hardware qubits.
 
     It maintains two dictionaries: :attr:`log2hard` and :attr:`hard2log` which are mappings between logical
@@ -59,7 +88,9 @@ class Mapping:
             :class:`~iqm.qaoa.transpiler.quantum_hardware.LogQubit`.
 
     Raises:
+        ValueError: If there are more logical qubits than hardware qubits.
         ValueError: If ``partial_initial_mapping`` is provided, but it's not bijective.
+        ValueError: If ``partial_initial_mapping`` is provided, but it contains qubits not existing on the QPU.
 
     """
 
@@ -69,25 +100,25 @@ class Mapping:
         problem_bqm: BinaryQuadraticModel,
         partial_initial_mapping: dict[HardQubit, LogQubit] | None = None,
     ) -> None:
-        if problem_bqm.vartype is BINARY:
-            problem_bqm.change_vartype(SPIN)
+        super().__init__(qpu, problem_bqm)
 
-        # Take the variables from ``problem_bqm`` and ``qpu``.
-        self.log_qbs = set(problem_bqm.variables)
-        self.hard_qbs = qpu.qubits
-
-        if len(self.hard_qbs) != len(self.log_qbs):
-            warnings.warn(
-                "The QPU has more qubits than the problem has variables. Some QPU qubits will not be used.",
-                stacklevel=2,
-            )
+        # This should probably never happen, but it never hurts to add an extra check.
+        if len(self.hard_qbs) < len(self.log_qbs):
+            raise ValueError("There is fewer hardware qubits than logical qubits, mapping is impossible!")
 
         # If no partial initial mapping is provided, just map the qubits to each other arbitrarily.
+        log_qbs_padded = list(self.log_qbs) + [None] * (len(self.hard_qbs) - len(self.log_qbs))
         if partial_initial_mapping is None:
-            self._hard2log: dict = dict(zip(self.hard_qbs, self.log_qbs, strict=False))
+            self._hard2log: dict[HardQubit, LogQubit | None] = dict(zip(self.hard_qbs, log_qbs_padded, strict=True))
 
         # If a partial inital mapping is provided, use it.
         else:
+            if not (set(partial_initial_mapping.keys()) <= self.hard_qbs):
+                raise ValueError(
+                    f"The initial mapping contains qubits which don't exist on the QPU. "
+                    f"Qubits on the QPU: {self.hard_qbs}. Qubits in the initial mapping: "
+                    f"{partial_initial_mapping.keys()}."
+                )
             if len(set(partial_initial_mapping.values())) != len(partial_initial_mapping.values()):
                 raise ValueError("The initial mapping between hardware and logical qubits is not bijective!")
             if len(partial_initial_mapping) < len(self.log_qbs):
@@ -95,17 +126,17 @@ class Mapping:
                 remaining_log_qbs = self.log_qbs - set(partial_initial_mapping.values())
                 initial_mapping: dict = partial_initial_mapping
                 # The qubits not covered by the partial inital mapping get mapped arbitrarily.
-                for hard_qb, log_qb in zip(remaining_hard_qbs, remaining_log_qbs, strict=False):
+                for hard_qb, log_qb in zip_longest(remaining_hard_qbs, remaining_log_qbs, fillvalue=None):
                     initial_mapping[hard_qb] = log_qb
             else:
-                initial_mapping = partial_initial_mapping
+                initial_mapping = {hw_qb: partial_initial_mapping.get(hw_qb) for hw_qb in self.hard_qbs}
 
             self._hard2log = initial_mapping
 
-        self._log2hard = {log_qb: hard_qb for hard_qb, log_qb in self._hard2log.items()}
+        self._log2hard = {log_qb: hard_qb for hard_qb, log_qb in self._hard2log.items() if log_qb is not None}
 
     @property
-    def hard2log(self) -> dict[HardQubit, LogQubit]:
+    def hard2log(self) -> dict[HardQubit, LogQubit | None]:
         """The dictionary containing the mapping from hardware qubits to logical qubits."""
         return self._hard2log
 
@@ -142,17 +173,21 @@ class Mapping:
         log_qb0 = self.hard2log[qb0]
         log_qb1 = self.hard2log[qb1]
         self._hard2log[qb0], self._hard2log[qb1] = self._hard2log[qb1], self._hard2log[qb0]
-        self._log2hard[log_qb0], self._log2hard[log_qb1] = qb1, qb0
+        # swap log→hard, but only if logical qubits are assigned (not ``None``).
+        if log_qb0 is not None:
+            self._log2hard[log_qb0] = qb1
+        if log_qb1 is not None:
+            self._log2hard[log_qb1] = qb0
 
     def move_hard(self, source_qubit: HardQubit, target_qubit: HardQubit) -> None:
         """Move a logical qubit from a one hardware qubit to a an unassigned hardware qubit on the QPU.
 
-        The target ``target_qubit`` must not be part of the :class:`Mapping`. Updates the dictionaries :attr:`hard2log`
-        and :attr:`log2hard`. The dictionaries are changed as follows:
+        The target ``target_qubit`` must be mapped to ``None`` in :attr:`hard2log` and (correspondingly) it must not
+        appear among the values of :attr:`log2hard`. The mapping dictionaries :attr:`hard2log` and :attr:`log2hard` are
+        changed as follows:
 
-        * If the dictionary :attr:`hard2log` has a key ``source_qubit`` (but not ``target_qubit``), this method removes
-          the key ``source_qubit``, creates a new key ``target_qubit`` and gives it the value formerly associated to
-          ``source_qubit``
+        * The value assigned to the key ``source_qubit`` in :attr:`hard2log` changes to ``None``. The value assigned to
+          ``target_qubit`` changes to the previous value of ``source_qubit``.
 
         * The dictionary :attr:`log2hard` is modified correspondingly. The value ``source_qubit`` is changed to
           ``target_qubit``.
@@ -165,18 +200,21 @@ class Mapping:
 
         Raises:
             ValueError: If the ``target_qubit`` is already assigned to a different logical qubit.
+            ValueError: If the ``source_qubit`` is not assigned to any logical qubit.
 
         """
-        if target_qubit in self._hard2log:
+        if self._hard2log[target_qubit] is not None:
             raise ValueError(
                 f"The target qubit {target_qubit} is already occupied by a logical qubit "
                 f"{self._hard2log[target_qubit]}."
             )
         corresponding_log_qb = self._hard2log[source_qubit]
+        if corresponding_log_qb is None:
+            raise ValueError(f"The source qubit {source_qubit} is not assigned to any logical qubit.")
 
         # Modify ``self._hard2log``
         self._hard2log[target_qubit] = corresponding_log_qb
-        del self._hard2log[source_qubit]
+        self._hard2log[source_qubit] = None
         self._log2hard[corresponding_log_qb] = target_qubit
 
     def update(self, layer: Layer) -> None:
@@ -361,14 +399,56 @@ class Layer:
             self.qpu.draw(gate_lists=gate_lists, ax=ax, mapping=mapping, show=show)  # type: ignore[arg-type]
 
 
-class Routing:
-    """Routing of a QAOA phase separator.
+class BaseRouting(ABC):
+    """The abstract base class for various routing sub-classes.
 
-    A :class:`~iqm.qaoa.transpiler.routing.Routing` object is intended to be directly used by a router during routing
-    (any router). To that end it maintains a list of :class:`~iqm.qaoa.transpiler.routing.Layer` objects,
-    a :class:`~networkx.Graph` with the interactions not implemented yet and
-    a :class:`~iqm.qaoa.transpiler.routing.Mapping` object that represents the current status of mapping between
-    hardware and logical qubits.
+    Generally speaking, routing refers to the process of 'moving' the problem qubits around the QPU to allow the
+    execution of the interactions between the problem qubits. The standard way to do this is with *swap* gates, but
+    there are special variations e.g., if using *move* gates on a computational resonator.
+    """
+
+    def __init__(self, problem_bqm: BinaryQuadraticModel, qpu: QPU) -> None:
+        self.problem = problem_bqm
+        # The variable :meth:`remaining_interactions` keeps track of all interactions remaining to be executed.
+        # So at the beginning it's equal to all of the iteractions in ``problem_bqm``.
+        self.remaining_interactions = to_networkx_graph(problem_bqm)
+        self.qpu = qpu
+
+    @property
+    @abstractmethod
+    def layers(self) -> list[Any]:
+        """The list of layers of the routing object.
+
+        Different subclasses of :class:`BaseRouting` represent the individual layers differently, which is why the type
+        of the layers here is the generic :class:`~typing.Any`.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def build_qiskit(self, betas: list[float], gammas: list[float], measurement: bool = True) -> QuantumCircuit:
+        """The method to construct a qiskit circuit out of the routing, given a list of `gammas` and `betas` angles.
+
+        Args:
+            betas: The QAOA parameters (angles) to be used in the mixer.
+            gammas: The QAOA parameters (angles) to be used in the phase separator.
+            measurement: Should the quantum circuit end with a measurement of all qubits?
+
+        Returns:
+            A qiskit circuit implementing the QAOA.
+
+        """
+        raise NotImplementedError
+
+
+class Routing(BaseRouting):
+    """The 'standard' routing of a QAOA phase separator.
+
+    A :class:`~iqm.qaoa.transpiler.routing.Routing` object is intended to be directly used by a router during routing.
+    This class is meant to be used for the relatively 'standard' routers which work by use *swap* gates and interaction
+    gates to move the problem qubits around the QPU. To that end it maintains a list of
+    :class:`~iqm.qaoa.transpiler.routing.Layer` objects, a :class:`~networkx.Graph` with the interactions not
+    implemented yet and a :class:`~iqm.qaoa.transpiler.routing.Mapping` object that represents the current status of
+    mapping between hardware and logical qubits.
 
     A router interacts with a :class:`~iqm.qaoa.transpiler.routing.Routing` object by using the methods
     :meth:`apply_swap` and :meth:`apply_int`. Optionally also :meth:`attempt_apply_int`. If the problem BQM contains
@@ -380,32 +460,27 @@ class Routing:
         qpu: The QPU representing the hardware qubit topology.
         initial_mapping: The starting mapping of the logical-to-hardware qubits.
 
+    Generally speaking, routing refers to the process of 'moving' the problem qubits around the QPU to allow the
+    execution of the interactions between the problem qubits. The standard way to do this is with *swap* gates, but
+    there are special variations e.g., if using *move* gates on a computational resonator.
+
     """
 
     def __init__(self, problem_bqm: BinaryQuadraticModel, qpu: QPU, initial_mapping: Mapping | None = None) -> None:
-        self.problem = problem_bqm
-        # The variable :meth:`remaining_interactions` keeps track of all interactions remaining to be executed.
-        # So at the beginning it's equal to all of the iteractions in ``problem_bqm``.
-        self.remaining_interactions = to_networkx_graph(problem_bqm)
-
-        self.qpu = qpu
+        super().__init__(problem_bqm=problem_bqm, qpu=qpu)
         if initial_mapping is None:
             self.initial_mapping = Mapping(self.qpu, self.problem)
         else:
             self.initial_mapping = initial_mapping
 
         self.mapping = cp.deepcopy(self.initial_mapping)
+
         self._layers: list[Layer] = [Layer(self.qpu)]
 
     @property
-    def layers(self) -> list[Any]:
+    def layers(self) -> list[Layer]:
         """The list of layers of the routing object."""
         return self._layers
-
-    @property
-    def active_subgraph(self) -> nx.Graph:
-        """The topology of the QPU that is being used in the routing."""
-        return nx.subgraph(self.qpu.hardware_graph, self.mapping.hard2log.keys())
 
     def apply_swap(self, gate: HardEdge, attempt_int: bool = False) -> None:
         r"""Apply swap gate at the earliest possible layer, add a new layer if needed.
@@ -535,7 +610,7 @@ class Routing:
         return number_of_swaps_in_layers
 
     def build_qiskit(
-        self, betas: list[float], gammas: list[float], cancel_cnots: bool = True, measurement: bool = True
+        self, betas: list[float], gammas: list[float], measurement: bool = True, cancel_cnots: bool = True
     ) -> QuantumCircuit:
         r"""Build the QAOA circuit from the :class:`~iqm.qaoa.transpiler.routing.Routing` (``self``) in :mod:`qiskit`.
 
@@ -553,13 +628,16 @@ class Routing:
         Args:
             betas: The QAOA parameters to be used in the driver (*RX* gate).
             gammas: The QAOA parameters to be used in the phase separator (*RZ* and *RZZ* gates).
+            measurement: Should the circuit contain a layer of measurements or not?
             cancel_cnots: The routing is likely to contain a *SWAP* gate followed by an *RZZ* gate (or vice versa). When
                 decomposed into a particular basis gate set, these contain a pair of *CNOT* gates, which can be
                 cancelled. Iff `cancel_cnots` is ``True``, those will be cancelled already in :meth:`build_qiskit`.
-            measurement: Should the circuit contain a layer of measurements or not?
 
         Returns:
             A complete QAOA :class:`~qiskit.circuit.QuantumCircuit`.
+
+        Raises:
+            ValueError: If the lengths of the provided ``betas`` and ``gammas`` aren't the same.
 
         """
         if len(betas) != len(gammas):
@@ -567,12 +645,11 @@ class Routing:
 
         layers = cp.deepcopy(self._layers)
         mapping = cp.deepcopy(self.initial_mapping)
-        qb_register = sorted(self.mapping.hard2log.keys())
 
-        qiskit_circ = QuantumCircuit(len(qb_register), len(qb_register))
+        qiskit_circ = QuantumCircuit(len(self.mapping.hard2log), len(self.mapping.log2hard))
 
         # Prepare uniform superposition.
-        qiskit_circ.h(range(len(qb_register)))
+        qiskit_circ.h(mapping.log2hard.values())  # Only act on the HW qubits which carry a logical qubit.
 
         for gamma, beta in zip(gammas, betas, strict=True):
             # Apply phase separator.
@@ -588,35 +665,33 @@ class Routing:
                         if (
                             weight != 0 and i[2]["swap"] and cancel_cnots
                         ):  # The only situation in which we cancel CNOTs.
-                            qiskit_circ.cx(qb_register.index(i[0]), qb_register.index(i[1]))
-                            qiskit_circ.rz(2 * gamma * weight, qb_register.index(i[1]))
-                            qiskit_circ.cx(qb_register.index(i[1]), qb_register.index(i[0]))
-                            qiskit_circ.cx(qb_register.index(i[0]), qb_register.index(i[1]))
+                            qiskit_circ.cx(i[0], i[1])
+                            qiskit_circ.rz(2 * gamma * weight, i[1])
+                            qiskit_circ.cx(i[1], i[0])
+                            qiskit_circ.cx(i[0], i[1])
 
                         elif weight != 0:
-                            qiskit_circ.rzz(2 * gamma * weight, qb_register.index(i[0]), qb_register.index(i[1]))
+                            qiskit_circ.rzz(2 * gamma * weight, i[0], i[1])
 
                     # Avoid the case when we already did the cancellation (or there is no interaction)
                     if i[2]["swap"] and (not i[2]["int"] or not cancel_cnots):
-                        qiskit_circ.swap(qb_register.index(i[0]), qb_register.index(i[1]))
+                        qiskit_circ.swap(i[0], i[1])
 
                 mapping.update(layer)
 
-            for hard_qb in mapping.hard2log:
-                log_qb = mapping.hard2log[hard_qb]
+            for log_qb, hard_qb in mapping.log2hard.items():
                 local_field = self.problem.get_linear(log_qb)
-                qiskit_circ.rz(2 * gamma * local_field, qb_register.index(hard_qb))
+                qiskit_circ.rz(2 * gamma * local_field, hard_qb)
 
             layers.reverse()
 
-            # Apply driver.
-            qiskit_circ.rx(2 * beta, range(len(qb_register)))
-
-        classical_bits = [mapping.hard2log[hard_qb] for hard_qb in qb_register]
+            # Apply driver, only acting on the HW qubits which correspond to a logical qubit.
+            qiskit_circ.rx(2 * beta, mapping.log2hard.values())
 
         if measurement:
             qiskit_circ.barrier()
-            qiskit_circ.measure(np.arange(len(qb_register)), classical_bits)
+            for log_qb, hard_qb in mapping.log2hard.items():
+                qiskit_circ.measure(hard_qb, log_qb)
 
         return qiskit_circ
 

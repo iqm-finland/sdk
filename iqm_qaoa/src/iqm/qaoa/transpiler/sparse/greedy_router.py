@@ -26,11 +26,14 @@ The main function to be called for routing is :func:`greedy_router`. The rest ar
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from functools import lru_cache
 from itertools import chain
 import math
+from typing import Protocol, TypeVar
 
-from dimod import BinaryQuadraticModel
+from dimod import BinaryQuadraticModel, to_networkx_graph
+from iqm.applications.graph_utils import get_top_n_color_pairs
 from iqm.qaoa.transpiler.quantum_hardware import QPU, HardEdge, HardQubit, LogEdge, LogQubit
 from iqm.qaoa.transpiler.routing import Layer, Routing
 from iqm.qaoa.transpiler.sparse.two_color_mapper import two_color_mapper
@@ -115,9 +118,8 @@ def _execute_all_possible_int_gates(
         Bool indicating whether any gate was executed.
 
     """
-    int_graph: nx.Graph = nx.Graph()
-    # This bool tracks if any gate was executed at all
-    gate_executed = False
+    log_int_graph: nx.Graph = nx.Graph()
+    gate_executed = False  # This bool tracks if any gate was executed at all
 
     # We check if there are any interactions in ``remaining_interactions`` which we can execute 'for free'.
     for log_0, log_1 in routing.remaining_interactions.edges:
@@ -127,15 +129,14 @@ def _execute_all_possible_int_gates(
         if routing.qpu.hardware_graph.has_edge(hard_qb0, hard_qb1):
             # ... and they aren't occupied by other gates.
             if routing.layers[-1].int_gate_applicable(HardEdge((hard_qb0, hard_qb1))):
-                int_graph.add_edge(hard_qb1, hard_qb0)
+                log_int_graph.add_edge(log_0, log_1)
                 gate_executed = True
     # Only choose a subset of the applicable gates which can be executed in parallel (i.e., a matching).
-    matching = nx.maximal_matching(int_graph)
+    log_matching = nx.maximal_matching(log_int_graph)
 
-    for hard_qb0, hard_qb1 in matching:
-        log_qb0 = routing.mapping.hard2log[hard_qb0]
-        log_qb1 = routing.mapping.hard2log[hard_qb1]
+    for log_qb0, log_qb1 in log_matching:
         int_pair = LogEdge((log_qb0, log_qb1))
+        hard_qb0, hard_qb1 = routing.mapping.log2hard[log_qb0], routing.mapping.log2hard[log_qb1]
         routing.apply_int(HardEdge((hard_qb0, hard_qb1)))
         if int_pair in buffer_interactions:
             # The interaction is in the buffer, so it should be removed.
@@ -235,8 +236,10 @@ def _execute_swaps(
         if _int_pair_distance_change(routing, buffer_interactions, HardEdge(edge)) >= 1:
             routing.apply_swap(HardEdge(edge))
             log1, log2 = routing.mapping.hard2log[edge[0]], routing.mapping.hard2log[edge[1]]
-            _update_distances(routing, log1, problem_graph)
-            _update_distances(routing, log2, problem_graph)
+            if log1 is not None:  # Check if there is even any logical qubit.
+                _update_distances(routing, log1, problem_graph)
+            if log2 is not None:  # Check if there is even any logical qubit.
+                _update_distances(routing, log2, problem_graph)
 
 
 def _decrease_int_pair_distance(routing: Routing, buffer_interactions: set[LogEdge], problem_graph: nx.Graph) -> bool:
@@ -261,7 +264,7 @@ def _decrease_int_pair_distance(routing: Routing, buffer_interactions: set[LogEd
     gate_executed = False
     for _ in range(len(routing.mapping.hard2log)):
         swap_graph: nx.Graph = nx.Graph()
-        for hard_qb0, hard_qb1 in routing.active_subgraph.edges():
+        for hard_qb0, hard_qb1 in routing.qpu.hardware_graph.edges():
             swap_gate = HardEdge((hard_qb0, hard_qb1))
             if routing.layers[-1].swap_gate_applicable(swap_gate):
                 diff = _int_pair_distance_change(routing, buffer_interactions, swap_gate)
@@ -321,8 +324,12 @@ def _fallback_routine(routing: Routing, buffer_interactions: set[LogEdge], probl
     # gets closer to the second qubit. Presumably, the second qubit being swapped will get further away from
     # its logical interaction partner (otherwise the fallback routine wouldn't be triggered).
     routing.apply_swap(HardEdge(shortest_path[:2]))
-    _update_distances(routing, routing.mapping.hard2log[shortest_path[0]], problem_graph)
-    _update_distances(routing, routing.mapping.hard2log[shortest_path[1]], problem_graph)
+    swapped_log_qb0 = routing.mapping.hard2log[shortest_path[0]]
+    swapped_log_qb1 = routing.mapping.hard2log[shortest_path[1]]
+    if swapped_log_qb0 is not None:
+        _update_distances(routing, swapped_log_qb0, problem_graph)
+    if swapped_log_qb1 is not None:
+        _update_distances(routing, swapped_log_qb1, problem_graph)
 
 
 def _find_best_replacement(
@@ -464,14 +471,14 @@ def _greedy_pair_mapper(
             buffer_interactions.add(LogEdge(dummy))
             buffer_involved_qubits.add(dummy[0])
             buffer_involved_qubits.add(dummy[1])
-        # If there are no more interactions in the buffer or in the listr of interactions to be done ...
+        # If there are no more interactions in the buffer or in the list of interactions to be done ...
         else:
             # ... finish the algorithm.
             break
 
 
 def _get_initial_objects(
-    problem_bqm: BinaryQuadraticModel, qpu: QPU
+    problem_bqm: BinaryQuadraticModel, qpu: QPU, color_sets: tuple[set[LogEdge], set[LogEdge]]
 ) -> tuple[set[LogEdge], set[LogQubit], nx.Graph, Routing]:
     """The initialization function for the greedy mapper.
 
@@ -484,6 +491,8 @@ def _get_initial_objects(
     Args:
         problem_bqm: The :class:`~dimod.BinaryQuadraticModel` of the problem we're trying to solve.
         qpu: The QPU that we're going to solve the problem on.
+        color_sets: The two sets of edges (of the problem graph) colored by two selected colors. This is necessary for
+            the initial placement of the problem qubits onto the hardware qubits.
 
     Returns:
         The initial set of buffer edges.
@@ -493,7 +502,7 @@ def _get_initial_objects(
 
     """
     # Find an initial mapping using edge coloring.
-    initial_mapping, first_two_int_layers = two_color_mapper(problem_bqm, qpu)
+    initial_mapping, first_two_int_layers = two_color_mapper(problem_bqm, qpu, color_sets)
 
     route = Routing(problem_bqm, qpu, initial_mapping=initial_mapping)
 
@@ -504,6 +513,9 @@ def _get_initial_objects(
         # The distance of the interaction in terms of number of swaps needed to be able to execute the interaction.
         # It corresponds to the length of the shortest path minus two (excluding the first and last node of the path).
         problem_graph.add_edge(q1, q2, bias=len(route.qpu.shortest_path[hard1][hard2]) - 2)
+
+    # This adds any nodes to the problem graph which don't have any edges (interactions in the BQM).
+    problem_graph.add_nodes_from(route.remaining_interactions.nodes())
 
     # Iterate over all gates in the first two layers (chain unpacks the two layers and all gates in them)
     for int_gate in chain.from_iterable(first_two_int_layers):
@@ -521,7 +533,25 @@ def _get_initial_objects(
     return initial_buffer, initial_involved_qubits, problem_graph, route
 
 
-def greedy_router(problem_bqm: BinaryQuadraticModel, qpu: QPU) -> Routing:
+T = TypeVar("T", bound="SupportsLessThan")
+
+
+# Apparently something this basic isn't defined in Python or `typing`, so we have to define it ourselves.
+class SupportsLessThan(Protocol):
+    """Covers all types that allow two items to be compared against each other."""
+
+    def __lt__(self: T, other: T) -> bool:
+        """The '<' comparison between two objects."""
+        ...
+
+
+def greedy_router(
+    problem_bqm: BinaryQuadraticModel,
+    qpu: QPU,
+    max_iter_color_pairs: int = 1,
+    # A list will probably also work, but `mypy` doesn't like it in the type hint.
+    key_best_route: Callable[[Routing], SupportsLessThan] | None = None,
+) -> Routing:
     """The function which takes a problem BQM ``problem_bqm`` and a QPU ``qpu`` and returns a routing.
 
     This serves as a 'wrapper' for the entire greedy routing algorithm. For details of the algorithm, see
@@ -530,11 +560,34 @@ def greedy_router(problem_bqm: BinaryQuadraticModel, qpu: QPU) -> Routing:
     Args:
         problem_bqm: The :class:`~dimod.BinaryQuadraticModel` of the problem we're trying to solve.
         qpu: The :class:`~iqm.qaoa.transpiler.quantum_hardware.QPU` that we're going to solve the problem on.
+        max_iter_color_pairs: How many different starting color pairs (sorted by size) should be iterated over.
+        key_best_route: The key to determine which routing is the best if ``max_iter_color_pairs`` is greater than 1.
+            This should be a function that takes :class:`iqm.qaoa.transpiler.routing.Routing` on input and returns
+            something comparable (typically a ``float`` or an ``int``). It is assumed that this ``key`` is
+            **minimized**. The default is ``lambda o: len(o.layers)``, i.e., the routing with the minimal number of
+            layers. Another recommended option is ``lambda o: o.count_swap_gates()``.
 
     Returns:
         A routing object containing all the swap and interaction layers needed to execute one QAOA layer.
 
     """
-    buffer_interactions, buffer_involved_qubits, problem_graph, route = _get_initial_objects(problem_bqm, qpu)
-    _greedy_pair_mapper(route, buffer_interactions, buffer_involved_qubits, problem_graph)
-    return route
+    problem_graph: nx.Graph = to_networkx_graph(problem_bqm)
+
+    top_n_color_pairs = get_top_n_color_pairs(problem_graph=problem_graph, max_color_pairs=max_iter_color_pairs)
+
+    list_of_routings: list[Routing] = []
+    for color_pair in top_n_color_pairs:
+        buffer_interactions, buffer_involved_qubits, problem_graph, route = _get_initial_objects(
+            problem_bqm, qpu, color_pair
+        )
+
+        _greedy_pair_mapper(route, buffer_interactions, buffer_involved_qubits, problem_graph)
+        list_of_routings.append(route)
+
+    if key_best_route is None:
+
+        def key_best_route(r: Routing) -> int:
+            """Default key function: number of layers, i.e., circuit depth."""
+            return len(r.layers)
+
+    return min(list_of_routings, key=key_best_route)

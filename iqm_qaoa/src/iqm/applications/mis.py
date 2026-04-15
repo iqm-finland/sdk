@@ -53,7 +53,6 @@ from iqm.applications.graph_utils import (
     _generate_desired_graph,
     _get_attr_with_priority,
     draw_problem,
-    relabel_graph_nodes,
 )
 from iqm.applications.qubo import ConstrainedQuadraticInstance
 import networkx as nx
@@ -76,17 +75,25 @@ class ISInstance(ConstrainedQuadraticInstance):
         penalty: The penalty to be incurred per each edge present in the solution. This is needed when the problem
             formulation is transformed into QUBO.
         objective: The objective function to be minimized by the independent set.
+        allow_custom_var_names: Determines whether it's allowed for ``graph`` to have nodes labelled by anything other
+            than consecutive integers starting at 0.
 
     """
 
-    def __init__(self, graph: nx.Graph, penalty: float | int, objective: BinaryQuadraticModel) -> None:
+    def __init__(
+        self,
+        graph: nx.Graph,
+        penalty: float | int,
+        objective: BinaryQuadraticModel,
+        allow_custom_var_names: bool = False,
+    ) -> None:
         self._graph = graph
         self._objective = objective
         cqm = ConstrainedQuadraticModel()
         cqm.set_objective(self._objective)
         for u, v in self._graph.edges():
             cqm.add_constraint_from_iterable([(u, v, 1)], "==", rhs=0)
-        super().__init__(cqm, penalty=penalty)
+        super().__init__(cqm, penalty=penalty, allow_custom_var_names=allow_custom_var_names)
 
     @property
     def graph(self) -> nx.Graph:
@@ -97,7 +104,11 @@ class ISInstance(ConstrainedQuadraticInstance):
         """
         return self._graph
 
-    def fix_variables(self, variables: list[int] | dict[int, int]) -> None:
+    def fix_variables(
+        self,
+        variables: list[int] | list[Variable] | dict[int, int] | dict[Variable, int],
+        original_labels: bool = False,
+    ) -> None:
         """A method to fix (assign) some of the problem variables.
 
         When a variable is fixed to 1, all of its neighboring variables are fixed to 0 (because of the constraints).
@@ -105,6 +116,13 @@ class ISInstance(ConstrainedQuadraticInstance):
         Args:
             variables: Either a list of variables (which get all fixed to the value 1) or a dictionary with keys equal
                 to the variables to fix and whose values are equal to the values to fix them to (either 1 or 0).
+            original_labels: Is the input using the original variable labels (in case they were labeled with e.g.,
+                strings or non-consecutive integers)? This refers to the fact that the input to the problem instance
+                (in this case the input ``graph`` of :class:`ISInstance`) may have variables labelled by any hashable,
+                aliased as :class:`dimod.typing.Variable` in :mod:`dimod`. On initialization of the problem instance,
+                the problem variables are re-labeled by consecutive integers starting from 0 (for internal consistancy).
+                If ``original_labels`` is set to ``True``, this method :meth:`fix_variables` is expected to receive
+                the original names of the variables instead of their new integer labels.
 
         Raises:
             ValueError: If the user is trying to fix two neighbouring nodes to 1, violating the independence
@@ -113,7 +131,21 @@ class ISInstance(ConstrainedQuadraticInstance):
 
         """
         if isinstance(variables, list):
-            variables = {var: 1 for var in variables}
+            variables = dict.fromkeys(variables, 1)
+
+        if original_labels:
+            variables = {self.orig_to_new_labels[var_orig_label]: value for var_orig_label, value in variables.items()}
+        else:
+            for var_label in variables:
+                if not isinstance(var_label, int):
+                    raise TypeError(
+                        f"When `original_labels` is set to False (default), the types of variables to fix "
+                        f"need to be `int`. The variable {var_label} has type {type(var_label)}."
+                    )
+
+        # At this point ``variables`` should have the type ``dict[int, int]``, but mypy doesn't know that.
+        variables = cast(dict[int, int], variables)
+
         for var in variables.keys():
             if var in self._fixed_variables and self._fixed_variables[var] != variables[var]:
                 raise ValueError(
@@ -127,11 +159,11 @@ class ISInstance(ConstrainedQuadraticInstance):
         to_be_fixed_as_0 = set()
         for var in variables:
             if variables[var] == 1:
-                var_neighbors = self._graph.neighbors(var)
+                var_neighbors = self._graph.neighbors(self.new_to_orig_labels[var])
                 for neighbor in var_neighbors:
-                    if neighbor in self._cqm.variables:
-                        to_be_fixed_as_0.add(neighbor)
-        # This needs to be done in a separate step, so that the dictionary isn't modified in the iteration.
+                    if self.orig_to_new_labels[neighbor] in self._cqm.variables:
+                        to_be_fixed_as_0.add(self.orig_to_new_labels[neighbor])
+        # This needs to be done in a separate step, so that the dictionary isn't modified in the for loop above.
         for nb in to_be_fixed_as_0:
             variables[nb] = 0
 
@@ -213,23 +245,69 @@ class MISInstance(ISInstance):
             :math:`\lambda` in the literature. The higher it is, the less likely the algorithm is to include an edge in
             the solution. It needs to be set above 1 to insure that the solution is a maximum independent set. It's
             typically set at 2. At 1, the correct solution will be degenerate with non-independent sets.
+        allow_custom_var_names: Determines whether it's allowed for ``graph`` to have nodes labelled by anything other
+            than consecutive integers starting at 0.
 
     """
 
-    def __init__(self, graph: nx.Graph, penalty: float | int = 1) -> None:
+    def __init__(self, graph: nx.Graph, penalty: float = 1, allow_custom_var_names: bool = False) -> None:
         objective = BinaryQuadraticModel(vartype="BINARY")
         objective.add_linear_from(dict.fromkeys(graph.nodes(), -1))
-        super().__init__(graph, penalty, objective)
+        super().__init__(graph, penalty, objective, allow_custom_var_names)
         self._upper_bound = 0  # The worse case (not violating the constraints) is selecting no nodes.
 
     @property
     def best_quality(self) -> float:
-        """The best quality for the MIS problem, calculated using the Bron-Kerbosch algorithm.
+        """The best quality for the MIS problem.
 
-        Instead of brute-forcing over all possible bitstrings, this uses an exhaustive algorithm that finds
-        the best solution more efficiently (although it also has exponential scaling).
+        Can be calculated together with other properties of the solution using the exhaustive Bron-Kerbosch algorithm.
         """
-        return self.loss(bron_kerbosch(self))
+        if self._best_quality is None:
+            self.solve_with_bron_kerbosch()
+        if self._best_quality is None:  # For if :meth:`solve_with_bron_kerbosch` for some reason fails.
+            raise ValueError("Expected 'best_quality' to be set, but it is ``None``.")
+        return self._best_quality
+
+    @property
+    def lowest_quality_bitstrings(self) -> set[str]:
+        """The best bitstrings for the MIS problem.
+
+        Can be calculated together with other properties of the solution using the exhaustive Bron-Kerbosch algorithm.
+        """
+        if self._lowest_quality_bitstrings is None:
+            self.solve_with_bron_kerbosch()
+        if self._lowest_quality_bitstrings is None:  # For if :meth:`solve_with_bron_kerbosch` for some reason fails.
+            raise ValueError("Expected 'lowest_quality_bitstrings' to be set, but it is ``None``.")
+        return self._lowest_quality_bitstrings
+
+    @property
+    def lower_bound(self) -> float:
+        """The lowest quality value among all possible bitstrings.
+
+        Can be calculated together with other properties of the solution using the exhaustive Bron-Kerbosch algorithm.
+        """
+        if self._lower_bound is None:
+            self.solve_with_bron_kerbosch()
+        if self._lower_bound is None:  # For if :meth:`solve_with_bron_kerbosch` for some reason fails.
+            raise ValueError("Expected 'lower_bound' to be set, but it is ``None``.")
+        return self._lower_bound
+
+    def solve_with_bron_kerbosch(self) -> None:
+        """Solve the MIS problem using Bron-Kerbosch algorithm and save some properties of the solution."""
+        solution_bitstrings = bron_kerbosch(self, all_solutions=True)
+        # The output of ``bron_kerbosch`` here should be a set, but ``mypy`` doesn't see that.
+        self._lowest_quality_bitstrings = solution_bitstrings  # type: ignore
+        # The solution bitstrings should all have the same ``loss``, so we can use an arbitrary one.
+        self._lower_bound = self.loss(next(iter(solution_bitstrings)))
+        self._best_quality = self.loss(next(iter(solution_bitstrings)))
+
+    @property
+    def highest_quality_bitstrings(self) -> set[str]:
+        """The worst bitstring for the MIS problem, determined trivially.
+
+        The worst bitstring satisfying all constraints is always selecting no nodes.
+        """
+        return {"0" * self.dim}
 
     def fix_constraint_violation_bitstring(self, bit_str: str) -> str:
         """Postprocessing function that fixes a single bitstring, making it satisfy the constraints.
@@ -277,46 +355,57 @@ class MaximumWeightISInstance(ISInstance):
     function (carrying the weights of the graph nodes).
 
     Args:
-        graph: The :class:`~networkx.Graph` describing the maximum-weight independent set problem. Each node has to have
-            an attribute ``weight`` storing a number.
+        graph: The :class:`~networkx.Graph` describing the maximum-weight independent set problem. Each node of the
+            graph needs to have an attribute (something like "weight") storing a number. Specifically, the
+            initialization method looks fornode attributes from the tuple
+            :py:data:`~iqm.applications.graph_utils.NODE_ATTR_PRIORITY` (in order) and takes the first one as the node
+            weight.
         penalty: The penalty to be incurred per each edge present in the solution, sometimes referred to as
             :math:`\lambda` in the literature. The higher it is, the less likely the algorithm is to include an edge in
             the solution. This is needed when the problem formulation is transformed into QUBO.
+        allow_custom_var_names: Determines whether it's allowed for ``graph`` to have nodes labelled by anything other
+            than consecutive integers starting at 0.
 
     Raises:
-        ValueError: If any node of the input ``graph`` is missing the ``weight`` attribute.
+        ValueError: If any of the input graph's nodes doesn't have any attribute from the tuple of attributes
+            :py:data:`~iqm.applications.graph_utils.NODE_ATTR_PRIORITY`.
         TypeError: If the weight of any node is a wrong data type (neither :class:`float` nor :class:`int`).
 
     """
 
-    def __init__(self, graph: nx.Graph, penalty: float | int) -> None:
-        self._graph, self.orig_to_new_labels, self.new_to_orig_labels = relabel_graph_nodes(graph)
-
+    def __init__(self, graph: nx.Graph, penalty: float | int, allow_custom_var_names: bool = False) -> None:
         # Define the objective function to minimize
         objective = BinaryQuadraticModel(vartype="BINARY")
 
-        for node, data in self._graph.nodes(data=True):
+        for node, data in graph.nodes(data=True):
             value = _get_attr_with_priority(data, NODE_ATTR_PRIORITY)
 
             if value is None:
                 raise ValueError(
-                    f"The node {self.new_to_orig_labels[node]} is missing one of the required attributes "
-                    f"({', '.join(NODE_ATTR_PRIORITY)})."
+                    f"The node {node} is missing one of the required attributes ({', '.join(NODE_ATTR_PRIORITY)})."
                 )
 
             if not isinstance(value, (float, int)):
                 raise TypeError(
-                    f"The local term at node {self.new_to_orig_labels[node]} has a "
+                    f"The local term at node {node} has a "
                     f"value of type {type(value).__name__}, expected ``float`` or ``int``."
                 )
 
             objective.add_linear(node, -value)
 
-        super().__init__(graph, penalty, objective)
+        super().__init__(graph, penalty, objective, allow_custom_var_names=allow_custom_var_names)
 
         # If the nodes have only non-negative weight (i.e., ``objective`` has only non-positive entries) ...
         if max(objective.linear) <= 0:
             self._upper_bound = 0  # ... the worst case is selecting no nodes.
+
+    @property
+    def highest_quality_bitstrings(self) -> set[str]:
+        """The worst bitstring(s) for the MWIS problem, determined trivially if all weights are non-negative."""
+        if min(self._objective.linear.values()) >= 0:
+            return {"0" * self.dim}
+        else:
+            return super().highest_quality_bitstrings  # This will trigger the brute-forcing ``initialize_properties``.
 
 
 def greedy_mis(mis_problem: MISInstance | nx.Graph) -> str:
@@ -357,18 +446,19 @@ def greedy_mis(mis_problem: MISInstance | nx.Graph) -> str:
     return "".join(bitstring)
 
 
-def bron_kerbosch(mis_problem: MISInstance | nx.Graph) -> str:
+def bron_kerbosch(mis_problem: MISInstance | nx.Graph, all_solutions: bool = False) -> str | set[str]:
     """Bron-Kerbosch algorithm for finding the maximum independent set.
 
     The algorithm finds all maximal cliques in a graph recursively. Cliques in complement graph correspond
-    to independent sets in the problem graph. We pick the largest of these.
-    For details see `find_cliques — NetworkX documentation <https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.clique.find_cliques.html>`_
-    (and the references therein):
-
-
+    to independent sets in the problem graph. For details see `find_cliques — NetworkX documentation
+    <https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.clique.find_cliques.html>`_
+    (and the references therein). If ``all_solutions`` is False (default), return one maximum independent set as
+    a bitstring. If ``all_solutions`` is True, return a set of bitstrings corresponding to all maximum independent sets
+    found (not all **maximal** independent sets).
 
     Args:
         mis_problem: A problem instance of maximum independent set or a :class:`~networkx.Graph`.
+        all_solutions: Should the algorithm return all solutions?
 
     Returns:
         A bitstring solution.
@@ -381,13 +471,35 @@ def bron_kerbosch(mis_problem: MISInstance | nx.Graph) -> str:
             f"Supported input is either a NetworkX graph or a MISInstance. Given type: {type(mis_problem).__name__}"
         )
 
-    independent_sets = nx.find_cliques(nx.complement(mis_problem))
-    maximum_independent_set: list[int] = max(independent_sets, key=len, default=[])
+    if mis_problem.number_of_nodes() == 0:  # Check for empty graph.
+        return "" if not all_solutions else {""}  # Return an empty string (or a set with an empty string).
 
-    bitstring = ["0"] * mis_problem.number_of_nodes()
-    for pos in maximum_independent_set:
-        bitstring[pos] = "1"
-    return "".join(bitstring)
+    max_size = 0
+    max_sets = []
+
+    # ``nx.find_cliques()`` is an iterator, so we want to go through it in one pass.
+    for clique in nx.find_cliques(nx.complement(mis_problem)):
+        clique_size = len(clique)
+        if clique_size > max_size:
+            # New max found: discard old, start new list.
+            max_size = clique_size
+            max_sets = [clique]
+        elif clique_size == max_size:
+            # Another clique of same max size: add it.
+            max_sets.append(clique)
+
+    def _to_bitstring(nodes: list[int]) -> str:
+        bitstring = ["0"] * mis_problem.number_of_nodes()
+        for n in nodes:
+            bitstring[n] = "1"
+        return "".join(bitstring)
+
+    if not all_solutions:
+        # Return just one max independent set.
+        return _to_bitstring(max_sets[0])
+
+    # Return *all* max independent sets as bitstrings.
+    return {_to_bitstring(s) for s in max_sets}
 
 
 def mis_generator(  # noqa: PLR0913

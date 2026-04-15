@@ -68,14 +68,13 @@ def _serialize_job_request(payload: Any, queue_name: str, sweep_id: uuid.UUID) -
 
 
 def deserialize_sweep_job_request(data: bytes) -> tuple[SweepDefinition, str]:
-    """Deserializes `sweep_definition` and `queue_name` from the serialized bitstring.
+    """Deserialize ``sweep_definition`` and ``queue_name`` from the serialized data.
 
     Args:
-        data: The serialized data
+        data: The serialized data.
 
     Returns:
-        Deserialized tuple :class:`~iqm.station_control.interface.model.SweepDefinition
-        and queue name (string).
+        Deserialized sweep definition, queue name.
 
     """
     sweep_task_request_proto = SweepTaskRequestProto()

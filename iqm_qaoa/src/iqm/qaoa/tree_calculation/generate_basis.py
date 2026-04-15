@@ -51,10 +51,12 @@ def get_z_basis(p: int) -> NDArray[np.int8]:
 def get_z_basis_m(m: int) -> NDArray[np.int8]:
     r"""Generate an array containing the Z basis on a qubit.
 
-    Basically, this function is the same as :func:`get_z_basis`, but instead of specifying `p`, here one specifies
+    Basically, this function is the same as :func:`get_z_basis`, but instead of specifying ``p``, here one specifies
     the length of the basis elements directly. Effectively, the function implements the following line of code, but in
-    a `numba`-compatible way.
+    a Numba-compatible way.
+
     .. code-block:: python
+
         return np.array(list(itertools.product([-1, 1], repeat=2 * m)), dtype=np.int8)
 
     Args:

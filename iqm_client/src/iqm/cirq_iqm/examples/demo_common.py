@@ -11,7 +11,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Demonstrates transforming a quantum circuit into the native gateset and connectivity of a given
+"""Transpilation and simulation demo utilities.
+
+Demonstrates transforming a quantum circuit into the native gateset and connectivity of a given
 IQM device, optimizing it, and then executing it on a simulator.
 """
 
@@ -138,7 +140,8 @@ def simulate_without_measurements(
     return state
 
 
-def pause() -> None:  # noqa: D103
+def pause() -> None:
+    """Pause the execution until user presses enter."""
     input("\npress enter\n")
 
 
@@ -179,7 +182,7 @@ def demo(device: IQMDevice, circuit: cirq.Circuit, *, use_qsim: bool = False) ->
     # Initialize a ket-based simulator for evaluating the circuit
     if use_qsim:
         # FIXME: decide what to do with this implicit dependency to qsimcirq.
-        import qsimcirq  # type:ignore[import-not-found]
+        import qsimcirq  # type: ignore[import-not-found] # noqa: PLC0415
 
         sim = qsimcirq.QSimSimulator()
         print("Using qsim.")

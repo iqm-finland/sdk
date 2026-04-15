@@ -8,4 +8,5 @@ API Reference
 
    iqm.cirq_iqm
    iqm.iqm_client
+   iqm.iqm_server_client
    iqm.qiskit_iqm

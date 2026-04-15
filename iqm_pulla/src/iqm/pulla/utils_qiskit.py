@@ -17,25 +17,45 @@ from __future__ import annotations
 
 from collections import Counter
 from collections.abc import Collection, Sequence
+from copy import deepcopy
 from datetime import date
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
-from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
+from iqm.iqm_client import ExistingMoveHandlingOptions
+from iqm.iqm_server_client.models import JobStatus
+from iqm.qiskit_iqm import transpile_to_IQM
 from iqm.qiskit_iqm.iqm_job import IQMJob
 from iqm.qiskit_iqm.qiskit_to_iqm import serialize_instructions
 from qiskit import QuantumCircuit
-from qiskit.providers import JobStatus, JobV1, Options
 from qiskit.result import Counts, Result
 
-from iqm.cpc.interface.compiler import Circuit, CircuitExecutionOptions, HeraldingMode
-from iqm.pulla.pulla import JobStatus as IQMServerJobStatus
+from exa.common.data.setting_node import SettingNode
+from exa.common.qcm_data.chip_topology import ChipTopology
+from iqm.cpc.compiler.compiler import (
+    CompilationStage,
+    Compiler,
+    CompilerOptions,
+)
+from iqm.cpc.compiler.post_process import (
+    _STANDARD_CIRCUIT_POST_PROCESSING_STAGES,
+    _STANDARD_POST_PROCESSING_STAGES,
+)
+from iqm.cpc.compiler.standard_stages import (
+    _STANDARD_CIRCUIT_STAGES,
+    _STANDARD_FINAL_STAGES,
+    _STANDARD_PULSE_STAGES,
+)
+from iqm.cpc.core.config import ComponentGrouping, ComponentGroupingMode
+from iqm.cpc.core.observation.observation_loading_rules import LatestFromStash, RuleType
+from iqm.cpc.interface.circuit_execution import Circuit
+from iqm.pulla.interface import HERALDING_KEY
+from iqm.pulse.quantum_ops import QuantumOp
 
 if TYPE_CHECKING:
-    from iqm.qiskit_iqm.iqm_backend import DynamicQuantumArchitecture
-    from iqm.qiskit_iqm.iqm_provider import IQMBackend
+    from iqm.qiskit_iqm.iqm_provider import IQMBackend, IQMBackendBase
 
-    from iqm.cpc.compiler.compiler import Compiler
-    from iqm.pulla.pulla import Pulla, SweepJob
+    from iqm.cpc.compiler.compiler import CompilationStage, Compiler
+    from iqm.pulla.pulla import Pulla, PullaJob
 
 
 def qiskit_circuits_to_pulla(
@@ -44,8 +64,6 @@ def qiskit_circuits_to_pulla(
     custom_gates: Collection[str] = (),
 ) -> list[Circuit]:
     """Convert Qiskit quantum circuits into IQM Pulse quantum circuits.
-
-    Lower-level method, you may want to use :func:`qiskit_to_pulla` instead.
 
     Args:
         qiskit_circuits: One or many Qiskit quantum circuits to convert.
@@ -105,9 +123,7 @@ def qiskit_to_pulla(
         raise ValueError("RunRequest created by IQMBackend has no calibration set id.")
 
     # create a compiler containing all the required station information
-    compiler = pulla.get_standard_compiler(
-        calibration_set_values=pulla.fetch_calibration_set_values_by_id(run_request.calibration_set_id),
-    )
+    compiler = pulla.get_standard_compiler(exa_style_pp=False)
     compiler.component_mapping = run_request.qubit_mapping
     # We can be certain run_request contains only Circuit objects, because we created it
     # right in this method with qiskit.QuantumCircuit objects
@@ -115,11 +131,111 @@ def qiskit_to_pulla(
     return circuits, compiler
 
 
+class QiskitCompiler(Compiler):
+    """Pulla Compiler which contains the Qiskit backend (:class:`.IQMBackendBase`) and extra circuit stages for
+    parallelizing and transpiling Qiskit circuits and finally converting them to IQM circuits.
+    """
+
+    def __init__(  # noqa: PLR0913
+        self,
+        *,
+        dut_label: str,
+        loading_rules: list[RuleType],
+        chip_topology: ChipTopology,
+        software_version_set_id: int,
+        station_control_settings: SettingNode,
+        component_mapping: dict[str, str] | None,
+        controller_mapping: dict[str, dict[str, str]] | None = None,
+        gate_definitions: dict[str, QuantumOp] | None = None,
+        circuit_stages: list[CompilationStage] | None = None,
+        pulse_stages: list[CompilationStage] | None = None,
+        final_stages: list[CompilationStage] | None = None,
+        pp_stages: list[CompilationStage] | None = None,
+        compiler_options: CompilerOptions | None = None,
+        name: str = "IQM Compiler",
+        backend: IQMBackendBase | None = None,
+    ) -> None:
+        super().__init__(
+            dut_label=dut_label,
+            loading_rules=loading_rules,
+            chip_topology=chip_topology,
+            software_version_set_id=software_version_set_id,
+            station_control_settings=station_control_settings,
+            component_mapping=component_mapping,
+            controller_mapping=controller_mapping,
+            gate_definitions=gate_definitions,
+            circuit_stages=circuit_stages,
+            pulse_stages=pulse_stages,
+            final_stages=final_stages,
+            pp_stages=pp_stages,
+            compiler_options=compiler_options,
+            name=name,
+        )
+        self.backend = backend
+
+    def compiler_context(self, components: ComponentGrouping | None, settings: SettingNode, **kwargs) -> dict[str, Any]:
+        """Adds the Qiskit backend to the Compiler context."""
+        context = super().compiler_context(components, settings, **kwargs)
+        context["backend"] = self.backend
+        return context
+
+
+def get_qiskit_compiler(
+    pulla: Pulla,
+    backend: IQMBackendBase,
+    loading_rules: list[RuleType] | None = None,
+    *,
+    exa_style_pp: bool = True,
+    controller_mapping: dict[str, dict[str, str]] | None = None,
+    gate_definitions: dict[str, QuantumOp] | None = None,
+    options: CompilerOptions | None = None,
+) -> QiskitCompiler:
+    """Get the Qiskit-specific Pulla Compiler.
+
+    Args:
+        pulla: Pulla instance
+        backend: Qiskit backend.
+        loading_rules: Observation loading rules. If ``None``, will use the current default calibration set.
+        exa_style_pp: Whether to do EXA-style dataset post-processing by default.
+        controller_mapping: Dictionary that maps physical QPU component names to their device controller names.
+            The dictionary is of the form: ``{<component_name>: {<operation_name>: <controller name>}}``,
+            where operation is one of the following: "drive", "readout", "flux"
+            (not all components have all operations supported).
+        gate_definitions: Names of quantum operations mapped to their definitions, see :class:`.QuantumOp`.
+        options: General options to define the compiler behaviour.
+
+    Returns:
+        The Qiskit-specific Pulla Compiler.
+
+    """
+    pp_stages = (
+        deepcopy(_STANDARD_POST_PROCESSING_STAGES)
+        if exa_style_pp
+        else deepcopy(_STANDARD_CIRCUIT_POST_PROCESSING_STAGES)
+    )
+    loading_rules = loading_rules if loading_rules is not None else [LatestFromStash(pulla.get_calibration_stash())]
+    return QiskitCompiler(
+        dut_label=pulla.get_chip_label(),
+        loading_rules=loading_rules,
+        chip_topology=pulla._chip_topology,
+        software_version_set_id=pulla._software_version_set_id,
+        station_control_settings=pulla._station_control_settings.model_copy(),
+        component_mapping=None,
+        controller_mapping=controller_mapping,
+        gate_definitions=gate_definitions,
+        circuit_stages=[qiskit_transpilation_stage, qiskit_to_iqm_stage] + deepcopy(_STANDARD_CIRCUIT_STAGES),
+        pulse_stages=deepcopy(_STANDARD_PULSE_STAGES),
+        final_stages=deepcopy(_STANDARD_FINAL_STAGES),
+        pp_stages=pp_stages,
+        compiler_options=options,
+        backend=backend,
+    )
+
+
 def sweep_job_to_qiskit(
-    job: SweepJob,
+    job: PullaJob,
     *,
     shots: int,
-    execution_options: CircuitExecutionOptions,
 ) -> Result:
     """Convert a completed Pulla job to a Qiskit Result.
 
@@ -132,13 +248,16 @@ def sweep_job_to_qiskit(
         The equivalent Qiskit Result.
 
     """
-    result = job.result()
-    if result is None:
+    circuit_execution_results = job.result()
+    if circuit_execution_results is None:
         raise ValueError(
             f'Cannot format Qiskit result without result measurements. Job status is "{job.status.upper()}"'
         )
 
-    used_heralding = execution_options.heralding_mode == HeraldingMode.NONE
+    if circuit_execution_results.circuit_measurement_results is None:
+        raise ValueError("Cannot format station control result without result.")
+
+    used_heralding = sum(HERALDING_KEY in key for key in circuit_execution_results.sweep_results.keys()) > 0
 
     # Convert the measurement results from a batch of circuits into the Qiskit format.
     batch_results: list[tuple[str, list[str]]] = [
@@ -149,7 +268,7 @@ def sweep_job_to_qiskit(
                 circuit_measurements, requested_shots=shots, expect_exact_shots=used_heralding
             ),
         )
-        for index, circuit_measurements in enumerate(result)
+        for index, circuit_measurements in enumerate(circuit_execution_results.circuit_measurement_results)
     ]
 
     result_dict = {
@@ -157,7 +276,7 @@ def sweep_job_to_qiskit(
         "backend_version": "",
         "qobj_id": "",
         "job_id": str(job.job_id),
-        "success": job.status == IQMServerJobStatus.COMPLETED,
+        "success": job.status == JobStatus.COMPLETED,
         "date": date.today().isoformat(),
         "status": str(job.status),
         "timeline": job.data.timeline.copy(),
@@ -171,7 +290,6 @@ def sweep_job_to_qiskit(
                     "metadata": {},
                 },
                 "header": {"name": name},
-                "calibration_set_id": job.data.compilation.calibration_set_id if job.data.compilation else None,
             }
             for name, measurement_results in batch_results
         ],
@@ -179,67 +297,132 @@ def sweep_job_to_qiskit(
     return Result.from_dict(result_dict)
 
 
-class IQMPullaBackend(IQMBackendBase):
-    """A backend that compiles circuits locally using Pulla and submits them to Station Control for execution.
+# QISKIT COMPILER PASSES AND STAGES
+
+
+def parallelize_and_transpile(  # noqa: PLR0913
+    circuits: list[QuantumCircuit],
+    components: ComponentGrouping | None,
+    context: dict[str, Any],
+    perform_move_routing: bool = True,
+    optimize_single_qubits: bool = True,
+    ignore_barriers_in_1qb_optimization: bool = False,
+    remove_final_rzs: bool = True,
+    existing_moves_handling: str | None = None,
+    optimization_level: int = 0,  # below qiskit native transpile kwargs
+    seed_transpiler: int | None = None,
+    num_processes: int | None = None,
+) -> list[list[QuantumCircuit]]:
+    """Transpile Qiskit circuits and parallelize them if colour grouped components were inputted.
 
     Args:
-        architecture: Describes the backend architecture.
-        pulla: Instance of Pulla used to execute the circuits.
-        compiler: Instance of Compiler used to compile the circuits.
+        circuits: List of Qiskit QuantumCircuit objects to transpile and potentially parallelize.
+        components: List of (physical) components on which to transpile (route) the circuits. If a flat list of
+            components is provided, the IQMTarget will be built only on that subset of the full QPU. If colour
+            grouped components (i.e. of the form ``list[list[tuple(str, ...)]]``) is provided, the circuits will
+            be parallelized such that each colour group becomes its own circuit, and the circuit will be broadcasted
+            to parallel groups within a colour group, i.e. executed parallelly. If ``None`` is provided, the default
+            target for the full QPU will be used.
+        context: The Compiler context.
+        perform_move_routing: Whether to perform MOVE gate routing.
+        optimize_single_qubits: Whether to optimize single qubit gates away.
+        ignore_barriers_in_1qb_optimization: Whether to ignore barriers when optimizing single qubit gates.
+        remove_final_rzs: Whether to remove the final z rotations.
+        existing_moves_handling: How to handle existing MOVE gates in the circuit, required if the circuit contains
+            MOVE gates.
+        optimization_level: The optimization level of the Qiskit transpiler.
+        seed_transpiler: The seed of the Qiskit transpiler.
+        num_processes: The number of parallel processes to use.
+
+    Returns:
+        Transpiled and possibly parallelized circuits. The circuit(s) in each inner list are executed in parallel.
+        If there is no parallelization, each inner list has just one item.
 
     """
+    qiskit_kwargs: dict[str, Any] = {
+        "backend": context["backend"],
+        "perform_move_routing": perform_move_routing,
+        "optimize_single_qubits": optimize_single_qubits,
+        "ignore_barriers": ignore_barriers_in_1qb_optimization,
+        "remove_final_rzs": remove_final_rzs,
+        "existing_moves_handling": ExistingMoveHandlingOptions(existing_moves_handling)
+        if existing_moves_handling
+        else None,
+        "optimization_level": optimization_level,
+        "seed_transpiler": seed_transpiler,
+        "num_processes": num_processes,
+    }
+    transpiled_circuits: list[list[QuantumCircuit]] = []
+    if components is not None and components.grouping_mode == ComponentGroupingMode.COLOUR_GROUP:
+        # parallelize the circuit(s)
+        if not (len(circuits) == 1 or {len(par_circs) for par_circs in components} == {len(circuits)}):
+            raise RuntimeError(
+                "Parallelization only available for a single circuit parallelized over multiple"
+                " colour groups or a separate circuit for each parallel group (i.e. the same number"
+                " of circuits and parallel groups in every colour group."
+            )
+        for colour in components:
+            parallel_circuits: list[QuantumCircuit] = []
+            circuits_to_broadcast = [circuits[0]] * len(colour) if len(circuits) == 1 else circuits
+            for group, circuit in zip(colour, circuits_to_broadcast):
+                qiskit_kwargs["restrict_to_qubits"] = list(group)
+                qiskit_kwargs["initial_layout"] = [idx for idx, _ in enumerate(group) if idx < circuit.num_qubits]
+                parallel_circuits.append(transpile_to_IQM(circuit, **qiskit_kwargs))
+            transpiled_circuits.append(parallel_circuits)
+    else:
+        for circuit in circuits:
+            if components is not None:
+                qiskit_kwargs["initial_layout"] = [idx for idx, _ in enumerate(components) if idx < circuit.num_qubits]
+                qiskit_kwargs["restrict_to_qubits"] = components.flatten()
+            transpiled_circuits.append([transpile_to_IQM(circuit, **qiskit_kwargs)])
+    return transpiled_circuits
 
-    def __init__(self, architecture: DynamicQuantumArchitecture, pulla: Pulla, compiler: Compiler):
-        super().__init__(architecture, name="IQMPullaBackend")
-        self.pulla = pulla
-        self.compiler = compiler
 
-    def run(self, run_input: QuantumCircuit | list[QuantumCircuit], shots: int = 1024, **options) -> DummyJob:
-        # Convert Qiskit circuits to Pulla circuits
-        pulla_circuits = qiskit_circuits_to_pulla(run_input, self._idx_to_qb)
+def qiskit_circuits_to_iqm_circuits(
+    circuits: list[list[QuantumCircuit]], components: ComponentGrouping | None, context: dict[str, Any]
+) -> list[Circuit]:
+    """Convert Qiskit QuantumCircuits to IQM circuits.
 
-        # Compile the circuits, build settings and execute
-        playlist, context = self.compiler.compile(pulla_circuits)
-        settings, context = self.compiler.build_settings(context, shots=shots)
+    Args:
+        circuits: Qiskit QuantumCircuit objects to compile. The circuits in each inner list are executed in parallel.
+        components: Physical components on which to compile the circuits. If ``None``, will use the default IQMTarget
+            in the Qiskit backend, otherwise restricts to these components.
+        context: The Compiler context.
 
-        # submit the playlist for execution
-        job = self.pulla.submit_playlist(playlist, settings, context=context)
-        # wait for the job to finish, no timeout (user can use Ctrl-C to stop)
-        # TODO it would be better if we did not wait and instead returned a Qiskit JobV1 containing
-        # a SweepJob that can be used to actually track the job.
-        job.wait_for_completion(timeout_secs=0.0)
+    Returns:
+        Converted IQM circuits.
 
-        # Convert the response data to a Qiskit result
-        qiskit_result = sweep_job_to_qiskit(job, shots=shots, execution_options=context["options"])
-
-        # Return a dummy job object that can be used to retrieve the result
-        dummy_job = DummyJob(self, qiskit_result)
-        return dummy_job
-
-    @classmethod
-    def _default_options(cls) -> Options:
-        return Options()
-
-    @property
-    def max_circuits(self) -> int | None:
-        return None
-
-
-class DummyJob(JobV1):
-    """A dummy job object that can be used to retrieve the result of a locally compiled circuit.
-
-    The ``job_id`` is the same as the ``sweep_id`` of the ``StationControlResult``.
     """
+    if components is not None:
+        iqm_circuits: list[Circuit] = []
+        colour_groups = (
+            components
+            if components.grouping_mode == ComponentGroupingMode.COLOUR_GROUP
+            else [[tuple(components)]] * len(circuits)
+        )
+        for colour_group, parallel_circuits in zip(colour_groups, circuits):
+            iqm_instructions = []
+            for parallel_circuit, parallel_group in zip(parallel_circuits, colour_group):
+                qubit_idx_to_name = dict(enumerate(parallel_group))
+                iqm_instructions.extend(
+                    list(qiskit_circuits_to_pulla(parallel_circuit, qubit_idx_to_name)[0].instructions)
+                )
+            iqm_circuits.append(
+                Circuit(
+                    name=f"Parallel Circuit on {colour_group}",
+                    instructions=tuple(iqm_instructions),
+                )
+            )
+        return iqm_circuits
+    idx_mapping = context["backend"].target.iqm_idx_to_component
+    return qiskit_circuits_to_pulla([group[0] for group in circuits], idx_mapping)
 
-    def __init__(self, backend: IQMBackend, qiskit_result: Result) -> None:
-        super().__init__(backend=backend, job_id=qiskit_result.job_id)
-        self.qiskit_result = qiskit_result
 
-    def result(self) -> Result:
-        return self.qiskit_result
-
-    def status(self) -> JobStatus:
-        return JobStatus.DONE
-
-    def submit(self) -> None:
-        return None
+qiskit_transpilation_stage = CompilationStage(
+    name="qiskit_transpilation", info="Transpile and route Qiskit circuits to the correct architecture."
+)
+qiskit_transpilation_stage.add_passes(parallelize_and_transpile)
+qiskit_to_iqm_stage = CompilationStage(
+    name="qiskit_to_iqm", info="Convert Qiskit circuits into the internal circuit representation."
+)
+qiskit_to_iqm_stage.add_passes(qiskit_circuits_to_iqm_circuits)

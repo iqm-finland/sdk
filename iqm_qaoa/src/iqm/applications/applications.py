@@ -42,7 +42,10 @@ Example:
 """
 
 from abc import ABC, abstractmethod
+from collections.abc import Hashable
 from itertools import product
+
+import numpy as np
 
 
 class ProblemInstance(ABC):
@@ -54,9 +57,9 @@ class ProblemInstance(ABC):
     The abstract methods :meth:`dim` and :meth:`quality` are meant to be overridden by children classes, depending on
     how the dimension of the problem and the quality of the solution are understood.
 
-    The upper/lower bound, average/best quality attributes start as ``None``. The first time one of them is called, it
-    calls the method :meth:`initialize_properties`, which calculates all of them by brute-forcing over all bitstrings
-    representing solution candidates.
+    The attributes upper/lower bound, average/best quality and the corresponding bitstrings start as ``None``. The first
+    time one of them is called, it calls the method :meth:`initialize_properties`, which calculates all of them by
+    brute-forcing over all bitstrings representing solution candidates.
     """
 
     def __init__(self) -> None:
@@ -64,6 +67,9 @@ class ProblemInstance(ABC):
         self._lower_bound: float | None = None  # The lower bound on the cost function value.
         self._average_quality: float | None = None  # The average cost function value over all bitstrings.
         self._best_quality: float | None = None  # The best cost function value, typically equal to the lower bound.
+
+        self._lowest_quality_bitstrings: set[str] | None = None
+        self._highest_quality_bitstrings: set[str] | None = None
 
         self._fixed_variables: dict[int, int] = {}  # The keys label the variables, the values either 0 or 1.
 
@@ -83,7 +89,7 @@ class ProblemInstance(ABC):
         """
         raise NotImplementedError
 
-    def fix_variables(self, variables: list[int] | dict[int, int]) -> None:
+    def fix_variables(self, variables: list[Hashable] | dict[Hashable, int]) -> None:
         """Fixes (assigns) some of the problem variables.
 
         Args:
@@ -96,7 +102,7 @@ class ProblemInstance(ABC):
         )
 
     def initialize_properties(self, max_size: int | None = 30) -> None:
-        """The initialization method for upper/lower bound of the cost function and its average/best value.
+        """Finds the upper/lower bound of the cost function, its average/best value and the corresponding bitstrings.
 
         The quantities are calculated by brute force (scaling exponentially). By default, using this with problem sizes
         larger than ``max_size`` (default 30) will raise ValueError. This can be bypassed by making ``max_size`` larger
@@ -117,20 +123,34 @@ class ProblemInstance(ABC):
                 f" parameter or set it to ``None`` to bypass this error."
             )
 
-        upper_bound: float = self.quality("0" * self.dim)
-        lower_bound: float = self.quality("0" * self.dim)
+        upper_bound: float = -np.inf
+        lower_bound: float = np.inf
         average_quality: float = 0
+        lowest_quality_bitstrings: set[str] = set()
+        highest_quality_bitstrings: set[str] = set()
 
         for bitstr in product("01", repeat=self.dim):
             qlty = self.quality("".join(bitstr))
-            upper_bound = max(upper_bound, qlty)
-            lower_bound = min(lower_bound, qlty)
+            if qlty == upper_bound:  # Quality matches upper bound -> Add bitstring to the set
+                highest_quality_bitstrings.add("".join(bitstr))
+            elif qlty > upper_bound:  # New upper bound -> Rewrite the set of highest-quality bitstrings
+                upper_bound = qlty
+                highest_quality_bitstrings = {"".join(bitstr)}
+
+            if qlty == lower_bound:  # Quality matches lower bound -> Add bitstring to the set
+                lowest_quality_bitstrings.add("".join(bitstr))
+            elif qlty < lower_bound:  # New lower bound -> Rewrite the set of lowest-quality bitstrings
+                lower_bound = qlty
+                lowest_quality_bitstrings = {"".join(bitstr)}
             average_quality += qlty
 
         self._upper_bound = upper_bound
         self._lower_bound = lower_bound
         self._average_quality = average_quality / 2**self.dim
         self._best_quality = lower_bound
+
+        self._highest_quality_bitstrings = highest_quality_bitstrings
+        self._lowest_quality_bitstrings = lowest_quality_bitstrings
 
     @property
     def upper_bound(self) -> float:
@@ -142,7 +162,7 @@ class ProblemInstance(ABC):
         if self._upper_bound is None:
             self.initialize_properties()
         if self._upper_bound is None:  # For if :meth:`initialize_properties` for some reason fails.
-            raise ValueError("Expected 'upper_bound' to be set, but it is None.")
+            raise ValueError("Expected 'upper_bound' to be set, but it is ``None``.")
         return self._upper_bound
 
     @property
@@ -155,7 +175,7 @@ class ProblemInstance(ABC):
         if self._lower_bound is None:
             self.initialize_properties()
         if self._lower_bound is None:  # For if :meth:`initialize_properties` for some reason fails.
-            raise ValueError("Expected 'lower_bound' to be set, but it is None.")
+            raise ValueError("Expected 'lower_bound' to be set, but it is ``None``.")
         return self._lower_bound
 
     @property
@@ -169,7 +189,7 @@ class ProblemInstance(ABC):
         if self._average_quality is None:
             self.initialize_properties()
         if self._average_quality is None:  # For if :meth:`initialize_properties` for some reason fails.
-            raise ValueError("Expected 'average_quality' to be set, but it is None.")
+            raise ValueError("Expected 'average_quality' to be set, but it is ``None``.")
         return self._average_quality
 
     @property
@@ -185,6 +205,32 @@ class ProblemInstance(ABC):
         if self._best_quality is None:  # For if :meth:`initialize_properties` for some reason fails.
             raise ValueError("Expected 'best_quality' to be set, but it is ``None``.")
         return self._best_quality
+
+    @property
+    def lowest_quality_bitstrings(self) -> set[str]:
+        """The set of the lowest quality bitstrings, i.e., the solutions to the problem.
+
+        Can be calculated together with quality bounds using the brute-force :meth:`initialize_properties`. Shouldn't be
+        modified by a user. If the solution is unique, the set has just one element.
+        """
+        if self._lowest_quality_bitstrings is None:
+            self.initialize_properties()
+        if self._lowest_quality_bitstrings is None:  # For if :meth:`initialize_properties` for some reason fails.
+            raise ValueError("Expected 'lowest_quality_bitstrings' to be set, but it is ``None``.")
+        return self._lowest_quality_bitstrings
+
+    @property
+    def highest_quality_bitstrings(self) -> set[str]:
+        """The set of the highest quality bitstrings, i.e., the worst possible "solutions" to the problem.
+
+        Can be calculated together with quality bounds using the brute-force :meth:`initialize_properties`. Shouldn't be
+        modified by a user. If the solution is unique, the set has just one element.
+        """
+        if self._highest_quality_bitstrings is None:
+            self.initialize_properties()
+        if self._highest_quality_bitstrings is None:  # For if :meth:`initialize_properties` for some reason fails.
+            raise ValueError("Expected 'highest_quality_bitstrings' to be set, but it is ``None``.")
+        return self._highest_quality_bitstrings
 
     def quality_renormalized(self, bit_str: str) -> float:
         """Accepts a bitstring and returns renormalized quality of that bitstring.

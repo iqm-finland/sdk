@@ -69,7 +69,7 @@ class TreeQAOA(QUBOQAOA):
 
     """
 
-    def set_tree_angles(self) -> None:
+    def set_tree_angles(self, verbose: bool = True) -> None:
         """A method for setting :attr:`iqm.qaoa.generic_qaoa.QAOA.angles` according to the tree schedule.
 
         The tree schedule is designed for problems with uniform 1-body local field, unit 2-body interactions and
@@ -79,6 +79,9 @@ class TreeQAOA(QUBOQAOA):
         degree and local field. For :math:`p > 6` QAOA, the angles are interpolated from the calculated angles for
         :math:`p = 6`. The method doesn't output anything, but it modifies :attr:`iqm.qaoa.generic_qaoa.QAOA.angles`
         in-place.
+
+        Args:
+            verbose: Should the method print out informative text about what it did?
 
         Raises:
             ValueError: If the Hamiltonian contains ferromagnetic (i.e., negative) interactions between qubits. The
@@ -116,20 +119,21 @@ class TreeQAOA(QUBOQAOA):
 
         _, h_close = _find_nearest(implemented_hs, h_av / j_av)
 
-        print("QAOA depth p = ", self.num_layers)
-        print(
-            "Tree angles for d = ",
-            d_round,
-            " rounded from ",
-            d_av,
-            ",[input] and h = ",
-            h_close,
-            " near ",
-            h_av / j_av,
-            " [input] (rescaled by average j_av = ",
-            j_av,
-            ")",
-        )
+        if verbose:
+            print("QAOA depth p = ", self.num_layers)
+            print(
+                "Tree angles for d = ",
+                d_round,
+                " rounded from ",
+                d_av,
+                " [input], and h = ",
+                h_close,
+                " near ",
+                h_av / j_av,
+                " [input] (rescaled by average j_av = ",
+                j_av,
+                ")",
+            )
 
         if d_round not in implemented_ds:
             raise ValueError(

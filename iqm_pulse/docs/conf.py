@@ -2,6 +2,7 @@
 #
 # All configuration values have a default; values that are commented out
 # serve to show the default.
+"""Sphinx configuration."""
 
 from __future__ import annotations
 
@@ -9,6 +10,7 @@ import os
 import sys
 
 from packaging.version import parse
+import sphinx_book_theme
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -36,7 +38,7 @@ except ImportError:
 else:
     version = parse(release).base_version
 
-copyright = "2019-2025, IQM Finland Oy, Release {}".format(release)
+copyright = "2019-2026, IQM Finland Oy, Release {}".format(release)
 
 # -- General configuration -----------------------------------------------------
 
@@ -55,6 +57,7 @@ extensions = [
     "sphinx.ext.inheritance_diagram",
     "sphinx.ext.intersphinx",
     "sphinx.ext.extlinks",
+    "sphinx_copybutton",
     "sphinxcontrib.bibtex",
 ]
 
@@ -100,8 +103,6 @@ autosummary_generate = True
 
 
 # -- Options for HTML output ---------------------------------------------------
-
-import sphinx_book_theme
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -174,37 +175,29 @@ mathjax3_config = {
 
 # -- External mapping ------------------------------------------------------------
 
+
+def _path_to_local_objects_inv(component_name: str) -> str:
+    # Build path defined in Makefile
+    return f"../../build/docs/{component_name}/objects.inv"
+
+
 python_version = ".".join(map(str, sys.version_info[0:2]))
 intersphinx_mapping = {
     "sphinx": ("https://www.sphinx-doc.org/en/master", None),
     "python": ("https://docs.python.org/" + python_version, None),
     "matplotlib": ("https://matplotlib.org/stable", None),
     "numpy": ("https://numpy.org/doc/stable", None),
-    "scipy": ("https://docs.scipy.org/doc/scipy-1.6.3/reference", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy", "../../.intersphinx/objects-scipy-1.17.0.inv"),
     "xarray": ("https://docs.xarray.dev/en/stable", None),
-    "exa.common": ("../exa-common", "../../exa-common/build/sphinx/objects.inv"),
-    "iqm.models": ("../iqm-data-definitions", "https://iqm.gitlab-pages.iqm.fi/qccsw/iqm-data-definitions/objects.inv"),
+    # iqm-data-definitions contains iqm.models and iqm.data_definitions namespaces.
+    # The keys in this dict are just labels for reference. Sphinx will resolve symbols
+    # from both iqm.models and iqm.data_definitions namespaces using the single inventory file.
+    "iqm-data-definitions": (
+        "../iqm-data-definitions",
+        "https://iqm.gitlab-pages.iqm.fi/qccsw/iqm-data-definitions/objects.inv",
+    ),
+    "exa.common": ("../exa-common", _path_to_local_objects_inv("exa-common")),
 }
-
-use_local_target = os.getenv("USE_LOCAL_TARGET", "").lower()
-if use_local_target == "true":
-    intersphinx_mapping.update(
-        {
-            "iqm.data_definitions": (
-                "../iqm-data-definitions",
-                "https://iqm.gitlab-pages.iqm.fi/qccsw/iqm-data-definitions/objects.inv",
-            ),
-            "exa.common": (
-                "../exa-common",
-                "https://iqm.gitlab-pages.iqm.fi/qccsw/exa/exa-repo/exa-common/objects.inv",
-            ),
-        }
-    )
-else:
-    extlinks = {
-        "issue": ("https://jira.iqm.fi/browse/%s", "issue %s"),
-        "mr": ("https://gitlab.iqm.fi/iqm/qccsw/exa/exa-repo/-/merge_requests/%s", "MR %s"),
-    }
 
 # -- sphinxcontrib.bibtex -------------------------------------------------
 

@@ -66,7 +66,7 @@ def validate_qubit_mapping(
             )
 
     # check that each mapped qubit is defined in the quantum architecture
-    for _logical, physical in qubit_mapping.items():
+    for physical in qubit_mapping.values():
         if physical not in architecture.components:
             raise CircuitValidationError(f"Component {physical} not present in dynamic quantum architecture")
 

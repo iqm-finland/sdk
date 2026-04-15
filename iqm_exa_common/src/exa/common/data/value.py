@@ -22,7 +22,7 @@ def serialize_value(value: Any) -> Any:
     if isinstance(value, complex):
         value = {"__complex__": "true", "real": value.real, "imag": value.imag}
     elif isinstance(value, np.ndarray):
-        # ensure array buffer is contiguous and in C order
+        # Ensure array buffer is contiguous and in C order
         value = np.require(value, requirements=["A", "C"])
         data = base64.b64encode(value.data)
         value = {"__ndarray__": "true", "data": data, "dtype": str(value.dtype), "shape": value.shape}

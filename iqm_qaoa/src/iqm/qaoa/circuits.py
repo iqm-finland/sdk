@@ -27,7 +27,8 @@ from typing import TYPE_CHECKING, Any
 import warnings
 
 from qiskit import QuantumCircuit, QuantumRegister
-from qiskit.compiler.transpiler import transpile
+from qiskit.circuit import Qubit
+from qiskit.compiler.transpiler import Layout, transpile
 from qiskit.providers import BackendV2
 from qiskit_aer import AerSimulator
 
@@ -38,7 +39,9 @@ with warnings.catch_warnings():
 
 from iqm.iqm_client.transpile import ExistingMoveHandlingOptions
 from iqm.qaoa.transpiler.hardwired.hardwired import hardwired_router
-from iqm.qaoa.transpiler.quantum_hardware import CrystalQPUFromBackend, StarQPU
+from iqm.qaoa.transpiler.ptn.ptn import ptn_router
+from iqm.qaoa.transpiler.quantum_hardware import CrystalQPUFromBackend, HardQubit, StarQPU
+from iqm.qaoa.transpiler.routing import BaseRouting
 from iqm.qaoa.transpiler.sn.sn import sn_router
 from iqm.qaoa.transpiler.sparse.greedy_router import greedy_router
 from iqm.qaoa.transpiler.star.star import star_router
@@ -46,7 +49,28 @@ from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
 from iqm.qiskit_iqm.iqm_naive_move_pass import transpile_to_IQM
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from iqm.qaoa.qubo_qaoa import QUBOQAOA
+
+from enum import StrEnum
+
+
+class TranspilerOption(StrEnum):
+    """Available transpilation (routing) strategies for QAOA circuits."""
+
+    DEFAULT = "Default"
+    """Use the default Qiskit transpilation."""
+    HARDWIRED = "HardwiredTranspiler"
+    """Use the 'hardwired_router' transpiler for IQM Crystal backends."""
+    SPARSE = "SparseTranspiler"
+    """Use the 'greedy_router' sparse transpiler for IQM Crystal backends."""
+    SWAP_NETWORK = "SwapNetwork"
+    """Use the 'sn_router' swap network transpiler for IQM Crystal backends."""
+    MINIMUM_VERTEX_COVER = "MinimumVertexCover"
+    """Use the minimum vertex cover transpiler for IQM Star backends."""
+    PARITY_TWINE_NETWORK = "ParityTwineNetwork"
+    """Use the parity-twine network transpiler for IQM Crystal backends."""
 
 
 def qiskit_circuit(qaoa: QUBOQAOA, measurements: bool = True) -> QuantumCircuit:
@@ -159,28 +183,47 @@ def quimb_tn(qaoa: QUBOQAOA) -> qtn.Circuit:
     return tn
 
 
+def _build_initial_layout_for_qiskit(hard_qbs: Iterable[HardQubit], qc: QuantumCircuit) -> Layout:
+    """Return a Qiskit layout mapping HardQubit -> Qubit.
+
+    The mapping is somewhat trivial in that each qubit "maps to itself", but this is the type of layout that
+    :func:`~qiskit.compuler.transpiler.transpile` requires.
+
+    Args:
+        hard_qbs: Hardware qubits used in our internal routing.
+        qc: The quantum circuit generated from out internal routing.
+
+    Returns:
+        Qiskit-compatible representation of the layout.
+
+    """
+    mapping: dict[HardQubit, Qubit] = {hard_q: qc.qubits[hard_q] for hard_q in hard_qbs}
+    return Layout(mapping)
+
+
 def transpiled_circuit(
     qaoa: QUBOQAOA,
     backend: BackendV2 | None = None,
-    transpiler: str | None = None,
+    transpiler: TranspilerOption | None = None,
     **kwargs: Any,
 ) -> QuantumCircuit:
-    """The function to return a :class:`~qiskit.circuit.QuantumCircuit` tailored to ``backend``.
+    """Build a QAOA quantum circuit for the given QAOA instance.
 
     This function has highly varying outputs based on which transpiler is used. If no transpiler is used,
     the perfect :class:`~qiskit.circuit.QuantumCircuit` is returned using :meth:`qiskit_circuit`. Otherwise,
     the QAOA circuit is transpiled using one of the transpilers, respecting the topology of ``backend``.
 
     Args:
-        qaoa: The :class:`~iqm.qaoa.qubo_qaoa.QUBOQAOA` object whose quantum circuit is constructed.
-        backend: A backend that the circuit is to be run on. The connectivity of the backend is required
-            for the transpilation.
-        transpiler: A string that describes which algorithm should be used for transpilation (if any). Should be one
-            of: ``None``, "Default", "HardwiredTranspiler", "SparseTranspiler", "SwapNetwork" or "MinimumVertexCover".
-        **kwargs: Additional keyword arguments passed to :func:`~qiskit.provider.transpiler.transpile` used inside of
-            :func:`transpiled_circuit`. For example:
-            - initial_layout (list[int]): The list of hardware qubits onto which the circuit is to be laid out.
-            - seed_transpiler (int): A random seed to derandomize the transpilation.
+        qaoa: The QAOA instance object whose quantum circuit is constructed.
+        backend: Backend that the circuit is to be run on. The connectivity of the backend is required
+            for the transpilation. ``None`` means use the :class:`~qiskit_aer.AerSimulator` statevector simulation.
+        transpiler: Defines which algorithm should be used for transpilation (if any).
+        **kwargs: Keyword arguments are passed on to :func:`~qiskit.provider.transpiler.transpile`, for examples see
+            Keyword Args.
+
+    Keyword Args:
+        initial_layout (list[int]): List of hardware qubits onto which the circuit qubits are mapped.
+        seed_transpiler (int): Random seed for the transpilation.
 
     Returns:
         A quantum circuit transpiled to the topology of ``backend``.
@@ -191,6 +234,13 @@ def transpiled_circuit(
         ValueError: If the provided ``transpiler`` is not one of the allowed transpilers.
 
     """
+    if isinstance(transpiler, str):
+        try:
+            transpiler = TranspilerOption(transpiler)
+        except ValueError:
+            valid = ", ".join(repr(t.value) for t in TranspilerOption)
+            raise ValueError(f"Unknown transpiler provided: {transpiler!r}. Valid options are: {valid}") from None
+
     if backend is None:
         backend = AerSimulator(method="statevector")
 
@@ -207,6 +257,7 @@ def transpiled_circuit(
 
     if not isinstance(backend, IQMBackendBase):
         raise TypeError("Currently, only IQM backends are supported with transpilation other than 'Default' or `None`.")
+    routed: BaseRouting
 
     if transpiler == "HardwiredTranspiler":
         # This `qpu` object is just a carrier of the QPU connectivity for `hardwired_router`.
@@ -214,13 +265,15 @@ def transpiled_circuit(
         routed = hardwired_router(qaoa.hamiltonian_bqm, qpu)
         qc_hw = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
 
-        # Default layout method uses the VF2 algorithm to find an exact layout match.
-        # An exact layout match is guaranteed to exist, so no further routing is needed.
+        # With `routing_method="none"` and `initial_layout` given, transpiler only changing gates to QPU-native ones.
         kwargs.setdefault("optimization_level", 3)
+
+        layout_for_qiskit = _build_initial_layout_for_qiskit(routed.initial_mapping.hard_qbs, qc_hw)
+
         qc_hw_transpiled = transpile(
             qc_hw,
             backend=backend,
-            layout_method="default",
+            initial_layout=layout_for_qiskit,
             routing_method="none",
             **kwargs,
         )
@@ -232,13 +285,15 @@ def transpiled_circuit(
         routed = greedy_router(qaoa.hamiltonian_bqm, qpu)
         qc_sparse = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
 
-        # Default layout method uses the VF2 algorithm to find an exact layout match.
-        # An exact layout match is guaranteed to exist, so no further routing is needed.
+        # With `routing_method="none"` and `initial_layout` given, transpiler only changing gates to QPU-native ones.
         kwargs.setdefault("optimization_level", 3)
+
+        layout_for_qiskit = _build_initial_layout_for_qiskit(routed.initial_mapping.hard_qbs, qc_sparse)
+
         qc_sparse_transpiled = transpile(
             qc_sparse,
             backend=backend,
-            layout_method="default",
+            initial_layout=layout_for_qiskit,
             routing_method="none",
             **kwargs,
         )
@@ -250,17 +305,38 @@ def transpiled_circuit(
         routed = sn_router(qaoa.hamiltonian_bqm, qpu)
         qc_sn = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
 
-        # Default layout method uses the VF2 algorithm to find an exact layout match.
-        # An exact layout match is guaranteed to exist, so no further routing is needed.
+        # With `routing_method="none"` and `initial_layout` given, transpiler only changing gates to QPU-native ones.
         kwargs.setdefault("optimization_level", 3)
+
+        layout_for_qiskit = _build_initial_layout_for_qiskit(routed.initial_mapping.hard_qbs, qc_sn)
+
         qc_sn_transpiled = transpile(
             qc_sn,
             backend=backend,
-            layout_method="default",
+            initial_layout=layout_for_qiskit,
             routing_method="none",
             **kwargs,
         )
         return qc_sn_transpiled
+
+    if transpiler == "ParityTwineNetwork":
+        qpu = CrystalQPUFromBackend(backend)
+        routed = ptn_router(qaoa.hamiltonian_bqm, qpu)
+        qc_ptn = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
+
+        # Default layout method uses the VF2 algorithm to find an exact layout match.
+        # An exact layout match is guaranteed to exist, so no further routing is needed.
+        kwargs.setdefault("optimization_level", 3)
+        layout_for_qiskit = _build_initial_layout_for_qiskit(routed.initial_mapping.hard_qbs, qc_ptn)
+        qc_ptn_transpiled = transpile(
+            qc_ptn,
+            backend=backend,
+            initial_layout=layout_for_qiskit,
+            routing_method="none",
+            **kwargs,
+        )
+
+        return qc_ptn_transpiled
 
     if transpiler == "MinimumVertexCover":
         star_qpu = StarQPU(qaoa.hamiltonian_bqm.num_variables)

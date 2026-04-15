@@ -1,7 +1,8 @@
-{{ fullname | escape | underline}}
+{{ name | escape | underline}}
+
+Full path: {{ fullname }}
 
 .. automodule:: {{ fullname }}
-
    {% block attributes %}
    {% if attributes %}
    .. rubric:: Module Attributes
@@ -34,6 +35,7 @@
 
    .. autosummary::
       :toctree:
+      :nosignatures:
       :template: autosummary-class-template.rst
    {% for item in classes %}
       {{ item }}

@@ -4,5 +4,5 @@
 CHANGELOG
 =========
 
-.. include:: ../CHANGELOG.rst
+.. include:: ../CHANGELOG.md
    :literal:

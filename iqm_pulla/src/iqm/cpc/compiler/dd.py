@@ -416,7 +416,7 @@ def _find_dd_channels(
             # Get the highest-priority PRX gate implementation available for the channel component
             component_name = _channel_to_component(builder, channel_name)
             try:
-                prx = builder.get_implementation("prx", (component_name,), use_priority_order=True)
+                prx = builder.get_implementation("prx", (component_name,))
             except ValueError:
                 pass
 
@@ -449,7 +449,7 @@ def _find_dd_channels(
 
             # Get the highest-priority PRX gate implementation available for the channel component
             try:
-                prx = builder.get_implementation("prx", (component_name,), use_priority_order=True)
+                prx = builder.get_implementation("prx", (component_name,))
             except ValueError:
                 errors.append(f"Drive channel {channel_name} of component {component_name} has no PRX available.")
 

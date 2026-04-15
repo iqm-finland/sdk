@@ -43,8 +43,7 @@ def _dqa_from_sqa(
     sqa: StaticQuantumArchitecture,
     error_profile: IQMErrorProfile,
 ) -> DynamicQuantumArchitecture:
-    """Create a dynamic quantum architecture from the given static quantum architecture
-    and error profile.
+    """Create a dynamic quantum architecture from the given static quantum architecture and error profile.
 
     Since the DQA contains some attributes that are not present in an SQA or error profile,
     they are filled with mock data:
@@ -190,9 +189,7 @@ class IQMFakeBackend(IQMBackendBase):
         )
 
     def copy_with_error_profile(self, new_error_profile: IQMErrorProfile) -> IQMFakeBackend:
-        """Return another instance of IQMFakeBackend, which has the same quantum architecture but a different error
-        profile.
-        """
+        """New instance of IQMFakeBackend which has the same quantum architecture but a different error profile."""
         return self.__class__(self.__sqa, new_error_profile, self.name)
 
     @staticmethod
@@ -307,10 +304,6 @@ class IQMFakeBackend(IQMBackendBase):
     @classmethod
     def _default_options(cls) -> Options:
         return Options(shots=1024)
-
-    @property
-    def max_circuits(self) -> int | None:
-        return None
 
     def run(self, run_input: QuantumCircuit | list[QuantumCircuit], **options) -> JobV1:
         """Run quantum circuits on the fake backend (by simulating them).

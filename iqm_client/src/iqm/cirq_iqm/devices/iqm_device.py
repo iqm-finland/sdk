@@ -22,7 +22,7 @@ from __future__ import annotations
 import collections.abc as ca
 from collections.abc import Sequence
 from math import pi as PI
-from typing import cast
+from typing import Any, cast
 
 import cirq
 from cirq import devices, ops, protocols
@@ -44,7 +44,7 @@ def _verify_unique_measurement_keys(operations: ca.Iterable[cirq.Operation]) -> 
             seen_keys.add(key)
 
 
-class IQMDevice(devices.Device):
+class IQMDevice(devices.Device):  # noqa: PLW1641 (Object does not implement `__hash__` method)
     """ABC for the properties of a specific IQM quantum architecture.
 
     Adds extra functionality on top of the basic :class:`cirq.Device` class for decomposing gates,
@@ -77,7 +77,7 @@ class IQMDevice(devices.Device):
 
     def check_qubit_connectivity(self, operation: cirq.Operation) -> None:
         """Raises a ValueError if operation acts on qubits that are not connected."""
-        if len(operation.qubits) >= 2 and not self.has_valid_operation_targets(operation):
+        if len(operation.qubits) >= 2 and not self.has_valid_operation_targets(operation):  # noqa: PLR2004
             raise ValueError(f"Unsupported qubit connectivity required for {operation!r}")
 
     def is_native_operation(self, op: cirq.Operation) -> bool:
@@ -291,11 +291,13 @@ class IQMDevice(devices.Device):
         return decomposed_circuit
 
     def validate_circuit(self, circuit: cirq.AbstractCircuit) -> None:
+        """Raise an error if ``circuit`` is not compatible with this device."""
         super().validate_circuit(circuit)
         _verify_unique_measurement_keys(circuit.all_operations())
         self.validate_moves(circuit)
 
     def validate_operation(self, operation: cirq.Operation) -> None:
+        """Raise an error if ``operation`` is not supported on this device."""
         if not isinstance(operation.untagged, cirq.GateOperation):
             raise ValueError(f"Unsupported operation: {operation!r}")
 
@@ -310,7 +312,7 @@ class IQMDevice(devices.Device):
             raise ValueError(f"Unsupported operation between qubits: {operation!r}")
 
     def validate_move(self, operation: cirq.Operation) -> None:
-        """Validates whether the IQMMoveGate is between qubit and resonator registers.
+        """Validate whether the IQMMoveGate is between qubit and resonator registers.
 
         Args:
             operation (cirq.Operation): Operation to check
@@ -336,7 +338,7 @@ class IQMDevice(devices.Device):
                 )
 
     def validate_moves(self, circuit: cirq.AbstractCircuit) -> None:
-        """Validates whether the IQMMoveGates are correctly applied in the circuit.
+        """Validate whether the IQMMoveGates are correctly applied in the circuit.
 
         Args:
             circuit (cirq.AbstractCircuit): The circuit to validate.
@@ -364,5 +366,5 @@ class IQMDevice(devices.Device):
             if len(qubits_updated) != 0:
                 raise ValueError(f"Circuit ends with a qubit state in the resonator {res!r}.")
 
-    def __eq__(self, other):  # noqa: ANN001
+    def __eq__(self, other: Any) -> bool:
         return self.__class__ == other.__class__ and self._metadata == other._metadata

@@ -545,10 +545,11 @@ class CosineFall(Waveform):
 class CosineRiseFlex(Waveform):
     r"""Cosine Rise waveform with an extra duration buffer.
 
-    The waveform is a piecewise function: |buffer|cosine rise|flat plateau|, where:
-    - buffer is a 'leftover' constant signal with amplitude = 0, with duration of duration - full_width
-    - cosine rise is a cosine rise pulse with a duration of rise_time
-    - flat plateau is a constant signal with amplitude = 1, with duration of full_width - rise_time
+    The waveform is a piecewise function: (buffer, cosine rise, flat plateau), where:
+
+    - buffer is a 'leftover' constant signal with amplitude = 0, with duration of ``duration - full_width``
+    - cosine rise is a cosine rise pulse with a duration of ``rise_time``
+    - flat plateau is a constant signal with amplitude = 1, with duration of ``full_width - rise_time``
 
     Args:
         rise_time: rise time of the waveform
@@ -591,10 +592,11 @@ class CosineRiseFlex(Waveform):
 class CosineFallFlex(Waveform):
     r"""Cosine fall waveform with an extra duration buffer.
 
-    The waveform is a piecewise function: |flat plateau|cosine fall|buffer|, where:
-    - buffer is a 'leftover' constant signal with amplitude = 0, generally with duration of duration - full_width
-    - cosine fall is a cosine fall pulse with a duration of rise_time
-    - flat plateau is a constant signal with amplitude = 1, generally with duration of full_width - rise_time
+    The waveform is a piecewise function: (flat plateau, cosine fall, buffer), where:
+
+    - buffer is a 'leftover' constant signal with amplitude = 0, generally with duration of ``duration - full_width``
+    - cosine fall is a cosine fall pulse with a duration of ``rise_time``
+    - flat plateau is a constant signal with amplitude = 1, generally with duration of ``full_width - rise_time``
 
     Args:
         rise_time: rise time of the waveform

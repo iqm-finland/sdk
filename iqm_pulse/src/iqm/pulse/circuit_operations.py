@@ -10,7 +10,7 @@
 from __future__ import annotations
 
 from collections import Counter
-from collections.abc import Iterable, Sequence
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any, Self
@@ -261,6 +261,17 @@ class CircuitOperationList(list):
 
     qubits: list[str] = []
 
+    prx: Callable[..., None]
+    prx_12: Callable[..., None]
+    cz: Callable[..., None]
+    move: Callable[..., None]
+    measure: Callable[..., None]
+    measure_fidelity: Callable[..., None]
+    cc_prx: Callable[..., None]
+    u: Callable[..., None]
+    rz: Callable[..., None]
+    id: Callable[..., None]
+
     def __init__(
         self,
         contents: Iterable[CircuitOperation] = (),
@@ -279,7 +290,7 @@ class CircuitOperationList(list):
             if self.table[op_name].arity:
                 self._set_specific_operation_shortcut(op_name)
 
-    def __getitem__(self, item) -> CircuitOperationList | CircuitOperation:  # type: ignore[override]  # type: ignore[override]  # type: ignore[override]  # noqa: ANN001
+    def __getitem__(self, item) -> CircuitOperationList | CircuitOperation:  # type: ignore[override]  # noqa: ANN001
         """For the builtin list, this method is used both for accessing a single element: ``mylist[0]`` and accessing
         a slice: ``mylist[1:3]``. The latter should generate a new CircuitOperationList, so we override the method to
         ensure that it does.

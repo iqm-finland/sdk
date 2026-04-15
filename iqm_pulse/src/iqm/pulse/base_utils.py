@@ -24,7 +24,9 @@ from typing import Any
 import numpy as np
 
 
-def merge_dicts(A: dict, B: dict, path=(), merge_nones: bool = True) -> dict:  # noqa: ANN001
+def merge_dicts(
+    A: dict[str, Any], B: dict[str, Any], path: tuple[str, ...] = (), merge_nones: bool = True
+) -> dict[str, Any]:
     """Merge two dictionaries recursively, leaving the originals unchanged.
 
     Args:

@@ -15,24 +15,29 @@ class BaseModel(pydantic.BaseModel):
     """
 
     model_config = ConfigDict(
-        # TODO: Consider setting extra="forbid", extra="ignore" is needed only if new clients use older servers
-        #  After station control API versioning, backwards compatibility works, i.e. old clients can use newer servers.
-        #  Reverse shouldn't be needed, since we don't promise any forwards compatibility.
         extra="ignore",  # Ignore any extra attributes
         validate_assignment=True,  # Validate the data when the model is changed
-        validate_default=True,  # Validate default values during validation
+        validate_default=False,  # Don't validate default values during validation
         ser_json_inf_nan="constants",  # Will serialize infinity and NaN values as Infinity and NaN
         frozen=True,  # This makes instances of the model potentially hashable if all the attributes are hashable
     )
 
-    def model_copy(self, *, update: Mapping[str, Any] | None = None, deep: bool = True) -> Self:
-        """Returns a copy of the model.
+    def __deepcopy__(self, memo: dict[int, Any] | None = None) -> Self:
+        # # Safe for immutable models
+        return self
 
-        Overrides the Pydantic default 'model_copy' to set 'deep=True' by default.
+    def model_copy(self, *, update: Mapping[str, Any] | None = None, deep: bool = False) -> Self:
+        """Copy the model.
+
+        Without ``deep`` or ``update``, return ``self`` (immutable fast path);
+        otherwise defer to Pydantic's standard ``model_copy``.
         """
+        if not deep and update is None:
+            return self  # Safe for immutable models
+        # Fallback to normal Pydantic behaviour
         return super().model_copy(update=update, deep=deep)
 
     @deprecated(format_deprecated(old="`copy` method", new="`model_copy`", since="2025-03-28"))
     def copy(self, **kwargs) -> Self:
-        """Returns a copy of the model."""
+        """Copy the model."""
         return super().copy(update=kwargs, deep=True)

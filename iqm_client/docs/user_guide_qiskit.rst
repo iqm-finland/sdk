@@ -525,7 +525,11 @@ And if you want force the compiler to use a strict subset of qubits on the devic
 .. code-block:: python
 
     qubits = [4, 3, 8]
-    # or qubits = ['QB5', 'QB4', 'QB9']
+    qubit_index_to_name = {i: backend.index_to_qubit_name(q) for i, q in enumerate(qubits)}
+    # or
+    # qubits = ['QB5', 'QB4', 'QB9']
+    # qubit_index_to_name = dict(enumerate(qubits))
+
     transpiled_circuit = transpile_to_IQM(circuit, backend=backend, restrict_to_qubits=qubits)
     print(transpiled_circuit.draw(output='text', idle_wires=False))
 
@@ -542,14 +546,12 @@ And if you want force the compiler to use a strict subset of qubits on the devic
      meas: 3/════════════════════════════════════════════════════╩══╩══╩═
                                                                  0  1  2
 
-Note that if you do this, you do need to provide the :meth:`.IQMBackend.run` method a qubit
-mapping that matches the restriction:
+Then, provide the :meth:`.IQMBackend.run` method a mapping from the qubit indices used in the transpiled
+circuit to the qubits on the device, like this: 
 
 .. code-block:: python
 
-    qubit_mapping = {i: backend.index_to_qubit_name(q) for i, q in enumerate(qubits)}
-    # or qubit_mapping = dict(enumerate(qubits))
-    job = backend.run(transpiled_circuit, qubit_mapping=qubit_mapping)
+    job = backend.run(transpiled_circuit, qubit_index_to_name=qubit_index_to_name)
 
 
 Using custom IQM transpiler plugins

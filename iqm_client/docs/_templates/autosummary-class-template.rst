@@ -1,6 +1,8 @@
-{{ fullname | escape | underline}}
+{{ name | escape | underline}}
 
 .. currentmodule:: {{ module }}
+
+Module: :mod:`{{ module }}`
 
 .. autoclass:: {{ objname }}
    :members:
@@ -23,8 +25,18 @@
    .. rubric:: {{ _('Methods') }}
 
    .. autosummary::
-   {% for item in all_methods if item not in inherited_members and item not in ['__init__'] %}
+      :nosignatures:
+   {% for item in methods if item not in inherited_members and item not in ['__init__'] %}
       ~{{ name }}.{{ item }}
    {%- endfor %}
    {% endif %}
    {% endblock %}
+
+
+{% block inheritance_diagram %}
+.. rubric:: Inheritance
+
+.. inheritance-diagram:: {{ fullname }}
+   :parts: 1
+   :private-bases:
+{% endblock %}
