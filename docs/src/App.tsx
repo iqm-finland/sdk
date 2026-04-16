@@ -152,7 +152,7 @@ function App() {
   // Base documentation entries with their descriptions
   const baseDocLinks = [
     { package: "iqm-pulla", title: "IQM Pulla", description: "Pulse-level access library for compiling quantum circuits." },
-    { package: "iqm-benchmarks", title: "IQM Benchmarks", description: "Quantum Characterization, Verification, and Validation (QCVV) tools for quantum computing.", external: "https://iqm-finland.github.io/iqm-benchmarks/" },
+    { package: "iqm-benchmarks", title: "IQM Benchmarks", description: "Quantum Characterization, Verification, and Validation (QCVV) tools for quantum computing." },
     { package: "iqm-pulse", title: "IQM Pulse", description: "Interface and implementations for control pulses." },
     { package: "iqm-qaoa", title: "IQM QAOA", description: "Easily set up and run different flavours of QAOA." },
     { package: "iqm-client", title: "IQM Client", description: "Python client for remote access to quantum computers for circuit-level access (e.g. via Qiskit, Cirq)." },

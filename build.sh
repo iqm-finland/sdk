@@ -48,7 +48,7 @@ uv pip install -r requirements.txt
 # Extract bare package name from a requirements line (strips extras and version specifiers)
 pkg_name() { echo "$1" | sed 's/\[.*//;s/[<>=!~].*//'; }
 
-is_external() { [[ "$1" =~ ^(qrisp|iqm-benchmarks)$ ]]; }
+is_external() { [[ "$1" =~ ^(qrisp)$ ]]; }
 
 # Print non-external package names from an SDK file
 sdk_packages() {
@@ -118,7 +118,7 @@ build_version() {
     mkdir -p "$out_dir" "$tmp_dir"
 
     local filtered="$tmp_dir/filtered.txt"
-    grep -v -E "^(qrisp|iqm-benchmarks)(\[|==|>=|<=|>|<|!=|~=|$)" "$sdk_file" > "$filtered"
+    grep -v -E "^(qrisp)(\[|==|>=|<=|>|<|!=|~=|$)" "$sdk_file" > "$filtered"
 
     # Compile constraints and download sdists
     if uv pip compile --upgrade --no-emit-index-url --no-emit-find-links \
