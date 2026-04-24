@@ -29,7 +29,7 @@ Full path: iqm.cpc.interface
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.cpc.interface.circuit_execution
+   ~circuit_execution
 
 
 

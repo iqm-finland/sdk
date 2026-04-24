@@ -32,6 +32,6 @@
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.models.channel_properties
-   ~iqm.models.playlist
+   ~channel_properties
+   ~playlist
 

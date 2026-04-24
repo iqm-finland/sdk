@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
@@ -40,8 +40,8 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=c7d539cd"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -433,7 +433,7 @@ document.write(`
 <p>Module: <a class="reference internal" href="iqm.pulse.gate_implementation.html#module-iqm.pulse.gate_implementation" title="iqm.pulse.gate_implementation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gate_implementation</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gate_implementation.</span></span><span class="sig-name descname"><span class="pre">GateImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gate_implementation.</span></span><span class="sig-name descname"><span class="pre">GateImplementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
 <p>ABC for implementing quantum gates and other quantum operations using instruction schedules.</p>
 <p>Every implementation of every operation type can have its own GateImplementation subclass.
@@ -454,8 +454,8 @@ and avoid unpredictable dependencies between gates.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>parent</strong> (<a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><em>QuantumOp</em></a>) – Quantum operation this instance implements.</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the implementation provided by this instance.</p></li>
-<li><p><strong>locus</strong> (<em>Locus</em>) – Locus the operation acts on.</p></li>
-<li><p><strong>calibration_data</strong> (<em>OILCalibrationData</em>) – (Raw) calibration data for the (operation, implementation, locus) represented
+<li><p><strong>locus</strong> (<a class="reference internal" href="iqm.pulse.gate_implementation.Locus.html#iqm.pulse.gate_implementation.Locus" title="iqm.pulse.gate_implementation.Locus"><em>Locus</em></a>) – Locus the operation acts on.</p></li>
+<li><p><strong>calibration_data</strong> (<a class="reference internal" href="iqm.pulse.gate_implementation.OILCalibrationData.html#iqm.pulse.gate_implementation.OILCalibrationData" title="iqm.pulse.gate_implementation.OILCalibrationData"><em>OILCalibrationData</em></a>) – (Raw) calibration data for the (operation, implementation, locus) represented
 by this instance.</p></li>
 <li><p><strong>builder</strong> (<a class="reference internal" href="iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="iqm.pulse.builder.ScheduleBuilder"><em>ScheduleBuilder</em></a>) – Schedule builder instance that can be used to access system properties (and in the
 case of <a class="reference internal" href="iqm.pulse.gate_implementation.CompositeGate.html#iqm.pulse.gate_implementation.CompositeGate" title="iqm.pulse.gate_implementation.CompositeGate"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeGate</span></code></a>, other gates).</p></li>
@@ -463,7 +463,7 @@ case of <a class="reference internal" href="iqm.pulse.gate_implementation.Compos
 </dd>
 </dl>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.gate_implementation.GateImplementation.parameters" title="iqm.pulse.gate_implementation.GateImplementation.parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameters</span></code></a></p></td>
 <td><p>Required calibration data, may be nested</p></td>
@@ -487,7 +487,7 @@ case of <a class="reference internal" href="iqm.pulse.gate_implementation.Compos
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.gate_implementation.GateImplementation.construct_aggregator" title="iqm.pulse.gate_implementation.GateImplementation.construct_aggregator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct_aggregator</span></code></a></p></td>
 <td><p>Construct an aggregator implementation for a factorizable operation.</p></td>
@@ -524,7 +524,7 @@ case of <a class="reference internal" href="iqm.pulse.gate_implementation.Compos
 </div>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.symmetric">
-<span class="sig-name descname"><span class="pre">symmetric</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.symmetric" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">symmetric</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.symmetric" title="Link to this definition">#</a></dt>
 <dd><p>True iff the implementation is symmetric in its locus components, meaning a permuted <code class="xref py py-attr docutils literal notranslate"><span class="pre">locus</span></code>
 produces the same Schedule/TimeBox.
 Only meaningful if <code class="docutils literal notranslate"><span class="pre">self.parent.arity</span> <span class="pre">!=</span> <span class="pre">1</span></code>, and the locus components are of the same type.</p>
@@ -532,13 +532,13 @@ Only meaningful if <code class="docutils literal notranslate"><span class="pre">
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.parameters">
-<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Parameter.html#exa.common.data.parameter.Parameter" title="(in exa-common v27.5.1)"><span class="pre">Parameter</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Setting.html#exa.common.data.parameter.Setting" title="(in exa-common v27.5.1)"><span class="pre">Setting</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.parameters" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">parameters</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Parameter.html#exa.common.data.parameter.Parameter" title="(in exa-common v27.5.1)"><span class="pre">Parameter</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Setting.html#exa.common.data.parameter.Setting" title="(in exa-common v27.5.1)"><span class="pre">Setting</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.parameters" title="Link to this definition">#</a></dt>
 <dd><p>Required calibration data, may be nested</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.special_implementation">
-<span class="sig-name descname"><span class="pre">special_implementation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.special_implementation" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">special_implementation</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.special_implementation" title="Link to this definition">#</a></dt>
 <dd><p>Set to <code class="docutils literal notranslate"><span class="pre">True</span></code> if  the implementation is a special purpose implementation that should never get called in
 <code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.get_implementation</span></code> unless explicitly requested via the <code class="docutils literal notranslate"><span class="pre">impl_name</span></code> argument.</p>
 </dd></dl>
@@ -551,20 +551,20 @@ Only meaningful if <code class="docutils literal notranslate"><span class="pre">
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.sub_implementations">
-<span class="sig-name descname"><span class="pre">sub_implementations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><span class="pre">GateImplementation</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.sub_implementations" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">sub_implementations</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><span class="pre">GateImplementation</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.sub_implementations" title="Link to this definition">#</a></dt>
 <dd><p>Single-component sub-implementations for factorizable gates with len(locus) &gt; 1, otherwise empty.
 At least one of self.sub_implementations and self.calibration_data is always empty.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.qualified_name">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">qualified_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.qualified_name" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">qualified_name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.qualified_name" title="Link to this definition">#</a></dt>
 <dd><p>Qualified name of the implementation.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.needs_calibration">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">needs_calibration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.needs_calibration" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">needs_calibration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.needs_calibration" title="Link to this definition">#</a></dt>
 <dd><p>True iff the implementation class needs calibration data.</p>
 <p>Does not include the calibration data of <a class="reference internal" href="iqm.pulse.gate_implementation.CompositeGate.html#iqm.pulse.gate_implementation.CompositeGate" title="iqm.pulse.gate_implementation.CompositeGate"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeGate</span></code></a> member gates.</p>
 <dl class="field-list simple">
@@ -580,7 +580,7 @@ for the calibration data this instance needs.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.optional_calibration_keys">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">optional_calibration_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.optional_calibration_keys" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">optional_calibration_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.optional_calibration_keys" title="Link to this definition">#</a></dt>
 <dd><p>Optional calibration data keys for this class, in addition to the required items in <a class="reference internal" href="#iqm.pulse.gate_implementation.GateImplementation.parameters" title="iqm.pulse.gate_implementation.GateImplementation.parameters"><code class="xref py py-attr docutils literal notranslate"><span class="pre">parameters</span></code></a>.</p>
 <p>These keys are not required to be present in <a class="reference internal" href="iqm.pulse.gate_implementation.OILCalibrationData.html#iqm.pulse.gate_implementation.OILCalibrationData" title="iqm.pulse.gate_implementation.OILCalibrationData"><code class="xref py py-attr docutils literal notranslate"><span class="pre">OILCalibrationData</span></code></a> when validating it.
 E.g. custom calibration keys for <a class="reference internal" href="iqm.pulse.gate_implementation.CompositeGate.html#iqm.pulse.gate_implementation.CompositeGate" title="iqm.pulse.gate_implementation.CompositeGate"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeGate</span></code></a> member gates.</p>
@@ -596,7 +596,7 @@ E.g. custom calibration keys for <a class="reference internal" href="iqm.pulse.g
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.may_have_calibration">
-<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">may_have_calibration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.may_have_calibration" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">may_have_calibration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.may_have_calibration" title="Link to this definition">#</a></dt>
 <dd><p>True iff the implementation may have calibration data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -611,7 +611,7 @@ for the calibration data of this instance.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.construct_aggregator">
-<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">construct_aggregator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_implementations</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.construct_aggregator" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">construct_aggregator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sub_implementations</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.construct_aggregator" title="Link to this definition">#</a></dt>
 <dd><p>Construct an aggregator implementation for a factorizable operation.</p>
 <p>Instead of calibration data this method is given <code class="docutils literal notranslate"><span class="pre">sub_implementations</span></code>, which contains single-qubit
 implementations for all the components in <code class="docutils literal notranslate"><span class="pre">locus</span></code>.</p>
@@ -620,7 +620,7 @@ implementations for all the components in <code class="docutils literal notransl
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>parent</strong> (<a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><em>QuantumOp</em></a>)</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
-<li><p><strong>locus</strong> (<em>Locus</em>)</p></li>
+<li><p><strong>locus</strong> (<a class="reference internal" href="iqm.pulse.gate_implementation.Locus.html#iqm.pulse.gate_implementation.Locus" title="iqm.pulse.gate_implementation.Locus"><em>Locus</em></a>)</p></li>
 <li><p><strong>builder</strong> (<a class="reference internal" href="iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="iqm.pulse.builder.ScheduleBuilder"><em>ScheduleBuilder</em></a>)</p></li>
 <li><p><strong>sub_implementations</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><em>GateImplementation</em></a><em>]</em>)</p></li>
 </ul>
@@ -633,7 +633,7 @@ implementations for all the components in <code class="docutils literal notransl
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.to_timebox">
-<em class="property"><span class="pre">final</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_timebox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.to_timebox" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">to_timebox</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schedule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.to_timebox" title="Link to this definition">#</a></dt>
 <dd><p>Wraps the given instruction schedule into an atomic/resolved timebox.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -660,7 +660,7 @@ Subclasses can reimplement this method in case it makes sense in their context.<
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.convert_calibration_data">
-<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert_calibration_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_props</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_top_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.convert_calibration_data" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">convert_calibration_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel_props</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_top_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.convert_calibration_data" title="Link to this definition">#</a></dt>
 <dd><p>Convert time- and frequency-like items in the calibration data to fractions of the time duration of the gate.</p>
 <p>This is a convenience method for converting calibration data items involving time
 durations measured in seconds and frequencies measured in Hz into fractions of the duration
@@ -677,8 +677,8 @@ data under the top-level key <code class="docutils literal notranslate"><span cl
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>calibration_data</strong> (<em>OILCalibrationData</em>) – (subset of) calibration data for the gate/implementation/locus</p></li>
-<li><p><strong>params</strong> (<em>NestedParams</em>) – (subset of) <code class="docutils literal notranslate"><span class="pre">cls.parameters</span></code> specifying the <code class="docutils literal notranslate"><span class="pre">calibration_data</span></code> items
+<li><p><strong>calibration_data</strong> (<a class="reference internal" href="iqm.pulse.gate_implementation.OILCalibrationData.html#iqm.pulse.gate_implementation.OILCalibrationData" title="iqm.pulse.gate_implementation.OILCalibrationData"><em>OILCalibrationData</em></a>) – (subset of) calibration data for the gate/implementation/locus</p></li>
+<li><p><strong>params</strong> (<a class="reference internal" href="iqm.pulse.gate_implementation.NestedParams.html#iqm.pulse.gate_implementation.NestedParams" title="iqm.pulse.gate_implementation.NestedParams"><em>NestedParams</em></a>) – (subset of) <code class="docutils literal notranslate"><span class="pre">cls.parameters</span></code> specifying the <code class="docutils literal notranslate"><span class="pre">calibration_data</span></code> items
 to convert and return</p></li>
 <li><p><strong>channel_props</strong> (<a class="reference internal" href="iqm.pulse.playlist.channel.ChannelProperties.html#iqm.pulse.playlist.channel.ChannelProperties" title="iqm.pulse.playlist.channel.ChannelProperties"><em>ChannelProperties</em></a>) – used to convert <code class="docutils literal notranslate"><span class="pre">&quot;duration&quot;</span></code> from seconds into channel samples</p></li>
 <li><p><strong>duration</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>None</em>) – Time duration of the gate, in seconds. If None, <code class="docutils literal notranslate"><span class="pre">calibration_data</span></code> must have
@@ -690,14 +690,14 @@ an item named <code class="docutils literal notranslate"><span class="pre">&quot
 <dd class="field-even"><p>converted <code class="docutils literal notranslate"><span class="pre">calibration_data</span></code> items</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>OILCalibrationData</p>
+<dd class="field-odd"><p><a class="reference internal" href="iqm.pulse.gate_implementation.OILCalibrationData.html#iqm.pulse.gate_implementation.OILCalibrationData" title="iqm.pulse.gate_implementation.OILCalibrationData"><em>OILCalibrationData</em></a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.get_parameters">
-<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_defaults</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.get_parameters" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">final</span></span><span class="w"> </span><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_defaults</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.get_parameters" title="Link to this definition">#</a></dt>
 <dd><p>Calibration data tree the GateImplementation subclass expects for each locus.</p>
 <p>Helper method for EXA use.</p>
 <dl class="field-list simple">
@@ -722,7 +722,7 @@ The setting values are <code class="docutils literal notranslate"><span class="p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.get_locus_mapping_name">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_locus_mapping_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operation_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implementation_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.get_locus_mapping_name" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_locus_mapping_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operation_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implementation_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.get_locus_mapping_name" title="Link to this definition">#</a></dt>
 <dd><p>Get the name of the locus mapping stored in <code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.ChipTopology</span></code> for this implementation.</p>
 <p>By default, it is <code class="docutils literal notranslate"><span class="pre">&quot;&lt;operation_name&gt;.&lt;implementation_name&gt;&quot;</span></code>. Inheriting classes may
 override this for different behaviour.</p>
@@ -744,7 +744,7 @@ override this for different behaviour.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.GateImplementation.get_custom_locus_mapping">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_custom_locus_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip_topology</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component_to_channels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.get_custom_locus_mapping" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_custom_locus_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip_topology</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component_to_channels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.GateImplementation.get_custom_locus_mapping" title="Link to this definition">#</a></dt>
 <dd><p>Get custom locus mapping for this GateImplementation.</p>
 <p>This method can be used to return the locus mapping (wrt. to the given <code class="docutils literal notranslate"><span class="pre">ChipTopology</span></code>) for this
 <code class="docutils literal notranslate"><span class="pre">GateImplementation</span></code>. Overriding this method allows a GateImplementation to be “self-sufficient” in the
@@ -775,7 +775,7 @@ in building a locus mapping.</p></li>
 </dd></dl>
 
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-d8a369f64e1e4508a38141fe9b971148660cad07.png" alt="Inheritance diagram of iqm.pulse.gate_implementation.GateImplementation" usemap="#inheritance3216434225" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-8c7d58591607ca7d75afc6d6cbe92ba472599e89.png" alt="Inheritance diagram of iqm.pulse.gate_implementation.GateImplementation" usemap="#inheritance3216434225" class="inheritance graphviz" /></div>
 <map id="inheritance3216434225" name="inheritance3216434225">
 <area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
 <area shape="rect" id="node2" href="#iqm.pulse.gate_implementation.GateImplementation" target="_top" title="ABC for implementing quantum gates and other quantum operations using instruction schedules." alt="" coords="125,5,283,31"/>
@@ -858,6 +858,10 @@ in building a locus mapping.</p></li>
   
   <div class="footer-item">
     
+<p class="component-author">
+By Author name not set
+</p>
+
   </div>
   
   <div class="footer-item">

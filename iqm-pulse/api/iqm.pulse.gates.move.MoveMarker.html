@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
@@ -40,8 +40,8 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=c7d539cd"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -418,7 +418,7 @@ document.write(`
 <p>Module: <a class="reference internal" href="iqm.pulse.gates.move.html#module-iqm.pulse.gates.move" title="iqm.pulse.gates.move"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gates.move</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.gates.move.MoveMarker">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gates.move.</span></span><span class="sig-name descname"><span class="pre">MoveMarker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resonator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detuning</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.move.MoveMarker" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gates.move.</span></span><span class="sig-name descname"><span class="pre">MoveMarker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resonator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detuning</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.move.MoveMarker" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.pulse.playlist.instructions.Wait.html#iqm.pulse.playlist.instructions.Wait" title="iqm.pulse.playlist.instructions.Wait"><code class="xref py py-class docutils literal notranslate"><span class="pre">Wait</span></code></a></p>
 <p>Special annotation instruction to indicate the beginning and ending of MOVE gates.</p>
 <p>The <em>same instance</em> of this instruction will be inserted into the qubit drive channel and the
@@ -429,7 +429,7 @@ indicating that there is a MOVE gate happening between the qubit and the resonat
 MOVE VirtualRZ instruction. The VirtualRZ instructions between the markers on the resonator
 channel will be applied to the qubit instead in a post-compilation pass.</p>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.gates.move.MoveMarker.duration" title="iqm.pulse.gates.move.MoveMarker.duration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duration</span></code></a></p></td>
 <td><p>Time duration of the instruction.</p></td>
@@ -447,7 +447,7 @@ channel will be applied to the qubit instead in a post-compilation pass.</p>
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 </tbody>
 </table>
@@ -464,14 +464,14 @@ channel will be applied to the qubit instead in a post-compilation pass.</p>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.gates.move.MoveMarker.duration">
-<span class="sig-name descname"><span class="pre">duration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#iqm.pulse.gates.move.MoveMarker.duration" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">duration</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="headerlink" href="#iqm.pulse.gates.move.MoveMarker.duration" title="Link to this definition">#</a></dt>
 <dd><p>Time duration of the instruction. In samples at the channel sample rate.</p>
 </dd></dl>
 
 </dd></dl>
 
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-0fdcaf296f380f626f2bc53cc6d00388f305e57f.png" alt="Inheritance diagram of iqm.pulse.gates.move.MoveMarker" usemap="#inheritancedcb613d5db" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-0f04f1eb7b339dd659bf05e87fa381d8b660c475.png" alt="Inheritance diagram of iqm.pulse.gates.move.MoveMarker" usemap="#inheritancedcb613d5db" class="inheritance graphviz" /></div>
 <map id="inheritancedcb613d5db" name="inheritancedcb613d5db">
 <area shape="rect" id="node1" href="iqm.pulse.playlist.instructions.Instruction.html#iqm.pulse.playlist.instructions.Instruction" target="_top" title="Command that can be executed by the quantum computer on a control channel." alt="" coords="5,5,96,31"/>
 <area shape="rect" id="node3" href="iqm.pulse.playlist.instructions.Wait.html#iqm.pulse.playlist.instructions.Wait" target="_top" title="Behave as if outputting zero&#45;valued samples for the duration of the instruction." alt="" coords="144,5,216,31"/>
@@ -540,6 +540,10 @@ channel will be applied to the qubit instead in a post-compilation pass.</p>
   
   <div class="footer-item">
     
+<p class="component-author">
+By Author name not set
+</p>
+
   </div>
   
   <div class="footer-item">

@@ -29,14 +29,14 @@ Full path: iqm.qaoa
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.qaoa.backends
-   ~iqm.qaoa.circuits
-   ~iqm.qaoa.generic_qaoa
-   ~iqm.qaoa.qubo_qaoa
-   ~iqm.qaoa.transforming_functions
-   ~iqm.qaoa.transpiler
-   ~iqm.qaoa.tree_calculation
-   ~iqm.qaoa.tree_qaoa
+   ~backends
+   ~circuits
+   ~generic_qaoa
+   ~qubo_qaoa
+   ~transforming_functions
+   ~transpiler
+   ~tree_calculation
+   ~tree_qaoa
 
 
 

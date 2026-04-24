@@ -32,5 +32,5 @@ channel\_properties
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.models.channel_properties.channel_properties
+   ~channel_properties
 

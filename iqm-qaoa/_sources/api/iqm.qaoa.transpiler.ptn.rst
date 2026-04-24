@@ -29,7 +29,7 @@ Full path: iqm.qaoa.transpiler.ptn
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.qaoa.transpiler.ptn.ptn
+   ~ptn
 
 
 

@@ -29,7 +29,7 @@ Full path: iqm.qaoa.transpiler.hardwired
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.qaoa.transpiler.hardwired.hardwired
+   ~hardwired
 
 
 

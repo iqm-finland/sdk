@@ -30,9 +30,9 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -40,13 +40,13 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=75c7ac0d"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>window.MathJax = {"tex": {"macros": {"vr": "\\vec{r}", "ket": ["\\left| #1 \\right\\rangle", 1], "iprod": ["\\left\\langle #1 | #2 \\right\\rangle", 2]}}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.applications.applications.ProblemInstance';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -470,7 +470,7 @@ document.write(`
 <p>Module: <a class="reference internal" href="iqm.applications.applications.html#module-iqm.applications.applications" title="iqm.applications.applications"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.applications.applications</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.applications.applications.</span></span><span class="sig-name descname"><span class="pre">ProblemInstance</span></span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L51-L489"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.applications.applications.</span></span><span class="sig-name descname"><span class="pre">ProblemInstance</span></span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L51-L489"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
 <p>The abstract base class for defining problem instances.</p>
 <p>Currently, only problems with binary variables are supported. Any possible candidate solution is therefore
@@ -481,7 +481,7 @@ how the dimension of the problem and the quality of the solution are understood.
 time one of them is called, it calls the method <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.initialize_properties" title="iqm.applications.applications.ProblemInstance.initialize_properties"><code class="xref py py-meth docutils literal notranslate"><span class="pre">initialize_properties()</span></code></a>, which calculates all of them by
 brute-forcing over all bitstrings representing solution candidates.</p>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.applications.applications.ProblemInstance.average_quality" title="iqm.applications.applications.ProblemInstance.average_quality"><code class="xref py py-obj docutils literal notranslate"><span class="pre">average_quality</span></code></a></p></td>
 <td><p>The average quality value over all possible bitstrings.</p></td>
@@ -508,7 +508,7 @@ brute-forcing over all bitstrings representing solution candidates.</p>
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.applications.applications.ProblemInstance.average_quality_counts" title="iqm.applications.applications.ProblemInstance.average_quality_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">average_quality_counts</span></code></a></p></td>
 <td><p>Accepts a dictionary and returns the average quality of the keys weighted by their values.</p></td>
@@ -553,13 +553,13 @@ brute-forcing over all bitstrings representing solution candidates.</p>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.dim">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dim</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.dim" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">dim</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.dim" title="Link to this definition">#</a></dt>
 <dd><p>The dimension of the problem (e.g., the number of nodes in a problem graph).</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.quality">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bit_str</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L82-L90"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.quality" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">quality</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bit_str</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/applications/applications.py#L82-L90"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.quality" title="Link to this definition">#</a></dt>
 <dd><p>Accepts a bitstring and returns its quality / energy (the smaller the better).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -609,7 +609,7 @@ or setting it to <code class="docutils literal notranslate"><span class="pre">No
 
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.upper_bound">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">upper_bound</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.upper_bound" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">upper_bound</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.upper_bound" title="Link to this definition">#</a></dt>
 <dd><p>The highest quality value among all possible bitstrings.</p>
 <p>Can be calculated together with other bounds using the brute-force <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.initialize_properties" title="iqm.applications.applications.ProblemInstance.initialize_properties"><code class="xref py py-meth docutils literal notranslate"><span class="pre">initialize_properties()</span></code></a>. Shouldn’t be
 modified by a user.</p>
@@ -617,7 +617,7 @@ modified by a user.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.lower_bound">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lower_bound</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.lower_bound" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">lower_bound</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.lower_bound" title="Link to this definition">#</a></dt>
 <dd><p>The lowest quality value among all possible bitstrings.</p>
 <p>Can be calculated together with other bounds using the brute-force <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.initialize_properties" title="iqm.applications.applications.ProblemInstance.initialize_properties"><code class="xref py py-meth docutils literal notranslate"><span class="pre">initialize_properties()</span></code></a>. Shouldn’t be
 modified by a user.</p>
@@ -625,7 +625,7 @@ modified by a user.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.average_quality">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">average_quality</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.average_quality" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">average_quality</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.average_quality" title="Link to this definition">#</a></dt>
 <dd><p>The average quality value over all possible bitstrings.</p>
 <p>Can be calculated together with bounds using the brute-force <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.initialize_properties" title="iqm.applications.applications.ProblemInstance.initialize_properties"><code class="xref py py-meth docutils literal notranslate"><span class="pre">initialize_properties()</span></code></a>. Shouldn’t be
 modified by a user. Meant to be used in comparison with QAOA results to see how much (if at all)
@@ -634,7 +634,7 @@ the optimization improves over uniformly random guessing.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.best_quality">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_quality</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.best_quality" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">best_quality</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.best_quality" title="Link to this definition">#</a></dt>
 <dd><p>The <em>best</em> quality value over all possible bitstrings.</p>
 <p>For minimization problems, this is equal to <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.lower_bound" title="iqm.applications.applications.ProblemInstance.lower_bound"><code class="xref py py-attr docutils literal notranslate"><span class="pre">lower_bound</span></code></a>. Like similar properties, it can be calculated
 using the brute-force <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.initialize_properties" title="iqm.applications.applications.ProblemInstance.initialize_properties"><code class="xref py py-meth docutils literal notranslate"><span class="pre">initialize_properties()</span></code></a>. Shouldn’t be modified by a user. Meant to be used in
@@ -643,7 +643,7 @@ comparison with QAOA results to see how close the optimization gets to the ideal
 
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.lowest_quality_bitstrings">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">lowest_quality_bitstrings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#set" title="(in Python v3.11)"><span class="pre">set</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.lowest_quality_bitstrings" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">lowest_quality_bitstrings</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#set" title="(in Python v3.11)"><span class="pre">set</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.lowest_quality_bitstrings" title="Link to this definition">#</a></dt>
 <dd><p>The set of the lowest quality bitstrings, i.e., the solutions to the problem.</p>
 <p>Can be calculated together with quality bounds using the brute-force <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.initialize_properties" title="iqm.applications.applications.ProblemInstance.initialize_properties"><code class="xref py py-meth docutils literal notranslate"><span class="pre">initialize_properties()</span></code></a>. Shouldn’t be
 modified by a user. If the solution is unique, the set has just one element.</p>
@@ -651,7 +651,7 @@ modified by a user. If the solution is unique, the set has just one element.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.applications.applications.ProblemInstance.highest_quality_bitstrings">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">highest_quality_bitstrings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#set" title="(in Python v3.11)"><span class="pre">set</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.highest_quality_bitstrings" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">highest_quality_bitstrings</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#set" title="(in Python v3.11)"><span class="pre">set</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.applications.applications.ProblemInstance.highest_quality_bitstrings" title="Link to this definition">#</a></dt>
 <dd><p>The set of the highest quality bitstrings, i.e., the worst possible “solutions” to the problem.</p>
 <p>Can be calculated together with quality bounds using the brute-force <a class="reference internal" href="#iqm.applications.applications.ProblemInstance.initialize_properties" title="iqm.applications.applications.ProblemInstance.initialize_properties"><code class="xref py py-meth docutils literal notranslate"><span class="pre">initialize_properties()</span></code></a>. Shouldn’t be
 modified by a user. If the solution is unique, the set has just one element.</p>
@@ -905,7 +905,7 @@ this variable</p></li>
 </dd></dl>
 
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-3309697b3eb155ba9258af6905f70df1bb6c655d.png" alt="Inheritance diagram of iqm.applications.applications.ProblemInstance" usemap="#inheritanceaeac55eb85" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-4ca4550387b121268fe1d1da55981f772fae5ccd.png" alt="Inheritance diagram of iqm.applications.applications.ProblemInstance" usemap="#inheritanceaeac55eb85" class="inheritance graphviz" /></div>
 <map id="inheritanceaeac55eb85" name="inheritanceaeac55eb85">
 <area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
 <area shape="rect" id="node2" href="#iqm.applications.applications.ProblemInstance" target="_top" title="The abstract base class for defining problem instances." alt="" coords="125,5,256,31"/>

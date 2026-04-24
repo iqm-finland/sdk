@@ -28,8 +28,8 @@ iqm.qiskit\_iqm.examples
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.qiskit_iqm.examples.bell_measure
-   ~iqm.qiskit_iqm.examples.transpile_example
+   ~bell_measure
+   ~transpile_example
 
 
 

@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -39,8 +39,8 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=1ebeef14"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.playlist.channel.ChannelProperties';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -420,14 +420,14 @@ document.write(`
 <h1>ChannelProperties<a class="headerlink" href="#channelproperties" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.playlist.channel.ChannelProperties">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.playlist.channel.</span></span><span class="sig-name descname"><span class="pre">ChannelProperties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruction_duration_granularity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruction_duration_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compatible_instructions=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_iq=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_virtual=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocks_component=True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.pulse.playlist.channel.</span></span><span class="sig-name descname"><span class="pre">ChannelProperties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sample_rate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruction_duration_granularity</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instruction_duration_min</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compatible_instructions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_iq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_virtual</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocks_component</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Defines the properties of a control or measurement channel.</p>
 <p>All ZI instruments (HDAWG, UHFQA, SHFSG, SHFQA) can handle control pulses and waits where the
 number of samples is <code class="docutils literal notranslate"><span class="pre">32</span> <span class="pre">+</span> <span class="pre">n</span> <span class="pre">*</span> <span class="pre">16</span></code>, where <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">in</span> <span class="pre">{0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">...}</span></code>.</p>
 <p>Module: <a class="reference internal" href="iqm.pulse.playlist.channel.html#module-iqm.pulse.playlist.channel" title="iqm.pulse.playlist.channel"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.playlist.channel</span></code></a></p>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.playlist.channel.ChannelProperties.blocks_component" title="iqm.pulse.playlist.channel.ChannelProperties.blocks_component"><code class="xref py py-obj docutils literal notranslate"><span class="pre">blocks_component</span></code></a></p></td>
 <td><p>Whether content in this channel should block the entire component that it is associated with in the scheduling.</p></td>
@@ -454,7 +454,7 @@ number of samples is <code class="docutils literal notranslate"><span class="pre
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.playlist.channel.ChannelProperties.duration_to_int_samples" title="iqm.pulse.playlist.channel.ChannelProperties.duration_to_int_samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duration_to_int_samples</span></code></a></p></td>
 <td><p>Convert a time duration to an integer number of samples at the channel sample rate.</p></td>
@@ -486,37 +486,37 @@ number of samples is <code class="docutils literal notranslate"><span class="pre
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.playlist.channel.ChannelProperties.sample_rate">
-<span class="sig-name descname"><span class="pre">sample_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></em><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.sample_rate" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">sample_rate</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.sample_rate" title="Link to this definition">#</a></dt>
 <dd><p>sample rate of the instrument responsible for the channel (in Hz)</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.playlist.channel.ChannelProperties.instruction_duration_granularity">
-<span class="sig-name descname"><span class="pre">instruction_duration_granularity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.instruction_duration_granularity" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">instruction_duration_granularity</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.instruction_duration_granularity" title="Link to this definition">#</a></dt>
 <dd><p>all instruction durations on this channel must be multiples of this granularity (in samples)</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.playlist.channel.ChannelProperties.instruction_duration_min">
-<span class="sig-name descname"><span class="pre">instruction_duration_min</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></em><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.instruction_duration_min" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">instruction_duration_min</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.instruction_duration_min" title="Link to this definition">#</a></dt>
 <dd><p>all instruction durations on this channel must at least this long (in samples)</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.playlist.channel.ChannelProperties.compatible_instructions">
-<span class="sig-name descname"><span class="pre">compatible_instructions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iqm.pulse.playlist.instructions.Instruction.html#iqm.pulse.playlist.instructions.Instruction" title="iqm.pulse.playlist.instructions.Instruction"><span class="pre">Instruction</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.compatible_instructions" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">compatible_instructions</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iqm.pulse.playlist.instructions.Instruction.html#iqm.pulse.playlist.instructions.Instruction" title="iqm.pulse.playlist.instructions.Instruction"><span class="pre">Instruction</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.compatible_instructions" title="Link to this definition">#</a></dt>
 <dd><p>instruction types that are allowed on this channel</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.playlist.channel.ChannelProperties.is_iq">
-<span class="sig-name descname"><span class="pre">is_iq</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.is_iq" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">is_iq</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.is_iq" title="Link to this definition">#</a></dt>
 <dd><p>HACK, True iff this is an IQ channel. TODO do better</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.playlist.channel.ChannelProperties.is_virtual">
-<span class="sig-name descname"><span class="pre">is_virtual</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.is_virtual" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">is_virtual</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.is_virtual" title="Link to this definition">#</a></dt>
 <dd><p>Virtual channels are only used on the frontend side during compilation and scheduling.
 They are removed from the <code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code> before it is sent to Station
 Control. For example, virtual drive channels of computational resonators.</p>
@@ -524,7 +524,7 @@ Control. For example, virtual drive channels of computational resonators.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.playlist.channel.ChannelProperties.blocks_component">
-<span class="sig-name descname"><span class="pre">blocks_component</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.blocks_component" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">blocks_component</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></span><a class="headerlink" href="#iqm.pulse.playlist.channel.ChannelProperties.blocks_component" title="Link to this definition">#</a></dt>
 <dd><p>Whether content in this channel should block the entire component that it is associated with in the scheduling.
 Typically all physical channels should block their components, but certain virtual channels might not
 require this.</p>
@@ -688,6 +688,10 @@ that number must be something the channel can handle.</p>
   
   <div class="footer-item">
     
+<p class="component-author">
+By Author name not set
+</p>
+
   </div>
   
   <div class="footer-item">

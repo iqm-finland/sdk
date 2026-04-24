@@ -28,7 +28,7 @@ iqm.cpc.interface
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.cpc.interface.compiler
+   ~compiler
 
 
 

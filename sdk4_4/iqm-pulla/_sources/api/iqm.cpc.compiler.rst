@@ -28,11 +28,11 @@ iqm.cpc.compiler
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.cpc.compiler.compiler
-   ~iqm.cpc.compiler.dd
-   ~iqm.cpc.compiler.errors
-   ~iqm.cpc.compiler.standard_stages
-   ~iqm.cpc.compiler.station_settings
+   ~compiler
+   ~dd
+   ~errors
+   ~standard_stages
+   ~station_settings
 
 
 

@@ -29,15 +29,15 @@ Full path: iqm.pulla
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.pulla.interface
-   ~iqm.pulla.pulla
-   ~iqm.pulla.quantum_architecture
-   ~iqm.pulla.utils
-   ~iqm.pulla.utils_cirq
-   ~iqm.pulla.utils_dd
-   ~iqm.pulla.utils_parallelization
-   ~iqm.pulla.utils_qir
-   ~iqm.pulla.utils_qiskit
+   ~interface
+   ~pulla
+   ~quantum_architecture
+   ~utils
+   ~utils_cirq
+   ~utils_dd
+   ~utils_parallelization
+   ~utils_qir
+   ~utils_qiskit
 
 
 

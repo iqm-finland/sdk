@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
@@ -40,8 +40,8 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=c7d539cd"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -421,7 +421,7 @@ document.write(`
 <p>Module: <a class="reference internal" href="iqm.pulse.gates.reset.html#module-iqm.pulse.gates.reset" title="iqm.pulse.gates.reset"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gates.reset</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.gates.reset.Reset_Wait">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gates.reset.</span></span><span class="sig-name descname"><span class="pre">Reset_Wait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.reset.Reset_Wait" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gates.reset.</span></span><span class="sig-name descname"><span class="pre">Reset_Wait</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.reset.Reset_Wait" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><code class="xref py py-class docutils literal notranslate"><span class="pre">GateImplementation</span></code></a></p>
 <p>Reset operation by relaxation (idling for a time comparable to the relaxation time of the component).</p>
 <p>Adds a Wait pulse for all the (non-virtual) channels of the locus components. In addition, blocks all the probes
@@ -433,7 +433,7 @@ It also can be called on specific qubits inside a segment, but as it works by
 waiting longer than the qubit relaxation time, the states of all the other qubits
 will likely have been destroyed as well by the time the reset has finished.</p>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.gates.reset.Reset_Wait.parameters" title="iqm.pulse.gates.reset.Reset_Wait.parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parameters</span></code></a></p></td>
 <td><p>Required calibration data, may be nested</p></td>
@@ -448,7 +448,7 @@ will likely have been destroyed as well by the time the reset has finished.</p>
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.gates.reset.Reset_Wait.duration_in_seconds" title="iqm.pulse.gates.reset.Reset_Wait.duration_in_seconds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duration_in_seconds</span></code></a></p></td>
 <td><p>Duration of the Schedule of the gate implementation (in seconds).</p></td>
@@ -467,15 +467,15 @@ will likely have been destroyed as well by the time the reset has finished.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>parent</strong> (<a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><em>QuantumOp</em></a>)</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
-<li><p><strong>locus</strong> (<em>Locus</em>)</p></li>
-<li><p><strong>calibration_data</strong> (<em>OILCalibrationData</em>)</p></li>
+<li><p><strong>locus</strong> (<a class="reference internal" href="iqm.pulse.gate_implementation.Locus.html#iqm.pulse.gate_implementation.Locus" title="iqm.pulse.gate_implementation.Locus"><em>Locus</em></a>)</p></li>
+<li><p><strong>calibration_data</strong> (<a class="reference internal" href="iqm.pulse.gate_implementation.OILCalibrationData.html#iqm.pulse.gate_implementation.OILCalibrationData" title="iqm.pulse.gate_implementation.OILCalibrationData"><em>OILCalibrationData</em></a>)</p></li>
 <li><p><strong>builder</strong> (<a class="reference internal" href="iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="iqm.pulse.builder.ScheduleBuilder"><em>ScheduleBuilder</em></a>)</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.gates.reset.Reset_Wait.parameters">
-<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">NestedParams</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'duration':</span> <span class="pre">Parameter(name='',</span> <span class="pre">label='Wait</span> <span class="pre">duration',</span> <span class="pre">unit='s',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None)}</span></em><a class="headerlink" href="#iqm.pulse.gates.reset.Reset_Wait.parameters" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">parameters</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Parameter.html#exa.common.data.parameter.Parameter" title="(in exa-common v27.5.1)"><span class="pre">Parameter</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Setting.html#exa.common.data.parameter.Setting" title="(in exa-common v27.5.1)"><span class="pre">Setting</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'duration':</span> <span class="pre">Parameter(name='',</span> <span class="pre">label='Wait</span> <span class="pre">duration',</span> <span class="pre">unit='s',</span> <span class="pre">data_type=&lt;DataType.FLOAT:</span> <span class="pre">1&gt;,</span> <span class="pre">collection_type=&lt;CollectionType.SCALAR:</span> <span class="pre">0&gt;,</span> <span class="pre">element_indices=None)}</span></span><a class="headerlink" href="#iqm.pulse.gates.reset.Reset_Wait.parameters" title="Link to this definition">#</a></dt>
 <dd><p>Required calibration data, may be nested</p>
 </dd></dl>
 
@@ -506,7 +506,7 @@ Subclasses can reimplement this method in case it makes sense in their context.<
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.pulse.gates.reset.Reset_Wait.get_custom_locus_mapping">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_custom_locus_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip_topology</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component_to_channels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.reset.Reset_Wait.get_custom_locus_mapping" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">get_custom_locus_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip_topology</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">component_to_channels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gates.reset.Reset_Wait.get_custom_locus_mapping" title="Link to this definition">#</a></dt>
 <dd><p>Supported loci: all components that have channels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -524,7 +524,7 @@ Subclasses can reimplement this method in case it makes sense in their context.<
 </dd></dl>
 
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-2eb3aff5fc6c2af781bd769a9de063a4fcb293b8.png" alt="Inheritance diagram of iqm.pulse.gates.reset.Reset_Wait" usemap="#inheritancebecd5b0e0f" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-9712168006070fe6d044444c3fa0ac7eee3afdcf.png" alt="Inheritance diagram of iqm.pulse.gates.reset.Reset_Wait" usemap="#inheritancebecd5b0e0f" class="inheritance graphviz" /></div>
 <map id="inheritancebecd5b0e0f" name="inheritancebecd5b0e0f">
 <area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
 <area shape="rect" id="node2" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" target="_top" title="ABC for implementing quantum gates and other quantum operations using instruction schedules." alt="" coords="125,5,283,31"/>
@@ -596,6 +596,10 @@ Subclasses can reimplement this method in case it makes sense in their context.<
   
   <div class="footer-item">
     
+<p class="component-author">
+By Author name not set
+</p>
+
   </div>
   
   <div class="footer-item">

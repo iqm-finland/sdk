@@ -29,10 +29,10 @@ Full path: iqm.cpc.core
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.cpc.core.config
-   ~iqm.cpc.core.dataset
-   ~iqm.cpc.core.observation
-   ~iqm.cpc.core.run_result
+   ~config
+   ~dataset
+   ~observation
+   ~run_result
 
 
 

@@ -29,8 +29,8 @@ Full path: iqm.qubit_selector
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.qubit_selector.qiskit_utils
-   ~iqm.qubit_selector.qubit_selector
+   ~qiskit_utils
+   ~qubit_selector
 
 
 

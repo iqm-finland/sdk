@@ -29,8 +29,8 @@ Full path: iqm.iqm_server_client
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.iqm_server_client.iqm_server_client
-   ~iqm.iqm_server_client.models
+   ~iqm_server_client
+   ~models
 
 
 

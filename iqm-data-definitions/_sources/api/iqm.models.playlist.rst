@@ -32,9 +32,9 @@ playlist
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.models.playlist.channel_descriptions
-   ~iqm.models.playlist.instructions
-   ~iqm.models.playlist.playlist
-   ~iqm.models.playlist.segment
-   ~iqm.models.playlist.waveforms
+   ~channel_descriptions
+   ~instructions
+   ~playlist
+   ~segment
+   ~waveforms
 

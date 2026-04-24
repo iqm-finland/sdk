@@ -29,14 +29,14 @@ Full path: iqm.qaoa.transpiler
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.qaoa.transpiler.hardwired
-   ~iqm.qaoa.transpiler.ptn
-   ~iqm.qaoa.transpiler.quantum_hardware
-   ~iqm.qaoa.transpiler.routing
-   ~iqm.qaoa.transpiler.rx_to_nx
-   ~iqm.qaoa.transpiler.sn
-   ~iqm.qaoa.transpiler.sparse
-   ~iqm.qaoa.transpiler.star
+   ~hardwired
+   ~ptn
+   ~quantum_hardware
+   ~routing
+   ~rx_to_nx
+   ~sn
+   ~sparse
+   ~star
 
 
 

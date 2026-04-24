@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -39,8 +39,8 @@
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="_static/documentation_options.js?v=1ebeef14"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'custom_gates';</script>
     <link rel="icon" href="_static/favicon.ico"/>
@@ -566,7 +566,7 @@ so it is then mandatory to define the mapping explicitly using the aforementione
 <p>In order to implement most QuantumOps, one has to physically alter the state of the QPU. This is typically done by playing
 specified and correctly calibrated pulses via the control electronics (this applies to all typical logical gates such as
 e.g. PRX or CZ – non-physcial metaoperations such as Barrier are an exception). In defining these pulses, there are two
-levels of abstractions: <code class="xref py py-class docutils literal notranslate"><span class="pre">Waveform</span></code> and <a class="reference internal" href="api/iqm.pulse.playlist.instructions.Instruction.html#iqm.pulse.playlist.instructions.Instruction" title="iqm.pulse.playlist.instructions.Instruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></a>.</p>
+levels of abstractions: <a class="reference external" href="../iqm-data-definitions/api/iqm.models.playlist.waveforms.Waveform.html#iqm.models.playlist.waveforms.Waveform" title="(in IQM data definitions v2.24)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Waveform</span></code></a> and <a class="reference internal" href="api/iqm.pulse.playlist.instructions.Instruction.html#iqm.pulse.playlist.instructions.Instruction" title="iqm.pulse.playlist.instructions.Instruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></a>.</p>
 <p>Waveform represents the physical form of the control pulse, typically normalized to the interval <code class="docutils literal notranslate"><span class="pre">[-1.0,</span> <span class="pre">1.0]</span></code>.
 Each Waveform subclass can define any number of parameters as class
 attributes, which can be used to programmatically define the waveform. For example, a Gaussian could be defined in terms
@@ -606,7 +606,7 @@ conversion manually. For this reason, there is logic that converts anything that
 Similarly, parameters with <code class="docutils literal notranslate"><span class="pre">&quot;Hz&quot;</span></code> units are converted to <code class="docutils literal notranslate"><span class="pre">1/sample</span></code>. For the Waveform parameters, the same logic
 applies, but by default it is assumed that all parameters are time-like and this converted from seconds to samples.
 If some Waveform parameters needs to be made unitless or e.g. frequency-like (with <code class="docutils literal notranslate"><span class="pre">&quot;Hz&quot;</span></code> units), it can be achieved
-with the method <code class="xref py py-meth docutils literal notranslate"><span class="pre">non_timelike_attributes()</span></code>:</p>
+with the method <a class="reference external" href="../iqm-data-definitions/api/iqm.models.playlist.waveforms.Waveform.html#iqm.models.playlist.waveforms.Waveform.non_timelike_attributes" title="(in IQM data definitions v2.24)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">non_timelike_attributes()</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">non_timelike_attributes</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
     <span class="k">return</span> <span class="p">{</span>
         <span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="s2">&quot;Hz&quot;</span><span class="p">,</span>
@@ -763,6 +763,10 @@ above method will always work.</p>
   
   <div class="footer-item">
     
+<p class="component-author">
+By Author name not set
+</p>
+
   </div>
   
   <div class="footer-item">

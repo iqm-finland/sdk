@@ -1,0 +1,1123 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How to make your own benchmark? &#8212; IQM Benchmarks 2.59.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=06182b2f"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'development/how_to_make_your_own_benchmark';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2-Qubit Clifford Group Decomposition" href="generate_2qubit_cliffords.html" />
+    <link rel="prev" title="Development" href="development.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-04-24"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Benchmarks 2.59.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Benchmarks 2.59.1 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">IQM Benchmarks</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_clifford_rb.html">Clifford Randomized Benchmarking (CRB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_interleaved_rb.html">Interleaved Randomized Benchmarking (IRB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_eplg.html">Error Per Layered Gate (EPLG)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_mirror_rb.html">Mirror Randomized Benchmarking (MRB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_graphstate.html">Graph State Bipartite Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_gst.html">Compressive Gate Set Tomography (GST)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_quantum_volume.html">Quantum Volume (QV)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_ghz.html">Greenberger–Horne–Zeilinger (GHZ) State Fidelity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_qscore.html">Q-Score</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_coherence.html">Coherence experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_clops.html">Circuit Layer Operations Per Second (CLOPS)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../devices/devices.html">Devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../devices/star.html">Benchmarking IQM Star</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="development.html">Development</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">How to make your own benchmark?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generate_2qubit_cliffords.html">2-Qubit Clifford Group Decomposition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.benchmarks.html">iqm.benchmarks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.html">iqm.benchmarks.benchmark_definition</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.add_counts_to_dataset.html">iqm.benchmarks.benchmark_definition.add_counts_to_dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.default_analysis_function.html">iqm.benchmarks.benchmark_definition.default_analysis_function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.merge_datasets_dac.html">iqm.benchmarks.benchmark_definition.merge_datasets_dac</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.show_figure.html">iqm.benchmarks.benchmark_definition.show_figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.Benchmark.html">iqm.benchmarks.benchmark_definition.Benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.BenchmarkAnalysisResult.html">iqm.benchmarks.benchmark_definition.BenchmarkAnalysisResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.BenchmarkConfigurationBase.html">iqm.benchmarks.benchmark_definition.BenchmarkConfigurationBase</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.BenchmarkObservation.html">iqm.benchmarks.benchmark_definition.BenchmarkObservation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.BenchmarkObservationIdentifier.html">iqm.benchmarks.benchmark_definition.BenchmarkObservationIdentifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.BenchmarkRunResult.html">iqm.benchmarks.benchmark_definition.BenchmarkRunResult</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.circuit_containers.html">iqm.benchmarks.circuit_containers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.circuit_containers.BenchmarkCircuit.html">iqm.benchmarks.circuit_containers.BenchmarkCircuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.circuit_containers.CircuitGroup.html">iqm.benchmarks.circuit_containers.CircuitGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.circuit_containers.Circuits.html">iqm.benchmarks.circuit_containers.Circuits</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.compressive_gst.html">iqm.benchmarks.compressive_gst</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.compressive_gst.compressive_gst.html">iqm.benchmarks.compressive_gst.compressive_gst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.compressive_gst.gst_analysis.html">iqm.benchmarks.compressive_gst.gst_analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.compressive_gst.mgst.html">iqm.benchmarks.compressive_gst.mgst</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.entanglement.html">iqm.benchmarks.entanglement</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.entanglement.ghz.html">iqm.benchmarks.entanglement.ghz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.entanglement.graph_states.html">iqm.benchmarks.entanglement.graph_states</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/iqm.benchmarks.logging_config.html">iqm.benchmarks.logging_config</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.optimization.html">iqm.benchmarks.optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.optimization.qscore.html">iqm.benchmarks.optimization.qscore</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.quantum_volume.html">iqm.benchmarks.quantum_volume</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.quantum_volume.clops.html">iqm.benchmarks.quantum_volume.clops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.quantum_volume.quantum_volume.html">iqm.benchmarks.quantum_volume.quantum_volume</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.html">iqm.benchmarks.randomized_benchmarking</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.clifford_generation.html">iqm.benchmarks.randomized_benchmarking.clifford_generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.clifford_rb.html">iqm.benchmarks.randomized_benchmarking.clifford_rb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.direct_rb.html">iqm.benchmarks.randomized_benchmarking.direct_rb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.eplg.html">iqm.benchmarks.randomized_benchmarking.eplg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.interleaved_rb.html">iqm.benchmarks.randomized_benchmarking.interleaved_rb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.mirror_rb.html">iqm.benchmarks.randomized_benchmarking.mirror_rb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.multi_lmfit.html">iqm.benchmarks.randomized_benchmarking.multi_lmfit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.randomized_benchmarking_common.html">iqm.benchmarks.randomized_benchmarking.randomized_benchmarking_common</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.readout_mitigation.html">iqm.benchmarks.readout_mitigation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.readout_mitigation.apply_readout_error_mitigation.html">iqm.benchmarks.readout_mitigation.apply_readout_error_mitigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.readout_mitigation.readout_error_m3.html">iqm.benchmarks.readout_mitigation.readout_error_m3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.readout_mitigation.M3IQM.html">iqm.benchmarks.readout_mitigation.M3IQM</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.utils.html">iqm.benchmarks.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.bootstrap_counts.html">iqm.benchmarks.utils.bootstrap_counts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.count_2q_layers.html">iqm.benchmarks.utils.count_2q_layers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.count_native_gates.html">iqm.benchmarks.utils.count_native_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.error_profile_to_fidelities.html">iqm.benchmarks.utils.error_profile_to_fidelities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.extract_fidelities_unified.html">iqm.benchmarks.utils.extract_fidelities_unified</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.generate_state_tomography_circuits.html">iqm.benchmarks.utils.generate_state_tomography_circuits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.get_active_qubits.html">iqm.benchmarks.utils.get_active_qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.get_iqm_backend.html">iqm.benchmarks.utils.get_iqm_backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.get_measurement_mapping.html">iqm.benchmarks.utils.get_measurement_mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.get_neighbors_of_edges.html">iqm.benchmarks.utils.get_neighbors_of_edges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.get_pauli_expectation.html">iqm.benchmarks.utils.get_pauli_expectation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.get_tomography_matrix.html">iqm.benchmarks.utils.get_tomography_matrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.marginal_distribution.html">iqm.benchmarks.utils.marginal_distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.median_with_uncertainty.html">iqm.benchmarks.utils.median_with_uncertainty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.perform_backend_transpilation.html">iqm.benchmarks.utils.perform_backend_transpilation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.process_backend.html">iqm.benchmarks.utils.process_backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.random_hamiltonian_path.html">iqm.benchmarks.utils.random_hamiltonian_path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.reduce_to_active_qubits.html">iqm.benchmarks.utils.reduce_to_active_qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.remove_directed_duplicates_to_list.html">iqm.benchmarks.utils.remove_directed_duplicates_to_list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.retrieve_all_counts.html">iqm.benchmarks.utils.retrieve_all_counts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.retrieve_all_job_metadata.html">iqm.benchmarks.utils.retrieve_all_job_metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.set_coupling_map.html">iqm.benchmarks.utils.set_coupling_map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.sort_batches_by_final_layout.html">iqm.benchmarks.utils.sort_batches_by_final_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.split_into_disjoint_pairs.html">iqm.benchmarks.utils.split_into_disjoint_pairs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.split_sequence_in_chunks.html">iqm.benchmarks.utils.split_sequence_in_chunks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.submit_execute.html">iqm.benchmarks.utils.submit_execute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.timeit.html">iqm.benchmarks.utils.timeit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.xrvariable_to_counts.html">iqm.benchmarks.utils.xrvariable_to_counts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.ObservationType.html">iqm.benchmarks.utils.ObservationType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.PhysicalLayout.html">iqm.benchmarks.utils.PhysicalLayout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.RoutingMethod.html">iqm.benchmarks.utils.RoutingMethod</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.html">iqm.benchmarks.utils_plots</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.calculate_node_radii.html">iqm.benchmarks.utils_plots.calculate_node_radii</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.draw_graph_edges.html">iqm.benchmarks.utils_plots.draw_graph_edges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.evaluate_hamiltonian_paths.html">iqm.benchmarks.utils_plots.evaluate_hamiltonian_paths</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.plot_layout_fidelity_graph.html">iqm.benchmarks.utils_plots.plot_layout_fidelity_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.rx_to_nx_graph.html">iqm.benchmarks.utils_plots.rx_to_nx_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.GraphPositions.html">iqm.benchmarks.utils_plots.GraphPositions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.utils_shadows.html">iqm.benchmarks.utils_shadows</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_shadows.CUE.html">iqm.benchmarks.utils_shadows.CUE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_shadows.get_local_shadow.html">iqm.benchmarks.utils_shadows.get_local_shadow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_shadows.get_negativity.html">iqm.benchmarks.utils_shadows.get_negativity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_shadows.local_shadow_tomography.html">iqm.benchmarks.utils_shadows.local_shadow_tomography</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_shadows.validate_shadow_tomography_params.html">iqm.benchmarks.utils_shadows.validate_shadow_tomography_params</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/development/how_to_make_your_own_benchmark.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>How to make your own benchmark?</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="how-to-make-your-own-benchmark">
+<h1>How to make your own benchmark?<a class="headerlink" href="#how-to-make-your-own-benchmark" title="Link to this heading">#</a></h1>
+<p>This notebook shows an example of how to use the benchmark defition to write a new benchmark class.</p>
+<p>Here we make a simple benchmark that creates two circuits, one that prepares all the qubits in the ground state and another one that prepares them in the excited state.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a new benchmark here.</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.benchmarks.benchmark_definition</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Benchmark</span><span class="p">,</span>
+    <span class="n">BenchmarkConfigurationBase</span><span class="p">,</span>
+    <span class="n">add_counts_to_dataset</span><span class="p">,</span>
+    <span class="n">BenchmarkAnalysisResult</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.benchmarks.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">xrvariable_to_counts</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm.iqm_provider</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMBackend</span><span class="p">,</span> <span class="n">IQMFakeBackend</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">transpile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_readout_test_circuit</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">N_qubits</span><span class="p">):</span>
+    <span class="n">circuits</span><span class="o">=</span><span class="p">[]</span>
+    <span class="n">qb_to_measure</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_qubits</span><span class="p">)</span>
+
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">N_qubits</span><span class="p">,</span><span class="n">N_qubits</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_qubits</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qb_to_measure</span><span class="p">,</span><span class="n">qb_to_measure</span><span class="p">)</span>
+    <span class="n">circuits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">N_qubits</span><span class="p">,</span><span class="n">N_qubits</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_qubits</span><span class="p">):</span>
+        <span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qb_to_measure</span><span class="p">,</span><span class="n">qb_to_measure</span><span class="p">)</span>
+    <span class="n">circuits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+    <span class="n">qc_transpiled</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">circuits</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">qc_transpiled</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_histogram</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;test_state_</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">dataset</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;test_counts_</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;circuit=</span><span class="si">{</span><span class="n">ii</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+           <span class="k">break</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">fig</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_all_meta_to_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adds all configuration metadata and circuits to the dataset variable.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dataset: The xarray dataset</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Add here any custom metadata you want to add to the dataset attributes:</span>
+    <span class="c1"># dataset.attrs[&quot;session_timestamp&quot;] = self.session_timestamp</span>
+
+    <span class="c1"># Automatically store the configuration</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;benchmark&quot;</span><span class="p">:</span>  <span class="c1"># Avoid saving the class object</span>
+            <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">readout_analysis</span><span class="p">(</span><span class="n">run</span><span class="p">):</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">dataset</span>
+
+    <span class="c1"># You can optionally convert the dataset variable to counts format using the utils function:</span>
+    <span class="n">n_circuits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">all_counts</span> <span class="o">=</span> <span class="n">xrvariable_to_counts</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="n">n_circuits</span><span class="p">)</span>
+
+    <span class="n">plots</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">plots</span><span class="p">[</span><span class="s2">&quot;histogram&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plot_histogram</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">BenchmarkAnalysisResult</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span> <span class="n">plots</span><span class="o">=</span><span class="n">plots</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ReadoutTest</span><span class="p">(</span><span class="n">Benchmark</span><span class="p">):</span>
+
+    <span class="n">analysis_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">readout_analysis</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the name of the benchmark.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;readout_test&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend</span><span class="p">:</span> <span class="n">IQMBackend</span> <span class="o">|</span> <span class="n">IQMFakeBackend</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="s2">&quot;TestConfiguration&quot;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">configuration</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backend</span><span class="p">:</span> <span class="n">IQMBackend</span> <span class="o">|</span> <span class="n">IQMFakeBackend</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Executes the benchmark.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+        <span class="n">circuits</span> <span class="o">=</span> <span class="n">generate_readout_test_circuit</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">N_qubits</span><span class="p">)</span>
+        <span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">circuits</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">shots</span><span class="p">)</span>
+        <span class="n">identifier</span><span class="o">=</span><span class="s2">&quot;test&quot;</span> <span class="c1"># How to name your circuits in the dataset to distinguish them, for i.e. analysis of different layouts.</span>
+        <span class="n">dataset</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">add_counts_to_dataset</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">(),</span> <span class="n">identifier</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
+        <span class="n">add_all_meta_to_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dataset</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestConfiguration</span><span class="p">(</span><span class="n">BenchmarkConfigurationBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test case cofiguration, add any arguments here that are not already defined in the base class.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        benchmark: ReadoutTest benchmark class.</span>
+<span class="sd">        N_qubits: Number of qubits to prepare in the circuits.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">benchmark</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Benchmark</span><span class="p">]</span> <span class="o">=</span> <span class="n">ReadoutTest</span>
+    <span class="n">N_qubits</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm.fake_backends.fake_apollo</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMFakeApollo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># Real backend</span>
+<span class="c1"># token = &quot;&quot;</span>
+<span class="c1"># os.environ[&quot;IQM_TOKEN&quot;] = token</span>
+<span class="c1"># quantum_computer = &quot;garnet&quot; # provide actual quantum computer name</span>
+<span class="c1"># iqm_server_url = &quot;https://resonance.meetiqm.com/&quot; # provide actual IQM server URL</span>
+<span class="c1"># os.environ[&quot;IQM_SERVER_URL&quot;] = iqm_server_url</span>
+<span class="c1">#</span>
+<span class="c1"># provider = IQMProvider(iqm_server_url, quantum_computer=quantum_computer)</span>
+<span class="c1"># backend = provider.get_backend()</span>
+
+<span class="c1">#Fake backend</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IQMFakeApollo</span><span class="p">()</span>
+
+
+<span class="n">benchmark</span> <span class="o">=</span> <span class="n">ReadoutTest</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">TestConfiguration</span><span class="p">(</span><span class="n">N_qubits</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
+<span class="n">run_result</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-02-24 14:24:39,203 - iqm.benchmarks.logging_config - INFO - Adding counts to dataset
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">run_result</span><span class="o">.</span><span class="n">dataset</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+html[data-theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 0 20px 0 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: inline-block;
+  opacity: 0;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:focus + label {
+  border: 2px solid var(--xr-font-color0);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 868B
+Dimensions:        (test_state_0: 15, test_state_1: 16)
+Coordinates:
+  * test_state_0   (test_state_0) &lt;U5 300B &#x27;00000&#x27; &#x27;00001&#x27; ... &#x27;10010&#x27; &#x27;10100&#x27;
+  * test_state_1   (test_state_1) &lt;U5 320B &#x27;00111&#x27; &#x27;01011&#x27; ... &#x27;11110&#x27; &#x27;11111&#x27;
+Data variables:
+    test_counts_0  (test_state_0) int64 120B 753 49 46 1 46 3 2 ... 1 1 41 2 2 2
+    test_counts_1  (test_state_1) int64 128B 2 2 1 4 44 1 1 ... 5 48 4 47 36 765
+Attributes:
+    benchmark:               &lt;bound method ReadoutTest.name of &lt;class &#x27;__main...
+    shots:                   1000
+    max_gates_per_batch:     None
+    max_circuits_per_batch:  None
+    routing_method:          sabre
+    physical_layout:         fixed
+    use_dd:                  False
+    dd_strategy:             None
+    active_reset_cycles:     None
+    N_qubits:                5</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-c2c404ca-45b9-4f1d-ab32-671d70298be3' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-c2c404ca-45b9-4f1d-ab32-671d70298be3' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>test_state_0</span>: 15</li><li><span class='xr-has-index'>test_state_1</span>: 16</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-be127c20-2b09-495f-bc75-6fa62dfdd7c0' class='xr-section-summary-in' type='checkbox'  checked><label for='section-be127c20-2b09-495f-bc75-6fa62dfdd7c0' class='xr-section-summary' >Coordinates: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>test_state_0</span></div><div class='xr-var-dims'>(test_state_0)</div><div class='xr-var-dtype'>&lt;U5</div><div class='xr-var-preview xr-preview'>&#x27;00000&#x27; &#x27;00001&#x27; ... &#x27;10010&#x27; &#x27;10100&#x27;</div><input id='attrs-f4701c2e-396c-4bec-a698-f7ad8b3f1277' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-f4701c2e-396c-4bec-a698-f7ad8b3f1277' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e0bb32f5-69c3-4e72-a440-0c7a27fe0d01' class='xr-var-data-in' type='checkbox'><label for='data-e0bb32f5-69c3-4e72-a440-0c7a27fe0d01' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;00000&#x27;, &#x27;00001&#x27;, &#x27;00010&#x27;, &#x27;00011&#x27;, &#x27;00100&#x27;, &#x27;00101&#x27;, &#x27;00110&#x27;, &#x27;01000&#x27;,
+       &#x27;01001&#x27;, &#x27;01010&#x27;, &#x27;01100&#x27;, &#x27;10000&#x27;, &#x27;10001&#x27;, &#x27;10010&#x27;, &#x27;10100&#x27;],
+      dtype=&#x27;&lt;U5&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>test_state_1</span></div><div class='xr-var-dims'>(test_state_1)</div><div class='xr-var-dtype'>&lt;U5</div><div class='xr-var-preview xr-preview'>&#x27;00111&#x27; &#x27;01011&#x27; ... &#x27;11110&#x27; &#x27;11111&#x27;</div><input id='attrs-da49fcc4-cbaa-4be1-928d-d717a4e6c7d1' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-da49fcc4-cbaa-4be1-928d-d717a4e6c7d1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b9b91052-b361-421b-b9ac-fbad227fea49' class='xr-var-data-in' type='checkbox'><label for='data-b9b91052-b361-421b-b9ac-fbad227fea49' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;00111&#x27;, &#x27;01011&#x27;, &#x27;01101&#x27;, &#x27;01110&#x27;, &#x27;01111&#x27;, &#x27;10001&#x27;, &#x27;10100&#x27;, &#x27;10101&#x27;,
+       &#x27;10110&#x27;, &#x27;10111&#x27;, &#x27;11001&#x27;, &#x27;11011&#x27;, &#x27;11100&#x27;, &#x27;11101&#x27;, &#x27;11110&#x27;, &#x27;11111&#x27;],
+      dtype=&#x27;&lt;U5&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-fda95af1-81bc-4146-965e-c2f9e4eefca2' class='xr-section-summary-in' type='checkbox'  checked><label for='section-fda95af1-81bc-4146-965e-c2f9e4eefca2' class='xr-section-summary' >Data variables: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>test_counts_0</span></div><div class='xr-var-dims'>(test_state_0)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>753 49 46 1 46 3 2 ... 1 1 41 2 2 2</div><input id='attrs-fc57cec1-1c78-485e-bca2-a3175075b69d' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-fc57cec1-1c78-485e-bca2-a3175075b69d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ab64becb-fda9-4731-9b32-4184746915a8' class='xr-var-data-in' type='checkbox'><label for='data-ab64becb-fda9-4731-9b32-4184746915a8' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([753,  49,  46,   1,  46,   3,   2,  47,   4,   1,   1,  41,   2,
+         2,   2])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>test_counts_1</span></div><div class='xr-var-dims'>(test_state_1)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>2 2 1 4 44 1 1 ... 5 48 4 47 36 765</div><input id='attrs-ca9beef1-a6d3-49d5-b495-8ba2ffaa7257' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-ca9beef1-a6d3-49d5-b495-8ba2ffaa7257' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4da3d40f-f8d7-485e-80ca-cdc6a0e123d1' class='xr-var-data-in' type='checkbox'><label for='data-4da3d40f-f8d7-485e-80ca-cdc6a0e123d1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([  2,   2,   1,   4,  44,   1,   1,   4,   2,  34,   5,  48,   4,
+        47,  36, 765])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-43cb386d-d4a4-46b7-8975-c5544251b3eb' class='xr-section-summary-in' type='checkbox'  ><label for='section-43cb386d-d4a4-46b7-8975-c5544251b3eb' class='xr-section-summary' >Indexes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>test_state_0</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-bfa6cda9-ebbc-4f5c-9ec2-75b82e901317' class='xr-index-data-in' type='checkbox'/><label for='index-bfa6cda9-ebbc-4f5c-9ec2-75b82e901317' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;00000&#x27;, &#x27;00001&#x27;, &#x27;00010&#x27;, &#x27;00011&#x27;, &#x27;00100&#x27;, &#x27;00101&#x27;, &#x27;00110&#x27;, &#x27;01000&#x27;,
+       &#x27;01001&#x27;, &#x27;01010&#x27;, &#x27;01100&#x27;, &#x27;10000&#x27;, &#x27;10001&#x27;, &#x27;10010&#x27;, &#x27;10100&#x27;],
+      dtype=&#x27;object&#x27;, name=&#x27;test_state_0&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>test_state_1</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-5ae9e7b6-d066-4658-a8f1-9523d21fb793' class='xr-index-data-in' type='checkbox'/><label for='index-5ae9e7b6-d066-4658-a8f1-9523d21fb793' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;00111&#x27;, &#x27;01011&#x27;, &#x27;01101&#x27;, &#x27;01110&#x27;, &#x27;01111&#x27;, &#x27;10001&#x27;, &#x27;10100&#x27;, &#x27;10101&#x27;,
+       &#x27;10110&#x27;, &#x27;10111&#x27;, &#x27;11001&#x27;, &#x27;11011&#x27;, &#x27;11100&#x27;, &#x27;11101&#x27;, &#x27;11110&#x27;, &#x27;11111&#x27;],
+      dtype=&#x27;object&#x27;, name=&#x27;test_state_1&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-0f515885-819e-42b8-9195-6e0535f2b813' class='xr-section-summary-in' type='checkbox'  ><label for='section-0f515885-819e-42b8-9195-6e0535f2b813' class='xr-section-summary' >Attributes: <span>(10)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>benchmark :</span></dt><dd>&lt;bound method ReadoutTest.name of &lt;class &#x27;__main__.ReadoutTest&#x27;&gt;&gt;</dd><dt><span>shots :</span></dt><dd>1000</dd><dt><span>max_gates_per_batch :</span></dt><dd>None</dd><dt><span>max_circuits_per_batch :</span></dt><dd>None</dd><dt><span>routing_method :</span></dt><dd>sabre</dd><dt><span>physical_layout :</span></dt><dd>fixed</dd><dt><span>use_dd :</span></dt><dd>False</dd><dt><span>dd_strategy :</span></dt><dd>None</dd><dt><span>active_reset_cycles :</span></dt><dd>None</dd><dt><span>N_qubits :</span></dt><dd>5</dd></dl></div></li></ul></div></div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">benchmark</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">result</span><span class="o">.</span><span class="n">plot_all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-02-24 14:24:39,460 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-02-24 14:24:39,463 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-02-24 14:24:39,474 - matplotlib.category - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+</pre></div>
+</div>
+<img alt="../_images/5e6f9bf82ed5a5e1f04776aae43204c45be8a39f547dd6a03c6a35acb2b0bcb1.png" src="../_images/5e6f9bf82ed5a5e1f04776aae43204c45be8a39f547dd6a03c6a35acb2b0bcb1.png" />
+</div>
+</div>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="development.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Development</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="generate_2qubit_cliffords.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">2-Qubit Clifford Group Decomposition</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Benchmarks developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, IQM.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-04-24.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

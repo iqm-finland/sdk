@@ -29,8 +29,8 @@ Full path: iqm.qaoa.tree_calculation
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.qaoa.tree_calculation.generate_basis
-   ~iqm.qaoa.tree_calculation.tree_calculation
+   ~generate_basis
+   ~tree_calculation
 
 
 

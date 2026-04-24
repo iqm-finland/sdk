@@ -29,9 +29,9 @@ Full path: iqm.cpc
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.cpc.compiler
-   ~iqm.cpc.core
-   ~iqm.cpc.interface
+   ~compiler
+   ~core
+   ~interface
 
 
 

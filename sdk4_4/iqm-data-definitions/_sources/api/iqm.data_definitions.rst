@@ -32,6 +32,6 @@
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.data_definitions.common
-   ~iqm.data_definitions.station_control
+   ~common
+   ~station_control
 

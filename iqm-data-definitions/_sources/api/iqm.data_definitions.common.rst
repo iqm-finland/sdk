@@ -32,5 +32,5 @@ common
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.data_definitions.common.v1
+   ~v1
 

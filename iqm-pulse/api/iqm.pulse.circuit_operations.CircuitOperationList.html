@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
@@ -40,8 +40,8 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=c7d539cd"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -425,7 +425,7 @@ document.write(`
 <p>Module: <a class="reference internal" href="iqm.pulse.circuit_operations.html#module-iqm.pulse.circuit_operations" title="iqm.pulse.circuit_operations"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.circuit_operations</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.circuit_operations.CircuitOperationList">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.circuit_operations.</span></span><span class="sig-name descname"><span class="pre">CircuitOperationList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.circuit_operations.CircuitOperationList" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.pulse.circuit_operations.</span></span><span class="sig-name descname"><span class="pre">CircuitOperationList</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contents</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.circuit_operations.CircuitOperationList" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a></p>
 <p>List of <a class="reference internal" href="iqm.pulse.builder.CircuitOperation.html#iqm.pulse.builder.CircuitOperation" title="iqm.pulse.builder.CircuitOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code></a> objects representing a quantum circuit.</p>
 <p>The class is used to work with CircuitOperations directly. It is mostly meant as
@@ -434,7 +434,7 @@ qubits. In addition to the circuit contents, this class has two important attrib
 <code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code> and <code class="xref py py-attr docutils literal notranslate"><span class="pre">table</span></code>.</p>
 <p><code class="xref py py-attr docutils literal notranslate"><span class="pre">qubits</span></code> defines the list of qubits which are allowed to be in the loci of all the
 CircuitOperations present in the list. Think about it as Qiskit’s QuantumRegister.</p>
-<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">table</span></code> is a <code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOpTable</span></code>, which contains all the
+<p><code class="xref py py-attr docutils literal notranslate"><span class="pre">table</span></code> is a <a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOpTable.html#iqm.pulse.quantum_ops.QuantumOpTable" title="iqm.pulse.quantum_ops.QuantumOpTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOpTable</span></code></a>, which contains all the
 <a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code></a> s which are allowed in the circuit. In most cases, the table is
 simply taken to contain all the default operations defined in <a class="reference internal" href="iqm.pulse.html#module-iqm.pulse" title="iqm.pulse"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse</span></code></a>.
 When you use this class with a <a class="reference internal" href="iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="iqm.pulse.builder.ScheduleBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code></a>, it is good practice to set
@@ -504,12 +504,12 @@ different physical qubits, which is helpful when running parallel experiments on
 <li><p><strong>qubits</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – Qubits allowed to be used in operation loci in the circuit.</p></li>
 <li><p><strong>num_qubits</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of qubits in the circuit, will initialize <code class="docutils literal notranslate"><span class="pre">qubits</span></code> with <code class="docutils literal notranslate"><span class="pre">['QB1',</span> <span class="pre">'QB2',</span> <span class="pre">...]</span></code>.
 Ignored if <code class="docutils literal notranslate"><span class="pre">qubits</span></code> is given.</p></li>
-<li><p><strong>table</strong> (<em>QuantumOpTable</em><em> | </em><em>None</em>) – Allowed quantum operations.</p></li>
+<li><p><strong>table</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><em>QuantumOp</em></a><em>]</em>) – Allowed quantum operations.</p></li>
 </ul>
 </dd>
 </dl>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">qubits</span></code></p></td>
 <td><p></p></td>
@@ -548,7 +548,7 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">qubits</
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.circuit_operations.CircuitOperationList.add_op" title="iqm.pulse.circuit_operations.CircuitOperationList.add_op"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_op</span></code></a></p></td>
 <td><p>Adds a new <code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperation</span></code> to the circuit.</p></td>
@@ -729,7 +729,7 @@ of the original list.</p>
 </dd></dl>
 
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-01762fd5de7337c7a3fb46d56828e3f7e661fe72.png" alt="Inheritance diagram of iqm.pulse.circuit_operations.CircuitOperationList" usemap="#inheritanceb6948c9309" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-90ef2a69a55a001433e6e0154acbbafb62fd92f2.png" alt="Inheritance diagram of iqm.pulse.circuit_operations.CircuitOperationList" usemap="#inheritanceb6948c9309" class="inheritance graphviz" /></div>
 <map id="inheritanceb6948c9309" name="inheritanceb6948c9309">
 <area shape="rect" id="node1" href="#iqm.pulse.circuit_operations.CircuitOperationList" target="_top" title="List of :class:`.CircuitOperation` objects representing a quantum circuit." alt="" coords="5,5,156,31"/>
 </map></section>
@@ -803,6 +803,10 @@ of the original list.</p>
   
   <div class="footer-item">
     
+<p class="component-author">
+By Author name not set
+</p>
+
   </div>
   
   <div class="footer-item">

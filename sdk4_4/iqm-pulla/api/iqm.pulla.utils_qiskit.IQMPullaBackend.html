@@ -30,8 +30,8 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -39,8 +39,8 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=386ede98"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulla.utils_qiskit.IQMPullaBackend';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -443,7 +443,7 @@ document.write(`
 <h1>iqm.pulla.utils_qiskit.IQMPullaBackend<a class="headerlink" href="#iqm-pulla-utils-qiskit-iqmpullabackend" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulla.utils_qiskit.IQMPullaBackend">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulla.utils_qiskit.</span></span><span class="sig-name descname"><span class="pre">IQMPullaBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">architecture</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulla</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compiler</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulla.utils_qiskit.IQMPullaBackend" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.pulla.utils_qiskit.</span></span><span class="sig-name descname"><span class="pre">IQMPullaBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">architecture</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pulla</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compiler</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulla.utils_qiskit.IQMPullaBackend" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="../../iqm-client/api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html#iqm.qiskit_iqm.iqm_backend.IQMBackendBase" title="(in IQM client v34.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMBackendBase</span></code></a></p>
 <p>A backend that compiles circuits locally using Pulla and submits them to Station Control for execution.</p>
 <dl class="field-list simple">
@@ -456,10 +456,10 @@ document.write(`
 </dd>
 </dl>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulla.utils_qiskit.IQMPullaBackend.max_circuits" title="iqm.pulla.utils_qiskit.IQMPullaBackend.max_circuits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">max_circuits</span></code></a></p></td>
-<td><p>The maximum number of circuits that can be run in a single job.</p></td>
+<td><p>The maximum number of circuits (or Pulse schedules) that can be run in a single job.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">name</span></code></p></td>
 <td><p>Name of the backend.</p></td>
@@ -477,7 +477,7 @@ document.write(`
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_default_options</span></code>()</p></td>
 <td><p>Return the default options</p></td>
@@ -492,7 +492,7 @@ document.write(`
 <dt class="sig sig-object py" id="iqm.pulla.utils_qiskit.IQMPullaBackend.run">
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1024</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">options</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulla.utils_qiskit.IQMPullaBackend.run" title="Link to this definition">#</a></dt>
 <dd><p>Run on the backend.</p>
-<p>This method returns a <code class="xref py py-class docutils literal notranslate"><span class="pre">Job</span></code> object
+<p>This method returns a <a class="reference external" href="https://quantum.cloud.ibm.com/docs/api/qiskit/qiskit.providers.Job" title="(in Qiskit v2.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Job</span></code></a> object
 that runs circuits. Depending on the backend this may be either an async
 or sync call. It is at the discretion of the provider to decide whether
 running should block until the execution is finished or not: the Job
@@ -500,8 +500,9 @@ class can handle either situation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>run_input</strong> (<em>QuantumCircuit</em><em> or </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – An
-individual or a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumCircuit</span></code> objects to
+<li><p><strong>run_input</strong> (<em>QuantumCircuit</em><em> or </em><em>Schedule</em><em> or </em><em>ScheduleBlock</em><em> or </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – An
+individual or a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumCircuit</span></code>,
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBlock</span></code>, or <code class="xref py py-class docutils literal notranslate"><span class="pre">Schedule</span></code> objects to
 run on the backend.</p></li>
 <li><p><strong>options</strong> – Any kwarg options to pass to the backend for running the
 config. If a key is also present in the options
@@ -522,8 +523,8 @@ object.</p></li>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.pulla.utils_qiskit.IQMPullaBackend.max_circuits">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_circuits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><a class="headerlink" href="#iqm.pulla.utils_qiskit.IQMPullaBackend.max_circuits" title="Link to this definition">#</a></dt>
-<dd><p>The maximum number of circuits that can be
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">max_circuits</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><a class="headerlink" href="#iqm.pulla.utils_qiskit.IQMPullaBackend.max_circuits" title="Link to this definition">#</a></dt>
+<dd><p>The maximum number of circuits (or Pulse schedules) that can be
 run in a single job.</p>
 <p>If there is no limit this will return None</p>
 </dd></dl>

@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
@@ -40,8 +40,8 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=c7d539cd"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -418,14 +418,14 @@ document.write(`
 <p>Module: <a class="reference internal" href="iqm.pulse.gate_implementation.html#module-iqm.pulse.gate_implementation" title="iqm.pulse.gate_implementation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gate_implementation</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.SinglePulseGate">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gate_implementation.</span></span><span class="sig-name descname"><span class="pre">SinglePulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.SinglePulseGate" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gate_implementation.</span></span><span class="sig-name descname"><span class="pre">SinglePulseGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.SinglePulseGate" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><code class="xref py py-class docutils literal notranslate"><span class="pre">GateImplementation</span></code></a></p>
 <p>Base class for GateImplementations that play a single pulse on a single channel.</p>
 <p>The pulse is created in <code class="xref py py-meth docutils literal notranslate"><span class="pre">_get_pulse()</span></code> and the channel is specified in <code class="xref py py-meth docutils literal notranslate"><span class="pre">_get_pulse_channel()</span></code>.
 The base class also implements a basic <code class="xref py py-meth docutils literal notranslate"><span class="pre">_call()</span></code> method that just inserts the specified pulse into the specified
 channel, and a method for computing the pulse’s duration. All of these methods can be overridden in subclasses.</p>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></p></td>
 <td><p>Unique str identifier, needed for certain caching properties.</p></td>
@@ -437,7 +437,7 @@ channel, and a method for computing the pulse’s duration. All of these methods
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.gate_implementation.SinglePulseGate.duration_in_seconds" title="iqm.pulse.gate_implementation.SinglePulseGate.duration_in_seconds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">duration_in_seconds</span></code></a></p></td>
 <td><p>Duration of the Schedule of the gate implementation (in seconds).</p></td>
@@ -450,8 +450,8 @@ channel, and a method for computing the pulse’s duration. All of these methods
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>parent</strong> (<a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><em>QuantumOp</em></a>)</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
-<li><p><strong>locus</strong> (<em>Locus</em>)</p></li>
-<li><p><strong>calibration_data</strong> (<em>OILCalibrationData</em>)</p></li>
+<li><p><strong>locus</strong> (<a class="reference internal" href="iqm.pulse.gate_implementation.Locus.html#iqm.pulse.gate_implementation.Locus" title="iqm.pulse.gate_implementation.Locus"><em>Locus</em></a>)</p></li>
+<li><p><strong>calibration_data</strong> (<a class="reference internal" href="iqm.pulse.gate_implementation.OILCalibrationData.html#iqm.pulse.gate_implementation.OILCalibrationData" title="iqm.pulse.gate_implementation.OILCalibrationData"><em>OILCalibrationData</em></a>)</p></li>
 <li><p><strong>builder</strong> (<a class="reference internal" href="iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="iqm.pulse.builder.ScheduleBuilder"><em>ScheduleBuilder</em></a>)</p></li>
 </ul>
 </dd>
@@ -472,7 +472,7 @@ Subclasses can reimplement this method in case it makes sense in their context.<
 </dd></dl>
 
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-77c2211e4a9d11a0b66ff63bb7fe55c530495ccd.png" alt="Inheritance diagram of iqm.pulse.gate_implementation.SinglePulseGate" usemap="#inheritance79797a5773" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-85ac9f55c2930ee9e3940847529958b84c8c4196.png" alt="Inheritance diagram of iqm.pulse.gate_implementation.SinglePulseGate" usemap="#inheritance79797a5773" class="inheritance graphviz" /></div>
 <map id="inheritance79797a5773" name="inheritance79797a5773">
 <area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
 <area shape="rect" id="node2" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" target="_top" title="ABC for implementing quantum gates and other quantum operations using instruction schedules." alt="" coords="125,5,283,31"/>
@@ -541,6 +541,10 @@ Subclasses can reimplement this method in case it makes sense in their context.<
   
   <div class="footer-item">
     
+<p class="component-author">
+By Author name not set
+</p>
+
   </div>
   
   <div class="footer-item">

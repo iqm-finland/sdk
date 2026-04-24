@@ -29,13 +29,13 @@ Full path: iqm.cpc.compiler
    :template: autosummary-module-template.rst
    :recursive:
 
-   ~iqm.cpc.compiler.compilation_stage
-   ~iqm.cpc.compiler.compiler
-   ~iqm.cpc.compiler.dd
-   ~iqm.cpc.compiler.errors
-   ~iqm.cpc.compiler.layering_stages
-   ~iqm.cpc.compiler.post_process
-   ~iqm.cpc.compiler.standard_stages
+   ~compilation_stage
+   ~compiler
+   ~dd
+   ~errors
+   ~layering_stages
+   ~post_process
+   ~standard_stages
 
 
 

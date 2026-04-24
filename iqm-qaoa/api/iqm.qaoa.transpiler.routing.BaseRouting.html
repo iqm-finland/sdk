@@ -30,9 +30,9 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -40,8 +40,8 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=75c7ac0d"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -451,14 +451,14 @@ document.write(`
 <p>Module: <a class="reference internal" href="iqm.qaoa.transpiler.routing.html#module-iqm.qaoa.transpiler.routing" title="iqm.qaoa.transpiler.routing"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.qaoa.transpiler.routing</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.BaseRouting">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.transpiler.routing.</span></span><span class="sig-name descname"><span class="pre">BaseRouting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_bqm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qpu</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L402-L440"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.BaseRouting" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.transpiler.routing.</span></span><span class="sig-name descname"><span class="pre">BaseRouting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_bqm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qpu</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L402-L440"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.BaseRouting" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
 <p>The abstract base class for various routing sub-classes.</p>
 <p>Generally speaking, routing refers to the process of ‘moving’ the problem qubits around the QPU to allow the
 execution of the interactions between the problem qubits. The standard way to do this is with <em>swap</em> gates, but
 there are special variations e.g., if using <em>move</em> gates on a computational resonator.</p>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.BaseRouting.layers" title="iqm.qaoa.transpiler.routing.BaseRouting.layers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">layers</span></code></a></p></td>
 <td><p>The list of layers of the routing object.</p></td>
@@ -467,7 +467,7 @@ there are special variations e.g., if using <em>move</em> gates on a computation
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.BaseRouting.build_qiskit" title="iqm.qaoa.transpiler.routing.BaseRouting.build_qiskit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_qiskit</span></code></a></p></td>
 <td><p>The method to construct a qiskit circuit out of the routing, given a list of <cite>gammas</cite> and <cite>betas</cite> angles.</p></td>
@@ -485,7 +485,7 @@ there are special variations e.g., if using <em>move</em> gates on a computation
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.BaseRouting.layers">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">layers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.qaoa.transpiler.routing.BaseRouting.layers" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">abstract</span></span><span class="w"> </span><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">layers</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.qaoa.transpiler.routing.BaseRouting.layers" title="Link to this definition">#</a></dt>
 <dd><p>The list of layers of the routing object.</p>
 <p>Different subclasses of <a class="reference internal" href="#iqm.qaoa.transpiler.routing.BaseRouting" title="iqm.qaoa.transpiler.routing.BaseRouting"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRouting</span></code></a> represent the individual layers differently, which is why the type
 of the layers here is the generic <code class="xref py py-class docutils literal notranslate"><span class="pre">Any</span></code>.</p>
@@ -493,7 +493,7 @@ of the layers here is the generic <code class="xref py py-class docutils literal
 
 <dl class="py method">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.BaseRouting.build_qiskit">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_qiskit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">betas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gammas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L427-L440"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.BaseRouting.build_qiskit" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">build_qiskit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">betas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gammas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L427-L440"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.BaseRouting.build_qiskit" title="Link to this definition">#</a></dt>
 <dd><p>The method to construct a qiskit circuit out of the routing, given a list of <cite>gammas</cite> and <cite>betas</cite> angles.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -515,7 +515,7 @@ of the layers here is the generic <code class="xref py py-class docutils literal
 </dd></dl>
 
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-05569e6895d3ea9e5a19ccce5b60f7b903d4ff6d.png" alt="Inheritance diagram of iqm.qaoa.transpiler.routing.BaseRouting" usemap="#inheritancea4e650002e" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-fa29b87623b8e0884d62e25a62bb2f04409fd81a.png" alt="Inheritance diagram of iqm.qaoa.transpiler.routing.BaseRouting" usemap="#inheritancea4e650002e" class="inheritance graphviz" /></div>
 <map id="inheritancea4e650002e" name="inheritancea4e650002e">
 <area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
 <area shape="rect" id="node2" href="#iqm.qaoa.transpiler.routing.BaseRouting" target="_top" title="The abstract base class for various routing sub&#45;classes." alt="" coords="125,5,229,31"/>

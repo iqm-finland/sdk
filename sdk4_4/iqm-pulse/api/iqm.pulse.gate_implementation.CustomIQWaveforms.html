@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -39,8 +39,8 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=1ebeef14"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.pulse.gate_implementation.CustomIQWaveforms';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -414,7 +414,7 @@ document.write(`
 <h1>CustomIQWaveforms<a class="headerlink" href="#customiqwaveforms" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.CustomIQWaveforms">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gate_implementation.</span></span><span class="sig-name descname"><span class="pre">CustomIQWaveforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.CustomIQWaveforms" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.pulse.gate_implementation.</span></span><span class="sig-name descname"><span class="pre">CustomIQWaveforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">builder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.gate_implementation.CustomIQWaveforms" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="iqm.pulse.gate_implementation.GateImplementation"><code class="xref py py-class docutils literal notranslate"><span class="pre">GateImplementation</span></code></a></p>
 <p>Base class for GateImplementations using custom waveform definition with IQPulses.</p>
 <p>The class contains logic for automatic gate calibration parameters handling for such gates (see the class
@@ -423,7 +423,7 @@ an inheriting class may define the waveforms for the I and Q channels like this:
 <code class="docutils literal notranslate"><span class="pre">class</span> <span class="pre">MyGate(CustomIQWaveforms,</span> <span class="pre">i_wave=Something,</span> <span class="pre">q_wave=SomethingElse)</span></code>.</p>
 <p>Module: <a class="reference internal" href="iqm.pulse.gate_implementation.html#module-iqm.pulse.gate_implementation" title="iqm.pulse.gate_implementation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.pulse.gate_implementation</span></code></a></p>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.pulse.gate_implementation.CustomIQWaveforms.excluded_parameters" title="iqm.pulse.gate_implementation.CustomIQWaveforms.excluded_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">excluded_parameters</span></code></a></p></td>
 <td><p>Parameters names to be excluded from <code class="docutils literal notranslate"><span class="pre">self.parameters</span></code>.</p></td>
@@ -450,7 +450,7 @@ an inheriting class may define the waveforms for the I and Q channels like this:
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 </tbody>
 </table>
@@ -460,27 +460,27 @@ an inheriting class may define the waveforms for the I and Q channels like this:
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>parent</strong> (<a class="reference internal" href="iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="iqm.pulse.quantum_ops.QuantumOp"><em>QuantumOp</em></a>)</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
-<li><p><strong>locus</strong> (<em>Locus</em>)</p></li>
-<li><p><strong>calibration_data</strong> (<em>OILCalibrationData</em>)</p></li>
+<li><p><strong>locus</strong> (<a class="reference internal" href="iqm.pulse.gate_implementation.Locus.html#iqm.pulse.gate_implementation.Locus" title="iqm.pulse.gate_implementation.Locus"><em>Locus</em></a>)</p></li>
+<li><p><strong>calibration_data</strong> (<a class="reference internal" href="iqm.pulse.gate_implementation.OILCalibrationData.html#iqm.pulse.gate_implementation.OILCalibrationData" title="iqm.pulse.gate_implementation.OILCalibrationData"><em>OILCalibrationData</em></a>)</p></li>
 <li><p><strong>builder</strong> (<a class="reference internal" href="iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="iqm.pulse.builder.ScheduleBuilder"><em>ScheduleBuilder</em></a>)</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.CustomIQWaveforms.wave_i">
-<span class="sig-name descname"><span class="pre">wave_i</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Waveform</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.pulse.gate_implementation.CustomIQWaveforms.wave_i" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">wave_i</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Waveform</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.pulse.gate_implementation.CustomIQWaveforms.wave_i" title="Link to this definition">#</a></dt>
 <dd><p>Waveform for the I channel.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.CustomIQWaveforms.wave_q">
-<span class="sig-name descname"><span class="pre">wave_q</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Waveform</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.pulse.gate_implementation.CustomIQWaveforms.wave_q" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">wave_q</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Waveform</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.pulse.gate_implementation.CustomIQWaveforms.wave_q" title="Link to this definition">#</a></dt>
 <dd><p>Waveform for the Q channel.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.CustomIQWaveforms.dependent_waves">
-<span class="sig-name descname"><span class="pre">dependent_waves</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#iqm.pulse.gate_implementation.CustomIQWaveforms.dependent_waves" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dependent_waves</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><a class="headerlink" href="#iqm.pulse.gate_implementation.CustomIQWaveforms.dependent_waves" title="Link to this definition">#</a></dt>
 <dd><p>If set <code class="docutils literal notranslate"><span class="pre">True</span></code>, the Q channel waveform is considered to depend on the I channel’s waveform
 so that they share the waveform parameters, (e.g. a DRAG PRX implementation). If not provided,
 will be initialised as <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
@@ -488,14 +488,14 @@ will be initialised as <code class="docutils literal notranslate"><span class="p
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.CustomIQWaveforms.root_parameters">
-<span class="sig-name descname"><span class="pre">root_parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Parameter</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Setting</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#iqm.pulse.gate_implementation.CustomIQWaveforms.root_parameters" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">root_parameters</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Parameter</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Setting</span><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></span><a class="headerlink" href="#iqm.pulse.gate_implementation.CustomIQWaveforms.root_parameters" title="Link to this definition">#</a></dt>
 <dd><p>Parameters independent of the of Waveforms. Inheriting classes may override this to include parameters common
 to all such implementations.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="iqm.pulse.gate_implementation.CustomIQWaveforms.excluded_parameters">
-<span class="sig-name descname"><span class="pre">excluded_parameters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#iqm.pulse.gate_implementation.CustomIQWaveforms.excluded_parameters" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">excluded_parameters</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></span><a class="headerlink" href="#iqm.pulse.gate_implementation.CustomIQWaveforms.excluded_parameters" title="Link to this definition">#</a></dt>
 <dd><p>Parameters names to be excluded from <code class="docutils literal notranslate"><span class="pre">self.parameters</span></code>. Inheriting classes may override this if certain
 parameters are not wanted in that class (also parameters defined by the waveforms can be excluded).</p>
 </dd></dl>
@@ -570,6 +570,10 @@ parameters are not wanted in that class (also parameters defined by the waveform
   
   <div class="footer-item">
     
+<p class="component-author">
+By Author name not set
+</p>
+
   </div>
   
   <div class="footer-item">

@@ -30,9 +30,9 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -40,13 +40,13 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=75c7ac0d"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>window.MathJax = {"tex": {"macros": {"vr": "\\vec{r}", "ket": ["\\left| #1 \\right\\rangle", 1], "iprod": ["\\left\\langle #1 | #2 \\right\\rangle", 2]}}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.qaoa.transpiler.routing.Routing';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -458,7 +458,7 @@ document.write(`
 <p>Module: <a class="reference internal" href="iqm.qaoa.transpiler.routing.html#module-iqm.qaoa.transpiler.routing" title="iqm.qaoa.transpiler.routing"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.qaoa.transpiler.routing</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.Routing">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.transpiler.routing.</span></span><span class="sig-name descname"><span class="pre">Routing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_bqm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qpu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L443-L732"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.transpiler.routing.</span></span><span class="sig-name descname"><span class="pre">Routing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">problem_bqm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qpu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L443-L732"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.qaoa.transpiler.routing.BaseRouting.html#iqm.qaoa.transpiler.routing.BaseRouting" title="iqm.qaoa.transpiler.routing.BaseRouting"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRouting</span></code></a></p>
 <p>The ‘standard’ routing of a QAOA phase separator.</p>
 <p>A <a class="reference internal" href="#iqm.qaoa.transpiler.routing.Routing" title="iqm.qaoa.transpiler.routing.Routing"><code class="xref py py-class docutils literal notranslate"><span class="pre">Routing</span></code></a> object is intended to be directly used by a router during routing.
@@ -484,7 +484,7 @@ interactions of strength 0 (e.g., because of padding), those won’t be added in
 execution of the interactions between the problem qubits. The standard way to do this is with <em>swap</em> gates, but
 there are special variations e.g., if using <em>move</em> gates on a computational resonator.</p>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.Routing.layers" title="iqm.qaoa.transpiler.routing.Routing.layers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">layers</span></code></a></p></td>
 <td><p>The list of layers of the routing object.</p></td>
@@ -493,7 +493,7 @@ there are special variations e.g., if using <em>move</em> gates on a computation
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.Routing.apply_int" title="iqm.qaoa.transpiler.routing.Routing.apply_int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">apply_int</span></code></a></p></td>
 <td><p>Apply interaction gate at the earliest possible layer, add a new layer if necessary.</p></td>
@@ -518,7 +518,7 @@ there are special variations e.g., if using <em>move</em> gates on a computation
 </div>
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.Routing.layers">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">layers</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iqm.qaoa.transpiler.routing.Layer.html#iqm.qaoa.transpiler.routing.Layer" title="iqm.qaoa.transpiler.routing.Layer"><span class="pre">Layer</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.layers" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">layers</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="iqm.qaoa.transpiler.routing.Layer.html#iqm.qaoa.transpiler.routing.Layer" title="iqm.qaoa.transpiler.routing.Layer"><span class="pre">Layer</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Routing.layers" title="Link to this definition">#</a></dt>
 <dd><p>The list of layers of the routing object.</p>
 </dd></dl>
 
@@ -533,7 +533,7 @@ interaction acting on the same <a class="reference internal" href="iqm.qaoa.tran
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>gate</strong> (<em>HardEdge</em>) – An edge between two <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">HardQubit</span></code></a>s where the swap should
+<li><p><strong>gate</strong> (<a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardEdge.html#iqm.qaoa.transpiler.quantum_hardware.HardEdge" title="iqm.qaoa.transpiler.quantum_hardware.HardEdge"><em>HardEdge</em></a>) – An edge between two <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">HardQubit</span></code></a>s where the swap should
 be applied.</p></li>
 <li><p><strong>attempt_int</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Boolean saying whether an interaction gate should be combined with the swap.</p></li>
 </ul>
@@ -558,7 +558,7 @@ interaction acting on the same <a class="reference internal" href="iqm.qaoa.tran
 strength 0, it isn’t added!</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>gate</strong> (<em>HardEdge</em>) – An edge between two <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">HardQubit</span></code></a>s where the interaction
+<dd class="field-odd"><p><strong>gate</strong> (<a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardEdge.html#iqm.qaoa.transpiler.quantum_hardware.HardEdge" title="iqm.qaoa.transpiler.quantum_hardware.HardEdge"><em>HardEdge</em></a>) – An edge between two <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">HardQubit</span></code></a>s where the interaction
 should be applied.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -582,7 +582,7 @@ raising an error. This method is made for cases when it’s not clear whether an
 between two logical qubits already.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>gate</strong> (<em>HardEdge</em>) – An edge between two <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">HardQubit</span></code></a>s where the interaction
+<dd class="field-odd"><p><strong>gate</strong> (<a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardEdge.html#iqm.qaoa.transpiler.quantum_hardware.HardEdge" title="iqm.qaoa.transpiler.quantum_hardware.HardEdge"><em>HardEdge</em></a>) – An edge between two <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">HardQubit</span></code></a>s where the interaction
 should be applied.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -665,7 +665,7 @@ the given <a class="reference internal" href="iqm.qaoa.transpiler.routing.Layer.
 </dd></dl>
 
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-f356642d7e7e6cb447c3d809e7cbd38a840afbf9.png" alt="Inheritance diagram of iqm.qaoa.transpiler.routing.Routing" usemap="#inheritance3581aaaac7" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-9029d6a246ce84c753408fe9d684d29159a9bdda.png" alt="Inheritance diagram of iqm.qaoa.transpiler.routing.Routing" usemap="#inheritance3581aaaac7" class="inheritance graphviz" /></div>
 <map id="inheritance3581aaaac7" name="inheritance3581aaaac7">
 <area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,31"/>
 <area shape="rect" id="node2" href="iqm.qaoa.transpiler.routing.BaseRouting.html#iqm.qaoa.transpiler.routing.BaseRouting" target="_top" title="The abstract base class for various routing sub&#45;classes." alt="" coords="125,5,229,31"/>

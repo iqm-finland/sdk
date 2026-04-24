@@ -30,9 +30,9 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -40,8 +40,8 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=75c7ac0d"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -455,7 +455,7 @@ document.write(`
 <p>Module: <a class="reference internal" href="iqm.qaoa.transpiler.routing.html#module-iqm.qaoa.transpiler.routing" title="iqm.qaoa.transpiler.routing"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.qaoa.transpiler.routing</span></code></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.Mapping">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.transpiler.routing.</span></span><span class="sig-name descname"><span class="pre">Mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L74-L232"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Mapping" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.transpiler.routing.</span></span><span class="sig-name descname"><span class="pre">Mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L74-L232"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Mapping" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="iqm.qaoa.transpiler.routing.BaseMapping.html#iqm.qaoa.transpiler.routing.BaseMapping" title="iqm.qaoa.transpiler.routing.BaseMapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMapping</span></code></a></p>
 <p>Mapping between logical and hardware qubits.</p>
 <p>It maintains two dictionaries: <a class="reference internal" href="#iqm.qaoa.transpiler.routing.Mapping.log2hard" title="iqm.qaoa.transpiler.routing.Mapping.log2hard"><code class="xref py py-attr docutils literal notranslate"><span class="pre">log2hard</span></code></a> and <a class="reference internal" href="#iqm.qaoa.transpiler.routing.Mapping.hard2log" title="iqm.qaoa.transpiler.routing.Mapping.hard2log"><code class="xref py py-attr docutils literal notranslate"><span class="pre">hard2log</span></code></a> which are mappings between logical
@@ -468,7 +468,7 @@ and hardware qubits. They are always kept in sync. The names for the hardware an
 get hardware qubits.</p></li>
 <li><p><strong>problem_bqm</strong> (<em>BinaryQuadraticModel</em>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryQuadraticModel</span></code> of the problem we’re trying to solve, used to get
 logical qubits.</p></li>
-<li><p><strong>partial_initial_mapping</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><em>HardQubit</em><em>, </em><em>LogQubit</em><em>] </em><em>| </em><em>None</em>) – An optional dictionary that contains a partial mapping to use as a starting point.
+<li><p><strong>partial_initial_mapping</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><em>HardQubit</em></a><em>, </em><a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.LogQubit.html#iqm.qaoa.transpiler.quantum_hardware.LogQubit" title="iqm.qaoa.transpiler.quantum_hardware.LogQubit"><em>LogQubit</em></a><em>] </em><em>| </em><em>None</em>) – An optional dictionary that contains a partial mapping to use as a starting point.
 The keys should be <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">HardQubit</span></code></a> and the values
 <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.LogQubit.html#iqm.qaoa.transpiler.quantum_hardware.LogQubit" title="iqm.qaoa.transpiler.quantum_hardware.LogQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogQubit</span></code></a>.</p></li>
 </ul>
@@ -482,7 +482,7 @@ The keys should be <a class="reference internal" href="iqm.qaoa.transpiler.quant
 </dd>
 </dl>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.Mapping.hard2log" title="iqm.qaoa.transpiler.routing.Mapping.hard2log"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hard2log</span></code></a></p></td>
 <td><p>The dictionary containing the mapping from hardware qubits to logical qubits.</p></td>
@@ -494,7 +494,7 @@ The keys should be <a class="reference internal" href="iqm.qaoa.transpiler.quant
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.Mapping.move_hard" title="iqm.qaoa.transpiler.routing.Mapping.move_hard"><code class="xref py py-obj docutils literal notranslate"><span class="pre">move_hard</span></code></a></p></td>
 <td><p>Move a logical qubit from a one hardware qubit to a an unassigned hardware qubit on the QPU.</p></td>
@@ -513,13 +513,13 @@ The keys should be <a class="reference internal" href="iqm.qaoa.transpiler.quant
 </div>
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.Mapping.hard2log">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">hard2log</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><span class="pre">HardQubit</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">LogQubit</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Mapping.hard2log" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">hard2log</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><span class="pre">TypeAliasForwardRef</span><span class="p"><span class="pre">(</span></span><span class="s"><span class="pre">'~iqm.qaoa.transpiler.quantum_hardware.HardQubit'</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">TypeAliasForwardRef</span><span class="p"><span class="pre">(</span></span><span class="s"><span class="pre">'~iqm.qaoa.transpiler.quantum_hardware.LogQubit'</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Mapping.hard2log" title="Link to this definition">#</a></dt>
 <dd><p>The dictionary containing the mapping from hardware qubits to logical qubits.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.Mapping.log2hard">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log2hard</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><span class="pre">LogQubit</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">HardQubit</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Mapping.log2hard" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">log2hard</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><span class="pre">TypeAliasForwardRef</span><span class="p"><span class="pre">(</span></span><span class="s"><span class="pre">'~iqm.qaoa.transpiler.quantum_hardware.LogQubit'</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">TypeAliasForwardRef</span><span class="p"><span class="pre">(</span></span><span class="s"><span class="pre">'~iqm.qaoa.transpiler.quantum_hardware.HardQubit'</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.qaoa.transpiler.routing.Mapping.log2hard" title="Link to this definition">#</a></dt>
 <dd><p>The dictionary containing the mapping from logical qubits to hardware qubits.</p>
 </dd></dl>
 
@@ -530,7 +530,7 @@ The keys should be <a class="reference internal" href="iqm.qaoa.transpiler.quant
 <p>Updates the dictionaries <a class="reference internal" href="#iqm.qaoa.transpiler.routing.Mapping.hard2log" title="iqm.qaoa.transpiler.routing.Mapping.hard2log"><code class="xref py py-attr docutils literal notranslate"><span class="pre">hard2log</span></code></a> and <a class="reference internal" href="#iqm.qaoa.transpiler.routing.Mapping.log2hard" title="iqm.qaoa.transpiler.routing.Mapping.log2hard"><code class="xref py py-attr docutils literal notranslate"><span class="pre">log2hard</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>gate</strong> (<em>LogEdge</em>) – The pair of logical qubits to swap.</p>
+<dd class="field-odd"><p><strong>gate</strong> (<a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.LogEdge.html#iqm.qaoa.transpiler.quantum_hardware.LogEdge" title="iqm.qaoa.transpiler.quantum_hardware.LogEdge"><em>LogEdge</em></a>) – The pair of logical qubits to swap.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -545,7 +545,7 @@ The keys should be <a class="reference internal" href="iqm.qaoa.transpiler.quant
 <p>Updates the dictionaries <a class="reference internal" href="#iqm.qaoa.transpiler.routing.Mapping.hard2log" title="iqm.qaoa.transpiler.routing.Mapping.hard2log"><code class="xref py py-attr docutils literal notranslate"><span class="pre">hard2log</span></code></a> and <a class="reference internal" href="#iqm.qaoa.transpiler.routing.Mapping.log2hard" title="iqm.qaoa.transpiler.routing.Mapping.log2hard"><code class="xref py py-attr docutils literal notranslate"><span class="pre">log2hard</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>gate</strong> (<em>HardEdge</em>) – The pair of hardware qubits to swap.</p>
+<dd class="field-odd"><p><strong>gate</strong> (<a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardEdge.html#iqm.qaoa.transpiler.quantum_hardware.HardEdge" title="iqm.qaoa.transpiler.quantum_hardware.HardEdge"><em>HardEdge</em></a>) – The pair of hardware qubits to swap.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -569,9 +569,9 @@ changed as follows:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>source_qubit</strong> (<em>HardQubit</em>) – The <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">HardQubit</span></code></a> whose
+<li><p><strong>source_qubit</strong> (<a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><em>HardQubit</em></a>) – The <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">HardQubit</span></code></a> whose
 <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.LogQubit.html#iqm.qaoa.transpiler.quantum_hardware.LogQubit" title="iqm.qaoa.transpiler.quantum_hardware.LogQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogQubit</span></code></a> is being moved.</p></li>
-<li><p><strong>target_qubit</strong> (<em>HardQubit</em>) – The <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">HardQubit</span></code></a> where
+<li><p><strong>target_qubit</strong> (<a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><em>HardQubit</em></a>) – The <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.HardQubit.html#iqm.qaoa.transpiler.quantum_hardware.HardQubit" title="iqm.qaoa.transpiler.quantum_hardware.HardQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">HardQubit</span></code></a> where
 the <a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.LogQubit.html#iqm.qaoa.transpiler.quantum_hardware.LogQubit" title="iqm.qaoa.transpiler.quantum_hardware.LogQubit"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogQubit</span></code></a> is being moved.</p></li>
 </ul>
 </dd>
@@ -606,7 +606,7 @@ swaps the hardware qubits corresponding to swap gates.</p>
 </dd></dl>
 
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-db85a1ee5e8eb45fd4feff39fc2e3ae9623f053f.png" alt="Inheritance diagram of iqm.qaoa.transpiler.routing.Mapping" usemap="#inheritancea8c08fa8f4" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-7f359a426ac05f536e3635693ef3d9bfb09444e4.png" alt="Inheritance diagram of iqm.qaoa.transpiler.routing.Mapping" usemap="#inheritancea8c08fa8f4" class="inheritance graphviz" /></div>
 <map id="inheritancea8c08fa8f4" name="inheritancea8c08fa8f4">
 <area shape="rect" id="node1" href="iqm.qaoa.transpiler.routing.BaseMapping.html#iqm.qaoa.transpiler.routing.BaseMapping" target="_top" title="The base class for mapping used in routing of QAOA circuits on the QPU." alt="" coords="5,5,116,31"/>
 <area shape="rect" id="node2" href="#iqm.qaoa.transpiler.routing.Mapping" target="_top" title="Mapping between logical and hardware qubits." alt="" coords="164,5,243,31"/>

@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -38,8 +38,8 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=5589fa09"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
@@ -514,14 +514,14 @@ document.write(`
 <h1>iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates<a class="headerlink" href="#iqm-cirq-iqm-optimizers-mergeoneparametergroupgates" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.cirq_iqm.optimizers.</span></span><span class="sig-name descname"><span class="pre">MergeOneParameterGroupGates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">post_clean_up:</span> <span class="pre">Callable[[Sequence[cirq.Operation]],</span> <span class="pre">cirq.OP_TREE]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">PointOptimizer.&lt;lambda&gt;&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates" title="Link to this definition">#</a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.cirq_iqm.optimizers.</span></span><span class="sig-name descname"><span class="pre">MergeOneParameterGroupGates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">post_clean_up:</span> <span class="pre">Callable[[Sequence[cirq.Operation]],</span> <span class="pre">cirq.OP_TREE]</span> <span class="pre">=</span> <span class="pre">&lt;function</span> <span class="pre">PointOptimizer.&lt;lambda&gt;&gt;</span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PointOptimizer</span></code></p>
 <p>Merges adjacent gates belonging to the same parametrized gate family.</p>
 <p>The merged gates have to act on the same sequence of qubits.
 This optimizer only works with gate families that are known to be one-parameter groups.</p>
 <p>For now, all the families are assumed to be periodic with a period of 4.</p>
 <p class="rubric">Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">GATE_MERGING_TOLERANCE</span></code></p></td>
 <td><p></p></td>
@@ -536,7 +536,7 @@ This optimizer only works with gate families that are known to be one-parameter 
 </table>
 </div>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_normalize_par</span></code>(par)</p></td>
 <td><p>Normalizes the given parameter value to (-period/2, period/2].</p></td>

@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -38,11 +38,11 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=5589fa09"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>window.MathJax = {"tex": {"macros": {"vr": "\\vec{r}", "ket": ["\\left| #1 \\right\\rangle", 1], "iprod": ["\\left\\langle #1 | #2 \\right\\rangle", 2]}}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.iqm_client.models';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -504,7 +504,9 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cz">CZ</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#move">MOVE</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barrier">Barrier</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delay">Delay</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delay">Delay</a><ul class="nav section-nav flex-column">
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -730,9 +732,8 @@ in the circuit. To see why, consider e.g. the circuit</p>
 <p>In this case the actual delay between the two CZ gates will be 100 ns rounded up to
 hardware granularity, even though only 1 ns was requested for <cite>alice</cite>.</p>
 </div>
-</section>
 <p class="rubric">Module Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="iqm.iqm_client.models.STANDARD_DD_STRATEGY.html#iqm.iqm_client.models.STANDARD_DD_STRATEGY" title="iqm.iqm_client.models.STANDARD_DD_STRATEGY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">STANDARD_DD_STRATEGY</span></code></a></p></td>
 <td><p>The default DD strategy uses the following gate sequences:</p></td>
@@ -741,7 +742,7 @@ hardware granularity, even though only 1 ns was requested for <cite>alice</cite>
 </table>
 </div>
 <p class="rubric">Functions</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="iqm.iqm_client.models.validate_circuit.html#iqm.iqm_client.models.validate_circuit" title="iqm.iqm_client.models.validate_circuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_circuit</span></code></a>(circuit)</p></td>
 <td><p>Validates a submitted quantum circuit.</p></td>
@@ -750,7 +751,7 @@ hardware granularity, even though only 1 ns was requested for <cite>alice</cite>
 </table>
 </div>
 <p class="rubric">Classes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions" title="iqm.iqm_client.models.CircuitCompilationOptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CircuitCompilationOptions</span></code></a>([...])</p></td>
 <td><p>Various discrete options for quantum circuit compilation to pulse schedule.</p></td>
@@ -767,8 +768,9 @@ hardware granularity, even though only 1 ns was requested for <cite>alice</cite>
 </tbody>
 </table>
 </div>
+</section>
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-155910f6127a4bbc2112f9d57124fd7cc63735ac.png" alt="Inheritance diagram of iqm.iqm_client.models" usemap="#inheritance587d2887de" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-bcb610f53df6e4a6f9fda7fb3b1ed22b7fb64403.png" alt="Inheritance diagram of iqm.iqm_client.models" usemap="#inheritance587d2887de" class="inheritance graphviz" /></div>
 <map id="inheritance587d2887de" name="inheritance587d2887de">
 <area shape="rect" id="node4" href="iqm.iqm_client.models.QuantumArchitecture.html#iqm.iqm_client.models.QuantumArchitecture" target="_top" title="Quantum architecture as returned by server." alt="" coords="288,55,449,80"/>
 <area shape="rect" id="node5" href="iqm.iqm_client.models.QuantumArchitectureSpecification.html#iqm.iqm_client.models.QuantumArchitectureSpecification" target="_top" title="Quantum architecture specification." alt="" coords="247,104,491,129"/>
@@ -828,7 +830,9 @@ hardware granularity, even though only 1 ns was requested for <cite>alice</cite>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cz">CZ</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#move">MOVE</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barrier">Barrier</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delay">Delay</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delay">Delay</a><ul class="nav section-nav flex-column">
+</ul>
+</li>
 </ul>
   </nav></div>
 

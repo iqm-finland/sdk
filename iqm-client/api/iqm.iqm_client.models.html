@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -39,13 +39,13 @@
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../_static/documentation_options.js?v=1c616873"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>window.MathJax = {"tex": {"macros": {"vr": "\\vec{r}", "ket": ["\\left| #1 \\right\\rangle", 1], "iprod": ["\\left\\langle #1 | #2 \\right\\rangle", 2]}}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.iqm_client.models';</script>
     <link rel="icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -527,7 +527,9 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cz">CZ</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#move">MOVE</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barrier">Barrier</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delay">Delay</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delay">Delay</a><ul class="nav section-nav flex-column">
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -754,9 +756,8 @@ in the circuit. To see why, consider e.g. the circuit</p>
 <p>In this case the actual delay between the two CZ gates will be 100 ns rounded up to
 hardware granularity, even though only 1 ns was requested for <cite>alice</cite>.</p>
 </div>
-</section>
 <p class="rubric">Module Attributes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="iqm.iqm_client.models.STANDARD_DD_STRATEGY.html#iqm.iqm_client.models.STANDARD_DD_STRATEGY" title="iqm.iqm_client.models.STANDARD_DD_STRATEGY"><code class="xref py py-obj docutils literal notranslate"><span class="pre">STANDARD_DD_STRATEGY</span></code></a></p></td>
 <td><p>The default DD strategy uses the following gate sequences:</p></td>
@@ -765,7 +766,7 @@ hardware granularity, even though only 1 ns was requested for <cite>alice</cite>
 </table>
 </div>
 <p class="rubric">Functions</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="iqm.iqm_client.models.validate_circuit.html#iqm.iqm_client.models.validate_circuit" title="iqm.iqm_client.models.validate_circuit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_circuit</span></code></a>(circuit)</p></td>
 <td><p>Validates a submitted quantum circuit.</p></td>
@@ -774,7 +775,7 @@ hardware granularity, even though only 1 ns was requested for <cite>alice</cite>
 </table>
 </div>
 <p class="rubric">Classes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions" title="iqm.iqm_client.models.CircuitCompilationOptions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CircuitCompilationOptions</span></code></a></p></td>
 <td><p>Various discrete options for quantum circuit compilation to pulse schedule.</p></td>
@@ -785,8 +786,9 @@ hardware granularity, even though only 1 ns was requested for <cite>alice</cite>
 </tbody>
 </table>
 </div>
+</section>
 <p class="rubric">Inheritance</p>
-<div class="graphviz"><img src="../_images/inheritance-83904c6a795c3a912ed5f80559272b6814e66a71.png" alt="Inheritance diagram of iqm.iqm_client.models" usemap="#inheritance587d2887de" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="../_images/inheritance-8b42c804bb9df0ae46bac9f228426e286097b39a.png" alt="Inheritance diagram of iqm.iqm_client.models" usemap="#inheritance587d2887de" class="inheritance graphviz" /></div>
 <map id="inheritance587d2887de" name="inheritance587d2887de">
 <area shape="rect" id="node1" href="iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions" target="_top" title="Various discrete options for quantum circuit compilation to pulse schedule." alt="" coords="5,5,199,31"/>
 <area shape="rect" id="node2" href="iqm.iqm_client.models.CircuitJobParameters.html#iqm.iqm_client.models.CircuitJobParameters" target="_top" title="Parameters for a circuit execution job (see :class:`RunRequest` for definitions)." alt="" coords="247,5,405,31"/>
@@ -844,7 +846,9 @@ hardware granularity, even though only 1 ns was requested for <cite>alice</cite>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cz">CZ</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#move">MOVE</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barrier">Barrier</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delay">Delay</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delay">Delay</a><ul class="nav section-nav flex-column">
+</ul>
+</li>
 </ul>
   </nav></div>
 
