@@ -1,6 +1,12 @@
 # Changelog
 
-## Version 1.40.1
+## Version 1.40.2 (2026-04-23)
+
+### Bug fixes
+
+- Switch from pinned `requests` dependency to range.
+
+## Version 1.40.1 (2026-04-09)
 
 ### Bug fixes
 

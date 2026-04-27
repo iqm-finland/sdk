@@ -1,6 +1,12 @@
 # Changelog
 
-## Version 2.59.1
+## Version 2.59.2 (2026-04-23)
+
+### Features
+
+- Prepare package for `4.5.1` release. No functional changes.
+
+## Version 2.59.1 (2026-04-09)
 
 ### Features
 

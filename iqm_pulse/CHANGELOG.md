@@ -1,6 +1,12 @@
 # Changelog
 
-## Version 13.0.1
+## Version 13.0.2 (2026-04-23)
+
+### Features
+
+- Prepare package for `4.5.1` release. No functional changes.
+
+## Version 13.0.1 (2026-04-09)
 
 ### Breaking changes
 

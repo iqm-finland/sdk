@@ -1,6 +1,12 @@
 # Changelog
 
-## Version 27.5.1
+## Version 27.5.2 (2026-04-23)
+
+### Bug fixes
+
+- Switch from pinned `requests` dependency to range.
+
+## Version 27.5.1 (2026-04-09)
 
 ### Bug fixes
 
