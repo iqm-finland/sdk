@@ -175,7 +175,7 @@ def chip_design_record_data_1_1():
         "content_format_version": "1.1",
         "content": {
             "id": {"variant": "N70", "mask_set_name": "M139"},
-            "schema": "https://www.meetiqm.com/chip_architecture_definition_schema_v1.1.json",
+            "schema": "https://iqm.tech/chip_architecture_definition_schema_v1.1.json",
             "components": {
                 "qubit": [
                     {"name": "QB1", "connections": ["FL-QB1", "DL-QB1", "TC-1-3", "PL_RO-1", "COMP_R"]},

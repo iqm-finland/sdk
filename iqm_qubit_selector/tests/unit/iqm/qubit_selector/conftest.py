@@ -138,7 +138,7 @@ def patched_library_crystal(
 
         from iqm.pulla.pulla import Pulla  # noqa: PLC0415
 
-        mp.setattr(Pulla, "__init__", lambda self, url: None)
+        mp.setattr(Pulla, "__init__", lambda self, url, **kwargs: None)
         mp.setattr(
             qubit_selector, "qiskit_to_pulla", lambda pulla, backend, circuits: mock_circuit_compiler_data_crystal
         )
@@ -146,6 +146,11 @@ def patched_library_crystal(
             qubit_selector.CalibrationDataManager,
             "get_calibration_fidelities",
             lambda self, backend: cal_data_sorted_crystal,
+        )
+        mp.setattr(
+            qubit_selector,
+            "_get_server_info",
+            lambda backend: ("http://fake-iqm-server-url.com", "fake_quantum_computer"),
         )
 
         yield qubit_selector

@@ -656,7 +656,7 @@ def get_iqm_backend(backend_label: str) -> IQMBackendBase:
         IQMBackendBase object.
 
     """
-    iqm_server_url = "https://resonance.meetiqm.com"
+    iqm_server_url = "https://resonance.iqm.tech"
 
     # Known systems
     if backend_label.lower() in ["garnet", "emerald", "sirius"]:

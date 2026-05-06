@@ -13,3 +13,13 @@
 # limitations under the License.
 
 """Source code for selecting the best layout for running an algorithm on IQM's quantum computer."""
+
+from importlib.metadata import PackageNotFoundError, version
+
+try:
+    DIST_NAME = "iqm-qubit-selector"
+    __version__ = version(DIST_NAME)
+except PackageNotFoundError:
+    __version__ = "unknown"
+finally:
+    del version, PackageNotFoundError

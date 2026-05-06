@@ -225,4 +225,4 @@ Integration testing
 -------------------
 
 IQM provides a demo environment to test the integration against a mock quantum computer. If you'd
-like to request access to that environment, please contact `IQM <info@meetiqm.com>`_.
+like to request access to that environment, please contact `IQM <info@iqm.tech>`_.

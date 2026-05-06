@@ -4,7 +4,7 @@ IQM Pulla
 :Release: |release|
 :Date: |today|
 
-Client-side library for Pulse-level access to `IQM <https://meetiqm.com/>`_ quantum computers.
+Client-side library for Pulse-level access to `IQM <https://iqm.tech/>`_ quantum computers.
 
 Contents
 ========

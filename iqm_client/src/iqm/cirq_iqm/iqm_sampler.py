@@ -42,7 +42,7 @@ class IQMSampler(cirq.work.Sampler):
     through to :class:`~iqm.iqm_client.iqm_client.IQMClient` as is, and are documented there.
 
     Args:
-        url: URL of the IQM Server (e.g. "https://resonance.meetiqm.com/").
+        url: URL of the IQM Server (e.g. "https://resonance.iqm.tech/").
         quantum_computer: ID or alias of the quantum computer to connect to, if the IQM Server
             instance controls more than one (e.g. "garnet"). ``None`` means connect to the
             default one.

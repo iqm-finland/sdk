@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 13.0.3 (2026-04-30)
+
+### Bug fixes
+
+- Switch from pinned dependencies to ranges for the bare package installation.
+- Domain changed from meetiqm.com to iqm.tech.
+
 ## Version 13.0.2 (2026-04-23)
 
 ### Features

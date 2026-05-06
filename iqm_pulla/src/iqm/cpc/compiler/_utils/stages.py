@@ -95,7 +95,10 @@ def split_to_hard_and_soft_sweeps(
         List of hardware sweeps
 
     """
-    hard_sweep_nodes = ["gates", "gate_definitions", "characterization", "stages"]
+    if not sweeps:
+        return [], []
+
+    hard_sweep_nodes = [s for s in settings.subtrees if s != "controllers"]
     hard_sweep_parameters = []
     for node in hard_sweep_nodes:
         hard_sweep_parameters.extend([s.name for s in settings[node].all_settings])  # type:ignore[union-attr]
@@ -712,7 +715,7 @@ def assert_data_size_safety(data_upper_limit: int, hard_sweeps: dict[str, NdSwee
         soft_sweeps: list of soft sweeps.
 
     Raises:
-         ExaError: when the total data dimensions exceed ``data_upper_limit``.
+         CompilationPassError: when the total data dimensions exceed ``data_upper_limit``.
 
     """
 

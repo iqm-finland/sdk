@@ -49,4 +49,4 @@ If you have already installed the ``QAOA`` library and want to get the latest re
 Documentation
 =============
 
-Documentation for the latest version is `available online <https://docs.meetiqm.com/iqm-qaoa/>`_.
+Documentation for the latest version is `available online <https://docs.iqm.tech/iqm-qaoa/>`_.

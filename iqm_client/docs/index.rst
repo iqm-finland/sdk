@@ -4,10 +4,10 @@ IQM client
 :Release: |release|
 :Date: |today|
 
-Client-side library for connecting to an `IQM <https://meetiqm.com/>`_ quantum computer.
+Client-side library for connecting to an `IQM <https://iqm.tech/>`_ quantum computer.
 
 Includes `Qiskit <https://qiskit.org/>`_ and `Cirq <https://quantumai.google/cirq>`_ adapters for
-`IQM's <https://www.meetiqm.com>`_ quantum computers. See user guides for :ref:`Qiskit <User guide Qiskit>` and
+`IQM's <https://iqm.tech>`_ quantum computers. See user guides for :ref:`Qiskit <User guide Qiskit>` and
 :ref:`Cirq <User guide Cirq>` for introductions on how to install and use the adapters.
 
 Contents

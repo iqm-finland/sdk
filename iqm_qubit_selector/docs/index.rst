@@ -4,7 +4,7 @@ IQM Qubit Selector
 :Release: |release|
 :Date: |today|
 
-Client-side library for enabling optimal qubit layout selection within QPUs of `IQM <https://meetiqm.com/>`_ quantum computers.
+Client-side library for enabling optimal qubit layout selection within QPUs of `IQM <https://iqm.tech/>`_ quantum computers.
 
 Contents
 ========

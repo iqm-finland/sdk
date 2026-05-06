@@ -20,21 +20,21 @@ from iqm.station_control.client.authentication import ClientConfigurationError
 
 
 def test_cocos_fifo_url_is_parsed_correctly():
-    result = _IQMServerClient.normalize_url("https://cocos.resonance.meetiqm.com/garnet", None)
-    assert result == ("https://resonance.meetiqm.com", "garnet", False)
+    result = _IQMServerClient.normalize_url("https://resonance.iqm.tech/garnet", None)
+    assert result == ("https://resonance.iqm.tech", "garnet", False)
 
 
 def test_cocos_timeslot_url_is_parsed_correctly():
-    result = _IQMServerClient.normalize_url("https://cocos.resonance.meetiqm.com/garnet:timeslot", None)
-    assert result == ("https://resonance.meetiqm.com", "garnet", True)
+    result = _IQMServerClient.normalize_url("https://resonance.iqm.tech/garnet:timeslot", None)
+    assert result == ("https://resonance.iqm.tech", "garnet", True)
 
 
 def test_server_url_is_parsed_correctly():
-    result = _IQMServerClient.normalize_url("https://resonance.meetiqm.com", None)
-    assert result == ("https://resonance.meetiqm.com", None, False)
+    result = _IQMServerClient.normalize_url("https://resonance.iqm.tech", None)
+    assert result == ("https://resonance.iqm.tech", None, False)
 
-    result = _IQMServerClient.normalize_url("https://resonance.meetiqm.com", "garnet")
-    assert result == ("https://resonance.meetiqm.com", "garnet", False)
+    result = _IQMServerClient.normalize_url("https://resonance.iqm.tech", "garnet")
+    assert result == ("https://resonance.iqm.tech", "garnet", False)
 
     result = _IQMServerClient.normalize_url("https://ixion.qc.iqm.fi", None)
     assert result == ("https://ixion.qc.iqm.fi", None, False)

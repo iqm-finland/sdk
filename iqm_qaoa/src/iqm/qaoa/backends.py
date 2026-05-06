@@ -711,7 +711,7 @@ class SamplerResonance(SamplerBackend):
     def __init__(
         self,
         token: str,
-        server_url: str = "https://cocos.resonance.meetiqm.com/garnet",
+        server_url: str = "https://resonance.iqm.tech/garnet",
         transpiler: TranspilerOption = TranspilerOption.SPARSE,
     ) -> None:
         self.iqm_backend = IQMProvider(server_url, token=token).get_backend()

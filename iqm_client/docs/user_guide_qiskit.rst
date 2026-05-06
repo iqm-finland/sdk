@@ -9,7 +9,7 @@ You are encouraged to run the demonstrated code snippets and check the output yo
 .. note::
 
    IQM provides access to its quantum computers via IQM Resonance – IQM's quantum cloud service.
-   Please head over `to our website <https://www.meetiqm.com/products/iqm-resonance/>`_ to learn more.
+   Please head over `to our website <https://iqm.tech/products/iqm-resonance/>`_ to learn more.
 
 
 Hello, world!
@@ -19,7 +19,7 @@ Here's a quick and easy way to run a small computation on an IQM quantum compute
 things are set up correctly.
 
 1. Login to the web dashboard with your credentials. If you're using the IQM Resonance cloud service, go to
-   `IQM Resonance <https://resonance.meetiqm.com>`_.
+   `IQM Resonance <https://resonance.iqm.tech>`_.
 2. Upon your first visit, you can generate your unique, non-recoverable API token
    directly from the Dashboard page by selecting ``Generate token``. It's important to copy the token
    immediately from the window, as you won't be able to do so once the window is closed. If you lose
@@ -448,7 +448,7 @@ Starting from the :ref:`GHZ circuit <GHZ_circuit>` we created above:
     from qiskit.compiler import transpile
     from iqm.qiskit_iqm import IQMProvider
 
-    resonator_backend = IQMProvider("https://resonance.meetiqm.com", quantum_computer="sirius").get_backend()
+    resonator_backend = IQMProvider("https://resonance.iqm.tech", quantum_computer="sirius").get_backend()
     transpiled_circuit = transpile(circuit, resonator_backend)
 
     print(transpiled_circuit.draw(output='text', idle_wires=False))
@@ -745,7 +745,7 @@ static quantum architecture (i.e. names of qubits, their connectivity, and the n
     circuit.cx(0, 1)
     circuit.measure_all()
 
-    iqm_server_url = "https://resonance.meetiqm.com"
+    iqm_server_url = "https://resonance.iqm.tech"
     quantum_computer = "garnet:mock"  # Replace this with the correct mock env name
     provider = IQMProvider(iqm_server_url, quantum_computer=quantum_computer)
     backend = provider.get_backend('facade_garnet')

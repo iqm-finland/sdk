@@ -1,7 +1,7 @@
 IQM Client
 ##########
 
-Client-side Python library for connecting to an `IQM <https://meetiqm.com/>`_ quantum computer.
+Client-side Python library for connecting to an `IQM <https://iqm.tech/>`_ quantum computer.
 
 Includes as an optional feature `Qiskit <https://qiskit.org/>`_ and `Cirq <https://quantumai.google/cirq>`_
 adapters for IQM's quantum computers, which allow you to:
@@ -39,11 +39,12 @@ If you want just the base, you can install it with
 .. note::
 
     `uv <https://docs.astral.sh/uv/>`_ is highly recommended for practical Python environment and package management.
+    The supported python versions are >=3.10, <3.14.
 
 Documentation
 =============
 
-Documentation for the latest version is `available online <https://docs.meetiqm.com/iqm-client/>`_.
+Documentation for the latest version is `available online <https://docs.iqm.tech/iqm-client/>`_.
 You can build documentation for any older version locally by downloading the corresponding package from PyPI,
 and running the docs builder. For versions greater than equal to 20.12 but less than 33.0.0 this is done by
 running ``./docbuild`` in the ``iqm-client`` root directory, and for earlier versions by running ``tox run -e docs``.

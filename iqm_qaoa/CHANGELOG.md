@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 1.40.3 (2026-04-30)
+
+### Bug fixes
+
+- Fix an error from getting the fidelities of a Resonance QPU when fidelities
+  are missing or a qubit isn't connected to other qubits.
+- Domain changed from meetiqm.com to iqm.tech.
+
 ## Version 1.40.2 (2026-04-23)
 
 ### Bug fixes

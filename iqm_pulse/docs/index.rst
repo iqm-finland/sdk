@@ -6,7 +6,7 @@ IQM Pulse
 :Date: |today|
 
 IQM Pulse provides an abstraction that transforms high-level quantum circuit operations
-to a unified set of lower-level instructions for `IQM <https://meetiqm.com/>`_ quantum computers.
+to a unified set of lower-level instructions for `IQM <https://iqm.tech/>`_ quantum computers.
 
 A quantum circuit is an abstract mathematical construct which conveniently hides all implementation
 details such as the timing of microwave pulses, waveform shapes, sampling rates, signal capture, and so on.

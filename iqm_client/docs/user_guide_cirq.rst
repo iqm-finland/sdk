@@ -341,7 +341,7 @@ Running on a real quantum computer
 
 .. note::
 
-   You can access IQM quantum computers via `IQM Resonance <https://www.meetiqm.com/products/iqm-resonance>`_
+   You can access IQM quantum computers via `IQM Resonance <https://iqm.tech/products/iqm-resonance>`_
    or use one of the IQM quantum computers deployed at HPC centers and research institutions around the globe.
 
 Cirq contains various simulators which you can use to simulate the circuits constructed above.

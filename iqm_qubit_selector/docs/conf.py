@@ -173,6 +173,7 @@ intersphinx_mapping = {
     # from both iqm.models and iqm.data_definitions namespaces using the single inventory file.
     "iqm-client": ("../iqm-client", _path_to_local_objects_inv("iqm-client")),
     "iqm-pulla": ("../pulla", _path_to_local_objects_inv("pulla")),
+    "qiskit": ("https://docs.quantum.ibm.com/api/qiskit", None),
 }
 
 # -- Options for MyST-NB ---------------------------------------------------------

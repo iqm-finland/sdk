@@ -6,7 +6,7 @@ IQM Benchmarks
 :Source Code: `<https://github.com/iqm-finland/iqm-benchmarks>`_
 
 Quantum Characterization, Verification, and Validation (QCVV) tools for quantum computing.
-Developed by `IQM <https://meetiqm.com/>`_.
+Developed by `IQM <https://iqm.tech/>`_.
 
 Contents
 ========

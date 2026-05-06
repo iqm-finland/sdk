@@ -25,7 +25,7 @@ def cheddar_data_1_0():
             "content_format_version": "1.0",
             "content": {
                 "id": {"variant": "A09", "mask_set_name": "M156"},
-                "schema": "https://www.meetiqm.com/chip_architecture_definition_schema_v1.0.json",
+                "schema": "https://iqm.tech/chip_architecture_definition_schema_v1.0.json",
                 "components": {
                     "qubit": [
                         {"name": "QB1", "connections": ["FL-QB1", "DL-QB1", "TC-1-2", "PL_RO-1"]},
@@ -70,7 +70,7 @@ def cheddar_data_1_1():
             "content_format_version": "1.1",
             "content": {
                 "id": {"variant": "N70", "mask_set_name": "M139"},
-                "schema": "https://www.meetiqm.com/chip_architecture_definition_schema_v1.1.json",
+                "schema": "https://iqm.tech/chip_architecture_definition_schema_v1.1.json",
                 "components": {
                     "qubit": [
                         {"name": "QB3", "connections": ["FL-QB3", "DL-QB3", "TC3", "PL"]},
@@ -134,7 +134,7 @@ def cheddar_data_1_1_fake():
             "content_format_version": "1.1",
             "content": {
                 "id": {"variant": "N70", "mask_set_name": "M139"},
-                "schema": "https://www.meetiqm.com/chip_architecture_definition_schema_v1.0.json",
+                "schema": "https://iqm.tech/chip_architecture_definition_schema_v1.0.json",
                 "components": {
                     "qubit": [
                         {"name": "QB1", "connections": ["FL-QB1", "DL-QB1", "TC-1-2", "PL_RO-1"]},

@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 1.0.3 (2026-04-30)
+
+### Bug fixes
+
+- Improvement on general documentation and fixes for example notebook for ``iqm-qubit-selector``.
+- Removal of deprecated ``iqm_server_url`` use.
+- Switch from pinned dependencies to ranges for the bare package installation.
+- Domain changed from meetiqm.com to iqm.tech.
+
 ## Version 1.0.2 (2026-04-23)
 
 ### Features

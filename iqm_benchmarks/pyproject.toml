@@ -13,38 +13,38 @@ classifiers = [
 description = "Benchmarks and characterization on IQM quantum processors"
 name = "iqm-benchmarks"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11, <3.14"
 dependencies = [
-    "cvxpy>=1.5.3",
+    "cvxpy<2,>=1.5.3",
     "iqm-client[qiskit]",
     "iqm-pulla",
     "iqm-pulse",
     "iqm-station-control-client",
-    "lmfit>=1.2",
+    "lmfit<2,>=1.2",
     "matplotlib<4,>=3.9.2",
-    "more-itertools<11.0.0,>=10.1.0",
-    "mthree>=3.0",
-    "myst-nb>=1.2.0",
-    "networkx<4.0,>=3.3",
-    "numba>=0.61.0",
-    "numpy<3.0,>=2.0",
-    "pycurl<8.0,>=7.45.3",
+    "more-itertools<11,>=10.1.0",
+    "mthree<4,>=3.0",
+    "myst-nb<2,>=1.2.0",
+    "networkx<4,>=3.3",
+    "numba<0.64,>=0.61.0",
+    "numpy<3,>=2.0",
+    "pycurl<8,>=7.45.3",
     "pyyaml!=5.4.0,!=5.4.1,!=6.0.0",
     "qiskit-ibm-runtime<=0.43.1",
     "qiskit<2.2,>=1.2.4",
-    "requests<3.0,>=2.32.3",
-    "rustworkx<=1.0",
-    "scikit-optimize<0.11.0,>=0.10.2",
-    "tabulate<1.0.0,>=0.9.0",
-    "tqdm>=4.66.5",
+    "requests<3,>=2.32.3",
+    "rustworkx<=1",
+    "scikit-optimize<0.11,>=0.10.2",
+    "tabulate<1,>=0.9.0",
+    "tqdm<5,>=4.66.5",
     "types-requests",
-    "uncertainties<3.3.0,>=3.2.2",
-    "xarray>=2024.10.0",
+    "uncertainties<3.3,>=3.2.2",
+    "xarray==2024.10.0",
 ]
 authors = [
-    { name = "IQM Finland Oy", email = "developers@meetiqm.com" },
+    { name = "IQM Finland Oy", email = "developers@iqm.tech" },
 ]
-version = "2.59.2"
+version = "2.59.3"
 
 [project.optional-dependencies]
 examples = [
@@ -55,7 +55,7 @@ examples = [
 file = "LICENSE.txt"
 
 [project.urls]
-Documentation = "https://docs.meetiqm.com/iqm-benchmarks/"
+Documentation = "https://docs.iqm.tech/iqm-benchmarks/"
 Homepage = "https://pypi.org/project/iqm-benchmarks/"
 
 [tool.hatch.build.targets.wheel]

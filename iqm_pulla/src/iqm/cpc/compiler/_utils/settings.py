@@ -998,7 +998,7 @@ def gates_data_from(gate_calib_data: SettingNode) -> dict[str, Any]:
     # Experiments should not use iqm.pulse internals or access the converted cal data. It should only be passed to
     # (and accessed through) ScheduleBuilder.
 
-    def _convert_settings(node: SettingNode) -> dict[str, Any]:
+    def _convert_settings_recursive(node: SettingNode) -> dict[str, Any]:
         """Recursively pick out the values of the settings into a nested dict, ignoring other attributes."""
         converted = {}
         for child in node.children:
@@ -1006,6 +1006,30 @@ def gates_data_from(gate_calib_data: SettingNode) -> dict[str, Any]:
                 converted[child] = _convert_settings(node[child])  # type: ignore[arg-type]
             else:
                 converted[child] = node[child].value  # type: ignore[assignment]
+        return converted
+
+    def _convert_settings(gates_node: SettingNode) -> dict[str, Any]:
+        converted: dict[str, Any] = {}
+        for gate in gates_node.subtrees:
+            if gate not in converted:
+                converted[gate] = {}
+            gate_node = gates_node.subtrees[gate]
+            for impl in gate_node.subtrees:
+                if impl not in converted[gate]:
+                    converted[gate][impl] = {}
+                impl_node = gate_node.subtrees[impl]  # type: ignore[index]
+                for locus in impl_node.subtrees:
+                    if locus not in converted[gate][impl]:
+                        converted[gate][impl][locus] = {}
+                    locus_node = impl_node.subtrees[locus]  # type: ignore[index]
+                    locus_dict = converted[gate][impl][locus]
+                    for param, setting in locus_node.settings.items():
+                        locus_dict[param] = setting.value
+                    for subnode_name, subnode in locus_node.subtrees.items():
+                        if subnode_name != "gates":
+                            locus_dict[subnode_name] = _convert_settings_recursive(subnode)
+                        else:
+                            locus_dict[subnode_name] = _convert_settings(subnode)
         return converted
 
     op_calib_data = _convert_settings(gate_calib_data)
@@ -1083,7 +1107,7 @@ def add_move_detuning_to_implementations(
                 resonator_frequency = None
                 # TODO: MOVE is currently in the settings also for quare chips so we need to check this,
                 # but it should not be in the settings at all for square chips
-                if locus_elements[1] in computational_resonators:
+                if locus_elements[1] in computational_resonators and "characterization" in settings.subtrees:
                     resonator_frequency = settings.characterization.model[locus_elements[1]].frequency.value
                 if move_qubit_frequency is None or resonator_frequency is None:
                     detuning = 0.0

@@ -1,10 +1,10 @@
 Metadata-Version: 2.4
 Name: iqm-client
-Version: 34.0.2
+Version: 34.0.3
 Summary: Client library for accessing an IQM quantum computer
-Project-URL: Documentation, https://docs.meetiqm.com/iqm-client/
+Project-URL: Documentation, https://docs.iqm.tech/iqm-client/
 Project-URL: Homepage, https://pypi.org/project/iqm-client/
-Author-email: IQM Finland Oy <developers@meetiqm.com>
+Author-email: IQM Finland Oy <developers@iqm.tech>
 License:                                  Apache License
                                    Version 2.0, January 2004
                                 http://www.apache.org/licenses/
@@ -215,20 +215,20 @@ Classifier: Topic :: Scientific/Engineering :: Physics
 Requires-Python: <3.14,>=3.10
 Requires-Dist: iqm-pulse
 Requires-Dist: iqm-station-control-client
-Requires-Dist: numpy<3.0,>=2.0
-Requires-Dist: packaging<25.0,>=24.0
-Requires-Dist: pydantic<3.0,>=2.9.2
-Requires-Dist: requests<3.0,>=2.32.3
+Requires-Dist: numpy<3,>=2.0
+Requires-Dist: packaging<25,>=24.0
+Requires-Dist: pydantic<3,>=2.9.2
+Requires-Dist: requests<3,>=2.32.3
 Provides-Extra: cirq
 Requires-Dist: cirq-core[contrib]~=1.2; extra == 'cirq'
-Requires-Dist: llvmlite>=0.44.0; extra == 'cirq'
-Requires-Dist: numba>=0.61.0; extra == 'cirq'
+Requires-Dist: llvmlite<0.47,>=0.44.0; extra == 'cirq'
+Requires-Dist: numba<0.64,>=0.61.0; extra == 'cirq'
 Requires-Dist: ply==3.11; extra == 'cirq'
 Provides-Extra: cli
 Requires-Dist: click<9,>=8.1.6; extra == 'cli'
-Requires-Dist: jsonschema>=4.6.0; extra == 'cli'
-Requires-Dist: psutil>=5.9.2; extra == 'cli'
-Requires-Dist: python-daemon>=2.3.0; extra == 'cli'
+Requires-Dist: jsonschema<5,>=4.6.0; extra == 'cli'
+Requires-Dist: psutil<8,>=5.9.2; extra == 'cli'
+Requires-Dist: python-daemon<3.2,>=2.3.0; extra == 'cli'
 Requires-Dist: types-psutil; extra == 'cli'
 Provides-Extra: qiskit
 Requires-Dist: qiskit-aer<0.18,>=0.13.1; extra == 'qiskit'
@@ -238,7 +238,7 @@ Description-Content-Type: text/x-rst
 IQM Client
 ##########
 
-Client-side Python library for connecting to an `IQM <https://meetiqm.com/>`_ quantum computer.
+Client-side Python library for connecting to an `IQM <https://iqm.tech/>`_ quantum computer.
 
 Includes as an optional feature `Qiskit <https://qiskit.org/>`_ and `Cirq <https://quantumai.google/cirq>`_
 adapters for IQM's quantum computers, which allow you to:
@@ -276,11 +276,12 @@ If you want just the base, you can install it with
 .. note::
 
     `uv <https://docs.astral.sh/uv/>`_ is highly recommended for practical Python environment and package management.
+    The supported python versions are >=3.10, <3.14.
 
 Documentation
 =============
 
-Documentation for the latest version is `available online <https://docs.meetiqm.com/iqm-client/>`_.
+Documentation for the latest version is `available online <https://docs.iqm.tech/iqm-client/>`_.
 You can build documentation for any older version locally by downloading the corresponding package from PyPI,
 and running the docs builder. For versions greater than equal to 20.12 but less than 33.0.0 this is done by
 running ``./docbuild`` in the ``iqm-client`` root directory, and for earlier versions by running ``tox run -e docs``.

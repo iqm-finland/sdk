@@ -2,7 +2,7 @@ IQM Pulla
 #########
 
 Pulla (pulse-level access) is a client-side Python library which enables the generation and
-execution of pulse-level jobs on an `IQM <https://meetiqm.com/>`_  quantum computer.
+execution of pulse-level jobs on an `IQM <https://iqm.tech/>`_  quantum computer.
 Within the existing IQM QCCSW stack, Pulla is somewhere between
 circuit-level execution and EXA experiments.
 
@@ -37,7 +37,7 @@ The ``[qir]`` option is to enable QIR support, e.g. the ``qir_to_pulla`` functio
 Documentation
 =============
 
-Documentation for the latest version is `available online <https://docs.meetiqm.com/iqm-pulla/>`_.
+Documentation for the latest version is `available online <https://docs.iqm.tech/iqm-pulla/>`_.
 
 
 Testing

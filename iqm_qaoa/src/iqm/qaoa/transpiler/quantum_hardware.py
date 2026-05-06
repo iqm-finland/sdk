@@ -27,7 +27,6 @@ The module also contains four type aliases, which are imported by other modules 
 from __future__ import annotations
 
 from collections.abc import Iterator
-import re
 from typing import TYPE_CHECKING, Any, TypeAlias, cast
 import warnings
 
@@ -182,48 +181,57 @@ class CrystalQPUFromBackend(QPU):
     Args:
         backend: The backend containing information about the QPU.
 
+    Raises:
+        ValueError: If the ``backend`` is :class:`~iqm.qiskit_iqm.iqm_provider.IQMBackend` and it contains multiple
+            different CZ gate fidelity entries for a pair of coupled qubits.
+
     """
 
     def __init__(self, backend: IQMBackendBase) -> None:
+        # ``backend.coupling_map`` is a graph of couplings. Qubits with no connections don't appear in it.
+        # We compute qubits missing from ``hw_graph`` and add them as isolated (unconnected) nodes.
         hw_graph = rustworkx_to_networkx(backend.coupling_map.graph)
+        set_of_all_qubits = {backend.qubit_name_to_index(qb_name) for qb_name in backend.physical_qubits}
+        qubits_missing_from_hw_graph = set_of_all_qubits - set(hw_graph.nodes)
+        hw_graph.add_nodes_from(qubits_missing_from_hw_graph)
 
         # The coupling map may be a directed graph, so we make it un-directed.
         if isinstance(hw_graph, nx.DiGraph):
             hw_graph = hw_graph.to_undirected()
 
         if isinstance(backend, IQMBackend):
-            calibration_data = backend.client.get_calibration_quality_metrics()
+            calibration_metrics = backend.client.get_calibration_quality_metrics()
+            dqa = backend.client.get_dynamic_quantum_architecture()
 
-            for benchmarking_method in calibration_data["metrics"].values():
-                cz_gate_fidelities = benchmarking_method.get("cz", {})
-                for gate_implementation in cz_gate_fidelities.values():
-                    # We don't expect duplicates here (i.e., each gate is only implemented one way).
-                    for hardedge_name_string, hardedge_info in gate_implementation.items():
-                        qb1_name, qb2_name = map(int, re.findall(r"QB(\d+)", hardedge_name_string))
-                        if not hw_graph.has_edge(qb1_name - 1, qb2_name - 1):
-                            # Ignore fidelity data for edges not in the coupling map.
-                            warnings.warn(
-                                f"The edge between qubits {qb1_name - 1} and {qb2_name - 1}) does not exist in the "
-                                f"coupling map, but it has an entry in the calibration data {hardedge_name_string}. "
-                                f"This calibration data is being ignored.",
-                                RuntimeWarning,
-                                stacklevel=2,
-                            )
-                            continue
+            for q1, q2 in hw_graph.edges():
+                locus = (backend.index_to_qubit_name(q1), backend.index_to_qubit_name(q2))
 
-                        cz_fidelity = hardedge_info["fidelity"].value
-                        # Qubit names start at 1, not 0.
-                        if "fidelity" in hw_graph[qb1_name - 1][qb2_name - 1]:
-                            raise KeyError(
-                                f"The connection between qubits {hardedge_name_string} has more than one "
-                                f"CZ fidelity entry in the calibration set."
-                            )
+                fidelities = set()
 
-                        hw_graph[qb1_name - 1][qb2_name - 1]["fidelity"] = cz_fidelity
+                for loc in (locus, locus[::-1]):  # Consider ``locus`` with reversed order of qubits.
+                    # The default gate CZ implementation. This is the one used in circuit execution (by default).
+                    impl = dqa.gates["cz"].get_default_implementation(loc)
+
+                    fid = calibration_metrics.get_gate_fidelity(gate_name="cz", impl_name=impl, locus=loc)
+
+                    if fid is not None:
+                        fidelities.add(round(fid, 6))  # Round to avoid differences from floating-point arithmetic.
+
+                # If an edge from the coupling graph does not have a fidelity in the calibration metrics.
+                if not fidelities:
+                    fidelities.add(0.0)
+                    warnings.warn(
+                        f"No CZ fidelity found for qubit pair {(q1, q2)}. Using a value of 0 instead.", stacklevel=2
+                    )
+
+                if len(fidelities) > 1:
+                    raise ValueError(f"Conflicting CZ fidelities for qubit pair {(q1, q2)}: {fidelities}.")
+
+                hw_graph[q1][q2]["fidelity"] = fidelities.pop()
 
         # For Crystal QPUs we get the layout here.
-        hardware_layout = _layout_of_crystal(hw_graph.number_of_nodes())
-        super().__init__(hw_graph, hardware_layout)
+        hw_layout = _layout_of_crystal(hw_graph.number_of_nodes())
+        super().__init__(hw_graph, hw_layout)
 
 
 class Grid2DQPU(QPU):

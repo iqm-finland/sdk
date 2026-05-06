@@ -167,7 +167,7 @@ class _IQMServerClient:
             warnings.warn(
                 "Quantum computer timeslot URL is deprecated. Jobs can be submitted to timeslots by using "
                 + "`use_timeslot=True` parameter per job. See the server web dashboard or "
-                + "https://docs.meetiqm.com/iqm-client/ for more detailed instructions."
+                + "https://docs.iqm.tech/iqm-client/ for more detailed instructions."
             )
 
         # Same here; the "cocos" subdomain was used to handle the backwards compatibility so we can just drop
@@ -176,8 +176,8 @@ class _IQMServerClient:
         if hostname.startswith("cocos."):
             hostname = hostname.removeprefix("cocos.")
             warnings.warn(
-                "Resonance CoCoS API is deprecated. Use https://resonance.meetiqm.com. See the Resonance "
-                + "documentation or https://docs.meetiqm.com/iqm-client/ for more detailed instructions."
+                "Resonance CoCoS API is deprecated. Use https://resonance.iqm.tech. See the Resonance "
+                + "documentation or https://docs.iqm.tech/iqm-client/ for more detailed instructions."
             )
 
         # Use hostname without "cocos" subdomain and quantum computer name

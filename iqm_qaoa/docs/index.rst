@@ -4,7 +4,7 @@ IQM QAOA
 :Release: |release|
 :Date: |today|
 
-Python implementation of the Quantum Approximate Optimization Algorithm (QAOA), compatible with `IQM <https://meetiqm.com/>`_ quantum computers.
+Python implementation of the Quantum Approximate Optimization Algorithm (QAOA), compatible with `IQM <https://iqm.tech/>`_ quantum computers.
 
 Contents
 ========

@@ -13,18 +13,14 @@
 # limitations under the License.
 """Unit tests for `qubit_selector` module."""
 
-from iqm.iqm_client import IQMClient
 from iqm.qiskit_iqm.fake_backends.fake_apollo import IQMFakeApollo
 from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
 from iqm.qubit_selector.qubit_selector import (
-    CalibrationDataManager,
-    CostEvaluator,
     CostFunction,
     LayoutGenerator,
     ReadoutMode,
 )
 import pytest
-from pytest import MonkeyPatch
 from qiskit import QuantumCircuit
 import rustworkx as rx
 
@@ -56,16 +52,10 @@ def test_generation_of_unique_layouts_for_cystal_topology(
 
 @pytest.mark.parametrize("fake_backend", [IQMFakeApollo()])
 def test_layouts_do_not_contain_removed_qubits(
-    deneb_quality_metric_set,
     fake_backend: IQMBackendBase,
     ghz_circuit_with_4_qubits: QuantumCircuit,
-    mock_env_iqm_server_url: str,
-    monkeypatch: MonkeyPatch,
 ) -> None:
     """Test that the correct qubits get removed from the calibration data when generating layouts."""
-    # Crude way of mocking ``IQMClient``
-    monkeypatch.setattr(IQMClient, "__init__", lambda self, url: None)
-    monkeypatch.setattr(IQMClient, "get_quality_metric_set", lambda self: deneb_quality_metric_set)
     removed_qubits = [0]
 
     layouts = LayoutGenerator(
@@ -79,30 +69,11 @@ def test_layouts_do_not_contain_removed_qubits(
             assert qubit not in layout, f"Removed qubit {qubit} is still in layout {layout}"
 
 
-def test_calibration_data_manager_raises_exception_if_iqm_server_url_is_not_set(monkeypatch: MonkeyPatch) -> None:
-    """Test that ``CalibrationDataManager`` raises an exception if environment variable IQM_SERVER_URL is not set."""
-    monkeypatch.delenv("IQM_SERVER_URL", raising=False)
-
-    with pytest.raises(ValueError, match="IQM_SERVER_URL environment variable not found. Please set it up."):
-        CalibrationDataManager()
-
-
-def test_cost_evaluator_raises_exception_if_iqm_server_url_is_not_set(
-    monkeypatch: MonkeyPatch, fake_apollo_backend: IQMBackendBase, ghz_circuit_with_4_qubits: QuantumCircuit
-) -> None:
-    """Test that ``CostEvaluator`` raises an exception if environment variable IQM_SERVER_URL is not set."""
-    monkeypatch.delenv("IQM_SERVER_URL", raising=False)
-
-    with pytest.raises(ValueError, match="IQM_SERVER_URL environment variable not found. Please set it up."):
-        CostEvaluator(backend=fake_apollo_backend, quantum_circuit=ghz_circuit_with_4_qubits)
-
-
 ## Tests for ``CostEvaluator`` class.
 @pytest.mark.parametrize("fake_backend", [IQMFakeApollo()], ids=lambda fb: fb.name)
 def test_cost_evaluation_for_hardcoded_calibration_values(
     fake_backend: IQMBackendBase,
     ghz_circuit_with_4_qubits: QuantumCircuit,
-    mock_env_iqm_server_url: str,
     patched_library_crystal,
     costevaluation_params: dict,
     fixed_gate_fidelities: dict,
@@ -137,6 +108,7 @@ def test_cost_evaluation_for_hardcoded_calibration_values(
             params.update({"readoutmode": readoutmode, "cost_function": cost_function})
 
             cost_evaluator = patched_library_crystal.CostEvaluator(**params)
+            print(1)
 
             evaluated_cost = cost_evaluator.get_top_layouts()[1][0]
             if readoutmode == ReadoutMode.NONE:
@@ -162,7 +134,6 @@ def test_cost_evaluation_for_hardcoded_calibration_values(
 def test_best_layout_evaluation_for_hardcoded_calibration_values(
     fake_backend: IQMBackendBase,
     ghz_circuit_with_4_qubits: QuantumCircuit,
-    mock_env_iqm_server_url: str,
     patched_library_crystal,
     fixed_gate_fidelities: dict,
     cost_function: CostFunction,

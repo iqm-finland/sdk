@@ -14,7 +14,7 @@
 """An example on using Qiskit on IQM to run a simple quantum circuit on an IQM quantum computer.
 
 See the Qiskit on IQM user guide for instructions, found in the documentation at
-https://docs.meetiqm.com/iqm-client/
+https://docs.iqm.tech/iqm-client/
 """
 
 import argparse
@@ -29,7 +29,7 @@ def bell_measure(
     """Execute a quantum circuit that prepares and measures a generalized Bell (aka GHZ) state.
 
     Args:
-        server_url: URL of the IQM Server used for execution (e.g. "https://resonance.meetiqm.com/").
+        server_url: URL of the IQM Server used for execution (e.g. "https://resonance.iqm.tech/").
         quantum_computer: ID or alias of the quantum computer to connect to, if the IQM Server
             instance controls more than one (e.g. "garnet"). ``None`` means connect to the
             default one.
@@ -76,7 +76,7 @@ def bell_measure(
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
-    argparser.add_argument("--url", required=True, help='IQM Server URL, for example "https://resonance.meetiqm.com/"')
+    argparser.add_argument("--url", required=True, help='IQM Server URL, for example "https://resonance.iqm.tech/"')
     argparser.add_argument(
         "--qc",
         help="ID or alias of the quantum computer to connect to, if the IQM Server instance controls more than one "
@@ -86,7 +86,7 @@ if __name__ == "__main__":
         "--token",
         help="API token for authentication",
         # Provide the API token explicitly or set it as an environment variable
-        # following the Qiskit user guide at https://docs.meetiqm.com/iqm-client/
+        # following the Qiskit user guide at https://docs.iqm.tech/iqm-client/
     )
 
     args = argparser.parse_args()

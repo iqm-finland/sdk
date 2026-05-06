@@ -38,7 +38,6 @@ from exa.common.control.sweep.sweep import Sweep
 from exa.common.data.setting_node import SettingNode
 from exa.common.sweep.util import NdSweep
 import iqm.cpc.compiler._utils.settings as utils_settings
-from iqm.cpc.compiler._utils.settings import update_settings_from_observations
 from iqm.cpc.compiler._utils.stages import (
     CIRCUIT_SWEEP_PARAMETER,
     generate_sweep_spot,
@@ -111,7 +110,7 @@ class Compiler:
     Args:
         dut_label: DUT label of the chip being used.
         loading_rules: Observation loading rules.
-        chip_topology: Physical layout and connectivity of the quantum chip.
+        chip_topology: Connectivity of the quantum chip.
         software_version_set_id: An integer ID representing the software versions in the current python environment.
         component_mapping: Mapping of logical QPU component names to physical QPU component names.
             ``None`` means the identity mapping.
@@ -196,7 +195,7 @@ class Compiler:
         else:
             self._available_channels = {}
 
-    def get_settings(
+    def get_settings(  # noqa: PLR0913
         self,
         circuits: PullaInputType | None = None,
         timeboxes: PullaInputType | None = None,
@@ -206,6 +205,7 @@ class Compiler:
         qubits: list[str] | None = None,
         couplers: list[str] | None = None,
         computational_resonators: list[str] | None = None,
+        create_characterization_nodes: bool = True,
     ) -> SettingNode:
         """Retrieves and modifies settings for Compiler.
 
@@ -219,7 +219,10 @@ class Compiler:
             final_stages: Station-control job finalization stages. If not provided, ``self.final_stages`` will be used.
             qubits: Names of the qubits to get the settings for.
             couplers: Names of the couplers to get the settings for.
-            computational_resonators: Names of the computational resonators to get the settings for..
+            computational_resonators: Names of the computational resonators to get the settings for.
+            create_characterization_nodes: If ``True``, characterization nodes will be added the to the settings.
+                Characterization nodes are not required in the standard compilation and leaving them out can give
+                some performance gains in these cases.
 
         Returns:
             The settings tree.
@@ -257,11 +260,12 @@ class Compiler:
             self.chip_topology,
         )
         utils_settings.set_default_pulse_setting_values(settings["gates"], {"rz.*": 0.0}, max_depth=4)  # type: ignore[arg-type]
-        utils_settings.add_default_charaterization_settings(
-            settings,
-            qubits + couplers + computational_resonators + probe_lines,
-            self.chip_topology,
-        )
+        if create_characterization_nodes:
+            utils_settings.add_default_charaterization_settings(
+                settings,
+                qubits + couplers + computational_resonators + probe_lines,
+                self.chip_topology,
+            )
         utils_settings.add_stage_setting_options(settings, stages, DEFAULT_STAGE_ARGS)
         self._update_settings_from_observations(settings)
         utils_settings.add_move_detuning_to_implementations(
@@ -278,7 +282,7 @@ class Compiler:
         self.observation_handler.load_observations()
         overrides = self.observation_handler.value_dict(return_full_observation=True)
         for path, obs in overrides.items():
-            update_settings_from_observations(settings, path.split("."), obs)
+            utils_settings.update_settings_from_observations(settings, path.split("."), obs)
 
     def compiler_context(self, components: ComponentGrouping | None, settings: SettingNode, **kwargs) -> dict[str, Any]:
         """Return initial compiler context dictionary.
@@ -326,7 +330,7 @@ class Compiler:
 
         """
         components = ComponentGrouping(components) if components else None
-        settings = settings.model_copy() if settings else self.get_settings(circuits=circuits, timeboxes=timeboxes)
+        settings = settings if settings else self.get_settings(circuits=circuits, timeboxes=timeboxes)
         if components is not None:
             components = utils_settings.limit_components_by_settings(components, settings, self.chip_topology)
         compiler_context = self.compiler_context(components, settings) | (context or {})
@@ -378,7 +382,7 @@ class Compiler:
         # create builder
         channel_properties, qubit_to_channel = get_default_channel_properties(settings, self.chip_topology)
         gate_definitions = utils_settings.assign_default_gate_implementations_from(
-            settings["gate_definitions"], gate_definitions=deepcopy(self.gate_definitions)
+            settings.gate_definitions, gate_definitions=deepcopy(self.gate_definitions)
         )
         builder = ScheduleBuilder(
             gate_definitions,

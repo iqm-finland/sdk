@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 34.0.3 (2026-04-30)
+
+### Bug fixes
+
+- Switch from pinned dependencies to ranges for the bare package installation.
+- Domain changed from meetiqm.com to iqm.tech.
+
+### Features
+
+- Prepare package for `4.5.2` release. No functional changes.
+
 ## Version 34.0.2 (2026-04-23)
 
 ### Bug fixes

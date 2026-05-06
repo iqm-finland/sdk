@@ -16,7 +16,6 @@
 
 from enum import Enum, StrEnum, auto
 import logging
-import os
 import re
 from typing import Any, TypeAlias, cast
 import warnings
@@ -95,6 +94,14 @@ class ReadoutMode(Enum):
     QNDNESS = "qndness"
 
 
+def _get_server_info(backend: IQMBackendBase) -> tuple[str, str]:
+    """Return the IQM server URL and quantum computer name from the backend."""
+    return (
+        backend.client._iqm_server_client.root_url,
+        backend.client._iqm_server_client._quantum_computer,
+    )
+
+
 class LayoutGenerator:
     """Generates unique layouts for quantum circuits based on calibration data and backend architecture.
 
@@ -104,7 +111,7 @@ class LayoutGenerator:
         weights: Weights for calibration types.
         additional_qubits: Number of additional qubits to consider.
         remove_qubits: List of qubit indices (in qiskit) to remove from consideration.
-        num_trials: The number of trials for layout generation.
+        num_trials: The number of trial instances for layout generation.
 
     """
 
@@ -113,7 +120,7 @@ class LayoutGenerator:
         backend: IQMBackendBase,
         quantum_circuit: QuantumCircuit,
         remove_qubits: list[int] | None = None,
-        num_trials: int = 10000,
+        num_trials: int = 2000,
     ):
         self.num_trials = num_trials
         self.backend = backend
@@ -217,7 +224,7 @@ class CostEvaluator:
         readoutmode: The readoutmode to use for including readout errors in the cost calculation.
         weights: Weights for calibration types.
         remove_qubits: List of qubit indices (in qiskit) to remove from consideration.
-        num_trials: The number of trials for layout generation.
+        num_trials: The number of trial instances for layout generation.
         additional_qubits: Number of additional qubits to consider.
         layouts: Predefined layouts to evaluate.
 
@@ -233,14 +240,9 @@ class CostEvaluator:
         cost_function: CostFunction = CostFunction.GATE_COST_CZ,
         readoutmode: ReadoutMode = ReadoutMode.NONE,
         remove_qubits: list[int] | None = None,
-        num_trials: int = 10000,
+        num_trials: int = 2000,
         layouts: list[Layout] | None = None,
     ):
-        self.iqm_url = os.getenv("IQM_SERVER_URL")
-
-        if self.iqm_url is None:
-            raise ValueError("IQM_SERVER_URL environment variable not found. Please set it up.")
-
         self.backend = backend
         self.quantum_circuit = quantum_circuit
         self.cost_function = cost_function
@@ -256,6 +258,10 @@ class CostEvaluator:
                 remove_qubits=remove_qubits,
                 num_trials=num_trials,
             ).generate_unique_layouts()
+
+        if len(self.layouts) == 0:
+            logger.exception("No layouts found. Consider increasing num_trials for better layout generation.")
+            return
 
         self.transpiled_qcs = []
         optimization_level = 3  # By default is set to 3
@@ -274,9 +280,12 @@ class CostEvaluator:
                 continue
             self.transpiled_qcs.append(qc_transpiled[0])
 
+        iqm_server_url, quantum_computer = _get_server_info(self.backend)
+
         self.circuit_compiler_data = qiskit_to_pulla(
             Pulla(
-                self.iqm_url,
+                iqm_server_url,
+                quantum_computer=quantum_computer,
             ),
             self.backend,
             self.transpiled_qcs,
@@ -382,10 +391,7 @@ class CalibrationDataManager:
     """Manage calibration data retrieval for the QPU."""
 
     def __init__(self) -> None:
-        self.iqm_url = os.getenv("IQM_SERVER_URL")
-
-        if self.iqm_url is None:
-            raise ValueError("IQM_SERVER_URL environment variable not found. Please set it up.")
+        pass
 
     def get_calibration_fidelities(self, backend: IQMBackendBase) -> dict[str, dict[str, float]]:
         """Fetch the latest calibration fidelity data for the specified hardware.
@@ -397,7 +403,8 @@ class CalibrationDataManager:
             A dictionary with calibration data for TQG, SQG, readout fidelities, T1, and T2 times.
 
         """
-        quality_metric_set = IQMClient(self.iqm_url).get_quality_metric_set()  # type: ignore[arg-type]
+        iqm_server_url, quantum_computer = _get_server_info(backend)
+        quality_metric_set = IQMClient(iqm_server_url, quantum_computer=quantum_computer).get_quality_metric_set()
         calibration_metrics = quality_metric_set.observations
         return self._parse_calibration_metrics(calibration_metrics, backend)
 

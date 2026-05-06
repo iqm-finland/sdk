@@ -14,7 +14,7 @@
 """An example of using Qiskit on IQM to run a simple but non-trivial quantum circuit on an IQM quantum computer.
 
 See the Qiskit on IQM user guide for instructions, found in the documentation at
-https://docs.meetiqm.com/iqm-client/
+https://docs.iqm.tech/iqm-client/
 """
 
 import argparse
@@ -32,7 +32,7 @@ def transpile_example(server_url: str, *, quantum_computer: str | None = None) -
     """Run a GHZ circuit transpiled using the Qiskit transpile function.
 
     Args:
-        server_url: URL of the IQM Server used for execution (e.g. "https://resonance.meetiqm.com/").
+        server_url: URL of the IQM Server used for execution (e.g. "https://resonance.iqm.tech/").
         quantum_computer: ID or alias of the quantum computer to connect to, if the IQM Server
             instance controls more than one (e.g. "garnet"). ``None`` means connect to the
             default one.
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
         "--url",
-        help="IQM Server URL, for example 'https://resonance.meetiqm.com/'",
+        help="IQM Server URL, for example 'https://resonance.iqm.tech/'",
         default="https://<IQM SERVER>",
     )
     argparser.add_argument(

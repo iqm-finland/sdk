@@ -3,16 +3,16 @@ Contributors
 ============
 
 * Pedro Figueroa-Romero
-* Raphael Brieger <raphael.brieger@meetiqm.com>
-* Aniket Rath <aniket.rath@meetiqm.com>
-* Adrian Auer <adrian.auer@meetiqm.com>
-* Alessio Calzona <alessio.calzona@meetiqm.com>
-* Jami Rönkkö <jami@meetiqm.com>
-* Vicente Pina Canelles <vicente.pina@meetiqm.com>
-* Miikka Koistinen <miikka@meetiqm.com>
+* Raphael Brieger <raphael.brieger@iqm.tech>
+* Aniket Rath <aniket.rath@iqm.tech>
+* Adrian Auer <adrian.auer@iqm.tech>
+* Alessio Calzona <alessio.calzona@iqm.tech>
+* Jami Rönkkö <jami@iqm.tech>
+* Vicente Pina Canelles <vicente.pina@iqm.tech>
+* Miikka Koistinen <miikka@iqm.tech>
 * Rakhim Davletkaliyev
-* Alejandro Gomez Frieiro <alejandro@meetiqm.com>
-* Stefan Seegerer <stefan.seegerer@meetiqm.com>
-* Amin Hosseinkhani <amin.hosseinkhani@meetiqm.com>
-* Nadia Milazzo <nadia.milazzo@meetiqm.com>
-* Ricardas Brazinskas <ricardas.brazinskas@meetiqm.com>
+* Alejandro Gomez Frieiro <alejandro@iqm.tech>
+* Stefan Seegerer <stefan.seegerer@iqm.tech>
+* Amin Hosseinkhani <amin.hosseinkhani@iqm.tech>
+* Nadia Milazzo <nadia.milazzo@iqm.tech>
+* Ricardas Brazinskas <ricardas.brazinskas@iqm.tech>
