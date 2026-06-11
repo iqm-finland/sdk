@@ -24,73 +24,72 @@ function parsePackagesFromSdkContent(content: string): string[] {
     .filter(pkg => pkg);
 }
 
+async function fetchValidSdkFile(basePath: string, filename: string): Promise<{filename: string, path: string} | null> {
+  const fullPath = `${basePath}${filename}`;
+
+  try {
+    const response = await fetch(fullPath);
+
+    // Be very strict about what constitutes a valid response
+    if (!response.ok || response.status !== 200 || !response.headers.get('content-type')?.includes('text')) {
+      return null;
+    }
+
+    const text = await response.text();
+
+    // Very strict validation for SDK files
+    if (text.trim().length <= 10 || // Must have substantial content
+        text.includes('404') ||
+        text.includes('Not Found') ||
+        text.includes('<html>') ||
+        text.includes('<HTML>') ||
+        text.includes('<!DOCTYPE') ||
+        !text.split('\n').some(line => line.trim().match(/^[a-zA-Z0-9-_]+(\[.*?\])?(\s*==.*)?$/))) { // Must contain package-like lines
+      return null;
+    }
+
+    console.log(`✓ Found valid SDK file: ${filename}`);
+    return { filename, path: fullPath };
+  } catch {
+    // File doesn't exist, this is expected for most combinations
+    return null;
+  }
+}
+
 // Function to discover SDK files dynamically
 async function discoverSdkFiles(): Promise<{filename: string, path: string}[]> {
-  const sdkFiles: {filename: string, path: string}[] = [];
-  
   // Get max versions from environment variables or use defaults
   const maxMajor = parseInt(import.meta.env.VITE_SDK_MAX_MAJOR_VERSION || '10', 10);
   const maxMinor = parseInt(import.meta.env.VITE_SDK_MAX_MINOR_VERSION || '10', 10);
-  
+  const filenames: string[] = [];
+
   console.log(`🔍 Scanning for SDK files up to version ${maxMajor}.${maxMinor}`);
-  
-  // Try to fetch from different locations, prioritizing public folder
-  const possibleBasePaths = ['./public/', '../', './'];
-  
-  for (const basePath of possibleBasePaths) {
-    const foundInThisPath: {filename: string, path: string}[] = [];
-    
-    // Scan based on environment-configured or default limits
-    for (let major = 3; major <= maxMajor; major++) {
-      for (let minor = 0; minor <= maxMinor; minor++) {
-        const patterns = [`sdk${major}_${minor}.txt`, `sdk${major}_${minor}_default.txt`];
-        
-        for (const filename of patterns) {
-          try {
-            const fullPath = `${basePath}${filename}`;
-            const response = await fetch(fullPath);
-            
-            // Be very strict about what constitutes a valid response
-            if (response.ok && response.status === 200 && response.headers.get('content-type')?.includes('text')) {
-              const text = await response.text();
-              
-              // Very strict validation for SDK files
-              if (text.trim().length > 10 && // Must have substantial content
-                  !text.includes('404') && 
-                  !text.includes('Not Found') &&
-                  !text.includes('<html>') &&
-                  !text.includes('<HTML>') &&
-                  !text.includes('<!DOCTYPE') &&
-                  text.split('\n').some(line => line.trim().match(/^[a-zA-Z0-9-_]+(\[.*?\])?(\s*==.*)?$/))) { // Must contain package-like lines
-                
-                foundInThisPath.push({ filename, path: fullPath });
-                console.log(`✓ Found valid SDK file: ${filename}`);
-              } else {
-                console.log(`✗ Invalid content in ${filename}: too short or doesn't look like SDK file`);
-              }
-            } else {
-              console.log(`✗ Failed to fetch ${filename}: status ${response.status}`);
-            }
-          } catch {
-            // File doesn't exist, this is expected for most combinations
-            console.log(`✗ ${filename} not found at ${basePath}`);
-          }
-        }
-      }
+
+  // Check deployed assets first. Vite serves public files from ./ in production.
+  const possibleBasePaths = ['./', './public/', '../'];
+
+  // Scan based on environment-configured or default limits
+  for (let major = 3; major <= maxMajor; major++) {
+    for (let minor = 0; minor <= maxMinor; minor++) {
+      filenames.push(`sdk${major}_${minor}.txt`, `sdk${major}_${minor}_default.txt`);
     }
-    
+  }
+
+  for (const basePath of possibleBasePaths) {
+    const results = await Promise.all(filenames.map(filename => fetchValidSdkFile(basePath, filename)));
+    const foundInThisPath = results.filter((result): result is {filename: string, path: string} => result !== null);
+
     // If we found files in this path, use them and stop searching other paths
     if (foundInThisPath.length > 0) {
-      sdkFiles.push(...foundInThisPath);
       console.log(`✓ Found ${foundInThisPath.length} valid SDK files in ${basePath}:`, foundInThisPath.map(f => f.filename));
-      break;
+      return foundInThisPath;
     } else {
       console.log(`✗ No valid SDK files found in ${basePath}`);
     }
   }
-  
-  console.log(`📁 Total SDK files discovered: ${sdkFiles.length}`, sdkFiles.map(f => f.filename));
-  return sdkFiles;
+
+  console.log('📁 Total SDK files discovered: 0');
+  return [];
 }
 
 // Function to generate version configurations from SDK files
