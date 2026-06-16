@@ -1024,7 +1024,13 @@ class GHZBenchmark(Benchmark):
                 qcvv_logger.info("Applying readout error mitigation")
                 transpiled_circuits = cast(BenchmarkCircuit, self.circuits["transpiled_circuits"])
                 circuit_group = cast(CircuitGroup, transpiled_circuits[f"{idx}_native_ghz"])
-                rem_results, _ = apply_readout_error_mitigation(backend, circuit_group.circuits, counts, self.mit_shots)
+                rem_results, _ = apply_readout_error_mitigation(
+                    backend,
+                    circuit_group.circuits,
+                    counts,
+                    self.mit_shots,
+                    circuit_compilation_options=self.circuit_compilation_options,
+                )
                 rem_results_dist = [counts_mit.nearest_probability_distribution() for counts_mit in rem_results]
                 dataset, _ = add_counts_to_dataset(rem_results_dist, f"{idx}_rem", dataset)
 

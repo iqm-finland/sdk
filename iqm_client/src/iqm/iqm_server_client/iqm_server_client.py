@@ -189,7 +189,7 @@ class _IQMServerClient:
 
     def __init__(
         self,
-        iqm_server_url: str,
+        iqm_server_url: str | None = None,
         *,
         quantum_computer: str | None = None,
         token: str | None = None,
@@ -198,6 +198,19 @@ class _IQMServerClient:
         enable_opentelemetry: bool = False,
         timeout: float = REQUESTS_TIMEOUT,
     ):
+        server_url_param_name = "iqm_server_url"
+        quantum_computer_param_name = "quantum_computer"
+        init_parameters = {server_url_param_name: iqm_server_url, quantum_computer_param_name: quantum_computer}
+        env_variables = {server_url_param_name: "IQM_SERVER_URL", quantum_computer_param_name: "IQM_QUANTUM_COMPUTER"}
+        # given args take precedence over env variables
+        for param_name, env_var in env_variables.items():
+            if (env_var_value := os.environ.get(env_var)) is not None and init_parameters.get(param_name) is None:
+                init_parameters[param_name] = env_var_value
+        iqm_server_url = init_parameters[server_url_param_name]
+        if iqm_server_url is None:
+            raise ValueError("IQM Server URL must be provided.")
+        quantum_computer = init_parameters[quantum_computer_param_name]
+
         root_url, quantum_computer, use_timeslot_default = _IQMServerClient.normalize_url(
             iqm_server_url, quantum_computer
         )

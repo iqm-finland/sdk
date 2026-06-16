@@ -14,6 +14,7 @@
 """Helpful utilities that can be used together with IQMClient."""
 
 from json import JSONEncoder, dumps, loads
+import os
 from typing import Any
 
 import numpy as np
@@ -46,3 +47,15 @@ def to_json_dict(obj: dict[str, Any]) -> dict:
         return loads(dumps(obj, allow_nan=False, cls=IQMJSONEncoder))
     except (ValueError, TypeError) as e:
         raise ValueError("Object contains values that are not JSON serializable") from e
+
+
+def print_env_vars() -> None:
+    """Print the values of the environment variables used by IQMClient to connect to the server.
+
+    Meant for manually validating the environment configuration.
+    Does not include the authentication variables :envvar:`IQM_TOKEN` and :envvar:`IQM_TOKENS_FILE`
+    to avoid accidentally exposing your token.
+    """
+    print(f"IQM_SERVER_URL: {os.environ.get('IQM_SERVER_URL')}")
+    if computer := os.environ.get("IQM_QUANTUM_COMPUTER"):
+        print(f"IQM_QUANTUM_COMPUTER: {computer}")

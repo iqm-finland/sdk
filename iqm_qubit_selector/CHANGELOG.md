@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.0.4 (2026-06-10)
+
+### Bug fixes
+
+- ``CostEvaluator`` accepts pre-transpiled quantum circuits.
+
 ## Version 1.0.3 (2026-04-30)
 
 ### Bug fixes

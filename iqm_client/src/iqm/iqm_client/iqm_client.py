@@ -65,7 +65,7 @@ class IQMClient:
     Args:
         iqm_server_url: URL for accessing the IQM Server. Has to start with http or https.
         quantum_computer: ID or alias of the quantum computer to connect to, if the IQM Server
-            instance controls more than one.
+            instance controls more than one. If not given, uses the default one on the server.
         token: Long-lived authentication token in plain text format.
             If ``token`` is given no other user authentication parameters should be given.
         tokens_file: Path to a tokens file used for authentication.
@@ -75,18 +75,16 @@ class IQMClient:
             information and is intended to carry additional version information,
             for example the version information of the caller.
 
-    Alternatively, the user authentication related keyword arguments can also be given in
-    environment variables :envvar:`IQM_TOKEN`, :envvar:`IQM_TOKENS_FILE`.
-
-    All parameters must be given either as keyword arguments or as environment variables.
-    Same combination restrictions apply for values given as environment variables as for
-    keyword arguments.
+    Alternatively, the arguments can also be given in environment variables
+    :envvar:`IQM_SERVER_URL`, :envvar:`IQM_QUANTUM_COMPUTER`, :envvar:`IQM_TOKEN`, :envvar:`IQM_TOKENS_FILE`.
+    Same combination restrictions apply for values given as environment variables as for the arguments.
+    All parameters must be given either as arguments or as environment variables.
 
     """
 
     def __init__(
         self,
-        iqm_server_url: str,
+        iqm_server_url: str | None = None,
         *,
         quantum_computer: str | None = None,
         token: str | None = None,

@@ -368,12 +368,15 @@ class IQMProvider:
     """Provider for IQM backends.
 
     IQMProvider connects to a quantum computer through an IQM Server.
+    The IQM Server URL and quantum computer can alternatively be provided as environment variables
+    IQM_SERVER_URL and IQM_QUANTUM_COMPUTER (init arguments have priority if provided).
     If the server requires user authentication, you can provide it either using environment
     variables, or as keyword arguments to IQMProvider. The user authentication kwargs are passed
     through to :class:`~iqm.iqm_client.iqm_client.IQMClient` as is, and are documented there.
 
     Args:
-        url: URL of the IQM Server (e.g. "https://resonance.iqm.tech/").
+        url: URL of the IQM Server (e.g. "https://resonance.iqm.tech/"). If ``None``, must be
+            provided as the environment variable IQM_SERVER_URL.
         quantum_computer: ID or alias of the quantum computer to connect to, if the IQM Server
             instance controls more than one (e.g. "garnet"). ``None`` means connect to the
             default one.
@@ -382,7 +385,7 @@ class IQMProvider:
 
     def __init__(
         self,
-        url: str,
+        url: str | None = None,
         *,
         quantum_computer: str | None = None,
         **user_auth_args,  # contains keyword args token or tokens_file

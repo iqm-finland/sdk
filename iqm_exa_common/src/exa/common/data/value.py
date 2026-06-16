@@ -3,7 +3,6 @@ from typing import Annotated, Any
 
 import numpy as np
 from pydantic import PlainSerializer, PlainValidator, WithJsonSchema
-from pydantic_core import core_schema
 
 
 def validate_value(value: Any) -> Any:
@@ -34,13 +33,13 @@ Value = Annotated[
     bool | str | int | float | complex | np.ndarray,
     PlainValidator(validate_value),
     PlainSerializer(serialize_value),
-    WithJsonSchema(core_schema.any_schema()),
+    WithJsonSchema({}),
 ]
 Uncertainty = Annotated[
     int | float | complex | np.ndarray,
     PlainValidator(validate_value),
     PlainSerializer(serialize_value),
-    WithJsonSchema(core_schema.any_schema()),
+    WithJsonSchema({}),
 ]
 
 # TODO: Consider if we want to rename these permanently to avoid unnecessary "as" imports

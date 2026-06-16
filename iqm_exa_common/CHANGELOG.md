@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 27.5.4 (2026-06-08)
+
+### Features
+
+- Pin `pydantic` dependency minor version to `2.12` to avoid a breaking change
+  in serialization logic.
+
 ## Version 27.5.3 (2026-04-30)
 
 ### Bug fixes

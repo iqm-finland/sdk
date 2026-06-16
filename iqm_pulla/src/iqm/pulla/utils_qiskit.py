@@ -99,7 +99,7 @@ def qiskit_to_pulla(
     backend: IQMBackend,
     qiskit_circuits: QuantumCircuit | Sequence[QuantumCircuit],
 ) -> tuple[list[Circuit], Compiler]:
-    """Convert transpiled Qiskit quantum circuits to IQM Pulse quantum circuits.
+    """Convert transpiled Qiskit quantum circuits to IQM quantum circuits.
 
     Also provides the Compiler object for compiling them, with the correct
     calibration set and component mapping initialized.
@@ -241,8 +241,7 @@ def sweep_job_to_qiskit(
 
     Args:
         job: The completed job to convert.
-        shots: Number of shots requested.
-        execution_options: Circuit execution options used to produce the result.
+        shots: Number of shots that was requested. Only used for validating the result.
 
     Returns:
         The equivalent Qiskit Result.

@@ -20,6 +20,7 @@ from enum import Enum, StrEnum, auto
 from functools import wraps
 import itertools
 from math import floor
+import os
 import random
 import re
 import secrets
@@ -359,9 +360,10 @@ def _remap_metrics_dict(
             if isinstance(key, tuple):
                 # Two-qubit metric
                 remapped_metrics_dict[metric_key][(qubit_mapping[key[0]], qubit_mapping[key[1]])] = value
-            else:
-                # Single-qubit metric
+            # Single-qubit metric
+            elif key in qubit_mapping:  # Ignore keys that are not in qubit_mapping (e.g. isolated qubits)
                 remapped_metrics_dict[metric_key][qubit_mapping[key]] = value
+
     return remapped_metrics_dict
 
 
@@ -1258,10 +1260,14 @@ def submit_execute(
         qcvv_logger.info(
             f"Submitting batch with {len(sorted_transpiled_qc_list[k])} circuits corresponding to qubits {list(k)}"
         )
+        use_timeslot = os.getenv("USE_TIMESLOT") not in (None, "False", "false")
         # Divide into batches according to maximum gate count per batch
         if max_gates_per_batch is None and max_circuits_per_batch is None:
             jobs = backend.run(
-                sorted_transpiled_qc_list[k], shots=shots, circuit_compilation_options=circuit_compilation_options
+                sorted_transpiled_qc_list[k],
+                shots=shots,
+                circuit_compilation_options=circuit_compilation_options,
+                use_timeslot=use_timeslot,
             )
             final_jobs.append(jobs)
 
@@ -1306,6 +1312,7 @@ def submit_execute(
                     qc_batch,
                     shots=shots,
                     circuit_compilation_options=circuit_compilation_options,
+                    use_timeslot=use_timeslot,
                 )
                 final_batch_jobs.append(batch_jobs)
             final_jobs.extend(final_batch_jobs)

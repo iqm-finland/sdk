@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 2.59.4 (2026-06-08)
+
+### Bug fixes
+
+- Enable ``timeslot`` mode for IQM Resonance.
+- Add ``active_reset_cycles`` to circuit compilation options.
+- Fix calibration data retrieval.
+- Fix QScore benchmark for higher QAOA depths.
+
 ## Version 2.59.3 (2026-04-30)
 
 ### Bug fixes

@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 1.40.4 (2026-06-08)
+
+### Features
+
+- Prepare package for `4.5.3` release. No functional changes.
+
 ## Version 1.40.3 (2026-04-30)
 
 ### Bug fixes

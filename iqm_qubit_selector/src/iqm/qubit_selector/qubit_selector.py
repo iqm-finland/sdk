@@ -266,9 +266,16 @@ class CostEvaluator:
         self.transpiled_qcs = []
         optimization_level = 3  # By default is set to 3
         for layout in self.layouts:
+            ops = self.quantum_circuit.count_ops()
+            if self.quantum_circuit.num_qubits == self.backend.num_qubits and ("r" in ops or "cz" in ops):
+                ## deflate circuit to active qubits if the circuit is already transpiled.
+                ## This ensures that `perform_backend_transpilation` operates on the correct subset of qubits.
+                quantum_circuit_new = deflate_circuit(self.quantum_circuit)
+            else:
+                quantum_circuit_new = self.quantum_circuit
             try:
                 qc_transpiled = perform_backend_transpilation(
-                    [self.quantum_circuit],
+                    [quantum_circuit_new],
                     self.backend,
                     layout,
                     self.backend.coupling_map.reduce(mapping=layout),
@@ -276,7 +283,7 @@ class CostEvaluator:
                     optimize_sqg=True,
                 )
             except Exception:
-                logger.exception("Failed to transpile a circuit %s", self.quantum_circuit.name)
+                logger.exception("Failed to transpile a circuit %s", quantum_circuit_new.name)
                 continue
             self.transpiled_qcs.append(qc_transpiled[0])
 

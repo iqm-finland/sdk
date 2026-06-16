@@ -21,6 +21,7 @@ from iqm.iqm_client.errors import *  # noqa: F403
 from iqm.iqm_client.iqm_client import *  # noqa: F403
 from iqm.iqm_client.models import *  # noqa: F403
 from iqm.iqm_client.transpile import *  # noqa: F403
+from iqm.iqm_client.util import print_env_vars
 
 try:
     DIST_NAME = "iqm-client"

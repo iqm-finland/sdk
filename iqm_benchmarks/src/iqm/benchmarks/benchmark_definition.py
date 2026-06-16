@@ -276,10 +276,15 @@ class Benchmark(ABC):
                     "error models and their interpretation."
                 )
             self.circuit_compilation_options = CircuitCompilationOptions(
-                dd_mode=DDMode.ENABLED, dd_strategy=self.configuration.dd_strategy
+                dd_mode=DDMode.ENABLED,
+                dd_strategy=self.configuration.dd_strategy,
+                active_reset_cycles=self.configuration.active_reset_cycles,
             )
+
         else:
-            self.circuit_compilation_options = CircuitCompilationOptions(dd_mode=DDMode.DISABLED)
+            self.circuit_compilation_options = CircuitCompilationOptions(
+                dd_mode=DDMode.DISABLED, active_reset_cycles=self.configuration.active_reset_cycles
+            )
 
     @classmethod
     @abstractmethod

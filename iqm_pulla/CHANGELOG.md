@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 13.0.4 (2026-06-08)
+
+### Bug fixes
+
+- Removed unused `_old_tests_archive/` directory from the package contents.
+- Fix some special readout labels (such as `"<qubit>____reset"`) being broken
+  in Qiskit return data post-processing.
+
 ## Version 13.0.3 (2026-04-30)
 
 ### Bug fixes

@@ -42,7 +42,8 @@ class IQMSampler(cirq.work.Sampler):
     through to :class:`~iqm.iqm_client.iqm_client.IQMClient` as is, and are documented there.
 
     Args:
-        url: URL of the IQM Server (e.g. "https://resonance.iqm.tech/").
+        url: URL of the IQM Server (e.g. "https://resonance.iqm.tech/"). If ``None``, must be
+            provided as the environment variable IQM_SERVER_URL.
         quantum_computer: ID or alias of the quantum computer to connect to, if the IQM Server
             instance controls more than one (e.g. "garnet"). ``None`` means connect to the
             default one.
@@ -61,7 +62,7 @@ class IQMSampler(cirq.work.Sampler):
 
     def __init__(
         self,
-        url: str,
+        url: str | None = None,
         *,
         quantum_computer: str | None = None,
         device: IQMDevice | None = None,

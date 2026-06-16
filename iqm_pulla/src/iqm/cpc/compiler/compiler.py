@@ -207,7 +207,12 @@ class Compiler:
         computational_resonators: list[str] | None = None,
         create_characterization_nodes: bool = True,
     ) -> SettingNode:
-        """Retrieves and modifies settings for Compiler.
+        """Build a settings tree for the Compiler.
+
+        The user can modify the returned settings tree (containing the default settings) as they
+        wish, and then pass it to :meth:`compile`. One typical thing to set is the number of
+        **shots** or repetitions of the executed circuit, which is easiest done using
+        :meth:`.SettingNode.set_shots`.
 
         Args:
             circuits: Circuit-level input to be compiled.
@@ -321,6 +326,7 @@ class Compiler:
                 ``self.component_mapping`` must contain logic for mapping them into physical ones. If ``components`` is
                 ``None``, the active components used in the circuits can be automatically resolved in a compiler pass.
             settings: The settings tree to use. If None, the default settings tree will be generated.
+                See :meth:`get_settings`.
             sweeps: The sweeps to perform in the job. If None, the job will consist of one trivial sweep spot.
             context: Custom initial compiler context dictionary. Contents are updated into the default context given
                 by :meth:`.compiler_context`.

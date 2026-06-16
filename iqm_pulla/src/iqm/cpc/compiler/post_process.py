@@ -78,8 +78,11 @@ def _unmap_label(label: str, mapped_readout_keys: dict[str, str]) -> str:
     if "__" not in label:
         return label
     qubit, mapped_key = re.split("__[__]*", label)
-    key = mapped_readout_keys.get(mapped_key, mapped_key)
-    return f"{qubit}__{key}"
+    if mapped_key not in mapped_readout_keys:
+        return label
+    separator = label.count("__") * "__"
+    key = mapped_readout_keys[mapped_key]
+    return f"{qubit}{separator}{key}"
 
 
 def _unmap_additional_run_properties(run_data: RunData, mapped_readout_keys: dict[str, str]) -> None:

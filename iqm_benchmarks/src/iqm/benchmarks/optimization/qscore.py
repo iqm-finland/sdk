@@ -1066,37 +1066,26 @@ class QScoreBenchmark(Benchmark):
                     no_edge_instances.append(instance)
                     qcvv_logger.debug(f"Graph {instance + 1}/{self.num_instances} had no edges: cut size = 0.")
 
-                if self.use_classically_optimized_angles:
-                    if graph.number_of_edges() != 0:
-                        theta = calculate_optimal_angles_for_qaoa_p1(graph)
-                    else:
-                        theta = [1.0, 1.0]
-                else:
-                    theta = get_optimal_angles(self.num_qaoa_layers)
+                def get_theta(g: Graph) -> list[float]:
+                    if self.use_classically_optimized_angles:
+                        return calculate_optimal_angles_for_qaoa_p1(g) if g.number_of_edges() != 0 else [1.0, 1.0]
+                    return get_optimal_angles(self.num_qaoa_layers)
 
                 if self.backend.has_resonators():
-                    qc_opt = self.generate_maxcut_ansatz_star(graph, theta, active_qubit_set)
+                    qc_opt = self.generate_maxcut_ansatz_star(graph, get_theta(graph), active_qubit_set)
                 else:
-                    qc_list_temp = []
-                    cz_count_temp = []
-                    theta_temp = []
+                    trials = []
                     for _ in range(self.num_trials):
                         perm = np.random.permutation(num_nodes)
                         mapping = dict(zip(graph.nodes, perm, strict=True))
                         graph_permuted = nx.relabel_nodes(graph, mapping)
-                        theta = (
-                            calculate_optimal_angles_for_qaoa_p1(graph_permuted)
-                            if graph_permuted.number_of_edges() != 0
-                            else [1.0, 1.0]
-                        )
+                        theta = get_theta(graph_permuted)
                         qc_perm = self.generate_maxcut_ansatz(graph_permuted, theta)
                         transpiled_qc_temp, _ = perform_backend_transpilation([qc_perm], **transpilation_params)
-                        cz_count_temp.append(transpiled_qc_temp[0].count_ops().get("cz", 0))
-                        qc_list_temp.append(qc_perm)
-                        theta_temp.append(theta)
-                    min_cz_index = cz_count_temp.index(min(cz_count_temp))
-                    qc_opt = qc_list_temp[min_cz_index]
-                    theta_list.append(theta_temp[min_cz_index])
+                        cz_count = transpiled_qc_temp[0].count_ops().get("cz", 0)
+                        trials.append((cz_count, qc_perm, theta))
+                    _, qc_opt, best_theta = min(trials, key=lambda t: t[0])
+                    theta_list.append(best_theta)
 
                 if len(qc_opt.count_ops()) != 0:
                     qc_list.append(qc_opt)
@@ -1142,7 +1131,13 @@ class QScoreBenchmark(Benchmark):
             num_instances_with_edges = len(instance_with_edges)
             if self.REM:
                 counts_retrieved, time_retrieve = retrieve_all_counts(jobs)
-                rem_counts = apply_readout_error_mitigation(backend, transpiled_qc, counts_retrieved, self.mit_shots)
+                rem_counts = apply_readout_error_mitigation(
+                    backend,
+                    transpiled_qc,
+                    counts_retrieved,
+                    self.mit_shots,
+                    circuit_compilation_options=self.circuit_compilation_options,
+                )
                 execution_results.extend(
                     rem_counts[0][instance].nearest_probability_distribution()
                     for instance in range(num_instances_with_edges)

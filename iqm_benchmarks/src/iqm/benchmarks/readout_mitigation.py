@@ -16,12 +16,14 @@
 from collections.abc import Iterable
 import logging
 from math import ceil
+import os
 import threading
 from typing import Any, cast
 import warnings
 
 from iqm.benchmarks.logging_config import qcvv_logger
 from iqm.benchmarks.utils import get_iqm_backend, timeit
+from iqm.iqm_client import CircuitCompilationOptions
 from iqm.qiskit_iqm import IQMCircuit as QuantumCircuit
 from iqm.qiskit_iqm.iqm_provider import IQMBackend, IQMFacadeBackend
 import mthree  # type: ignore
@@ -80,6 +82,7 @@ class M3IQM(mthree.M3Mitigation):
         cals_file: str | None = None,
         async_cal: bool = False,
         cal_id: str | None = None,
+        circuit_compilation_options: CircuitCompilationOptions | None = None,
     ) -> None:
         """Grab calibration data from system.
 
@@ -92,6 +95,7 @@ class M3IQM(mthree.M3Mitigation):
             cals_file: Output path to write JSON calibration data to.
             async_cal: Do calibration async in a separate thread.
             cal_id: Calibration set ID to use when submitting calibration circuits.
+            circuit_compilation_options: Optional compilation options (e.g. active reset) to pass to ``backend.run()``.
 
         Raises:
             M3Error: Called while a calibration currently in progress.
@@ -131,6 +135,7 @@ class M3IQM(mthree.M3Mitigation):
             initial_reset=initial_reset,
             async_cal=async_cal,
             cal_id=cal_id,
+            circuit_compilation_options=circuit_compilation_options,
         )
 
     def _prepare_calibration_circuits(
@@ -180,6 +185,7 @@ class M3IQM(mthree.M3Mitigation):
         trans_qcs: list,
         shots: int,
         cal_id: str | None,
+        circuit_compilation_options: CircuitCompilationOptions | None = None,
     ) -> list:
         """Submit calibration circuits as jobs to the backend.
 
@@ -187,6 +193,7 @@ class M3IQM(mthree.M3Mitigation):
             trans_qcs: List of transpiled calibration circuits to execute.
             shots: Number of shots per circuit.
             cal_id: Optional calibration set ID for job submission.
+            circuit_compilation_options: Optional compilation options (e.g. active reset) to pass to ``backend.run()``.
 
         Returns:
             List of submitted jobs.
@@ -216,15 +223,23 @@ class M3IQM(mthree.M3Mitigation):
         ]
 
         jobs = []
+        use_timeslot = os.getenv("USE_TIMESLOT") not in (None, "False", "false")
         for circs in circs_list:
             transpiled_circuit = transpile(circs, self.system, optimization_level=0)
             if cal_id is None:
-                _job = self.system.run(transpiled_circuit, shots=shots)
+                _job = self.system.run(
+                    transpiled_circuit,
+                    shots=shots,
+                    circuit_compilation_options=circuit_compilation_options,
+                    use_timeslot=use_timeslot,
+                )
             else:
                 _job = self.system.run(
                     transpiled_circuit,
                     shots=shots,
                     calibration_set_id=cal_id,
+                    circuit_compilation_options=circuit_compilation_options,
+                    use_timeslot=use_timeslot,
                 )
             jobs.append(_job)
             qcvv_logger.info(f"REM: {len(circs)} calibration circuits to be executed!")
@@ -239,6 +254,7 @@ class M3IQM(mthree.M3Mitigation):
         initial_reset: bool = False,
         async_cal: bool = False,
         cal_id: str | None = None,
+        circuit_compilation_options: CircuitCompilationOptions | None = None,
     ) -> None:
         """Grab missing calibration data from backend.
 
@@ -249,6 +265,7 @@ class M3IQM(mthree.M3Mitigation):
             initial_reset: Whether to include initial reset operations in calibration circuits.
             async_cal: If True, run calibration in a separate thread asynchronously.
             cal_id: Optional calibration set ID for job submission.
+            circuit_compilation_options: Optional compilation options (e.g. active reset) to pass to ``backend.run()``.
 
         Raises:
             M3Error: If method is invalid or attempting to calibrate inoperable qubits.
@@ -289,7 +306,7 @@ class M3IQM(mthree.M3Mitigation):
         )
 
         # Submit jobs
-        jobs = self._submit_calibration_jobs(trans_qcs, cal_shots, cal_id)
+        jobs = self._submit_calibration_jobs(trans_qcs, cal_shots, cal_id, circuit_compilation_options)
 
         # Execute job and cal building
         self._job_error = None
@@ -324,6 +341,7 @@ def apply_readout_error_mitigation(
     transpiled_circuits: list[QuantumCircuit],
     counts: list[dict[str, int]],
     mit_shots: int = 1000,
+    circuit_compilation_options: CircuitCompilationOptions | None = None,
 ) -> list[tuple[Any, Any]] | list[tuple[QuasiCollection, list]] | list[QuasiCollection]:
     """Application of readout error mitigation to a list of counts.
 
@@ -332,6 +350,7 @@ def apply_readout_error_mitigation(
         transpiled_circuits: The list of transpiled quantum circuits.
         counts: The measurement counts corresponding to the transpiled circuits.
         mit_shots: Number of shots per readout error characterization circuit.
+        circuit_compilation_options: Optional compilation options (e.g. active reset) to pass to ``backend.run()``.
 
     Returns:
          A list of dictionaries with REM-corrected quasiprobabilities for each outcome.
@@ -348,7 +367,7 @@ def apply_readout_error_mitigation(
     qubits_rem = [final_measurement_mapping(c) for c in transpiled_circuits]
 
     mit = M3IQM(backend)
-    mit.cals_from_system(qubits_rem, shots=mit_shots)
+    mit.cals_from_system(qubits_rem, shots=mit_shots, circuit_compilation_options=circuit_compilation_options)
     # Apply the REM correction to the given measured counts
     rem_quasidistro = [mit.apply_correction(c, q) for c, q in zip(counts, qubits_rem, strict=True)]
     logging.getLogger().setLevel(logging.INFO)

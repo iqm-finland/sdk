@@ -63,9 +63,10 @@ class TestSubmitExecute(unittest.TestCase):
         self.assertEqual(len(jobs), 2)
 
         # Check that backend.run was called with each circuit list
-        expected_calls = []
-        for key in self.sorted_circuits.keys():
-            expected_calls.append(call(self.sorted_circuits[key], shots=1000, circuit_compilation_options=None))
+        expected_calls = [
+            call(self.sorted_circuits[key], shots=1000, circuit_compilation_options=None, use_timeslot=False)
+            for key in self.sorted_circuits
+        ]
         self.mock_backend.run.assert_has_calls(expected_calls, any_order=True)
 
     @patch("iqm.benchmarks.utils.qcvv_logger")
@@ -76,15 +77,15 @@ class TestSubmitExecute(unittest.TestCase):
         # Check that backend.run was called with correct batches
         expected_calls = [
             # First key (2,3) - 5 circuits in batches of 2
-            call(self.qc_list_large[0:2], shots=1000, circuit_compilation_options=None),
-            call(self.qc_list_large[2:4], shots=1000, circuit_compilation_options=None),
-            call([self.qc_list_large[4]], shots=1000, circuit_compilation_options=None),
+            call(self.qc_list_large[0:2], shots=1000, circuit_compilation_options=None, use_timeslot=False),
+            call(self.qc_list_large[2:4], shots=1000, circuit_compilation_options=None, use_timeslot=False),
+            call([self.qc_list_large[4]], shots=1000, circuit_compilation_options=None, use_timeslot=False),
             # Second key (0,1) - 10 circuits in batches of 2
-            call(self.qc_list_small[0:2], shots=1000, circuit_compilation_options=None),
-            call(self.qc_list_small[2:4], shots=1000, circuit_compilation_options=None),
-            call(self.qc_list_small[4:6], shots=1000, circuit_compilation_options=None),
-            call(self.qc_list_small[6:8], shots=1000, circuit_compilation_options=None),
-            call(self.qc_list_small[8:10], shots=1000, circuit_compilation_options=None),
+            call(self.qc_list_small[0:2], shots=1000, circuit_compilation_options=None, use_timeslot=False),
+            call(self.qc_list_small[2:4], shots=1000, circuit_compilation_options=None, use_timeslot=False),
+            call(self.qc_list_small[4:6], shots=1000, circuit_compilation_options=None, use_timeslot=False),
+            call(self.qc_list_small[6:8], shots=1000, circuit_compilation_options=None, use_timeslot=False),
+            call(self.qc_list_small[8:10], shots=1000, circuit_compilation_options=None, use_timeslot=False),
         ]
 
         # Verify all calls were made and all circuits were used

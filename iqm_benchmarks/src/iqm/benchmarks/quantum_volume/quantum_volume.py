@@ -625,6 +625,7 @@ class QuantumVolumeBenchmark(Benchmark):
                 sorted_transpiled_qc_list[k],
                 counts_corresp_to_circs_k,
                 mit_shots,
+                circuit_compilation_options=self.circuit_compilation_options,
             )
             all_rem_quasidistro += all_rem_quasidistro_batch_k
 
