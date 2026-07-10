@@ -120,14 +120,14 @@ build_version() {
     local filtered="$tmp_dir/filtered.txt"
     grep -v -E "^(qrisp)(\[|==|>=|<=|>|<|!=|~=|$)" "$sdk_file" > "$filtered"
 
-    # Compile constraints and download sdists
+    # Compile constraints and download sdists.
     if uv pip compile --upgrade --no-emit-index-url --no-emit-find-links \
         --no-header --no-cache --no-annotate \
         $UV_LOCAL_ARGS \
-        --output-file "$tmp_dir/constraints.txt" "$filtered" 2>/dev/null; then
+        --output-file "$tmp_dir/constraints.txt" "$filtered"; then
         USE_CONSTRAINTS=true
     else
-        echo "Warning: constraint compilation failed, proceeding without constraints..."
+        echo "WARNING: constraint compilation failed for $sdk_file; proceeding without constraints (see resolver error above)." >&2
         USE_CONSTRAINTS=false
     fi
 
