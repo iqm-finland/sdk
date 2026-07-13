@@ -56,7 +56,7 @@ const gateFeatures = [
             tutorial: "https://www.iqmacademy.com/notebookViewer/?path=/notebooks/iqm/deneb/Deneb_Unlocked_Resonator.ipynb"
         }, // Qiskit tutorial link or true if supported
         cirq: {
-            tutorial: "https://iqm-finland.github.io/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.move_gate_validation"
+            tutorial: "https://docs.iqm.tech/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.move_gate_validation"
         },
     },
     {
@@ -71,11 +71,11 @@ const gateFeatures = [
         name: "Classically controlled gates",
         qccsw: "3.1.0",
         qiskit: {
-            tutorial: "https://docs.meetiqm.com/iqm-client/user_guide_qiskit.html#classically-controlled-gates"
+            tutorial: "https://docs.iqm.tech/iqm-client/user_guide_qiskit.html#classically-controlled-gates"
         },
         qrisp: false,
         cirq: {
-            tutorial: "https://docs.meetiqm.com/cirq-iqm/user_guide.html#classical-control"
+            tutorial: "https://docs.iqm.tech/iqm-client/user_guide_cirq.html#classical-control"
         },
         cudaq: false,
     },
@@ -93,10 +93,10 @@ const gateFeatures = [
         qccsw: "3.3.0",
         qrisp: true,
         qiskit: {
-            tutorial: "https://iqm-finland.github.io/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html"
+            tutorial: "https://docs.iqm.tech/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html"
         },
         cirq: {
-            tutorial: "https://iqm-finland.github.io/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html"
+            tutorial: "https://docs.iqm.tech/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html"
         },
     },
     {
@@ -104,20 +104,20 @@ const gateFeatures = [
         }> Heralding</Tooltip></div>
         , qccsw: "1.0.0",
         qiskit: {
-            tutorial: "https://iqm-finland.github.io/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.heralding_mode"
+            tutorial: "https://docs.iqm.tech/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.heralding_mode"
         },
         qrisp: {
-            tutorial: "https://iqm-finland.github.io/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.heralding_mode"
+            tutorial: "https://docs.iqm.tech/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.heralding_mode"
         },
         cirq: {
-            tutorial: "https://iqm-finland.github.io/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.heralding_mode"
+            tutorial: "https://docs.iqm.tech/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.heralding_mode"
         },
     },
     {
         name: "Benchmarking tools",
         qccsw: "-",
         qiskit: {
-            tutorial: "https://docs.meetiqm.com/iqm-benchmarks/"
+            tutorial: "https://docs.iqm.tech/iqm-benchmarks/"
         }
     },
     {
@@ -142,9 +142,11 @@ const gateFeatures = [
         name: "Resetting qubits",
         qccsw: "3.2.0",
         qiskit: {
-            tutorial: "https://docs.meetiqm.com/iqm-client/user_guide_qiskit.html#resetting-qubits"
+            tutorial: "https://docs.iqm.tech/iqm-client/user_guide_qiskit.html#resetting-qubits"
         },
-        cirq: false,
+        cirq: {
+            tutorial: "https://docs.iqm.tech/iqm-client/user_guide_cirq.html#resetting-qubits"
+        },
         cudaq: false,
         qrisp: true,
     },
@@ -153,10 +155,10 @@ const gateFeatures = [
         qccsw: "3.3.0",
         qrisp: true,
         qiskit: {
-            tutorial: "https://iqm-finland.github.io/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.active_reset_cycles"
+            tutorial: "https://docs.iqm.tech/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.active_reset_cycles"
         },
         cirq: {
-            tutorial: "https://iqm-finland.github.io/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.active_reset_cycles"
+            tutorial: "https://docs.iqm.tech/iqm-client/api/iqm.iqm_client.models.CircuitCompilationOptions.html#iqm.iqm_client.models.CircuitCompilationOptions.active_reset_cycles"
         },
     },
     {

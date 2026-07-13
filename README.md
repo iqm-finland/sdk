@@ -1,7 +1,7 @@
 # IQM SDK & Docs
 
 This repository holds the mirror of the source code of IQM SDK: a collection of libraries for operating IQM's quantum computers.
-It also builds and publishes documentation pages for those libraries: [https://docs.meetiqm.com/](https://docs.meetiqm.com/).
+It also builds and publishes documentation pages for those libraries: [https://docs.iqm.tech/](https://docs.iqm.tech/).
 
 This is a "bleeding edge" mirror, i.e. the versions in this mirror are the latest versions of the packages.
 Note that public IQM Resonance quantum computers do not always support the latest versions of client packages.
