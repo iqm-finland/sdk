@@ -86,7 +86,7 @@ build_sphinx() {
     CONF_BACKUPS+=("$src/docs/conf.py.bak")
     cat "$REPO_ROOT/sphinx_docs_conf.py" >> "$src/docs/conf.py"
 
-    (cd "$src" && python -m sphinx docs "$out")
+    (cd "$src" && python -m sphinx -j auto docs "$out")
     touch "$out/.nojekyll"
 
     # Restore original conf.py
