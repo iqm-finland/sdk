@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 # Script to copy SDK files to the public directory so they can be accessed by the frontend
 
 echo "Copying SDK files to public directory..."
