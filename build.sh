@@ -172,11 +172,15 @@ build_version() {
         fi
     fi
 
-    # Install packages into venv (Sphinx needs them to resolve imports)
+    # Install packages into venv (Sphinx needs them to resolve imports).
     if [ "$USE_CONSTRAINTS" = true ]; then
         uv pip install $UV_LOCAL_ARGS -r "$tmp_dir/constraints.txt"
-    else
-        uv pip install $UV_LOCAL_ARGS -r "$filtered" || true
+    elif ! uv pip install $UV_LOCAL_ARGS -r "$filtered"; then
+        echo "ERROR: failed to install packages from $sdk_file." >&2
+        echo "       If an internal package index is configured (e.g. UV_EXTRA_INDEX_URL or" >&2
+        echo "       PIP_EXTRA_INDEX_URL), it may be shadowing the versions pinned in the SDK" >&2
+        echo "       file. Unset it before running, or use --local-pypi for unreleased packages." >&2
+        exit 1
     fi
 
     # Extract and build each downloaded sdist
