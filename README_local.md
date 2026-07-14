@@ -1,14 +1,47 @@
 # Building the IQM SDK docs locally
 
-These instructions reproduce, on your own machine, what the
-`Build and Deploy Documentation` GitHub Actions workflow
-(`.github/workflows/publish.yml`) does — everything except the final
-`gh-pages` deploy step, which only runs on push to `main`.
+These instructions reproduce, on your own machine, what the GitHub Actions workflow
+(`.github/workflows/publish.yml`) does — everything except the final deployment.
+
+
+# Building with Mise
+
+[Mise](https://mise.jdx.dev/) is a tool that automates the building of the SDK docs.
+It handles the Python environment, package installation, Sphinx build, site building
+and HTTP server for you.
+
+To install necessary tools (`uv`, `node`, `python`), run:
+```bash
+mise list # To see what tools are installed
+mise install
+```
+
+Separate tasks can be listed with
+```bash
+mise tasks
+```
+
+Mise can be allowed to run all necessary tasks with one command or you can run each
+task separately.
+
+All in one command:
+```bash
+mise run http-serve-docs
+```
+
+One task at a time:
+```bash
+mise run build-sphinx
+mise run package-docs
+mise run serve-http
+```
+
+# Building without Mise
 
 ## Prerequisites
 
 - [`uv`](https://github.com/astral-sh/uv) — Python environment & installer
-- Node.js (CI uses **v18**) + `npm` — for the React front page
+- Node.js (v24 has been tested) + `npm` — for the React front page
 - [`graphviz`](https://graphviz.org/download/) — optional; some diagrams won't
   render without the `dot` binary
 
@@ -26,7 +59,7 @@ env | grep -iE 'UV_INDEX|UV_EXTRA_INDEX|PIP_INDEX|PIP_EXTRA_INDEX'
 ```
 
 If anything is set, run the build with those
-variables unset so your environment matches CI:
+variables unset.
 
 ## 1. Create the Python environment
 
@@ -40,7 +73,7 @@ source .venv/bin/activate
 ## 2. Build the package documentation + search index
 
 ```bash
-bash build.sh                    # add --current-only to skip old SDK versions (faster)
+bash build.sh  # add --current-only to skip old SDK versions (faster)
 ```
 
 `build.sh`:
@@ -63,11 +96,6 @@ Useful flags:
 cd docs
 ./copy-sdk-files.sh              # copies ../sdk*.txt into docs/public
 
-# Version range shown in the UI is derived from the sdk*.txt filenames.
-# With sdk4_5_default.txt present, max version is 4.5:
-export VITE_SDK_MAX_MAJOR_VERSION=4
-export VITE_SDK_MAX_MINOR_VERSION=5
-
 npm ci
 npm run build
 
@@ -80,7 +108,7 @@ cp src/favicon.ico public/favicon.ico
 
 ```bash
 cd docs/public
-python3 -m http.server 8000
+python3 -m http.server --bind 127.0.0.1 8000
 # open http://localhost:8000
 ```
 

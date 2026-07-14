@@ -1,0 +1,118 @@
+[tools]
+  uv = "latest"
+  nodejs = "latest"
+  python = "3.12"
+
+[env]
+  _.python.venv = { path = ".venv", create = true }
+
+[tasks.check-package-registry-env]
+  description = "Check if custom package registries are set as environment variables"
+  hide = true
+  raw = true
+  run = '''
+  #!/usr/bin/env bash
+  set -euo pipefail
+  # Check if any of the custom package registry environment variables are set
+  if [[ -n "${UV_INDEX:-}" || -n "${UV_EXTRA_INDEX:-}" || -n "${PIP_INDEX:-}" || -n "${PIP_EXTRA_INDEX:-}" ]]; then
+      echo "⚠️ Custom package registries are set."
+      grep -E '^(UV_INDEX|UV_EXTRA_INDEX|PIP_INDEX|PIP_EXTRA_INDEX)=' <<< "$(env)" | sed 's/^/   /'
+      echo "   This may cause issues when building the SDK documentation and differs from the Github CI"
+      read -p "Do you want to continue? (y/n): " choice
+      case "$choice" in
+          y|Y ) echo "Continuing...";;
+          n|N ) echo "Aborting."; exit 1;;
+          * ) echo "Invalid choice. Aborting."; exit 1;;
+      esac
+  fi
+  '''
+
+[tasks.build-sphinx]
+  description = "Sphinx build the SDK documentation"
+  usage = '''
+  flag "--current-only" help="Skip building old SDK versions"
+  flag "--local-pypi <dir>" help="Use a local PEP 503 Simple Repository"
+  '''
+  sources = [
+    "build.sh",
+    "sphinx_docs_conf.py",
+    "sdk*_default.txt",
+    "sdk*.txt",
+  ]
+  run = """
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    args=()
+    if [[ "${usage_current_only:-false}" == "true" ]]; then
+      args+=(--current-only)
+    fi
+    if [[ -n "${usage_local_pypi:-}" ]]; then
+      args+=(--local-pypi "$usage_local_pypi")
+    fi
+
+    mise run check-package-registry-env
+    bash build.sh "${args[@]}"
+    touch docs/temp/.build-sphinx
+  """
+  outputs = ["docs/temp/.build-sphinx"]
+
+[tasks._npm-ci]
+  hide = true
+  sources = [
+    "docs/package.json",
+    "docs/package-lock.json",
+  ]
+  run = """
+    cd docs
+    npm ci
+  """
+  outputs = ["docs/node_modules/.package-lock.json"]
+
+[tasks.package-docs]
+  description = "Build the site (SDK docs + search index)"
+  depends = ["build-sphinx", "_npm-ci"]
+  sources = [
+    "sdk*.txt",
+    "docs/copy-sdk-files.sh",
+    "docs/index.html",
+    "docs/package.json",
+    "docs/package-lock.json",
+    "docs/postcss.config.js",
+    "docs/src/**/*",
+    "docs/tailwind.config.js",
+    "docs/tsconfig*.json",
+    "docs/vite.config.ts",
+  ]
+  run = """
+    cd docs
+    ./copy-sdk-files.sh
+
+    npm run build
+
+    mkdir -p public
+    cp -r dist/* public/
+    cp src/favicon.ico public/favicon.ico
+  """
+  outputs = ["docs/public/index.html"]
+
+[tasks.serve-http]
+  description = "Start a local HTTP server to serve the docs"
+  depends = ["package-docs"]
+  sources = ["docs/public/index.html"]
+  run = """
+    cd docs/public
+    echo "Serving docs at http://localhost:8000"
+    python3 -m http.server --bind 127.0.0.1 8000
+  """
+
+[tasks.wipe]
+  description = "Wipe clean the build docs and other build artifacts"
+  run = """
+    rm -rvf \
+      docs/dist/ \
+      docs/node_modules/ \
+      docs/public/ \
+      docs/search.json \
+      docs/temp/
+  """
