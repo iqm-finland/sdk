@@ -33,7 +33,7 @@ variables unset so your environment matches CI:
 Match CI's Python version:
 
 ```bash
-uv venv --python 3.11
+uv venv --python 3.12
 source .venv/bin/activate
 ```
 
