@@ -40,7 +40,6 @@ source .venv/bin/activate
 ## 2. Build the package documentation + search index
 
 ```bash
-uv pip install setuptools        # CI installs this before building
 bash build.sh                    # add --current-only to skip old SDK versions (faster)
 ```
 

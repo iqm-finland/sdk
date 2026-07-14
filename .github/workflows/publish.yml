@@ -37,7 +37,7 @@ jobs:
           # Find all SDK files and determine the maximum version ranges
           MAX_MAJOR=3
           MAX_MINOR=0
-          
+
           for file in sdk*.txt; do
             if [[ -f "$file" ]]; then
               echo "Found SDK file: $file"
@@ -46,7 +46,7 @@ jobs:
                 major=${BASH_REMATCH[1]}
                 minor=${BASH_REMATCH[2]}
                 echo "  Version: $major.$minor"
-                
+
                 # Update maximum versions
                 if [[ $major -gt $MAX_MAJOR ]]; then
                   MAX_MAJOR=$major
@@ -56,7 +56,7 @@ jobs:
               fi
             fi
           done
-          
+
           echo "Determined maximum version range: $MAX_MAJOR.$MAX_MINOR"
           echo "MAX_MAJOR=$MAX_MAJOR" >> $GITHUB_OUTPUT
           echo "MAX_MINOR=$MAX_MINOR" >> $GITHUB_OUTPUT
@@ -68,7 +68,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-           uv pip install setuptools
            sudo apt-get install graphviz
 
       - name: Build documentation
