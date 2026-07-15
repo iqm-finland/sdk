@@ -30,7 +30,7 @@ function App() {
         const dynamicConfigs = await versionConfigsPromise;
         if (dynamicConfigs.length > 0) {
           setAvailableVersions(dynamicConfigs);
-          
+
           // Set default version to the one marked as default, or the first one
           const defaultConfig = dynamicConfigs.find(v => v.isDefault) || dynamicConfigs[0];
           setSelectedVersion(defaultConfig.id);
@@ -41,7 +41,7 @@ function App() {
         setIsLoadingVersions(false);
       }
     };
-    
+
     loadVersions();
   }, []);
 
@@ -52,14 +52,14 @@ function App() {
     const loadSearchIndex = async () => {
       try {
         let searchIndexUrl = './search.json'; // Default for resonance
-        
+
         if (selectedVersion !== 'resonance') {
           // Map version ID to directory name
           const pathPrefix = currentVersionConfig.pathPrefix;
           const dirName = pathPrefix.replace('./', '').replace('/', ''); // Convert './sdk4_1/' to 'sdk4_1'
           searchIndexUrl = `./${dirName}/search_${dirName}.json`;
         }
-        
+
         const response = await fetch(searchIndexUrl);
         if (response.ok) {
           const versionDocs = await response.json();
@@ -89,7 +89,7 @@ function App() {
   // Initialize version from URL on component mount
   useEffect(() => {
     if (isLoadingVersions || availableVersions.length === 0) return;
-    
+
     const urlParams = new URLSearchParams(window.location.search);
     const versionFromUrl = urlParams.get('version') as VersionType;
     if (versionFromUrl && availableVersions.some(v => v.id === versionFromUrl)) {
@@ -100,10 +100,10 @@ function App() {
   // Update URL when version changes
   useEffect(() => {
     if (!selectedVersion || isLoadingVersions) return;
-    
+
     const url = new URL(window.location.href);
     const defaultConfig = availableVersions.find(v => v.isDefault);
-    
+
     if (selectedVersion !== defaultConfig?.id) {
       url.searchParams.set('version', selectedVersion);
     } else {
@@ -170,7 +170,7 @@ function App() {
   const getDocLinks = () => {
     const availablePackages = getPackagesForVersion(selectedVersion);
     const pathPrefix = currentVersionConfig.pathPrefix;
-    
+
     return baseDocLinks
       .filter(doc => {
         // For internal docs, check if package is available in the current version
@@ -224,8 +224,8 @@ function App() {
                 <a href="https://resonance.meetiqm.com" target="_blank">IQM Resonance</a> and any IQM on-premise quantum computer.
                 {currentVersionConfig && currentVersionConfig.description && (
                   <span className={`block mt-2 text-sm p-2 rounded ${
-                    currentVersionConfig.isPreview 
-                      ? 'text-orange-600 bg-orange-50 border border-orange-200' 
+                    currentVersionConfig.isPreview
+                      ? 'text-orange-600 bg-orange-50 border border-orange-200'
                       : 'text-blue-600 bg-blue-50 border border-blue-200'
                   }`}>
                     {currentVersionConfig.description}
@@ -241,10 +241,10 @@ function App() {
                   {docLinks.map((doc, index) => (
                       <a key={index} href={doc.href} target='_blank' className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow relative">
                       {doc.image ? (
-                        <img 
-                        src={doc.image} 
-                        className="h-7" 
-                        alt={doc.title + " logo"} 
+                        <img
+                        src={doc.image}
+                        className="h-7"
+                        alt={doc.title + " logo"}
                         />
                       ) :
                       <h2 className="text-lg font-semibold text-gray-900 pr-10">{doc.title}</h2>}
@@ -313,13 +313,13 @@ function App() {
                   <button
                     key={version.id}
                     className={`px-3 py-2 text-xs sm:text-sm rounded-xl transition-all duration-200 ${
-                    selectedVersion === version.id 
-                      ? 'text-white shadow-md transform scale-105' 
+                    selectedVersion === version.id
+                      ? 'text-white shadow-md transform scale-105'
                       : 'text-gray-600 hover:bg-gray-100 hover:text-gray-800'
                     }`}
                     style={selectedVersion === version.id ? {
-                    background: version.isPreview 
-                      ? 'linear-gradient(45deg, #9ca3af, #6b7280)' 
+                    background: version.isPreview
+                      ? 'linear-gradient(45deg, #9ca3af, #6b7280)'
                       : 'linear-gradient(45deg, #759deb, #5fdd97)'
                     } : {}}
                     onClick={() => setSelectedVersion(version.id)}

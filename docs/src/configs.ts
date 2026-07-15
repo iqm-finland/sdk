@@ -27,42 +27,42 @@ function parsePackagesFromSdkContent(content: string): string[] {
 // Function to discover SDK files dynamically
 async function discoverSdkFiles(): Promise<{filename: string, path: string}[]> {
   const sdkFiles: {filename: string, path: string}[] = [];
-  
+
   // Get max versions from environment variables or use defaults
   const maxMajor = parseInt(import.meta.env.VITE_SDK_MAX_MAJOR_VERSION || '10', 10);
   const maxMinor = parseInt(import.meta.env.VITE_SDK_MAX_MINOR_VERSION || '10', 10);
-  
+
   console.log(`🔍 Scanning for SDK files up to version ${maxMajor}.${maxMinor}`);
-  
+
   // Try to fetch from different locations, prioritizing public folder
   const possibleBasePaths = ['./public/', '../', './'];
-  
+
   for (const basePath of possibleBasePaths) {
     const foundInThisPath: {filename: string, path: string}[] = [];
-    
+
     // Scan based on environment-configured or default limits
     for (let major = 3; major <= maxMajor; major++) {
       for (let minor = 0; minor <= maxMinor; minor++) {
         const patterns = [`sdk${major}_${minor}.txt`, `sdk${major}_${minor}_default.txt`];
-        
+
         for (const filename of patterns) {
           try {
             const fullPath = `${basePath}${filename}`;
             const response = await fetch(fullPath);
-            
+
             // Be very strict about what constitutes a valid response
             if (response.ok && response.status === 200 && response.headers.get('content-type')?.includes('text')) {
               const text = await response.text();
-              
+
               // Very strict validation for SDK files
               if (text.trim().length > 10 && // Must have substantial content
-                  !text.includes('404') && 
+                  !text.includes('404') &&
                   !text.includes('Not Found') &&
                   !text.includes('<html>') &&
                   !text.includes('<HTML>') &&
                   !text.includes('<!DOCTYPE') &&
                   text.split('\n').some(line => line.trim().match(/^[a-zA-Z0-9-_]+(\[.*?\])?(\s*==.*)?$/))) { // Must contain package-like lines
-                
+
                 foundInThisPath.push({ filename, path: fullPath });
                 console.log(`✓ Found valid SDK file: ${filename}`);
               } else {
@@ -78,7 +78,7 @@ async function discoverSdkFiles(): Promise<{filename: string, path: string}[]> {
         }
       }
     }
-    
+
     // If we found files in this path, use them and stop searching other paths
     if (foundInThisPath.length > 0) {
       sdkFiles.push(...foundInThisPath);
@@ -88,7 +88,7 @@ async function discoverSdkFiles(): Promise<{filename: string, path: string}[]> {
       console.log(`✗ No valid SDK files found in ${basePath}`);
     }
   }
-  
+
   console.log(`📁 Total SDK files discovered: ${sdkFiles.length}`, sdkFiles.map(f => f.filename));
   return sdkFiles;
 }
@@ -96,10 +96,10 @@ async function discoverSdkFiles(): Promise<{filename: string, path: string}[]> {
 // Function to generate version configurations from SDK files
 async function generateVersionConfigs(): Promise<VersionConfig[]> {
   const configs: VersionConfig[] = [];
-  
+
   // Dynamically discover SDK files
   const sdkFiles = await discoverSdkFiles();
-  
+
   if (sdkFiles.length === 0) {
     console.warn('No SDK files found, falling back to static configuration');
     return [];
@@ -111,23 +111,23 @@ async function generateVersionConfigs(): Promise<VersionConfig[]> {
     try {
       const response = await fetch(path);
       if (!response.ok) continue;
-      
+
       const content = await response.text();
-      
+
       const packages = parsePackagesFromSdkContent(content);
-      
+
       // Extract version info from filename
       const versionMatch = filename.match(/sdk(\d+)_(\d+)(_default)?\.txt/);
       if (!versionMatch) continue;
-      
+
       const [, major, minor, isDefaultSuffix] = versionMatch;
       const versionKey = `${major}_${minor}`;
       const isDefault = !!isDefaultSuffix;
-      
+
       if (isDefault) {
         defaultVersion = versionKey;
       }
-      
+
       const config: VersionConfig = {
         id: versionKey,
         label: `IQM OS ${major}.${minor}${isDefault ? ' (Resonance)' : ''}`,
@@ -136,22 +136,22 @@ async function generateVersionConfigs(): Promise<VersionConfig[]> {
         isDefault,
         isPreview: false
       };
-      
+
       configs.push(config);
     } catch (error) {
       console.warn(`Failed to load ${filename}:`, error);
     }
   }
-  
+
   // Sort by version (newest first)
   configs.sort((a, b) => {
     const [aMajor, aMinor] = a.id.split('_').map(Number);
     const [bMajor, bMinor] = b.id.split('_').map(Number);
-    
+
     if (aMajor !== bMajor) return bMajor - aMajor;
     return bMinor - aMinor;
   });
-  
+
   // Mark versions newer than default as preview
   if (defaultVersion) {
     const [defaultMajor, defaultMinor] = defaultVersion.split('_').map(Number);
@@ -159,7 +159,7 @@ async function generateVersionConfigs(): Promise<VersionConfig[]> {
       if (!config.isDefault) {
         const [major, minor] = config.id.split('_').map(Number);
         const isNewer = major > defaultMajor || (major === defaultMajor && minor > defaultMinor);
-        
+
         if (isNewer) {
           config.isPreview = true;
           config.description = `⚠️ You are viewing preview documentation for IQM OS ${major}.${minor}. This version may contain experimental features and is subject to change.`;
@@ -169,7 +169,7 @@ async function generateVersionConfigs(): Promise<VersionConfig[]> {
       }
     });
   }
-  
+
   return configs;
 }
 

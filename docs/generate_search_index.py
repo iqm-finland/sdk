@@ -28,24 +28,24 @@ def build_search_index(docs_dir="./public/", output_file="./search.json", versio
         if os.path.exists(docs_dir):
             for item in os.listdir(docs_dir):
                 package_path = os.path.join(docs_dir, item)
-                
+
                 if not os.path.isdir(package_path):
                     continue
-                    
+
                 if item.startswith(('.', '_')):
                     continue
-                
+
                 print(f'Processing package: {item}')
                 for root, dirs, files in os.walk(package_path):
                     dirs[:] = [d for d in dirs if not d.startswith(('_', '.'))]
-                    
+
                     for file in files:
                         if file.endswith('.html') and file not in excluded_file_names:
                             file_path = os.path.join(root, file)
                             try:
                                 content, title = extract_text_from_html(file_path)
                                 relative_url = os.path.relpath(file_path, docs_dir)
-                                
+
                                 search_index.append({
                                     'package': item,
                                     'title': title,
@@ -69,7 +69,7 @@ def build_search_index(docs_dir="./public/", output_file="./search.json", versio
             if not os.path.exists(package_path):
                 print(f"⚠️ Warning: Directory {package_path} not found. Skipping...")
                 continue
-            
+
             for root, dirs, files in os.walk(package_path):
                 dirs[:] = [d for d in dirs if not d.startswith(("_", "."))]
 
@@ -98,7 +98,7 @@ if __name__ == "__main__":
         version_name = sys.argv[1]
         docs_dir = sys.argv[2] if len(sys.argv) > 2 else f"./public/{version_name}/"
         output_file = sys.argv[3] if len(sys.argv) > 3 else f"./search_{version_name}.json"
-        
+
         build_search_index(docs_dir, output_file, version_name)
     else:
         # Default behavior for main version

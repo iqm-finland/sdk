@@ -21,7 +21,7 @@ const FeatureCell: React.FC<FeatureCellProps> = ({ framework }) => {
             )}{" "}
             {framework && framework.tutorial && (
                 <>
-                    
+
                         <a
                             href={framework.tutorial}
                             target="_blank"
@@ -43,7 +43,7 @@ const Features: React.FC = () => {
 
                     <div className="my-4">
                         <p>
-                            IQM Quantum Computers support multiple quantum computing frameworks with support for varying features. 
+                            IQM Quantum Computers support multiple quantum computing frameworks with support for varying features.
                             Below's list provides an overview of the features supported by IQM Quantum Computers.
                         </p>
                         <p className="mt-4">If the feature you require is not listed here, it might not mean it is not supported. Please contact us at <a href="mailto:support@meetiqm.com">IQM Support</a>.</p>
@@ -58,14 +58,14 @@ const Features: React.FC = () => {
                                     <th className="py-2 px-4 border-b">FEATURE</th>
                                     <th className="py-2 px-4 border-b">
                                         <div className="flex items-center">
-                                           <Tooltip content={<>Earliest version of the Quantum Computer Software Stack needed to support this feature.</>}>IQM OS</Tooltip> 
+                                           <Tooltip content={<>Earliest version of the Quantum Computer Software Stack needed to support this feature.</>}>IQM OS</Tooltip>
                                         </div>
                                     </th>
                                     <th className="py-2 px-4 border-b"><Tooltip content="For supported versions check the quantum computer detail page.">Qiskit</Tooltip></th>
                                     <th className="py-2 px-4 border-b"><Tooltip content="Supported in Resonance via Qiskit-on-IQM.">qrisp</Tooltip></th>
                                     <th className="py-2 px-4 border-b"><Tooltip content="For supported versions check the quantum computer detail page.">Cirq</Tooltip></th>
                                     <th className="py-2 px-4 border-b">CUDA-Q</th>
-                                    
+
                                 </tr>
                             </thead>
                             <tbody>

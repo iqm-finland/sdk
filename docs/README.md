@@ -94,7 +94,7 @@ The system scans for `sdkX_Y.txt` files in the project root and automatically ge
 
 That's it! The version will automatically appear in the UI with:
 - ✅ Proper sorting (newest versions on the left)
-- ✅ Automatic path mapping 
+- ✅ Automatic path mapping
 - ✅ Package detection from SDK file
 - ✅ Preview warnings for versions newer than default
 - ✅ URL persistence (e.g., `?version=5_0`)
