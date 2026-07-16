@@ -1,0 +1,1491 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Plasma-Sabre Tutorial &#8212; IQM client 35.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=03e56e77"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide_qrisp/plasma_sabre_tutorial';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="QEC Memory Experiment with the Repetition Code" href="detector_experiment_demo.html" />
+    <link rel="prev" title="Qrisp on IQM User Guide" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-07-16"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM client 35.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM client 35.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-client</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.iqm_client.html">iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.iqm_client.html">iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.iqm_client.CircuitJob.html">CircuitJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.iqm_client.IQMClient.html">IQMClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.models.STANDARD_DD_STRATEGY.html">iqm.iqm_client.models.STANDARD_DD_STRATEGY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.models.validate_circuit.html">iqm.iqm_client.models.validate_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.models.CircuitCompilationOptions.html">CircuitCompilationOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.models.CircuitJobParameters.html">CircuitJobParameters</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.transpile.html">transpile</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.Resolution.html">iqm.iqm_client.transpile.Resolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.simplify_architecture.html">iqm.iqm_client.transpile.simplify_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.transpile_insert_moves.html">iqm.iqm_client.transpile.transpile_insert_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.transpile_remove_moves.html">iqm.iqm_client.transpile.transpile_remove_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.ExistingMoveHandlingOptions.html">ExistingMoveHandlingOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.util.print_env_vars.html">iqm.iqm_client.util.print_env_vars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.util.to_json_dict.html">iqm.iqm_client.util.to_json_dict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.util.IQMJSONEncoder.html">IQMJSONEncoder</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.validation.html">validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.validation.validate_circuit_instructions.html">iqm.iqm_client.validation.validate_circuit_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.validation.validate_circuit_moves.html">iqm.iqm_client.validation.validate_circuit_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.validation.validate_instruction.html">iqm.iqm_client.validation.validate_instruction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.validation.validate_qubit_mapping.html">iqm.iqm_client.validation.validate_qubit_mapping</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.iqm_server_client.html">iqm_server_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_server_client.iqm_server_client.html">iqm_server_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.iqm_server_client.DEFAULT_TIMEOUT_SECONDS.html">iqm.iqm_server_client.iqm_server_client.DEFAULT_TIMEOUT_SECONDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.iqm_server_client.IQMServerClientJob.html">IQMServerClientJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.iqm_server_client._IQMServerClient.html">_IQMServerClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_server_client.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobCompilation.html">JobCompilation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobData.html">JobData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobExecution.html">JobExecution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobMessage.html">JobMessage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobStatus.html">JobStatus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.ListQuantumComputersResponse.html">ListQuantumComputersResponse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.ProgressInfo.html">ProgressInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.QuantumComputer.html">QuantumComputer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.TimelineEntry.html">TimelineEntry</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.html">cirq_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.html">devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.adonis.html">adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.aphrodite.html">aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.apollo.html">apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.iqm_device.html">iqm_device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.iqm_device_metadata.html">iqm_device_metadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.extended_qasm_parser.html">extended_qasm_parser</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm.html">iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_gates.html">iqm_gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_gates.IQMMoveGate.html">IQMMoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_sampler.html">iqm_sampler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_sampler.IQMResult.html">IQMResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_sampler.IQMSampler.html">IQMSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_sampler.ResultMetadata.html">ResultMetadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.optimizers.html">optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.optimizers.simplify_circuit.html">iqm.cirq_iqm.optimizers.simplify_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement.html">DropRZBeforeMeasurement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates.html">MergeOneParameterGroupGates</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.html">serialize</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.circuit_operation_to_operation.html">iqm.cirq_iqm.serialize.circuit_operation_to_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.deserialize_circuit.html">iqm.cirq_iqm.serialize.deserialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.operation_to_circuit_operation.html">iqm.cirq_iqm.serialize.operation_to_circuit_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.serialize_circuit.html">iqm.cirq_iqm.serialize.serialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.OperationNotSupportedError.html">iqm.cirq_iqm.serialize.OperationNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.transpiler.html">transpiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit.html">iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.html">qiskit_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.examples.html">examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.examples.bell_measure.html">bell_measure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.examples.transpile_example.html">transpile_example</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.html">fake_backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_adonis.html">fake_adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_aphrodite.html">fake_aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_apollo.html">fake_apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_deneb.html">fake_deneb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_garnet.html">fake_garnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.iqm_fake_backend.html">iqm_fake_backend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_backend.html">iqm_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html">IQMBackendBase</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_circuit.html">iqm_circuit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_circuit.IQMCircuit.html">IQMCircuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_circuit_validation.html">iqm_circuit_validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit.html">iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_job.html">iqm_job</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_job.IQMJob.html">IQMJob</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_move_layout.html">iqm_move_layout</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout.html">iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout.html">IQMMoveLayout</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_naive_move_pass.html">iqm_naive_move_pass</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM.html">iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_naive_move_pass.IQMNaiveResonatorMoving.html">IQMNaiveResonatorMoving</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_provider.html">iqm_provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html">IQMBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend.html">IQMFacadeBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_provider.IQMProvider.html">IQMProvider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_target.html">iqm_target</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_target.Locus.html">iqm.qiskit_iqm.iqm_target.Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_target.LocusIdx.html">iqm.qiskit_iqm.iqm_target.LocusIdx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_target.IQMTarget.html">IQMTarget</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_transpilation.html">iqm_transpilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates.html">iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_transpilation.IQMOptimizeSingleQubitGates.html">IQMOptimizeSingleQubitGates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass.html">IQMReplaceGateWithUnitaryPass</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.move_gate.html">move_gate</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY.html">iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.move_gate.MoveGate.html">MoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.html">qiskit_to_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey.html">MeasurementKey</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError.html">iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.html">transpiler_plugins</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.IQMDefaultSchedulingPlugin.html">IQMDefaultSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.IQMSchedulingPlugin.html">IQMSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingKeepExistingMovesPlugin.html">MoveGateRoutingKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyKeepExistingMovesPlugin.html">MoveGateRoutingOnlyKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyPlugin.html">MoveGateRoutingOnlyPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyRemoveExistingMovesPlugin.html">MoveGateRoutingOnlyRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyTrustExistingMovesPlugin.html">MoveGateRoutingOnlyTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingPlugin.html">MoveGateRoutingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingRemoveExistingMovesPlugin.html">MoveGateRoutingRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingTrustExistingMovesPlugin.html">MoveGateRoutingTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithExactRZPlugin.html">MoveGateRoutingWithExactRZPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin.html">MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactIgnoreBarriersPlugin.html">OnlyRZOptimizationExactIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactPlugin.html">OnlyRZOptimizationExactPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationIgnoreBarriersPlugin.html">OnlyRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin.html">OnlyRZOptimizationPlugin</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../qrisp_iqm_api_index.html">qrisp_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../qrisp_iqm_backend_infrastructure.html">Backend Infrastructure</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMBackend.html">IQMBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMCircuitJob.html">IQMCircuitJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMPulseJob.html">IQMPulseJob</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../qrisp_iqm_transpilation.html">Transpilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.create_iqm_pass_manager.html">create_iqm_pass_manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.transpile_to_iqm.html">transpile_to_iqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.routing.plasma_layout.html">plasma_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.routing.plasma_route.html">plasma_route</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.routing.vf2pp_layout.html">vf2pp_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.commute_phases.html">commute_phases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.measurement_parallelization.html">measurement_parallelization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../qrisp_iqm_pulse_operations.html">Pulse Operations &amp; Conversion</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.qrisp_to_iqm_converter.html">qrisp_to_iqm_converter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.pulse_operation.IQMPulseOperation.html">IQMPulseOperation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.extract_iqm_pulse.html">extract_iqm_pulse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.quantum_op_to_qrisp_func.html">quantum_op_to_qrisp_func</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.custom_pulse_operations.delay.html">delay</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../qrisp_iqm_qec.html">Quantum Error Correction</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration_guide.html">Integration Guide</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Qrisp on IQM User Guide</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Plasma-Sabre Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="detector_experiment_demo.html">QEC Memory Experiment with the Repetition Code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide_qiskit.html">Qiskit on IQM User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide_cirq.html">Cirq on IQM User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/user_guide_qrisp/plasma_sabre_tutorial.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Plasma-Sabre Tutorial</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-will-learn">What you will learn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demo-circuit">Demo circuit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plasma-layout-finding-the-best-qubit-permutation">1. <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> — Finding the best qubit permutation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-it-does-concretely">What it does concretely</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-topology-a-cut-ring">Example topology — a “cut ring”</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-parameters">Relevant parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vf2-fast-path">VF2++ fast path</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plasma-route-swap-insertion">2. <code class="docutils literal notranslate"><span class="pre">plasma_route</span></code> — SWAP insertion</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Relevant parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combined-pipeline-plasma-layout-plasma-route">Combined pipeline: <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> → <code class="docutils literal notranslate"><span class="pre">plasma_route</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vf2pp-layout">3. <code class="docutils literal notranslate"><span class="pre">vf2pp_layout</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-does-it-fail">When does it fail?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-does-it-succeed">When does it succeed?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-layout">4. <code class="docutils literal notranslate"><span class="pre">manual_layout</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gate-conversion-passes">5. Gate conversion passes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-to-cz"><code class="docutils literal notranslate"><span class="pre">convert_to_cz</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-to-prx"><code class="docutils literal notranslate"><span class="pre">convert_to_prx</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tuning-effort-and-depth-weight">6. Tuning <code class="docutils literal notranslate"><span class="pre">effort</span></code> and <code class="docutils literal notranslate"><span class="pre">depth_weight</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-decompose-pass">The <code class="docutils literal notranslate"><span class="pre">decompose</span></code> pass</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-observe">What to observe</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#end-to-end-iqm-transpilation-transpile-to-iqm">7. End-to-end IQM transpilation: <code class="docutils literal notranslate"><span class="pre">transpile_to_iqm</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actual-iqm-backend-call-with-token-placeholder">8. Actual IQM backend call (with token placeholder)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="plasma-sabre-tutorial">
+<span id="id1"></span><h1>Plasma-Sabre Tutorial<a class="headerlink" href="#plasma-sabre-tutorial" title="Link to this heading">#</a></h1>
+<p>This tutorial gives a practical overview of the <strong>plasma-sabre</strong> transpiler for Qrisp,
+including user-facing passes and the IQM execution flow.</p>
+<section id="what-you-will-learn">
+<h2>What you will learn<a class="headerlink" href="#what-you-will-learn" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>How to build and inspect a Qrisp circuit</p></li>
+<li><p>How to compose transpilation pipelines with <code class="docutils literal notranslate"><span class="pre">PassManager</span></code></p></li>
+<li><p>How to use layout/routing passes:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plasma_route</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vf2pp_layout</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">manual_layout</span></code></p></li>
+</ul>
+</li>
+<li><p>How to use gate conversion passes:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">convert_to_cz</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">convert_to_prx</span></code></p></li>
+</ul>
+</li>
+<li><p>How to run full IQM transpilation via <code class="docutils literal notranslate"><span class="pre">transpile_to_iqm</span></code></p></li>
+<li><p>How to submit a transpiled circuit to an IQM backend</p></li>
+</ul>
+</section>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Core imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qrisp</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">Qubit</span><span class="p">,</span> <span class="n">Clbit</span><span class="p">,</span> <span class="n">PassManager</span><span class="p">,</span> <span class="n">convert_to_cz</span><span class="p">,</span> <span class="n">convert_to_prx</span><span class="p">,</span> <span class="n">manual_layout</span>
+
+<span class="c1"># IQM imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">plasma_layout</span><span class="p">,</span> <span class="n">plasma_route</span><span class="p">,</span> <span class="n">vf2pp_layout</span><span class="p">,</span> <span class="n">transpile_to_iqm</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Imports successful.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>WARNING:jax._src.xla_bridge:864: An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+Imports successful.
+</pre></div>
+</div>
+</section>
+<section id="demo-circuit">
+<h2>Demo circuit<a class="headerlink" href="#demo-circuit" title="Link to this heading">#</a></h2>
+<p>We define a small demo circuit with various two-qubit interactions to exercise
+the transpiler:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">build_demo_circuit</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a small demo circuit with 2-qubit interactions.&quot;&quot;&quot;</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">()</span>
+
+    <span class="c1"># Give logical qubits distinctive names</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+        <span class="n">qc</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;original_qb_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+        <span class="n">qc</span><span class="o">.</span><span class="n">add_clbit</span><span class="p">(</span><span class="n">Clbit</span><span class="p">(</span><span class="s2">&quot;c&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+
+    <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">s</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">cy</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Add measurements for execution workflows</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">qubits</span><span class="p">,</span> <span class="n">qc</span><span class="o">.</span><span class="n">clbits</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">qc</span>
+
+<span class="n">qc</span> <span class="o">=</span> <span class="n">build_demo_circuit</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>                  ┌───┐                        ┌─┐
+original_qb_0: ───┤ H ├─────■────────────■─────┤M├───
+                  └───┘   ┌─┴─┐   ┌───┐  │  ┌─┐└╥┘
+original_qb_1: ───────────┤ X ├─■─┤ S ├──┼──┤M├─╫────
+               ┌─────────┐└───┘ │ └───┘┌─┴─┐└╥┘ ║ ┌─┐
+original_qb_2: ┤ Ry(0.7) ├──────■───■──┤ Y ├─╫──╫─┤M├
+               └─────────┘        ┌─┴─┐└┬─┬┘ ║  ║ └╥┘
+original_qb_3: ───────────────────┤ X ├─┤M├──╫──╫──╫─
+                                  └───┘ └╥┘  ║  ║  ║
+           c0: ══════════════════════════╬═══╬══╩══╬═
+                                         ║   ║     ║
+           c1: ══════════════════════════╬═══╩═════╬═
+                                         ║         ║
+           c2: ══════════════════════════╬═════════╩═
+                                         ║
+           c3: ══════════════════════════╩═══════════
+</pre></div>
+</div>
+</section>
+<section id="plasma-layout-finding-the-best-qubit-permutation">
+<h2>1. <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> — Finding the best qubit permutation<a class="headerlink" href="#plasma-layout-finding-the-best-qubit-permutation" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> solves the <strong>initial placement problem</strong>: given a quantum circuit with <em>logical</em>
+qubits and a hardware topology with <em>physical</em> qubits connected by edges, find a mapping
+(permutation) of logical → physical qubits that minimizes the routing cost downstream.</p>
+<section id="what-it-does-concretely">
+<h3>What it does concretely<a class="headerlink" href="#what-it-does-concretely" title="Link to this heading">#</a></h3>
+<p>The pass <strong>permutes the circuit’s qubits</strong> — it re-labels which physical qubit each logical
+qubit sits on.  No SWAP gates are inserted; the gate sequence stays the same, only the qubit
+indices change.  For instance, if the original circuit applies <code class="docutils literal notranslate"><span class="pre">cx(0,</span> <span class="pre">3)</span></code> and <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code>
+decides logical qubit 0 should live on physical qubit 2 and logical qubit 3 on physical qubit 1,
+the output circuit will contain <code class="docutils literal notranslate"><span class="pre">cx(2,</span> <span class="pre">1)</span></code> (and will have as many qubits as the hardware
+topology, not just the circuit).</p>
+</section>
+<section id="example-topology-a-cut-ring">
+<h3>Example topology — a “cut ring”<a class="headerlink" href="#example-topology-a-cut-ring" title="Link to this heading">#</a></h3>
+<p>Throughout this tutorial we use 6 physical qubits connected in a ring <strong>with the edge (0, 1)
+removed</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1 — 2 — 3 — 4 — 5 — 0
+</pre></div>
+</div>
+<p>This is essentially a chain <code class="docutils literal notranslate"><span class="pre">1-2-3-4-5-0</span></code>.  Because one edge of the ring is missing,
+the layout pass actually has to work: naïvely mapping logical qubit 0 to physical qubit 0 and
+logical qubit 1 to physical qubit 1 would place them on opposite ends of the chain, requiring
+many SWAPs.  <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> finds a better permutation.</p>
+</section>
+<section id="relevant-parameters">
+<h3>Relevant parameters<a class="headerlink" href="#relevant-parameters" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">connectivity</span></code></p></td>
+<td><p><em>(required)</em></p></td>
+<td><p>List of <code class="docutils literal notranslate"><span class="pre">(u,</span> <span class="pre">v)</span></code> edges describing hardware connectivity</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">effort</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">30</span></code></p></td>
+<td><p>More effort → more random candidates and refinement iterations → better layouts but slower compile</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">depth_weight</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-1</span></code> = optimise for gate count only, <code class="docutils literal notranslate"><span class="pre">0</span></code> = balanced, <code class="docutils literal notranslate"><span class="pre">+1</span></code> = optimise for depth only</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="vf2-fast-path">
+<h3>VF2++ fast path<a class="headerlink" href="#vf2-fast-path" title="Link to this heading">#</a></h3>
+<p>Before starting the stochastic search, <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> first tries a <strong>VF2++ subgraph
+isomorphism</strong> check.  If the circuit’s qubit-interaction graph is already a subgraph of the
+hardware topology, the circuit can be mapped with zero routing cost and VF2++ returns
+immediately.  The stochastic search is only triggered when VF2++ fails — which is the case for
+our demo circuit, since the <code class="docutils literal notranslate"><span class="pre">cy(0,</span> <span class="pre">2)</span></code> gate creates an interaction between qubits 0 and 2 that
+doesn’t correspond to any single edge in our cut-ring topology.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Demonstrate plasma_layout alone: only qubit permutation, no SWAPs</span>
+<span class="n">connectivity</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">pm_layout_only</span> <span class="o">=</span> <span class="n">PassManager</span><span class="p">()</span>
+<span class="n">pm_layout_only</span> <span class="o">+=</span> <span class="n">plasma_layout</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span> <span class="n">effort</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="n">original</span> <span class="o">=</span> <span class="n">build_demo_circuit</span><span class="p">()</span>
+<span class="n">laid_out</span> <span class="o">=</span> <span class="n">pm_layout_only</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Original circuit (4 qubits):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">After plasma_layout (now </span><span class="si">{</span><span class="n">laid_out</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">()</span><span class="si">}</span><span class="s2"> physical qubits, same gates, permuted indices):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">laid_out</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Original circuit (4 qubits):
+                  ┌───┐                        ┌─┐
+original_qb_0: ───┤ H ├─────■────────────■─────┤M├───
+                  └───┘   ┌─┴─┐   ┌───┐  │  ┌─┐└╥┘
+original_qb_1: ───────────┤ X ├─■─┤ S ├──┼──┤M├─╫────
+               ┌─────────┐└───┘ │ └───┘┌─┴─┐└╥┘ ║ ┌─┐
+original_qb_2: ┤ Ry(0.7) ├──────■───■──┤ Y ├─╫──╫─┤M├
+               └─────────┘        ┌─┴─┐└┬─┬┘ ║  ║ └╥┘
+original_qb_3: ───────────────────┤ X ├─┤M├──╫──╫──╫─
+                                  └───┘ └╥┘  ║  ║  ║
+           c0: ══════════════════════════╬═══╬══╩══╬═
+                                         ║   ║     ║
+           c1: ══════════════════════════╬═══╩═════╬═
+                                         ║         ║
+           c2: ══════════════════════════╬═════════╩═
+                                         ║
+           c3: ══════════════════════════╩═══════════
+
+After plasma_layout (now 6 physical qubits, same gates, permuted indices):
+
+ amended_qb_0: ──────────────────────────────────────
+
+ amended_qb_1: ──────────────────────────────────────
+                  ┌───┐                        ┌─┐
+original_qb_0: ───┤ H ├─────■────────────■─────┤M├───
+                  └───┘   ┌─┴─┐   ┌───┐  │  ┌─┐└╥┘
+original_qb_1: ───────────┤ X ├─■─┤ S ├──┼──┤M├─╫────
+               ┌─────────┐└───┘ │ └───┘┌─┴─┐└╥┘ ║ ┌─┐
+original_qb_2: ┤ Ry(0.7) ├──────■───■──┤ Y ├─╫──╫─┤M├
+               └─────────┘        ┌─┴─┐└┬─┬┘ ║  ║ └╥┘
+original_qb_3: ───────────────────┤ X ├─┤M├──╫──╫──╫─
+                                  └───┘ └╥┘  ║  ║  ║
+           c0: ══════════════════════════╬═══╬══╩══╬═
+                                         ║   ║     ║
+           c1: ══════════════════════════╬═══╩═════╬═
+                                         ║         ║
+           c2: ══════════════════════════╬═════════╩═
+                                         ║
+           c3: ══════════════════════════╩═══════════
+</pre></div>
+</div>
+</section>
+</section>
+<section id="plasma-route-swap-insertion">
+<h2>2. <code class="docutils literal notranslate"><span class="pre">plasma_route</span></code> — SWAP insertion<a class="headerlink" href="#plasma-route-swap-insertion" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">plasma_route</span></code> takes a circuit that already has a <strong>fixed layout</strong> (e.g. from <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code>)
+and inserts SWAP gates so that every 2-qubit gate acts on physically adjacent qubits.</p>
+<section id="id2">
+<h3>Relevant parameters<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">connectivity</span></code></p></td>
+<td><p><em>(required)</em></p></td>
+<td><p>Hardware topology edges</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">effort</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">30</span></code></p></td>
+<td><p>More effort → better results, slower compile</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">depth_weight</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-1</span></code> = gate count, <code class="docutils literal notranslate"><span class="pre">0</span></code> = balanced, <code class="docutils literal notranslate"><span class="pre">+1</span></code> = depth</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="combined-pipeline-plasma-layout-plasma-route">
+<h3>Combined pipeline: <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> → <code class="docutils literal notranslate"><span class="pre">plasma_route</span></code><a class="headerlink" href="#combined-pipeline-plasma-layout-plasma-route" title="Link to this heading">#</a></h3>
+<p>In practice you always chain the two passes.  Make sure <code class="docutils literal notranslate"><span class="pre">depth_weight</span></code> matches between them.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example hardware topology (6 physical qubits):</span>
+<span class="n">connectivity</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">]</span>
+
+<span class="n">pm</span> <span class="o">=</span> <span class="n">PassManager</span><span class="p">()</span>
+<span class="n">pm</span> <span class="o">+=</span> <span class="n">plasma_layout</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span> <span class="n">effort</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">pm</span> <span class="o">+=</span> <span class="n">plasma_route</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span> <span class="n">effort</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="n">routed_qc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">build_demo_circuit</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">routed_qc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> amended_qb_0: ─────────────────────────────────────────
+
+ amended_qb_1: ─────────────────────────────────────────
+                  ┌───┐                              ┌─┐
+original_qb_0: ───┤ H ├─────■──────────────────■─────┤M├
+                  └───┘   ┌─┴─┐   ┌───┐┌─┐   ┌─┴─┐┌─┐└╥┘
+original_qb_1: ───────────┤ X ├─■─┤ S ├┤M├─X─┤ Y ├┤M├─╫─
+               ┌─────────┐└───┘ │ └───┘└╥┘ │ └───┘└╥┘ ║
+original_qb_2: ┤ Ry(0.7) ├──■───■───────╫──X───────╫──╫─
+               └─────────┘┌─┴─┐┌─┐      ║          ║  ║
+original_qb_3: ───────────┤ X ├┤M├──────╫──────────╫──╫─
+                          └───┘└╥┘      ║          ║  ║
+           c0: ═════════════════╬═══════╬══════════╬══╩═
+                                ║       ║          ║
+           c1: ═════════════════╬═══════╩══════════╬════
+                                ║                  ║
+           c2: ═════════════════╬══════════════════╩════
+                                ║
+           c3: ═════════════════╩═══════════════════════
+</pre></div>
+</div>
+</section>
+</section>
+<section id="vf2pp-layout">
+<h2>3. <code class="docutils literal notranslate"><span class="pre">vf2pp_layout</span></code><a class="headerlink" href="#vf2pp-layout" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">vf2pp_layout</span></code> attempts to embed the circuit’s interaction graph directly into the topology
+via <strong>VF2++ subgraph isomorphism</strong>.
+If successful, the circuit can run <strong>without any routing SWAPs</strong> at all.</p>
+<p>Use this when you suspect your circuit connectivity already fits the device graph.
+Note: <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> already tries VF2++ internally as a fast path — this standalone pass
+is useful when you want to <em>only</em> attempt VF2++. A crucial difference to calling VF2++ from
+<code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> is that <code class="docutils literal notranslate"><span class="pre">vf2pp_layout</span></code> will raise an Exception if there is no perfect layout.
+<code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> will simply proceed with heuristic layout selection.</p>
+<section id="when-does-it-fail">
+<h3>When does it fail?<a class="headerlink" href="#when-does-it-fail" title="Link to this heading">#</a></h3>
+<p>Our demo circuit has the interaction <code class="docutils literal notranslate"><span class="pre">cy(0,</span> <span class="pre">2)</span></code>, i.e. logical qubits 0 and 2 talk to each
+other although they are not neighbours on the cut-ring chain <code class="docutils literal notranslate"><span class="pre">1-2-3-4-5-0</span></code>.  No relabelling
+can fix this because the interaction graph contains a “triangle-like” structure that doesn’t
+fit into a path — so VF2++ raises an error.</p>
+</section>
+<section id="when-does-it-succeed">
+<h3>When does it succeed?<a class="headerlink" href="#when-does-it-succeed" title="Link to this heading">#</a></h3>
+<p>A circuit whose interactions already form a <strong>path</strong> (or any subgraph of the topology)
+will succeed.  Below we show both cases.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pm_vf2</span> <span class="o">=</span> <span class="n">PassManager</span><span class="p">()</span>
+<span class="n">pm_vf2</span> <span class="o">+=</span> <span class="n">vf2pp_layout</span><span class="p">(</span><span class="n">connectivity</span><span class="p">)</span>
+
+<span class="c1"># --- Case 1: demo circuit (fails — interaction graph doesn&#39;t fit the chain) ---</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">vf2_qc</span> <span class="o">=</span> <span class="n">pm_vf2</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">build_demo_circuit</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;VF2++ layout succeeded on demo circuit:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">vf2_qc</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;VF2++ layout failed on demo circuit (expected — cy(0,2) is non-adjacent):&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+
+<span class="c1"># --- Case 2: a circuit with only path-like interactions (succeeds) ---</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Circuit with path interactions ---&quot;</span><span class="p">)</span>
+<span class="n">path_qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">()</span>
+<span class="c1"># Give logical qubits distinctive names</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+    <span class="n">path_qc</span><span class="o">.</span><span class="n">add_qubit</span><span class="p">(</span><span class="n">Qubit</span><span class="p">(</span><span class="s2">&quot;original_qb_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+    <span class="n">path_qc</span><span class="o">.</span><span class="n">add_clbit</span><span class="p">(</span><span class="n">Clbit</span><span class="p">(</span><span class="s2">&quot;c_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+<span class="n">path_qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">path_qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>       <span class="c1"># 0-1</span>
+<span class="n">path_qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>       <span class="c1"># 1-2</span>
+<span class="n">path_qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>       <span class="c1"># 2-3</span>
+<span class="n">path_qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">path_qc</span><span class="o">.</span><span class="n">qubits</span><span class="p">,</span> <span class="n">path_qc</span><span class="o">.</span><span class="n">clbits</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Path circuit (interactions: 0-1, 1-2, 2-3):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">path_qc</span><span class="p">)</span>
+
+<span class="n">vf2_path_qc</span> <span class="o">=</span> <span class="n">pm_vf2</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">path_qc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VF2++ succeeded — mapped to </span><span class="si">{</span><span class="n">vf2_path_qc</span><span class="o">.</span><span class="n">num_qubits</span><span class="p">()</span><span class="si">}</span><span class="s2"> physical qubits, zero SWAPs needed:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vf2_path_qc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>VF2++ layout failed on demo circuit (expected — cy(0,2) is non-adjacent):
+VF2++ could not find a matching qubit set for the circuit. The circuit&#39;s connectivity graph is not a subgraph of the topology. Consider using &#39;plasma_layout&#39; and &#39;plasma_route&#39; for circuits requiring swap insertion.
+
+--- Circuit with path interactions ---
+Path circuit (interactions: 0-1, 1-2, 2-3):
+               ┌───┐          ┌─┐
+original_qb_0: ┤ H ├──■───────┤M├──────────────
+               └───┘┌─┴─┐     └╥┘     ┌─┐
+original_qb_1: ─────┤ X ├──■───╫──────┤M├──────
+                    └───┘┌─┴─┐ ║      └╥┘┌─┐
+original_qb_2: ──────────┤ X ├─╫───■───╫─┤M├───
+                         └───┘ ║ ┌─┴─┐ ║ └╥┘┌─┐
+original_qb_3: ────────────────╫─┤ X ├─╫──╫─┤M├
+                               ║ └───┘ ║  ║ └╥┘
+          c_0: ════════════════╩═══════╬══╬══╬═
+                                       ║  ║  ║
+          c_1: ════════════════════════╩══╬══╬═
+                                          ║  ║
+          c_2: ═══════════════════════════╩══╬═
+                                             ║
+          c_3: ══════════════════════════════╩═
+
+VF2++ succeeded — mapped to 6 physical qubits, zero SWAPs needed:
+
+ amended_qb_0: ────────────────────────────────
+               ┌───┐          ┌─┐
+original_qb_0: ┤ H ├──■───────┤M├──────────────
+               └───┘┌─┴─┐     └╥┘     ┌─┐
+original_qb_1: ─────┤ X ├──■───╫──────┤M├──────
+                    └───┘┌─┴─┐ ║      └╥┘┌─┐
+original_qb_2: ──────────┤ X ├─╫───■───╫─┤M├───
+                         └───┘ ║ ┌─┴─┐ ║ └╥┘┌─┐
+original_qb_3: ────────────────╫─┤ X ├─╫──╫─┤M├
+                               ║ └───┘ ║  ║ └╥┘
+ amended_qb_1: ────────────────╫───────╫──╫──╫─
+                               ║       ║  ║  ║
+          c_0: ════════════════╩═══════╬══╬══╬═
+                                       ║  ║  ║
+          c_1: ════════════════════════╩══╬══╬═
+                                          ║  ║
+          c_2: ═══════════════════════════╩══╬═
+                                             ║
+          c_3: ══════════════════════════════╩═
+</pre></div>
+</div>
+</section>
+</section>
+<section id="manual-layout">
+<h2>4. <code class="docutils literal notranslate"><span class="pre">manual_layout</span></code><a class="headerlink" href="#manual-layout" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">manual_layout</span></code> lets you choose physical qubits explicitly.</p>
+<ul class="simple">
+<li><p>Input: <code class="docutils literal notranslate"><span class="pre">qubit_mapping</span></code>, where logical qubit <code class="docutils literal notranslate"><span class="pre">i</span></code> maps to physical <code class="docutils literal notranslate"><span class="pre">qubit_mapping[i]</span></code></p></li>
+<li><p>Mapping must be the same length as circuit qubits, with unique non-negative indices</p></li>
+</ul>
+<p>This is useful when you want deterministic placement (e.g. due to calibration data).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Map 4 logical qubits -&gt; physical qubits [1, 2, 4, 5]</span>
+<span class="n">manual_map</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="n">pm_manual</span> <span class="o">=</span> <span class="n">PassManager</span><span class="p">()</span>
+<span class="n">pm_manual</span> <span class="o">+=</span> <span class="n">manual_layout</span><span class="p">(</span><span class="n">manual_map</span><span class="p">)</span>
+
+<span class="n">manual_qc</span> <span class="o">=</span> <span class="n">pm_manual</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">build_demo_circuit</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">manual_qc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span> amended_qb_0: ──────────────────────────────────────
+                  ┌───┐                        ┌─┐
+original_qb_0: ───┤ H ├─────■────────────■─────┤M├───
+                  └───┘   ┌─┴─┐   ┌───┐  │  ┌─┐└╥┘
+original_qb_1: ───────────┤ X ├─■─┤ S ├──┼──┤M├─╫────
+                          └───┘ │ └───┘  │  └╥┘ ║
+ amended_qb_1: ─────────────────┼────────┼───╫──╫────
+               ┌─────────┐      │      ┌─┴─┐ ║  ║ ┌─┐
+original_qb_2: ┤ Ry(0.7) ├──────■───■──┤ Y ├─╫──╫─┤M├
+               └─────────┘        ┌─┴─┐└┬─┬┘ ║  ║ └╥┘
+original_qb_3: ───────────────────┤ X ├─┤M├──╫──╫──╫─
+                                  └───┘ └╥┘  ║  ║  ║
+           c0: ══════════════════════════╬═══╬══╩══╬═
+                                         ║   ║     ║
+           c1: ══════════════════════════╬═══╩═════╬═
+                                         ║         ║
+           c2: ══════════════════════════╬═════════╩═
+                                         ║
+           c3: ══════════════════════════╩═══════════
+</pre></div>
+</div>
+</section>
+<section id="gate-conversion-passes">
+<h2>5. Gate conversion passes<a class="headerlink" href="#gate-conversion-passes" title="Link to this heading">#</a></h2>
+<section id="convert-to-cz">
+<h3><code class="docutils literal notranslate"><span class="pre">convert_to_cz</span></code><a class="headerlink" href="#convert-to-cz" title="Link to this heading">#</a></h3>
+<p>Converts 2-qubit gates (such as <code class="docutils literal notranslate"><span class="pre">cx</span></code>, <code class="docutils literal notranslate"><span class="pre">cy</span></code>, <code class="docutils literal notranslate"><span class="pre">swap</span></code>) into CZ-based forms.</p>
+</section>
+<section id="convert-to-prx">
+<h3><code class="docutils literal notranslate"><span class="pre">convert_to_prx</span></code><a class="headerlink" href="#convert-to-prx" title="Link to this heading">#</a></h3>
+<p>Converts single-qubit operations into PRX-style decomposition used in IQM-related flows.</p>
+<p>These are typically used near the end of a transpilation pipeline.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pm_convert</span> <span class="o">=</span> <span class="n">PassManager</span><span class="p">()</span>
+<span class="n">pm_convert</span> <span class="o">+=</span> <span class="n">convert_to_cz</span><span class="p">()</span>
+<span class="n">pm_convert</span> <span class="o">+=</span> <span class="n">convert_to_prx</span>
+
+<span class="n">converted_qc</span> <span class="o">=</span> <span class="n">pm_convert</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">build_demo_circuit</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">converted_qc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>               ┌──────────────┐┌────────┐                                »
+original_qb_0: ┤ R(3π/2,-π/2) ├┤ R(π,0) ├─■──────────────────────────────»
+               ├──────────────┤├────────┤ │ ┌──────────────┐┌────────┐   »
+original_qb_1: ┤ R(3π/2,-π/2) ├┤ R(π,0) ├─■─┤ R(3π/2,-π/2) ├┤ R(π,0) ├─■─»
+               └┬────────────┬┘└────────┘   └──────────────┘└────────┘ │ »
+original_qb_2: ─┤ R(0.7,π/2) ├─────────────────────────────────────────■─»
+               ┌┴────────────┴┐┌────────┐                                »
+original_qb_3: ┤ R(3π/2,-π/2) ├┤ R(π,0) ├────────────────────────────────»
+               └──────────────┘└────────┘                                »
+           c0: ══════════════════════════════════════════════════════════»
+                                                                         »
+           c1: ══════════════════════════════════════════════════════════»
+                                                                         »
+           c2: ══════════════════════════════════════════════════════════»
+                                                                         »
+           c3: ══════════════════════════════════════════════════════════»
+                                                                         »
+«                                                                        »
+«original_qb_0: ─────────────────────────────────────────────────────────»
+«               ┌────────┐  ┌──────────┐              ┌─┐                »
+«original_qb_1: ┤ R(π,0) ├──┤ R(π,π/4) ├──────────────┤M├────────────────»
+«               └────────┘  ├──────────┤  ┌──────────┐└╥┘┌──────────────┐»
+«original_qb_2: ────■───────┤ R(π,π/2) ├──┤ R(π,π/4) ├─╫─┤ R(3π/2,-π/2) ├»
+«                   │     ┌─┴──────────┴─┐└┬────────┬┘ ║ └─────┬─┬──────┘»
+«original_qb_3: ────■─────┤ R(3π/2,-π/2) ├─┤ R(π,0) ├──╫───────┤M├───────»
+«                         └──────────────┘ └────────┘  ║       └╥┘       »
+«           c0: ═══════════════════════════════════════╬════════╬════════»
+«                                                      ║        ║        »
+«           c1: ═══════════════════════════════════════╩════════╬════════»
+«                                                               ║        »
+«           c2: ════════════════════════════════════════════════╬════════»
+«                                                               ║        »
+«           c3: ════════════════════════════════════════════════╩════════»
+«                                                                        »
+«                                            ┌─┐┌────────┐          »
+«original_qb_0: ───────────■─────────────────┤M├┤ gphase ├──────────»
+«                          │                 └╥┘└────────┘          »
+«original_qb_1: ───────────┼──────────────────╫─────────────────────»
+«               ┌────────┐ │ ┌──────────────┐ ║ ┌────────┐┌────────┐»
+«original_qb_2: ┤ R(π,0) ├─■─┤ R(3π/2,-π/2) ├─╫─┤ R(π,0) ├┤ R(π,0) ├»
+«               └────────┘   └──────────────┘ ║ └────────┘└────────┘»
+«original_qb_3: ──────────────────────────────╫─────────────────────»
+«                                             ║                     »
+«           c0: ══════════════════════════════╩═════════════════════»
+«                                                                   »
+«           c1: ════════════════════════════════════════════════════»
+«                                                                   »
+«           c2: ════════════════════════════════════════════════════»
+«                                                                   »
+«           c3: ════════════════════════════════════════════════════»
+«                                                                   »
+«
+«original_qb_0: ───────────────
+«
+«original_qb_1: ───────────────
+«               ┌──────────┐┌─┐
+«original_qb_2: ┤ R(π,π/4) ├┤M├
+«               └──────────┘└╥┘
+«original_qb_3: ─────────────╫─
+«                            ║
+«           c0: ═════════════╬═
+«                            ║
+«           c1: ═════════════╬═
+«                            ║
+«           c2: ═════════════╩═
+«
+«           c3: ═══════════════
+«
+</pre></div>
+</div>
+</section>
+</section>
+<section id="tuning-effort-and-depth-weight">
+<h2>6. Tuning <code class="docutils literal notranslate"><span class="pre">effort</span></code> and <code class="docutils literal notranslate"><span class="pre">depth_weight</span></code><a class="headerlink" href="#tuning-effort-and-depth-weight" title="Link to this heading">#</a></h2>
+<p>Both <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> and <code class="docutils literal notranslate"><span class="pre">plasma_route</span></code> accept two knobs that let you trade off compilation
+time against result quality, and gate count against circuit depth:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Effect</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">effort</span></code></p></td>
+<td><p>Controls how many random seeds / candidates the router explores. Higher values find better solutions but take longer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">depth_weight</span></code></p></td>
+<td><p>Steers the optimization target on a scale from <strong>−1</strong> (minimize gate/SWAP count) through <strong>0</strong> (balanced) to <strong>+1</strong> (minimize depth).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>To see these in action, we compile a non-trivial circuit — a <strong>5-bit quantum adder</strong> — onto a
+4 × 4 square-grid topology and compare three settings.</p>
+<section id="the-decompose-pass">
+<h3>The <code class="docutils literal notranslate"><span class="pre">decompose</span></code> pass<a class="headerlink" href="#the-decompose-pass" title="Link to this heading">#</a></h3>
+<p>Before layout and routing, the compiled adder circuit contains multi-controlled gates (&gt; 2
+qubits).  These cannot be placed directly onto hardware.  The <code class="docutils literal notranslate"><span class="pre">decompose</span></code> pass recursively
+breaks down any gate satisfying a predicate (here: more than 2 qubits) into 1- and 2-qubit
+gates.  We include it in the pipeline so the router only sees hardware-compatible operations.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qrisp</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumFloat</span><span class="p">,</span> <span class="n">decompose</span>
+
+<span class="c1"># Build a 5-bit quantum adder circuit</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">QuantumFloat</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">QuantumFloat</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">+=</span> <span class="n">b</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">qs</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+
+<span class="c1"># 4x4 square grid coupling map</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">connectivity</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="o">**</span><span class="mi">2</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">N</span><span class="p">:</span>
+        <span class="n">connectivity</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">:</span>
+        <span class="n">connectivity</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="n">N</span><span class="p">))</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">route_with_settings</span><span class="p">(</span><span class="n">depth_weight</span><span class="p">,</span> <span class="n">effort</span><span class="p">):</span>
+    <span class="n">pm</span> <span class="o">=</span> <span class="n">PassManager</span><span class="p">()</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">decompose</span><span class="p">(</span><span class="n">decompose_predicate</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">op</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">num_qubits</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">plasma_layout</span><span class="p">(</span><span class="n">connectivity</span><span class="o">=</span><span class="n">connectivity</span><span class="p">,</span> <span class="n">depth_weight</span><span class="o">=</span><span class="n">depth_weight</span><span class="p">,</span> <span class="n">effort</span><span class="o">=</span><span class="n">effort</span><span class="p">)</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">plasma_route</span><span class="p">(</span><span class="n">connectivity</span><span class="o">=</span><span class="n">connectivity</span><span class="p">,</span> <span class="n">depth_weight</span><span class="o">=</span><span class="n">depth_weight</span><span class="p">,</span> <span class="n">effort</span><span class="o">=</span><span class="n">effort</span><span class="p">)</span>
+    <span class="n">compiled</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">compiled</span>
+
+<span class="c1"># --- Run 1: depth_weight = -1  (minimize gate count) ---</span>
+<span class="n">qc_gateopt</span> <span class="o">=</span> <span class="n">route_with_settings</span><span class="p">(</span><span class="n">depth_weight</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">effort</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;depth_weight = -1, effort = 10  (minimize gate count)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  CNOT depth : </span><span class="si">{</span><span class="n">qc_gateopt</span><span class="o">.</span><span class="n">cnot_depth</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Gate counts: </span><span class="si">{</span><span class="n">qc_gateopt</span><span class="o">.</span><span class="n">count_ops</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- Run 2: depth_weight = +1  (minimize depth) ---</span>
+<span class="n">qc_depthopt</span> <span class="o">=</span> <span class="n">route_with_settings</span><span class="p">(</span><span class="n">depth_weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">effort</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">depth_weight = +1, effort = 10  (minimize depth)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  CNOT depth : </span><span class="si">{</span><span class="n">qc_depthopt</span><span class="o">.</span><span class="n">cnot_depth</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Gate counts: </span><span class="si">{</span><span class="n">qc_depthopt</span><span class="o">.</span><span class="n">count_ops</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- Run 3: depth_weight = +1, higher effort ---</span>
+<span class="n">qc_depthopt_hi</span> <span class="o">=</span> <span class="n">route_with_settings</span><span class="p">(</span><span class="n">depth_weight</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">effort</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">depth_weight = +1, effort = 1000 (minimize depth, try harder)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  CNOT depth : </span><span class="si">{</span><span class="n">qc_depthopt_hi</span><span class="o">.</span><span class="n">cnot_depth</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Gate counts: </span><span class="si">{</span><span class="n">qc_depthopt_hi</span><span class="o">.</span><span class="n">count_ops</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>depth_weight = -1, effort = 10  (minimize gate count)
+  CNOT depth : 55
+  Gate counts: {&#39;h&#39;: 10, &#39;cx&#39;: 50, &#39;p&#39;: 53, &#39;swap&#39;: 9}
+
+depth_weight = +1, effort = 10  (minimize depth)
+  CNOT depth : 52
+  Gate counts: {&#39;h&#39;: 10, &#39;cx&#39;: 50, &#39;p&#39;: 53, &#39;swap&#39;: 10}
+
+depth_weight = +1, effort = 1000 (minimize depth, try harder)
+  CNOT depth : 46
+  Gate counts: {&#39;h&#39;: 10, &#39;cx&#39;: 50, &#39;p&#39;: 53, &#39;swap&#39;: 11}
+</pre></div>
+</div>
+</section>
+<section id="what-to-observe">
+<h3>What to observe<a class="headerlink" href="#what-to-observe" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>``depth_weight = -1``</strong> produces the fewest SWAP gates (lowest total gate count) but the
+deepest circuit — the router packs qubits tightly even if that serialises operations.</p></li>
+<li><p><strong>``depth_weight = +1``</strong> trades extra SWAPs for a shallower circuit: the CNOT depth drops,
+while the SWAP / gate count increases.</p></li>
+<li><p><strong>Raising ``effort`` to 1000</strong> at <code class="docutils literal notranslate"><span class="pre">depth_weight</span> <span class="pre">=</span> <span class="pre">+1</span></code> pushes the depth even lower — at the
+cost of yet more SWAPs and longer compilation time.  The router explores more candidates and
+finds increasingly aggressive parallelisation strategies.</p></li>
+</ul>
+<p>In general, use <code class="docutils literal notranslate"><span class="pre">depth_weight</span> <span class="pre">=</span> <span class="pre">-1</span></code> when gate count (and thus error rate) matters most, and
+<code class="docutils literal notranslate"><span class="pre">depth_weight</span> <span class="pre">=</span> <span class="pre">+1</span></code> when circuit <em>duration</em> (i.e. thermal decay) on hardware is the bottleneck.
+<code class="docutils literal notranslate"><span class="pre">effort</span></code> controls how long you’re willing to wait for a better solution.</p>
+</section>
+</section>
+<section id="end-to-end-iqm-transpilation-transpile-to-iqm">
+<h2>7. End-to-end IQM transpilation: <code class="docutils literal notranslate"><span class="pre">transpile_to_iqm</span></code><a class="headerlink" href="#end-to-end-iqm-transpilation-transpile-to-iqm" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">transpile_to_iqm</span></code> wraps the full plasma-sabre pipeline — layout, routing, gate conversion,
+and several additional optimization passes — into a single call.  Because it bundles these
+strong optimizations together, <strong>it should be considered the default function for
+production-level transpilation</strong> when targeting IQM hardware.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The public function name is <code class="docutils literal notranslate"><span class="pre">transpile_to_iqm</span></code> (lowercase).</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Local transpilation example against a known coupling map</span>
+<span class="n">iqm_ready_qc</span> <span class="o">=</span> <span class="n">transpile_to_iqm</span><span class="p">(</span><span class="n">build_demo_circuit</span><span class="p">(),</span> <span class="n">connectivity</span><span class="o">=</span><span class="n">connectivity</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">iqm_ready_qc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>amended_qb_0: ─────────────────────────────────────────────────────────────»
+                                                                            »
+amended_qb_10: ─────────────────────────────────────────────────────────────»
+               ┌─────────────┐   ┌────────────┐      ┌─┐                    »
+original_qb_1: ┤ R(π/2,-π/2) ├─■─┤ R(π/2,π/2) ├─■────┤M├────────────────────»
+               ├─────────────┤ │ └────────────┘ │    └╥┘   ┌────────────┐   »
+original_qb_0: ┤ R(π/2,-π/2) ├─■────────────────┼─────╫──■─┤ R(π/2,π/2) ├─■─»
+               └─────────────┘                  │     ║  │ └────────────┘ │ »
+amended_qb_1:  ─────────────────────────────────┼─────╫──┼────────────────┼─»
+                                                │     ║  │                │ »
+amended_qb_3:  ─────────────────────────────────┼─────╫──┼────────────────┼─»
+                ┌────────────┐                  │     ║  │  ┌──────────┐  │ »
+original_qb_2: ─┤ R(0.7,π/2) ├──────────────────■──■──╫──┼──┤ R(π/2,0) ├──┼─»
+               ┌┴────────────┤                     │  ║  │ ┌┴──────────┴┐ │ »
+original_qb_3: ┤ R(π/2,-π/2) ├─────────────────────■──╫──■─┤ R(π/2,π/2) ├─■─»
+               └─────────────┘                        ║    └────────────┘   »
+amended_qb_9:  ───────────────────────────────────────╫─────────────────────»
+                                                      ║                     »
+amended_qb_7:  ───────────────────────────────────────╫─────────────────────»
+                                                      ║                     »
+amended_qb_6:  ───────────────────────────────────────╫─────────────────────»
+                                                      ║                     »
+amended_qb_2:  ───────────────────────────────────────╫─────────────────────»
+                                                      ║                     »
+amended_qb_5:  ───────────────────────────────────────╫─────────────────────»
+                                                      ║                     »
+amended_qb_8:  ───────────────────────────────────────╫─────────────────────»
+                                                      ║                     »
+amended_qb_4:  ───────────────────────────────────────╫─────────────────────»
+                                                      ║                     »
+amended_qb_11: ───────────────────────────────────────╫─────────────────────»
+                                                      ║                     »
+        c0:    ═══════════════════════════════════════╬═════════════════════»
+                                                      ║                     »
+        c1:    ═══════════════════════════════════════╩═════════════════════»
+                                                                            »
+        c2:    ═════════════════════════════════════════════════════════════»
+                                                                            »
+        c3:    ═════════════════════════════════════════════════════════════»
+                                                                            »
+«
+« amended_qb_0: ──────────────────────────────────────────────────────
+«
+«amended_qb_10: ──────────────────────────────────────────────────────
+«
+«original_qb_1: ──────────────────────────────────────────────────────
+«               ┌─────────────┐                 ┌─┐
+«original_qb_0: ┤ R(π/2,-π/2) ├─■───────────────┤M├───────────────────
+«               └─────────────┘ │               └╥┘
+« amended_qb_1: ────────────────┼────────────────╫────────────────────
+«                               │                ║
+« amended_qb_3: ────────────────┼────────────────╫────────────────────
+«                               │                ║    ┌───────────┐┌─┐
+«original_qb_2: ────────────────┼────────────────╫──■─┤ R(π/2,-π) ├┤M├
+«               ┌─────────────┐ │ ┌────────────┐ ║  │ └────┬─┬────┘└╥┘
+«original_qb_3: ┤ R(π/2,-π/2) ├─■─┤ R(π/2,π/2) ├─╫──■──────┤M├──────╫─
+«               └─────────────┘   └────────────┘ ║         └╥┘      ║
+« amended_qb_9: ─────────────────────────────────╫──────────╫───────╫─
+«                                                ║          ║       ║
+« amended_qb_7: ─────────────────────────────────╫──────────╫───────╫─
+«                                                ║          ║       ║
+« amended_qb_6: ─────────────────────────────────╫──────────╫───────╫─
+«                                                ║          ║       ║
+« amended_qb_2: ─────────────────────────────────╫──────────╫───────╫─
+«                                                ║          ║       ║
+« amended_qb_5: ─────────────────────────────────╫──────────╫───────╫─
+«                                                ║          ║       ║
+« amended_qb_8: ─────────────────────────────────╫──────────╫───────╫─
+«                                                ║          ║       ║
+« amended_qb_4: ─────────────────────────────────╫──────────╫───────╫─
+«                                                ║          ║       ║
+«amended_qb_11: ─────────────────────────────────╫──────────╫───────╫─
+«                                                ║          ║       ║
+«           c0: ═════════════════════════════════╬══════════╩═══════╬═
+«                                                ║                  ║
+«           c1: ═════════════════════════════════╬══════════════════╬═
+«                                                ║                  ║
+«           c2: ═════════════════════════════════╬══════════════════╩═
+«                                                ║
+«           c3: ═════════════════════════════════╩════════════════════
+«
+</pre></div>
+</div>
+</section>
+<section id="actual-iqm-backend-call-with-token-placeholder">
+<h2>8. Actual IQM backend call (with token placeholder)<a class="headerlink" href="#actual-iqm-backend-call-with-token-placeholder" title="Link to this heading">#</a></h2>
+<p>This section demonstrates real hardware submission.</p>
+<ol class="arabic simple">
+<li><p>Install IQM client package (<code class="docutils literal notranslate"><span class="pre">iqm-client</span></code>) if needed</p></li>
+<li><p>Set your token and server URL</p></li>
+<li><p>Fetch architecture, transpile, submit</p></li>
+</ol>
+<p>If <code class="docutils literal notranslate"><span class="pre">token</span></code> is left as placeholder, the code prints instructions and skips submission.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMBackend</span><span class="p">,</span> <span class="n">create_iqm_pass_manager</span>
+
+<span class="n">token</span> <span class="o">=</span> <span class="s2">&quot;YOUR_TOKEN_HERE&quot;</span>
+<span class="n">server_url</span> <span class="o">=</span> <span class="s2">&quot;https://resonance.iqm.tech&quot;</span>
+
+<span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s2">&quot;YOUR_TOKEN_HERE&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Set your real IQM token in `token` to run this cell.&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">garnet</span> <span class="o">=</span> <span class="n">IQMBackend</span><span class="p">(</span><span class="n">device_instance</span><span class="o">=</span><span class="s2">&quot;garnet&quot;</span><span class="p">,</span> <span class="c1"># Select garnet</span>
+                        <span class="n">server_url</span><span class="o">=</span><span class="n">server_url</span><span class="p">,</span>
+                        <span class="n">token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span> <span class="c1"># Authenticate</span>
+                        <span class="n">pass_manager</span> <span class="o">=</span> <span class="n">PassManager</span><span class="p">())</span> <span class="c1"># Create an empty pass manager to ensure circuits are passed to the backend as is</span>
+
+    <span class="n">iqm_connectivity</span> <span class="o">=</span> <span class="n">garnet</span><span class="o">.</span><span class="n">connectivity</span>
+
+    <span class="n">garnet</span><span class="o">.</span><span class="n">pm</span> <span class="o">+=</span> <span class="n">create_iqm_pass_manager</span><span class="p">(</span><span class="n">connectivity</span><span class="o">=</span><span class="n">iqm_connectivity</span><span class="p">,</span>
+                                         <span class="n">effort</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                                         <span class="n">depth_weight</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,)</span>
+
+    <span class="n">result_counts</span> <span class="o">=</span> <span class="n">garnet</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">build_demo_circuit</span><span class="p">(),</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;IQM result counts:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result_counts</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output (with a valid token):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>IQM result counts:
+{&#39;0000&#39;: 41, &#39;0011&#39;: 5, &#39;0100&#39;: 2, &#39;0110&#39;: 2, &#39;0111&#39;: 2, &#39;1001&#39;: 2, &#39;1010&#39;: 1, &#39;1011&#39;: 1, &#39;1100&#39;: 2, &#39;1101&#39;: 7, &#39;1110&#39;: 35}
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Qrisp on IQM User Guide</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="detector_experiment_demo.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">QEC Memory Experiment with the Repetition Code</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-you-will-learn">What you will learn</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#demo-circuit">Demo circuit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plasma-layout-finding-the-best-qubit-permutation">1. <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> — Finding the best qubit permutation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-it-does-concretely">What it does concretely</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-topology-a-cut-ring">Example topology — a “cut ring”</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relevant-parameters">Relevant parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vf2-fast-path">VF2++ fast path</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plasma-route-swap-insertion">2. <code class="docutils literal notranslate"><span class="pre">plasma_route</span></code> — SWAP insertion</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Relevant parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combined-pipeline-plasma-layout-plasma-route">Combined pipeline: <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> → <code class="docutils literal notranslate"><span class="pre">plasma_route</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vf2pp-layout">3. <code class="docutils literal notranslate"><span class="pre">vf2pp_layout</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-does-it-fail">When does it fail?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#when-does-it-succeed">When does it succeed?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-layout">4. <code class="docutils literal notranslate"><span class="pre">manual_layout</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gate-conversion-passes">5. Gate conversion passes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-to-cz"><code class="docutils literal notranslate"><span class="pre">convert_to_cz</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-to-prx"><code class="docutils literal notranslate"><span class="pre">convert_to_prx</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tuning-effort-and-depth-weight">6. Tuning <code class="docutils literal notranslate"><span class="pre">effort</span></code> and <code class="docutils literal notranslate"><span class="pre">depth_weight</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-decompose-pass">The <code class="docutils literal notranslate"><span class="pre">decompose</span></code> pass</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#what-to-observe">What to observe</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#end-to-end-iqm-transpilation-transpile-to-iqm">7. End-to-end IQM transpilation: <code class="docutils literal notranslate"><span class="pre">transpile_to_iqm</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actual-iqm-backend-call-with-token-placeholder">8. Actual IQM backend call (with token placeholder)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM client developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2026, IQM Finland Oy, Release 35.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-07-16.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

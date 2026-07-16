@@ -1,20 +1,32 @@
-# IQM SDK & Docs
+# IQM SDK Docs
 
-This repository holds the mirror of the source code of IQM SDK: a collection of libraries for operating IQM's quantum computers.
-It also builds and publishes documentation pages for those libraries: [https://docs.iqm.tech/](https://docs.iqm.tech/).
+## Content of this repository
+This repository contains the documentation for the IQM SDK. The documentation
+is hosted on GitHub Pages https://docs.iqm.tech/.
 
-This is a "bleeding edge" mirror, i.e. the versions in this mirror are the latest versions of the packages.
-Note that public IQM Resonance quantum computers do not always support the latest versions of client packages.
-Refer to the Resonance user guides and documentation to find the compatible versions for different quantum computers.
+Note that public IQM Resonance quantum computers do not always support the
+latest versions of client packages.
 
-This GitHub repository is a read-only mirror that isn't used for accepting contributions.
+Refer to the Resonance user guides and documentation to find the compatible
+versions for different quantum computers.
 
-**For support, contact `support@meetiqm.com`**.
+This GitHub repository is a read-only mirror that isn't used for accepting
+contributions.
 
----
 
-If you need to access an older version of some package's documentation, build it locally as follows:
+## How to obtains package sources
 
-1. Download the source distribution with an explicit version, e.g. `pip download --no-deps --no-binary=:all: iqm-pulse==11.2.0`.
-2. Unarchive the downloaded file `tar -xzf iqm_pulse-11.2.0.tar.gz`.
-3. `cd` into the directory and build docs with `python -m sphinx docs build/docs`. The rendered docs are saved to `build/docs`.
+To obtain the source code of the IQM SDK packages, please visit the
+[IQM SDK PyPI page](https://pypi.org/search/?q=iqm) and download the source
+distribution (sdist) for the desired package and version.
+
+An alternative way to obtain the source code is to use curl and extract the
+source distribution directly from PyPI. For example, to download and extract
+ the source code for the `iqm-client` package version 35.0.0, you can use the
+ following command:
+
+```bash
+curl -s https://pypi.org/pypi/iqm-client/35.0.0/json | jq -r '.urls[] | select(.packagetype == "sdist") | .url'
+```
+
+**For support, contact `support@iqm.tech`**.

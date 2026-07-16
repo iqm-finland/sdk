@@ -1,0 +1,2208 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Custom Gates and Gate Implementations &#8212; IQM Pulla 14.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=6e024ae6"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Custom Gates and Implementations';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Compilation Stages" href="Compilation%20Stages.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-07-16"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM Pulla 14.0.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 14.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">iqm-pulla</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="user_guides.html">User guides</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Quick%20Start.html">Quick Start</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Configuration%20and%20Usage.html">Configuration and Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Sweeps.html">Sweeps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compilation%20Stages.html">Compilation Stages</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Custom Gates and Gate Implementations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Measuring%20T1.html">Example: Measuring T1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Simple%20Dynamical%20Decoupling.html">Example: Dynamical decoupling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Executing%20QIR%20programs.html">Executing QIR programs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Randomized%20Benchmarking.html">Import required packages</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.cpc.html">cpc</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.compiler.html">compiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compilation_stage.html">compilation_stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compiler.html">compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.dd.html">dd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.errors.html">errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.layering_stages.html">layering_stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.post_process.html">post_process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.standard_stages.html">standard_stages</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.config.html">config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.run_result.html">run_result</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.interface.circuit_execution.html">circuit_execution</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CalibrationSetValues.html">iqm.pulla.interface.CalibrationSetValues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CHADRetrievalException.html">iqm.pulla.interface.CHADRetrievalException</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.ChipLabelRetrievalException.html">iqm.pulla.interface.ChipLabelRetrievalException</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html">Pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.PullaJob.html">PullaJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.PullaStash.html">PullaStash</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.html">quantum_architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture.html">iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.create_static_quantum_architecture.html">iqm.pulla.quantum_architecture.create_static_quantum_architecture</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.calset_from_observations.html">iqm.pulla.utils.calset_from_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.calset_to_cal_data_tree.html">iqm.pulla.utils.calset_to_cal_data_tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot.html">iqm.pulla.utils.convert_sweep_spot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_to_arrays.html">iqm.pulla.utils.convert_sweep_spot_to_arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.extract_readout_controller_result_names.html">iqm.pulla.utils.extract_readout_controller_result_names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.get_hash_for.html">iqm.pulla.utils.get_hash_for</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.initialize_schedule_builder.html">iqm.pulla.utils.initialize_schedule_builder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.iqm_circuit_to_gate_implementation.html">iqm.pulla.utils.iqm_circuit_to_gate_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.locate_instructions.html">iqm.pulla.utils.locate_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.map_qubit_indices.html">iqm.pulla.utils.map_qubit_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.map_sweep_results_to_logical_qubits.html">iqm.pulla.utils.map_sweep_results_to_logical_qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.print_channel.html">iqm.pulla.utils.print_channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.print_schedule.html">iqm.pulla.utils.print_schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.replace_instruction_in_place.html">iqm.pulla.utils.replace_instruction_in_place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.PostSelectionError.html">iqm.pulla.utils.PostSelectionError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_cirq.html">utils_cirq</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_cirq.cirq_to_cpc.html">iqm.pulla.utils_cirq.cirq_to_cpc</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_dd.html">utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_dd.generate_phases_of_urn_sequence.html">iqm.pulla.utils_dd.generate_phases_of_urn_sequence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_parallelization.html">utils_parallelization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_parallelization.parallelize_timeboxes.html">iqm.pulla.utils_parallelization.parallelize_timeboxes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qir.html">utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping.html">iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qir.qir_to_pulla.html">iqm.pulla.utils_qir.qir_to_pulla</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.html">utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.get_qiskit_compiler.html">iqm.pulla.utils_qiskit.get_qiskit_compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.parallelize_and_transpile.html">iqm.pulla.utils_qiskit.parallelize_and_transpile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.sweep_job_to_qiskit.html">iqm.pulla.utils_qiskit.sweep_job_to_qiskit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.ExistingMoveHandlingOptions.html">ExistingMoveHandlingOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.QiskitCompiler.html">QiskitCompiler</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="common_errors.html">Common errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Custom Gates and Implementations.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Custom Gates and Gate Implementations</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-setup">Environment setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-gates-composite-gates">Custom gates: Composite gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-gates-custom-waveforms">Custom gates: Custom waveforms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametrized-waveforms">Parametrized waveforms</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="custom-gates-and-gate-implementations">
+<h1>Custom Gates and Gate Implementations<a class="headerlink" href="#custom-gates-and-gate-implementations" title="Link to this heading">#</a></h1>
+<p>This notebook demonstrates how to work with user-defined quantum operations and gate implementations that go beyond the standard gate set.</p>
+<p>Each quantum operation is associated with at least one <code class="docutils literal notranslate"><span class="pre">GateImplementation</span></code> which translates circuit-level concepts to lower-level instructions accepted by IQM Server. This example shows how the user can</p>
+<ul class="simple">
+<li><p>Select a non-default implementation for a gate</p></li>
+<li><p>Add a custom implementation for an existing gate</p></li>
+<li><p>Add a custom gate and implementation by using existing gates as building blocks (composite gates)</p></li>
+<li><p>Define new pulse waveforms for implementations</p></li>
+</ul>
+<section id="environment-setup">
+<h2>Environment setup<a class="headerlink" href="#environment-setup" title="Link to this heading">#</a></h2>
+<p>Please refer to the <code class="docutils literal notranslate"><span class="pre">Quick</span> <span class="pre">Start.ipynb</span></code> for basic usage, terminology, and environment setup. It is recommended to run also
+<code class="docutils literal notranslate"><span class="pre">Configuration</span> <span class="pre">and</span> <span class="pre">Usage.ipynb</span></code> and <code class="docutils literal notranslate"><span class="pre">Sweeps.ipynb</span></code> before this notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.core.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.compiler</span><span class="w"> </span><span class="kn">import</span> <span class="n">transpile</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.iqm_client.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_env_vars</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulla.pulla</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pulla</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulla.utils_qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">qiskit_to_pulla</span><span class="p">,</span> <span class="n">get_qiskit_compiler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.gates</span><span class="w"> </span><span class="kn">import</span> <span class="n">PRX_Samples</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.gates.prx</span><span class="w"> </span><span class="kn">import</span> <span class="n">PRX_CustomWaveforms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.playlist.waveforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">Waveform</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.gate_implementation</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompositeGate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.quantum_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumOp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.playlist.visualisation.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">inspect_playlist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">exa.common.control.sweep.sweep</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sweep</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">exa.common.control.sweep.option</span><span class="w"> </span><span class="kn">import</span> <span class="n">CenterSpanOptions</span><span class="p">,</span> <span class="n">StartStopOptions</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_env_vars</span><span class="p">()</span>
+
+<span class="n">pulla</span> <span class="o">=</span> <span class="n">Pulla</span><span class="p">()</span>
+<span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">()</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">example_qiskit_circuit</span><span class="p">():</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+    <span class="n">transpiled_qc</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">layout_method</span><span class="o">=</span><span class="s1">&#39;sabre&#39;</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">transpiled_qc</span>
+
+<span class="n">example_qiskit_circuit</span><span class="p">()</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;clifford&#39;</span><span class="p">,</span> <span class="n">idle_wires</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2dce1a4a924f839e38362755a02d5e933a2923439091cf836fef0fecdf74aec0.png" src="_images/2dce1a4a924f839e38362755a02d5e933a2923439091cf836fef0fecdf74aec0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pulla</span><span class="o">.</span><span class="n">get_standard_compiler</span><span class="p">()</span><span class="o">.</span><span class="n">show_stages</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><script>
+    function togglePassDetails(rowElement, detailId) {
+        const detailRow = document.getElementById(detailId);
+        if (!detailRow) return;
+
+        const isVisible = window.getComputedStyle(detailRow).display !== "none";
+
+        if (isVisible) {
+            detailRow.style.display = "none";
+            detailRow.classList.remove("auto-open");
+        } else {
+            detailRow.style.display = "table-row";
+        }
+    }
+</script>
+
+<style>
+    .comp-container {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #333;
+        background: #fff;
+        padding: 15px;
+        contain: content;
+    }
+    .comp-stage-group {
+        margin-bottom: 15px;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    .comp-group-header {
+        background: #f6f8fa;
+        padding: 8px 15px;
+        font-weight: bold;
+        cursor: pointer;
+        border-bottom: 1px solid #e1e4e8;
+    }
+
+    .comp-stage-details { border-top: 1px solid #e1e4e8; }
+    .comp-stage-summary {
+        display: flex;
+        justify-content: flex-start;
+        padding: 10px 15px;
+        background: #fff;
+        cursor: pointer;
+        align-items: center;
+    }
+    .comp-stage-summary strong {
+        margin-right: auto;
+    }
+    .comp-stage-info {
+        color: #6a737d;
+        font-size: 0.82em;
+        font-style: italic;
+        margin-left: 10px;
+    }
+
+    .comp-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto;
+        margin: 0;
+    }
+    .comp-pass-row {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 8px 15px;
+        border-bottom: 1px solid #f0f0f0;
+        cursor: pointer;
+        transition: background 0.1s;
+    }
+    .comp-pass-row:hover { background-color: #f1f8ff !important; }
+
+    .comp-pass-row td {
+        padding: 8px 15px;
+        border-bottom: 1px solid #f0f0f0;
+        vertical-align: middle;
+        text-align: left !important;
+    }
+
+    .comp-pass-name {
+        color: #0366d6;
+        font-family: monospace;
+        font-weight: 600;
+        white-space: nowrap;
+        margin-right: auto;
+        text-align: left;
+    }
+
+    .comp-return-type {
+        color: #22863a;
+        font-family: monospace;
+        font-size: 0.85em;
+        margin-left: 20px;
+        white-space: nowrap;
+        text-align: right;
+    }
+    .comp-details-row { display: none; background: #fcfcfc !important; }
+    .comp-details-row.auto-open { display: table-row; }
+
+    .comp-details-content { padding: 15px 40px; border-left: 4px solid #0366d6; text-align: left; }
+    .comp-label { color: #6a737d; font-weight: bold; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 4px; display: block; }
+    .comp-doc-label { margin-top: 12px; }
+
+    .comp-code-block {
+        display: block;
+        background: #f1f3f5;
+        padding: 8px 12px;
+        border-radius: 4px;
+        border: 1px solid #d1d5da;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 0.85em;
+        line-height: 1.2;
+        color: #24292e;
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+    .comp-arg { display: block; padding-left: 15px; margin: 1px 0; }
+    .comp-doc-text { white-space: pre-wrap; font-size: 0.92em; line-height: 1.5; color: #444; margin-top: 5px; }
+</style>
+
+
+
+<div class="comp-container">
+    
+    <div class="comp-stage-group">
+        <details open>
+            <summary class="comp-group-header">Circuit-level Stages (1)</summary>
+            
+                
+                
+                
+
+                <details class="comp-stage-details" >
+                    <summary class="comp-stage-summary">
+                        <strong>Stage 0: circuit_stage</strong>
+                        <span class="comp-stage-info">Perform Circuit-level transformations.</span>
+                    </summary>
+                    <table class="comp-table">
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'circ-0-0')">
+                                <td class="comp-pass-name">Pass 0: validate_settings</td>
+                                <td class="comp-return-type">list[iqm.pulse.circuit_operations.Circuit]</td>
+                            </tr>
+
+                            <tr id="circ-0-0" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">circuits: list[iqm.pulse.circuit_operations.Circuit],</span><span class="comp-arg">settings: exa.common.data.setting_node.SettingNode</span>) -> list[iqm.pulse.circuit_operations.Circuit]</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Validate the settings for circuit execution options (only some combinations make sense).
+
+Raises an error if full MOVE gate tracking is used without move gate validation. Raises a warning if terminal
+measurements would be used with active reset.
+
+Args:
+    circuits: The circuits to compiler.
+    settings: The settings tree to validate.
+
+Returns:
+    The circuits as they were.
+
+Raises:
+    CircuitError: if full MOVE gate tracking is used without move gate validation.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'circ-0-1')">
+                                <td class="comp-pass-name">Pass 1: map_components</td>
+                                <td class="comp-return-type">Iterable[iqm.pulse.circuit_operations.Circuit]</td>
+                            </tr>
+
+                            <tr id="circ-0-1" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">circuits: collections.abc.Iterable[iqm.pulse.circuit_operations.Circuit],</span><span class="comp-arg">component_mapping: dict[str, str] | None,</span><span class="comp-arg">context: dict[str, typing.Any]</span>) -> Iterable[iqm.pulse.circuit_operations.Circuit]</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Maps the logical component names in a sequence of instructions to the corresponding physical component names.
+
+Modifies ``instructions`` in place. If no mapping is provided, returns the circuits as they are.
+
+Args:
+    circuits: The circuits to compiler.
+    component_mapping: Mapping of logical component names to physical component names.
+        ``None`` means the identity mapping.
+    context: The Compiler context.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'circ-0-2')">
+                                <td class="comp-pass-name">Pass 2: subscribe_and_probe</td>
+                                <td class="comp-return-type">list[iqm.pulse.circuit_operations.Circuit]</td>
+                            </tr>
+
+                            <tr id="circ-0-2" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">circuits: list[iqm.pulse.circuit_operations.Circuit],</span><span class="comp-arg">settings: exa.common.data.setting_node.SettingNode,</span><span class="comp-arg">context: dict[str, typing.Any],</span><span class="comp-arg">additionally_subscribed_components: list[str],</span><span class="comp-arg">additionally_probed_components: list[str],</span><span class="comp-arg">probe_all: bool = True,</span><span class="comp-arg">convert_terminal_measurements: bool = True</span>) -> list[iqm.pulse.circuit_operations.Circuit]</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Add additional terminal measurements to the circuit and modify measurement instruction arguments.
+
+The additional measurements can be subscribed to (i.e. they'd return measurement data) or be just probe pulses
+for potentially improving the terminal measurement fidelity in case the measurement calibration is not 100%
+factorizable.
+
+In addition, the pass hashes all readout keys since there is a data processing limit for the readout key length.
+The keys should then be unmapped in the return data post-processing. The terminal measurements can also be converted
+to the ``measure_fidelity`` operation which is calibrated to maximize the fidelity while not necessarily being
+projective (QNDness is typically not important for the terminal measurement).
+
+Args:
+    circuits: The circuits to compile.
+    settings: The settings tree.
+    context: The Compiler context.
+    additionally_subscribed_components: Additional components to measure in the terminal measurement (besides the
+        ones explicitly measured in the circuit itself).
+    additionally_probed_components: Additional components to send the probe pulse to besides the
+        ones explicitly measured in the circuit itself). The measurement data will not be collected from these
+        components.
+    probe_all: Whether to send to probe pulse to all components in the terminal measurement (overrides
+        ``additionally_probed_components``).
+    convert_terminal_measurements: Whether to convert the terminal measurement data to the ``measure_fidelity``
+        operation that is calibrated to maximize the fidelity while not necessarily being QND. This option will
+        be turned to ``False`` automatically if active reset is used (active reset is not reliable in the presence
+        of leakage).
+
+Returns:
+    The circuits with the aforementioned modifications.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'circ-0-3')">
+                                <td class="comp-pass-name">Pass 3: validate_circuits</td>
+                                <td class="comp-return-type">list[iqm.pulse.circuit_operations.Circuit]</td>
+                            </tr>
+
+                            <tr id="circ-0-3" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">circuits: list[iqm.pulse.circuit_operations.Circuit],</span><span class="comp-arg">builder: iqm.pulse.builder.ScheduleBuilder,</span><span class="comp-arg">context: dict[str, typing.Any],</span><span class="comp-arg">move_gate_validation: bool = True,</span><span class="comp-arg">validate_prx: bool = True,</span><span class="comp-arg">validate_calset: bool = False</span>) -> list[iqm.pulse.circuit_operations.Circuit]</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Validate circuits and aggerate metrics data from them.
+
+Args:
+    circuits: The circuits to compile.
+    builder: The ScheduleBuilder.
+    context: The compiler context.
+    move_gate_validation: Whether to do the move gate validation.
+    validate_prx: Whether to do the validation.
+    validate_calset: Whether to validate the calibration set (if the calibration point used is not from a
+        calibration set, this validation might not make sense).</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                    </table>
+                </details>
+            
+        </details>
+    </div>
+
+    
+    <div class="comp-stage-group">
+        <details open>
+            <summary class="comp-group-header">Pulse-level Stages (5)</summary>
+            
+                
+                
+                
+
+                <details class="comp-stage-details" >
+                    <summary class="comp-stage-summary">
+                        <strong>Stage 0: circuit_resolution</strong>
+                        <span class="comp-stage-info">Resolve Circuits into TimeBoxes.</span>
+                    </summary>
+                    <table class="comp-table">
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'pulse-0-0')">
+                                <td class="comp-pass-name">Pass 0: resolve_circuits</td>
+                                <td class="comp-return-type">list[iqm.pulse.timebox.TimeBox]</td>
+                            </tr>
+
+                            <tr id="pulse-0-0" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">circuits: list[iqm.pulse.circuit_operations.Circuit] | list[iqm.pulse.timebox.TimeBox],</span><span class="comp-arg">builder: iqm.pulse.builder.ScheduleBuilder,</span><span class="comp-arg">scheduling_strategy: str = 'ASAP'</span>) -> list[iqm.pulse.timebox.TimeBox]</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Resolve the circuits to timeboxes.
+
+Args:
+    circuits: The circuit to resolve.
+    builder: The schedule builder.
+    scheduling_strategy: Scheduling strategy to be used in the resolved TimeBoxes (see :class:`.TimeBox`).
+
+Returns:
+    List of TimeBoxes (one TimeBox per circuit).</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                    </table>
+                </details>
+            
+                
+                
+                
+
+                <details class="comp-stage-details" >
+                    <summary class="comp-stage-summary">
+                        <strong>Stage 1: timebox_stage</strong>
+                        <span class="comp-stage-info">Perform TimeBox-level transformations.</span>
+                    </summary>
+                    <table class="comp-table">
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'pulse-1-0')">
+                                <td class="comp-pass-name">Pass 0: multiplex_readout</td>
+                                <td class="comp-return-type">list[iqm.pulse.timebox.TimeBox]</td>
+                            </tr>
+
+                            <tr id="pulse-1-0" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">timeboxes: list[iqm.pulse.timebox.TimeBox],</span><span class="comp-arg">timebox_input: bool</span>) -> list[iqm.pulse.timebox.TimeBox]</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Merge any MultiplexedProbeTimeBoxes inside a TimeBox representing a circuit.
+
+This pass optimizes a situation where multiple "measure" gates on disjoint set of loci exist sequentially in the
+circuit.
+Without optimization, each gate would result in a separate trigger event, which results in worse performance.
+For example, with the measurement instructions [M(QB1), M(QB2), M(QB3)], we'd first measure QB1, then QB2, then QB3.
+This optimization merges the measurement timeboxes, so that we'll measure QB1, QB2, and QB3 at the same time
+(if the hardware channel configuration allows it), corresponding to M(QB1, QB2, QB3).
+
+Goes through the children of `circuit_box`, and places them in the same temporal order.
+Whenever a MultiplexedProbeTimeBox is encountered (i.e. from a measure gate), it is merged with the previous pending
+MultiplexedProbeTimeBox and left pending.
+If any other box type with colliding loci is encountered, first places the pending MultiplexedProbeTimeBox.
+This essentially delays all measurements until the last possible moment.
+
+This stage pass is skipped if the circuits to be compiled were given in the TimeBox-level, as the logic within does
+not work for deep recursive TimeBoxes.
+
+Args:
+    timeboxes: Timeboxes representing circuits.
+    timebox_input: Whether the circuits were inputted already in the TimeBox format.
+
+
+Returns:
+    New TimeBoxes with the same content, except with some MultiplexedProbeTimeBoxes merged.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'pulse-1-1')">
+                                <td class="comp-pass-name">Pass 1: prepend_heralding</td>
+                                <td class="comp-return-type">list[iqm.pulse.timebox.TimeBox]</td>
+                            </tr>
+
+                            <tr id="pulse-1-1" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">timeboxes: list[iqm.pulse.timebox.TimeBox],</span><span class="comp-arg">builder: iqm.pulse.builder.ScheduleBuilder,</span><span class="comp-arg">context: dict[str, typing.Any],</span><span class="comp-arg">add_heralding: bool = False</span>) -> list[iqm.pulse.timebox.TimeBox]</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Add the heralding measurement TimeBox to all circuits (locus: active components that can be measured).
+
+Args:
+    timeboxes: Timeboxes representing circuits.
+    builder: The ScheduleBuilder.
+    context: Compiler context.
+    add_heralding: Whether to add the heralding measurement timebox to the schedules.
+
+Returns:
+    The timeboxes with the prepended heralding measurement.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'pulse-1-2')">
+                                <td class="comp-pass-name">Pass 2: prepend_reset</td>
+                                <td class="comp-return-type">list[iqm.pulse.timebox.TimeBox]</td>
+                            </tr>
+
+                            <tr id="pulse-1-2" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">timeboxes: list[iqm.pulse.timebox.TimeBox],</span><span class="comp-arg">builder: iqm.pulse.builder.ScheduleBuilder,</span><span class="comp-arg">context: dict[str, typing.Any],</span><span class="comp-arg">active_reset_cycles: int | None = None</span>) -> list[iqm.pulse.timebox.TimeBox]</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Add a reset timebox to all circuits for all active components.
+
+Args:
+    timeboxes: TimeBoxes representing circuits.
+    builder: The ScheduleBuilder.
+    context: The compiler context.
+    active_reset_cycles: Number of active reset cycles applied. `None` means no active reset cycles, in which case
+        reset is done by relaxation (waiting).
+
+Returns:
+    The timeboxes with the prepended reset.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                    </table>
+                </details>
+            
+                
+                
+                
+
+                <details class="comp-stage-details" >
+                    <summary class="comp-stage-summary">
+                        <strong>Stage 2: timebox_resolution</strong>
+                        <span class="comp-stage-info">Resolve TimeBoxes into Schedules.</span>
+                    </summary>
+                    <table class="comp-table">
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'pulse-2-0')">
+                                <td class="comp-pass-name">Pass 0: resolve_timeboxes</td>
+                                <td class="comp-return-type">list[iqm.pulse.playlist.schedule.Schedule]</td>
+                            </tr>
+
+                            <tr id="pulse-2-0" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">timeboxes: list[iqm.pulse.timebox.TimeBox],</span><span class="comp-arg">builder: iqm.pulse.builder.ScheduleBuilder,</span><span class="comp-arg">neighborhood: int = 1</span>) -> list[iqm.pulse.playlist.schedule.Schedule]</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Resolve the timeboxes to schedules.
+
+Args:
+    timeboxes: TimeBoxes representing circuits.
+    builder: The ScheduleBuilder.
+    neighborhood: The neighborhood for the scheduling (see: :meth:`.ScheduleBuilder.resolve_timebox`).
+
+Returns:
+    The time-resolved schedules (one for each circuit).</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                    </table>
+                </details>
+            
+                
+                
+                
+
+                <details class="comp-stage-details" >
+                    <summary class="comp-stage-summary">
+                        <strong>Stage 3: dynamical_decoupling</strong>
+                        <span class="comp-stage-info">Apply dynamical decoupling sequences to idle qubits in the Schedules.</span>
+                    </summary>
+                    <table class="comp-table">
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'pulse-3-0')">
+                                <td class="comp-pass-name">Pass 0: apply_dd_strategy</td>
+                                <td class="comp-return-type">list[iqm.pulse.playlist.schedule.Schedule]</td>
+                            </tr>
+
+                            <tr id="pulse-3-0" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">schedules: list[iqm.pulse.playlist.schedule.Schedule],</span><span class="comp-arg">builder: iqm.pulse.builder.ScheduleBuilder,</span><span class="comp-arg">context: dict[str, typing.Any],</span><span class="comp-arg">dd_is_disabled: bool = True,</span><span class="comp-arg">use_standard_dd_strategy: bool = True,</span><span class="comp-arg">DDStrategy_merge_contiguous_waits: bool = True,</span><span class="comp-arg">DDStrategy_target_qubits: list[str] | None = None,</span><span class="comp-arg">DDStrategy_skip_leading_wait: bool = True,</span><span class="comp-arg">DDStrategy_skip_trailing_wait: bool = True,</span><span class="comp-arg">DDStrategy_gate_sequences_ratio: list[int] | None = None,</span><span class="comp-arg">DDStrategy_gate_sequences_gate_pattern_xy: list[str] | None = None,</span><span class="comp-arg">DDStrategy_gate_sequences_align: list[str] | None = None</span>) -> list[iqm.pulse.playlist.schedule.Schedule]</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Insert dynamical decoupling sequences into the schedules, if dynamical decoupling is enabled.
+
+DDStrategy can also be read from the Compiler context, from under the key `"DDStrategy"`. In this case, the
+strategy provided will override the DDStrategy options given as args to this function.
+
+Args:
+    schedules: Schedules representing the compiled circuits.
+    builder: The ScheduleBuilder.
+    context: Compiler context.
+    dd_is_disabled: Set to ``False`` to enable dynamical decoupling.
+    use_standard_dd_strategy: Whether to use the standard decoupling strategy (overrides the below arguments).
+    DDStrategy_target_qubits: The qubits to which DD is applied (``None`` means apply to every applicable qubit).
+    DDStrategy_merge_contiguous_waits: Whether to merge contiguous waits (see :class:`.DDStrategy`).
+    DDStrategy_skip_leading_wait: Whether to skip leading waits (see :class:`.DDStrategy`).
+    DDStrategy_skip_trailing_wait: Whether to skip trailing waits (see :class:`.DDStrategy`).
+    DDStrategy_gate_sequences_ratio: Minimal durations for the Wait to be replaced with the DD sequence
+        (in PRX gate durations) in the DD sequence.
+    DDStrategy_gate_sequences_gate_pattern_xy: XY Gate patterns in the DD sequence. If you want to provide custom
+        PRX angles instead of XY patterns, you must provide the DDStrategy in the Compiler context.
+    DDStrategy_gate_sequences_align: Alignments in the DD sequence ("asap", "alap" or "center")
+
+Returns:
+    THe schedules where applicable Waits are replaced with DD sequences.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                    </table>
+                </details>
+            
+                
+                
+                
+
+                <details class="comp-stage-details" >
+                    <summary class="comp-stage-summary">
+                        <strong>Stage 4: schedule_stage</strong>
+                        <span class="comp-stage-info">Perform Schedule-level transformations.</span>
+                    </summary>
+                    <table class="comp-table">
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'pulse-4-0')">
+                                <td class="comp-pass-name">Pass 0: apply_move_gate_phase_corrections</td>
+                                <td class="comp-return-type">list[iqm.pulse.playlist.schedule.Schedule]</td>
+                            </tr>
+
+                            <tr id="pulse-4-0" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">schedules: list[iqm.pulse.playlist.schedule.Schedule],</span><span class="comp-arg">builder: iqm.pulse.builder.ScheduleBuilder,</span><span class="comp-arg">context: dict[str, typing.Any],</span><span class="comp-arg">move_gate_frame_tracking_mode: str = 'full'</span>) -> list[iqm.pulse.playlist.schedule.Schedule]</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Apply calibrated phase corrections if MOVE gates are used.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'pulse-4-1')">
+                                <td class="comp-pass-name">Pass 1: clean_schedule</td>
+                                <td class="comp-return-type">list[iqm.pulse.playlist.schedule.Schedule]</td>
+                            </tr>
+
+                            <tr id="pulse-4-1" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">schedules: list[iqm.pulse.playlist.schedule.Schedule],</span><span class="comp-arg">builder: iqm.pulse.builder.ScheduleBuilder</span>) -> list[iqm.pulse.playlist.schedule.Schedule]</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Remove non-functional instructions from `schedules`.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                    </table>
+                </details>
+            
+        </details>
+    </div>
+
+    
+    <div class="comp-stage-group">
+        <details open>
+            <summary class="comp-group-header">Finalization Stages (2)</summary>
+            
+                
+                
+                
+
+                <details class="comp-stage-details" >
+                    <summary class="comp-stage-summary">
+                        <strong>Stage 0: schedule_resolution</strong>
+                        <span class="comp-stage-info">Translate Schedules into a hardware-executable Playlist.</span>
+                    </summary>
+                    <table class="comp-table">
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'final-0-0')">
+                                <td class="comp-pass-name">Pass 0: build_playlist_and_merge_contexts</td>
+                                <td class="comp-return-type">iqm.models.playlist.playlist.Playlist</td>
+                            </tr>
+
+                            <tr id="final-0-0" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">schedules: list[iqm.pulse.playlist.schedule.Schedule],</span><span class="comp-arg">builder: iqm.pulse.builder.ScheduleBuilder,</span><span class="comp-arg">context: dict[str, typing.Any],</span><span class="comp-arg">compute_execution_time_metrics: bool = False,</span><span class="comp-arg">ignore_input_components: bool = False</span>) -> iqm.models.playlist.playlist.Playlist</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Build the playlist from the schedules and merge the contexts for individual sweep spots.
+
+When merging the context, the active components are the union of the active components in each sweep spot
+(unless explicitly given by the user). The default context keys are not merged (these should not be modified
+by any of the sweep spots), and any other keys in the context will be merged to mapping from the sweep spot id
+to the context entry.
+
+Args:
+    schedules: Schedules to build into a Playlist.
+    builder: The ScheduleBuilder.
+    context: The Compiler context.
+    compute_execution_time_metrics: Whether to compute schedule duration and minimum execution time for circuits.
+    ignore_input_components: If True, components are always replaced with the ones found in context.
+
+Returns:
+    The Playlist containing schedules.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                    </table>
+                </details>
+            
+                
+                
+                
+
+                <details class="comp-stage-details" >
+                    <summary class="comp-stage-summary">
+                        <strong>Stage 1: job_creation</strong>
+                        <span class="comp-stage-info">Package the Playlist and metadata into a job description to be submitted to IQM Server.</span>
+                    </summary>
+                    <table class="comp-table">
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'final-1-0')">
+                                <td class="comp-pass-name">Pass 0: create_run_definition</td>
+                                <td class="comp-return-type">iqm.station_control.interface.models.run.RunDefinition</td>
+                            </tr>
+
+                            <tr id="final-1-0" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">playlist: iqm.models.playlist.playlist.Playlist,</span><span class="comp-arg">context: dict[str, typing.Any],</span><span class="comp-arg">data_size_safety_switch: bool = True,</span><span class="comp-arg">force_ragged_data: bool = False</span>) -> iqm.station_control.interface.models.run.RunDefinition</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Create MQE-style RunDefinition.
+
+Args:
+    playlist: The Playlist to create the RunDefinition for.
+    context: The Compiler context.
+    data_size_safety_switch: Whether to throw an error with exceedingly large return data sizes (set to ``False``
+        if you want to still run the job and are sure the DB and/or the stack can handle it).
+    force_ragged_data: Whether to force the return data to the sparse ragged format even if the
+        dimensions are representable as a cartesian product.
+
+Returns:
+    The RunDefinition.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                    </table>
+                </details>
+            
+        </details>
+    </div>
+
+    
+    <div class="comp-stage-group">
+        <details open>
+            <summary class="comp-group-header">Post-processing Stages (2)</summary>
+            
+                
+                
+                
+
+                <details class="comp-stage-details" >
+                    <summary class="comp-stage-summary">
+                        <strong>Stage 0: construct_run_result</strong>
+                        <span class="comp-stage-info">Aggregate raw hardware data into a structured run result object.</span>
+                    </summary>
+                    <table class="comp-table">
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'post-0-0')">
+                                <td class="comp-pass-name">Pass 0: construct_run_result</td>
+                                <td class="comp-return-type">iqm.cpc.core.run_result.RunResult</td>
+                            </tr>
+
+                            <tr id="post-0-0" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">pulla_data: iqm.cpc.compiler.post_process.PullaData,</span><span class="comp-arg">context: dict[str, typing.Any]</span>) -> iqm.cpc.core.run_result.RunResult</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Construct the dataset and attach it to a RunResult object.
+
+Unmaps the hashed readout keys.
+
+Args:
+    pulla_data: The Pulla data (run data and sweep data).
+    context: The Compiler context.
+
+Returns:
+    The RunResult.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                    </table>
+                </details>
+            
+                
+                
+                
+
+                <details class="comp-stage-details" >
+                    <summary class="comp-stage-summary">
+                        <strong>Stage 1: construct_data_variables</strong>
+                        <span class="comp-stage-info">Map measured counts and states to high-level user variables.</span>
+                    </summary>
+                    <table class="comp-table">
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'post-1-0')">
+                                <td class="comp-pass-name">Pass 0: create_ragged_data_index</td>
+                                <td class="comp-return-type">iqm.cpc.core.run_result.RunResult</td>
+                            </tr>
+
+                            <tr id="post-1-0" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">run: iqm.cpc.core.run_result.RunResult</span>) -> iqm.cpc.core.run_result.RunResult</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Adds ``MultiIndex`` to the trigger index dimension for accessing ragged data via the hard sweep values.
+
+If there is a non-uniform number of readout triggers for n RO label across the segments of the playlist, the data
+cannot be reshaped into an N-dimensional box with the dims
+``(<hard sweep dimension 0>, <hard sweep dimension 1>, ...)``. The data is then "ragged" and the only meaningful
+way to index the data is along the readout trigger index dimension. In order to be able to use this ragged data
+meaningfully, the user often wants access it via the known dimensions of the experiment run, i.e. the sweeps.
+For this reason we attach the values the hard sweeps took in each segment where a trigger happened to the
+trigger index dimension.
+
+An example: the playlist was generated from hard sweeps (there are no soft sweeps here):
+``[Sweep(parameter=param1, data=[0, 1]), Sweep(parameter=param2, data=[0.1, 0.2, 0.3])]``,
+which means there are 2 * 3 = 6 segments. Let's say for a given RO label ``"QB1__key"``
+we have 1 RO trigger in the first segment, 1 trigger in the third, and 2 in the final one
+(the rest have no triggers for this label). Thus, the returned data has the length 4, i.e.
+the trigger index goes from 0 to 3. Taking into account the convention in ordering sweep dimensions,
+the values of the sweeps for these trigger indices are then:
+
+0 => ``(param2 = 0.1, param1 = 0)`` (in the 1st segment, both params assume their first values)
+1 => ``(param2 = 0.3, param1 = 0)`` (in the 3rd segment param2 has its 3rd value, while param1 is still in its 1st)
+2 => ``(param2 = 0.3, param1 = 1)`` (in the last segment, both params have their final values)
+3 => ``(param2 = 0.3, param1 = 1)`` (there were 2 triggers in the last segment, so this has the same values as 2.)
+
+The ``MultiIndex`` allows then the data via the hard sweep values:
+``exp.last_run["<my label>_readout].sel({QB1::param1: 0})`` gives the slice where ``param1 == 0``
+
+Args:
+    run: The run result.
+
+Returns:
+    The RunResult with the ragged data variables now indexed.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'post-1-1')">
+                                <td class="comp-pass-name">Pass 1: extract_counter_group_data</td>
+                                <td class="comp-return-type">iqm.cpc.core.run_result.RunResult</td>
+                            </tr>
+
+                            <tr id="post-1-1" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">run: iqm.cpc.core.run_result.RunResult</span>) -> iqm.cpc.core.run_result.RunResult</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Extracts the data for all counter readout groups into their own data variables in the dataset.
+
+Args:
+    run: the run result.
+
+Returns:
+    The run result with new data variables for each counter readout group added.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'post-1-2')">
+                                <td class="comp-pass-name">Pass 2: rename_data_variables</td>
+                                <td class="comp-return-type">iqm.cpc.core.run_result.RunResult</td>
+                            </tr>
+
+                            <tr id="post-1-2" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">run: iqm.cpc.core.run_result.RunResult,</span><span class="comp-arg">context: dict[str, typing.Any]</span>) -> iqm.cpc.core.run_result.RunResult</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Rename the data variables in the dataset and optionally change their data types.
+
+Args:
+    run: The RunResult object.
+    context: Compiler context.
+
+Returns:
+    The post-processed run results with the data variables renamed.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'post-1-3')">
+                                <td class="comp-pass-name">Pass 3: classify_two_states</td>
+                                <td class="comp-return-type">iqm.cpc.core.run_result.RunResult</td>
+                            </tr>
+
+                            <tr id="post-1-3" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">run: iqm.cpc.core.run_result.RunResult</span>) -> iqm.cpc.core.run_result.RunResult</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Classify the complex data using the calibrated threshold.
+
+If the observations are not available, a warning is logged.
+
+Args:
+    run: The run result.
+
+Returns:
+    The run result with the discriminated shots added.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'post-1-4')">
+                                <td class="comp-pass-name">Pass 4: average_single_shot_data</td>
+                                <td class="comp-return-type">iqm.cpc.core.run_result.RunResult</td>
+                            </tr>
+
+                            <tr id="post-1-4" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">run: iqm.cpc.core.run_result.RunResult</span>) -> iqm.cpc.core.run_result.RunResult</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Average the shots (or more generally the average bins) into a new data variable in the dataset.
+
+If the data is already averaged, it is returned unchanged.
+
+Args:
+    run: The RunResult object.
+
+Returns:
+    The RunResult with the single shot data variables averaged.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'post-1-5')">
+                                <td class="comp-pass-name">Pass 5: contrast_data</td>
+                                <td class="comp-return-type">iqm.cpc.core.run_result.RunResult</td>
+                            </tr>
+
+                            <tr id="post-1-5" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">run: iqm.cpc.core.run_result.RunResult</span>) -> iqm.cpc.core.run_result.RunResult</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Add contrast for several components/readouts.
+
+Contrast is calculated from complex integrated data with PCA. If a data variable is not complex (i.e. it is already
+discriminated) it is retained as it is.
+
+Args:
+    run: The RunResult object.
+
+Returns:
+    The RunResult with the contrast data variable added for all complex variables.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'post-1-6')">
+                                <td class="comp-pass-name">Pass 6: add_counter_averaged_readout</td>
+                                <td class="comp-return-type">iqm.cpc.core.run_result.RunResult</td>
+                            </tr>
+
+                            <tr id="post-1-6" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">run: iqm.cpc.core.run_result.RunResult</span>) -> iqm.cpc.core.run_result.RunResult</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Add single-qubit excited state probabilities from the multi qubit counter results to the dataset.
+
+Args:
+    run: The run result.
+
+Returns:
+    The run result with new data variables for averaged readout for each component added.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'post-1-7')">
+                                <td class="comp-pass-name">Pass 7: compute_excitation_probability_from_data</td>
+                                <td class="comp-return-type">iqm.cpc.core.run_result.RunResult</td>
+                            </tr>
+
+                            <tr id="post-1-7" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">run: iqm.cpc.core.run_result.RunResult</span>) -> iqm.cpc.core.run_result.RunResult</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Compute the excited state probability for several components.
+
+For complex readout data, this is done using the averaged threshold readout observations and for
+threshold discriminated data using the 01 and 10 assignment error observations. If the
+aforementioned observations are not available, a warning is thrown.
+
+Args:
+    run: The RunResult object.
+
+Returns:
+    The RunResult with the excited state probability added into the dataset.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'post-1-8')">
+                                <td class="comp-pass-name">Pass 8: add_counts_for</td>
+                                <td class="comp-return-type">iqm.cpc.core.run_result.RunResult</td>
+                            </tr>
+
+                            <tr id="post-1-8" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">run: iqm.cpc.core.run_result.RunResult</span>) -> iqm.cpc.core.run_result.RunResult</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Add single-qubit excited state probabilities from the multi qubit counter results to the dataset.
+
+This is done only if the dimensions of the single qubit probabilities are equal.
+
+Args:
+    run: The run result.
+
+Returns:
+    The run result with the counter data added.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'post-1-9')">
+                                <td class="comp-pass-name">Pass 9: rename_measure_ancilla_variables</td>
+                                <td class="comp-return-type">iqm.cpc.core.run_result.RunResult</td>
+                            </tr>
+
+                            <tr id="post-1-9" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">run: iqm.cpc.core.run_result.RunResult</span>) -> iqm.cpc.core.run_result.RunResult</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Rename composite measure labels in data variables.
+
+A composite measure label is of the format `"<measure_qubit>__<sep><locus><sep><key><sep>"` which is mapped
+into the usual format "<locus>__<key>".
+
+Args:
+    run: The run result.
+
+Returns:
+    The run result with the renamed measure labels applied.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                            
+                            
+                            
+                            
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, 'post-1-10')">
+                                <td class="comp-pass-name">Pass 10: process_metadata</td>
+                                <td class="comp-return-type">iqm.cpc.core.run_result.RunResult</td>
+                            </tr>
+
+                            <tr id="post-1-10" class="comp-details-row ">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br><span class="comp-arg">run: iqm.cpc.core.run_result.RunResult</span>) -> iqm.cpc.core.run_result.RunResult</div>
+                                        
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">Process the metadata in the RunResult.
+
+- Set the target data variables
+- Process tuples serialised into lists back into tuples.
+
+Args:
+    run: The RunResult.
+
+Returns:
+    The RunResult with the metadata processed.</div>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                        
+                    </table>
+                </details>
+            
+        </details>
+    </div>
+
+</div></div></div>
+</div>
+</section>
+<section id="custom-gates-composite-gates">
+<h2>Custom gates: Composite gates<a class="headerlink" href="#custom-gates-composite-gates" title="Link to this heading">#</a></h2>
+<p>IQM Pulse allows the user to define composite gates: gates consisting of other gates.
+Composite gates are particularly useful because they allow reusing the calibrated of data of the other gates.
+Furthermore, it is possible to use unique calibration data for the member gates inside a composite gate.</p>
+<p>Define a <code class="docutils literal notranslate"><span class="pre">prx</span></code> implementation that acts like a normal <code class="docutils literal notranslate"><span class="pre">prx</span></code>, except it implements <code class="docutils literal notranslate"><span class="pre">X</span></code> with 2 pulses with a 100 ns wait between them.
+The <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method produces a TimeBox using IQM Pulse’s <code class="docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code>.
+It is worth mentioning that the composite gate is not restricted to using only registered gates; it could equally well return a TimeBox with lower level instructions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">StretchedX</span><span class="p">(</span><span class="n">CompositeGate</span><span class="p">):</span>
+    <span class="n">registered_gates</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;prx&#39;</span><span class="p">,)</span>  <span class="c1"># Use the standard prx as a building block</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">phase</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="n">normal_prx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">locus</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">angle</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">normal_prx</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span>
+
+        <span class="n">half</span> <span class="o">=</span> <span class="n">normal_prx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">half</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">locus</span><span class="p">,</span> <span class="mf">100e-9</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="n">half</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Register a new gate <code class="docutils literal notranslate"><span class="pre">custom_x</span></code>, which <code class="docutils literal notranslate"><span class="pre">StretchedX</span></code> implements, and make it compatible with the circuit-level <code class="docutils literal notranslate"><span class="pre">prx</span></code>, by declaring it having the same parameters.
+Then change the first <code class="docutils literal notranslate"><span class="pre">prx</span></code> in the IQM Pulse circuit to use the new implementation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circuits</span><span class="p">,</span> <span class="n">compiler</span> <span class="o">=</span> <span class="n">qiskit_to_pulla</span><span class="p">(</span><span class="n">pulla</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">example_qiskit_circuit</span><span class="p">())</span>
+<span class="n">compiler</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s1">&#39;custom_x&#39;</span><span class="p">,</span> <span class="s1">&#39;StretchedX&#39;</span><span class="p">,</span> <span class="n">StretchedX</span><span class="p">,</span> <span class="n">quantum_op</span><span class="o">=</span><span class="n">QuantumOp</span><span class="p">(</span><span class="s1">&#39;custom_x&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;angle&#39;</span><span class="p">:</span> <span class="p">(</span><span class="nb">float</span><span class="p">,),</span> <span class="s1">&#39;phase&#39;</span><span class="p">:</span> <span class="p">(</span><span class="nb">float</span><span class="p">,)}))</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">circuits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">c</span><span class="o">.</span><span class="n">instructions</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">inst</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;prx&#39;</span><span class="p">:</span>
+        <span class="n">inst</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;custom_x&#39;</span>
+
+<span class="n">job_definition</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">circuits</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Inspecting the schedule, the <code class="docutils literal notranslate"><span class="pre">X</span></code> gate in the circuit is indeed split into two pulses with a wait in between:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="custom-gates-custom-waveforms">
+<h2>Custom gates: Custom waveforms<a class="headerlink" href="#custom-gates-custom-waveforms" title="Link to this heading">#</a></h2>
+<p>Next, change the pulse waveforms of a PRX gate.</p>
+<p>The quickest way to test how some waveform performs is probably to just provide <code class="docutils literal notranslate"><span class="pre">np.array</span></code> samples and use the dedicated custom samples PRX implementation <code class="docutils literal notranslate"><span class="pre">PRX_Samples</span></code>. However, providing some samples is not enough to actually use the new waveform. At least the I amplitude needs to be calibrated. This can be done very easily by reproducing the Rabi experiment.</p>
+<p>Defining a triangular waveform, one can indeed calibrate a PRX gate with it. Probably not as good as the PRX waveform, but Pulla is allowing for any highly customized waveforms.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 40 points rising, 40 points falling</span>
+<span class="c1"># NOTE: the number of samples define the duration of the pulse via the sampling rate (2GHz usually).</span>
+<span class="n">y_up</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">y_down</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">y_up</span><span class="p">,</span> <span class="n">y_down</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7b7f418ccfd0&gt;]
+</pre></div>
+</div>
+<img alt="_images/63a44a37ad3bd05084097344781ca764f79c4ec4682d9a498bf9237a1b642f26.png" src="_images/63a44a37ad3bd05084097344781ca764f79c4ec4682d9a498bf9237a1b642f26.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compiler</span> <span class="o">=</span> <span class="n">get_qiskit_compiler</span><span class="p">(</span><span class="n">pulla</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
+
+<span class="c1"># Rabi circuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">compiler</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span> <span class="s2">&quot;samples&quot;</span><span class="p">,</span> <span class="n">PRX_Samples</span><span class="p">)</span>  <span class="c1"># register a custom samples implementation of PRX</span>
+<span class="n">settings</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="p">[</span><span class="n">qc</span><span class="p">])</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">gate_definitions</span><span class="o">.</span><span class="n">prx</span><span class="o">.</span><span class="n">default_implementation</span> <span class="o">=</span> <span class="s2">&quot;samples&quot;</span>  <span class="c1"># set the samples implementaion as the default</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">prx</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">QB1</span><span class="o">.</span><span class="n">set_from_dict</span><span class="p">({</span>  <span class="c1"># provide the triangular samples as calibration data</span>
+    <span class="s2">&quot;amplitude_q&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>  <span class="c1"># we don&#39;t worry about calibrating Q amplitude here</span>
+    <span class="s2">&quot;i&quot;</span><span class="p">:{</span><span class="s2">&quot;samples&quot;</span><span class="p">:</span> <span class="n">y</span><span class="p">},</span>
+    <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;samples&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">80</span><span class="p">)}</span>
+<span class="p">})</span>
+<span class="c1"># run Rabi experiment to determine the amplitude_i</span>
+<span class="n">amp_sweep</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span><span class="n">parameter</span><span class="o">=</span><span class="n">settings</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">prx</span><span class="o">.</span><span class="n">samples</span><span class="o">.</span><span class="n">QB1</span><span class="o">.</span><span class="n">amplitude_i</span><span class="o">.</span><span class="n">parameter</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">StartStopOptions</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="p">[</span><span class="n">qc</span><span class="p">],</span> <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;QB1&quot;</span><span class="p">],</span> <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span> <span class="n">sweeps</span><span class="o">=</span><span class="p">[</span><span class="n">amp_sweep</span><span class="p">])</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">pulla</span><span class="o">.</span><span class="n">submit_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">wait_for_completion</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="n">compiler</span><span class="p">)</span>
+<span class="c1"># plot the QB1 e state probability</span>
+<span class="n">result</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;QB1__c_1_0_0_excited_state_probability&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[06-08 17:48:22;I] Waiting for job 019ea7b4-bf15-7ae0-aab1-e1b74042d4ec to finish...
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "f9b9c234ef2340228fc26885d34e852e", "version_major": 2, "version_minor": 0}</script><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7b7f1813f810&gt;]
+</pre></div>
+</div>
+<img alt="_images/d59cb1076ed2d79e17f86257b8b41fc4993becb4d886caca4483993fd7551072.png" src="_images/d59cb1076ed2d79e17f86257b8b41fc4993becb4d886caca4483993fd7551072.png" />
+</div>
+</div>
+<p>Next, pick the amplitude value corresponding to the half amplitude of the shown Rabi oscillations, and set it as the I amplitude via <code class="docutils literal notranslate"><span class="pre">settings.gates.prx.samples.QB1.amplitude_i</span> <span class="pre">=</span> <span class="pre">&lt;half</span> <span class="pre">amplitude</span> <span class="pre">value&gt;</span></code>.</p>
+<section id="parametrized-waveforms">
+<h3>Parametrized waveforms<a class="headerlink" href="#parametrized-waveforms" title="Link to this heading">#</a></h3>
+<p>Most of the canonical gate implementations are not defined in terms of samples, but instead parametrized. How this works is that the gate implementation has the calibration parameter <code class="docutils literal notranslate"><span class="pre">duration</span></code> (see e.g. <code class="docutils literal notranslate"><span class="pre">settings.gates.prx.drag_crf.QB1</span></code>) given in seconds. And the waveform itself may have any number of additional parameters that define its form (e.g. <code class="docutils literal notranslate"><span class="pre">settings.gates.prx.drag_crf.QB1.full_width</span></code>). Users can of course also create a parametrized waveform and use it in the PRX gate.</p>
+<p>The easiest way to do this is to inherit from the <code class="docutils literal notranslate"><span class="pre">PRX_CustomWaveforms</span></code> implementation while defining the I and Q parametrized waveforms.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RaisedCosine</span><span class="p">(</span><span class="n">Waveform</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Raised cosine pulse.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        f(t) = \frac{1}{2} (1 + \cos((t - c) \pi / w)) \quad \text{when} \: |t - c| \le w, 0 \: \text{otherwise}</span>
+
+<span class="sd">    where :math:`c` is :attr:`center_offset`, and :math:`w` is :attr:`width`.</span>
+<span class="sd">    The raised cosine has a finite support.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: half-width of the support</span>
+<span class="sd">        center_offset: center offset</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">center_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">offset_coords</span> <span class="o">=</span> <span class="n">sample_coords</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">center_offset</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">offset_coords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">offset_coords</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)),</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RaisedCosineDerivative</span><span class="p">(</span><span class="n">Waveform</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Scaled derivative of the RaisedCosine pulse.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        f(t) = -\sin((t - c) \pi / w) \quad \text{when} \: |t - c| \le w, 0 \: \text{otherwise}</span>
+
+<span class="sd">    where :math:`c` is :attr:`center_offset`, and :math:`w` is :attr:`width`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: half-width of the support</span>
+<span class="sd">        center_offset: center offset</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">center_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">offset_coords</span> <span class="o">=</span> <span class="n">sample_coords</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">center_offset</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">offset_coords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">offset_coords</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">),</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PRX_RaisedCosine</span><span class="p">(</span><span class="n">PRX_CustomWaveforms</span><span class="p">,</span> <span class="n">wave_i</span><span class="o">=</span><span class="n">RaisedCosine</span><span class="p">,</span> <span class="n">wave_q</span><span class="o">=</span><span class="n">RaisedCosineDerivative</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of PRX using a raised cosine pulse.&quot;&quot;&quot;</span>
+
+    <span class="n">center_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The class attributes of the waveforms define the calibration data they require. The <code class="docutils literal notranslate"><span class="pre">PRX_CustomWaveforms</span></code> class adds some more. Add the new <code class="docutils literal notranslate"><span class="pre">prx</span></code> implementation to the compiler to check what calibration data it needs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circuits</span><span class="p">,</span> <span class="n">compiler</span> <span class="o">=</span> <span class="n">qiskit_to_pulla</span><span class="p">(</span><span class="n">pulla</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">example_qiskit_circuit</span><span class="p">())</span>
+
+<span class="n">compiler</span><span class="o">.</span><span class="n">add_implementation</span><span class="p">(</span><span class="s1">&#39;prx&#39;</span><span class="p">,</span> <span class="s1">&#39;raised_cosine&#39;</span><span class="p">,</span> <span class="n">PRX_RaisedCosine</span><span class="p">)</span>
+<span class="n">settings</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">example_qiskit_circuit</span><span class="p">())</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">prx</span><span class="o">.</span><span class="n">raised_cosine</span><span class="o">.</span><span class="n">QB1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+
+
+
+
+
+
+<p>
+    <style>
+.exa-subtree ul  { padding-left: 1.5em; }
+.exasn-valrep-none { color: gray; }
+li { list-style: none;}
+summary {cursor: pointer;}
+summary:nth-child(even) {background: DarkSlateGray;}
+    </style>
+
+    (gates.prx.raised_cosine.QB1)
+
+    
+    <li>
+        <details open style="margin-top: .2em">
+            <summary>
+                <span style="font-family: monospace; font-weight: bold;">gates.prx.raised_cosine.QB1:</span> 
+                <span style="font-size: smaller; color: gray">(Name: "gates.prx.raised_cosine.QB1", class:SettingNode) 0</span>
+            </summary>
+            
+    
+        
+            <table style="margin-left: 1em;">
+                
+    <tr style=>
+        <td style="text-align: left">
+            <span style="font-family: monospace;
+                         font-weight: bold"
+                  title="Setting(parameter=Parameter(name='gates.prx.raised_cosine.QB1.duration', label='pi pulse duration', unit='s', data_type=<DataType.FLOAT: 1>, collection_type=<CollectionType.SCALAR: 0>, element_indices=None), value=None, read_only=False, path='gates.prx.raised_cosine.QB1.duration')">duration</span>
+        </td>
+        
+        <td>
+            <span title="None s">
+    
+        <span class="exasn-valrep-none">not set/auto</span>
+    
+</span>
+        </td>
+        <td style="text-align: left">
+            <span style="color:lightgray;">s</span>
+        </td>
+        <td style="text-align: left">pi pulse duration</td>
+    </tr>
+
+    <tr style=>
+        <td style="text-align: left">
+            <span style="font-family: monospace;
+                         font-weight: bold"
+                  title="Setting(parameter=Parameter(name='gates.prx.raised_cosine.QB1.amplitude_i', label='pi pulse I channel amplitude', unit='', data_type=<DataType.FLOAT: 1>, collection_type=<CollectionType.SCALAR: 0>, element_indices=None), value=None, read_only=False, path='gates.prx.raised_cosine.QB1.amplitude_i')">amplitude_i</span>
+        </td>
+        
+        <td>
+            <span title="None ">
+    
+        <span class="exasn-valrep-none">not set/auto</span>
+    
+</span>
+        </td>
+        <td style="text-align: left">
+            <span style="color:lightgray;"></span>
+        </td>
+        <td style="text-align: left">pi pulse I channel amplitude</td>
+    </tr>
+
+    <tr style=>
+        <td style="text-align: left">
+            <span style="font-family: monospace;
+                         font-weight: bold"
+                  title="Setting(parameter=Parameter(name='gates.prx.raised_cosine.QB1.amplitude_q', label='pi pulse Q channel amplitude', unit='', data_type=<DataType.FLOAT: 1>, collection_type=<CollectionType.SCALAR: 0>, element_indices=None), value=None, read_only=False, path='gates.prx.raised_cosine.QB1.amplitude_q')">amplitude_q</span>
+        </td>
+        
+        <td>
+            <span title="None ">
+    
+        <span class="exasn-valrep-none">not set/auto</span>
+    
+</span>
+        </td>
+        <td style="text-align: left">
+            <span style="color:lightgray;"></span>
+        </td>
+        <td style="text-align: left">pi pulse Q channel amplitude</td>
+    </tr>
+
+    <tr style=>
+        <td style="text-align: left">
+            <span style="font-family: monospace;
+                         font-weight: bold"
+                  title="Setting(parameter=Parameter(name='gates.prx.raised_cosine.QB1.width', label='width of rc', unit='s', data_type=<DataType.FLOAT: 1>, collection_type=<CollectionType.SCALAR: 0>, element_indices=None), value=None, read_only=False, path='gates.prx.raised_cosine.QB1.width')">width</span>
+        </td>
+        
+        <td>
+            <span title="None s">
+    
+        <span class="exasn-valrep-none">not set/auto</span>
+    
+</span>
+        </td>
+        <td style="text-align: left">
+            <span style="color:lightgray;">s</span>
+        </td>
+        <td style="text-align: left">width of rc</td>
+    </tr>
+
+    <tr style=>
+        <td style="text-align: left">
+            <span style="font-family: monospace;
+                         font-weight: bold"
+                  title="Setting(parameter=Parameter(name='gates.prx.raised_cosine.QB1.center_offset', label='center_offset of rc', unit='s', data_type=<DataType.FLOAT: 1>, collection_type=<CollectionType.SCALAR: 0>, element_indices=None), value=0.0, read_only=False, path='gates.prx.raised_cosine.QB1.center_offset')">center_offset</span>
+        </td>
+        
+        <td>
+            <span title="0.0 s">
+    
+        <span style="color: lightgreen;">           0</span>
+        
+    
+</span>
+        </td>
+        <td style="text-align: left">
+            <span style="color:lightgray;">s</span>
+        </td>
+        <td style="text-align: left">center_offset of rc</td>
+    </tr>
+
+            </table>
+        
+    
+    
+
+        </details>
+    </li>
+
+
+
+</p></div></div>
+</div>
+<p>Make one of the <code class="docutils literal notranslate"><span class="pre">prx</span></code> gates in the circuit use our new implementation:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circuits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">instructions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">implementation</span> <span class="o">=</span> <span class="s2">&quot;raised_cosine&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Compiling this circuit right now would fail with an error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span> <span class="ow">in</span> <span class="n">stage</span> <span class="s2">&quot;circuit&quot;</span> <span class="k">pass</span> <span class="s2">&quot;map_implementations_for_loci&quot;</span><span class="p">:</span> <span class="n">Circuit</span> <span class="mi">0</span><span class="p">:</span> <span class="n">No</span> <span class="n">calibration</span> <span class="n">data</span> <span class="k">for</span> <span class="s1">&#39;prx.raised_cosine&#39;</span> <span class="n">at</span> <span class="p">(</span><span class="s1">&#39;QB1&#39;</span><span class="p">,)</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>(The locus (‘QB1’,) may differ in your output due to the stochastic nature of routing.)</p>
+<p>Of course the gate needs to be calibrated, see the prevous example of Rabi experiment on a triangular wave. Provided some placeholder calibration data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">custom_cal_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">40e-09</span><span class="p">,</span>
+    <span class="s2">&quot;amplitude_i&quot;</span><span class="p">:</span> <span class="mf">0.1662</span><span class="p">,</span>
+    <span class="s2">&quot;amplitude_q&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.00802</span><span class="p">,</span>
+    <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mf">20e-9</span><span class="p">,</span>
+    <span class="s2">&quot;center_offset&quot;</span><span class="p">:</span> <span class="mf">3e-9</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">compiler</span><span class="o">.</span><span class="n">chip_topology</span><span class="o">.</span><span class="n">qubits</span><span class="p">:</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">prx</span><span class="o">.</span><span class="n">raised_cosine</span><span class="p">[</span><span class="n">qubit</span><span class="p">]</span><span class="o">.</span><span class="n">set_from_dict</span><span class="p">(</span><span class="n">custom_cal_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now the compilation succeeds and <code class="docutils literal notranslate"><span class="pre">raised_cosine</span></code> was used once. The schedule visualization allows to verify that the pulse shape is indeed different on the first <code class="docutils literal notranslate"><span class="pre">prx</span></code> instance.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">playlist</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">circuits</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">context</span><span class="p">[</span><span class="s1">&#39;circuit_metrics&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">gate_loci</span><span class="p">[</span><span class="s2">&quot;prx&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;drag_crf_sx&#39;: Counter({(&#39;QB10&#39;,): 2, (&#39;QB9&#39;,): 1}),
+ &#39;raised_cosine&#39;: Counter({(&#39;QB9&#39;,): 1})}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Compilation%20Stages.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Compilation Stages</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-setup">Environment setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-gates-composite-gates">Custom gates: Composite gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-gates-custom-waveforms">Custom gates: Custom waveforms</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parametrized-waveforms">Parametrized waveforms</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Pulla developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024-2026, IQM Finland Oy, Release 14.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-07-16.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

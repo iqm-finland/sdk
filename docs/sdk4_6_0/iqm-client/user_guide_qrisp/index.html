@@ -1,0 +1,1107 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Qrisp on IQM User Guide &#8212; IQM client 35.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=03e56e77"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide_qrisp/index';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Plasma-Sabre Tutorial" href="plasma_sabre_tutorial.html" />
+    <link rel="prev" title="Integration Guide" href="../integration_guide.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-07-16"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM client 35.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM client 35.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-client</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.iqm_client.html">iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.iqm_client.html">iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.iqm_client.CircuitJob.html">CircuitJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.iqm_client.IQMClient.html">IQMClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.models.STANDARD_DD_STRATEGY.html">iqm.iqm_client.models.STANDARD_DD_STRATEGY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.models.validate_circuit.html">iqm.iqm_client.models.validate_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.models.CircuitCompilationOptions.html">CircuitCompilationOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.models.CircuitJobParameters.html">CircuitJobParameters</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.transpile.html">transpile</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.Resolution.html">iqm.iqm_client.transpile.Resolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.simplify_architecture.html">iqm.iqm_client.transpile.simplify_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.transpile_insert_moves.html">iqm.iqm_client.transpile.transpile_insert_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.transpile_remove_moves.html">iqm.iqm_client.transpile.transpile_remove_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.ExistingMoveHandlingOptions.html">ExistingMoveHandlingOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.util.print_env_vars.html">iqm.iqm_client.util.print_env_vars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.util.to_json_dict.html">iqm.iqm_client.util.to_json_dict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.util.IQMJSONEncoder.html">IQMJSONEncoder</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.validation.html">validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.validation.validate_circuit_instructions.html">iqm.iqm_client.validation.validate_circuit_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.validation.validate_circuit_moves.html">iqm.iqm_client.validation.validate_circuit_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.validation.validate_instruction.html">iqm.iqm_client.validation.validate_instruction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.validation.validate_qubit_mapping.html">iqm.iqm_client.validation.validate_qubit_mapping</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.iqm_server_client.html">iqm_server_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_server_client.iqm_server_client.html">iqm_server_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.iqm_server_client.DEFAULT_TIMEOUT_SECONDS.html">iqm.iqm_server_client.iqm_server_client.DEFAULT_TIMEOUT_SECONDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.iqm_server_client.IQMServerClientJob.html">IQMServerClientJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.iqm_server_client._IQMServerClient.html">_IQMServerClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_server_client.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobCompilation.html">JobCompilation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobData.html">JobData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobExecution.html">JobExecution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobMessage.html">JobMessage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobStatus.html">JobStatus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.ListQuantumComputersResponse.html">ListQuantumComputersResponse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.ProgressInfo.html">ProgressInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.QuantumComputer.html">QuantumComputer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.TimelineEntry.html">TimelineEntry</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.html">cirq_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.html">devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.adonis.html">adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.aphrodite.html">aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.apollo.html">apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.iqm_device.html">iqm_device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.iqm_device_metadata.html">iqm_device_metadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.extended_qasm_parser.html">extended_qasm_parser</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm.html">iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_gates.html">iqm_gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_gates.IQMMoveGate.html">IQMMoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_sampler.html">iqm_sampler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_sampler.IQMResult.html">IQMResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_sampler.IQMSampler.html">IQMSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_sampler.ResultMetadata.html">ResultMetadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.optimizers.html">optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.optimizers.simplify_circuit.html">iqm.cirq_iqm.optimizers.simplify_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement.html">DropRZBeforeMeasurement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates.html">MergeOneParameterGroupGates</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.html">serialize</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.circuit_operation_to_operation.html">iqm.cirq_iqm.serialize.circuit_operation_to_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.deserialize_circuit.html">iqm.cirq_iqm.serialize.deserialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.operation_to_circuit_operation.html">iqm.cirq_iqm.serialize.operation_to_circuit_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.serialize_circuit.html">iqm.cirq_iqm.serialize.serialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.OperationNotSupportedError.html">iqm.cirq_iqm.serialize.OperationNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.transpiler.html">transpiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit.html">iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.html">qiskit_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.examples.html">examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.examples.bell_measure.html">bell_measure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.examples.transpile_example.html">transpile_example</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.html">fake_backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_adonis.html">fake_adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_aphrodite.html">fake_aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_apollo.html">fake_apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_deneb.html">fake_deneb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_garnet.html">fake_garnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.iqm_fake_backend.html">iqm_fake_backend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_backend.html">iqm_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html">IQMBackendBase</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_circuit.html">iqm_circuit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_circuit.IQMCircuit.html">IQMCircuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_circuit_validation.html">iqm_circuit_validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit.html">iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_job.html">iqm_job</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_job.IQMJob.html">IQMJob</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_move_layout.html">iqm_move_layout</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout.html">iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout.html">IQMMoveLayout</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_naive_move_pass.html">iqm_naive_move_pass</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM.html">iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_naive_move_pass.IQMNaiveResonatorMoving.html">IQMNaiveResonatorMoving</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_provider.html">iqm_provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html">IQMBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend.html">IQMFacadeBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_provider.IQMProvider.html">IQMProvider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_target.html">iqm_target</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_target.Locus.html">iqm.qiskit_iqm.iqm_target.Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_target.LocusIdx.html">iqm.qiskit_iqm.iqm_target.LocusIdx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_target.IQMTarget.html">IQMTarget</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_transpilation.html">iqm_transpilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates.html">iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_transpilation.IQMOptimizeSingleQubitGates.html">IQMOptimizeSingleQubitGates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass.html">IQMReplaceGateWithUnitaryPass</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.move_gate.html">move_gate</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY.html">iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.move_gate.MoveGate.html">MoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.html">qiskit_to_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey.html">MeasurementKey</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError.html">iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.html">transpiler_plugins</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.IQMDefaultSchedulingPlugin.html">IQMDefaultSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.IQMSchedulingPlugin.html">IQMSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingKeepExistingMovesPlugin.html">MoveGateRoutingKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyKeepExistingMovesPlugin.html">MoveGateRoutingOnlyKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyPlugin.html">MoveGateRoutingOnlyPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyRemoveExistingMovesPlugin.html">MoveGateRoutingOnlyRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyTrustExistingMovesPlugin.html">MoveGateRoutingOnlyTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingPlugin.html">MoveGateRoutingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingRemoveExistingMovesPlugin.html">MoveGateRoutingRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingTrustExistingMovesPlugin.html">MoveGateRoutingTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithExactRZPlugin.html">MoveGateRoutingWithExactRZPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin.html">MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactIgnoreBarriersPlugin.html">OnlyRZOptimizationExactIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactPlugin.html">OnlyRZOptimizationExactPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationIgnoreBarriersPlugin.html">OnlyRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin.html">OnlyRZOptimizationPlugin</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../qrisp_iqm_api_index.html">qrisp_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../qrisp_iqm_backend_infrastructure.html">Backend Infrastructure</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMBackend.html">IQMBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMCircuitJob.html">IQMCircuitJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMPulseJob.html">IQMPulseJob</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../qrisp_iqm_transpilation.html">Transpilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.create_iqm_pass_manager.html">create_iqm_pass_manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.transpile_to_iqm.html">transpile_to_iqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.routing.plasma_layout.html">plasma_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.routing.plasma_route.html">plasma_route</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.routing.vf2pp_layout.html">vf2pp_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.commute_phases.html">commute_phases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.measurement_parallelization.html">measurement_parallelization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../qrisp_iqm_pulse_operations.html">Pulse Operations &amp; Conversion</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.qrisp_to_iqm_converter.html">qrisp_to_iqm_converter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.pulse_operation.IQMPulseOperation.html">IQMPulseOperation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.extract_iqm_pulse.html">extract_iqm_pulse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.quantum_op_to_qrisp_func.html">quantum_op_to_qrisp_func</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.custom_pulse_operations.delay.html">delay</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../qrisp_iqm_qec.html">Quantum Error Correction</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration_guide.html">Integration Guide</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Qrisp on IQM User Guide</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="plasma_sabre_tutorial.html">Plasma-Sabre Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="detector_experiment_demo.html">QEC Memory Experiment with the Repetition Code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide_qiskit.html">Qiskit on IQM User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide_cirq.html">Cirq on IQM User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/user_guide_qrisp/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Qrisp on IQM User Guide</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hello-world">Hello, world!</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transpilation">Transpilation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#default-transpilation-with-create-iqm-pass-manager-and-transpile-to-iqm">Default transpilation with <code class="docutils literal notranslate"><span class="pre">create_iqm_pass_manager</span></code> and <code class="docutils literal notranslate"><span class="pre">transpile_to_iqm</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-transpilation-with-individual-passes">Custom transpilation with individual passes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submitting-circuits-for-execution">Submitting circuits for execution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-submission-gate-level">Circuit submission (gate-level)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pulse-submission-pulse-level">Pulse submission (pulse-level)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualising-the-pulse-playlist">Visualising the pulse playlist</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm-pulse-integration">IQM Pulse integration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-native-iqm-quantum-operations-in-a-circuit">Using native IQM quantum operations in a circuit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jasp-tracing-with-extract-iqm-pulse">Jasp tracing with <code class="docutils literal notranslate"><span class="pre">extract_iqm_pulse</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-passmanagers-with-extract-iqm-pulse">Custom PassManagers with <code class="docutils literal notranslate"><span class="pre">extract_iqm_pulse</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-error-correction">Quantum Error Correction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="qrisp-on-iqm-user-guide">
+<span id="user-guide-qrisp"></span><h1>Qrisp on IQM User Guide<a class="headerlink" href="#qrisp-on-iqm-user-guide" title="Link to this heading">#</a></h1>
+<p>This guide introduces the main features of the Qrisp adapter of IQM Client.
+You are encouraged to run the demonstrated code snippets and check the output yourself.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>IQM provides access to its quantum computers via IQM Resonance – IQM’s quantum cloud service.
+Please head over <a class="reference external" href="https://iqm.tech/products/iqm-resonance/">to our website</a> to learn more.</p>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>The recommended way is to install the optional <code class="docutils literal notranslate"><span class="pre">qrisp</span></code> feature of the <code class="docutils literal notranslate"><span class="pre">iqm-client</span></code> distribution package
+directly from the Python Package Index (PyPI):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;iqm-client[qrisp]&quot;</span>
+</pre></div>
+</div>
+<p>After installation, the Qrisp adapter can be imported in your Python code as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">qrisp_iqm</span>
+</pre></div>
+</div>
+</section>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">server_url</span></code> must be set either directly or via the <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_SERVER_URL</span></code>
+environment variable.  The <code class="docutils literal notranslate"><span class="pre">device_instance</span></code> can be set directly or via
+<span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_QUANTUM_COMPUTER</span></code>.</p>
+<p>For authentication, you can choose one of two options:</p>
+<ol class="arabic simple">
+<li><p>Set the <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">IQM_TOKEN</span></code> environment variable to the API token obtained from the web dashboard.</p></li>
+<li><p>Pass the <code class="docutils literal notranslate"><span class="pre">token</span></code> keyword argument when initializing <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend" title="iqm.qrisp_iqm.backends.IQMBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMBackend</span></code></a>.</p></li>
+</ol>
+<p>You can obtain your personal API token from the <a class="reference external" href="https://resonance.iqm.tech">IQM Resonance</a> web dashboard.</p>
+<p>The recommended setup is to configure all three environment variables:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">IQM_SERVER_URL</span><span class="o">=</span><span class="s2">&quot;https://resonance.iqm.tech/&quot;</span>
+<span class="n">export</span> <span class="n">IQM_TOKEN</span><span class="o">=</span><span class="s2">&quot;&lt;YOUR_TOKEN&gt;&quot;</span>
+<span class="n">export</span> <span class="n">IQM_QUANTUM_COMPUTER</span><span class="o">=</span><span class="s2">&quot;garnet&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="hello-world">
+<h2>Hello, world!<a class="headerlink" href="#hello-world" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend" title="iqm.qrisp_iqm.backends.IQMBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMBackend</span></code></a> class is the central entry point for running Qrisp circuits on IQM hardware.
+Here is a minimal example that creates a Bell state circuit using Qrisp, transpiles it for an IQM device,
+and runs it on the backend:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qrisp</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumVariable</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">measure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMBackend</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;IQM_SERVER_URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;https://resonance.iqm.tech/&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;IQM_TOKEN&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&lt;YOUR_TOKEN&gt;&quot;</span>
+
+<span class="c1"># 1. Build the circuit</span>
+<span class="n">qv</span> <span class="o">=</span> <span class="n">QuantumVariable</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">h</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">cx</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">measure</span><span class="p">(</span><span class="n">qv</span><span class="p">)</span>
+
+<span class="n">qc</span> <span class="o">=</span> <span class="n">qv</span><span class="o">.</span><span class="n">qs</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+
+<span class="c1"># 2. Connect to the backend and run</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IQMBackend</span><span class="p">(</span><span class="n">device_instance</span> <span class="o">=</span> <span class="s2">&quot;garnet&quot;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Result counts:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="transpilation">
+<h2>Transpilation<a class="headerlink" href="#transpilation" title="Link to this heading">#</a></h2>
+<p>Before a Qrisp circuit can be executed on an IQM device, it must be <strong>transpiled</strong>: qubits must be mapped to
+physical device qubits (layout), SWAP gates must be inserted to satisfy connectivity constraints (routing), and
+all gates must be decomposed into the device’s native gate set (gate conversion).</p>
+<p>The Qrisp adapter provides two levels of transpilation control: a <strong>batteries-included</strong> default pipeline
+for common use cases, and a modular <a class="reference external" href="https://www.qrisp.eu/reference/Circuit%20Manipulation/Pass%20Management/PassManager.html">PassManager</a> system for advanced customisation.</p>
+<section id="default-transpilation-with-create-iqm-pass-manager-and-transpile-to-iqm">
+<h3>Default transpilation with <code class="docutils literal notranslate"><span class="pre">create_iqm_pass_manager</span></code> and <code class="docutils literal notranslate"><span class="pre">transpile_to_iqm</span></code><a class="headerlink" href="#default-transpilation-with-create-iqm-pass-manager-and-transpile-to-iqm" title="Link to this heading">#</a></h3>
+<p>The recommended way to transpile is <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.create_iqm_pass_manager.html#iqm.qrisp_iqm.passes.create_iqm_pass_manager" title="iqm.qrisp_iqm.passes.create_iqm_pass_manager"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_iqm_pass_manager()</span></code></a>, a factory that builds a fully
+configured <a class="reference external" href="https://www.qrisp.eu/reference/Circuit%20Manipulation/Pass%20Management/PassManager.html">PassManager</a> implementing the complete plasma-sabre pipeline: predicate-based
+decomposition, layout, routing, SWAP optimization, and gate conversion to the native CZ + PRX gate set.
+The companion convenience function <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.transpile_to_iqm.html#iqm.qrisp_iqm.passes.transpile_to_iqm" title="iqm.qrisp_iqm.passes.transpile_to_iqm"><code class="xref py py-func docutils literal notranslate"><span class="pre">transpile_to_iqm()</span></code></a> calls the factory and immediately runs the
+resulting pipeline on your circuit:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_iqm_pass_manager</span><span class="p">,</span> <span class="n">transpile_to_iqm</span>
+
+<span class="c1"># Option A: one-liner</span>
+<span class="n">iqm_ready_qc</span> <span class="o">=</span> <span class="n">transpile_to_iqm</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">connectivity</span><span class="o">=</span><span class="n">backend</span><span class="o">.</span><span class="n">connectivity</span><span class="p">)</span>
+
+<span class="c1"># Option B: create the PassManager once, reuse it</span>
+<span class="n">pm</span> <span class="o">=</span> <span class="n">create_iqm_pass_manager</span><span class="p">(</span>
+    <span class="n">connectivity</span><span class="o">=</span><span class="n">backend</span><span class="o">.</span><span class="n">connectivity</span><span class="p">,</span>
+    <span class="n">effort</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">depth_weight</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">iqm_ready_qc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Both functions accept the following tuning parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">effort</span></code> — Controls how many random candidates the layout and routing optimisers explore.
+Higher values yield better results but increase compilation time (default: 30).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">depth_weight</span></code> — Steers the optimization target: <code class="docutils literal notranslate"><span class="pre">-1</span></code> minimizes gate count,
+<code class="docutils literal notranslate"><span class="pre">0</span></code> balances gate count and depth, <code class="docutils literal notranslate"><span class="pre">+1</span></code> minimizes circuit depth (default: 0).</p></li>
+</ul>
+</section>
+<section id="custom-transpilation-with-individual-passes">
+<h3>Custom transpilation with individual passes<a class="headerlink" href="#custom-transpilation-with-individual-passes" title="Link to this heading">#</a></h3>
+<p>When you need fine-grained control — for example, to experiment with specific layout strategies or
+to integrate custom decomposition passes — you can build your own <a class="reference external" href="https://www.qrisp.eu/reference/Circuit%20Manipulation/Pass%20Management/PassManager.html">PassManager</a> from
+individual passes. All layout and routing passes accept the device <code class="docutils literal notranslate"><span class="pre">connectivity</span></code> as a list of
+<code class="docutils literal notranslate"><span class="pre">(u,</span> <span class="pre">v)</span></code> edges.</p>
+<p><strong>Layout passes</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code> — Stochastic initial qubit placement. Internally tries a VF2++ subgraph
+isomorphism fast path first; falls back to heuristic search if the circuit’s interaction graph
+does not embed perfectly into the topology.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vf2pp_layout</span></code> — Exact subgraph isomorphism. Raises an error if no perfect layout exists.
+Use this when you know your circuit’s connectivity is compatible with the hardware.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">manual_layout</span></code> — Explicit mapping of logical qubits to physical qubit indices,
+e.g. <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">4,</span> <span class="pre">5]</span></code>.</p></li>
+</ul>
+<p><strong>Routing passes</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">plasma_route</span></code> — Inserts SWAP gates so that every two-qubit gate acts on physically adjacent
+qubits. Uses the same <code class="docutils literal notranslate"><span class="pre">effort</span></code> and <code class="docutils literal notranslate"><span class="pre">depth_weight</span></code> parameters as <code class="docutils literal notranslate"><span class="pre">plasma_layout</span></code>.</p></li>
+</ul>
+<p><strong>Gate conversion passes</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">convert_to_cz</span></code> — Decomposes multi-qubit gates (CX, CY, SWAP, etc.) into CZ-based forms,
+which are native to IQM hardware.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">convert_to_prx</span></code> — Converts single-qubit gates to PRX (phased rotation X) gates, the native
+single-qubit gate for IQM devices.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qrisp</span><span class="w"> </span><span class="kn">import</span> <span class="n">PassManager</span><span class="p">,</span> <span class="n">convert_to_cz</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">plasma_layout</span><span class="p">,</span> <span class="n">plasma_route</span>
+
+<span class="n">connectivity</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]</span>
+
+<span class="n">pm</span> <span class="o">=</span> <span class="n">PassManager</span><span class="p">()</span>
+<span class="n">pm</span> <span class="o">+=</span> <span class="n">plasma_layout</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span> <span class="n">effort</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">depth_weight</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">pm</span> <span class="o">+=</span> <span class="n">plasma_route</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span> <span class="n">effort</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">depth_weight</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">pm</span> <span class="o">+=</span> <span class="n">convert_to_cz</span><span class="p">()</span>
+<span class="n">pm</span> <span class="o">+=</span> <span class="n">convert_to_prx</span>
+
+<span class="n">transpiled_qc</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="submitting-circuits-for-execution">
+<h2>Submitting circuits for execution<a class="headerlink" href="#submitting-circuits-for-execution" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend" title="iqm.qrisp_iqm.backends.IQMBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMBackend</span></code></a> supports two submission modes: <strong>circuit submission</strong> and <strong>pulse submission</strong>.
+The backend automatically detects which path to use based on the circuit content.</p>
+<section id="circuit-submission-gate-level">
+<h3>Circuit submission (gate-level)<a class="headerlink" href="#circuit-submission-gate-level" title="Link to this heading">#</a></h3>
+<p>When your circuit contains only standard Qrisp gates (no <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.pulse_operation.IQMPulseOperation.html#iqm.qrisp_iqm.pulse_operation.IQMPulseOperation" title="iqm.qrisp_iqm.pulse_operation.IQMPulseOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMPulseOperation</span></code></a> instructions),
+<a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend.run" title="iqm.qrisp_iqm.backends.IQMBackend.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> transpiles it to the native gate set and submits it as an IQM circuit
+via the IQM Client API.  Use <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend.run_async" title="iqm.qrisp_iqm.backends.IQMBackend.run_async"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_async()</span></code></a> to get back
+an <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMCircuitJob.html#iqm.qrisp_iqm.backends.IQMCircuitJob" title="iqm.qrisp_iqm.backends.IQMCircuitJob"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMCircuitJob</span></code></a> that you can poll or cancel before retrieving results:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Build a standard Qrisp circuit</span>
+<span class="n">qv</span> <span class="o">=</span> <span class="n">QuantumVariable</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">h</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">cx</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">cx</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">measure</span><span class="p">(</span><span class="n">qv</span><span class="p">)</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">qv</span><span class="o">.</span><span class="n">qs</span><span class="o">.</span><span class="n">compile</span><span class="p">()</span>
+
+<span class="c1"># Synchronous — blocks until done</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="c1"># Asynchronous — returns a job handle immediately</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run_async</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">status</span><span class="p">())</span>          <span class="c1"># QUEUED / RUNNING / DONE</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>        <span class="c1"># blocks until done</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="pulse-submission-pulse-level">
+<span id="pulse-submission"></span><h3>Pulse submission (pulse-level)<a class="headerlink" href="#pulse-submission-pulse-level" title="Link to this heading">#</a></h3>
+<p>When your circuit contains <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.pulse_operation.IQMPulseOperation.html#iqm.qrisp_iqm.pulse_operation.IQMPulseOperation" title="iqm.qrisp_iqm.pulse_operation.IQMPulseOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMPulseOperation</span></code></a> instructions (e.g. custom delay gates),
+the backend routes the job through the Pulla pulse-level interface.  This gives you full control
+over native IQM pulse schedules, including custom operations that have no gate-level equivalent.</p>
+<p>In a pulse workflow you typically:</p>
+<ol class="arabic simple">
+<li><p>Use <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.extract_iqm_pulse.html#iqm.qrisp_iqm.extract_iqm_pulse" title="iqm.qrisp_iqm.extract_iqm_pulse"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_iqm_pulse()</span></code></a> to compile a Qrisp function into an IQM <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>.</p></li>
+<li><p>Compile the circuit into a <strong>playlist</strong> (pulse schedule) via the Pulla compiler.  You can insert/modify
+custom pulse schedules in this step.</p></li>
+<li><p>Submit the playlist as described in the <a class="reference external" href="https://docs.iqm.tech/iqm-pulla/">Pulla docs</a>.</p></li>
+</ol>
+<p>If you have already built a custom pulla compiler, you can specify it via the <code class="docutils literal notranslate"><span class="pre">compiler</span></code> keyword
+within the <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend" title="iqm.qrisp_iqm.backends.IQMBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMBackend</span></code></a> constructor.</p>
+<p>When a circuit contains <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.pulse_operation.IQMPulseOperation.html#iqm.qrisp_iqm.pulse_operation.IQMPulseOperation" title="iqm.qrisp_iqm.pulse_operation.IQMPulseOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMPulseOperation</span></code></a> instructions, <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend.run_async" title="iqm.qrisp_iqm.backends.IQMBackend.run_async"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_async()</span></code></a>
+automatically routes to the pulse path and returns an <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMPulseJob.html#iqm.qrisp_iqm.backends.IQMPulseJob" title="iqm.qrisp_iqm.backends.IQMPulseJob"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMPulseJob</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_iqm_pulse</span><span class="p">,</span> <span class="n">quantum_op_to_qrisp_func</span>
+
+<span class="c1"># Get device architecture from the backend</span>
+<span class="n">dqa</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">iqm_client</span><span class="o">.</span><span class="n">get_dynamic_quantum_architecture</span><span class="p">()</span>
+
+<span class="c1"># Define a custom pulse operation</span>
+<span class="n">delay</span> <span class="o">=</span> <span class="n">quantum_op_to_qrisp_func</span><span class="p">(</span><span class="n">QuantumOp</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="p">(</span><span class="nb">float</span><span class="p">,)}))</span>
+
+<span class="nd">@extract_iqm_pulse</span><span class="p">(</span><span class="n">dqa</span><span class="o">=</span><span class="n">dqa</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_pulse_circuit</span><span class="p">():</span>
+    <span class="n">qv</span> <span class="o">=</span> <span class="n">QuantumVariable</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">h</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">delay</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">duration</span><span class="o">=</span><span class="mf">300e-9</span><span class="p">)</span>
+    <span class="n">cx</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">measure</span><span class="p">(</span><span class="n">qv</span><span class="p">)</span>
+
+<span class="n">meas_keys</span><span class="p">,</span> <span class="n">iqm_pulse_qc</span> <span class="o">=</span> <span class="n">my_pulse_circuit</span><span class="p">()</span>
+
+<span class="c1"># Compile to a playlist</span>
+<span class="n">compiler</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">_pulla</span><span class="o">.</span><span class="n">get_standard_compiler</span><span class="p">()</span>
+
+<span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="p">[</span><span class="n">iqm_pulse_qc</span><span class="p">])</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">pulla</span><span class="o">.</span><span class="n">submit_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">wait_for_completion</span><span class="p">()</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or simply use <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend.run_async" title="iqm.qrisp_iqm.backends.IQMBackend.run_async"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_async()</span></code></a> — the backend detects the pulse
+operation and handles compilation and submission automatically:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMPulseOperation</span><span class="p">,</span> <span class="n">delay_quantum_op</span>
+
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">IQMPulseOperation</span><span class="p">(</span><span class="n">delay_quantum_op</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">100e-9</span><span class="p">}),</span> <span class="p">[</span><span class="n">qc</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span>
+
+<span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run_async</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>   <span class="c1"># → IQMPulseJob</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The key difference: circuit submission treats the job as a set of abstract gates and lets IQM’s
+server-side compilation handle scheduling; pulse submission gives you direct control over the
+playlist so you can inspect, visualise, and customise the pulse schedule before execution.</p>
+</section>
+<section id="visualising-the-pulse-playlist">
+<h3>Visualising the pulse playlist<a class="headerlink" href="#visualising-the-pulse-playlist" title="Link to this heading">#</a></h3>
+<p>Once you have compiled a playlist, you can visualise it using IQM’s playlist inspection tools.
+This is useful for verifying waveforms and timing before submitting to hardware:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.playlist.visualisation.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">inspect_playlist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">playlist</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">([</span><span class="n">iqm_pulse_qc</span><span class="p">])</span>
+
+<span class="c1"># Generate and display an interactive HTML visualisation</span>
+<span class="n">html_content</span> <span class="o">=</span> <span class="n">inspect_playlist</span><span class="p">(</span><span class="n">playlist</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">html_content</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="iqm-pulse-integration">
+<h2>IQM Pulse integration<a class="headerlink" href="#iqm-pulse-integration" title="Link to this heading">#</a></h2>
+<p>The Qrisp adapter supports <strong>pulse-level</strong> operations, giving you full control over native IQM pulse
+instructions such as delays, barriers, and custom gate implementations.</p>
+<section id="using-native-iqm-quantum-operations-in-a-circuit">
+<h3>Using native IQM quantum operations in a circuit<a class="headerlink" href="#using-native-iqm-quantum-operations-in-a-circuit" title="Link to this heading">#</a></h3>
+<p>Use <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.quantum_op_to_qrisp_func.html#iqm.qrisp_iqm.quantum_op_to_qrisp_func" title="iqm.qrisp_iqm.quantum_op_to_qrisp_func"><code class="xref py py-func docutils literal notranslate"><span class="pre">quantum_op_to_qrisp_func()</span></code></a> to expose an IQM <a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v14.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code></a>
+as a Qrisp gate function that can be used alongside standard operations like <code class="docutils literal notranslate"><span class="pre">h</span></code>, <code class="docutils literal notranslate"><span class="pre">cx</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">measure</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.quantum_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumOp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">quantum_op_to_qrisp_func</span>
+
+<span class="c1"># Define a delay operation</span>
+<span class="n">delay_quantum_op</span> <span class="o">=</span> <span class="n">QuantumOp</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;delay&quot;</span><span class="p">,</span>
+    <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="p">(</span><span class="nb">float</span><span class="p">,)},</span>
+<span class="p">)</span>
+
+<span class="c1"># Convert to a Qrisp-callable function</span>
+<span class="n">delay</span> <span class="o">=</span> <span class="n">quantum_op_to_qrisp_func</span><span class="p">(</span><span class="n">delay_quantum_op</span><span class="p">)</span>
+
+<span class="c1"># Now use it like any other gate:</span>
+<span class="c1"># delay(my_qubit, duration=300e-9)</span>
+</pre></div>
+</div>
+<p>For advanced use cases, you can also directly construct <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.pulse_operation.IQMPulseOperation.html#iqm.qrisp_iqm.pulse_operation.IQMPulseOperation" title="iqm.qrisp_iqm.pulse_operation.IQMPulseOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMPulseOperation</span></code></a> instances
+and append them to a circuit:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMPulseOperation</span>
+
+<span class="n">pulse_op</span> <span class="o">=</span> <span class="n">IQMPulseOperation</span><span class="p">(</span>
+    <span class="n">delay_quantum_op</span><span class="p">,</span>
+    <span class="n">param_dict</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">100e-9</span><span class="p">},</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">qrisp</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span>
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pulse_op</span><span class="p">,</span> <span class="p">[</span><span class="n">qc</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>The delay operation already provides a predefined pulse schedule. To learn how to assign
+and compile custom pulse-level gates, please consult the
+<a class="reference external" href="https://docs.iqm.tech/iqm-pulla/">Pulla docs</a>.</p>
+</section>
+<section id="jasp-tracing-with-extract-iqm-pulse">
+<h3>Jasp tracing with <code class="docutils literal notranslate"><span class="pre">extract_iqm_pulse</span></code><a class="headerlink" href="#jasp-tracing-with-extract-iqm-pulse" title="Link to this heading">#</a></h3>
+<p>The <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.extract_iqm_pulse.html#iqm.qrisp_iqm.extract_iqm_pulse" title="iqm.qrisp_iqm.extract_iqm_pulse"><code class="xref py py-func docutils literal notranslate"><span class="pre">extract_iqm_pulse()</span></code></a> decorator is the primary entry point for pulse-level workflows. It traces
+a Qrisp quantum function via Jasp (the JAX-based tracing layer), captures all quantum operations (including
+custom <a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.pulse_operation.IQMPulseOperation.html#iqm.qrisp_iqm.pulse_operation.IQMPulseOperation" title="iqm.qrisp_iqm.pulse_operation.IQMPulseOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMPulseOperation</span></code></a> instances), transpiles the resulting circuit, and converts it to an IQM
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qrisp</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumVariable</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">measure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">extract_iqm_pulse</span><span class="p">,</span> <span class="n">quantum_op_to_qrisp_func</span>
+
+<span class="c1"># Get device architecture from the backend</span>
+<span class="n">dqa</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">iqm_client</span><span class="o">.</span><span class="n">get_dynamic_quantum_architecture</span><span class="p">()</span>
+
+<span class="n">delay</span> <span class="o">=</span> <span class="n">quantum_op_to_qrisp_func</span><span class="p">(</span><span class="n">QuantumOp</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="p">(</span><span class="nb">float</span><span class="p">,)}))</span>
+
+<span class="nd">@extract_iqm_pulse</span><span class="p">(</span><span class="n">dqa</span><span class="o">=</span><span class="n">dqa</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_circuit</span><span class="p">():</span>
+    <span class="n">qv</span> <span class="o">=</span> <span class="n">QuantumVariable</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">h</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">delay</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">duration</span><span class="o">=</span><span class="mf">300e-9</span><span class="p">)</span>
+    <span class="n">cx</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">measure</span><span class="p">(</span><span class="n">qv</span><span class="p">)</span>
+
+<span class="n">meas_keys</span><span class="p">,</span> <span class="n">iqm_pulse_qc</span> <span class="o">=</span> <span class="n">my_circuit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The decorator returns measurement key strings alongside the compiled <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>,
+ready for playlist compilation and pulse-level execution (see <a class="reference internal" href="#pulse-submission"><span class="std std-ref">pulse submission</span></a> above).</p>
+</section>
+<section id="custom-passmanagers-with-extract-iqm-pulse">
+<h3>Custom PassManagers with <code class="docutils literal notranslate"><span class="pre">extract_iqm_pulse</span></code><a class="headerlink" href="#custom-passmanagers-with-extract-iqm-pulse" title="Link to this heading">#</a></h3>
+<p>By default, the decorator applies only <code class="docutils literal notranslate"><span class="pre">convert_to_cz</span></code>. You can supply your own <a class="reference external" href="https://www.qrisp.eu/reference/Circuit%20Manipulation/Pass%20Management/PassManager.html">PassManager</a>
+for full control over layout, routing, and gate conversion:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qrisp</span><span class="w"> </span><span class="kn">import</span> <span class="n">PassManager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">plasma_layout</span><span class="p">,</span> <span class="n">plasma_route</span>
+
+<span class="n">custom_pm</span> <span class="o">=</span> <span class="n">PassManager</span><span class="p">()</span>
+<span class="n">custom_pm</span> <span class="o">+=</span> <span class="n">plasma_layout</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span> <span class="n">effort</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">custom_pm</span> <span class="o">+=</span> <span class="n">plasma_route</span><span class="p">(</span><span class="n">connectivity</span><span class="p">,</span> <span class="n">effort</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="n">custom_pm</span> <span class="o">+=</span> <span class="n">convert_to_cz</span><span class="p">()</span>
+<span class="n">custom_pm</span> <span class="o">+=</span> <span class="n">convert_to_prx</span>
+
+<span class="nd">@extract_iqm_pulse</span><span class="p">(</span><span class="n">dqa</span><span class="o">=</span><span class="n">dqa</span><span class="p">,</span> <span class="n">pass_manager</span><span class="o">=</span><span class="n">custom_pm</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_routed_circuit</span><span class="p">():</span>
+    <span class="n">qv</span> <span class="o">=</span> <span class="n">QuantumVariable</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">h</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">cx</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">qv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">cx</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">qv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">cx</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">qv</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">cx</span><span class="p">(</span><span class="n">qv</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">qv</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">measure</span><span class="p">(</span><span class="n">qv</span><span class="p">)</span>
+
+<span class="n">meas_keys</span><span class="p">,</span> <span class="n">iqm_circuit</span> <span class="o">=</span> <span class="n">my_routed_circuit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To skip transpilation entirely (e.g. when your circuit already contains only IQM-native operations),
+set <code class="docutils literal notranslate"><span class="pre">pass_manager=PassManager()</span></code>.</p>
+</section>
+</section>
+<section id="quantum-error-correction">
+<h2>Quantum Error Correction<a class="headerlink" href="#quantum-error-correction" title="Link to this heading">#</a></h2>
+<p>The adapter integrates with the <a class="reference internal" href="../qrisp_iqm_qec.html#iqm.qrisp_iqm.qec.DetectorExperiment" title="iqm.qrisp_iqm.qec.DetectorExperiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">DetectorExperiment</span></code></a> class to support quantum error
+correction (QEC) workflows. This enables you to define parameterised QEC experiments, compute
+logical error rates (LERs), and extract Stim circuits for classical validation.</p>
+<p>Below is a sketch of a repetition code memory experiment (see the <code class="docutils literal notranslate"><span class="pre">detector_experiment_demo</span></code>
+tutorial for the complete, runnable implementation):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qrisp</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumArray</span><span class="p">,</span> <span class="n">QuantumBool</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">reset</span><span class="p">,</span> <span class="n">measure</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qrisp.misc.stim_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">stim_noise</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">plasma_sabre.qec</span><span class="w"> </span><span class="kn">import</span> <span class="n">DetectorExperiment</span>
+
+<span class="nd">@DetectorExperiment</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rep_code_experiment</span><span class="p">(</span><span class="n">delay_time</span><span class="p">):</span>
+    <span class="n">qubits</span> <span class="o">=</span> <span class="n">QuantumArray</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,),</span> <span class="n">qtype</span><span class="o">=</span><span class="n">QuantumBool</span><span class="p">())</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">qubits</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>      <span class="c1"># 4 data qubits</span>
+    <span class="n">ancilla</span> <span class="o">=</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># 3 ancilla qubits</span>
+
+    <span class="n">x</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>                 <span class="c1"># initialise logical |1⟩</span>
+
+    <span class="c1"># … syndrome extraction rounds: CNOTs, noise injections, measurements, detector parities …</span>
+    <span class="k">return</span> <span class="n">detectors</span><span class="p">,</span> <span class="p">[</span><span class="n">observable</span><span class="p">]</span>
+
+<span class="c1"># Compute LER with Stim simulation</span>
+<span class="n">ler_stim</span> <span class="o">=</span> <span class="n">rep_code_experiment</span><span class="o">.</span><span class="n">compute_LER</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">10_000</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">StimBackend</span><span class="p">())</span>
+
+<span class="c1"># Compute LER on real IQM hardware</span>
+<span class="n">ler_hw</span> <span class="o">=</span> <span class="n">rep_code_experiment</span><span class="o">.</span><span class="n">compute_LER</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">10_000</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+
+<span class="c1"># Batched sweep over idle delay times to study decoherence</span>
+<span class="n">ler_sweep</span> <span class="o">=</span> <span class="n">rep_code_experiment</span><span class="o">.</span><span class="n">batched_compute_LER</span><span class="p">(</span>
+    <span class="p">[(</span><span class="mi">0</span><span class="p">,),</span> <span class="p">(</span><span class="mf">500e-9</span><span class="p">,),</span> <span class="p">(</span><span class="mf">1e-6</span><span class="p">,)],</span> <span class="n">shots</span><span class="o">=</span><span class="mi">10_000</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../qrisp_iqm_qec.html#iqm.qrisp_iqm.qec.DetectorExperiment" title="iqm.qrisp_iqm.qec.DetectorExperiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">DetectorExperiment</span></code></a> decorator gives you <code class="docutils literal notranslate"><span class="pre">.compute_LER()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">.batched_compute_LER()</span></code>, <code class="docutils literal notranslate"><span class="pre">.to_stim()</span></code>, and <code class="docutils literal notranslate"><span class="pre">.to_iqm()</span></code> methods for free, streamlining
+the full QEC workflow from classical simulation to hardware execution.</p>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>For a curated overview of all Qrisp adapter classes and functions, see <a class="reference internal" href="../qrisp_iqm_api.html#qrisp-iqm-api"><span class="std std-ref">Qrisp IQM API Reference</span></a>.</p></li>
+<li><p>For the complete auto-generated API reference, see <a class="reference internal" href="../API.html"><span class="doc">API Reference</span></a>.</p></li>
+<li><p>For details on the IQM backend protocol, see <a class="reference internal" href="../integration_guide.html#integration-guide"><span class="std std-ref">Integration Guide</span></a>.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../integration_guide.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Integration Guide</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="plasma_sabre_tutorial.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Plasma-Sabre Tutorial</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hello-world">Hello, world!</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transpilation">Transpilation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#default-transpilation-with-create-iqm-pass-manager-and-transpile-to-iqm">Default transpilation with <code class="docutils literal notranslate"><span class="pre">create_iqm_pass_manager</span></code> and <code class="docutils literal notranslate"><span class="pre">transpile_to_iqm</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-transpilation-with-individual-passes">Custom transpilation with individual passes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submitting-circuits-for-execution">Submitting circuits for execution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-submission-gate-level">Circuit submission (gate-level)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pulse-submission-pulse-level">Pulse submission (pulse-level)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualising-the-pulse-playlist">Visualising the pulse playlist</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm-pulse-integration">IQM Pulse integration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-native-iqm-quantum-operations-in-a-circuit">Using native IQM quantum operations in a circuit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jasp-tracing-with-extract-iqm-pulse">Jasp tracing with <code class="docutils literal notranslate"><span class="pre">extract_iqm_pulse</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-passmanagers-with-extract-iqm-pulse">Custom PassManagers with <code class="docutils literal notranslate"><span class="pre">extract_iqm_pulse</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-error-correction">Quantum Error Correction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM client developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2026, IQM Finland Oy, Release 35.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-07-16.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

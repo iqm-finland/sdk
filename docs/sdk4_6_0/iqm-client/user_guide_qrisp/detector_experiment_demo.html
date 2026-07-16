@@ -1,0 +1,1418 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>QEC Memory Experiment with the Repetition Code &#8212; IQM client 35.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=03e56e77"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>window.MathJax = {"tex": {"macros": {"vr": "\\vec{r}", "ket": ["\\left| #1 \\right\\rangle", 1], "iprod": ["\\left\\langle #1 | #2 \\right\\rangle", 2]}}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide_qrisp/detector_experiment_demo';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Qiskit on IQM User Guide" href="../user_guide_qiskit.html" />
+    <link rel="prev" title="Plasma-Sabre Tutorial" href="plasma_sabre_tutorial.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-07-16"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM client 35.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM client 35.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-client</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.iqm_client.html">iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.iqm_client.html">iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.iqm_client.CircuitJob.html">CircuitJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.iqm_client.IQMClient.html">IQMClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.models.STANDARD_DD_STRATEGY.html">iqm.iqm_client.models.STANDARD_DD_STRATEGY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.models.validate_circuit.html">iqm.iqm_client.models.validate_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.models.CircuitCompilationOptions.html">CircuitCompilationOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.models.CircuitJobParameters.html">CircuitJobParameters</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.transpile.html">transpile</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.Resolution.html">iqm.iqm_client.transpile.Resolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.simplify_architecture.html">iqm.iqm_client.transpile.simplify_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.transpile_insert_moves.html">iqm.iqm_client.transpile.transpile_insert_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.transpile_remove_moves.html">iqm.iqm_client.transpile.transpile_remove_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.transpile.ExistingMoveHandlingOptions.html">ExistingMoveHandlingOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.util.print_env_vars.html">iqm.iqm_client.util.print_env_vars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.util.to_json_dict.html">iqm.iqm_client.util.to_json_dict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.util.IQMJSONEncoder.html">IQMJSONEncoder</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_client.validation.html">validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.validation.validate_circuit_instructions.html">iqm.iqm_client.validation.validate_circuit_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.validation.validate_circuit_moves.html">iqm.iqm_client.validation.validate_circuit_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.validation.validate_instruction.html">iqm.iqm_client.validation.validate_instruction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_client.validation.validate_qubit_mapping.html">iqm.iqm_client.validation.validate_qubit_mapping</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.iqm_server_client.html">iqm_server_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_server_client.iqm_server_client.html">iqm_server_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.iqm_server_client.DEFAULT_TIMEOUT_SECONDS.html">iqm.iqm_server_client.iqm_server_client.DEFAULT_TIMEOUT_SECONDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.iqm_server_client.IQMServerClientJob.html">IQMServerClientJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.iqm_server_client._IQMServerClient.html">_IQMServerClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.iqm_server_client.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobCompilation.html">JobCompilation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobData.html">JobData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobExecution.html">JobExecution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobMessage.html">JobMessage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.JobStatus.html">JobStatus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.ListQuantumComputersResponse.html">ListQuantumComputersResponse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.ProgressInfo.html">ProgressInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.QuantumComputer.html">QuantumComputer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.iqm_server_client.models.TimelineEntry.html">TimelineEntry</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.html">cirq_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.html">devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.adonis.html">adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.aphrodite.html">aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.apollo.html">apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.iqm_device.html">iqm_device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.devices.iqm_device_metadata.html">iqm_device_metadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.extended_qasm_parser.html">extended_qasm_parser</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm.html">iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_gates.html">iqm_gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_gates.IQMMoveGate.html">IQMMoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_sampler.html">iqm_sampler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_sampler.IQMResult.html">IQMResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_sampler.IQMSampler.html">IQMSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.iqm_sampler.ResultMetadata.html">ResultMetadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.optimizers.html">optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.optimizers.simplify_circuit.html">iqm.cirq_iqm.optimizers.simplify_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement.html">DropRZBeforeMeasurement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates.html">MergeOneParameterGroupGates</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.html">serialize</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.circuit_operation_to_operation.html">iqm.cirq_iqm.serialize.circuit_operation_to_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.deserialize_circuit.html">iqm.cirq_iqm.serialize.deserialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.operation_to_circuit_operation.html">iqm.cirq_iqm.serialize.operation_to_circuit_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.serialize_circuit.html">iqm.cirq_iqm.serialize.serialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.serialize.OperationNotSupportedError.html">iqm.cirq_iqm.serialize.OperationNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.cirq_iqm.transpiler.html">transpiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit.html">iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.html">qiskit_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.examples.html">examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.examples.bell_measure.html">bell_measure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.examples.transpile_example.html">transpile_example</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.html">fake_backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_adonis.html">fake_adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_aphrodite.html">fake_aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_apollo.html">fake_apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_deneb.html">fake_deneb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.fake_garnet.html">fake_garnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.fake_backends.iqm_fake_backend.html">iqm_fake_backend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_backend.html">iqm_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html">IQMBackendBase</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_circuit.html">iqm_circuit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_circuit.IQMCircuit.html">IQMCircuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_circuit_validation.html">iqm_circuit_validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit.html">iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_job.html">iqm_job</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_job.IQMJob.html">IQMJob</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_move_layout.html">iqm_move_layout</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout.html">iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout.html">IQMMoveLayout</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_naive_move_pass.html">iqm_naive_move_pass</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM.html">iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_naive_move_pass.IQMNaiveResonatorMoving.html">IQMNaiveResonatorMoving</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_provider.html">iqm_provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_provider.IQMBackend.html">IQMBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend.html">IQMFacadeBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_provider.IQMProvider.html">IQMProvider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_target.html">iqm_target</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_target.Locus.html">iqm.qiskit_iqm.iqm_target.Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_target.LocusIdx.html">iqm.qiskit_iqm.iqm_target.LocusIdx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_target.IQMTarget.html">IQMTarget</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_transpilation.html">iqm_transpilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates.html">iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_transpilation.IQMOptimizeSingleQubitGates.html">IQMOptimizeSingleQubitGates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass.html">IQMReplaceGateWithUnitaryPass</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.move_gate.html">move_gate</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY.html">iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.move_gate.MoveGate.html">MoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.html">qiskit_to_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey.html">MeasurementKey</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError.html">iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.html">transpiler_plugins</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.IQMDefaultSchedulingPlugin.html">IQMDefaultSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.IQMSchedulingPlugin.html">IQMSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingKeepExistingMovesPlugin.html">MoveGateRoutingKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyKeepExistingMovesPlugin.html">MoveGateRoutingOnlyKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyPlugin.html">MoveGateRoutingOnlyPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyRemoveExistingMovesPlugin.html">MoveGateRoutingOnlyRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyTrustExistingMovesPlugin.html">MoveGateRoutingOnlyTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingPlugin.html">MoveGateRoutingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingRemoveExistingMovesPlugin.html">MoveGateRoutingRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingTrustExistingMovesPlugin.html">MoveGateRoutingTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithExactRZPlugin.html">MoveGateRoutingWithExactRZPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin.html">MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactIgnoreBarriersPlugin.html">OnlyRZOptimizationExactIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactPlugin.html">OnlyRZOptimizationExactPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationIgnoreBarriersPlugin.html">OnlyRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin.html">OnlyRZOptimizationPlugin</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../qrisp_iqm_api_index.html">qrisp_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../qrisp_iqm_backend_infrastructure.html">Backend Infrastructure</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMBackend.html">IQMBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMCircuitJob.html">IQMCircuitJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMPulseJob.html">IQMPulseJob</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../qrisp_iqm_transpilation.html">Transpilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.create_iqm_pass_manager.html">create_iqm_pass_manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.transpile_to_iqm.html">transpile_to_iqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.routing.plasma_layout.html">plasma_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.routing.plasma_route.html">plasma_route</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.routing.vf2pp_layout.html">vf2pp_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.commute_phases.html">commute_phases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.passes.measurement_parallelization.html">measurement_parallelization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../qrisp_iqm_pulse_operations.html">Pulse Operations &amp; Conversion</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.qrisp_to_iqm_converter.html">qrisp_to_iqm_converter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.pulse_operation.IQMPulseOperation.html">IQMPulseOperation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.extract_iqm_pulse.html">extract_iqm_pulse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.quantum_op_to_qrisp_func.html">quantum_op_to_qrisp_func</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/qrisp_iqm/iqm.qrisp_iqm.custom_pulse_operations.delay.html">delay</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../qrisp_iqm_qec.html">Quantum Error Correction</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration_guide.html">Integration Guide</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Qrisp on IQM User Guide</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="plasma_sabre_tutorial.html">Plasma-Sabre Tutorial</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">QEC Memory Experiment with the Repetition Code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide_qiskit.html">Qiskit on IQM User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide_cirq.html">Cirq on IQM User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/user_guide_qrisp/detector_experiment_demo.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>QEC Memory Experiment with the Repetition Code</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-repetition-code">What is a repetition code?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-kinds-of-qubits-data-and-ancilla">The two kinds of qubits: data and ancilla</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-can-t-we-just-measure-the-data-qubits-directly">Why can’t we just measure the data qubits directly?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-parity-checks-work-a-concrete-example">How parity checks work: a concrete example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-decoder-and-what-does-it-do">What is a decoder and what does it do?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#static-information-the-detector-error-model-dem">Static information: the detector error model (DEM)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-information-the-error-syndrome">Dynamic information: the error syndrome</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-the-decoder-processes-these-two-inputs">How the decoder processes these two inputs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-logical-error-rate">Computing the logical error rate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-detectors-and-observables">What are detectors and observables?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-parity-what-happens-on-the-device">Quantum parity: what happens on the device</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-parity-building-the-error-syndrome">Classical parity: building the error syndrome</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observables">Observables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-qrisp-s-parity-function-unites-detectors-and-observables">How Qrisp’s <code class="docutils literal notranslate"><span class="pre">parity()</span></code> function unites detectors and observables</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#how-qrisp-s-parity-differs-from-stim-s-detector-observable-include">How Qrisp’s <code class="docutils literal notranslate"><span class="pre">parity()</span></code> differs from Stim’s DETECTOR/OBSERVABLE_INCLUDE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-detectorexperiment-give-us">What does <code class="docutils literal notranslate"><span class="pre">DetectorExperiment</span></code> give us?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-definition">Experiment Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-the-stim-circuit-to-stim">Extracting the Stim Circuit (<code class="docutils literal notranslate"><span class="pre">to_stim</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm-backend-setup">IQM Backend Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-do-we-need-layout-and-gate-conversion">Why do we need layout and gate conversion?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-ler-computation">Single LER Computation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#batched-ler-impact-of-pulse-level-delays-on-hardware">Batched LER: Impact of Pulse-Level Delays on Hardware</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-the-iqm-circuit-to-iqm-playlist-visualization">Extracting the IQM Circuit (<code class="docutils literal notranslate"><span class="pre">to_iqm</span></code>) &amp; Playlist Visualization</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="qec-memory-experiment-with-the-repetition-code">
+<span id="detector-experiment-demo"></span><h1>QEC Memory Experiment with the Repetition Code<a class="headerlink" href="#qec-memory-experiment-with-the-repetition-code" title="Link to this heading">#</a></h1>
+<p>This tutorial demonstrates the <a class="reference internal" href="../qrisp_iqm_qec.html#iqm.qrisp_iqm.qec.DetectorExperiment" title="iqm.qrisp_iqm.qec.DetectorExperiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">DetectorExperiment</span></code></a> class
+applied to a repetition code, one of the simplest quantum error correction (QEC) codes.
+We show:</p>
+<ol class="arabic simple">
+<li><p><strong>Defining</strong> a repetition code experiment with noise and a tunable idle-delay parameter</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_stim()</span></code>: extracting and visualizing the underlying Stim circuit</p></li>
+<li><p><strong>IQM backend setup</strong>: connecting to IQM hardware and building a PassManager</p></li>
+<li><p><strong>Computing</strong> the logical error rate (LER) with Stim vs. real hardware</p></li>
+<li><p><strong>Batched sweep</strong>: studying how pulse-level delays degrade LER on hardware</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_iqm()</span></code>: extracting the IQM pulse circuit and visualizing the compiled playlist</p></li>
+</ol>
+<p>For a mathematically sound and complete treatment of all the concepts introduced in this
+tutorial, check out <a class="reference external" href="https://arxiv.org/pdf/2407.13826">this work</a>.</p>
+<section id="what-is-a-repetition-code">
+<h2>What is a repetition code?<a class="headerlink" href="#what-is-a-repetition-code" title="Link to this heading">#</a></h2>
+<p>A repetition code encodes a single <strong>logical</strong> qubit across <em>n</em> physical <strong>data</strong> qubits by
+repeating the same state on each. For example, the logical state <span class="math notranslate nohighlight">\(|1_L\rangle\)</span> is
+encoded as <span class="math notranslate nohighlight">\(|1111\rangle\)</span> across four data qubits, and <span class="math notranslate nohighlight">\(|0_L\rangle\)</span> as
+<span class="math notranslate nohighlight">\(|0000\rangle\)</span>.</p>
+<section id="the-two-kinds-of-qubits-data-and-ancilla">
+<h3>The two kinds of qubits: data and ancilla<a class="headerlink" href="#the-two-kinds-of-qubits-data-and-ancilla" title="Link to this heading">#</a></h3>
+<p>A QEC code uses two types of physical qubits with very different roles:</p>
+<ul class="simple">
+<li><p><strong>Data qubits</strong> carry the encoded logical information. They are the qubits we care about
+protecting. Critically, we try to never measure them directly during error correction;
+doing so would collapse the logical state and destroy the information we’re trying to
+preserve.</p></li>
+<li><p><strong>Ancilla qubits</strong> are helper qubits that we <em>do</em> measure. In a repetition code on a
+linear chain, they are placed between data qubits:
+<code class="docutils literal notranslate"><span class="pre">data[0]</span> <span class="pre">-</span> <span class="pre">ancilla[0]</span> <span class="pre">-</span> <span class="pre">data[1]</span> <span class="pre">-</span> <span class="pre">ancilla[1]</span> <span class="pre">-</span> <span class="pre">data[2]</span> <span class="pre">-</span> <span class="pre">...</span></code>. Their sole purpose is
+to extract error information from the data qubits without disturbing the encoded logical
+state.</p></li>
+</ul>
+</section>
+<section id="why-can-t-we-just-measure-the-data-qubits-directly">
+<h3>Why can’t we just measure the data qubits directly?<a class="headerlink" href="#why-can-t-we-just-measure-the-data-qubits-directly" title="Link to this heading">#</a></h3>
+<p>This is the central challenge of quantum error correction. If we measured a data qubit to
+check for errors, we would <strong>collapse the quantum state</strong>, destroying the very logical
+information we’re trying to protect. We cannot peek at individual qubits without disturbing
+them. Instead, we must extract information about errors <em>indirectly</em>, via the ancillas,
+without learning anything about the encoded logical state itself.</p>
+</section>
+<section id="how-parity-checks-work-a-concrete-example">
+<h3>How parity checks work: a concrete example<a class="headerlink" href="#how-parity-checks-work-a-concrete-example" title="Link to this heading">#</a></h3>
+<p>Suppose we encoded <span class="math notranslate nohighlight">\(|1_L\rangle = |1111\rangle\)</span> but a bit-flip error strikes the
+<strong>second</strong> data qubit, corrupting the state to:</p>
+<div class="math notranslate nohighlight">
+\[|\psi\rangle = |1\;\mathbf{0}\;1\;1\rangle\]</div>
+<p>Now let’s check <strong>parities</strong> (XOR) between neighboring pairs:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Pair</p></th>
+<th class="head"><p>XOR</p></th>
+<th class="head"><p>Result</p></th>
+<th class="head"><p>Meaning</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>data[0] ⊕ data[1]</p></td>
+<td><p>1 ⊕ 0</p></td>
+<td><p><strong>1</strong> (odd)</p></td>
+<td><p>⚠ Error detected between qubits 0 and 1</p></td>
+</tr>
+<tr class="row-odd"><td><p>data[1] ⊕ data[2]</p></td>
+<td><p>0 ⊕ 1</p></td>
+<td><p><strong>1</strong> (odd)</p></td>
+<td><p>⚠ Error detected between qubits 1 and 2</p></td>
+</tr>
+<tr class="row-even"><td><p>data[2] ⊕ data[3]</p></td>
+<td><p>1 ⊕ 1</p></td>
+<td><p><strong>0</strong> (even)</p></td>
+<td><p>✓ No error between qubits 2 and 3</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The pattern of parity violations, <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">1,</span> <span class="pre">0)</span></code>, uniquely identifies data[1] as the faulty
+qubit. Notice we learned <em>which</em> qubit flipped without ever measuring its actual value.
+We still don’t know whether data[1] was originally 0 or 1; we preserved the logical
+information while detecting the error’s location.</p>
+<p>In practice we don’t compute these parities classically. We use the ancilla qubits and CNOT
+gates to copy parity information onto the ancillas, which we <em>can</em> safely measure. Each
+ancilla sits between two data qubits and measures their XOR. This is <strong>syndrome extraction</strong>.</p>
+<p>But what if <em>two</em> qubits flip? For example,
+<span class="math notranslate nohighlight">\(|1111\rangle \rightarrow |1001\rangle\)</span>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Pair</p></th>
+<th class="head"><p>XOR</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>data[0] ⊕ data[1]</p></td>
+<td><p>1 ⊕ 0 = 1</p></td>
+</tr>
+<tr class="row-odd"><td><p>data[1] ⊕ data[2]</p></td>
+<td><p>0 ⊕ 0 = 0</p></td>
+</tr>
+<tr class="row-even"><td><p>data[2] ⊕ data[3]</p></td>
+<td><p>0 ⊕ 1 = 1</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The pattern <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">0,</span> <span class="pre">1)</span></code> tells us errors occurred at both ends. But was it data[0] <em>and</em>
+data[3] that flipped, or data[1] <em>and</em> data[2]? The repetition code cannot distinguish these
+two cases. This is why the code distance (<span class="math notranslate nohighlight">\(d\)</span> = number of data qubits) matters: a
+distance-<span class="math notranslate nohighlight">\(d\)</span> repetition code can detect up to <span class="math notranslate nohighlight">\(d-1\)</span> errors and correct up to
+<span class="math notranslate nohighlight">\(\lfloor(d-1)/2\rfloor\)</span> errors.</p>
+</section>
+</section>
+<section id="what-is-a-decoder-and-what-does-it-do">
+<h2>What is a decoder and what does it do?<a class="headerlink" href="#what-is-a-decoder-and-what-does-it-do" title="Link to this heading">#</a></h2>
+<p>The decoder is a component that receives the error syndrome and, based on that, makes a
+prediction about what corrections need to be applied. It receives <strong>two kinds of
+information</strong>, one static and one dynamic.</p>
+<section id="static-information-the-detector-error-model-dem">
+<h3>Static information: the detector error model (DEM)<a class="headerlink" href="#static-information-the-detector-error-model-dem" title="Link to this heading">#</a></h3>
+<p>Before the experiment ever runs, we tell the decoder everything it needs to know about
+<em>possible</em> errors: where they can occur in the circuit, how likely they are, and which
+syndrome bits each error mechanism would affect. This is the <strong>detector error model</strong>
+(DEM), and it’s entirely determined at compile time.</p>
+<p>We communicate the DEM to the decoder through noise annotations in the circuit. Within
+Qrisp we achieve this via calls like <code class="docutils literal notranslate"><span class="pre">stim_noise(&quot;DEPOLARIZE1&quot;,</span> <span class="pre">0.01,</span> <span class="pre">data)</span></code> and
+<code class="docutils literal notranslate"><span class="pre">stim_noise(&quot;DEPOLARIZE2&quot;,</span> <span class="pre">0.01,</span> <span class="pre">data[i],</span> <span class="pre">ancilla[i])</span></code>. These don’t <em>cause</em> errors
+during execution; rather, they tell the decoder: <em>“a depolarizing error of strength 0.01
+can happen at this location, and if it does, here is which syndrome bits will be flipped.”</em>
+The DEM is the decoder’s static “map” of what can go wrong and how probable each failure
+mode is.</p>
+</section>
+<section id="dynamic-information-the-error-syndrome">
+<h3>Dynamic information: the error syndrome<a class="headerlink" href="#dynamic-information-the-error-syndrome" title="Link to this heading">#</a></h3>
+<p>Each time the experiment runs, the quantum device produces a fresh error syndrome: a string
+of bits indicating what was actually observed. A <code class="docutils literal notranslate"><span class="pre">1</span></code> means “something unexpected happened
+at this check,” a <code class="docutils literal notranslate"><span class="pre">0</span></code> means “everything looks normal here.” The next section explains
+exactly how this syndrome is produced; for now, think of it as the fingerprint the physical
+errors left behind on this particular shot.</p>
+</section>
+<section id="how-the-decoder-processes-these-two-inputs">
+<h3>How the decoder processes these two inputs<a class="headerlink" href="#how-the-decoder-processes-these-two-inputs" title="Link to this heading">#</a></h3>
+<p>The decoder works in two stages:</p>
+<p><strong>Stage 1: Identify the errors.</strong> Using the DEM (the static map of possible errors) and the
+observed syndrome (the dynamic fingerprint), the decoder determines the most probable set
+of physical errors that could have produced the observed syndrome pattern. Internally, this
+is done by solving a minimum-weight perfect matching problem (using <strong>PyMatching</strong>), but
+the key intuition is simply: <em>the decoder finds the most likely explanation for the
+syndrome.</em></p>
+<p><strong>Stage 2: Propagate the errors forward.</strong> Having identified <em>which</em> errors most likely
+occurred, the decoder then propagates those errors forward through the remainder of the
+circuit, tracking how each Pauli error would commute through subsequent gates and affect
+later qubits. The output of the decoder is a single-bit prediction: <em>“based on the errors
+I detected, the final measurement of the logical qubit should be this.”</em></p>
+</section>
+<section id="computing-the-logical-error-rate">
+<h3>Computing the logical error rate<a class="headerlink" href="#computing-the-logical-error-rate" title="Link to this heading">#</a></h3>
+<p>Determining whether a logical error occurred on the physical device is done by the
+experiment framework (or the user). For each shot, the device also outputs an
+<strong>observable</strong>: the raw measurement of the logical qubit. The experiment framework compares
+the decoder’s prediction to this observable:</p>
+<ul class="simple">
+<li><p>If the observable matches the prediction, the decoder successfully accounted for what
+happened. No logical error.</p></li>
+<li><p>If the observable <strong>disagrees</strong> with the prediction, the decoder failed to explain the
+outcome. The errors it identified don’t account for what was observed. <strong>Logical error.</strong></p></li>
+</ul>
+<p>The <strong>logical error rate (LER)</strong> is then simply the fraction of shots where the decoder’s
+prediction was wrong:</p>
+<div class="math notranslate nohighlight">
+\[\text{LER} = \frac{\text{shots where prediction } \neq \text{ observable}}{N}\]</div>
+<p>A noise-free run gives LER = 0. A code overwhelmed by noise gives LER ≈ 0.5 (the decoder
+is guessing). Between those extremes, a good code gives an LER <em>lower</em> than the physical
+error rate. That is the whole point of error correction.</p>
+</section>
+</section>
+<section id="what-are-detectors-and-observables">
+<h2>What are detectors and observables?<a class="headerlink" href="#what-are-detectors-and-observables" title="Link to this heading">#</a></h2>
+<p>In the previous section we described the error syndrome as a string of bits, the decoder’s
+dynamic input. Now we answer the question: <em>where do those bits actually come from?</em></p>
+<p>There are two kinds of parity concepts involved here. Let’s distinguish this cleanly before
+we start discussing how all of it relates to the decoder.</p>
+<section id="quantum-parity-what-happens-on-the-device">
+<h3>Quantum parity: what happens on the device<a class="headerlink" href="#quantum-parity-what-happens-on-the-device" title="Link to this heading">#</a></h3>
+<p><strong>Quantum parity</strong> is the parity information computed on the ancilla qubits via subsequent
+CNOT gates. When ancillas are entangled with data qubits via CNOTs and then measured, each
+ancilla’s measurement result reflects the XOR of its neighboring data qubits. For our
+<span class="math notranslate nohighlight">\(|1011\rangle\)</span> example:</p>
+<ul class="simple">
+<li><p>ancilla[0]: data[0] ⊕ data[1] = 1 ⊕ 0 = <strong>1</strong></p></li>
+<li><p>ancilla[1]: data[1] ⊕ data[2] = 0 ⊕ 1 = <strong>1</strong></p></li>
+<li><p>ancilla[2]: data[2] ⊕ data[3] = 1 ⊕ 1 = <strong>0</strong></p></li>
+</ul>
+<p>This <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">0]</span></code> is the raw output of the quantum device: the parity configuration of the
+data qubits at a single point in time. By itself it doesn’t tell us which error occurred.
+It’s the raw material, not the finished product.</p>
+</section>
+<section id="classical-parity-building-the-error-syndrome">
+<h3>Classical parity: building the error syndrome<a class="headerlink" href="#classical-parity-building-the-error-syndrome" title="Link to this heading">#</a></h3>
+<p><strong>Classical parity</strong> is what happens <em>after</em> the quantum measurements are done. It operates
+purely on bits (measurement outcomes), never on qubits. This is where the error syndrome
+(the decoder’s dynamic input) is actually constructed.</p>
+<p>The building block is the <strong>detector</strong>: a classical parity check whose expected value is
+deterministic and known in advance. Think of each detector as asking: <em>“did anything change
+here compared to what I expected?”</em> The collection of all detector outcomes across all
+rounds forms the error syndrome vector that the decoder receives.</p>
+<p>In our repetition code, detectors work by comparing ancilla measurements across rounds:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Round</p></th>
+<th class="head"><p>Raw syndrome</p></th>
+<th class="head"><p>Compared to</p></th>
+<th class="head"><p>Detector outcome</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">0]</span></code></p></td>
+<td><p>expected <code class="docutils literal notranslate"><span class="pre">[0,0,0]</span></code></p></td>
+<td><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[1,1,0]</span></code>: detectors fire because syndrome</div>
+<div class="line">differs from initial expectation</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">1,</span> <span class="pre">0]</span></code></p></td>
+<td><p>round 1 <code class="docutils literal notranslate"><span class="pre">[1,1,0]</span></code></p></td>
+<td><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[0,0,0]</span></code>: detectors quiet because syndrome</div>
+<div class="line"><strong>didn’t change</strong></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>2 (if new error)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">0,</span> <span class="pre">1]</span></code></p></td>
+<td><p>round 1 <code class="docutils literal notranslate"><span class="pre">[1,1,0]</span></code></p></td>
+<td><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">[0,1,1]</span></code>: detectors fire where the</div>
+<div class="line">syndrome flipped</div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The key insight: <strong>detectors track changes, not values</strong>. Once flipped, an error produces a
+non-zero raw syndrome in every round, but the detectors only fire in round 1. After that,
+the syndrome is stable and the detectors are silent. Only <em>new</em> errors cause detector
+firings in later rounds.</p>
+</section>
+<section id="observables">
+<h3>Observables<a class="headerlink" href="#observables" title="Link to this heading">#</a></h3>
+<p>An <strong>observable</strong> is mechanically identical to a detector. Both are just classical parity
+checks. The only difference is intent: a detector tracks whether the syndrome changed (used
+for error identification), while an observable tracks the logical state itself (used for
+the final LER comparison).</p>
+<p>In our repetition code experiment we prepare <span class="math notranslate nohighlight">\(|1_L\rangle = |1111\rangle\)</span>. Every data
+qubit should measure <code class="docutils literal notranslate"><span class="pre">1</span></code> in a noise-free execution, so any single data-qubit measurement
+has a deterministic expected value. We designate the last data qubit as the observable and
+compare its measurement to the expectation <code class="docutils literal notranslate"><span class="pre">1</span></code>.</p>
+</section>
+<section id="how-qrisp-s-parity-function-unites-detectors-and-observables">
+<h3>How Qrisp’s <code class="docutils literal notranslate"><span class="pre">parity()</span></code> function unites detectors and observables<a class="headerlink" href="#how-qrisp-s-parity-function-unites-detectors-and-observables" title="Link to this heading">#</a></h3>
+<p>Both detectors and observables are created by the same Qrisp function:
+<code class="xref py py-func docutils literal notranslate"><span class="pre">parity()</span></code>. It’s the single API for defining classical parity checks.</p>
+<div class="math notranslate nohighlight">
+\[p = x_{\text{expectation}} \oplus \left( \bigoplus_{i=0}^{n-1} x_i \right)\]</div>
+<p>The result <span class="math notranslate nohighlight">\(p\)</span> is <code class="docutils literal notranslate"><span class="pre">0</span></code> when the measured parity <strong>matches</strong> the expectation, and
+<code class="docutils literal notranslate"><span class="pre">1</span></code> when it doesn’t.</p>
+<p>When passed boolean <strong>Jax arrays</strong> (e.g. the result of <code class="xref py py-func docutils literal notranslate"><span class="pre">measure()</span></code> on a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumArray</span></code>), <code class="xref py py-func docutils literal notranslate"><span class="pre">parity()</span></code> operates <strong>element-wise</strong>: it checks
+that all input arrays have the same shape, XORs corresponding elements, and returns a Jax
+array of that shape.</p>
+<p>Two keyword arguments control the behavior:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Argument</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">expectation</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0</span></code></p></td>
+<td><p>The expected XOR value. <code class="docutils literal notranslate"><span class="pre">parity(meas,</span> <span class="pre">expectation=0)</span></code> returns 0 if
+<code class="docutils literal notranslate"><span class="pre">meas</span></code> matches, 1 if it doesn’t.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">observable</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+<td><p>Whether this is a <strong>detector</strong> (<code class="docutils literal notranslate"><span class="pre">False</span></code>) or an <strong>observable</strong> (<code class="docutils literal notranslate"><span class="pre">True</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Creating a detector (feeds the decoder’s dynamic input):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;I expect this ancilla to measure 0. Tell me if it doesn&#39;t.&quot;</span>
+<span class="n">parity</span><span class="p">(</span><span class="n">ancilla_measurement</span><span class="p">,</span> <span class="n">expectation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When the circuit is converted to Stim, a parity with <code class="docutils literal notranslate"><span class="pre">observable=False</span></code> becomes a
+<strong>``DETECTOR``</strong> instruction.</p>
+<p>Creating an observable (checked against the decoder’s prediction):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;I prepared |1⟩, so this data qubit should measure 1.&quot;</span>
+<span class="n">parity</span><span class="p">(</span><span class="n">data_measurement</span><span class="p">,</span> <span class="n">expectation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">observable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When <code class="docutils literal notranslate"><span class="pre">observable=True</span></code>, the parity becomes an <strong>``OBSERVABLE_INCLUDE``</strong> instruction in
+Stim.</p>
+<section id="how-qrisp-s-parity-differs-from-stim-s-detector-observable-include">
+<h4>How Qrisp’s <code class="docutils literal notranslate"><span class="pre">parity()</span></code> differs from Stim’s DETECTOR/OBSERVABLE_INCLUDE<a class="headerlink" href="#how-qrisp-s-parity-differs-from-stim-s-detector-observable-include" title="Link to this heading">#</a></h4>
+<p>There’s an important difference in how the expectation is handled:</p>
+<ul class="simple">
+<li><p><strong>In Stim</strong>, a <code class="docutils literal notranslate"><span class="pre">DETECTOR</span></code> instruction <em>automatically</em> computes the appropriate
+expectation. Stim simulates the circuit’s noise-free behavior, so when you write
+<code class="docutils literal notranslate"><span class="pre">DETECTOR</span> <span class="pre">rec[-1]</span> <span class="pre">rec[-3]</span></code>, Stim internally determines what the XOR should be in the
+absence of errors. You don’t specify the expectation; Stim figures it out.</p></li>
+<li><p><strong>In Qrisp</strong>, <code class="xref py py-func docutils literal notranslate"><span class="pre">parity()</span></code> requires you to <strong>explicitly</strong> provide the
+<code class="docutils literal notranslate"><span class="pre">expectation</span></code> argument. This is a deliberate design choice: Qrisp must work in
+scenarios where no noise-free reference simulation is available. By making the
+expectation part of the function signature, Qrisp ensures the parity check is
+self-contained and interpretable.</p></li>
+</ul>
+<p>The trade-off is that you, the programmer, must correctly specify what you expect. Getting
+the expectation right is a critical part of writing correct QEC code in Qrisp.</p>
+</section>
+</section>
+</section>
+<section id="what-does-detectorexperiment-give-us">
+<h2>What does <code class="docutils literal notranslate"><span class="pre">DetectorExperiment</span></code> give us?<a class="headerlink" href="#what-does-detectorexperiment-give-us" title="Link to this heading">#</a></h2>
+<p>So far we’ve discussed detectors, observables, error syndromes, the DEM, and the decoder,
+all as abstract concepts. In practice, wiring all of this together by hand is tedious.</p>
+<p><a class="reference internal" href="../qrisp_iqm_qec.html#iqm.qrisp_iqm.qec.DetectorExperiment" title="iqm.qrisp_iqm.qec.DetectorExperiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">DetectorExperiment</span></code></a> is a decorator that automates this entire
+pipeline. You write a QEC experiment as a plain Jasp-traceable function that returns
+<code class="docutils literal notranslate"><span class="pre">(detectors,</span> <span class="pre">observables)</span></code> using <code class="xref py py-func docutils literal notranslate"><span class="pre">parity()</span></code>. Then you decorate it with
+<code class="docutils literal notranslate"><span class="pre">&#64;DetectorExperiment</span></code>, and the decorator gives you a fully instrumented experiment object
+with the following methods:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>What it does</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.compute_LER(args,</span> <span class="pre">shots,</span> <span class="pre">backend)</span></code></p></td>
+<td><p>Runs the experiment, extracts detector outcomes, builds the DEM from
+your <code class="docutils literal notranslate"><span class="pre">stim_noise</span></code> annotations, feeds everything to PyMatching, and
+returns the logical error rate.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">.batched_compute_LER(...)</span></code></p></td>
+<td><p>Same as above, but sweeps over multiple argument tuples in a single
+batched hardware submission.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">.to_stim(args)</span></code></p></td>
+<td><p>Extracts the underlying Stim circuit for a given set of arguments.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">.to_iqm(args,</span> <span class="pre">topology,</span> <span class="pre">pm)</span></code></p></td>
+<td><p>Converts the experiment to an IQM Pulse Circuit.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In short: you focus on defining the syndrome extraction and the parity checks.
+<code class="docutils literal notranslate"><span class="pre">DetectorExperiment</span></code> handles the decoding, the bookkeeping, and the hardware submission.</p>
+</section>
+<section id="experiment-definition">
+<h2>Experiment Definition<a class="headerlink" href="#experiment-definition" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qrisp.interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">StimBackend</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">qrisp</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">QuantumArray</span><span class="p">,</span>
+    <span class="n">QuantumBool</span><span class="p">,</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span>                    <span class="c1"># gates</span>
+    <span class="n">measure</span><span class="p">,</span> <span class="n">reset</span><span class="p">,</span>           <span class="c1"># measurement &amp; reset</span>
+    <span class="n">parity</span><span class="p">,</span>                   <span class="c1"># classical parity checks → detectors &amp; observables</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">qrisp.misc.stim_tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">stim_noise</span>  <span class="c1"># builds the detector error model (DEM)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">DetectorExperiment</span><span class="p">,</span> <span class="n">delay</span>
+
+<span class="c1"># ── Detector error model (DEM) ───────────────────────────────────────────</span>
+<span class="n">depolarize_strength</span> <span class="o">=</span> <span class="mf">0.01</span>   <span class="c1"># single- and two-qubit depolarizing noise</span>
+<span class="n">X_error_strength</span>    <span class="o">=</span> <span class="mf">0.01</span>   <span class="c1"># bit-flip noise on ancilla (measurement error)</span>
+
+<span class="c1"># ── Code parameters ──────────────────────────────────────────────────────</span>
+<span class="n">code_size</span> <span class="o">=</span> <span class="mi">4</span>   <span class="c1"># number of data qubits (code distance)</span>
+<span class="n">rounds</span>    <span class="o">=</span> <span class="mi">2</span>   <span class="c1"># syndrome extraction rounds</span>
+
+
+<span class="c1"># ── Syndrome extraction ──────────────────────────────────────────────────</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">syndrom_round</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ancilla</span><span class="p">,</span> <span class="n">delay_time</span><span class="p">,</span> <span class="n">do_reset</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One round of syndrome extraction.</span>
+
+<span class="sd">    Entangles ancillas with their neighboring data qubits via CNOTs</span>
+<span class="sd">    so each ancilla measurement reveals the XOR (quantum parity) of</span>
+<span class="sd">    its two data neighbors, without collapsing the data qubits themselves.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">do_reset</span><span class="p">:</span>
+        <span class="n">reset</span><span class="p">(</span><span class="n">ancilla</span><span class="p">)</span>
+        <span class="n">stim_noise</span><span class="p">(</span><span class="s2">&quot;X_ERROR&quot;</span><span class="p">,</span> <span class="n">X_error_strength</span><span class="p">,</span> <span class="n">ancilla</span><span class="p">)</span>
+        <span class="n">stim_noise</span><span class="p">(</span><span class="s2">&quot;DEPOLARIZE1&quot;</span><span class="p">,</span> <span class="n">depolarize_strength</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="c1"># Additional idle delay: native IQM pulse operation</span>
+    <span class="n">delay</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="n">delay_time</span><span class="p">)</span>
+    <span class="n">delay</span><span class="p">(</span><span class="n">ancilla</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="n">delay_time</span><span class="p">)</span>
+
+    <span class="c1"># CNOT layer 1: data[i] → ancilla[i]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ancilla</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">cx</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ancilla</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ancilla</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">stim_noise</span><span class="p">(</span><span class="s2">&quot;DEPOLARIZE2&quot;</span><span class="p">,</span> <span class="n">depolarize_strength</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">ancilla</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="n">stim_noise</span><span class="p">(</span><span class="s2">&quot;DEPOLARIZE1&quot;</span><span class="p">,</span> <span class="n">depolarize_strength</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># CNOT layer 2: data[i+1] → ancilla[i]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ancilla</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">cx</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">ancilla</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ancilla</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="n">stim_noise</span><span class="p">(</span><span class="s2">&quot;DEPOLARIZE2&quot;</span><span class="p">,</span> <span class="n">depolarize_strength</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">ancilla</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="n">stim_noise</span><span class="p">(</span><span class="s2">&quot;DEPOLARIZE1&quot;</span><span class="p">,</span> <span class="n">depolarize_strength</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># pre-measure noise and idling</span>
+    <span class="n">stim_noise</span><span class="p">(</span><span class="s2">&quot;X_ERROR&quot;</span><span class="p">,</span> <span class="n">X_error_strength</span><span class="p">,</span> <span class="n">ancilla</span><span class="p">)</span>
+    <span class="n">stim_noise</span><span class="p">(</span><span class="s2">&quot;DEPOLARIZE1&quot;</span><span class="p">,</span> <span class="n">depolarize_strength</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="c1"># measure() on a QuantumArray returns a Jax array of shape (ancilla.size,)</span>
+    <span class="k">return</span> <span class="n">measure</span><span class="p">(</span><span class="n">ancilla</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">multi_round</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ancilla</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">delay_time</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run multiple syndrome rounds and build the error syndrome.&quot;&quot;&quot;</span>
+    <span class="n">parity_outcome_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">previous_meas_res</span> <span class="o">=</span> <span class="n">syndrom_round</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ancilla</span><span class="p">,</span> <span class="n">delay_time</span><span class="p">,</span> <span class="n">do_reset</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">parity_outcome_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parity</span><span class="p">(</span><span class="n">previous_meas_res</span><span class="p">,</span> <span class="n">expectation</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+        <span class="n">new_meas_res</span> <span class="o">=</span> <span class="n">syndrom_round</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ancilla</span><span class="p">,</span> <span class="n">delay_time</span><span class="p">)</span>
+        <span class="n">detector_value</span> <span class="o">=</span> <span class="n">parity</span><span class="p">(</span><span class="n">new_meas_res</span><span class="p">,</span> <span class="n">previous_meas_res</span><span class="p">,</span> <span class="n">expectation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">parity_outcome_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">detector_value</span><span class="p">)</span>
+        <span class="n">previous_meas_res</span> <span class="o">=</span> <span class="n">new_meas_res</span>
+
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">parity_outcome_list</span><span class="p">),</span> <span class="n">new_meas_res</span>
+
+
+<span class="c1"># ── Decorated experiment ─────────────────────────────────────────────────</span>
+
+<span class="nd">@DetectorExperiment</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">rep_code_experiment</span><span class="p">(</span><span class="n">delay_time</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Repetition code memory experiment parameterized by idle delay time.&quot;&quot;&quot;</span>
+
+    <span class="n">qubits</span>  <span class="o">=</span> <span class="n">QuantumArray</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">code_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,),</span> <span class="n">qtype</span><span class="o">=</span><span class="n">QuantumBool</span><span class="p">())</span>
+    <span class="n">data</span>    <span class="o">=</span> <span class="n">qubits</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>     <span class="c1"># code_size data qubits</span>
+    <span class="n">ancilla</span> <span class="o">=</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>    <span class="c1"># code_size - 1 ancilla qubits</span>
+
+    <span class="c1"># Prepare logical |1_L⟩</span>
+    <span class="n">x</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="c1"># Syndrome extraction</span>
+    <span class="n">syndrom_detectors</span><span class="p">,</span> <span class="n">last_anc_meas_res</span> <span class="o">=</span> <span class="n">multi_round</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">ancilla</span><span class="p">,</span> <span class="n">rounds</span><span class="p">,</span> <span class="n">delay_time</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Final data-qubit measurement</span>
+    <span class="n">data_meas_res</span> <span class="o">=</span> <span class="n">measure</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="c1"># Measurement-round detectors</span>
+    <span class="n">measurement_detectors</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">measurement_detectors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">parity</span><span class="p">(</span><span class="n">data_meas_res</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">last_anc_meas_res</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">data_meas_res</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span>
+                   <span class="n">expectation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Full error syndrome</span>
+    <span class="n">detectors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">syndrom_detectors</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span> <span class="o">+</span> <span class="n">measurement_detectors</span>
+
+    <span class="c1"># Observable</span>
+    <span class="n">observable</span> <span class="o">=</span> <span class="n">parity</span><span class="p">(</span><span class="n">data_meas_res</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">observable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">expectation</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">detectors</span><span class="p">,</span> <span class="p">[</span><span class="n">observable</span><span class="p">]</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Experiment defined.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The output of this cell is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Experiment</span> <span class="n">defined</span><span class="o">.</span>
+</pre></div>
+</div>
+</section>
+<section id="extracting-the-stim-circuit-to-stim">
+<h2>Extracting the Stim Circuit (<code class="docutils literal notranslate"><span class="pre">to_stim</span></code>)<a class="headerlink" href="#extracting-the-stim-circuit-to-stim" title="Link to this heading">#</a></h2>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_stim()</span></code> method extracts the <strong>Stim circuit</strong> for a given
+set of arguments. Stim is a fast C++ simulator for Clifford circuits with noise.</p>
+<p>The extracted circuit includes:</p>
+<ul class="simple">
+<li><p><strong>Qubit declarations</strong>: all physical qubits used in the experiment</p></li>
+<li><p><strong>Quantum gates</strong>: the same sequence of X, H, CNOT, and measurement operations</p></li>
+<li><p><strong>Noise instructions</strong>: <code class="docutils literal notranslate"><span class="pre">DEPOLARIZE1</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPOLARIZE2</span></code>, and <code class="docutils literal notranslate"><span class="pre">X_ERROR</span></code> operations</p></li>
+<li><p><strong>Detector annotations</strong>: <code class="docutils literal notranslate"><span class="pre">DETECTOR</span></code> instructions</p></li>
+<li><p><strong>Observable annotations</strong>: <code class="docutils literal notranslate"><span class="pre">OBSERVABLE_INCLUDE</span></code> instructions</p></li>
+</ul>
+<p>The SVG timeline diagram is a useful debugging tool. You can verify at a glance that
+<code class="docutils literal notranslate"><span class="pre">DETECTOR</span></code> and <code class="docutils literal notranslate"><span class="pre">OBSERVABLE_INCLUDE</span></code> annotations are placed correctly, noise instructions
+appear where intended, and the gate sequence matches your mental model of the circuit.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">stim</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVG</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">stim_circuit</span> <span class="o">=</span> <span class="n">rep_code_experiment</span><span class="o">.</span><span class="n">to_stim</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Qubits:      </span><span class="si">{</span><span class="n">stim_circuit</span><span class="o">.</span><span class="n">num_qubits</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Detectors:   </span><span class="si">{</span><span class="n">stim_circuit</span><span class="o">.</span><span class="n">num_detectors</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Observables: </span><span class="si">{</span><span class="n">stim_circuit</span><span class="o">.</span><span class="n">num_observables</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">svg_diagram</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">stim_circuit</span><span class="o">.</span><span class="n">diagram</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;timeline-svg&quot;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">SVG</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">svg_diagram</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Qubits</span><span class="p">:</span>      <span class="mi">7</span>
+<span class="n">Detectors</span><span class="p">:</span>   <span class="mi">9</span>
+<span class="n">Observables</span><span class="p">:</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<img alt="Stim timeline diagram of the repetition code experiment" class="align-center" src="../_images/detector_demo_stim_timeline.svg" />
+</section>
+<section id="iqm-backend-setup">
+<h2>IQM Backend Setup<a class="headerlink" href="#iqm-backend-setup" title="Link to this heading">#</a></h2>
+<p>Before computing error rates on real hardware, we connect to IQM and set up a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">PassManager</span></code> that handles two critical compilation steps.</p>
+<section id="why-do-we-need-layout-and-gate-conversion">
+<h3>Why do we need layout and gate conversion?<a class="headerlink" href="#why-do-we-need-layout-and-gate-conversion" title="Link to this heading">#</a></h3>
+<p>Our circuit uses <em>logical</em> qubits, but real hardware has <em>physical</em> qubits arranged in a
+specific topology. The <strong>layout</strong> pass (<code class="xref py py-func docutils literal notranslate"><span class="pre">vf2pp_layout()</span></code>) finds an
+embedding of our circuit’s interaction graph into the device topology using the VF2++
+subgraph isomorphism algorithm.</p>
+<p>The <strong>gate conversion</strong> passes (<code class="xref py py-func docutils literal notranslate"><span class="pre">convert_to_cz()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">convert_to_prx()</span></code>)
+decompose non-native gates (particularly CNOTs) into the IQM-native <strong>CZ</strong> gate combined
+with <code class="docutils literal notranslate"><span class="pre">PRX</span></code> rotations.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">qrisp</span><span class="w"> </span><span class="kn">import</span> <span class="n">PassManager</span><span class="p">,</span> <span class="n">convert_to_cz</span><span class="p">,</span> <span class="n">convert_to_prx</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">vf2pp_layout</span><span class="p">,</span> <span class="n">IQMBackend</span><span class="p">,</span> <span class="n">measurement_parallelization</span>
+
+<span class="c1"># Get your API Key at https://resonance.iqm.tech/</span>
+<span class="n">API_KEY</span> <span class="o">=</span> <span class="s2">&quot;YOUR_API_KEY&quot;</span>
+
+<span class="n">server_url</span> <span class="o">=</span> <span class="s2">&quot;https://resonance.iqm.tech/&quot;</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IQMBackend</span><span class="p">(</span>
+    <span class="n">device_instance</span><span class="o">=</span><span class="s2">&quot;emerald&quot;</span><span class="p">,</span>
+    <span class="n">api_token</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">,</span>
+    <span class="n">server_url</span><span class="o">=</span><span class="n">server_url</span><span class="p">,</span>
+    <span class="n">pass_manager</span><span class="o">=</span><span class="n">PassManager</span><span class="p">()</span>
+<span class="p">)</span>
+
+<span class="n">connectivity</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">connectivity</span>
+
+<span class="n">backend</span><span class="o">.</span><span class="n">pm</span> <span class="o">+=</span> <span class="n">vf2pp_layout</span><span class="p">(</span><span class="n">connectivity</span><span class="p">)</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">pm</span> <span class="o">+=</span> <span class="n">convert_to_cz</span><span class="p">()</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">pm</span> <span class="o">+=</span> <span class="n">convert_to_prx</span>
+<span class="c1"># Parallelize readouts. Essential for realistic LER on hardware.</span>
+<span class="n">backend</span><span class="o">.</span><span class="n">pm</span> <span class="o">+=</span> <span class="n">measurement_parallelization</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Connectivity has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">connectivity</span><span class="p">)</span><span class="si">}</span><span class="s2"> edges&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Backend and PassManager ready.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="single-ler-computation">
+<h2>Single LER Computation<a class="headerlink" href="#single-ler-computation" title="Link to this heading">#</a></h2>
+<p>We compute the logical error rate with zero delay using both Stim (fast classical
+simulation) and the real IQM hardware for comparison.</p>
+<ul class="simple">
+<li><p><strong>Stim</strong> simulates the circuit with the exact noise model we specified, giving a baseline
+LER under idealised Pauli noise.</p></li>
+<li><p><strong>Hardware</strong> runs the real circuit with real physical noise: T₁/T₂ decoherence, gate
+miscalibration, crosstalk, and other effects.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">shots</span> <span class="o">=</span> <span class="mi">10_000</span>
+
+<span class="n">ler_stim</span> <span class="o">=</span> <span class="n">rep_code_experiment</span><span class="o">.</span><span class="n">compute_LER</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">StimBackend</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Stim   - Logical error rate (delay=0, </span><span class="si">{</span><span class="n">shots</span><span class="si">}</span><span class="s2"> shots): </span><span class="si">{</span><span class="n">ler_stim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">ler_hw</span> <span class="o">=</span> <span class="n">rep_code_experiment</span><span class="o">.</span><span class="n">compute_LER</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Emerald - Logical error rate (delay=0, </span><span class="si">{</span><span class="n">shots</span><span class="si">}</span><span class="s2"> shots): </span><span class="si">{</span><span class="n">ler_hw</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Example output (emerald, 10,000 shots):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Stim</span>    <span class="o">-</span> <span class="n">Logical</span> <span class="n">error</span> <span class="n">rate</span> <span class="p">(</span><span class="n">delay</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span> <span class="n">shots</span><span class="p">):</span> <span class="mf">0.0316</span>
+<span class="n">Emerald</span> <span class="o">-</span> <span class="n">Logical</span> <span class="n">error</span> <span class="n">rate</span> <span class="p">(</span><span class="n">delay</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span> <span class="n">shots</span><span class="p">):</span> <span class="mf">0.1453</span>
+</pre></div>
+</div>
+</section>
+<section id="batched-ler-impact-of-pulse-level-delays-on-hardware">
+<h2>Batched LER: Impact of Pulse-Level Delays on Hardware<a class="headerlink" href="#batched-ler-impact-of-pulse-level-delays-on-hardware" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">delay</span></code> operation is a native IQM pulse instruction. It inserts real idle time during
+which qubits decohere via T₁/T₂ processes.</p>
+<p>Our repetition code only protects against bit-flip (X) errors. Amplitude damping (T₁)
+causes such errors on the data qubits. By sweeping the delay, we directly observe how
+idle-induced decoherence degrades the logical error rate.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hardware_delays</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,),</span>
+    <span class="p">(</span><span class="mf">500e-9</span><span class="p">,),</span>
+    <span class="p">(</span><span class="mf">1e-6</span><span class="p">,),</span>
+    <span class="p">(</span><span class="mf">5e-6</span><span class="p">,),</span>
+    <span class="p">(</span><span class="mf">10e-6</span><span class="p">,),</span>
+<span class="p">]</span>
+
+<span class="n">ler_hw</span> <span class="o">=</span> <span class="n">rep_code_experiment</span><span class="o">.</span><span class="n">batched_compute_LER</span><span class="p">(</span>
+    <span class="n">hardware_delays</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">args</span><span class="p">,</span> <span class="n">ler</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">hardware_delays</span><span class="p">,</span> <span class="n">ler_hw</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  delay = </span><span class="si">{</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;10.1e</span><span class="si">}</span><span class="s2"> → LER = </span><span class="si">{</span><span class="n">ler</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Example output (emerald, 10,000 shots):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>delay = 0.0e+00    → LER = 0.1412
+delay = 5.0e-07    → LER = 0.1771
+delay = 1.0e-06    → LER = 0.2063
+delay = 5.0e-06    → LER = 0.3583
+delay = 1.0e-05    → LER = 0.4603
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">hw_delays_us</span> <span class="o">=</span> <span class="p">[</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e6</span> <span class="k">for</span> <span class="n">args</span> <span class="ow">in</span> <span class="n">hardware_delays</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hw_delays_us</span><span class="p">,</span> <span class="n">ler_hw</span><span class="p">,</span> <span class="s2">&quot;s-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;crimson&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Delay (µs)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Logical Error Rate&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Repetition Code on IQM Emerald: LER vs. Idle Delay&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="LER vs idle delay on IQM Emerald" class="align-center" src="../_images/detector_demo_ler_vs_delay.png" />
+</section>
+<section id="extracting-the-iqm-circuit-to-iqm-playlist-visualization">
+<h2>Extracting the IQM Circuit (<code class="docutils literal notranslate"><span class="pre">to_iqm</span></code>) &amp; Playlist Visualization<a class="headerlink" href="#extracting-the-iqm-circuit-to-iqm-playlist-visualization" title="Link to this heading">#</a></h2>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_iqm()</span></code> method converts the experiment into an IQM Pulse
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code> object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">iqm_circuit</span> <span class="o">=</span> <span class="n">rep_code_experiment</span><span class="o">.</span><span class="n">to_iqm</span><span class="p">(</span>
+    <span class="mi">0</span><span class="p">,</span> <span class="n">topology</span><span class="o">=</span><span class="n">backend</span><span class="o">.</span><span class="n">iqm_client</span><span class="o">.</span><span class="n">get_dynamic_quantum_architecture</span><span class="p">(),</span> <span class="n">pm</span><span class="o">=</span><span class="n">backend</span><span class="o">.</span><span class="n">pm</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;IQM circuit: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">iqm_circuit</span><span class="o">.</span><span class="n">instructions</span><span class="p">)</span><span class="si">}</span><span class="s2"> instructions&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">IQM</span> <span class="n">circuit</span><span class="p">:</span> <span class="mi">85</span> <span class="n">instructions</span>
+</pre></div>
+</div>
+<p>The IQM Pulse Circuit is compiled by <strong>Pulla</strong> (IQM’s pulse-level compiler) into a
+<strong>playlist</strong>: a timed sequence of analog waveform samples for each drive line.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulla.pulla</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pulla</span>
+<span class="n">pulla</span> <span class="o">=</span> <span class="n">Pulla</span><span class="p">(</span><span class="n">server_url</span><span class="p">,</span> <span class="n">quantum_computer</span><span class="o">=</span><span class="s2">&quot;emerald&quot;</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="n">API_KEY</span><span class="p">)</span>
+
+<span class="n">compiler</span> <span class="o">=</span> <span class="n">pulla</span><span class="o">.</span><span class="n">get_standard_compiler</span><span class="p">()</span>
+<span class="n">run_definition</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">([</span><span class="n">iqm_circuit</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Playlist compiled successfully.&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.playlist.visualisation.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">inspect_playlist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">html_content</span> <span class="o">=</span> <span class="n">inspect_playlist</span><span class="p">(</span><span class="n">run_definition</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">html_content</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The interactive HTML visualization shows pulse envelopes, timing, and parallelism. You can
+view the full playlist visualization <a class="reference download internal" download="" href="../_downloads/8a381fdaea6f368d234af3bbcc6614d9/detector_demo_pulse_playlist.html"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This section only demonstrates how to hand a <code class="docutils literal notranslate"><span class="pre">DetectorExperiment</span></code> result over to
+Pulla. For detailed pulse-level compilation documentation, see
+<a class="reference external" href="https://docs.iqm.tech/iqm-pulla/">docs.iqm.tech/iqm-pulla</a>.</p>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plasma_sabre_tutorial.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Plasma-Sabre Tutorial</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../user_guide_qiskit.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Qiskit on IQM User Guide</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-repetition-code">What is a repetition code?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-kinds-of-qubits-data-and-ancilla">The two kinds of qubits: data and ancilla</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-can-t-we-just-measure-the-data-qubits-directly">Why can’t we just measure the data qubits directly?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-parity-checks-work-a-concrete-example">How parity checks work: a concrete example</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-decoder-and-what-does-it-do">What is a decoder and what does it do?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#static-information-the-detector-error-model-dem">Static information: the detector error model (DEM)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-information-the-error-syndrome">Dynamic information: the error syndrome</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-the-decoder-processes-these-two-inputs">How the decoder processes these two inputs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#computing-the-logical-error-rate">Computing the logical error rate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-detectors-and-observables">What are detectors and observables?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-parity-what-happens-on-the-device">Quantum parity: what happens on the device</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-parity-building-the-error-syndrome">Classical parity: building the error syndrome</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#observables">Observables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-qrisp-s-parity-function-unites-detectors-and-observables">How Qrisp’s <code class="docutils literal notranslate"><span class="pre">parity()</span></code> function unites detectors and observables</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#how-qrisp-s-parity-differs-from-stim-s-detector-observable-include">How Qrisp’s <code class="docutils literal notranslate"><span class="pre">parity()</span></code> differs from Stim’s DETECTOR/OBSERVABLE_INCLUDE</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-detectorexperiment-give-us">What does <code class="docutils literal notranslate"><span class="pre">DetectorExperiment</span></code> give us?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-definition">Experiment Definition</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-the-stim-circuit-to-stim">Extracting the Stim Circuit (<code class="docutils literal notranslate"><span class="pre">to_stim</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm-backend-setup">IQM Backend Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-do-we-need-layout-and-gate-conversion">Why do we need layout and gate conversion?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-ler-computation">Single LER Computation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#batched-ler-impact-of-pulse-level-delays-on-hardware">Batched LER: Impact of Pulse-Level Delays on Hardware</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extracting-the-iqm-circuit-to-iqm-playlist-visualization">Extracting the IQM Circuit (<code class="docutils literal notranslate"><span class="pre">to_iqm</span></code>) &amp; Playlist Visualization</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM client developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2026, IQM Finland Oy, Release 35.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-07-16.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
