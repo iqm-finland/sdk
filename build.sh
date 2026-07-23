@@ -162,7 +162,7 @@ build_version() {
     done < "$filtered"
 
     if [ -s "$remaining" ]; then
-        echo "Downloading remaining packages from remote indexes..."
+        echo "Downloading remaining packages from remote indexes: $(cat $remaining)"
         if [ "$USE_CONSTRAINTS" = true ]; then
             uv run -m pip download --no-deps --no-binary=:all: \
                 -c "$tmp_dir/constraints.txt" -r "$remaining" -d "$tmp_dir"
