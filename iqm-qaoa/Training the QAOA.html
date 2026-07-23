@@ -1,0 +1,744 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Training the QAOA &#8212; IQM QAOA 1.40.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=4c5a2ca7"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Training the QAOA';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Which Qubits on the QPU Are Used?" href="Which%20Qubits%20on%20the%20QPU%20Are%20Used.html" />
+    <link rel="prev" title="Portfolio Optimization" href="Portfolio%20Optimization.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-07-23"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM QAOA 1.40.4 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM QAOA 1.40.4 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">IQM QAOA</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="examples.html">Usage Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="SK%20Model%20and%20Transpilation.html">SK Model and Transpilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Sparse%20Maxcut.html">Sparse Maxcut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Portfolio%20Optimization.html">Portfolio Optimization</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Training the QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Which%20Qubits%20on%20the%20QPU%20Are%20Used.html">Which Qubits on the QPU Are Used?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.applications.html">applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.applications.applications.html">applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.applications.ProblemInstance.html">ProblemInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.applications.graph_utils.html">graph_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.NODE_ATTR_PRIORITY.html">NODE_ATTR_PRIORITY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.EDGE_ATTR_PRIORITY.html">EDGE_ATTR_PRIORITY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.draw_problem.html">draw_problem</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.get_top_n_color_pairs.html">get_top_n_color_pairs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.plot_graph.html">plot_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.prepare_plot_data.html">prepare_plot_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.relabel_graph_nodes.html">relabel_graph_nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.residual_degree.html">residual_degree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.PlotData.html">PlotData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.graph_utils.ProblemData.html">ProblemData</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.applications.maxcut.html">maxcut</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.maxcut.goemans_williamson.html">goemans_williamson</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.maxcut.greedy_max_cut.html">greedy_max_cut</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.maxcut.maxcut_generator.html">maxcut_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.maxcut.MaxCutInstance.html">MaxCutInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.maxcut.WeightedMaxCutInstance.html">WeightedMaxCutInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.applications.mis.html">mis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.mis.bron_kerbosch.html">bron_kerbosch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.mis.greedy_mis.html">greedy_mis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.mis.mis_generator.html">mis_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.mis.ISInstance.html">ISInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.mis.MISInstance.html">MISInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.mis.MaximumWeightISInstance.html">MaximumWeightISInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.applications.qubo.html">qubo</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.qubo.relabel_bqm_cqm_variables.html">relabel_bqm_cqm_variables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.qubo.ConstrainedQuadraticInstance.html">ConstrainedQuadraticInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.qubo.QUBOInstance.html">QUBOInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.applications.sk.html">sk</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.sk.sk_generator.html">sk_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.applications.sk.SherringtonKirkpatrick.html">SherringtonKirkpatrick</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.qaoa.html">qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.backends.html">backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.EstimatorBackend.html">EstimatorBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.EstimatorFromSampler.html">EstimatorFromSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.EstimatorQUIMB.html">EstimatorQUIMB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.EstimatorSingleLayer.html">EstimatorSingleLayer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.EstimatorStateVector.html">EstimatorStateVector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.SamplerBackend.html">SamplerBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.SamplerRandomBitstrings.html">SamplerRandomBitstrings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.SamplerResonance.html">SamplerResonance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.backends.SamplerSimulation.html">SamplerSimulation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.circuits.html">circuits</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.circuits.qiskit_circuit.html">qiskit_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.circuits.qiskit_circuit_specific_nodes.html">qiskit_circuit_specific_nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.circuits.quimb_tn.html">quimb_tn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.circuits.transpiled_circuit.html">transpiled_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.circuits.TranspilerOption.html">TranspilerOption</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.generic_qaoa.html">generic_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.generic_qaoa.QAOA.html">QAOA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.qubo_qaoa.html">qubo_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.qubo_qaoa.QUBOQAOA.html">QUBOQAOA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.transforming_functions.html">transforming_functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transforming_functions.ham_graph_to_ham_operator.html">ham_graph_to_ham_operator</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.transpiler.html">transpiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.hardwired.html">hardwired</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.ptn.html">ptn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.quantum_hardware.html">quantum_hardware</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.routing.html">routing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.rx_to_nx.html">rx_to_nx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.sn.html">sn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.sparse.html">sparse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.transpiler.star.html">star</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.tree_calculation.html">tree_calculation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.tree_calculation.generate_basis.html">generate_basis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.tree_calculation.tree_calculation.html">tree_calculation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qaoa.tree_qaoa.html">tree_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qaoa.tree_qaoa.TreeQAOA.html">TreeQAOA</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Training the QAOA.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Training the QAOA</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="training-the-qaoa">
+<h1>Training the QAOA<a class="headerlink" href="#training-the-qaoa" title="Link to this heading">#</a></h1>
+<p>In this notebook we showcase (and compare) various strategies of training the QAOA, that is finding the optimal values for the variational parameters (also known as QAOA <em>angles</em>).</p>
+<p>We start by generating a quasi-random instance of the maxcut problem (with 10 nodes).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.applications.maxcut</span><span class="w"> </span><span class="kn">import</span> <span class="n">maxcut_generator</span>
+
+<span class="n">maxcut</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">maxcut_generator</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_instances</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">graph_family</span><span class="o">=</span><span class="s2">&quot;erdos-renyi&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">420</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Generate a QAOA instance from the problem instance. We use the <code class="docutils literal notranslate"><span class="pre">TreeQAOA</span></code> class, which is identical to the <code class="docutils literal notranslate"><span class="pre">QUBOQAOA</span></code> class, but it contains one extra way to “train” the QAOA parameters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qaoa.tree_qaoa</span><span class="w"> </span><span class="kn">import</span> <span class="n">TreeQAOA</span>
+
+<span class="c1"># Using the standard notation for QAOA angles, the ``initial_angles`` are [gamma, beta] respectively.</span>
+<span class="n">qaoa</span> <span class="o">=</span> <span class="n">TreeQAOA</span><span class="p">(</span><span class="n">problem</span><span class="o">=</span><span class="n">maxcut</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">initial_angles</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For training the QAOA, we will use various <em>estimators</em>. An estimator is a function (technically a class with a method) which takes a QAOA object and calculates/estimates the expectation value of the Hamiltonian. Similarly, a <em>sampler</em> takes a QAOA object and generates samples (measurement results) of possible solutions.</p>
+<p>Here we also set up a variable <code class="docutils literal notranslate"><span class="pre">results</span></code> to store the results of our experiments, for comparison. It’s a dictionary of dictionaries, keyed first by the training method and then by the QAOA number of layers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qaoa.backends</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">EstimatorFromSampler</span><span class="p">,</span>
+    <span class="n">EstimatorSingleLayer</span><span class="p">,</span>
+    <span class="n">EstimatorStateVector</span><span class="p">,</span>
+    <span class="n">SamplerResonance</span><span class="p">,</span>
+    <span class="n">SamplerSimulation</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">results</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">{}</span>
+<span class="p">)</span>  <span class="c1"># A dictionary for storing the results (to make comparison easier at the end).</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;sl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Single-layer estimator.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;sv&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Statevector estimator.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;sim&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Estimator from sampler, samples obtained by simulation.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;sim_cvar&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Estimator from sampler, samples obtained by simulation, using CVaR instead of mean.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;res&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Estimator from sampler, samples obtained from Resonance.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;tree&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Angles set by the tree schedule (no real training).</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We start with <code class="docutils literal notranslate"><span class="pre">EstimatorSingleLayer</span></code>. For single-layer QAOA, the expectation values of 1- and 2-qubit operators can be calculated analytically. This estimator does the calculation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">estimator_single_layer</span> <span class="o">=</span> <span class="n">EstimatorSingleLayer</span><span class="p">()</span>
+
+<span class="n">qaoa</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">estimator_single_layer</span><span class="p">)</span>  <span class="c1"># Here the QAOA is trained.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;sl&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimator_single_layer</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">qaoa</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Expected value of the Hamiltonian after training with ``EstimatorSingleLayer``:&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;sl&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we train using <code class="docutils literal notranslate"><span class="pre">EstimatorStateVector</span></code>. This estimator runs the statevector simulation of the QAOA circuit to calculate the expectation value of the Hamiltonian.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">estimator_statevector</span> <span class="o">=</span> <span class="n">EstimatorStateVector</span><span class="p">()</span>
+
+<span class="n">qaoa</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>  <span class="c1"># Reset the QAOA angles (to make comparison of training methods fair).</span>
+<span class="n">qaoa</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">estimator_statevector</span><span class="p">)</span>  <span class="c1"># Here the QAOA is trained.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;sv&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimator_statevector</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">qaoa</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Expected value of the Hamiltonian after training with ``EstimatorStateVector``:&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;sv&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we train using <code class="docutils literal notranslate"><span class="pre">EstimatorFromSampler</span></code> together with <code class="docutils literal notranslate"><span class="pre">SamplerSimulation</span></code>. This estimator calls a given sampler and uses the obtained samples to estimate the expectation value (by calculating the energy of each of the samples and averaging them out). The <code class="docutils literal notranslate"><span class="pre">SamplerSimulation</span></code> runs the simulation of the QAOA circuit, including the measurements.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sampler_from_simulation</span> <span class="o">=</span> <span class="n">SamplerSimulation</span><span class="p">()</span>  <span class="c1"># By default, it initializes with AerSimulator(method=&quot;statevector&quot;)</span>
+<span class="n">estimator_from_simulation</span> <span class="o">=</span> <span class="n">EstimatorFromSampler</span><span class="p">(</span><span class="n">sampler</span><span class="o">=</span><span class="n">sampler_from_simulation</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+
+<span class="n">qaoa</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>  <span class="c1"># Reset the QAOA angles (to make comparison of training methods fair).</span>
+<span class="n">qaoa</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">estimator_from_simulation</span><span class="p">)</span>  <span class="c1"># Here the QAOA is trained.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;sim&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimator_from_simulation</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">qaoa</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Expected value using ``EstimatorFromSampler`` with ``SamplerSimulation``:&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;sim&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we again use <code class="docutils literal notranslate"><span class="pre">EstimatorFromSampler</span></code> together with <code class="docutils literal notranslate"><span class="pre">SamplerSimulation</span></code>. But this time we calculate not the <em>expectation value</em>, but the <em>conditional value at risk</em> at <code class="docutils literal notranslate"><span class="pre">0.1</span></code> level. We use this value in training the QAOA, possibly changing the performance.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">estimator_from_simulation_cvar</span> <span class="o">=</span> <span class="n">EstimatorFromSampler</span><span class="p">(</span><span class="n">sampler</span><span class="o">=</span><span class="n">sampler_from_simulation</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">cvar</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="n">qaoa</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>  <span class="c1"># Reset the QAOA angles (to make comparison of training methods fair).</span>
+<span class="n">qaoa</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">estimator_from_simulation_cvar</span><span class="p">)</span>  <span class="c1"># Here the QAOA is trained.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;sim_cvar&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimator_from_simulation_cvar</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">qaoa</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Conditional value at risk at 0.1 level using ``EstimatorFromSampler`` with ``SamplerSimulation``:&quot;</span><span class="p">,</span>
+    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;sim_cvar&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we train using <code class="docutils literal notranslate"><span class="pre">EstimatorFromSampler</span></code> again, but this time together with <code class="docutils literal notranslate"><span class="pre">SamplerResonance</span></code>. This sampler actually runs the circuit via Resonance, IQM’s cloud quantum computing platform.</p>
+<p><strong>WARNING</strong></p>
+<p>When running training using this estimator, Resonance is used for every training cycle, potentially taking a lot of time (even when using a mock QC)!</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">if</span></code> clause surrounding the cell makes sure that it’s skipped during testing (because it’s too slow).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>  <span class="c1"># Needed to get the Resonance token from the environmental variable.</span>
+
+<span class="k">if</span> <span class="s2">&quot;END_TO_END_TESTING&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+    <span class="n">sampler_from_resonance</span> <span class="o">=</span> <span class="n">SamplerResonance</span><span class="p">(</span>
+        <span class="n">token</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IQM_RESONANCE_API_TOKEN&quot;</span><span class="p">),</span>
+        <span class="c1"># Remove the &#39;:mock&#39; part to run on real QC.</span>
+        <span class="n">server_url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IQM_RESONANCE_URL_CRYSTAL&quot;</span><span class="p">,</span> <span class="s2">&quot;https://resonance.iqm.tech/garnet:mock&quot;</span><span class="p">),</span>
+        <span class="n">transpiler</span><span class="o">=</span><span class="s2">&quot;SparseTranspiler&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">estimator_from_resonance</span> <span class="o">=</span> <span class="n">EstimatorFromSampler</span><span class="p">(</span><span class="n">sampler</span><span class="o">=</span><span class="n">sampler_from_resonance</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+
+    <span class="n">qaoa</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>  <span class="c1"># Reset the QAOA angles (to make comparison of training methods fair).</span>
+    <span class="n">qaoa</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">estimator_from_resonance</span><span class="p">)</span>  <span class="c1"># Here the QAOA is trained.</span>
+    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;res&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimator_from_resonance</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">qaoa</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Expected value using ``EstimatorFromSampler`` with ``SamplerResonance``:&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;res&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we “train” the angles by setting them to the <em>Tree QAOA</em> angles. The Tree QAOA angles are the optimal angles for problems on regular infinite random graphs, where the neighborhood of each node is a tree graph. These angles are pre-calculated for various values of graph regularity and parameters of the Hamiltonian. The method <code class="docutils literal notranslate"><span class="pre">set_tree_angles</span></code> looks at the parameters of our problem and sets the QAOA angles to the corresponding Tree QAOA angles.</p>
+<p>While these angles aren’t likely the most optimal angles for our problem, they are likely to produce good results and it allows us to skip conventional QAOA training completely.</p>
+<p><a class="reference external" href="https://arxiv.org/abs/2406.14618">More reading on Tree QAOA</a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qaoa</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>  <span class="c1"># Reset the QAOA angles (to make comparison of training methods fair).</span>
+<span class="n">qaoa</span><span class="o">.</span><span class="n">set_tree_angles</span><span class="p">()</span>  <span class="c1"># The method gets all the necessary info from the ``qaoa`` object.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;tree&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimator_single_layer</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">qaoa</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Expected value using ``EstimatorSingleLayer`` after setting the angles with ``set_tree_angles``:&quot;</span><span class="p">,</span>
+    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;tree&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For comparison we now repeat all of the above (except for <code class="docutils literal notranslate"><span class="pre">EstimatorSingleLayer</span></code>) for QAOA with 2 layers and summarize the data in a table.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qaoa</span><span class="o">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># The extra QAOA parameters will be padded with zeros.</span>
+
+<span class="c1"># After increasing the number of layers, the QAOA angles are [gamma1, beta1, bamma2, beta2].</span>
+<span class="c1"># The same pattern holds for more layers. They can also be set separately using ``qaoa.betas = [beta1, beta2]``</span>
+
+<span class="n">qaoa</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>  <span class="c1"># Reset the QAOA angles (to make comparison of training methods fair).</span>
+<span class="n">qaoa</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">estimator_statevector</span><span class="p">)</span>  <span class="c1"># Here the QAOA is trained.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;sv&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimator_statevector</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">qaoa</span><span class="p">)</span>
+
+<span class="n">qaoa</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>  <span class="c1"># Reset the QAOA angles (to make comparison of training methods fair).</span>
+<span class="n">qaoa</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">estimator_from_simulation</span><span class="p">)</span>  <span class="c1"># Here the QAOA is trained.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;sim&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimator_from_simulation</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">qaoa</span><span class="p">)</span>
+
+<span class="n">qaoa</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>  <span class="c1"># Reset the QAOA angles (to make comparison of training methods fair).</span>
+<span class="n">qaoa</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">estimator_from_simulation_cvar</span><span class="p">)</span>  <span class="c1"># Here the QAOA is trained.</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;sim_cvar&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimator_from_simulation_cvar</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">qaoa</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="s2">&quot;END_TO_END_TESTING&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>  <span class="c1"># Again, skip this if we&#39;re testing.</span>
+    <span class="n">qaoa</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>  <span class="c1"># Reset the QAOA angles (to make comparison of training methods fair).</span>
+    <span class="n">qaoa</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">estimator_from_resonance</span><span class="p">)</span>  <span class="c1"># Here the QAOA is trained.</span>
+    <span class="n">results</span><span class="p">[</span><span class="s2">&quot;res&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimator_from_resonance</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">qaoa</span><span class="p">)</span>
+
+<span class="n">qaoa</span><span class="o">.</span><span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>  <span class="c1"># Reset the QAOA angles (to make comparison of training methods fair).</span>
+<span class="n">qaoa</span><span class="o">.</span><span class="n">set_tree_angles</span><span class="p">()</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;tree&quot;</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimator_statevector</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span>
+    <span class="n">qaoa</span>
+<span class="p">)</span>  <span class="c1"># The statevector estimator is the most accurate one, so it&#39;s used here.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="c1"># Row labels and column labels</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">results</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="c1"># For each method, there is an inner dict of the format p:exp_val</span>
+<span class="n">ps</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">p</span> <span class="k">for</span> <span class="n">inner_dict</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">inner_dict</span><span class="p">})</span>
+
+<span class="c1"># Build the table</span>
+<span class="n">html</span> <span class="o">=</span> <span class="s2">&quot;&lt;table border=&#39;1&#39; style=&#39;border-collapse: collapse;&#39;&gt;&quot;</span>
+<span class="n">html</span> <span class="o">+=</span> <span class="s2">&quot;&lt;tr&gt;&lt;th&gt;Training Method&lt;/th&gt;&quot;</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;th&gt;p = </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s2">&lt;/th&gt;&quot;</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&lt;/tr&gt;&quot;</span>
+
+<span class="n">method_names</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;sv&quot;</span><span class="p">:</span> <span class="s2">&quot;Statevector&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sl&quot;</span><span class="p">:</span> <span class="s2">&quot;Single Layer&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sim&quot;</span><span class="p">:</span> <span class="s2">&quot;Simulated Samples&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sim_cvar&quot;</span><span class="p">:</span> <span class="s2">&quot;Simulated Samples, CVaR&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;res&quot;</span><span class="p">:</span> <span class="s2">&quot;Resonance Samples&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tree&quot;</span><span class="p">:</span> <span class="s2">&quot;Tree Schedule&quot;</span><span class="p">,</span>
+<span class="p">}</span>  <span class="c1"># Just longer names for the methods, for a nicer table.</span>
+
+<span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+    <span class="n">html</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&lt;tr&gt;&lt;th&gt;</span><span class="si">{</span><span class="n">method_names</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="si">}</span><span class="s2">&lt;/th&gt;&quot;</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">:</span>
+        <span class="n">exp_val</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">method</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">exp_val_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">exp_val</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">exp_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;N/A&quot;</span>
+        <span class="n">html</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&lt;td&gt;</span><span class="si">{</span><span class="n">exp_val_str</span><span class="si">}</span><span class="s2">&lt;/td&gt;&quot;</span>
+    <span class="n">html</span> <span class="o">+=</span> <span class="s2">&quot;&lt;/tr&gt;&quot;</span>
+
+<span class="n">html</span> <span class="o">+=</span> <span class="s2">&quot;&lt;/table&gt;&quot;</span>
+
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="n">html</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We expect the <code class="docutils literal notranslate"><span class="pre">Statevector</span></code>, <code class="docutils literal notranslate"><span class="pre">Simulated</span> <span class="pre">Samples</span></code> and the <code class="docutils literal notranslate"><span class="pre">Single</span> <span class="pre">Layer</span></code> methods to perform the best (although none of them is scalable).</p>
+<p>Using <code class="docutils literal notranslate"><span class="pre">CVaR</span></code> instead of the mean gives better results, but this is expected, given that we’re looking at a tail of a distribution. Whether it actually helps in training the QAOA is not clear.</p>
+<p>We expect all methods to improve with increasing <code class="docutils literal notranslate"><span class="pre">p</span></code>.</p>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Portfolio%20Optimization.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Portfolio Optimization</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Which%20Qubits%20on%20the%20QPU%20Are%20Used.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Which Qubits on the QPU Are Used?</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM QAOA developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2026, IQM.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-07-23.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

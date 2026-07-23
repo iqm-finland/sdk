@@ -1,0 +1,882 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ExperimentConfiguration &#8212; IQM Pulla 13.0.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=27ead89c"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.cpc.core.config.ExperimentConfiguration';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ExperimentDefaultsConfiguration" href="iqm.cpc.core.config.ExperimentDefaultsConfiguration.html" />
+    <link rel="prev" title="ComponentGroupingMode" href="iqm.cpc.core.config.ComponentGroupingMode.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-07-23"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Pulla 13.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 13.0.4 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">IQM Pulla</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../user_guides.html">User guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quick%20Start.html">Quick Start</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../Configuration%20and%20Usage.html">Configuration and Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Sweeps.html">Sweeps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Compilation%20Stages.html">Compilation Stages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Custom%20Gates%20and%20Implementations.html">Custom Gates and Gate Implementations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Example%20-%20Measuring%20T1.html">Example: Measuring T1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Example%20-%20Simple%20Dynamical%20Decoupling.html">Example: Dynamical decoupling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Example%20-%20Executing%20QIR%20programs.html">Executing QIR programs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Example%20-%20Randomized%20Benchmarking.html">Import required packages</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.cpc.html">cpc</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cpc.compiler.html">compiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.compilation_stage.html">compilation_stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.compiler.html">compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.dd.html">dd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.errors.html">errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.layering_stages.html">layering_stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.post_process.html">post_process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.compiler.standard_stages.html">standard_stages</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.cpc.core.html">core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4 current active"><a class="reference internal" href="iqm.cpc.core.config.html">config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.core.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.core.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.core.run_result.html">run_result</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cpc.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cpc.interface.circuit_execution.html">circuit_execution</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CalibrationSetValues.html">iqm.pulla.interface.CalibrationSetValues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.CHADRetrievalException.html">iqm.pulla.interface.CHADRetrievalException</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.interface.ChipLabelRetrievalException.html">iqm.pulla.interface.ChipLabelRetrievalException</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.pulla.Pulla.html">Pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.pulla.PullaJob.html">PullaJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.pulla.PullaStash.html">PullaStash</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.quantum_architecture.html">quantum_architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture.html">iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.quantum_architecture.create_static_quantum_architecture.html">iqm.pulla.quantum_architecture.create_static_quantum_architecture</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.calset_from_observations.html">iqm.pulla.utils.calset_from_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.calset_to_cal_data_tree.html">iqm.pulla.utils.calset_to_cal_data_tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.circuit_operations_to_cpc.html">iqm.pulla.utils.circuit_operations_to_cpc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot.html">iqm.pulla.utils.convert_sweep_spot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot_to_arrays.html">iqm.pulla.utils.convert_sweep_spot_to_arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.extract_readout_controller_result_names.html">iqm.pulla.utils.extract_readout_controller_result_names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.get_hash_for.html">iqm.pulla.utils.get_hash_for</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.initialize_schedule_builder.html">iqm.pulla.utils.initialize_schedule_builder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.iqm_circuit_to_gate_implementation.html">iqm.pulla.utils.iqm_circuit_to_gate_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.locate_instructions.html">iqm.pulla.utils.locate_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.map_qubit_indices.html">iqm.pulla.utils.map_qubit_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.map_sweep_results_to_logical_qubits.html">iqm.pulla.utils.map_sweep_results_to_logical_qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.print_channel.html">iqm.pulla.utils.print_channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.print_schedule.html">iqm.pulla.utils.print_schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.replace_instruction_in_place.html">iqm.pulla.utils.replace_instruction_in_place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils.PostSelectionError.html">iqm.pulla.utils.PostSelectionError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_cirq.html">utils_cirq</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_cirq.cirq_to_cpc.html">iqm.pulla.utils_cirq.cirq_to_cpc</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_dd.html">utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_dd.generate_phases_of_urn_sequence.html">iqm.pulla.utils_dd.generate_phases_of_urn_sequence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_parallelization.html">utils_parallelization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_parallelization.parallelize_timeboxes.html">iqm.pulla.utils_parallelization.parallelize_timeboxes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_qir.html">utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping.html">iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qir.qir_to_pulla.html">iqm.pulla.utils_qir.qir_to_pulla</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulla.utils_qiskit.html">utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.get_qiskit_compiler.html">iqm.pulla.utils_qiskit.get_qiskit_compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.parallelize_and_transpile.html">iqm.pulla.utils_qiskit.parallelize_and_transpile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.qiskit_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.sweep_job_to_qiskit.html">iqm.pulla.utils_qiskit.sweep_job_to_qiskit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulla.utils_qiskit.QiskitCompiler.html">QiskitCompiler</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../common_errors.html">Common errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/iqm.cpc.core.config.ExperimentConfiguration.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ExperimentConfiguration</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.id"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.id</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.user"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.user</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.dut_label"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.dut_label</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.components"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.components</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.component_groups"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.component_groups</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.controllers"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.controllers</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.gate_definitions"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.gate_definitions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.gates"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.gates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.characterization"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.characterization</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.stages"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.stages</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.add_conventional_controller_mapping"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.add_conventional_controller_mapping()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.validate_controllers"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.validate_controllers()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.component_names"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.component_names</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.filter_components"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.filter_components()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.register_gate_implementation"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.register_gate_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.set_calibration_data_for_gate_implementation"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.set_calibration_data_for_gate_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.set_gate_implementation_as_default"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.set_gate_implementation_as_default()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="experimentconfiguration">
+<h1>ExperimentConfiguration<a class="headerlink" href="#experimentconfiguration" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.cpc.core.config.html#module-iqm.cpc.core.config" title="iqm.cpc.core.config"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.cpc.core.config</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">iqm.cpc.core.config.</span></span><span class="sig-name descname"><span class="pre">ExperimentConfiguration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.12/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>General configuration for <code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code> objects.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Top-level keys <code class="docutils literal notranslate"><span class="pre">'user'</span></code>, <code class="docutils literal notranslate"><span class="pre">'dut_label'</span></code>, <code class="docutils literal notranslate"><span class="pre">'settings'</span></code>, <code class="docutils literal notranslate"><span class="pre">'components'</span></code>, and <code class="docutils literal notranslate"><span class="pre">'component_groups'</span></code></dt><dd><p>are reserved for the attributes below, and are optional.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Any other top-level keys generate <a class="reference internal" href="iqm.cpc.core.config.ExperimentDefaultsConfiguration.html#iqm.cpc.core.config.ExperimentDefaultsConfiguration" title="iqm.cpc.core.config.ExperimentDefaultsConfiguration"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExperimentDefaultsConfiguration</span></code></a> instances for specific</dt><dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code> classes.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – Top-level experiment configuration tree.</p>
+</dd>
+</dl>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.component_names" title="iqm.cpc.core.config.ExperimentConfiguration.component_names"><code class="xref py py-obj docutils literal notranslate"><span class="pre">component_names</span></code></a></p></td>
+<td><p>Property to return list of component names in experiment configuration.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.id" title="iqm.cpc.core.config.ExperimentConfiguration.id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">id</span></code></a></p></td>
+<td><p>Unique identifier for this ExperimentConfiguration.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.user" title="iqm.cpc.core.config.ExperimentConfiguration.user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user</span></code></a></p></td>
+<td><p>Username.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.dut_label" title="iqm.cpc.core.config.ExperimentConfiguration.dut_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dut_label</span></code></a></p></td>
+<td><p>DUT label.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.components" title="iqm.cpc.core.config.ExperimentConfiguration.components"><code class="xref py py-obj docutils literal notranslate"><span class="pre">components</span></code></a></p></td>
+<td><p>Mapping from chip component names to the station control controllers they use.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.component_groups" title="iqm.cpc.core.config.ExperimentConfiguration.component_groups"><code class="xref py py-obj docutils literal notranslate"><span class="pre">component_groups</span></code></a></p></td>
+<td><p>Mapping from component group names to their definitions.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.controllers" title="iqm.cpc.core.config.ExperimentConfiguration.controllers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">controllers</span></code></a></p></td>
+<td><p>Controller settings.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.gate_definitions" title="iqm.cpc.core.config.ExperimentConfiguration.gate_definitions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gate_definitions</span></code></a></p></td>
+<td><p>Defined quantum operations</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.gates" title="iqm.cpc.core.config.ExperimentConfiguration.gates"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gates</span></code></a></p></td>
+<td><p>Gate implementation calibration data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.characterization" title="iqm.cpc.core.config.ExperimentConfiguration.characterization"><code class="xref py py-obj docutils literal notranslate"><span class="pre">characterization</span></code></a></p></td>
+<td><p>Experiment characterization data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.stages" title="iqm.cpc.core.config.ExperimentConfiguration.stages"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stages</span></code></a></p></td>
+<td><p>The stage settings data.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.add_conventional_controller_mapping" title="iqm.cpc.core.config.ExperimentConfiguration.add_conventional_controller_mapping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_conventional_controller_mapping</span></code></a></p></td>
+<td><p>Add conventional controller mapping if <code class="docutils literal notranslate"><span class="pre">controller_mapping</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;qpu_convention&quot;</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.filter_components" title="iqm.cpc.core.config.ExperimentConfiguration.filter_components"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_components</span></code></a></p></td>
+<td><p>Helper method for filtering components based on what operations they have defined.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.register_gate_implementation" title="iqm.cpc.core.config.ExperimentConfiguration.register_gate_implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">register_gate_implementation</span></code></a></p></td>
+<td><p>Register a new gate implementation for this session.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.set_calibration_data_for_gate_implementation" title="iqm.cpc.core.config.ExperimentConfiguration.set_calibration_data_for_gate_implementation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_calibration_data_for_gate_implementation</span></code></a></p></td>
+<td><p>Set calibration data for this session.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.set_gate_implementation_as_default" title="iqm.cpc.core.config.ExperimentConfiguration.set_gate_implementation_as_default"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_gate_implementation_as_default</span></code></a></p></td>
+<td><p>Set this gate implementation as default for this session.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.validate_controllers" title="iqm.cpc.core.config.ExperimentConfiguration.validate_controllers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_controllers</span></code></a></p></td>
+<td><p>Validate controller maps against controller names in <cite>station_control</cite>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.id" title="Link to this definition">#</a></dt>
+<dd><p>Unique identifier for this ExperimentConfiguration.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.user">
+<span class="sig-name descname"><span class="pre">user</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.user" title="Link to this definition">#</a></dt>
+<dd><p>Username.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.dut_label">
+<span class="sig-name descname"><span class="pre">dut_label</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.dut_label" title="Link to this definition">#</a></dt>
+<dd><p>DUT label.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.components">
+<span class="sig-name descname"><span class="pre">components</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.components" title="Link to this definition">#</a></dt>
+<dd><p>Mapping from chip component names to the station control controllers they use.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.component_groups">
+<span class="sig-name descname"><span class="pre">component_groups</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="iqm.cpc.core.config.ComponentGroup.html#iqm.cpc.core.config.ComponentGroup" title="iqm.cpc.core.config.ComponentGroup"><span class="pre">ComponentGroup</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.component_groups" title="Link to this definition">#</a></dt>
+<dd><p>Mapping from component group names to their definitions.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.controllers">
+<span class="sig-name descname"><span class="pre">controllers</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.controllers" title="Link to this definition">#</a></dt>
+<dd><p>Controller settings.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.gate_definitions">
+<span class="sig-name descname"><span class="pre">gate_definitions</span></span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.gate_definitions" title="Link to this definition">#</a></dt>
+<dd><p>Defined quantum operations</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.gates">
+<span class="sig-name descname"><span class="pre">gates</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.gates" title="Link to this definition">#</a></dt>
+<dd><p>Gate implementation calibration data.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.characterization">
+<span class="sig-name descname"><span class="pre">characterization</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.characterization" title="Link to this definition">#</a></dt>
+<dd><p>Experiment characterization data.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.stages">
+<span class="sig-name descname"><span class="pre">stages</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.stages" title="Link to this definition">#</a></dt>
+<dd><p>The stage settings data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.add_conventional_controller_mapping">
+<span class="sig-name descname"><span class="pre">add_conventional_controller_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station_control</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.add_conventional_controller_mapping" title="Link to this definition">#</a></dt>
+<dd><p>Add conventional controller mapping if <code class="docutils literal notranslate"><span class="pre">controller_mapping</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;qpu_convention&quot;</span></code>.</p>
+<p>If the configuration is set to follow the standard QPU controller naming convention,
+extend the <a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.controllers" title="iqm.cpc.core.config.ExperimentConfiguration.controllers"><code class="xref py py-attr docutils literal notranslate"><span class="pre">controllers</span></code></a> and <a class="reference internal" href="#iqm.cpc.core.config.ExperimentConfiguration.component_groups" title="iqm.cpc.core.config.ExperimentConfiguration.component_groups"><code class="xref py py-attr docutils literal notranslate"><span class="pre">component_groups</span></code></a> based on the convention.
+Components given explicitly have priority.</p>
+<p>The convention is that components map their functions to controller names with the following pattern:</p>
+<p>For qubits:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">drive:</span> <span class="pre">&lt;qubit_name&gt;__drive</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">flux:</span> <span class="pre">&lt;qubit_name&gt;__flux</span></code></p></li>
+</ul>
+<p>For couplers:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">flux:</span> <span class="pre">&lt;coupler_name&gt;__flux</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">readout:</span> <span class="pre">&lt;coupler_name&gt;__readout</span></code> (if connected)</p></li>
+</ul>
+<p>For probelines:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">readout:</span> <span class="pre">&lt;probeline_name&gt;__readout</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">twpa:</span> <span class="pre">&lt;probeline_name&gt;__twpa</span></code></p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>station_control</strong> (<a class="reference external" href="../../iqm-station-control-client/api/iqm.station_control.client.station_control.StationControlClient.html#iqm.station_control.client.station_control.StationControlClient" title="(in station-control-client v12.1.4)"><em>StationControlClient</em></a>) – Station instance.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.validate_controllers">
+<span class="sig-name descname"><span class="pre">validate_controllers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station_control</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.validate_controllers" title="Link to this definition">#</a></dt>
+<dd><p>Validate controller maps against controller names in <cite>station_control</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>station_control</strong> (<a class="reference external" href="../../iqm-station-control-client/api/iqm.station_control.client.station_control.StationControlClient.html#iqm.station_control.client.station_control.StationControlClient" title="(in station-control-client v12.1.4)"><em>StationControlClient</em></a>) – Station instance.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.12/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – if the station does not have a controller required by the naming convention.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.component_names">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">component_names</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#list" title="(in Python v3.12)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.component_names" title="Link to this definition">#</a></dt>
+<dd><p>Property to return list of component names in experiment configuration.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.filter_components">
+<span class="sig-name descname"><span class="pre">filter_components</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">filter_groups</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.filter_components" title="Link to this definition">#</a></dt>
+<dd><p>Helper method for filtering components based on what operations they have defined.</p>
+<p>The user can define several groups of operation requirements. Requirement groups can contain
+requirements that are either of the type <cite>str</cite> or any function of the type
+<cite>Callable[str, bool]</cite>. If a <cite>str</cite> requirement is given, it will be interpreted as a check whether
+this particular operation name is defined for a given component.</p>
+<p>For example, the group <cite>[lambda c: c != ‘readout, ‘flux’]</cite> resolves to the components
+that do not have a <cite>readout</cite> operation but have a <cite>flux</cite> operation.</p>
+<p>Requirement groups that contain just one requirement (of either type) can be given as a plain value instead
+of wrapping it into a list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*filter_groups</strong> (<a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.12/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.12)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3.12/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.12/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.12)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3.12/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>]</em><em>]</em>) – requirement groups.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>Tuple of filtered components corresponding to the provided filter_groups.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#list" title="(in Python v3.12)">list</a>[<a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)">str</a>] | <a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#tuple" title="(in Python v3.12)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#list" title="(in Python v3.12)">list</a>[<a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)">str</a>], …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.register_gate_implementation">
+<span class="sig-name descname"><span class="pre">register_gate_implementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_class</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">set_as_default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantum_op</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.register_gate_implementation" title="Link to this definition">#</a></dt>
+<dd><p>Register a new gate implementation for this session. See <code class="xref py py-func docutils literal notranslate"><span class="pre">register_implementation()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate_name</strong> (<a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>)</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>)</p></li>
+<li><p><strong>impl_class</strong> (<a class="reference internal" href="iqm.cpc.core.config.SweepDefaultsConfiguration.html#iqm.cpc.core.config.SweepDefaultsConfiguration.type" title="iqm.cpc.core.config.SweepDefaultsConfiguration.type"><em>type</em></a><em>[</em><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.gate_implementation.GateImplementation.html#iqm.pulse.gate_implementation.GateImplementation" title="(in iqm.pulse v13.0.4)"><em>GateImplementation</em></a><em>]</em>)</p></li>
+<li><p><strong>set_as_default</strong> (<a class="reference external" href="https://docs.python.org/3.12/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>)</p></li>
+<li><p><strong>quantum_op</strong> (<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v13.0.4)"><em>QuantumOp</em></a><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.set_calibration_data_for_gate_implementation">
+<span class="sig-name descname"><span class="pre">set_calibration_data_for_gate_implementation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calib_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.set_calibration_data_for_gate_implementation" title="Link to this definition">#</a></dt>
+<dd><p>Set calibration data for this session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate_name</strong> (<a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>)</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>)</p></li>
+<li><p><strong>calib_data</strong> (<a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#tuple" title="(in Python v3.12)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3.12/library/typing.html#typing.Any" title="(in Python v3.12)"><em>Any</em></a><em>]</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.cpc.core.config.ExperimentConfiguration.set_gate_implementation_as_default">
+<span class="sig-name descname"><span class="pre">set_gate_implementation_as_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gate_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">impl_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.cpc.core.config.ExperimentConfiguration.set_gate_implementation_as_default" title="Link to this definition">#</a></dt>
+<dd><p>Set this gate implementation as default for this session.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gate_name</strong> (<a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>)</p></li>
+<li><p><strong>impl_name</strong> (<a class="reference external" href="https://docs.python.org/3.12/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-eb74a4a18aa85aa943d5210932d208a1cdaf1b51.png" alt="Inheritance diagram of iqm.cpc.core.config.ExperimentConfiguration" usemap="#inheritance80b45d4100" class="inheritance graphviz" /></div>
+<map id="inheritance80b45d4100" name="inheritance80b45d4100">
+<area shape="rect" id="node1" href="#iqm.cpc.core.config.ExperimentConfiguration" target="_top" title="General configuration for :class:`.Experiment` objects." alt="" coords="5,5,189,31"/>
+</map></section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.cpc.core.config.ComponentGroupingMode.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">ComponentGroupingMode</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.cpc.core.config.ExperimentDefaultsConfiguration.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">ExperimentDefaultsConfiguration</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.id"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.id</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.user"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.user</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.dut_label"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.dut_label</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.components"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.components</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.component_groups"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.component_groups</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.controllers"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.controllers</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.gate_definitions"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.gate_definitions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.gates"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.gates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.characterization"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.characterization</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.stages"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.stages</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.add_conventional_controller_mapping"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.add_conventional_controller_mapping()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.validate_controllers"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.validate_controllers()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.component_names"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.component_names</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.filter_components"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.filter_components()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.register_gate_implementation"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.register_gate_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.set_calibration_data_for_gate_implementation"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.set_calibration_data_for_gate_implementation()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.cpc.core.config.ExperimentConfiguration.set_gate_implementation_as_default"><code class="docutils literal notranslate"><span class="pre">ExperimentConfiguration.set_gate_implementation_as_default()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Pulla developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024-2026, IQM Finland Oy, Release 13.0.4.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-07-23.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

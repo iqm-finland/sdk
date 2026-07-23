@@ -1,0 +1,898 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Benchmarking IQM Star &#8212; IQM Benchmarks 2.59.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=3f85ab85"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>window.MathJax = {"tex": {"macros": {"vr": "\\vec{r}", "ket": ["\\left| #1 \\right\\rangle", 1], "iprod": ["\\left\\langle #1 | #2 \\right\\rangle", 2]}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'devices/star';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Development" href="../development/development.html" />
+    <link rel="prev" title="Devices" href="devices.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-07-23"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Benchmarks 2.59.4 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Benchmarks 2.59.4 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">IQM Benchmarks</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_clifford_rb.html">Clifford Randomized Benchmarking (CRB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_interleaved_rb.html">Interleaved Randomized Benchmarking (IRB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_eplg.html">Error Per Layered Gate (EPLG)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_mirror_rb.html">Mirror Randomized Benchmarking (MRB)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_graphstate.html">Graph State Bipartite Entanglement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_gst.html">Compressive Gate Set Tomography (GST)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_quantum_volume.html">Quantum Volume (QV)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_ghz.html">Greenberger–Horne–Zeilinger (GHZ) State Fidelity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_qscore.html">Q-Score</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_coherence.html">Coherence experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/example_clops.html">Circuit Layer Operations Per Second (CLOPS)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="devices.html">Devices</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Benchmarking IQM Star</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/development.html">Development</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/how_to_make_your_own_benchmark.html">How to make your own benchmark?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/generate_2qubit_cliffords.html">2-Qubit Clifford Group Decomposition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/iqm.benchmarks.html">iqm.benchmarks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.html">iqm.benchmarks.benchmark_definition</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.add_counts_to_dataset.html">iqm.benchmarks.benchmark_definition.add_counts_to_dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.default_analysis_function.html">iqm.benchmarks.benchmark_definition.default_analysis_function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.merge_datasets_dac.html">iqm.benchmarks.benchmark_definition.merge_datasets_dac</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.show_figure.html">iqm.benchmarks.benchmark_definition.show_figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.Benchmark.html">iqm.benchmarks.benchmark_definition.Benchmark</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.BenchmarkAnalysisResult.html">iqm.benchmarks.benchmark_definition.BenchmarkAnalysisResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.BenchmarkConfigurationBase.html">iqm.benchmarks.benchmark_definition.BenchmarkConfigurationBase</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.BenchmarkObservation.html">iqm.benchmarks.benchmark_definition.BenchmarkObservation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.BenchmarkObservationIdentifier.html">iqm.benchmarks.benchmark_definition.BenchmarkObservationIdentifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.benchmark_definition.BenchmarkRunResult.html">iqm.benchmarks.benchmark_definition.BenchmarkRunResult</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.circuit_containers.html">iqm.benchmarks.circuit_containers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.circuit_containers.BenchmarkCircuit.html">iqm.benchmarks.circuit_containers.BenchmarkCircuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.circuit_containers.CircuitGroup.html">iqm.benchmarks.circuit_containers.CircuitGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.circuit_containers.Circuits.html">iqm.benchmarks.circuit_containers.Circuits</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.compressive_gst.html">iqm.benchmarks.compressive_gst</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.compressive_gst.compressive_gst.html">iqm.benchmarks.compressive_gst.compressive_gst</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.compressive_gst.gst_analysis.html">iqm.benchmarks.compressive_gst.gst_analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.compressive_gst.mgst.html">iqm.benchmarks.compressive_gst.mgst</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.entanglement.html">iqm.benchmarks.entanglement</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.entanglement.ghz.html">iqm.benchmarks.entanglement.ghz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.entanglement.graph_states.html">iqm.benchmarks.entanglement.graph_states</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/iqm.benchmarks.logging_config.html">iqm.benchmarks.logging_config</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.optimization.html">iqm.benchmarks.optimization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.optimization.qscore.html">iqm.benchmarks.optimization.qscore</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.quantum_volume.html">iqm.benchmarks.quantum_volume</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.quantum_volume.clops.html">iqm.benchmarks.quantum_volume.clops</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.quantum_volume.quantum_volume.html">iqm.benchmarks.quantum_volume.quantum_volume</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.html">iqm.benchmarks.randomized_benchmarking</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.clifford_generation.html">iqm.benchmarks.randomized_benchmarking.clifford_generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.clifford_rb.html">iqm.benchmarks.randomized_benchmarking.clifford_rb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.direct_rb.html">iqm.benchmarks.randomized_benchmarking.direct_rb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.eplg.html">iqm.benchmarks.randomized_benchmarking.eplg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.interleaved_rb.html">iqm.benchmarks.randomized_benchmarking.interleaved_rb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.mirror_rb.html">iqm.benchmarks.randomized_benchmarking.mirror_rb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.multi_lmfit.html">iqm.benchmarks.randomized_benchmarking.multi_lmfit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.randomized_benchmarking.randomized_benchmarking_common.html">iqm.benchmarks.randomized_benchmarking.randomized_benchmarking_common</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.readout_mitigation.html">iqm.benchmarks.readout_mitigation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.readout_mitigation.apply_readout_error_mitigation.html">iqm.benchmarks.readout_mitigation.apply_readout_error_mitigation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.readout_mitigation.readout_error_m3.html">iqm.benchmarks.readout_mitigation.readout_error_m3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.readout_mitigation.M3IQM.html">iqm.benchmarks.readout_mitigation.M3IQM</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.utils.html">iqm.benchmarks.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.bootstrap_counts.html">iqm.benchmarks.utils.bootstrap_counts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.count_2q_layers.html">iqm.benchmarks.utils.count_2q_layers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.count_native_gates.html">iqm.benchmarks.utils.count_native_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.error_profile_to_fidelities.html">iqm.benchmarks.utils.error_profile_to_fidelities</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.extract_fidelities_unified.html">iqm.benchmarks.utils.extract_fidelities_unified</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.generate_state_tomography_circuits.html">iqm.benchmarks.utils.generate_state_tomography_circuits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.get_active_qubits.html">iqm.benchmarks.utils.get_active_qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.get_iqm_backend.html">iqm.benchmarks.utils.get_iqm_backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.get_measurement_mapping.html">iqm.benchmarks.utils.get_measurement_mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.get_neighbors_of_edges.html">iqm.benchmarks.utils.get_neighbors_of_edges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.get_pauli_expectation.html">iqm.benchmarks.utils.get_pauli_expectation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.get_tomography_matrix.html">iqm.benchmarks.utils.get_tomography_matrix</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.marginal_distribution.html">iqm.benchmarks.utils.marginal_distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.median_with_uncertainty.html">iqm.benchmarks.utils.median_with_uncertainty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.perform_backend_transpilation.html">iqm.benchmarks.utils.perform_backend_transpilation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.process_backend.html">iqm.benchmarks.utils.process_backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.random_hamiltonian_path.html">iqm.benchmarks.utils.random_hamiltonian_path</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.reduce_to_active_qubits.html">iqm.benchmarks.utils.reduce_to_active_qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.remove_directed_duplicates_to_list.html">iqm.benchmarks.utils.remove_directed_duplicates_to_list</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.retrieve_all_counts.html">iqm.benchmarks.utils.retrieve_all_counts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.retrieve_all_job_metadata.html">iqm.benchmarks.utils.retrieve_all_job_metadata</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.set_coupling_map.html">iqm.benchmarks.utils.set_coupling_map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.sort_batches_by_final_layout.html">iqm.benchmarks.utils.sort_batches_by_final_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.split_into_disjoint_pairs.html">iqm.benchmarks.utils.split_into_disjoint_pairs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.split_sequence_in_chunks.html">iqm.benchmarks.utils.split_sequence_in_chunks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.submit_execute.html">iqm.benchmarks.utils.submit_execute</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.timeit.html">iqm.benchmarks.utils.timeit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.xrvariable_to_counts.html">iqm.benchmarks.utils.xrvariable_to_counts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.ObservationType.html">iqm.benchmarks.utils.ObservationType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.PhysicalLayout.html">iqm.benchmarks.utils.PhysicalLayout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils.RoutingMethod.html">iqm.benchmarks.utils.RoutingMethod</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.html">iqm.benchmarks.utils_plots</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.calculate_node_radii.html">iqm.benchmarks.utils_plots.calculate_node_radii</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.draw_graph_edges.html">iqm.benchmarks.utils_plots.draw_graph_edges</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.evaluate_hamiltonian_paths.html">iqm.benchmarks.utils_plots.evaluate_hamiltonian_paths</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.plot_layout_fidelity_graph.html">iqm.benchmarks.utils_plots.plot_layout_fidelity_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.rx_to_nx_graph.html">iqm.benchmarks.utils_plots.rx_to_nx_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_plots.GraphPositions.html">iqm.benchmarks.utils_plots.GraphPositions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/iqm.benchmarks.utils_shadows.html">iqm.benchmarks.utils_shadows</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_shadows.CUE.html">iqm.benchmarks.utils_shadows.CUE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_shadows.get_local_shadow.html">iqm.benchmarks.utils_shadows.get_local_shadow</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_shadows.get_negativity.html">iqm.benchmarks.utils_shadows.get_negativity</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_shadows.local_shadow_tomography.html">iqm.benchmarks.utils_shadows.local_shadow_tomography</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/iqm.benchmarks.utils_shadows.validate_shadow_tomography_params.html">iqm.benchmarks.utils_shadows.validate_shadow_tomography_params</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/devices/star.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Benchmarking IQM Star</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-the-backend">Connect to the backend</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ghz-state-fidelity">GHZ state fidelity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-volume">Quantum Volume</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-layer-operations-per-second-clops">Circuit Layer Operations Per Second (CLOPS)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q-score">Q-Score</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="benchmarking-iqm-star">
+<h1>Benchmarking IQM Star<a class="headerlink" href="#benchmarking-iqm-star" title="Link to this heading">#</a></h1>
+<p>This notebook allows you to run some useful benchmarks for the Star system.</p>
+<section id="connect-to-the-backend">
+<h2>Connect to the backend<a class="headerlink" href="#connect-to-the-backend" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;IQM_TOKENS_FILE&quot;</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;YOUR TOKEN HERE&quot;</span>
+<span class="n">iqm_url</span> <span class="o">=</span>  <span class="s1">&#39;YOUR URL HERE&#39;</span>
+<span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="n">iqm_url</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can access the Star backend and plot its connectivity graph to check that everything is working properly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">networkx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">coupling_map</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">coupling_map</span>
+
+<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="n">G</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">(</span><span class="n">coupling_map</span><span class="p">)</span> 
+<span class="n">pos</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span> 
+<span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">with_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">node_color</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">,</span> <span class="n">edge_color</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> 
+        <span class="n">node_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">font_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We run the cell below to ignore those warnings that are not critical for the correct run of the benchmarks.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>  
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ghz-state-fidelity">
+<h2>GHZ state fidelity<a class="headerlink" href="#ghz-state-fidelity" title="Link to this heading">#</a></h2>
+<p>The GHZ (Greenberger-Horne-Zeilinger) state is a maximally entangled quantum state that involves three or more qubits, <span class="math notranslate nohighlight">\(n\)</span>. It is an equal superposition of all qubits being in state 0 and all qubits being in state 1, i.e., <span class="math notranslate nohighlight">\(| GHZ \rangle = \frac{1}{\sqrt{2}}(|0\rangle^{\otimes n}+|1\rangle^{\otimes n})\)</span>.</p>
+<p>The GHZ state fidelity acts as a <strong>witness</strong> for genuine multi-qubit entanglement if found to be above <span class="math notranslate nohighlight">\(0.5\)</span>. This means that the measurement results cannot be explained without entanglement involving <strong>all</strong> qubits, so it is a great way to evaluate the “quantumness” of the computer.</p>
+<p>The state <span class="math notranslate nohighlight">\(\rho_{\text{ideal}}= |GHZ\rangle\langle GHZ|\)</span> is a pure state, so in this case the fidelity can be computed as:</p>
+<div class="math notranslate nohighlight">
+\[
+F(\text{ideal}, \text{measured})= \langle GHZ | \rho_{\text{measured}} | GHZ \rangle,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\rho_{\text{measured}}\)</span> is the density matrix given by the actual results of the quantum computer. The ideal GHZ state density matrix entries can be written as <span class="math notranslate nohighlight">\(\rho_{i,j}=\langle i| \rho_{\text{ideal}} | j \rangle\)</span> where <span class="math notranslate nohighlight">\(i,j\)</span> are the <span class="math notranslate nohighlight">\(n\)</span> basis states <span class="math notranslate nohighlight">\(\{|00..0\rangle, ..., |11..1\rangle\}\)</span>; only the corner entries <span class="math notranslate nohighlight">\(\rho_{0,0},\rho_{0,n},\rho_{n,0}\)</span> and <span class="math notranslate nohighlight">\(\rho_{n,n} \)</span> are non-zero. This simplifies the process since we only need to measure these four components. In the fidelity formula, all other entries are effectively nullified by the zero entries in the ideal state matrix. To measure the coherences (off-diagonal entries) we use the method of multiple quantum coherences <a class="reference external" href="https://iopscience.iop.org/article/10.1088/2399-6528/ac1df7/meta">Mooney, 2021</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.benchmarks.entanglement.ghz</span><span class="w"> </span><span class="kn">import</span> <span class="n">GHZConfiguration</span><span class="p">,</span> <span class="n">GHZBenchmark</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_qubits</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">num_qubits</span>
+<span class="n">chosen_layout</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">qubits</span><span class="p">))</span> <span class="k">for</span> <span class="n">qubits</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">num_qubits</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">GHZ</span> <span class="o">=</span> <span class="n">GHZConfiguration</span><span class="p">(</span>
+    <span class="n">state_generation_routine</span><span class="o">=</span><span class="s2">&quot;star&quot;</span><span class="p">,</span>
+    <span class="n">custom_qubits_array</span><span class="o">=</span><span class="n">chosen_layout</span><span class="p">,</span>
+    <span class="n">shots</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+    <span class="n">fidelity_routine</span><span class="o">=</span><span class="s2">&quot;coherences&quot;</span><span class="p">,</span> 
+    <span class="n">rem</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">mit_shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark_ghz</span> <span class="o">=</span> <span class="n">GHZBenchmark</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">GHZ</span><span class="p">)</span>
+<span class="n">run_ghz</span> <span class="o">=</span> <span class="n">benchmark_ghz</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_ghz</span> <span class="o">=</span> <span class="n">benchmark_ghz</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">result_ghz</span><span class="o">.</span><span class="n">plot_all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="quantum-volume">
+<h2>Quantum Volume<a class="headerlink" href="#quantum-volume" title="Link to this heading">#</a></h2>
+<p>Quantum volume is a single-number metric that was introduced in <a class="reference external" href="https://journals.aps.org/pra/abstract/10.1103/PhysRevA.100.032328">Cross, 2019</a>. It evaluates the quality of a quantum processor via the largest random <em>square</em> circuit, i.e., with the same number of layers of parallel random 2-qubit unitaries as number of qubits, that it can run successfully.</p>
+<p>The success of a run is based on the heavy output probability, which corresponds to the probability of observing <em>heavy outputs</em>, i.e. the measurement outputs that occcur with a probability greater than the median of the distribution. The heavy output generation problem asks if the generated distribution of the random circuit we run contains heavy outputs at least 2/3 of the time (on average) with a high confidence level, typically higher than 97.5%. It can be shown that the heavy output probability for an ideal device is at around 0.85 asymptotically.
+The quantum volume is then defined as</p>
+<div class="math notranslate nohighlight">
+\[\log_2 V_q = \underset{n}{\text{argmax}} \min (n, d(n))\]</div>
+<p>where <span class="math notranslate nohighlight">\(n \leq N\)</span> is a number of qubits and <span class="math notranslate nohighlight">\(d(n)\)</span> is the <em>achievable depth</em>, i.e. the largest depth such that we are confident the probability of observing a heavy output is greater than 2/3.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.benchmarks.quantum_volume.quantum_volume</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumVolumeConfiguration</span><span class="p">,</span> <span class="n">QuantumVolumeBenchmark</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We define a combination of qubits to test quantum volume on.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chosen_layouts</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]]</span> <span class="c1">## choose the optimal layouts to run</span>
+<span class="n">QV</span> <span class="o">=</span> <span class="n">QuantumVolumeConfiguration</span><span class="p">(</span>
+    <span class="n">num_circuits</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> 
+    <span class="n">shots</span><span class="o">=</span><span class="mi">2</span><span class="o">**</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">calset_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">num_sigmas</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">choose_qubits_routine</span><span class="o">=</span><span class="s2">&quot;custom&quot;</span><span class="p">,</span>
+    <span class="n">custom_qubits_array</span><span class="o">=</span><span class="n">chosen_layouts</span><span class="p">,</span> 
+    <span class="n">qiskit_optim_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">optimize_sqg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">max_gates_per_batch</span><span class="o">=</span><span class="mi">60_000</span><span class="p">,</span>
+    <span class="n">rem</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">mit_shots</span><span class="o">=</span><span class="mi">1_000</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p>If you want to modify the settings above, please refer to the documentation <a class="reference external" href="https://iqm-finland.github.io/iqm-benchmarks/api/iqm.benchmarks.quantum_volume.quantum_volume.QuantumVolumeConfiguration.html#iqm.benchmarks.quantum_volume.quantum_volume.QuantumVolumeConfiguration">here</a>.</p>
+</div></blockquote>
+<p>Warning: The following code cell may take few minutes to run since it will compute the benchmark on all the qubit layouts specified above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark_qv</span> <span class="o">=</span> <span class="n">QuantumVolumeBenchmark</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">QV</span><span class="p">)</span>
+<span class="n">run_qv</span> <span class="o">=</span> <span class="n">benchmark_qv</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_qv</span> <span class="o">=</span> <span class="n">benchmark_qv</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">result_qv</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+    <span class="n">display</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="circuit-layer-operations-per-second-clops">
+<h2>Circuit Layer Operations Per Second (CLOPS)<a class="headerlink" href="#circuit-layer-operations-per-second-clops" title="Link to this heading">#</a></h2>
+<p>CLOPS is a metric that estimates the speed at which a quantum computer can execute Quantum Volume (QV) layers of a quantum circuit. That is, the circuits to calculate this benchmark have the same structure as the ones used for QV. Here we follow the definition introduced in (<a class="reference external" href="https://arxiv.org/abs/2110.14108">Wack, 2021</a>), but other versions of this benchmark exist.</p>
+<p>CLOPS is measured by means of a quantum variational-like protocol, where templates of parametrized QV circuits are assigned random parameters, executed, and outcomes are used as a seed to assign new parameters and repeat the process. The ratio of number of templates (<span class="math notranslate nohighlight">\(M\)</span>), parameter updates (<span class="math notranslate nohighlight">\(K\)</span>), measurement shots (<span class="math notranslate nohighlight">\(S\)</span>) and QV layers (<span class="math notranslate nohighlight">\(\log_2\mathrm{QV}\)</span>) with the time taken to run all, constitutes the CLOPS value:</p>
+<div class="math notranslate nohighlight">
+\[
+\mathrm{CLOPS}=M\times{K}\times{S}\times\log_2\mathrm{QV}/\mathrm{total\_time}.
+\]</div>
+<p>Notice that the total CLOPS time includes that of assignment of parameters, submission of circuits and retrieval of results.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.benchmarks.quantum_volume.clops</span><span class="w"> </span><span class="kn">import</span> <span class="n">CLOPSConfiguration</span><span class="p">,</span> <span class="n">CLOPSBenchmark</span><span class="p">,</span> <span class="n">plot_times</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CLOPS</span> <span class="o">=</span> <span class="n">CLOPSConfiguration</span><span class="p">(</span>
+    <span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="c1"># run with the same layout as </span>
+    <span class="n">num_circuits</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">num_updates</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
+    <span class="n">num_shots</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> 
+    <span class="n">calset_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">qiskit_optim_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">optimize_sqg</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p>If you want to modify the settings above, please refer to the documentation <a class="reference external" href="https://iqm-finland.github.io/iqm-benchmarks/api/iqm.benchmarks.quantum_volume.clops.CLOPSConfiguration.html#iqm.benchmarks.quantum_volume.clops.CLOPSConfiguration">here</a>.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark_clops</span> <span class="o">=</span> <span class="n">CLOPSBenchmark</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">CLOPS</span><span class="p">)</span>
+<span class="n">run_clops</span> <span class="o">=</span> <span class="n">benchmark_clops</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_clops</span> <span class="o">=</span> <span class="n">benchmark_clops</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">result_clops</span><span class="o">.</span><span class="n">observations</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_clops</span><span class="o">.</span><span class="n">plot_all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="q-score">
+<h2>Q-Score<a class="headerlink" href="#q-score" title="Link to this heading">#</a></h2>
+<p><em>The Q-score measures the maximum number of qubits that can be used
+effectively to solve the MaxCut combinatorial optimization problem with the Quantum Approximate
+Optimization Algorithm</em> - <a class="reference external" href="https://ieeexplore.ieee.org/document/9459509">Martiel,2021</a></p>
+<p>The graphs chosen for the benchmark are random Erdős-Rényi graphs with 50% edge-probability between nodes.
+The obtained cost of the solution, i.e. the average number of cut edges, must be above a certain threshold. Specifically, one has to find the cost of a graph to be above <span class="math notranslate nohighlight">\(\beta\geq 0.2\)</span> on a scale where <span class="math notranslate nohighlight">\(\beta = 0\)</span> corresponds to a random solution and <span class="math notranslate nohighlight">\(\beta = 1\)</span> to an ideal solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.benchmarks.optimization.qscore</span><span class="w"> </span><span class="kn">import</span> <span class="n">QScoreConfiguration</span><span class="p">,</span> <span class="n">QScoreBenchmark</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_qubits</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">num_qubits</span>
+<span class="n">chosen_layout</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">qubits</span><span class="p">))</span> <span class="k">for</span> <span class="n">qubits</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">num_qubits</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">QSCORE</span> <span class="o">=</span> <span class="n">QScoreConfiguration</span><span class="p">(</span>
+    <span class="n">num_instances</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="n">num_qaoa_layers</span><span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">shots</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="n">calset_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+    <span class="n">min_num_nodes</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="n">max_num_nodes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">use_virtual_node</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">use_classically_optimized_angles</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">choose_qubits_routine</span> <span class="o">=</span> <span class="s2">&quot;custom&quot;</span><span class="p">,</span>
+    <span class="n">custom_qubits_array</span><span class="o">=</span> <span class="n">chosen_layout</span><span class="p">,</span>
+    <span class="n">seed</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">999999</span><span class="p">),</span>
+    <span class="n">REM</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">mit_shots</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<blockquote>
+<div><p>If you want to modify the settings above, please refer to the documentation <a class="reference external" href="https://iqm-finland.github.io/iqm-benchmarks/api/iqm.benchmarks.optimization.qscore.QScoreConfiguration.html#iqm.benchmarks.optimization.qscore.QScoreConfiguration">here</a>.</p>
+</div></blockquote>
+<p>Warning: The following code cell may take <strong>several</strong> minutes to run.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">benchmark_qscore</span> <span class="o">=</span> <span class="n">QScoreBenchmark</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">QSCORE</span><span class="p">)</span>
+<span class="n">run_qscore</span> <span class="o">=</span> <span class="n">benchmark_qscore</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_qscore</span> <span class="o">=</span> <span class="n">benchmark_qscore</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">result_qscore</span><span class="o">.</span><span class="n">plot_all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1">### GHZ</span>
+<span class="n">obs_ghz</span> <span class="o">=</span> <span class="n">result_ghz</span><span class="o">.</span><span class="n">observations</span>
+<span class="n">fidelity</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">min</span><span class="p">([</span><span class="n">obs_ghz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obs_ghz</span><span class="p">))</span> <span class="k">if</span> <span class="n">obs_ghz</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="o">==</span><span class="s1">&#39;fidelity&#39;</span><span class="p">]),</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1">### QV</span>
+<span class="n">obs_qv</span> <span class="o">=</span> <span class="n">result_qv</span><span class="o">.</span><span class="n">observations</span>
+<span class="n">qv</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">obs_qv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obs_qv</span><span class="p">))</span> <span class="k">if</span> <span class="n">obs_qv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="o">==</span><span class="s1">&#39;QV_result&#39;</span><span class="p">])</span>
+
+<span class="c1">### CLOPS</span>
+<span class="n">obs_clops</span> <span class="o">=</span> <span class="n">result_clops</span><span class="o">.</span><span class="n">observations</span>
+<span class="n">clops</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="n">obs_clops</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">])</span>
+
+<span class="c1">### QS </span>
+<span class="n">obs_qs</span> <span class="o">=</span> <span class="n">result_qscore</span><span class="o">.</span><span class="n">observations</span>
+<span class="n">qs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">([</span><span class="n">obs_qs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">-</span><span class="mf">0.2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obs_qs</span><span class="p">))</span> <span class="k">if</span> <span class="n">obs_qs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;mean_approximation_ratio&#39;</span> <span class="ow">and</span> <span class="n">obs_qs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="o">-</span><span class="mf">0.2</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="mi">2</span>
+
+
+<span class="n">summary</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;GHZ state fidelity&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;≥ 0.5&#39;</span><span class="p">,</span> <span class="n">fidelity</span><span class="p">],</span>
+    <span class="s1">&#39;Quantum Volume&#39;</span><span class="p">:</span> <span class="n">qv</span><span class="p">,</span> 
+    <span class="s1">&#39;CLOPS&#39;</span><span class="p">:</span>  <span class="n">clops</span><span class="p">,</span> 
+    <span class="s1">&#39;Q-Score&#39;</span><span class="p">:</span>  <span class="n">qs</span> 
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">summary</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="devices.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Devices</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../development/development.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Development</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-the-backend">Connect to the backend</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ghz-state-fidelity">GHZ state fidelity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-volume">Quantum Volume</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-layer-operations-per-second-clops">Circuit Layer Operations Per Second (CLOPS)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#q-score">Q-Score</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Benchmarks developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, IQM.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-07-23.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
