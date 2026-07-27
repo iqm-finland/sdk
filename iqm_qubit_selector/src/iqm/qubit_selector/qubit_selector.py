@@ -99,6 +99,7 @@ def _get_server_info(backend: IQMBackendBase) -> tuple[str, str]:
     return (
         backend.client._iqm_server_client.root_url,
         backend.client._iqm_server_client._quantum_computer,
+        backend.client._iqm_server_client._token_manager._access_token
     )
 
 
@@ -287,12 +288,13 @@ class CostEvaluator:
                 continue
             self.transpiled_qcs.append(qc_transpiled[0])
 
-        iqm_server_url, quantum_computer = _get_server_info(self.backend)
+        iqm_server_url, quantum_computer, token = _get_server_info(self.backend)
 
         self.circuit_compiler_data = qiskit_to_pulla(
             Pulla(
                 iqm_server_url,
                 quantum_computer=quantum_computer,
+                token=token,
             ),
             self.backend,
             self.transpiled_qcs,
@@ -410,8 +412,8 @@ class CalibrationDataManager:
             A dictionary with calibration data for TQG, SQG, readout fidelities, T1, and T2 times.
 
         """
-        iqm_server_url, quantum_computer = _get_server_info(backend)
-        quality_metric_set = IQMClient(iqm_server_url, quantum_computer=quantum_computer).get_quality_metric_set()
+        iqm_server_url, quantum_computer, token = _get_server_info(backend)
+        quality_metric_set = IQMClient(iqm_server_url, quantum_computer=quantum_computer, token=token).get_quality_metric_set()
         calibration_metrics = quality_metric_set.observations
         return self._parse_calibration_metrics(calibration_metrics, backend)
 
