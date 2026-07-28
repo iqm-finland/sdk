@@ -1,0 +1,632 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>aphrodite &#8212; IQM client 34.0.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=25fce8d9"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.cirq_iqm.devices.aphrodite';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Aphrodite" href="iqm.cirq_iqm.devices.aphrodite.Aphrodite.html" />
+    <link rel="prev" title="Adonis" href="iqm.cirq_iqm.devices.adonis.Adonis.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-06-15"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM client 34.0.4 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM client 34.0.4 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">IQM Client</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.cirq_iqm.html">cirq_iqm</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.cirq_iqm.devices.html">devices</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.devices.adonis.html">adonis</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.devices.apollo.html">apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.devices.iqm_device.html">iqm_device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.devices.iqm_device_metadata.html">iqm_device_metadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.extended_qasm_parser.html">extended_qasm_parser</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm.html">iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.iqm_gates.html">iqm_gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.iqm_gates.IQMMoveGate.html">IQMMoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.iqm_sampler.html">iqm_sampler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.iqm_sampler.IQMResult.html">IQMResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.iqm_sampler.IQMSampler.html">IQMSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.iqm_sampler.ResultMetadata.html">ResultMetadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.optimizers.html">optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.optimizers.simplify_circuit.html">iqm.cirq_iqm.optimizers.simplify_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement.html">DropRZBeforeMeasurement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates.html">MergeOneParameterGroupGates</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.serialize.html">serialize</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.serialize.circuit_operation_to_operation.html">iqm.cirq_iqm.serialize.circuit_operation_to_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.serialize.deserialize_circuit.html">iqm.cirq_iqm.serialize.deserialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.serialize.operation_to_circuit_operation.html">iqm.cirq_iqm.serialize.operation_to_circuit_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.serialize.serialize_circuit.html">iqm.cirq_iqm.serialize.serialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.serialize.OperationNotSupportedError.html">iqm.cirq_iqm.serialize.OperationNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.transpiler.html">transpiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit.html">iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.iqm_client.html">iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_client.errors.html">errors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.errors.APITimeoutError.html">iqm.iqm_client.errors.APITimeoutError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.errors.CircuitExecutionError.html">iqm.iqm_client.errors.CircuitExecutionError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.errors.CircuitTranspilationError.html">iqm.iqm_client.errors.CircuitTranspilationError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.errors.CircuitValidationError.html">iqm.iqm_client.errors.CircuitValidationError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_client.iqm_client.html">iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.iqm_client.CircuitJob.html">CircuitJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.iqm_client.IQMClient.html">IQMClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_client.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.models.STANDARD_DD_STRATEGY.html">iqm.iqm_client.models.STANDARD_DD_STRATEGY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.models.validate_circuit.html">iqm.iqm_client.models.validate_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.models.CircuitCompilationOptions.html">CircuitCompilationOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.models.CircuitJobParameters.html">CircuitJobParameters</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_client.transpile.html">transpile</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.transpile.Resolution.html">iqm.iqm_client.transpile.Resolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.transpile.simplify_architecture.html">iqm.iqm_client.transpile.simplify_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.transpile.transpile_insert_moves.html">iqm.iqm_client.transpile.transpile_insert_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.transpile.transpile_remove_moves.html">iqm.iqm_client.transpile.transpile_remove_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.transpile.ExistingMoveHandlingOptions.html">ExistingMoveHandlingOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_client.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.util.print_env_vars.html">iqm.iqm_client.util.print_env_vars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.util.to_json_dict.html">iqm.iqm_client.util.to_json_dict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.util.IQMJSONEncoder.html">IQMJSONEncoder</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_client.validation.html">validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.validation.validate_circuit_instructions.html">iqm.iqm_client.validation.validate_circuit_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.validation.validate_circuit_moves.html">iqm.iqm_client.validation.validate_circuit_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.validation.validate_instruction.html">iqm.iqm_client.validation.validate_instruction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.validation.validate_qubit_mapping.html">iqm.iqm_client.validation.validate_qubit_mapping</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.iqm_server_client.html">iqm_server_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_server_client.iqm_server_client.html">iqm_server_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.iqm_server_client.DEFAULT_TIMEOUT_SECONDS.html">iqm.iqm_server_client.iqm_server_client.DEFAULT_TIMEOUT_SECONDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.iqm_server_client.IQMServerClientJob.html">IQMServerClientJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.iqm_server_client._IQMServerClient.html">_IQMServerClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_server_client.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.Source.html">iqm.iqm_server_client.models.Source</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.JobCompilation.html">JobCompilation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.JobData.html">JobData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.JobError.html">JobError</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.JobExecution.html">JobExecution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.JobMessage.html">JobMessage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.JobStatus.html">JobStatus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.ListQuantumComputersResponse.html">ListQuantumComputersResponse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.ProgressInfo.html">ProgressInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.QuantumComputer.html">QuantumComputer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.TimelineEntry.html">TimelineEntry</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.qiskit_iqm.html">qiskit_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.examples.html">examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.examples.bell_measure.html">bell_measure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.examples.transpile_example.html">transpile_example</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.html">fake_backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.fake_adonis.html">fake_adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.fake_aphrodite.html">fake_aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.fake_apollo.html">fake_apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.fake_deneb.html">fake_deneb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.fake_garnet.html">fake_garnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.iqm_fake_backend.html">iqm_fake_backend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_backend.html">iqm_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html">IQMBackendBase</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_circuit.html">iqm_circuit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_circuit.IQMCircuit.html">IQMCircuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_circuit_validation.html">iqm_circuit_validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit.html">iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_job.html">iqm_job</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_job.IQMJob.html">IQMJob</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_move_layout.html">iqm_move_layout</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout.html">iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout.html">IQMMoveLayout</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_naive_move_pass.html">iqm_naive_move_pass</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM.html">iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_naive_move_pass.IQMNaiveResonatorMoving.html">IQMNaiveResonatorMoving</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_provider.html">iqm_provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_provider.IQMBackend.html">IQMBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend.html">IQMFacadeBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_provider.IQMProvider.html">IQMProvider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_target.html">iqm_target</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_target.Locus.html">iqm.qiskit_iqm.iqm_target.Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_target.LocusIdx.html">iqm.qiskit_iqm.iqm_target.LocusIdx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_target.IQMTarget.html">IQMTarget</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_transpilation.html">iqm_transpilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates.html">iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_transpilation.IQMOptimizeSingleQubitGates.html">IQMOptimizeSingleQubitGates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass.html">IQMReplaceGateWithUnitaryPass</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.move_gate.html">move_gate</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY.html">iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.move_gate.MoveGate.html">MoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.qiskit_to_iqm.html">qiskit_to_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey.html">MeasurementKey</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError.html">iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.html">transpiler_plugins</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.IQMDefaultSchedulingPlugin.html">IQMDefaultSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.IQMSchedulingPlugin.html">IQMSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingKeepExistingMovesPlugin.html">MoveGateRoutingKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyKeepExistingMovesPlugin.html">MoveGateRoutingOnlyKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyPlugin.html">MoveGateRoutingOnlyPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyRemoveExistingMovesPlugin.html">MoveGateRoutingOnlyRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyTrustExistingMovesPlugin.html">MoveGateRoutingOnlyTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingPlugin.html">MoveGateRoutingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingRemoveExistingMovesPlugin.html">MoveGateRoutingRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingTrustExistingMovesPlugin.html">MoveGateRoutingTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithExactRZPlugin.html">MoveGateRoutingWithExactRZPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin.html">MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactIgnoreBarriersPlugin.html">OnlyRZOptimizationExactIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactPlugin.html">OnlyRZOptimizationExactPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationIgnoreBarriersPlugin.html">OnlyRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin.html">OnlyRZOptimizationPlugin</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration_guide.html">Integration Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide_qiskit.html">Qiskit on IQM User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide_cirq.html">Cirq on IQM User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/iqm.cirq_iqm.devices.aphrodite.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>aphrodite</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="aphrodite">
+<h1>aphrodite<a class="headerlink" href="#aphrodite" title="Link to this heading">#</a></h1>
+<p>Full path: iqm.cirq_iqm.devices.aphrodite</p>
+<p id="module-iqm.cirq_iqm.devices.aphrodite">IQM’s Aphrodite quantum architecture.</p>
+<p class="rubric">Classes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="iqm.cirq_iqm.devices.aphrodite.Aphrodite.html#iqm.cirq_iqm.devices.aphrodite.Aphrodite" title="iqm.cirq_iqm.devices.aphrodite.Aphrodite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Aphrodite</span></code></a></p></td>
+<td><p>IQM's 54-qubit transmon device.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-11332aeb8b2f23ac61a449456160560e24478201.png" alt="Inheritance diagram of iqm.cirq_iqm.devices.aphrodite" usemap="#inheritance787d4f250c" class="inheritance graphviz" /></div>
+<map id="inheritance787d4f250c" name="inheritance787d4f250c">
+<area shape="rect" id="node1" href="iqm.cirq_iqm.devices.aphrodite.Aphrodite.html#iqm.cirq_iqm.devices.aphrodite.Aphrodite" target="_top" title="IQM&#39;s 54&#45;qubit transmon device." alt="" coords="267,5,352,31"/>
+<area shape="rect" id="node2" href="iqm.cirq_iqm.devices.iqm_device.IQMDevice.html#iqm.cirq_iqm.devices.iqm_device.IQMDevice" target="_top" title="ABC for the properties of a specific IQM quantum architecture." alt="" coords="125,5,219,31"/>
+</map></section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.cirq_iqm.devices.adonis.Adonis.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Adonis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.cirq_iqm.devices.aphrodite.Aphrodite.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Aphrodite</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM client developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2026, IQM Finland Oy, Release 34.0.4.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-06-15.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

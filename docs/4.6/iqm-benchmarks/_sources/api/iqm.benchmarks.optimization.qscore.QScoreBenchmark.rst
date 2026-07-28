@@ -1,0 +1,36 @@
+iqm.benchmarks.optimization.qscore.QScoreBenchmark
+==================================================
+
+.. currentmodule:: iqm.benchmarks.optimization.qscore
+
+.. autoclass:: QScoreBenchmark
+   :members:
+   :show-inheritance:
+
+   
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+   
+   
+
+
+   
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~QScoreBenchmark.add_all_meta_to_dataset
+      ~QScoreBenchmark.analysis_function
+      ~QScoreBenchmark.choose_qubits_custom
+      ~QScoreBenchmark.choose_qubits_naive
+      ~QScoreBenchmark.execute
+      ~QScoreBenchmark.generate_maxcut_ansatz
+      ~QScoreBenchmark.generate_maxcut_ansatz_star
+      ~QScoreBenchmark.greedy_vertex_cover_with_mapping
+      ~QScoreBenchmark.name
+   
+   

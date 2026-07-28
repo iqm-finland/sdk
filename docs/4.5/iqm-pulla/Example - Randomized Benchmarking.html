@@ -1,0 +1,1053 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Import required packages &#8212; IQM Pulla 13.0.4 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=27ead89c"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Example - Randomized Benchmarking';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="API.html" />
+    <link rel="prev" title="Executing QIR programs" href="Example%20-%20Executing%20QIR%20programs.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-06-15"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM Pulla 13.0.4 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 13.0.4 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">IQM Pulla</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="user_guides.html">User guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Quick%20Start.html">Quick Start</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Configuration%20and%20Usage.html">Configuration and Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Sweeps.html">Sweeps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compilation%20Stages.html">Compilation Stages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Custom%20Gates%20and%20Implementations.html">Custom Gates and Gate Implementations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Measuring%20T1.html">Example: Measuring T1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Simple%20Dynamical%20Decoupling.html">Example: Dynamical decoupling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Executing%20QIR%20programs.html">Executing QIR programs</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Import required packages</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.cpc.html">cpc</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.compiler.html">compiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compilation_stage.html">compilation_stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compiler.html">compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.dd.html">dd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.errors.html">errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.layering_stages.html">layering_stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.post_process.html">post_process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.standard_stages.html">standard_stages</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.config.html">config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.run_result.html">run_result</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.interface.circuit_execution.html">circuit_execution</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CalibrationSetValues.html">iqm.pulla.interface.CalibrationSetValues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CHADRetrievalException.html">iqm.pulla.interface.CHADRetrievalException</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.ChipLabelRetrievalException.html">iqm.pulla.interface.ChipLabelRetrievalException</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html">Pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.PullaJob.html">PullaJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.PullaStash.html">PullaStash</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.html">quantum_architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture.html">iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.create_static_quantum_architecture.html">iqm.pulla.quantum_architecture.create_static_quantum_architecture</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.calset_from_observations.html">iqm.pulla.utils.calset_from_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.calset_to_cal_data_tree.html">iqm.pulla.utils.calset_to_cal_data_tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.circuit_operations_to_cpc.html">iqm.pulla.utils.circuit_operations_to_cpc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot.html">iqm.pulla.utils.convert_sweep_spot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_to_arrays.html">iqm.pulla.utils.convert_sweep_spot_to_arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.extract_readout_controller_result_names.html">iqm.pulla.utils.extract_readout_controller_result_names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.get_hash_for.html">iqm.pulla.utils.get_hash_for</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.initialize_schedule_builder.html">iqm.pulla.utils.initialize_schedule_builder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.iqm_circuit_to_gate_implementation.html">iqm.pulla.utils.iqm_circuit_to_gate_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.locate_instructions.html">iqm.pulla.utils.locate_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.map_qubit_indices.html">iqm.pulla.utils.map_qubit_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.map_sweep_results_to_logical_qubits.html">iqm.pulla.utils.map_sweep_results_to_logical_qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.print_channel.html">iqm.pulla.utils.print_channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.print_schedule.html">iqm.pulla.utils.print_schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.replace_instruction_in_place.html">iqm.pulla.utils.replace_instruction_in_place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.PostSelectionError.html">iqm.pulla.utils.PostSelectionError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_cirq.html">utils_cirq</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_cirq.cirq_to_cpc.html">iqm.pulla.utils_cirq.cirq_to_cpc</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_dd.html">utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_dd.generate_phases_of_urn_sequence.html">iqm.pulla.utils_dd.generate_phases_of_urn_sequence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_parallelization.html">utils_parallelization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_parallelization.parallelize_timeboxes.html">iqm.pulla.utils_parallelization.parallelize_timeboxes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qir.html">utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping.html">iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qir.qir_to_pulla.html">iqm.pulla.utils_qir.qir_to_pulla</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.html">utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.get_qiskit_compiler.html">iqm.pulla.utils_qiskit.get_qiskit_compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.parallelize_and_transpile.html">iqm.pulla.utils_qiskit.parallelize_and_transpile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.sweep_job_to_qiskit.html">iqm.pulla.utils_qiskit.sweep_job_to_qiskit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.QiskitCompiler.html">QiskitCompiler</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="common_errors.html">Common errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Example - Randomized Benchmarking.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Import required packages</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Import required packages</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-connection-to-the-quantum-computer">Set up connection to the quantum computer</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#clifford-randomized-benchmarking">Clifford Randomized Benchmarking</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#function-to-generate-clifford-rb-circuits">Function to generate Clifford RB circuits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-the-number-of-qubits">Fix the number of qubits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-a-circuit-sample-pick-an-arbitrary-sequence-length">Inspect a circuit sample - pick an arbitrary sequence length</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-that-the-circuit-implements-an-identity-modulo-a-phase">Check that the circuit implements an identity modulo a phase</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transpiling-the-circuit-to-iqm-s-backend">Transpiling the circuit to IQM’s backend</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#averaging-rb-sequences-over-clifford-gates">Averaging RB sequences over Clifford gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#execute-on-iqm-s-backend">Execute on IQM’s backend</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#function-to-generate-a-number-of-clifford-rb-circuit-samples-for-given-sequence-lengths">Function to generate a number of Clifford RB circuit samples for given sequence lengths</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#submit-circuits-to-execute">Submit circuits to execute</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyze-the-results-what-is-the-average-gate-fidelity-of-our-gates">Analyze the results: what is the average gate fidelity of our gates?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimate-the-survival-probabilities-of-every-circuit-at-all-sequence-lengths">Estimate the survival probabilities of every circuit at all sequence lengths</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-data">Plot the data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p>Contact: pedro.romero&#64;iqm.tech &amp; manish.thapa&#64;iqm.tech</p>
+<p>Note: Randomized Benchmarking is a somewhat heavy experiment, and the version implemented in this notebook will take several minutes to run.</p>
+<section id="import-required-packages">
+<h1>Import required packages<a class="headerlink" href="#import-required-packages" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.core.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span><span class="p">,</span> <span class="n">transpile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.circuit.library</span><span class="w"> </span><span class="kn">import</span> <span class="n">HGate</span><span class="p">,</span> <span class="n">SGate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.quantum_info</span><span class="w"> </span><span class="kn">import</span> <span class="n">Clifford</span><span class="p">,</span> <span class="n">random_clifford</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">qiskit.quantum_info</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_histogram</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulla.pulla</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pulla</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulla.utils_qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">qiskit_to_pulla</span><span class="p">,</span> <span class="n">sweep_job_to_qiskit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.playlist.visualisation.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">inspect_playlist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.iqm_client.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_env_vars</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
+
+
+<span class="c1"># Matplotlib settings</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">500</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="set-up-connection-to-the-quantum-computer">
+<h1>Set up connection to the quantum computer<a class="headerlink" href="#set-up-connection-to-the-quantum-computer" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_env_vars</span><span class="p">()</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Pulla</span><span class="p">()</span> 
+<span class="n">compiler</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_standard_compiler</span><span class="p">()</span>
+<span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">()</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="clifford-randomized-benchmarking">
+<h1>Clifford Randomized Benchmarking<a class="headerlink" href="#clifford-randomized-benchmarking" title="Link to this heading">#</a></h1>
+<p>NB: Familiarity with quantum channels, gates and Clifford gates is assumed.</p>
+<section id="function-to-generate-clifford-rb-circuits">
+<h2>Function to generate Clifford RB circuits<a class="headerlink" href="#function-to-generate-clifford-rb-circuits" title="Link to this heading">#</a></h2>
+<p>The idea behind Clifford Randomized Benchmarking (CRB) is that under certain (simplified) types of noise, the average survival probability of the initial state of a quantum system under uniformly random sequences of multi-qubit Clifford gates with sequence inversion will decay exponentially in the length of the sequences. From such decay, one can in turn infer the average fidelity of the corresponding Clifford group.</p>
+<p>CRB sequences are of the form $$\mathcal{S}<em>m:=\mathcal{C}</em>{m+1}\circ\mathcal{C}_m\circ\cdots\circ\mathcal{C}_1,$$ for any $m\geq1$, where $\mathcal{C}<em>i(\cdot):=C_i(\cdot)C_i^\dagger$ is a unitary channel with $C_i$ being a Clifford gate, and where by definition $$\mathcal{C}</em>{m+1}=(\mathcal{C}_m\circ\cdots\circ\mathcal{C}<em>1)^{-1}.$$ It is important to notice that $C</em>{m+1}$ is itself a Clifford gate, i.e., one would not implement the sequence $\mathcal{C}_m\circ\cdots\circ\mathcal{C}<em>1$ in practice, but rather compile the corresponding unitary operator $C_mC</em>{m-1}\cdots{C}_1$ into a single Clifford gate.</p>
+<p>The main assumption is that the real noisy gates can be approximately modeled independently by a quantum channel $\mathcal{E}$ (completely positive, trace non-increasing map) as $\tilde{\mathcal{C}}_i\approx\mathcal{E}\circ\mathcal{C}_i$, or (ultimately equivalently) as $\tilde{\mathcal{C}}_i\approx\mathcal{C}_i\circ\mathcal{E}$. This implies that the noise is modeled as <strong>Markovian</strong>, <strong>time-stationary</strong> and <strong>gate-independent</strong> — while here we will take these for granted, a lot about RB in more general regimes is known, but it is in general more complicated, and often this simplistic scenario goes a long way as a useful first approximation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">circuit_crb_dd</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">seq_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a random circuit with gates uniformly sampled at random from multi-qubit Clifford group, with final measurement.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        n_qubits: Number of qubits where RB will be done</span>
+<span class="sd">        seq_length: The RB sequence length</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        A circuit with Clifford RB on n_qubits and idling on an ancilla qubit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Initialize the full RB + dd_qubit quantum circuit</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">n_qubits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Initialize a circuit to compile the inverse of the RB sequence</span>
+    <span class="n">qc_inv</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)</span>
+
+    <span class="c1"># Fix the gate</span>
+    <span class="n">h_gate</span> <span class="o">=</span> <span class="n">HGate</span><span class="p">()</span>
+    <span class="n">s_gate</span> <span class="o">=</span> <span class="n">SGate</span><span class="p">()</span>
+    <span class="n">circuit</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">circuit</span><span class="o">.</span><span class="n">barrier</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_gate</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">clifford_dd_qubit</span> <span class="o">=</span> <span class="n">circuit</span><span class="o">.</span><span class="n">to_instruction</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">seq_length</span><span class="p">):</span>
+        <span class="c1"># Sample a random Clifford</span>
+        <span class="n">clifford</span> <span class="o">=</span> <span class="n">random_clifford</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)</span><span class="o">.</span><span class="n">to_instruction</span><span class="p">()</span>
+
+        <span class="c1"># Compose the sampled Clifford in the circuit and add a barrier</span>
+        <span class="n">qc</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">clifford</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">qc_inv</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">clifford</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># The base case will be for seq_length=1 !</span>
+        <span class="k">if</span> <span class="n">m</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">clifford_dd_qubit</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="n">n_qubits</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>  <span class="c1"># NB: mind the barriers!</span>
+        <span class="k">elif</span> <span class="n">m</span> <span class="o">==</span> <span class="n">seq_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)))</span>
+
+    <span class="c1"># Compile and compose the inverse</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="n">compiled_inverse_clifford</span> <span class="o">=</span> <span class="n">Clifford</span><span class="p">(</span><span class="n">qc_inv</span><span class="p">)</span><span class="o">.</span><span class="n">to_instruction</span><span class="p">()</span><span class="o">.</span><span class="n">inverse</span><span class="p">()</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">compiled_inverse_clifford</span><span class="p">,</span> <span class="n">qubits</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">)),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">qc</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">clifford_dd_qubit</span><span class="o">.</span><span class="n">inverse</span><span class="p">(),</span> <span class="n">qubits</span><span class="o">=</span><span class="p">[</span><span class="n">n_qubits</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Add measurement</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">qc</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="fix-the-number-of-qubits">
+<h2>Fix the number of qubits<a class="headerlink" href="#fix-the-number-of-qubits" title="Link to this heading">#</a></h2>
+<p>NB: CRB is not generally intended to work for $n&gt;2$, both because of the scaling of the size of the $n$-qubit Clifford group in $n$, and because such gates have to eventually be transpiled to a native basis of 1Q and 2Q gates!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qubit_indices</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">num_qubits</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">qubit_indices</span><span class="p">)</span>
+<span class="n">dd_qubit</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="inspect-a-circuit-sample-pick-an-arbitrary-sequence-length">
+<h2>Inspect a circuit sample - pick an arbitrary sequence length<a class="headerlink" href="#inspect-a-circuit-sample-pick-an-arbitrary-sequence-length" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_length</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">crb_circuit_sample</span> <span class="o">=</span> <span class="n">circuit_crb_dd</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">sample_length</span><span class="p">)</span>
+<span class="n">crb_circuit_sample</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">,</span> <span class="n">fold</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;iqp&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="check-that-the-circuit-implements-an-identity-modulo-a-phase">
+<h2>Check that the circuit implements an identity modulo a phase<a class="headerlink" href="#check-that-the-circuit-implements-an-identity-modulo-a-phase" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample_operator</span> <span class="o">=</span> <span class="n">crb_circuit_sample</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">sample_operator</span><span class="o">.</span><span class="n">remove_final_measurements</span><span class="p">()</span>
+<span class="n">op</span> <span class="o">=</span> <span class="n">qi</span><span class="o">.</span><span class="n">Operator</span><span class="p">(</span><span class="n">sample_operator</span><span class="p">)</span>
+<span class="n">is_id</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">equiv</span><span class="p">(</span><span class="n">qi</span><span class="o">.</span><span class="n">Pauli</span><span class="p">(</span><span class="s1">&#39;I&#39;</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_qubits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The unitary of the circuit implements identity: </span><span class="si">{</span><span class="n">is_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s2">&quot;latex&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="transpiling-the-circuit-to-iqm-s-backend">
+<h2>Transpiling the circuit to IQM’s backend<a class="headerlink" href="#transpiling-the-circuit-to-iqm-s-backend" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set an optimization level for Qiskit&#39;s optimizer</span>
+<span class="n">qiskit_optim_level</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Important:</strong> While a high level of optimization in transpile is usually desirable, one must be careful for the optimization not to mess with the Clifford gates, i.e., we want the transformations between barriers in the circuit to implement a Clifford regardless of how it is decomposed. The specific decomposition still matters, however, because the (average) number of 2Q and 1Q gates (i.e., <code class="docutils literal notranslate"><span class="pre">cz</span></code> and <code class="docutils literal notranslate"><span class="pre">r</span></code>, respectively) will dictate how noisily we can implement the Cliffords on average, i.e., the average gate fidelity we will ultimately obtain.</p>
+<p>We will not do this check here, but it is now known that a <em>good</em> decomposition of Clifford gates in our basis will have on average 8.25 <code class="docutils literal notranslate"><span class="pre">cz</span></code> gates and 1.5 <code class="docutils literal notranslate"><span class="pre">r</span></code> gates (e.g., see <a class="reference external" href="https://arxiv.org/abs/1402.4848">arXiv:1402.4848</a>).</p>
+<p><strong>NOTE:</strong> When transpiling a circuit with MOVE gates, you might need to set <code class="docutils literal notranslate"><span class="pre">optimization_level</span></code> lower.
+If <code class="docutils literal notranslate"><span class="pre">optimization_level</span></code> is set too high, the transpiler might add single qubit gates onto the resonator,
+which is not supported by the IQM Star architectures. If this in undesired, it is best to have the transpiler
+add the MOVE gates automatically, rather than manually adding them to the circuit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">crb_circuit_sample_transp</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span>
+    <span class="n">crb_circuit_sample</span><span class="p">,</span>  <span class="c1"># The circuit to be transpiled</span>
+    <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span>  <span class="c1"># The backend to transpile to</span>
+    <span class="n">optimization_level</span><span class="o">=</span><span class="n">qiskit_optim_level</span><span class="p">,</span>
+    <span class="n">initial_layout</span><span class="o">=</span><span class="n">qubit_indices</span> <span class="o">+</span> <span class="n">dd_qubit</span><span class="p">,</span>  <span class="c1"># The initial mapping of virtual to physical qubits</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can count the number of native 1Q and 2Q gates by using the circuit attribute <code class="docutils literal notranslate"><span class="pre">count_ops()</span></code></p>
+</section>
+<section id="averaging-rb-sequences-over-clifford-gates">
+<h2>Averaging RB sequences over Clifford gates<a class="headerlink" href="#averaging-rb-sequences-over-clifford-gates" title="Link to this heading">#</a></h2>
+<p>One important reason why CRB works –and why specifically it uses Clifford gates–, is that the uniformly distributed multi-qubit Clifford group forms a unitary 2-design. This essentially means that any quantity that takes two copies of the pair $C, C^\dagger$ and then averaged over all possible $C$s, will be exactly the same as if $C$ had been <em>any</em> uniformly distributed (so-called Haar) random unitary. This matters because there are plenty of results allowing to easily compute such quantities (i.e., second moments) over the whole uniformly distributed unitary group — in fact, such second moment simply takes the form of a depolarizing channel (RB precisely extracts the average gate fidelity through the corresponding polarization parameter).</p>
+<p>The CRB sequences are quantities of this type because of the final inverse at the end (i.e. all sequences will have 2 copies of pairs $C_i,C_i^\dagger$ for all $i=1,2,\ldots,m$). This is the reason why the theory behind RB, under the noise assumptions above, can ensure that the decay in average fidelity, i.e., quantities like $$f_0=\langle0|\mathcal{S}_m(|0\rangle!\langle0|)|0\rangle$$ take the form of a function $$f_0=Ap^m+B$$ for $0\leq{A,B,p}\leq1$.</p>
+<p>Furthermore, it ensures that $p$ will encode the average gate fidelity of the noisy Clifford gates, whilst $A,B$ will encode (and isolate) errors due to state preparation and measurement. This is what is meant by RB being SPAM-robust. In the modeling with assummptions of noisy gates above, this means $p\sim\int{d}\psi\langle\psi|\mathcal{E}(|\psi\rangle!\langle\psi|)|\psi\rangle$ for all possible uniformly distributed pure states $|\psi\rangle$, and $A\sim\langle0|\mathcal{E}<em>\text{spam}(|0\rangle!\langle0|)|0\rangle$, $B\sim\langle0|\mathcal{E}</em>\text{spam}(\mathbb{I}/2^n)|0\rangle$ for a composition of the state preparation and measurement noise.</p>
+</section>
+<section id="execute-on-iqm-s-backend">
+<h2>Execute on IQM’s backend<a class="headerlink" href="#execute-on-iqm-s-backend" title="Link to this heading">#</a></h2>
+<p>We may now fix a number of circuit samples and sequence lengths.</p>
+<p>Despite the Clifford group having a (super) exponential amount of terms (e.g., 24 for 1Q, then 11,520 for 2Q), approximating the average over the whole group with finite samples quickly converges to the Haar average.</p>
+<p>On the other hand, the sequence lengths can be chosen as exponentially spaced and aiming at long sequences, if possible, serves to better determine the offset constant (often named the <em>nuisance</em> parameter, for obvious reasons) in the decay.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_circuit_samples</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">sequence_lengths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">geomspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Depending on how many circuits we want to execute, we could either generate all circuit samples for all circuit lengths and send all for execution once, or we may, for example, generate a given amount of circuits, send them to execution while meanwhile continuing to generate circuits and sending them. In either case, one may retrieve the results later.</p>
+<p>Here we will generate all circuits for all sequence lengths, and send them to execute as a single batch on the backend.</p>
+<section id="function-to-generate-a-number-of-clifford-rb-circuit-samples-for-given-sequence-lengths">
+<h3>Function to generate a number of Clifford RB circuit samples for given sequence lengths<a class="headerlink" href="#function-to-generate-a-number-of-clifford-rb-circuit-samples-for-given-sequence-lengths" title="Link to this heading">#</a></h3>
+<p>It is generally a good idea to store (at least at this stage) both the abstract and the transpiled circuits, so that we can inspect them later on.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">generate_crb_samples</span><span class="p">(</span>
+    <span class="n">num_samples</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+    <span class="n">seq_lengths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">qiskit_optim_level</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">ini_layout</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">qubit_indices</span> <span class="o">+</span> <span class="n">dd_qubit</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]],</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a number of crb circuit samples at given sequence lengths.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        num_samples: the number of crb circuit samples</span>
+<span class="sd">        seq_lengths: the sequence lengths of the samples</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        Mapping of sequence lengths to CRB circuits of that length (raw and transpiled).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># We will use a dictionary to store all circuits, with keys being sequence lenghts</span>
+    <span class="n">all_samples</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">all_samples_transpiled</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">seq_lengths</span><span class="p">:</span>
+        <span class="n">samples_at_length_m</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">samples_at_length_m_transpiled</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_samples</span><span class="p">):</span>
+            <span class="n">circuit_samples</span> <span class="o">=</span> <span class="n">circuit_crb_dd</span><span class="p">(</span><span class="n">num_qubits</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+            <span class="n">transpiled_circuit_samples</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span>
+                <span class="n">circuit_samples</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="n">qiskit_optim_level</span><span class="p">,</span> <span class="n">initial_layout</span><span class="o">=</span><span class="n">ini_layout</span>
+            <span class="p">)</span>
+            <span class="n">samples_at_length_m</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">circuit_samples</span><span class="p">)</span>
+            <span class="n">samples_at_length_m_transpiled</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">transpiled_circuit_samples</span><span class="p">)</span>
+
+        <span class="n">all_samples</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">samples_at_length_m</span>
+        <span class="n">all_samples_transpiled</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">samples_at_length_m_transpiled</span>
+
+    <span class="k">return</span> <span class="n">all_samples</span><span class="p">,</span> <span class="n">all_samples_transpiled</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_samples</span><span class="p">,</span> <span class="n">all_samples_transpiled</span> <span class="o">=</span> <span class="n">generate_crb_samples</span><span class="p">(</span><span class="n">num_circuit_samples</span><span class="p">,</span> <span class="n">sequence_lengths</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can inspect the circuits just as a sanity check</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pick one of the sequence lengths</span>
+<span class="n">m_ex</span> <span class="o">=</span> <span class="n">sequence_lengths</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c1"># Pick one of the samples</span>
+<span class="n">sample_ex</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="c1"># Display circuits</span>
+<span class="n">display</span><span class="p">(</span><span class="n">all_samples</span><span class="p">[</span><span class="n">m_ex</span><span class="p">][</span><span class="n">sample_ex</span><span class="p">]</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;iqp&#39;</span><span class="p">,</span> <span class="n">fold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">all_samples_transpiled</span><span class="p">[</span><span class="n">m_ex</span><span class="p">][</span><span class="n">sample_ex</span><span class="p">]</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">&#39;iqp&#39;</span><span class="p">,</span> <span class="n">fold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Task</strong>: Count the average number of 1Q and 2Q gates in the circuits for each sequence length.</p>
+<p><strong>Task</strong>: Since the Clifford group is a 2-design, its so-called <em>frame potential</em> (see e.g., <a class="reference external" href="https://arxiv.org/abs/1610.04903">arXiv:1610.04903</a>) has to satisfy $\displaystyle{\sum_{k,,k^\prime=1}^K}\left|\mathrm{tr}\left(C_{k^\prime}^{\dagger}C_k\right)\right|^4/K^2 = 2$. Verify this condition for the 1Q Clifford group. <strong>warning</strong> for the 2Q Clifford group: there are in total $n=11,520^2 = 132,710,400$ values in the sum! It suffices to compute the values in a triangular part of the matrix $U_{k^\prime}^{\dagger}U_k$  — so you can definitely verify this property, however there will still be $n(n-1)/2$ such terms for your computer to sum up!</p>
+</section>
+<section id="submit-circuits-to-execute">
+<h3>Submit circuits to execute<a class="headerlink" href="#submit-circuits-to-execute" title="Link to this heading">#</a></h3>
+<p>We can now send the transpiled circuits to be run on the hardware.</p>
+<p>NB: It is generally preferable to use <code class="docutils literal notranslate"><span class="pre">backend.run</span></code> instead of <code class="docutils literal notranslate"><span class="pre">execute</span></code> command, since the latter performs a transpilation pass “under the hood”.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compiler</span><span class="o">.</span><span class="n">show_stages</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.station_control.interface.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">MoveGateFrameTrackingMode</span>
+
+<span class="n">shots</span> <span class="o">=</span> <span class="mi">5000</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">set_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">SettingNode</span><span class="p">,</span> <span class="n">shots</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the compilation and execution settings.&quot;&quot;&quot;</span>
+    <span class="c1"># provide DDStrategy in settings: [(5, &quot;YXYX&quot;, &quot;center&quot;)]</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span><span class="o">.</span><span class="n">dd_is_disabled</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span><span class="o">.</span><span class="n">DDStrategy_gate_sequences_ratio</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span><span class="o">.</span><span class="n">DDDStrategy_gate_sequences_gate_pattern_xy</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+         <span class="p">],</span>
+        <span class="p">]</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span><span class="o">.</span><span class="n">DDStrategy_gate_sequences_align</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;center&quot;</span><span class="p">]</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span><span class="o">.</span><span class="n">DDStrategy_target_qubits</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;QB3&quot;</span><span class="p">]</span>
+
+    <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">timebox_stage</span><span class="o">.</span><span class="n">prepend_heralding</span><span class="o">.</span><span class="n">add_heralding</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_resolution</span><span class="o">.</span><span class="n">resolve_circuits</span><span class="o">.</span><span class="n">scheduling_strategy</span> <span class="o">=</span> <span class="s2">&quot;ASAP&quot;</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">timebox_stage</span><span class="o">.</span><span class="n">prepend_reset</span><span class="o">.</span><span class="n">active_reset_cycles</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_stage</span><span class="o">.</span><span class="n">subscribe_and_probe</span><span class="o">.</span><span class="n">convert_terminal_measurements</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">schedule_stage</span><span class="o">.</span><span class="n">apply_move_gate_phase_corrections</span><span class="o">.</span><span class="n">move_gate_frame_tracking_mode</span> <span class="o">=</span> <span class="n">MoveGateFrameTrackingMode</span><span class="o">.</span><span class="n">FULL</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_stage</span><span class="o">.</span><span class="n">subscribe_and_probe</span><span class="o">.</span><span class="n">probe_all</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_stage</span><span class="o">.</span><span class="n">validate_circuits</span><span class="o">.</span><span class="n">move_gate_validation</span> <span class="o">=</span> <span class="kc">True</span>
+            
+    <span class="n">settings</span><span class="o">.</span><span class="n">controllers</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">playlist_repeats</span> <span class="o">=</span> <span class="n">shots</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">controllers</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">averaging_bins</span> <span class="o">=</span> <span class="n">shots</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">submit_all</span><span class="p">(</span><span class="n">transp_circuits</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">QuantumCircuit</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">PullaJob</span><span class="p">],</span> <span class="n">RunDefinition</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Submit all jobs.&quot;&quot;&quot;</span>
+
+    <span class="n">all_jobs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Submitting all circuits for execution&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">qiskit_circuits</span> <span class="ow">in</span> <span class="n">transp_circuits</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># one job per m</span>
+        <span class="n">iqm_circuits</span><span class="p">,</span> <span class="n">compiler</span> <span class="o">=</span> <span class="n">qiskit_to_pulla</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">qiskit_circuits</span><span class="p">)</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">iqm_circuits</span><span class="p">)</span>
+        <span class="n">set_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+        <span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">iqm_circuits</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">)</span>
+        <span class="n">all_jobs</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">submit_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All jobs submitted OK&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">all_jobs</span><span class="p">,</span> <span class="n">job_definition</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">retrieve_all</span><span class="p">(</span><span class="n">all_jobs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">PullaJob</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve all jobs.&quot;&quot;&quot;</span>
+
+    <span class="n">retrieved_counts</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">job</span> <span class="ow">in</span> <span class="n">all_jobs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Retrieving results for sequence length </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2"> out of </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">all_jobs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">job</span><span class="o">.</span><span class="n">wait_for_completion</span><span class="p">()</span>
+        <span class="n">qiskit_result</span> <span class="o">=</span> <span class="n">sweep_job_to_qiskit</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+        <span class="n">retrieved_counts</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">qiskit_result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All results retrieved OK&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">retrieved_counts</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">submitted_jobs</span><span class="p">,</span> <span class="n">job_definition</span> <span class="o">=</span> <span class="n">submit_all</span><span class="p">(</span><span class="n">all_samples_transpiled</span><span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_counts</span> <span class="o">=</span> <span class="n">retrieve_all</span><span class="p">(</span><span class="n">submitted_jobs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now inspect the results for a given sequence length (we will use the one defined above). The counts at the ground state relate to the survival probability (or state fidelity) of such state under our random Clifford circuits.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_histogram</span><span class="p">(</span><span class="n">all_counts</span><span class="p">[</span><span class="n">m_ex</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;RB Counts at sequence length </span><span class="si">{</span><span class="n">m_ex</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">bar_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Task</strong>: Compare the histograms between the outcomes for the narrowest and the deepest circuits</p>
+<p>NB: You can wrap <code class="docutils literal notranslate"><span class="pre">plot_histogram()</span></code> with <code class="docutils literal notranslate"><span class="pre">display(*)</span></code> to show both results in one cell</p>
+</section>
+</section>
+<section id="analyze-the-results-what-is-the-average-gate-fidelity-of-our-gates">
+<h2>Analyze the results: what is the average gate fidelity of our gates?<a class="headerlink" href="#analyze-the-results-what-is-the-average-gate-fidelity-of-our-gates" title="Link to this heading">#</a></h2>
+<section id="estimate-the-survival-probabilities-of-every-circuit-at-all-sequence-lengths">
+<h3>Estimate the survival probabilities of every circuit at all sequence lengths<a class="headerlink" href="#estimate-the-survival-probabilities-of-every-circuit-at-all-sequence-lengths" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">survival_probabilities</span><span class="p">(</span><span class="n">all_counts</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+    <span class="n">all_survival</span> <span class="o">=</span> <span class="p">{</span><span class="n">m</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">all_counts</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">counts_samples</span> <span class="ow">in</span> <span class="n">all_counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">survival_m</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">counts_sample</span> <span class="ow">in</span> <span class="n">counts_samples</span><span class="p">:</span>
+            <span class="n">total_counts</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counts_sample</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+            <span class="n">survival_m</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">counts_sample</span><span class="p">[</span><span class="s1">&#39;00&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">total_counts</span> <span class="k">if</span> <span class="s1">&#39;00&#39;</span> <span class="ow">in</span> <span class="n">counts_sample</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">all_survival</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">survival_m</span>
+    <span class="k">return</span> <span class="n">all_survival</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">all_survival_probabilities</span> <span class="o">=</span> <span class="n">survival_probabilities</span><span class="p">(</span><span class="n">all_counts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-the-data">
+<h3>Plot the data<a class="headerlink" href="#plot-the-data" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">plot_survival_probabilities</span><span class="p">(</span><span class="n">all_survival_probabilities</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]):</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.247</span><span class="p">,</span> <span class="mf">0.635</span><span class="p">,</span> <span class="mf">0.965</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+    <span class="n">sequence_lengths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">all_survival_probabilities</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="n">flat_fidelity_data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">all_survival_probabilities</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+    <span class="n">scatter_x</span> <span class="o">=</span> <span class="p">[[</span><span class="n">m</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_survival_probabilities</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">sequence_lengths</span><span class="p">]</span>
+    <span class="n">flat_scatter_x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">scatter_x</span><span class="p">))</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">flat_scatter_x</span><span class="p">,</span> <span class="n">flat_fidelity_data</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span>
+        <span class="n">all_survival_probabilities</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+        <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_survival_probabilities</span><span class="o">.</span><span class="n">values</span><span class="p">()],</span>
+        <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_survival_probabilities</span><span class="o">.</span><span class="n">values</span><span class="p">()],</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+        <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+        <span class="n">markersize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">capsize</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Mean probability&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">&quot;log&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Clifford RB sequence length (log)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Survival probability of $|00\rangle$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Clifford RB survival probabilities of $|00\rangle$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+    <span class="c1"># plt.show()</span>
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">survival_probs_plot</span> <span class="o">=</span> <span class="n">plot_survival_probabilities</span><span class="p">(</span><span class="n">all_survival_probabilities</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Example%20-%20Executing%20QIR%20programs.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Executing QIR programs</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="API.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API Reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Import required packages</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-connection-to-the-quantum-computer">Set up connection to the quantum computer</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#clifford-randomized-benchmarking">Clifford Randomized Benchmarking</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#function-to-generate-clifford-rb-circuits">Function to generate Clifford RB circuits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-the-number-of-qubits">Fix the number of qubits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-a-circuit-sample-pick-an-arbitrary-sequence-length">Inspect a circuit sample - pick an arbitrary sequence length</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-that-the-circuit-implements-an-identity-modulo-a-phase">Check that the circuit implements an identity modulo a phase</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transpiling-the-circuit-to-iqm-s-backend">Transpiling the circuit to IQM’s backend</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#averaging-rb-sequences-over-clifford-gates">Averaging RB sequences over Clifford gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#execute-on-iqm-s-backend">Execute on IQM’s backend</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#function-to-generate-a-number-of-clifford-rb-circuit-samples-for-given-sequence-lengths">Function to generate a number of Clifford RB circuit samples for given sequence lengths</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#submit-circuits-to-execute">Submit circuits to execute</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyze-the-results-what-is-the-average-gate-fidelity-of-our-gates">Analyze the results: what is the average gate fidelity of our gates?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimate-the-survival-probabilities-of-every-circuit-at-all-sequence-lengths">Estimate the survival probabilities of every circuit at all sequence lengths</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-data">Plot the data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Pulla developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024-2026, IQM Finland Oy, Release 13.0.4.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-06-15.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

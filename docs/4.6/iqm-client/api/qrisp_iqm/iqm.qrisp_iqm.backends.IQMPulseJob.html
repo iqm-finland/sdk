@@ -1,0 +1,935 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>IQMPulseJob &#8212; IQM client 35.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=03e56e77"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMPulseJob';</script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Transpilation" href="../../qrisp_iqm_transpilation.html" />
+    <link rel="prev" title="IQMCircuitJob" href="iqm.qrisp_iqm.backends.IQMCircuitJob.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-07-16"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="IQM client 35.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="IQM client 35.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">iqm-client</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../iqm.iqm_client.html">iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.iqm_client.iqm_client.html">iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.iqm_client.CircuitJob.html">CircuitJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.iqm_client.IQMClient.html">IQMClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.iqm_client.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.models.STANDARD_DD_STRATEGY.html">iqm.iqm_client.models.STANDARD_DD_STRATEGY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.models.validate_circuit.html">iqm.iqm_client.models.validate_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.models.CircuitCompilationOptions.html">CircuitCompilationOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.models.CircuitJobParameters.html">CircuitJobParameters</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.iqm_client.transpile.html">transpile</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.transpile.Resolution.html">iqm.iqm_client.transpile.Resolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.transpile.simplify_architecture.html">iqm.iqm_client.transpile.simplify_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.transpile.transpile_insert_moves.html">iqm.iqm_client.transpile.transpile_insert_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.transpile.transpile_remove_moves.html">iqm.iqm_client.transpile.transpile_remove_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.transpile.ExistingMoveHandlingOptions.html">ExistingMoveHandlingOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.iqm_client.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.util.print_env_vars.html">iqm.iqm_client.util.print_env_vars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.util.to_json_dict.html">iqm.iqm_client.util.to_json_dict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.util.IQMJSONEncoder.html">IQMJSONEncoder</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.iqm_client.validation.html">validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.validation.validate_circuit_instructions.html">iqm.iqm_client.validation.validate_circuit_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.validation.validate_circuit_moves.html">iqm.iqm_client.validation.validate_circuit_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.validation.validate_instruction.html">iqm.iqm_client.validation.validate_instruction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_client.validation.validate_qubit_mapping.html">iqm.iqm_client.validation.validate_qubit_mapping</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../iqm.iqm_server_client.html">iqm_server_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.iqm_server_client.iqm_server_client.html">iqm_server_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_server_client.iqm_server_client.DEFAULT_TIMEOUT_SECONDS.html">iqm.iqm_server_client.iqm_server_client.DEFAULT_TIMEOUT_SECONDS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_server_client.iqm_server_client.IQMServerClientJob.html">IQMServerClientJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_server_client.iqm_server_client._IQMServerClient.html">_IQMServerClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.iqm_server_client.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_server_client.models.JobCompilation.html">JobCompilation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_server_client.models.JobData.html">JobData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_server_client.models.JobExecution.html">JobExecution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_server_client.models.JobMessage.html">JobMessage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_server_client.models.JobStatus.html">JobStatus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_server_client.models.ListQuantumComputersResponse.html">ListQuantumComputersResponse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_server_client.models.ProgressInfo.html">ProgressInfo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_server_client.models.QuantumComputer.html">QuantumComputer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.iqm_server_client.models.TimelineEntry.html">TimelineEntry</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../iqm.cirq_iqm.html">cirq_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.cirq_iqm.devices.html">devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.devices.adonis.html">adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.devices.aphrodite.html">aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.devices.apollo.html">apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.devices.iqm_device.html">iqm_device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.devices.iqm_device_metadata.html">iqm_device_metadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.cirq_iqm.extended_qasm_parser.html">extended_qasm_parser</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm.html">iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.cirq_iqm.iqm_gates.html">iqm_gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.iqm_gates.IQMMoveGate.html">IQMMoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.cirq_iqm.iqm_sampler.html">iqm_sampler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.iqm_sampler.IQMResult.html">IQMResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.iqm_sampler.IQMSampler.html">IQMSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.iqm_sampler.ResultMetadata.html">ResultMetadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.cirq_iqm.optimizers.html">optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.optimizers.simplify_circuit.html">iqm.cirq_iqm.optimizers.simplify_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement.html">DropRZBeforeMeasurement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates.html">MergeOneParameterGroupGates</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.cirq_iqm.serialize.html">serialize</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.serialize.circuit_operation_to_operation.html">iqm.cirq_iqm.serialize.circuit_operation_to_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.serialize.deserialize_circuit.html">iqm.cirq_iqm.serialize.deserialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.serialize.operation_to_circuit_operation.html">iqm.cirq_iqm.serialize.operation_to_circuit_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.serialize.serialize_circuit.html">iqm.cirq_iqm.serialize.serialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.serialize.OperationNotSupportedError.html">iqm.cirq_iqm.serialize.OperationNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.cirq_iqm.transpiler.html">transpiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit.html">iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.html">qiskit_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.examples.html">examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.examples.bell_measure.html">bell_measure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.examples.transpile_example.html">transpile_example</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.fake_backends.html">fake_backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.fake_backends.fake_adonis.html">fake_adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.fake_backends.fake_aphrodite.html">fake_aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.fake_backends.fake_apollo.html">fake_apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.fake_backends.fake_deneb.html">fake_deneb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.fake_backends.fake_garnet.html">fake_garnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.fake_backends.iqm_fake_backend.html">iqm_fake_backend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_backend.html">iqm_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html">IQMBackendBase</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_circuit.html">iqm_circuit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_circuit.IQMCircuit.html">IQMCircuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_circuit_validation.html">iqm_circuit_validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit.html">iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_job.html">iqm_job</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_job.IQMJob.html">IQMJob</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_move_layout.html">iqm_move_layout</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout.html">iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout.html">IQMMoveLayout</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_naive_move_pass.html">iqm_naive_move_pass</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM.html">iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_naive_move_pass.IQMNaiveResonatorMoving.html">IQMNaiveResonatorMoving</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_provider.html">iqm_provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_provider.IQMBackend.html">IQMBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend.html">IQMFacadeBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_provider.IQMProvider.html">IQMProvider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_target.html">iqm_target</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_target.Locus.html">iqm.qiskit_iqm.iqm_target.Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_target.LocusIdx.html">iqm.qiskit_iqm.iqm_target.LocusIdx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_target.IQMTarget.html">IQMTarget</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_transpilation.html">iqm_transpilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates.html">iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_transpilation.IQMOptimizeSingleQubitGates.html">IQMOptimizeSingleQubitGates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass.html">IQMReplaceGateWithUnitaryPass</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.move_gate.html">move_gate</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY.html">iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.move_gate.MoveGate.html">MoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.qiskit_to_iqm.html">qiskit_to_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey.html">MeasurementKey</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError.html">iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.html">transpiler_plugins</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.IQMDefaultSchedulingPlugin.html">IQMDefaultSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.IQMSchedulingPlugin.html">IQMSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingKeepExistingMovesPlugin.html">MoveGateRoutingKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyKeepExistingMovesPlugin.html">MoveGateRoutingOnlyKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyPlugin.html">MoveGateRoutingOnlyPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyRemoveExistingMovesPlugin.html">MoveGateRoutingOnlyRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyTrustExistingMovesPlugin.html">MoveGateRoutingOnlyTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingPlugin.html">MoveGateRoutingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingRemoveExistingMovesPlugin.html">MoveGateRoutingRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingTrustExistingMovesPlugin.html">MoveGateRoutingTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithExactRZPlugin.html">MoveGateRoutingWithExactRZPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin.html">MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactIgnoreBarriersPlugin.html">OnlyRZOptimizationExactIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactPlugin.html">OnlyRZOptimizationExactPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationIgnoreBarriersPlugin.html">OnlyRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin.html">OnlyRZOptimizationPlugin</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../../qrisp_iqm_api_index.html">qrisp_iqm</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="../../qrisp_iqm_backend_infrastructure.html">Backend Infrastructure</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.backends.IQMBackend.html">IQMBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.backends.IQMCircuitJob.html">IQMCircuitJob</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">IQMPulseJob</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qrisp_iqm_transpilation.html">Transpilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.passes.create_iqm_pass_manager.html">create_iqm_pass_manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.passes.transpile_to_iqm.html">transpile_to_iqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.passes.routing.plasma_layout.html">plasma_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.passes.routing.plasma_route.html">plasma_route</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.passes.routing.vf2pp_layout.html">vf2pp_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.passes.commute_phases.html">commute_phases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.passes.measurement_parallelization.html">measurement_parallelization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qrisp_iqm_pulse_operations.html">Pulse Operations &amp; Conversion</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.qrisp_to_iqm_converter.html">qrisp_to_iqm_converter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.pulse_operation.IQMPulseOperation.html">IQMPulseOperation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.extract_iqm_pulse.html">extract_iqm_pulse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.quantum_op_to_qrisp_func.html">quantum_op_to_qrisp_func</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.custom_pulse_operations.delay.html">delay</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qrisp_iqm_qec.html">Quantum Error Correction</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../integration_guide.html">Integration Guide</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../user_guide_qrisp/index.html">Qrisp on IQM User Guide</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user_guide_qrisp/plasma_sabre_tutorial.html">Plasma-Sabre Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user_guide_qrisp/detector_experiment_demo.html">QEC Memory Experiment with the Repetition Code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide_qiskit.html">Qiskit on IQM User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide_cirq.html">Cirq on IQM User Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/api/qrisp_iqm/iqm.qrisp_iqm.backends.IQMPulseJob.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>IQMPulseJob</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.backend"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.backend</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.cancel"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.cancel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.cancelled"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.cancelled()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.done"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.done()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.in_final_state"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.in_final_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.job_id"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.job_id</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.last_known_status"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.last_known_status</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.queued"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.queued()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.refresh"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.refresh()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.result"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.result()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.running"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.running()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.status"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.status()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="iqmpulsejob">
+<h1>IQMPulseJob<a class="headerlink" href="#iqmpulsejob" title="Link to this heading">#</a></h1>
+<p>Module: <code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.qrisp_iqm.backends</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qrisp_iqm.backends.</span></span><span class="sig-name descname"><span class="pre">IQMPulseJob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend" title="iqm.qrisp_iqm.backends.IQMBackend"><span class="pre">iqm.qrisp_iqm.backends.IQMBackend</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob" title="Link to this definition">#</a></dt>
+<dd><p>Job handle for pulse-level circuit execution.</p>
+<p>Returned by <a class="reference internal" href="iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend.run_async" title="iqm.qrisp_iqm.backends.IQMBackend.run_async"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run_async()</span></code></a> when the
+submitted circuit contains <a class="reference internal" href="iqm.qrisp_iqm.pulse_operation.IQMPulseOperation.html#iqm.qrisp_iqm.pulse_operation.IQMPulseOperation" title="iqm.qrisp_iqm.pulse_operation.IQMPulseOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMPulseOperation</span></code></a>
+instructions.  The circuit is compiled locally to a pulse schedule and submitted
+via Pulla.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qrisp</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMBackend</span><span class="p">,</span> <span class="n">IQMPulseOperation</span><span class="p">,</span> <span class="n">IQMPulseJob</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm.custom_pulse_operations</span><span class="w"> </span><span class="kn">import</span> <span class="n">delay_quantum_op</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">backend</span> <span class="o">=</span> <span class="n">IQMBackend</span><span class="p">(</span><span class="n">device_instance</span><span class="o">=</span><span class="s2">&quot;garnet&quot;</span><span class="p">,</span> <span class="n">token</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">IQMPulseOperation</span><span class="p">(</span><span class="n">delay_quantum_op</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">100e-9</span><span class="p">}),</span> <span class="p">[</span><span class="n">qc</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="n">qc</span><span class="o">.</span><span class="n">qubits</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run_async</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="n">IQMPulseJob</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>  <span class="c1"># waits for completion, returns JobResult</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.backend" title="iqm.qrisp_iqm.backends.IQMPulseJob.backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">backend</span></code></a></p></td>
+<td><p>The <a class="reference internal" href="iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend" title="iqm.qrisp_iqm.backends.IQMBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMBackend</span></code></a> that created this job.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.job_id" title="iqm.qrisp_iqm.backends.IQMPulseJob.job_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">job_id</span></code></a></p></td>
+<td><p>Identifier for this job, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not yet assigned.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.last_known_status" title="iqm.qrisp_iqm.backends.IQMPulseJob.last_known_status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">last_known_status</span></code></a></p></td>
+<td><p>The most recently cached <code class="xref py py-class docutils literal notranslate"><span class="pre">JobStatus</span></code> for this job.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.cancel" title="iqm.qrisp_iqm.backends.IQMPulseJob.cancel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cancel</span></code></a></p></td>
+<td><p>Attempt to cancel the job on the IQM server.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.cancelled" title="iqm.qrisp_iqm.backends.IQMPulseJob.cancelled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cancelled</span></code></a></p></td>
+<td><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the job was cancelled.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.done" title="iqm.qrisp_iqm.backends.IQMPulseJob.done"><code class="xref py py-obj docutils literal notranslate"><span class="pre">done</span></code></a></p></td>
+<td><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the job has completed successfully and results are available.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.in_final_state" title="iqm.qrisp_iqm.backends.IQMPulseJob.in_final_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">in_final_state</span></code></a></p></td>
+<td><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the job has reached a terminal state.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.queued" title="iqm.qrisp_iqm.backends.IQMPulseJob.queued"><code class="xref py py-obj docutils literal notranslate"><span class="pre">queued</span></code></a></p></td>
+<td><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the job is waiting in the backend queue.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.refresh" title="iqm.qrisp_iqm.backends.IQMPulseJob.refresh"><code class="xref py py-obj docutils literal notranslate"><span class="pre">refresh</span></code></a></p></td>
+<td><p>Fetch the latest status from the backend and return it.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.result" title="iqm.qrisp_iqm.backends.IQMPulseJob.result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">result</span></code></a></p></td>
+<td><p>Block until the job completes and return its measurement results.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.running" title="iqm.qrisp_iqm.backends.IQMPulseJob.running"><code class="xref py py-obj docutils literal notranslate"><span class="pre">running</span></code></a></p></td>
+<td><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the job is currently executing.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.status" title="iqm.qrisp_iqm.backends.IQMPulseJob.status"><code class="xref py py-obj docutils literal notranslate"><span class="pre">status</span></code></a></p></td>
+<td><p>Query and return the current job status.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job</strong> (<em>Any</em>)</p></li>
+<li><p><strong>backend</strong> (<em>qrisp_IQMBackend</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob.backend">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">backend</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend" title="iqm.qrisp_iqm.backends.IQMBackend"><span class="pre">iqm.qrisp_iqm.backends.IQMBackend</span></a></em><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob.backend" title="Link to this definition">#</a></dt>
+<dd><p>The <a class="reference internal" href="iqm.qrisp_iqm.backends.IQMBackend.html#iqm.qrisp_iqm.backends.IQMBackend" title="iqm.qrisp_iqm.backends.IQMBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMBackend</span></code></a> that created this job.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob.cancel">
+<span class="sig-name descname"><span class="pre">cancel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob.cancel" title="Link to this definition">#</a></dt>
+<dd><p>Attempt to cancel the job on the IQM server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> iff cancellation was successful.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob.cancelled">
+<span class="sig-name descname"><span class="pre">cancelled</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob.cancelled" title="Link to this definition">#</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the job was cancelled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob.done">
+<span class="sig-name descname"><span class="pre">done</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob.done" title="Link to this definition">#</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the job has completed successfully and results are available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob.in_final_state">
+<span class="sig-name descname"><span class="pre">in_final_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob.in_final_state" title="Link to this definition">#</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the job has reached a terminal state.</p>
+<p>Terminal states are <code class="xref py py-attr docutils literal notranslate"><span class="pre">DONE</span></code>,
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">CANCELLED</span></code>, and <code class="xref py py-attr docutils literal notranslate"><span class="pre">ERROR</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob.job_id">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">job_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob.job_id" title="Link to this definition">#</a></dt>
+<dd><p>Identifier for this job, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not yet assigned.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob.last_known_status">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">last_known_status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">JobStatus</span></em><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob.last_known_status" title="Link to this definition">#</a></dt>
+<dd><p>The most recently cached <code class="xref py py-class docutils literal notranslate"><span class="pre">JobStatus</span></code> for this job.</p>
+<p>This value is initialised to <code class="xref py py-attr docutils literal notranslate"><span class="pre">INITIALIZING</span></code> and is
+updated at the following points:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.status" title="iqm.qrisp_iqm.backends.IQMPulseJob.status"><code class="xref py py-meth docutils literal notranslate"><span class="pre">status()</span></code></a>: every live query updates the cache as a side effect.</p></li>
+<li><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.result" title="iqm.qrisp_iqm.backends.IQMPulseJob.result"><code class="xref py py-meth docutils literal notranslate"><span class="pre">result()</span></code></a>: transitions to <code class="docutils literal notranslate"><span class="pre">DONE</span></code>, <code class="docutils literal notranslate"><span class="pre">CANCELLED</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">ERROR</span></code> when the job reaches a terminal state.</p></li>
+<li><p><a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.refresh" title="iqm.qrisp_iqm.backends.IQMPulseJob.refresh"><code class="xref py py-meth docutils literal notranslate"><span class="pre">refresh()</span></code></a>: explicitly fetches the live status and caches it
+(semantically identical to calling <a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.status" title="iqm.qrisp_iqm.backends.IQMPulseJob.status"><code class="xref py py-meth docutils literal notranslate"><span class="pre">status()</span></code></a>, but signals intent
+clearly when the sole purpose is to refresh the cache).</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob.queued">
+<span class="sig-name descname"><span class="pre">queued</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob.queued" title="Link to this definition">#</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the job is waiting in the backend queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob.refresh">
+<span class="sig-name descname"><span class="pre">refresh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">JobStatus</span></span></span><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob.refresh" title="Link to this definition">#</a></dt>
+<dd><p>Fetch the latest status from the backend and return it.</p>
+<p>Delegates to <a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.status" title="iqm.qrisp_iqm.backends.IQMPulseJob.status"><code class="xref py py-meth docutils literal notranslate"><span class="pre">status()</span></code></a>, which already updates
+<a class="reference internal" href="#iqm.qrisp_iqm.backends.IQMPulseJob.last_known_status" title="iqm.qrisp_iqm.backends.IQMPulseJob.last_known_status"><code class="xref py py-attr docutils literal notranslate"><span class="pre">last_known_status</span></code></a> as a side effect.  This method exists as
+a named alias that makes the intent explicit: the caller wants to
+refresh the cached status, not merely query it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The freshly fetched status.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="../iqm.iqm_server_client.models.JobStatus.html#iqm.iqm_server_client.models.JobStatus" title="iqm.iqm_server_client.models.JobStatus">JobStatus</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob.result">
+<span class="sig-name descname"><span class="pre">result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">JobResult</span></span></span><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob.result" title="Link to this definition">#</a></dt>
+<dd><p>Block until the job completes and return its measurement results.</p>
+<p>Waits for the IQM job to reach a terminal state on the server, and
+then parses and returns the measurement counts, or raises an appropriate error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>None</em>) – Maximum number of seconds to wait for the job to finish.
+<code class="docutils literal notranslate"><span class="pre">None</span></code> means use the default client timeout.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The measurement results.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#TimeoutError" title="(in Python v3.11)"><strong>TimeoutError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">timeout</span></code> is specified and the job does not finish in time.</p></li>
+<li><p><strong>JobFailureError</strong> – If the job terminated with an error.</p></li>
+<li><p><strong>JobCancelledError</strong> – If the job was cancelled.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>JobResult</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob.running">
+<span class="sig-name descname"><span class="pre">running</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob.running" title="Link to this definition">#</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the job is currently executing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qrisp_iqm.backends.IQMPulseJob.status">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">JobStatus</span></span></span><a class="headerlink" href="#iqm.qrisp_iqm.backends.IQMPulseJob.status" title="Link to this definition">#</a></dt>
+<dd><p>Query and return the current job status.</p>
+<p>This is a live query that fetches the latest status from the
+IQM server, which involves a network call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current status of the job.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>JobStatus</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.qrisp_iqm.backends.IQMCircuitJob.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">IQMCircuitJob</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../qrisp_iqm_transpilation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Transpilation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.backend"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.backend</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.cancel"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.cancel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.cancelled"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.cancelled()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.done"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.done()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.in_final_state"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.in_final_state()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.job_id"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.job_id</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.last_known_status"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.last_known_status</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.queued"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.queued()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.refresh"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.refresh()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.result"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.result()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.running"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.running()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qrisp_iqm.backends.IQMPulseJob.status"><code class="docutils literal notranslate"><span class="pre">IQMPulseJob.status()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM client developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2026, IQM Finland Oy, Release 35.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-07-16.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

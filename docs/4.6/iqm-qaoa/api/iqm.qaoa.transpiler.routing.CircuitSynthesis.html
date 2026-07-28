@@ -1,0 +1,895 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>CircuitSynthesis &#8212; IQM QAOA 2.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=ce394494"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>window.MathJax = {"tex": {"macros": {"vr": "\\vec{r}", "ket": ["\\left| #1 \\right\\rangle", 1], "iprod": ["\\left\\langle #1 | #2 \\right\\rangle", 2]}}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.qaoa.transpiler.routing.CircuitSynthesis';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Layer" href="iqm.qaoa.transpiler.routing.Layer.html" />
+    <link rel="prev" title="BaseRouting" href="iqm.qaoa.transpiler.routing.BaseRouting.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-07-16"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM QAOA 2.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM QAOA 2.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-qaoa</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Usage Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../SK%20Model%20and%20Transpilation.html">SK Model and Transpilation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Sparse%20Maxcut.html">Sparse Maxcut</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Portfolio%20Optimization.html">Portfolio Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Training%20the%20QAOA.html">Training the QAOA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Which%20Qubits%20on%20the%20QPU%20Are%20Used.html">Which Qubits on the QPU Are Used?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Circuit%20Synthesis.html">Circuit Synthesis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.applications.html">applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.applications.html">applications</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.applications.ProblemInstance.html">ProblemInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.graph_utils.html">graph_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.NODE_ATTR_PRIORITY.html">NODE_ATTR_PRIORITY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.EDGE_ATTR_PRIORITY.html">EDGE_ATTR_PRIORITY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.draw_problem.html">draw_problem</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.get_top_n_color_pairs.html">get_top_n_color_pairs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.plot_graph.html">plot_graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.prepare_plot_data.html">prepare_plot_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.residual_degree.html">residual_degree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.PlotData.html">PlotData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.graph_utils.ProblemData.html">ProblemData</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.hubo.html">hubo</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.hubo.HUBOInstance.html">HUBOInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.maxcut.html">maxcut</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.goemans_williamson.html">goemans_williamson</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.greedy_max_cut.html">greedy_max_cut</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.maxcut_generator.html">maxcut_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.MaxCutInstance.html">MaxCutInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.maxcut.WeightedMaxCutInstance.html">WeightedMaxCutInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.mis.html">mis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.bron_kerbosch.html">bron_kerbosch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.greedy_mis.html">greedy_mis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.greedy_mwis.html">greedy_mwis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.mis_generator.html">mis_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.ISInstance.html">ISInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.MISInstance.html">MISInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.mis.MaximumWeightISInstance.html">MaximumWeightISInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.qubo.html">qubo</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.ConstrainedQuadraticInstance.html">ConstrainedQuadraticInstance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.qubo.QUBOInstance.html">QUBOInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.applications.sk.html">sk</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.sk.sk_generator.html">sk_generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.applications.sk.SherringtonKirkpatrick.html">SherringtonKirkpatrick</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.qaoa.html">qaoa</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.backends.html">backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorBackend.html">EstimatorBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorFromSampler.html">EstimatorFromSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorQUIMB.html">EstimatorQUIMB</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorSingleLayer.html">EstimatorSingleLayer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.EstimatorStateVector.html">EstimatorStateVector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.SamplerBackend.html">SamplerBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.SamplerRandomBitstrings.html">SamplerRandomBitstrings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.SamplerResonance.html">SamplerResonance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.backends.SamplerSimulation.html">SamplerSimulation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.circuits.html">circuits</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.qiskit_circuit.html">qiskit_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.qiskit_circuit_hubo.html">qiskit_circuit_hubo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.qiskit_circuit_specific_nodes.html">qiskit_circuit_specific_nodes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.quimb_tn.html">quimb_tn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.quimb_tn_hubo.html">quimb_tn_hubo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.rnz.html">rnz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.transpiled_circuit.html">transpiled_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.circuits.TranspilerOption.html">TranspilerOption</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.generic_qaoa.html">generic_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.generic_qaoa.QAOA.html">QAOA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.hubo_qaoa.html">hubo_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.hubo_qaoa.HUBOQAOA.html">HUBOQAOA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.qubo_qaoa.html">qubo_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.qubo_qaoa.QUBOQAOA.html">QUBOQAOA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.transforming_functions.html">transforming_functions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transforming_functions.ham_bp_to_ham_operator.html">ham_bp_to_ham_operator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transforming_functions.ham_bqm_to_ham_operator.html">ham_bqm_to_ham_operator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transforming_functions.positions_to_pauli_string.html">positions_to_pauli_string</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.qaoa.transpiler.html">transpiler</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.hardwired.html">hardwired</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.ptn.html">ptn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.quantum_hardware.html">quantum_hardware</a></li>
+<li class="toctree-l4 current active"><a class="reference internal" href="iqm.qaoa.transpiler.routing.html">routing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.rx_to_nx.html">rx_to_nx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.sn.html">sn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.sparse.html">sparse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.transpiler.star.html">star</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.tree_calculation.html">tree_calculation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.tree_calculation.generate_basis.html">generate_basis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.tree_calculation.tree_calculation.html">tree_calculation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qaoa.tree_qaoa.html">tree_qaoa</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qaoa.tree_qaoa.TreeQAOA.html">TreeQAOA</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/iqm.qaoa.transpiler.routing.CircuitSynthesis.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CircuitSynthesis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.CNOTStep</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep.control"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.CNOTStep.control</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep.target"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.CNOTStep.target</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep.allow_interactions"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.CNOTStep.allow_interactions</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.computing"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.computing</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot_list"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.cnot_list</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.begin_uncompute"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.begin_uncompute()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.cnot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.rz"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.rz()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.uncompute_parities"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.uncompute_parities()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit_phase_separator"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.build_qiskit_phase_separator()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.build_qiskit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="circuitsynthesis">
+<h1>CircuitSynthesis<a class="headerlink" href="#circuitsynthesis" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.qaoa.transpiler.routing.html#module-iqm.qaoa.transpiler.routing" title="iqm.qaoa.transpiler.routing"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.qaoa.transpiler.routing</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.qaoa.transpiler.routing.</span></span><span class="sig-name descname"><span class="pre">CircuitSynthesis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L799-L1129"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Synthesize a quantum circuit using parity-based interaction mapping.</p>
+<p>The hardware-to-parity mapping is saved in an internal <a class="reference internal" href="iqm.qaoa.transpiler.routing.ParityMapping.html#iqm.qaoa.transpiler.routing.ParityMapping" title="iqm.qaoa.transpiler.routing.ParityMapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">ParityMapping</span></code></a>.</p>
+<p>There are two main regimes to use the class:</p>
+<ol class="arabic simple">
+<li><p>If a diagonal Hamiltonian is known beforehand, only the method <a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cnot()</span></code></a> is used for constructing the circuit.
+When a Qiskit <a class="reference external" href="https://quantum.cloud.ibm.com/docs/api/qiskit/qiskit.circuit.QuantumCircuit" title="(in Qiskit v2.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumCircuit</span></code></a> is created with <a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_qiskit()</span></code></a>, RZ gates are included
+automatically based on the provided diagonal Hamiltonian (as a
+<a class="reference external" href="https://docs.dwavequantum.com/en/latest/ocean/api_ref_dimod/models.html#dimod.higherorder.polynomial.BinaryPolynomial" title="(in D-Wave Quantum Computing Products v9.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryPolynomial</span></code></a> object).</p></li>
+<li><p>Alternatively, one may manually insert CNOT and RZ gates. The attribute <code class="docutils literal notranslate"><span class="pre">possible_ints</span></code> contains a set of all
+possible interactions that could be implemented given the CNOT gates (so it can be used to construct a
+Hamiltonian). The attribute <code class="docutils literal notranslate"><span class="pre">constructed_hamiltonian_bp</span></code> contains the Hamiltonian that has been implicitly
+constructed by manually applying the RZ gates.</p></li>
+</ol>
+<p>An external algorithm might be needed to determine the optimal placement of the CNOT gates.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mapping</strong> (<a class="reference internal" href="iqm.qaoa.transpiler.routing.ParityMapping.html#iqm.qaoa.transpiler.routing.ParityMapping" title="iqm.qaoa.transpiler.routing.ParityMapping"><em>ParityMapping</em></a>) – Initial parity mapping used to construct the circuit.</p>
+</dd>
+</dl>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot_list" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cnot_list</span></code></a></p></td>
+<td><p>Returns the list of all CNOT gates applied throughout the circuit synthesis process.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.computing" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.computing"><code class="xref py py-obj docutils literal notranslate"><span class="pre">computing</span></code></a></p></td>
+<td><p>A flag signalling that the circuit synthesis is currently in the 'computing' mode.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.begin_uncompute" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.begin_uncompute"><code class="xref py py-obj docutils literal notranslate"><span class="pre">begin_uncompute</span></code></a></p></td>
+<td><p>Calling this ends the computing phase of the circuit synthesis and begins the uncomputing phase.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_qiskit</span></code></a></p></td>
+<td><p>Build a full QAOA circuit from the synthesized parity-based circuit construction.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit_phase_separator" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit_phase_separator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_qiskit_phase_separator</span></code></a></p></td>
+<td><p>Builds the synthesized quantum circuit.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cnot</span></code></a></p></td>
+<td><p>Adds a CNOT gate to the synthesized circuit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.rz" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.rz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rz</span></code></a></p></td>
+<td><p>Adds an RZ rotation gate associated with a parity interaction.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.uncompute_parities" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.uncompute_parities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">uncompute_parities</span></code></a></p></td>
+<td><p>Adds CNOT gates to the circuit synthesis to uncompute the parity mapping back to <code class="docutils literal notranslate"><span class="pre">self.initial_mapping</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">CNOTStep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_interactions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L822-L836"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A custom dataclass representing one CNOT step in the circuit synthesis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control</strong> (<em>HardQubit</em>)</p></li>
+<li><p><strong>target</strong> (<em>HardQubit</em>)</p></li>
+<li><p><strong>allow_interactions</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep.control">
+<span class="sig-name descname"><span class="pre">control</span></span><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep.control" title="Link to this definition">#</a></dt>
+<dd><p>The control qubit of the CNOT gate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HardQubit</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep.target">
+<span class="sig-name descname"><span class="pre">target</span></span><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep.target" title="Link to this definition">#</a></dt>
+<dd><p>The target qubit of the CNOT gate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HardQubit</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep.allow_interactions">
+<span class="sig-name descname"><span class="pre">allow_interactions</span></span><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep.allow_interactions" title="Link to this definition">#</a></dt>
+<dd><p>True iff we permit the circuit synthesis algorithm to add RZ gates directly after this
+CNOT gate. This is useful for better control over the structure of the quantum circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis.computing">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">computing</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.computing" title="Link to this definition">#</a></dt>
+<dd><p>A flag signalling that the circuit synthesis is currently in the ‘computing’ mode.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot_list">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cnot_list</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep"><span class="pre">CNOTStep</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot_list" title="Link to this definition">#</a></dt>
+<dd><p>Returns the list of all CNOT gates applied throughout the circuit synthesis process.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis.begin_uncompute">
+<span class="sig-name descname"><span class="pre">begin_uncompute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L860-L869"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.begin_uncompute" title="Link to this definition">#</a></dt>
+<dd><p>Calling this ends the computing phase of the circuit synthesis and begins the uncomputing phase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If uncomputation has already begun previously.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot">
+<span class="sig-name descname"><span class="pre">cnot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_int_after</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L871-L888"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot" title="Link to this definition">#</a></dt>
+<dd><p>Adds a CNOT gate to the synthesized circuit.</p>
+<p>Updates the internal parity mapping and records the interaction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control</strong> (<em>HardQubit</em>) – Control hardware qubit.</p></li>
+<li><p><strong>target</strong> (<em>HardQubit</em>) – Target hardware qubit.</p></li>
+<li><p><strong>allow_int_after</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – True iff interactions are allowed to take place immediately after the CNOT gate.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis.rz">
+<span class="sig-name descname"><span class="pre">rz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interaction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L890-L923"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.rz" title="Link to this definition">#</a></dt>
+<dd><p>Adds an RZ rotation gate associated with a parity interaction.</p>
+<p>Also, adds an interaction term to the internal <a class="reference external" href="https://docs.dwavequantum.com/en/latest/ocean/api_ref_dimod/models.html#dimod.higherorder.polynomial.BinaryPolynomial" title="(in D-Wave Quantum Computing Products v9.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryPolynomial</span></code></a> implied
+by applying the RZ gate. This internal <a class="reference external" href="https://docs.dwavequantum.com/en/latest/ocean/api_ref_dimod/models.html#dimod.higherorder.polynomial.BinaryPolynomial" title="(in D-Wave Quantum Computing Products v9.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryPolynomial</span></code></a> may be accessed
+by the attribute <code class="docutils literal notranslate"><span class="pre">self.constructed_hamiltonian_bp</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>interaction</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – <p>The interaction strength corresponding to the RZ gate.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The input is the <strong>interaction strength</strong> corresponding to the RZ gate, i.e., the term that will be
+added to the Hamiltonian. The rotation angle of the RZ gate is this value times the γ QAOA angle.</p>
+</div>
+</p></li>
+<li><p><strong>qubit</strong> (<em>HardQubit</em>) – Hardware qubit on which the RZ gate is applied.</p></li>
+<li><p><strong>allow_overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, allows overwriting an existing interaction term in the internal
+<a class="reference external" href="https://docs.dwavequantum.com/en/latest/ocean/api_ref_dimod/models.html#dimod.higherorder.polynomial.BinaryPolynomial" title="(in D-Wave Quantum Computing Products v9.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryPolynomial</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If the interaction term already exists in the internal
+    <a class="reference external" href="https://docs.dwavequantum.com/en/latest/ocean/api_ref_dimod/models.html#dimod.higherorder.polynomial.BinaryPolynomial" title="(in D-Wave Quantum Computing Products v9.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryPolynomial</span></code></a> and overwrite is disabled</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If the qubit on which the RZ rotation acts carries no parity information.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If attempted to place an RZ gate during uncomputation.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis.uncompute_parities">
+<span class="sig-name descname"><span class="pre">uncompute_parities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L925-L933"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.uncompute_parities" title="Link to this definition">#</a></dt>
+<dd><p>Adds CNOT gates to the circuit synthesis to uncompute the parity mapping back to <code class="docutils literal notranslate"><span class="pre">self.initial_mapping</span></code>.</p>
+<p>Currently, the uncomputing is very primitive. It just mirrors the CNOTs that were added in the first half of the
+circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit_phase_separator">
+<span class="sig-name descname"><span class="pre">build_qiskit_phase_separator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gamma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_parities</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_cnots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L935-L1045"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit_phase_separator" title="Link to this definition">#</a></dt>
+<dd><p>Builds the synthesized quantum circuit.</p>
+<p>This only builds the synthesized part of the quantum circuit. For constructing the entire QAOA circuit, use
+<a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build_qiskit()</span></code></a>.</p>
+<p>The circuit is constructed using CNOT gates in the order in which the method <a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">cnot()</span></code></a> was called, acting on
+the respective qubits.</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">interactions</span></code> is not provided, the circuit inserts an RZ gate wherever it was placed using the
+<a class="reference internal" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.rz" title="iqm.qaoa.transpiler.routing.CircuitSynthesis.rz"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rz()</span></code></a> method.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">interactions</span></code> is provided, the circuit <strong>ignores</strong> the manually placed RZ gates (and raises a warning if
+some were manually placed). It then places RZ gates automatically whenever a qubit carries one of the parities
+from <code class="docutils literal notranslate"><span class="pre">interactions</span></code>. A warning is raised if not all <code class="docutils literal notranslate"><span class="pre">interactions</span></code> are executed.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gamma</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Global scaling factor for interaction strengths (e.g., a parameter of the QAOA ansatz).</p></li>
+<li><p><strong>interactions</strong> (<a class="reference external" href="https://docs.dwavequantum.com/en/latest/ocean/api_ref_dimod/models.html#dimod.higherorder.polynomial.BinaryPolynomial" title="(in D-Wave Quantum Computing Products v9.4.0)"><em>BinaryPolynomial</em></a><em> | </em><em>None</em>) – Optional Hamiltonian of interactions. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, uses internally constructed interactions.
+The <code class="docutils literal notranslate"><span class="pre">varytpe</span></code> of the interactions has to be <code class="docutils literal notranslate"><span class="pre">&quot;SPIN&quot;</span></code> and it is assumed that the quantum state
+<span class="math notranslate nohighlight">\(|1\rangle\)</span> corresponds to the value -1 in the polynomial (and <span class="math notranslate nohighlight">\(|0\rangle\)</span> corresponds to
+1). This comes from seeing the <a class="reference external" href="https://docs.dwavequantum.com/en/latest/ocean/api_ref_dimod/models.html#dimod.higherorder.polynomial.BinaryPolynomial" title="(in D-Wave Quantum Computing Products v9.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryPolynomial</span></code></a> as describing a
+Hamiltonian made up of sums of products of the Z Pauli gate. The reason we don’t accept the input with
+<code class="docutils literal notranslate"><span class="pre">vartype</span></code> <code class="docutils literal notranslate"><span class="pre">&quot;BINARY&quot;</span></code> is that the conversion from <code class="docutils literal notranslate"><span class="pre">&quot;BINARY&quot;</span></code> to <code class="docutils literal notranslate"><span class="pre">&quot;SPIN&quot;</span></code> by default uses the
+opposite convention (where <span class="math notranslate nohighlight">\(|1\rangle\)</span> corresponds to the value 1 in the polynomial and
+<span class="math notranslate nohighlight">\(|0\rangle\)</span> to -1). This could lead to silent errors.</p></li>
+<li><p><strong>show_parities</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Iff set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, adds identity gates throughout the circuit whose labels show the parity
+encoded in the qubits.</p></li>
+<li><p><strong>remove_cnots</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Iff set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the uncomputation is skipped and the computation happens in the opposite
+order. This saves 2-qubit gates, if this is the first phase seprator applied onto the initial state
+(which is presumably the <span class="math notranslate nohighlight">\(|+\rangle\)</span> state).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A Qiskit <a class="reference external" href="https://quantum.cloud.ibm.com/docs/api/qiskit/qiskit.circuit.QuantumCircuit" title="(in Qiskit v2.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumCircuit</span></code></a> implementing the synthesized quantum circuit.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If the input <code class="docutils literal notranslate"><span class="pre">interactions</span></code> has <code class="docutils literal notranslate"><span class="pre">vartype</span></code> set to <code class="docutils literal notranslate"><span class="pre">&quot;BINARY&quot;</span></code>.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">remove_cnots</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, but the circuit synthesis contains no uncomputation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://quantum.cloud.ibm.com/docs/api/qiskit/qiskit.circuit.QuantumCircuit" title="(in Qiskit v2.5)"><em>QuantumCircuit</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit">
+<span class="sig-name descname"><span class="pre">build_qiskit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">betas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gammas</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove_cnots_first_layer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/iqm-finland/sdk/blob/main/iqm_qaoa/src/iqm/qaoa/transpiler/routing.py#L1047-L1129"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit" title="Link to this definition">#</a></dt>
+<dd><p>Build a full QAOA circuit from the synthesized parity-based circuit construction.</p>
+<p>This method assembles the complete QAOA circuit by repeatedly composing the parity-based phase separator
+(constructed via CNOT and RZ operations) with the mixer (RX rotations). It assumes that all parity
+transformations have been properly uncomputed before execution, i.e., the parity mapping has returned to the
+initial configuration up to a permutation of hardware qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>betas</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – List of QAOA mixer angles (RX rotations).</p></li>
+<li><p><strong>gammas</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – List of QAOA phase separator angles.</p></li>
+<li><p><strong>interactions</strong> (<a class="reference external" href="https://docs.dwavequantum.com/en/latest/ocean/api_ref_dimod/models.html#dimod.higherorder.polynomial.BinaryPolynomial" title="(in D-Wave Quantum Computing Products v9.4.0)"><em>BinaryPolynomial</em></a><em> | </em><em>None</em>) – The problem Hamiltonian as a <a class="reference external" href="https://docs.dwavequantum.com/en/latest/ocean/api_ref_dimod/models.html#dimod.higherorder.polynomial.BinaryPolynomial" title="(in D-Wave Quantum Computing Products v9.4.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">BinaryPolynomial</span></code></a> in SPIN
+representation.</p></li>
+<li><p><strong>measurement</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, adds a measurement step.</p></li>
+<li><p><strong>remove_cnots_first_layer</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the first layer of QAOA swaps its computation and uncomputation.
+Then, the uncomputation step is completely removed, since it consists purely of CNOT gates applied
+directly onto the <span class="math notranslate nohighlight">\(|+\rangle\)</span> state, which has no effect.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <a class="reference external" href="https://quantum.cloud.ibm.com/docs/api/qiskit/qiskit.circuit.QuantumCircuit" title="(in Qiskit v2.5)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumCircuit</span></code></a> implementing the full synthesized QAOA circuit.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">betas</span></code> and <code class="docutils literal notranslate"><span class="pre">gammas</span></code> do not have the same length.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If the parity mapping has not been fully uncomputed back to the initial state (up to permutation
+    of hardware qubits).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://quantum.cloud.ibm.com/docs/api/qiskit/qiskit.circuit.QuantumCircuit" title="(in Qiskit v2.5)"><em>QuantumCircuit</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-d0e32f138af974210b2f5b42c31603170ecc599f.png" alt="Inheritance diagram of iqm.qaoa.transpiler.routing.CircuitSynthesis" usemap="#inheritance55b1376963" class="inheritance graphviz" /></div>
+<map id="inheritance55b1376963" name="inheritance55b1376963">
+<area shape="rect" id="node1" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis" target="_top" title="Synthesize a quantum circuit using parity&#45;based interaction mapping." alt="" coords="5,5,132,31"/>
+</map></section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.qaoa.transpiler.routing.BaseRouting.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">BaseRouting</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.qaoa.transpiler.routing.Layer.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Layer</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.CNOTStep</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep.control"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.CNOTStep.control</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep.target"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.CNOTStep.target</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.CNOTStep.allow_interactions"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.CNOTStep.allow_interactions</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.computing"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.computing</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot_list"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.cnot_list</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.begin_uncompute"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.begin_uncompute()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.cnot"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.cnot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.rz"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.rz()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.uncompute_parities"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.uncompute_parities()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit_phase_separator"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.build_qiskit_phase_separator()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.qaoa.transpiler.routing.CircuitSynthesis.build_qiskit"><code class="docutils literal notranslate"><span class="pre">CircuitSynthesis.build_qiskit()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM QAOA developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2026, IQM.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-07-16.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

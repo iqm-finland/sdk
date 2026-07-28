@@ -1,0 +1,720 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Example: Measuring T1 &#8212; IQM Pulla 14.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=6e024ae6"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Example - Measuring T1';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example: Dynamical decoupling" href="Example%20-%20Simple%20Dynamical%20Decoupling.html" />
+    <link rel="prev" title="Examples" href="examples.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-07-16"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM Pulla 14.0.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 14.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">iqm-pulla</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="user_guides.html">User guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Quick%20Start.html">Quick Start</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Configuration%20and%20Usage.html">Configuration and Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Sweeps.html">Sweeps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compilation%20Stages.html">Compilation Stages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Custom%20Gates%20and%20Implementations.html">Custom Gates and Gate Implementations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Example: Measuring T1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Simple%20Dynamical%20Decoupling.html">Example: Dynamical decoupling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Executing%20QIR%20programs.html">Executing QIR programs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Randomized%20Benchmarking.html">Import required packages</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.cpc.html">cpc</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.compiler.html">compiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compilation_stage.html">compilation_stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compiler.html">compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.dd.html">dd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.errors.html">errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.layering_stages.html">layering_stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.post_process.html">post_process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.standard_stages.html">standard_stages</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.config.html">config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.run_result.html">run_result</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.interface.circuit_execution.html">circuit_execution</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CalibrationSetValues.html">iqm.pulla.interface.CalibrationSetValues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.CHADRetrievalException.html">iqm.pulla.interface.CHADRetrievalException</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.interface.ChipLabelRetrievalException.html">iqm.pulla.interface.ChipLabelRetrievalException</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.pulla.html">pulla</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.Pulla.html">Pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.PullaJob.html">PullaJob</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.pulla.PullaStash.html">PullaStash</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.html">quantum_architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture.html">iqm.pulla.quantum_architecture.create_dynamic_quantum_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.quantum_architecture.create_static_quantum_architecture.html">iqm.pulla.quantum_architecture.create_static_quantum_architecture</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.calset_from_observations.html">iqm.pulla.utils.calset_from_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.calset_to_cal_data_tree.html">iqm.pulla.utils.calset_to_cal_data_tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot.html">iqm.pulla.utils.convert_sweep_spot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_to_arrays.html">iqm.pulla.utils.convert_sweep_spot_to_arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero.html">iqm.pulla.utils.convert_sweep_spot_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.extract_readout_controller_result_names.html">iqm.pulla.utils.extract_readout_controller_result_names</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.get_hash_for.html">iqm.pulla.utils.get_hash_for</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.initialize_schedule_builder.html">iqm.pulla.utils.initialize_schedule_builder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.iqm_circuit_to_gate_implementation.html">iqm.pulla.utils.iqm_circuit_to_gate_implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.locate_instructions.html">iqm.pulla.utils.locate_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.map_qubit_indices.html">iqm.pulla.utils.map_qubit_indices</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.map_sweep_results_to_logical_qubits.html">iqm.pulla.utils.map_sweep_results_to_logical_qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.print_channel.html">iqm.pulla.utils.print_channel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.print_schedule.html">iqm.pulla.utils.print_schedule</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.replace_instruction_in_place.html">iqm.pulla.utils.replace_instruction_in_place</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.InstructionLocation.html">InstructionLocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils.PostSelectionError.html">iqm.pulla.utils.PostSelectionError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_cirq.html">utils_cirq</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_cirq.cirq_to_cpc.html">iqm.pulla.utils_cirq.cirq_to_cpc</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_dd.html">utils_dd</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_dd.generate_phases_of_urn_sequence.html">iqm.pulla.utils_dd.generate_phases_of_urn_sequence</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_parallelization.html">utils_parallelization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_parallelization.parallelize_timeboxes.html">iqm.pulla.utils_parallelization.parallelize_timeboxes</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qir.html">utils_qir</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping.html">iqm.pulla.utils_qir.generate_qiskit_qir_qubit_mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qir.qir_to_pulla.html">iqm.pulla.utils_qir.qir_to_pulla</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.html">utils_qiskit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.get_qiskit_compiler.html">iqm.pulla.utils_qiskit.get_qiskit_compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.parallelize_and_transpile.html">iqm.pulla.utils_qiskit.parallelize_and_transpile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_iqm_circuits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_circuits_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.qiskit_to_pulla.html">iqm.pulla.utils_qiskit.qiskit_to_pulla</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.sweep_job_to_qiskit.html">iqm.pulla.utils_qiskit.sweep_job_to_qiskit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.ExistingMoveHandlingOptions.html">ExistingMoveHandlingOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulla.utils_qiskit.QiskitCompiler.html">QiskitCompiler</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="common_errors.html">Common errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Example - Measuring T1.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Example: Measuring T1</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-circuit">Preparing the circuit</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="example-measuring-t1">
+<h1>Example: Measuring T1<a class="headerlink" href="#example-measuring-t1" title="Link to this heading">#</a></h1>
+<p>T1 is an experiment that measures the relaxation time of a qubit.</p>
+<p>Information stored in a qubit decays exponentially. The time constant of the longitudinal decay is called the relaxation time $T_1$.</p>
+<p>The experiment measures $T_1$ by preparing selected qubits in the  excited state by applying an X gate,
+waiting some time, and measuring the qubit.</p>
+<p>The waiting time is swept to reveal the exponential decay of the excited state probability.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.optimize</span><span class="w"> </span><span class="kn">import</span> <span class="n">curve_fit</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">exa.common.control.sweep.sweep</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sweep</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulla.pulla</span><span class="w"> </span><span class="kn">import</span> <span class="n">Pulla</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse</span><span class="w"> </span><span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOperation</span> <span class="k">as</span> <span class="n">Op</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.playlist.visualisation.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">inspect_playlist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.iqm_client.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_env_vars</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_env_vars</span><span class="p">()</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">Pulla</span><span class="p">()</span>
+<span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">()</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+<span class="n">compiler</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_standard_compiler</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="preparing-the-circuit">
+<h2>Preparing the circuit<a class="headerlink" href="#preparing-the-circuit" title="Link to this heading">#</a></h2>
+<p>We need to select the physical qubits to work on. These are available on the QPU:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qubits</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">chip_topology</span><span class="o">.</span><span class="n">qubits_sorted</span>
+<span class="n">qubits</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;QB1&#39;, &#39;QB2&#39;, &#39;QB3&#39;, &#39;QB4&#39;, &#39;QB5&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Out of these, we select a few:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qubits</span> <span class="o">=</span> <span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we create all the circuits. In each circuit, we do a PRX($\pi$), or $X$, then a delay operation, then measure all qubits.
+Instead of creating a circuit for each delay time (old method), we now create a parametric circuit by defining a circuit generating function with <code class="docutils literal notranslate"><span class="pre">delay</span></code> being the main input variable.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_t1_circuit</span><span class="p">(</span><span class="n">delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Circuit</span><span class="p">]:</span>
+    <span class="n">instructions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">qubits</span><span class="p">:</span>
+        <span class="n">instructions</span> <span class="o">+=</span> <span class="p">[</span>
+            <span class="n">Op</span><span class="p">(</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">qubit</span><span class="p">,),</span> <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;angle&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="s2">&quot;phase&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}),</span>
+            <span class="n">Op</span><span class="p">(</span><span class="s2">&quot;delay&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">qubit</span><span class="p">,),</span> <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="n">delay</span><span class="p">}),</span>
+        <span class="p">]</span>
+    <span class="n">instructions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Op</span><span class="p">(</span><span class="s2">&quot;measure&quot;</span><span class="p">,</span> <span class="n">qubits</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s2">&quot;M&quot;</span><span class="p">}))</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">Circuit</span><span class="p">(</span><span class="s2">&quot;T1&quot;</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">instructions</span><span class="p">))]</span>
+
+<span class="n">settings</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">_t1_circuit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then compile the circuits. We tweak the settings so that the shots are averaged by the server, so that we don’t need to.
+The results therefore return as sampled probabilities.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">delay_sweep</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">delay</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">300e-6</span><span class="p">,</span> <span class="mi">51</span><span class="p">)</span>  <span class="c1"># In seconds</span>
+<span class="p">)</span>
+
+<span class="n">shots</span> <span class="o">=</span> <span class="mi">500</span>
+
+<span class="c1"># Average over shots already on the server side.</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">controllers</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">playlist_repeats</span> <span class="o">=</span> <span class="n">shots</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">controllers</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">averaging_bins</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># We can also achieve the same with</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">set_shots</span><span class="p">(</span><span class="n">shots</span><span class="p">,</span> <span class="n">averaging_bins</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="n">circuits</span><span class="o">=</span><span class="n">_t1_circuit</span><span class="p">,</span>
+    <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">],</span>
+    <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span>
+    <span class="n">sweeps</span><span class="o">=</span><span class="p">[</span><span class="n">delay_sweep</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">submit_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+<span class="n">job</span><span class="o">.</span><span class="n">wait_for_completion</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[06-08 19:05:46;I] Waiting for job 019ea7fb-a153-75a0-b14c-758864b65ca4 to finish...
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "d9c1a67212de44699f54d6960dafdaea", "version_major": 2, "version_minor": 0}</script><script type="application/vnd.jupyter.widget-view+json">{"model_id": "ab88d9d78233471dac7e246bddfe828a", "version_major": 2, "version_minor": 0}</script><div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;JobStatus.COMPLETED: &#39;completed&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can also visualise the final playlist. We should see that each circuit is different and the waits at the end are increasing towards the end.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">IPython.core.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">job_definition</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)))</span> <span class="c1"># Show first 5 circuits</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Extract and plot the results</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">exp_func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="n">x</span> <span class="o">/</span> <span class="n">b</span><span class="p">)</span> <span class="o">+</span> <span class="n">c</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">time_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">delay_sweep</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">time_axis</span> <span class="o">*</span> <span class="mf">1e6</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">circuit_measurement_results</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">qubits</span><span class="p">):</span>
+    <span class="c1"># results is a list of CircuitMeasurementResults, one per circuit in the sweep</span>
+    <span class="c1"># Since we set averaging_bins = shots, the results contains averaged probabilities</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">res</span><span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">results</span><span class="p">])</span>
+
+    <span class="n">popt</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">exp_func</span><span class="p">,</span> <span class="n">time_axis</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p0</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">50e-6</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">qubit</span><span class="si">}</span><span class="s2"> T1 = </span><span class="si">{</span><span class="n">popt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mf">1e6</span><span class="w"> </span><span class="si">:</span><span class="s2"> .1f</span><span class="si">}</span><span class="s2"> µs&quot;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">qubit</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">exp_func</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">time_axis</span><span class="p">),</span> <span class="o">*</span><span class="n">popt</span><span class="p">),</span> <span class="s1">&#39;k:&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Delay time (µs)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Excited state probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>QB1 T1 =  48.6 µs
+QB2 T1 =  38.8 µs
+</pre></div>
+</div>
+<img alt="_images/046b68ff21edf973fcf710ceb1781435188fbc15f542a749a0060961f9cf2b12.png" src="_images/046b68ff21edf973fcf710ceb1781435188fbc15f542a749a0060961f9cf2b12.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="examples.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Example%20-%20Simple%20Dynamical%20Decoupling.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Example: Dynamical decoupling</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-circuit">Preparing the circuit</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Pulla developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024-2026, IQM Finland Oy, Release 14.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-07-16.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

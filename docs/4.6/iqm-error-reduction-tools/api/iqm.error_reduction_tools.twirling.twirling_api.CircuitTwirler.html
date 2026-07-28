@@ -1,0 +1,845 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler &#8212; IQM Error Reduction Tools 0.2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="iqm.error_reduction_tools.twirling.twirling_api.TwirlingConfiguration" href="iqm.error_reduction_tools.twirling.twirling_api.TwirlingConfiguration.html" />
+    <link rel="prev" title="iqm.error_reduction_tools.twirling.twirling_api" href="iqm.error_reduction_tools.twirling.twirling_api.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-07-16"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Error Reduction Tools 0.2.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Error Reduction Tools 0.2.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-error-reduction-tools</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_rem_workflow_highlevel.html">Tutorial: REM Workflow (High-Level API)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_twirling_workflow.html">Tutorial: Circuit Twirling API</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.error_reduction_tools.html">iqm.error_reduction_tools</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.html">iqm.error_reduction_tools.readout_characterization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.data_collection.html">iqm.error_reduction_tools.readout_characterization.data_collection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.data_processing.html">iqm.error_reduction_tools.readout_characterization.data_processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.readout_error_characterization.html">iqm.error_reduction_tools.readout_characterization.readout_error_characterization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.topologies.html">iqm.error_reduction_tools.readout_characterization.topologies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.visualization.html">iqm.error_reduction_tools.readout_characterization.visualization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.rem.html">iqm.error_reduction_tools.rem</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.rem.rem_api.html">iqm.error_reduction_tools.rem.rem_api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.rem.rem_processors.html">iqm.error_reduction_tools.rem.rem_processors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.error_reduction_tools.twirling.html">iqm.error_reduction_tools.twirling</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4 current active"><a class="reference internal" href="iqm.error_reduction_tools.twirling.twirling_api.html">iqm.error_reduction_tools.twirling.twirling_api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.twirling.twirling_modifiers.html">iqm.error_reduction_tools.twirling.twirling_modifiers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.twirling.twirling_processors.html">iqm.error_reduction_tools.twirling.twirling_processors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.utils.html">iqm.error_reduction_tools.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.circuit_utils.html">iqm.error_reduction_tools.utils.circuit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.general_utils.html">iqm.error_reduction_tools.utils.general_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.hadamard.html">iqm.error_reduction_tools.utils.hadamard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.qiskit_utils.html">iqm.error_reduction_tools.utils.qiskit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.readout_twirling_strings.html">iqm.error_reduction_tools.utils.readout_twirling_strings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.topology_utils.html">iqm.error_reduction_tools.utils.topology_utils</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.twirl()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.submit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.retrieve_counts"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.retrieve_counts()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_twirled_circuits()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits_flat"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_twirled_circuits_flat()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_rot_strings"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_rot_strings()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_qubit_to_bit_mapping"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_qubit_to_bit_mapping()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_job"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_job()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.to_dict"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.to_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.from_dict"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.from_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.save_twirling_info"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.save_twirling_info()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.load_twirling_info"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.load_twirling_info()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="iqm-error-reduction-tools-twirling-twirling-api-circuittwirler">
+<h1>iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler<a class="headerlink" href="#iqm-error-reduction-tools-twirling-twirling-api-circuittwirler" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.error_reduction_tools.twirling.twirling_api.</span></span><span class="sig-name descname"><span class="pre">CircuitTwirler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compilation_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Manages the twirl → submit → retrieve lifecycle for readout-twirled circuits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<em>Pulla</em><em> | </em><em>None</em>) – Client instance for connecting to an IQM quantum computer. Used for
+topology look-up (only required for the <code class="docutils literal notranslate"><span class="pre">&quot;LOCAL&quot;</span></code> readout-twirling
+strategy), compilation, and job submission.  May be <code class="docutils literal notranslate"><span class="pre">None</span></code> when
+the twirler is used purely as a circuit transformer — i.e. when
+calling only <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> (with a non-<code class="docutils literal notranslate"><span class="pre">LOCAL</span></code> strategy) and
+<a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_twirled_circuits()</span></code></a> to drive submission externally.
+Required by <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">submit()</span></code></a> and by the <code class="docutils literal notranslate"><span class="pre">&quot;LOCAL&quot;</span></code> strategy.</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="iqm.error_reduction_tools.twirling.twirling_api.TwirlingConfiguration.html#iqm.error_reduction_tools.twirling.twirling_api.TwirlingConfiguration" title="iqm.error_reduction_tools.twirling.twirling_api.TwirlingConfiguration"><em>TwirlingConfiguration</em></a><em> | </em><em>None</em>) – Twirling configuration.  Defaults are sensible for most cases.</p></li>
+<li><p><strong>compilation_options</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>) – <p>Extra key-value pairs passed to the Pulla
+compiler context when <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">submit()</span></code></a> compiles circuits.
+Use this to activate compiler features such as dynamical
+decoupling.  For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">compilation_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;DDStrategy&quot;</span><span class="p">:</span> <span class="n">my_dd_strategy</span><span class="p">}</span>
+</pre></div>
+</div>
+</p></li>
+</ul>
+</dd>
+</dl>
+<p>Example — full lifecycle (requires client):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">twirler</span> <span class="o">=</span> <span class="n">CircuitTwirler</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">TwirlingConfiguration</span><span class="p">(</span><span class="n">readout_twirl_strategy</span><span class="o">=</span><span class="s2">&quot;LOCAL&quot;</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">))</span>
+<span class="n">twirler</span><span class="o">.</span><span class="n">twirl</span><span class="p">(</span><span class="n">circuits</span><span class="p">)</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">20_000</span><span class="p">)</span>
+<span class="n">mitigated_counts</span> <span class="o">=</span> <span class="n">twirler</span><span class="o">.</span><span class="n">retrieve_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Example — circuit-twirling-only, no client needed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="o">=</span> <span class="n">TwirlingConfiguration</span><span class="p">(</span><span class="n">readout_twirl_strategy</span><span class="o">=</span><span class="s2">&quot;NONE&quot;</span><span class="p">,</span> <span class="n">circuit_twirling</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">twirler</span> <span class="o">=</span> <span class="n">CircuitTwirler</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="n">randomized</span> <span class="o">=</span> <span class="n">twirler</span><span class="o">.</span><span class="n">twirl</span><span class="p">(</span><span class="n">circuits</span><span class="p">)</span><span class="o">.</span><span class="n">get_twirled_circuits</span><span class="p">()</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_convert_circuits</span></code>(circuits)</p></td>
+<td><p>Convert heterogeneous input circuits to <code class="xref py py-class docutils literal notranslate"><span class="pre">TwirledCircuit</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_extract_qubit_to_bit_mapping</span></code>(circuit)</p></td>
+<td><p>Derive the qubit → classical-bit mapping from measurement operations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.from_dict" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.from_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_dict</span></code></a>(data, client)</p></td>
+<td><p>Reconstruct a <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitTwirler</span></code></a> from a dictionary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_job" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_job"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_job</span></code></a>()</p></td>
+<td><p>Return job from <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">submit()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_qubit_to_bit_mapping" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_qubit_to_bit_mapping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_qubit_to_bit_mapping</span></code></a>()</p></td>
+<td><p>Return qubit-to-classical-bit mappings extracted during <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_rot_strings" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_rot_strings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_rot_strings</span></code></a>()</p></td>
+<td><p>Return rotation strings produced by <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_twirled_circuits</span></code></a>([return_qiskit])</p></td>
+<td><p>Return the randomized circuits produced by <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits_flat" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits_flat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_twirled_circuits_flat</span></code></a>([return_qiskit])</p></td>
+<td><p>Return all randomized circuits as a single flat list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.load_twirling_info" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.load_twirling_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_twirling_info</span></code></a>(path, client)</p></td>
+<td><p>Load twirling state from a JSON file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.retrieve_counts" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.retrieve_counts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">retrieve_counts</span></code></a>()</p></td>
+<td><p>Wait for job completion, untwirl, and sum counts per input circuit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.save_twirling_info" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.save_twirling_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_twirling_info</span></code></a>(path)</p></td>
+<td><p>Save twirling state to a JSON file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">submit</span></code></a>([shots, client])</p></td>
+<td><p>Compile and submit all randomized circuits to the quantum computer for execution.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.to_dict" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.to_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_dict</span></code></a>()</p></td>
+<td><p>Serialize twirling state to a plain dictionary.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">twirl</span></code></a>(circuits)</p></td>
+<td><p>Convert input circuits to pulse form, generate rotation strings, and randomize.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl">
+<span class="sig-name descname"><span class="pre">twirl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">circuits</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="Link to this definition">#</a></dt>
+<dd><p>Convert input circuits to pulse form, generate rotation strings, and randomize.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>circuits</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference internal" href="iqm.error_reduction_tools.utils.circuit_utils.TwirledCircuit.html#iqm.error_reduction_tools.utils.circuit_utils.TwirledCircuit" title="iqm.error_reduction_tools.utils.circuit_utils.TwirledCircuit"><em>TwirledCircuit</em></a><em> | </em><em>QuantumCircuit</em><em> | </em><em>QuantumCircuit</em><em> | </em><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v14.0.0)"><em>Circuit</em></a><em>]</em>) – Input circuits to twirl.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">self</span></code>, to allow method chaining.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#TypeError" title="(in Python v3.11)"><strong>TypeError</strong></a> – If a circuit type is not supported.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If <em>circuits</em> is empty.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler"><em>CircuitTwirler</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit">
+<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit" title="Link to this definition">#</a></dt>
+<dd><p>Compile and submit all randomized circuits to the quantum computer for execution.</p>
+<p><code class="docutils literal notranslate"><span class="pre">shots</span></code> refers to the number of shots <em>per input (target) circuit</em>. It is
+distributed evenly across that circuit’s twirled instances, so the untwirled,
+aggregated counts for each input circuit are based on (approximately) <code class="docutils literal notranslate"><span class="pre">shots</span></code>
+shots regardless of how many input circuits are submitted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of shots per input circuit, split across its twirled instances.</p></li>
+<li><p><strong>client</strong> (<em>Pulla</em><em> | </em><em>None</em>) – <p>Client for submitting the task to the quantum computer.
+If provided, it overrides the client
+supplied at construction time and is also stored on the
+instance for any subsequent calls (e.g. <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.retrieve_counts" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.retrieve_counts"><code class="xref py py-meth docutils literal notranslate"><span class="pre">retrieve_counts()</span></code></a>).
+This makes it possible to construct a client-less
+<code class="docutils literal notranslate"><span class="pre">CircuitTwirler</span></code> purely as a circuit transformer and only
+bind a client at submission time.</p>
+<p>When the strategy used at <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> time was <code class="docutils literal notranslate"><span class="pre">&quot;LOCAL&quot;</span></code>,
+the rotation strings are tied to the <em>exact</em> quantum computer that
+was used during <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a>.  Using a different
+quantum computer here raises <a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a>; re-run
+<a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> with the new QC first.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">self</span></code>, to allow method chaining.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> has not been called yet, or if no
+    client is available (neither at construction nor here).</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If a different <code class="docutils literal notranslate"><span class="pre">client</span></code> instance is passed here while the
+    <code class="docutils literal notranslate"><span class="pre">&quot;LOCAL&quot;</span></code> strategy was used at <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> time.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler">CircuitTwirler</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.retrieve_counts">
+<span class="sig-name descname"><span class="pre">retrieve_counts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.retrieve_counts" title="Link to this definition">#</a></dt>
+<dd><p>Wait for job completion, untwirl, and sum counts per input circuit.</p>
+<p>Uses <a class="reference internal" href="iqm.error_reduction_tools.twirling.twirling_processors.untwirl_and_sum_counts.html#iqm.error_reduction_tools.twirling.twirling_processors.untwirl_and_sum_counts" title="iqm.error_reduction_tools.twirling.twirling_processors.untwirl_and_sum_counts"><code class="xref py py-func docutils literal notranslate"><span class="pre">untwirl_and_sum_counts()</span></code></a>
+(the same function used in the tutorial notebooks) to untwirl and
+aggregate the raw counts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>One count dictionary per original input circuit.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">submit()</span></code></a> has not been called yet.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)">float</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits">
+<span class="sig-name descname"><span class="pre">get_twirled_circuits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_qiskit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits" title="Link to this definition">#</a></dt>
+<dd><p>Return the randomized circuits produced by <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>return_qiskit</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – When <code class="docutils literal notranslate"><span class="pre">True</span></code>, convert each circuit to a Qiskit
+<code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumCircuit</span></code> before returning.
+Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code> (returns <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Nested list with one inner list of randomized variants per input
+circuit, in the same order as the circuits passed to <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> has not been called yet.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v14.0.0)"><em>Circuit</em></a>]] | <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<em>QuantumCircuit</em>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits_flat">
+<span class="sig-name descname"><span class="pre">get_twirled_circuits_flat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_qiskit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits_flat" title="Link to this definition">#</a></dt>
+<dd><p>Return all randomized circuits as a single flat list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>return_qiskit</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – When <code class="docutils literal notranslate"><span class="pre">True</span></code>, convert each circuit to a Qiskit
+<code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumCircuit</span></code> before returning.
+Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code> (returns <code class="xref py py-class docutils literal notranslate"><span class="pre">Circuit</span></code>).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Flat list of all randomized circuits, matching the order used
+internally by <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">submit()</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> has not been called yet.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v14.0.0)"><em>Circuit</em></a>] | <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<em>QuantumCircuit</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_rot_strings">
+<span class="sig-name descname"><span class="pre">get_rot_strings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_rot_strings" title="Link to this definition">#</a></dt>
+<dd><p>Return rotation strings produced by <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Nested list — one inner list per input circuit, each containing
+one rot string (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;IXXI&quot;</span></code>) per randomized variant.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> has not been called yet.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_qubit_to_bit_mapping">
+<span class="sig-name descname"><span class="pre">get_qubit_to_bit_mapping</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_qubit_to_bit_mapping" title="Link to this definition">#</a></dt>
+<dd><p>Return qubit-to-classical-bit mappings extracted during <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">{qubit_name:</span> <span class="pre">classical_bit_index}</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>One mapping per input circuit</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> has not been called yet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_job">
+<span class="sig-name descname"><span class="pre">get_job</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_job" title="Link to this definition">#</a></dt>
+<dd><p>Return job from <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">submit()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">submit()</span></code></a> has not been called yet.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)">object</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.to_dict" title="Link to this definition">#</a></dt>
+<dd><p>Serialize twirling state to a plain dictionary.</p>
+<p>Includes rotation strings, qubit-to-bit mappings, and the
+configuration — enough to reconstruct the twirler for
+post-processing without re-running on hardware.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.from_dict">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.from_dict" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct a <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitTwirler</span></code></a> from a dictionary.</p>
+<p>The restored instance has rotation strings and mappings populated
+but no circuits or job — it can be used for post-processing only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – Dictionary as returned by <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.to_dict" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.to_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_dict()</span></code></a>.</p></li>
+<li><p><strong>client</strong> (<em>Pulla</em>) – Client for connecting to the quantum computer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitTwirler</span></code></a> with restored state.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler">CircuitTwirler</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.save_twirling_info">
+<span class="sig-name descname"><span class="pre">save_twirling_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.save_twirling_info" title="Link to this definition">#</a></dt>
+<dd><p>Save twirling state to a JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Destination file path.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.load_twirling_info">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_twirling_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.load_twirling_info" title="Link to this definition">#</a></dt>
+<dd><p>Load twirling state from a JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Path to a JSON file previously written by
+<a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.save_twirling_info" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.save_twirling_info"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_twirling_info()</span></code></a>.</p></li>
+<li><p><strong>client</strong> (<em>Pulla</em>) – Client for connecting to the quantum computer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitTwirler</span></code></a> with restored state.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler">CircuitTwirler</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.error_reduction_tools.twirling.twirling_api.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">iqm.error_reduction_tools.twirling.twirling_api</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.error_reduction_tools.twirling.twirling_api.TwirlingConfiguration.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">iqm.error_reduction_tools.twirling.twirling_api.TwirlingConfiguration</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.twirl()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.submit"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.submit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.retrieve_counts"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.retrieve_counts()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_twirled_circuits()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits_flat"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_twirled_circuits_flat()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_rot_strings"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_rot_strings()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_qubit_to_bit_mapping"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_qubit_to_bit_mapping()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_job"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_job()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.to_dict"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.to_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.from_dict"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.from_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.save_twirling_info"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.save_twirling_info()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.load_twirling_info"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.load_twirling_info()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Error Reduction Tools developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024-2026, IQM Finland Oy, Release 0.2.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-07-16.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,716 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology &#8212; IQM Error Reduction Tools 0.2.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="iqm.error_reduction_tools.readout_characterization.visualization" href="iqm.error_reduction_tools.readout_characterization.visualization.html" />
+    <link rel="prev" title="iqm.error_reduction_tools.readout_characterization.topologies.get_subset_positions" href="iqm.error_reduction_tools.readout_characterization.topologies.get_subset_positions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-07-16"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Error Reduction Tools 0.2.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Error Reduction Tools 0.2.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-error-reduction-tools</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_rem_workflow_highlevel.html">Tutorial: REM Workflow (High-Level API)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_twirling_workflow.html">Tutorial: Circuit Twirling API</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.error_reduction_tools.html">iqm.error_reduction_tools</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.html">iqm.error_reduction_tools.readout_characterization</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.data_collection.html">iqm.error_reduction_tools.readout_characterization.data_collection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.data_processing.html">iqm.error_reduction_tools.readout_characterization.data_processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.readout_error_characterization.html">iqm.error_reduction_tools.readout_characterization.readout_error_characterization</a></li>
+<li class="toctree-l4 current active"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.topologies.html">iqm.error_reduction_tools.readout_characterization.topologies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.visualization.html">iqm.error_reduction_tools.readout_characterization.visualization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.rem.html">iqm.error_reduction_tools.rem</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.rem.rem_api.html">iqm.error_reduction_tools.rem.rem_api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.rem.rem_processors.html">iqm.error_reduction_tools.rem.rem_processors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.twirling.html">iqm.error_reduction_tools.twirling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.twirling.twirling_api.html">iqm.error_reduction_tools.twirling.twirling_api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.twirling.twirling_modifiers.html">iqm.error_reduction_tools.twirling.twirling_modifiers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.twirling.twirling_processors.html">iqm.error_reduction_tools.twirling.twirling_processors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.utils.html">iqm.error_reduction_tools.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.circuit_utils.html">iqm.error_reduction_tools.utils.circuit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.general_utils.html">iqm.error_reduction_tools.utils.general_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.hadamard.html">iqm.error_reduction_tools.utils.hadamard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.qiskit_utils.html">iqm.error_reduction_tools.utils.qiskit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.readout_twirling_strings.html">iqm.error_reduction_tools.utils.readout_twirling_strings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.topology_utils.html">iqm.error_reduction_tools.utils.topology_utils</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology"><code class="docutils literal notranslate"><span class="pre">QPUTopology</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.name"><code class="docutils literal notranslate"><span class="pre">QPUTopology.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.num_qubits"><code class="docutils literal notranslate"><span class="pre">QPUTopology.num_qubits</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.positions"><code class="docutils literal notranslate"><span class="pre">QPUTopology.positions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.couplers"><code class="docutils literal notranslate"><span class="pre">QPUTopology.couplers</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.control_lines"><code class="docutils literal notranslate"><span class="pre">QPUTopology.control_lines</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.adjacent_qubits"><code class="docutils literal notranslate"><span class="pre">QPUTopology.adjacent_qubits</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_qubit_labels"><code class="docutils literal notranslate"><span class="pre">QPUTopology.get_qubit_labels()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.parse_qubit_index"><code class="docutils literal notranslate"><span class="pre">QPUTopology.parse_qubit_index()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.sort_qubit_labels"><code class="docutils literal notranslate"><span class="pre">QPUTopology.sort_qubit_labels()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_neighbors"><code class="docutils literal notranslate"><span class="pre">QPUTopology.get_neighbors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_qubits_in_control_line"><code class="docutils literal notranslate"><span class="pre">QPUTopology.get_qubits_in_control_line()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_control_line_for_qubit"><code class="docutils literal notranslate"><span class="pre">QPUTopology.get_control_line_for_qubit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_coupler_pairs"><code class="docutils literal notranslate"><span class="pre">QPUTopology.get_coupler_pairs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="iqm-error-reduction-tools-readout-characterization-topologies-qputopology">
+<h1>iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology<a class="headerlink" href="#iqm-error-reduction-tools-readout-characterization-topologies-qputopology" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.error_reduction_tools.readout_characterization.topologies.</span></span><span class="sig-name descname"><span class="pre">QPUTopology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">positions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">couplers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_lines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adjacent_qubits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Container for QPU topology information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p></li>
+<li><p><strong>num_qubits</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>)</p></li>
+<li><p><strong>positions</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>couplers</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>control_lines</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>...</em><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>adjacent_qubits</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.name" title="Link to this definition">#</a></dt>
+<dd><p>Name of the quantum computer (e.g., “emerald”, “garnet”)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.num_qubits">
+<span class="sig-name descname"><span class="pre">num_qubits</span></span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.num_qubits" title="Link to this definition">#</a></dt>
+<dd><p>Total number of qubits</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.positions">
+<span class="sig-name descname"><span class="pre">positions</span></span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.positions" title="Link to this definition">#</a></dt>
+<dd><p>Dictionary mapping qubit number to (x, y) position for visualization.
+Populated when the topology is built via
+<a class="reference internal" href="iqm.error_reduction_tools.utils.topology_utils.topology_from_qc.html#iqm.error_reduction_tools.utils.topology_utils.topology_from_qc" title="iqm.error_reduction_tools.utils.topology_utils.topology_from_qc"><code class="xref py py-func docutils literal notranslate"><span class="pre">topology_from_qc()</span></code></a>;
+empty by default.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.couplers">
+<span class="sig-name descname"><span class="pre">couplers</span></span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.couplers" title="Link to this definition">#</a></dt>
+<dd><p>List of tuples representing connected qubit pairs</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.control_lines">
+<span class="sig-name descname"><span class="pre">control_lines</span></span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.control_lines" title="Link to this definition">#</a></dt>
+<dd><p>List of tuples grouping qubits by control/readout lines</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.adjacent_qubits">
+<span class="sig-name descname"><span class="pre">adjacent_qubits</span></span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.adjacent_qubits" title="Link to this definition">#</a></dt>
+<dd><p>Optional dictionary mapping each qubit to its neighbors</p>
+</dd></dl>
+
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_compute_adjacent_qubits</span></code>()</p></td>
+<td><p>Compute adjacent qubits from coupler list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_control_line_for_qubit" title="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_control_line_for_qubit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_control_line_for_qubit</span></code></a>(qubit)</p></td>
+<td><p>Get the control line index for a given qubit.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_coupler_pairs" title="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_coupler_pairs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_coupler_pairs</span></code></a>()</p></td>
+<td><p>Return list of all coupler pairs (connected qubits).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_neighbors" title="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_neighbors"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_neighbors</span></code></a>(qubit)</p></td>
+<td><p>Get neighboring qubits for a given qubit, excluding itself.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_qubit_labels" title="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_qubit_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_qubit_labels</span></code></a>()</p></td>
+<td><p>Return list of all qubit names (e.g., ['QB1', 'QB2', ...]).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_qubits_in_control_line" title="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_qubits_in_control_line"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_qubits_in_control_line</span></code></a>(line_index)</p></td>
+<td><p>Get qubits belonging to a specific control/readout line.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.parse_qubit_index" title="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.parse_qubit_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_qubit_index</span></code></a>(label)</p></td>
+<td><p>Extract the numeric index from a qubit name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.sort_qubit_labels" title="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.sort_qubit_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort_qubit_labels</span></code></a>(labels)</p></td>
+<td><p>Sort qubit labels by their numeric index.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_qubit_labels">
+<span class="sig-name descname"><span class="pre">get_qubit_labels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_qubit_labels" title="Link to this definition">#</a></dt>
+<dd><p>Return list of all qubit names (e.g., [‘QB1’, ‘QB2’, …]).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.parse_qubit_index">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_qubit_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.parse_qubit_index" title="Link to this definition">#</a></dt>
+<dd><p>Extract the numeric index from a qubit name.</p>
+<p>Parses names of the form <code class="docutils literal notranslate"><span class="pre">&quot;QBn&quot;</span></code> and returns the integer <em>n</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>label</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Qubit name (e.g., <code class="docutils literal notranslate"><span class="pre">&quot;QB12&quot;</span></code>).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The integer index embedded in the name.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">QPUTopology</span><span class="o">.</span><span class="n">parse_qubit_index</span><span class="p">(</span><span class="s2">&quot;QB12&quot;</span><span class="p">)</span>
+<span class="go">12</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.sort_qubit_labels">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sort_qubit_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.sort_qubit_labels" title="Link to this definition">#</a></dt>
+<dd><p>Sort qubit labels by their numeric index.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">QPUTopology</span><span class="o">.</span><span class="n">sort_qubit_labels</span><span class="p">([</span><span class="s2">&quot;QB12&quot;</span><span class="p">,</span> <span class="s2">&quot;QB4&quot;</span><span class="p">,</span> <span class="s2">&quot;QB1&quot;</span><span class="p">])</span>
+<span class="go">[&#39;QB1&#39;, &#39;QB4&#39;, &#39;QB12&#39;]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>labels</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_neighbors">
+<span class="sig-name descname"><span class="pre">get_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_neighbors" title="Link to this definition">#</a></dt>
+<dd><p>Get neighboring qubits for a given qubit, excluding itself.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>qubit</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Qubit label (e.g., ‘QB1’).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of neighboring qubit labels, <strong>not</strong> including <cite>qubit</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">topology</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="s2">&quot;QB5&quot;</span><span class="p">)</span>
+<span class="go">[&#39;QB1&#39;, &#39;QB4&#39;, &#39;QB6&#39;, &#39;QB11&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_qubits_in_control_line">
+<span class="sig-name descname"><span class="pre">get_qubits_in_control_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line_index</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_qubits_in_control_line" title="Link to this definition">#</a></dt>
+<dd><p>Get qubits belonging to a specific control/readout line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line_index</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Index of the control line (0-based).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple of qubit labels in that control line.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If no control lines are defined or <code class="docutils literal notranslate"><span class="pre">line_index</span></code> is out of range.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, …]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_control_line_for_qubit">
+<span class="sig-name descname"><span class="pre">get_control_line_for_qubit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubit</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_control_line_for_qubit" title="Link to this definition">#</a></dt>
+<dd><p>Get the control line index for a given qubit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>qubit</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Qubit label (e.g., ‘QB1’).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Index of the control line containing the <code class="docutils literal notranslate"><span class="pre">qubit</span></code>, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not found.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)">int</a> | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_coupler_pairs">
+<span class="sig-name descname"><span class="pre">get_coupler_pairs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_coupler_pairs" title="Link to this definition">#</a></dt>
+<dd><p>Return list of all coupler pairs (connected qubits).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.error_reduction_tools.readout_characterization.topologies.get_subset_positions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">iqm.error_reduction_tools.readout_characterization.topologies.get_subset_positions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.error_reduction_tools.readout_characterization.visualization.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">iqm.error_reduction_tools.readout_characterization.visualization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology"><code class="docutils literal notranslate"><span class="pre">QPUTopology</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.name"><code class="docutils literal notranslate"><span class="pre">QPUTopology.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.num_qubits"><code class="docutils literal notranslate"><span class="pre">QPUTopology.num_qubits</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.positions"><code class="docutils literal notranslate"><span class="pre">QPUTopology.positions</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.couplers"><code class="docutils literal notranslate"><span class="pre">QPUTopology.couplers</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.control_lines"><code class="docutils literal notranslate"><span class="pre">QPUTopology.control_lines</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.adjacent_qubits"><code class="docutils literal notranslate"><span class="pre">QPUTopology.adjacent_qubits</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_qubit_labels"><code class="docutils literal notranslate"><span class="pre">QPUTopology.get_qubit_labels()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.parse_qubit_index"><code class="docutils literal notranslate"><span class="pre">QPUTopology.parse_qubit_index()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.sort_qubit_labels"><code class="docutils literal notranslate"><span class="pre">QPUTopology.sort_qubit_labels()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_neighbors"><code class="docutils literal notranslate"><span class="pre">QPUTopology.get_neighbors()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_qubits_in_control_line"><code class="docutils literal notranslate"><span class="pre">QPUTopology.get_qubits_in_control_line()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_control_line_for_qubit"><code class="docutils literal notranslate"><span class="pre">QPUTopology.get_control_line_for_qubit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.readout_characterization.topologies.QPUTopology.get_coupler_pairs"><code class="docutils literal notranslate"><span class="pre">QPUTopology.get_coupler_pairs()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Error Reduction Tools developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024-2026, IQM Finland Oy, Release 0.2.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-07-16.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
