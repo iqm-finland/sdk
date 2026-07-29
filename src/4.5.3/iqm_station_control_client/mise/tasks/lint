@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#MISE description="Lint package: station-control-client"
+set -euo pipefail
+
+uv run ruff format --check .
+uv run ruff check .
+uv run mypy src --config-file pyproject.toml --cache-dir=.mypy_cache

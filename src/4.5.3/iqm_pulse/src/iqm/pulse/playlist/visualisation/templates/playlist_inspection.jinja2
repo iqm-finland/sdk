@@ -1,0 +1,311 @@
+<html>
+
+<head>
+    <title>IQM Pulse Schedule Viewer</title>
+    <script>{{MomentJS}}</script>
+    <script>{{VisJsScript}}</script>
+    <style>{{VisJsStyle}}</style>
+
+    <style>
+        body,
+        html {
+            font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
+            font-size: 11pt;
+            zoom: 0.9;
+        }
+
+        #visualization {
+            box-sizing: border-box;
+            width: 100%;
+            height: 300px;
+        }
+
+        .IQPulse {
+          background-color: #F2A251;
+        }
+        .RealPulse {
+          background-color: #E36A45;
+        }
+        .VirtualRZ {
+          background-color: #6FA7FC;
+        }
+        .Wait {
+          background-color: #A79B81;
+        }
+
+
+        .vis-item.vis-selected, .details {
+          background-color: black;
+          color: white;
+          border: 1px solid black;
+        }
+
+        .vis-item {
+          border: 1px solid black;
+        }
+
+        .details {
+          font-size: small;
+          word-wrap: break-word;
+
+        }
+
+        .details-empty {
+          background-color: lightgrey;
+          color: black;
+          border: 1px solid black;
+        }
+
+        .flex-container {
+            display: flex;
+        }
+
+        .flex-child {
+            flex: 6;
+        }
+
+        .flex-child:first-child {
+            flex: 1;
+            min-width: 200px;
+            margin-right:0.5em;
+            height: 100vh;
+
+        }
+
+        .waveform-image {
+            max-width: 100%;
+        }
+        #timeline-configuration > *{
+            margin: 2px;
+        }
+
+    </style>
+</head>
+
+<body ondblclick="document.documentElement.requestFullscreen()">
+    <div class="flex-container">
+      <div class="flex-child">
+        <img style="max-width: 100%;">
+        <h3>Playlist Viewer</h3>
+        <p>
+          Zoom with <kbd>Ctrl</kbd> + scroll. Move by click + drag.<br>
+          Double click for fullscreen
+        </p>
+        <div id="details" class="details details-empty" style="min-height: 5em; padding: 0.5em; margin-bottom: 0.75em;">Click on an item in the timeline to see its details here</div>
+        <div id="timeline-configuration">
+            <label for="scales">Instruction duration threshold</label><br>
+            <input type="number" id="scales" name="scales"/>
+            <button  id="set_threshold" name="Set threshold">Set value</button>
+            <br>
+            <label for="step_size">Step size</label><br>
+            <input type="number" id="step_size" name="step_size"/>
+            <button  id="set_step_size" name="">Set value</button>
+            <br>
+            <label for="horizontalScroll">Horizontal Scroll</label>
+            <input type="checkbox" id="horizontalScroll" name="horizontalScroll">
+        </div>
+      </div>
+      <div class="flex-child">
+        <div id="visualization"></div>
+      </div>
+
+    </div>
+
+      <p id="error_message"></p>
+
+    <script>
+        // DOM element where the Timeline will be attached
+        var container = document.getElementById('visualization');
+        var fullscreen_state = false;
+
+        // The schedules to render
+        var schedules = {{jsonobj.playlists}}
+        var waveforms = {{jsonobj.waveforms}}
+        var segment_indices = {{segment_indices}}
+
+        const create_groups_and_items = (schedules, waveforms, threshold) => {
+            // create a data set with groups
+            var groups = new vis.DataSet();
+            // create a dataset with items
+            var items = new vis.DataSet();
+            var segments = []
+            var channels = []
+            var group_counter = 0
+            var item_counter = 0
+            var instruction_details = [];
+            var max_running_time = 0;
+
+
+            schedules.forEach(function(schedule, index) {
+                // create a group for each schedule
+                segments.push({
+                    id: group_counter,
+                    content: `Segment ${segment_indices[index]}`,
+                    nestedGroups: [],
+                    treeLevel: 1,
+                    showNested: true,
+                    "groupId": group_counter
+                });
+                group_counter+=1;
+            })
+            var parent_group = 1;
+
+            schedules.forEach(function(schedule, index) {
+            // process all channels for the schedule
+                for (const [key, value] of Object.entries(schedule)) {
+                    channels.push({
+                    id: group_counter,
+                    content: key,
+                    treeLevel: 2,
+                    nestedInGroup: parent_group
+                    });
+                    segments[parent_group-1].nestedGroups.push(group_counter);
+                    // add instructions to each channel
+                    var channel_instructions = value['instructions']
+                    var running_time = 0
+                    channel_instructions.forEach(function(inst, index) {
+                        duration = inst.params.duration
+                        if ('truncated_duration' in inst.params) {
+                            duration = inst.params.truncated_duration
+                        }
+                        if (duration > threshold) {
+                            var dur = 200
+                            var squeezed = true
+                        } else {
+                            var dur = duration
+                            var squeezed = false
+                        }
+                        shown_duration = inst.params.duration
+                        items.add({
+                            id: item_counter,
+                            group: group_counter,
+                            className: inst.name,
+                            content: !squeezed ? `${inst.name}<br>${shown_duration} ns` :`${inst.name}<br>Squeezed` ,
+                            start: new Date(running_time),
+                            end: !squeezed ?new Date(running_time + duration):new Date(running_time + 200) ,
+                            type: 'range'
+                        });
+                        pretty_json = JSON.stringify(inst.params, function(key, val) {
+                            return val.toFixed ? Number(val.toFixed(3)) : val
+                        }, 2)
+                        pretty_json = pretty_json.replaceAll("  ", " ").replaceAll('\\n', "\n").replaceAll('\\"', '\"').replaceAll('\"', '')
+                        instruction_details[item_counter] = `<strong>${inst.name}</strong>, start: ${running_time}, end: ${running_time + duration}<br><pre>${pretty_json}</pre>`
+                        if (inst.params.wave) {
+                            instruction_details[item_counter] += waveforms[key][inst.wave_img_idx]
+                        }
+                        if (inst.params.wave_i && inst.params.wave_q) {
+                            instruction_details[item_counter] += waveforms[key][inst.wave_img_idx]
+                        }
+                        item_counter+=1;
+                        running_time+= !squeezed ? duration : 200
+                        if (running_time > max_running_time) {
+                            max_running_time = running_time
+                        }
+                    });
+                    group_counter+=1
+
+                }
+            parent_group += 1
+            });
+            groups.add(segments)
+            groups.add(channels)
+            return {groups: groups, items: items, instruction_details: instruction_details, max_running_time: max_running_time}
+        }
+
+        const create_timeline = (items, groups, options, container) => {
+            return new vis.Timeline(container, items, groups, options);
+        }
+
+        var default_step = 100
+        document.getElementById("step_size").value = default_step
+        let {groups, items, instruction_details, max_running_time} = create_groups_and_items(schedules, waveforms, Number.MAX_SAFE_INTEGER)
+        let options = {
+            start: new Date(0),
+            end: new Date(max_running_time),
+            min: new Date(0),
+            max: new Date(max_running_time),
+            horizontalScroll: false,
+            zoomKey: 'ctrlKey',
+            orientation: 'none',
+            zoomMin: 10,
+            zoomMax: max_running_time,
+            showMajorLabels: false,
+            stack: false,
+            timeAxis: {
+                scale: 'millisecond',
+                step: default_step
+            },
+        };
+        var timeline = create_timeline(items, groups, options, container)
+
+        /*function changeHandler(e) {
+            fullscreen_state = !fullscreen_state
+            document.getElementById("timeline-configuration").style.visibility = fullscreen_state ? "visible" : "hidden"
+        }
+        document.addEventListener("fullscreenchange", changeHandler, false);
+        document.addEventListener("webkitfullscreenchange", changeHandler, false);
+        document.addEventListener("mozfullscreenchange", changeHandler, false);*/
+        const update_threshold = () => {
+            var threshold_value = document.getElementById("scales").value
+            if (threshold_value) {
+                let {items, max_running_time} = create_groups_and_items(schedules, waveforms, threshold_value)
+                timeline.setData({"items": items.get()})
+                timeline.setOptions({end: new Date(max_running_time),  max: new Date(max_running_time), zoomMax: max_running_time})
+            }
+        }
+        const update_step_size = () => {
+            var threshold_value = document.getElementById("step_size").value
+            if (threshold_value) {
+                timeline.setOptions({ timeAxis: {
+                scale: 'millisecond',
+                step: threshold_value
+            },})
+            }
+        }
+
+        document.getElementById("scales").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                update_threshold()
+            }
+        })
+        document.getElementById("step_size").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                update_step_size()
+            }
+        })
+        document.getElementById("set_threshold").addEventListener("click", (e) => {
+            update_threshold()
+        })
+
+        document.getElementById("set_step_size").addEventListener("click", (e) => {
+            update_step_size()
+
+        })
+        document.getElementById("horizontalScroll").addEventListener("click", (e) => {
+            timeline.setOptions({horizontalScroll: !timeline.options["horizontalScroll"] })
+        })
+
+
+
+        timeline.on('select', function (properties) {
+          id = properties.items[0];
+          item = timeline.itemsData.get(id);
+
+          if (item.start) {
+            details_element = document.getElementById('details')
+            origin_start = new Date( 0)
+            start = item.start.getTime() - origin_start.getTime()
+            end = item.end.getTime() - origin_start.getTime()
+            detailed_data = instruction_details[item.id]
+            details_element.innerHTML = detailed_data;
+            details_element.classList.remove('details-empty');
+          }
+          else {
+            details_element.innerHTML = 'Click on an item in the timeline to see its details here';
+            details_element.classList.add('details-empty');
+          }
+
+        });
+    </script>
+</body>
+</html>
