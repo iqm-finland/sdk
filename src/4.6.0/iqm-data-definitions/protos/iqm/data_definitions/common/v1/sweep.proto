@@ -1,0 +1,52 @@
+// Copyright 2019-2025 IQM
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// Protobuf message definitions for transferring Station Control settings tree.
+
+syntax = "proto3";
+
+package iqm.data_definitions.common.v1;
+
+import "iqm/data_definitions/common/v1/parameter.proto";
+import "iqm/data_definitions/common/v1/data_types.proto";
+
+
+message SingleParameterSweep
+{
+  // Represents a sweep over several values of a single parameter.
+  // Values can be repeated, so that a single ParallelSweep can be used to describe an arbitrary sequence of sweep spots.
+  // This makes CartesianSweep somewhat redundant, but it can be more convenient to the user.
+  string parameter_name = 1;
+  iqm.data_definitions.common.v1.Sequence values = 2;
+  optional iqm.data_definitions.common.v1.Parameter parameter = 3;
+}
+
+
+message ParallelSweep
+{
+  // The sweep spots of a ParallelSweep are the parallel pairing of the spots of the constituent SingleParameterSweeps,
+  // zip(x, y, ...) == [(x1, y1, ...), (x2, y2, ...), ..., (xmax, ymax, ...)]. The SingleParameterSweeps have to be equally long.
+  repeated SingleParameterSweep single_parameter_sweeps = 1;
+}
+
+
+message CartesianSweep
+{
+  // The sweep spots of an CartesianSweep are the cartesian product of the spots of the ParallelSweeps it contains.
+  // parallel_sweeps == [x, ..., y, z] => spots == cartesian_product(x, ..., y, z)
+  // == [(x1, ..., y1, z1), ..., (x1, ..., y1, zmax), (x1, ..., y2, z1), ..., (xmax, ..., ymax, zmax)].
+  // In all kinds of sweeps the iteration order of the sweep spots is big-endian, i.e. the first listed parameter changes the slowest.
+  // No parameter may appear more than once in an CartesianSweep (because otherwise its value would not be well-defined).
+  repeated ParallelSweep parallel_sweeps = 1;
+}

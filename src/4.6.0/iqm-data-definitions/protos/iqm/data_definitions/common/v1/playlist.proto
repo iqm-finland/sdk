@@ -1,0 +1,288 @@
+// Copyright 2019-2025 IQM
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package iqm.data_definitions.common.v1;
+
+// Sequence of instruction schedules to execute.
+message Playlist {
+    map<string, ChannelDescription> channels = 1;
+    repeated Schedule schedules = 2;
+}
+
+// Synchronous instruction segment to be executed on several control channels in parallel.
+message Schedule {
+    // list of ChannelDescription.instruction_table references for a single control channel
+    message Channel {
+        repeated uint64 instruction_refs = 1;
+    }
+    // mapping from channel names to their contents
+    map<string, Channel> channels = 1;
+}
+
+message IQChannelConfig {
+    double sample_rate = 1;
+}
+
+message RealChannelConfig {
+    double sample_rate = 1;
+}
+
+message ReadoutChannelConfig {
+    double sample_rate = 1;
+}
+
+// Requested configuration for a control channel.
+message ChannelConfiguration {
+    oneof extended {
+        IQChannelConfig iq_channel = 1;
+        RealChannelConfig real_channel = 2;
+        ReadoutChannelConfig ro_channel = 3;
+    }
+}
+
+// Describes a single control channel in a Playlist.
+message ChannelDescription {
+    // name of the controller handling the control channel
+    string controller_name = 1;
+    // requested configuration for the channel
+    ChannelConfiguration channel_config = 2;
+    // instruction and waveform lookup tables for the channel (Schedule refers to these)
+    repeated Instruction instruction_table = 3;
+    repeated Waveform waveform_table = 4;
+
+    // Table of acquisition configs. Only relevant for readout channels.
+    // Restrictions that may apply:
+    // - At most one time trace operation allowed.
+    // - Mixing of time traces and state discrimination not allowed.
+    repeated AcquisitionMethod acquisition_table = 5;
+}
+
+// Instructions are things instruments can do, and are executed back to back as referenced in each Schedule.Channel.
+// Not all instruction types are supported by all channels.
+// If a wrong instruction type is used, the Playlist is rejected.
+message Instruction {
+    uint64 duration_samples = 1;
+    oneof operation {
+        MultiplexedRealPulse multiplexed_real_pulse = 8;
+        MultiplexedIQPulse multiplexed_iq_pulse = 9;
+        Wait wait = 10;
+        RealPulse real_pulse = 11;
+        IQPulse iq_pulse = 12;
+        VirtualRZ virtual_rz = 13;
+        ConditionalInstruction conditional_instruction = 14;
+        ReadoutTrigger readout_trigger = 15;
+    }
+}
+
+
+// Acquisition methods
+message AcquisitionMethod {
+
+    // Capture the raw IQ signal without integration.
+    message TimeTrace {
+        // How many samples to capture.
+        uint64 duration_samples = 1;
+    }
+
+    // Perform a weighted integration of the IQ raw signal, resulting a complex number.
+    message ComplexIntegration {
+        // Complex IQ weight to use.
+        // The total integration window is the maximum length of all integration weights.
+        // A weights vector shorter than the window is padded with zeros.
+        IQPulse weights = 1;
+    }
+
+    // Perform a weighted integration of the IQ raw signal and compares the real part of the result against a
+    // threshold value, resulting in a boolean.
+    message ThresholdStateDiscrimination {
+        // Same as in ComplexIntegration
+        IQPulse weights = 1;
+        // Threshold value used in discrimination.
+        double threshold = 2;
+        // In fast feedback routing, the transmitted signals are associated with this label.
+        // ConditionalInstructions whose "condition" field has the string value of "feedback_signal_label"
+        // will receive the signal from this ThresholdStateDiscrimination.
+        // Empty string (default) means the signal is not routed anywhere.
+        // The same feedback_signal_label may not be used multiple times within the same ReadoutTrigger.
+        // The same feedback_signal_label can be used in different ReadoutTriggers and different segments.
+        string feedback_signal_label = 3;
+    }
+
+    // Identifier for the returned data, like "QB1__readout.time_trace"
+    string label = 1;
+    // How much the start of the acquisition should be delayed after the trigger, in samples.
+    uint64 delay_samples = 2;
+
+    oneof acquisition_type {
+        TimeTrace timetrace = 11;
+        ComplexIntegration integration = 12;
+        ThresholdStateDiscrimination threshold_discrimination = 13;
+    }
+}
+
+
+// Instruction for an instrument to wait. For AWGs, equivalent to playing zero-valued samples.
+message Wait {}
+
+// Instruction for a virtual z rotation.
+message VirtualRZ {
+    double phase_increment = 1;
+}
+
+// Instruction for playing a real-valued pulse, to be used with real channels.
+message RealPulse {
+    uint64 waveform_ref = 1;
+    double scale = 2;
+}
+
+// Instruction for playing an IQ pulse, to be used with IQ channels.
+message IQPulse {
+    uint64 waveform_i_ref = 1;
+    uint64 waveform_q_ref = 2;
+
+    // Pulse modifiers that can be implemented in hardware.
+    // Semantics: first scale the i and q waves, then apply phase offset and modulation (mixing i and q),
+    // then apply extra accumulated phase from VirtualRZs, if present.
+    // Frequency modulation `phase_mod_freq` is applied relative to the start of the pulse, on top of any IF modulation in hardware;
+    //   sideband modulating with this parameter will not result in phase-coherent pulses at the new sideband frequency.
+    double scale_i = 3;
+    double scale_q = 4;
+    double phase = 5;
+    double phase_mod_freq = 6;
+
+    // Relative phase increment to the phase in the carrier frequency of this pulse and all pulses that are played after it. Unit: rad.
+    double phase_increment = 7;
+}
+
+// Instruction to simultaneously play multiple IQ pulses.
+// Each component pulse entry can be added with arbitrary delay from the beginning of this instruction.
+// Where outside of the duration of the MultiplexedPulse, the pulse entries are truncated.
+// Where overlapping, samples of multiple pulse entries are summed.
+// Where the interval of a MultiplexedPulse does not overlap with any of its entry pulse, its samples will be 0.
+message MultiplexedIQPulse {
+    message Entry {
+        int64 offset_samples = 10; // no granularity constraints. negative values allowed (but beginning will be truncated)
+        oneof pulse {
+            uint64 instruction_ref = 1;
+            IQPulse iq_pulse = 2;
+        }
+    }
+    repeated Entry entries = 1;
+}
+
+// Similar to MultiplexedIQPulse, but for real pulses.
+message MultiplexedRealPulse {
+    message Entry {
+        int64 offset_samples = 10;
+        oneof pulse {
+            uint64 instruction_ref = 1;
+            RealPulse real_pulse = 2;
+        }
+    }
+    repeated Entry entries = 1;
+}
+
+// Instruction for playing a probe pulse and acquiring the associated readout results.
+// Supported by ReadoutChannelConfig channels.
+message ReadoutTrigger {
+
+    // Index of the pulse instruction, from the instruction table of the channel description.
+    uint64 probe_pulse_ref = 1;
+
+    // Indices into AcquisitionMethod table of the channel config.
+    repeated uint64 acqusitions = 2;
+}
+
+// Choice between two instructions based on a condition.
+message ConditionalInstruction {
+    string condition = 1;
+    // ChannelDescription.instruction_table references for the potential outcomes
+    uint64 if_true = 2;
+    uint64 if_false = 3;
+}
+
+// Real-valued waveform to be stored in AWG waveform memory, can be referenced by various Instructions.
+message Waveform {
+    uint64 n_samples = 1;
+    oneof waveform_description {
+        Samples samples = 2;
+        Gaussian gaussian = 3;
+        GaussianDerivative gaussian_derivative = 4;
+        Constant constant = 5;
+        GaussianSmoothedSquare gaussian_smoothed_square = 6;
+        TruncatedGaussian truncated_gaussian = 7;
+        TruncatedGaussianDerivative truncated_gaussian_derivative = 8;
+        TruncatedGaussianSmoothedSquare truncated_gaussian_smoothed_square = 9;
+        CosineRiseFall cosine_rise_fall = 10;
+    }
+}
+
+
+
+// Custom waveform consisting from a list of samples.
+message Samples {
+    repeated double samples = 1;
+}
+
+// Gaussian pulse.
+message Gaussian {
+    double sigma = 1;
+    double center_offset = 2;
+}
+
+// Scaled derivative of a gaussian pulse.
+message GaussianDerivative {
+    double sigma = 1;
+    double center_offset = 2;
+}
+
+// Constant-valued waveform.
+message Constant {}
+
+// Convolution of a gaussian pulse and a square pulse.
+message GaussianSmoothedSquare {
+    double square_width = 1;
+    double gaussian_sigma = 2;
+    double center_offset = 3;
+}
+
+// Gaussian pulse, where the decaying tails are removed by offsetting, truncating
+// and then rescaling the pulse
+message TruncatedGaussian {
+    double full_width = 1;
+    double center_offset = 2;
+}
+
+// Derivative of a gaussian pulse, where the decaying tails are removed by offsetting,
+// truncating and then rescaling the pulse
+message TruncatedGaussianDerivative {
+    double full_width = 1;
+    double center_offset = 2;
+}
+
+// Convolution of a square pulse and a gaussian pulse, offset and truncated so that it has finite support.
+message TruncatedGaussianSmoothedSquare {
+    double full_width = 1;
+    double center_offset = 2;
+    double rise_time = 3;
+}
+
+// Waveform that has a sinusoidal rise and fall, and a constant part in between.
+message CosineRiseFall {
+    double full_width = 1;
+    double center_offset = 2;
+    double rise_time = 3;
+}
