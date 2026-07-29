@@ -1,0 +1,54 @@
+// Copyright 2019-2025 IQM
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/*
+ Station Task definition.
+ */
+
+syntax = "proto3";
+
+package iqm.data_definitions.station_control.v1;
+
+import "iqm/data_definitions/common/v1/data_types.proto";
+import "google/protobuf/any.proto";
+
+
+/*
+ A task to the queue of Station Control service. Contains data related to the queuing, and the sweep request as a
+ payload.
+ */
+message SweepTaskRequest {
+  // Name of the destination queue.
+  string queue_name = 1;
+  // The sweep_request as serialized bitstring. We want to keep it encoded such that it does not need to be unpacked
+  // while the data related to queuing is processed.
+  google.protobuf.Any payload = 2;
+  // Identifier of the sweep. Should be same as the ID contained in `payload`, but we include it here separately so
+  // that the payload does not have to be deserialized to see the ID.
+  string sweep_id = 3;
+}
+
+
+// Response body for GET /sweeps/{uuid}/results
+message SweepResultsResponse
+{
+  // A UUID that gives identity to the sweep event.
+  string sweep_id = 1;
+  /* Maps the names of SweepRequest.return_parameters to corresponding results arrays.
+  The array shape is [s_1, s_2, ..., s_m, r], where `s_k` is the number of sweep
+  spots in the k:th ParallelSweep, and `r` is the result_length of the corresponding return_parameter for one spot.
+  All Arrays in `results` have the same shape except for `r`.
+   */
+  map<string, iqm.data_definitions.common.v1.Array> results = 2;
+}

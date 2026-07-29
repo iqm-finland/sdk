@@ -1,0 +1,61 @@
+// Copyright 2019-2025 IQM
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/*
+ Run definition, fully defining what should be executed in the run.
+*/
+
+syntax = "proto3";
+
+package iqm.data_definitions.station_control.v1;
+
+
+import "iqm/data_definitions/common/v1/sweep.proto";
+import "iqm/data_definitions/station_control/v1/sweep_request.proto";
+import "google/protobuf/struct.proto";
+
+
+// The instructions required to perform a run.
+message RunDefinition {
+  // Unique identifier (UUID) of the run.
+  string run_id = 1;
+  // User who defined the run.
+  string username = 2;
+  // Identifier of the experiment name.
+  string experiment_name = 3;
+  // Freeform label of the Experiment. As opposed to `experiment_name`, no core logic relies on this value.
+  string experiment_label = 4;
+  // Experiment-specific options or toggles that generated the run.
+  google.protobuf.Struct options = 5;
+  // A free-form dictionary of data, used to store information that does not fall into other categories.
+  google.protobuf.Struct additional_run_properties = 6;
+  // Unique identifier of the software version set of the current Python runtime.
+  uint64 software_version_set_id = 7;
+  //  Maps `return_parameters` to hardware sweep specification which specifies
+  //  how the data measured at each spot should be interpreted and shaped.
+  //  The hard sweep specification is in the same format as `sweeps`,
+  //  which means that the returned data can be interpreted as an N-dimensional sweep inside the spot.
+  //  An empty list is interpreted such that the return parameter is a scalar.
+  //  The hard sweep specification can also be `None`,
+  //  in which case the shape will be whatever the instrument returns.
+  map<string, iqm.data_definitions.common.v1.CartesianSweep> hard_sweeps = 8;
+    // Chip components (qubits, couplers) that are active in the run.
+  repeated string components = 9;
+  // Which of the parameters in `sweep` were added by default. The rest were added by user.
+  repeated string default_sweep_parameters = 10;
+  // Which of the parameters in `return_parameters` were added by default. The rest were added by user.
+  repeated string default_data_parameters = 11;
+  // The instructions required to perform a sweep.
+  iqm.data_definitions.station_control.v1.SweepRequest sweep_definition = 12;
+}

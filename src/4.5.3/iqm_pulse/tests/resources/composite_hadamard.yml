@@ -1,0 +1,70 @@
+# mock gate calibration data
+experiment:
+    gates:
+        prx:
+            drag_gaussian:
+                []:
+                    #frequency: 3.5e9
+                    duration: 40e-9
+                    amplitude_i: 1.0
+                    amplitude_q: 0.0
+                    full_width: 10e-9
+                ['QB1']:
+                    #frequency: 3.7811e9
+                    amplitude_i: 4.65642
+                    amplitude_q: -0.1214
+            special:
+                []:
+                    duration: 40e-9
+                    amplitude_i: 0.5
+                    amplitude_q: 0.0
+                    full_width: 40e-9
+                ['QB1']:
+                    amplitude_i: 0.6
+                    amplitude_q: -0.1214
+        hadamard:
+            composite:
+                ['QB1']:
+                    prx:
+                        drag_gaussian:
+                            ["QB1"]:
+                                amplitude_i: 0.1
+                        special:
+                            ["QB1"]:
+                                amplitude_i: 0.2
+        reset:
+            reset_conditional:
+                ['QB1']:
+                    measure:
+                        constant:
+                            ["QB1"]:
+                                amplitude_i: 10.0
+        measure:
+            constant:
+                []:
+                    duration: 1.2e-06
+                    frequency: 5e9
+                    phase: 0.0
+                    amplitude_i: 0.0
+                    amplitude_q: 0.0
+                    integration_length: 1.6e-7
+                    integration_threshold: 0.5
+                    integration_weights_I:
+                    acquisition_delay: 1.6e-7
+                ["QB1"]:
+                    amplitude_i: 0.1
+                ["QB2"]:
+                    amplitude_i: 0.2
+
+    gate_definitions:
+        prx:
+            implementations:
+                drag_gaussian: PRX_DRAGGaussian
+                special: PRX_DRAGCosineRiseFall
+                other: UGate
+        hadamard:
+            arity: 1
+            params: []
+            implementations:
+                composite: CompositeHadamard
+            symmetric: true

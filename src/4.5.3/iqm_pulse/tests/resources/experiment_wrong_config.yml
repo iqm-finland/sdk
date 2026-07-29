@@ -1,0 +1,162 @@
+# mock gate calibration data
+experiment:
+    gates:
+        prx:
+            drag_gaussian:
+                []:
+                    duration: 40e-9
+                    amplitude_i: 1.0
+                    amplitude_q: 0.0
+                    full_width: 20e-9
+                    center_offset: 0.0
+                ['QB1']:
+                    amplitude_i: 4.65642
+                    amplitude_q: -0.1214
+                ['QB2']:
+                    amplitude_i: 0.7031
+                    amplitude_q: -0.0374
+                ['QB5']:
+                    amplitude_i: 0.5723
+                    amplitude_q: 0.0231
+            drag_crf:
+                []:
+                    duration: 40e-9
+                    amplitude_i: 1.0
+                    amplitude_q: 0.5
+                    full_width: 40e-9
+                    center_offset: 0.0
+                ['QB1']:
+                    amplitude_i: 0.77
+                ['QB4']:
+                    amplitude_i: 0.49
+        cz:
+            gaussian_smoothed_square:
+                []:
+                    duration: 120e-9
+                    coupler:
+                        amplitude: -0.1
+                        gaussian_sigma: 5e-9
+                        square_width: 45e-9
+                        center_offset: 0.0
+
+                ['QB1', 'QB2']:  # data for a specific qubit pair locus, overrides the defaults
+                    coupler:
+                        amplitude: -0.086
+                        square_width: 43.726e-9
+                    rz:
+                        QB1: 0.7376
+                        QB2: -0.2882
+                        QB5: 0.0142  # neighbor qubits may also be affected?
+            tgss_crf:
+                []:
+                    duration: 120e-9
+                    coupler:
+                        amplitude: -0.1
+                        rise_time: 7e-9
+                        full_width: 40e-9
+                        center_offset: 0.0
+                    qubit:
+                        amplitude: 0.05
+                        rise_time: 10e-9
+                        full_width: 30e-9
+                        center_offset: 0.0
+                ['QB2', 'QB1']:
+                    coupler:
+                        amplitude: -0.11
+                    rz:
+                        QB1: 0.1
+                        QB2: 0.2
+                ['QB2', 'QB5']:
+                    coupler:
+                        amplitude: -0.12
+                    rz:
+                        QB2: 0.1
+                        QB5: 0.2
+                ['QB5', 'QB2']:  # nonsymmetric implementations can have independent cal data for different locus orders
+                    coupler:
+                        amplitude: -0.13
+                    rz:
+                        QB2: 0.1
+                        QB5: 0.2
+                ['QB4', 'QB5']:
+                    coupler:
+                        amplitude: -0.15
+                    rz:
+                        QB4: 0.1
+                        QB5: 0.2
+        rz_physical:
+            ac_stark_crf:
+                ["QB1"]:
+                    duration: 40e-9
+                    rise_time: 10e-9
+                    amplitude: 1.0
+                    full_width: 40e-9
+                    center_offset: 0.0
+                    modulation_frequency: 100e6
+                    phase: 0
+                    phase_increment: 0
+
+        measure:
+            constant:
+                []:
+                  duration: 1.2e-06
+                  frequency: 5e9
+                  phase: 0.0
+                  amplitude_i: 0.0
+                  amplitude_q: 0.0
+                  integration_length: 1.6e-7
+                  integration_threshold: 0.5
+                  integration_weights_I:
+                  # No integration_weights_Q and acquisition_type here, to test they are really  optional
+                  acquisition_delay: 1.6e-7
+                ['QB1']:
+                  amplitude_i: 0.1
+                ['QB2']:
+                  amplitude_i: 0.2
+                ['QB3']:
+                  amplitude_i: 0.3
+                ['QB5']:
+                  amplitude_i: 0.5
+                  acquisition_type: 'threshold'
+        cc_prx:
+            prx_composite:
+                ['QB1']:
+                  control_delays: [100e-9]
+                ['QB5']:
+                  control_delays: [100e-9, 100e-9]
+        reset_wait:
+            reset_wait:
+                ['QB1']:
+                  duration: 200e-6
+                ['QB2']:
+                  duration: 250e-6
+                ['QB3']:
+                  duration: 300e-6
+
+    gate_definitions:
+        measure:
+            implementations:
+                constant: Measure_Constant
+        prx:
+            implementations:
+                drag_gaussian: PRX_DRAGCosineRiseFall
+                drag_crf: PRX_DRAGCosineRiseFall
+        rz:
+            implementations:
+                virtual: RZ_Virtual
+        rz_physical:
+            implementations:
+                ac_stark_crf: RZ_ACStarkShift_CosineRiseFall
+        cz:
+            implementations:
+                gaussian_smoothed_square: CZ_GaussianSmoothedSquare
+                tgss_crf: FluxPulseGate_TGSS_CRF
+        barrier:
+            implementations:
+                '': Barrier
+        sx:
+            implementations:
+                prx_sx: SXGate
+        u:
+            implementations:
+                prx_u: UGate

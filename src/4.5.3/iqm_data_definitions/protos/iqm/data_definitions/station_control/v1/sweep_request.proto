@@ -1,0 +1,67 @@
+// Copyright 2019-2025 IQM
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/*
+ Request to Station Control, fully defining what should be executed.
+ */
+
+syntax = "proto3";
+
+package iqm.data_definitions.station_control.v1;
+
+import "iqm/data_definitions/common/v1/setting.proto";
+import "iqm/data_definitions/common/v1/sweep.proto";
+import "iqm/data_definitions/common/v1/playlist.proto";
+import "google/protobuf/struct.proto";
+
+
+
+// The instructions required to perform a sweep.
+message SweepRequest {
+  // Unique identifier (UUID) of the sweep.
+  string sweep_id = 1;
+  // Initial settings that define the state of the devices.
+  iqm.data_definitions.common.v1.SettingNode settings = 2;
+  // Describes which parameters in settings to iterate over.
+  iqm.data_definitions.common.v1.CartesianSweep sweeps = 3;
+  // Which parameters to read from the instruments and save to the database.
+  repeated string return_parameters = 4;
+  // Mapping from each AWG to the corresponding Playlist. The format is serialized as JSON, to be replaced with a proto.
+  map<string, string> awgs_to_playlists_as_json = 5;
+  // Describes which DUT of the station control should be used.
+  optional string dut_label = 6;
+  // Sequence of instruction schedules to run on the instruments for each sweep spot.
+  iqm.data_definitions.common.v1.Playlist playlist = 7;
+
+  // Obsolescent metadata about a run that Exa needs to save.
+  optional RunMetadata run_metadata = 15;
+}
+
+/*
+ Metadata about a run that Exa needs to save.
+ Currently passed to Station Control for saving purposes, but not used by Station Control.
+ */
+message RunMetadata {
+  // Run ID of the EXA experiment. Used to link the Sweep request ID to a run.
+  string run_id = 1;
+  // Chip components (qubits, couplers) that are active in the request.
+  repeated string components = 2;
+  // Which of the parameters in `sweep` were added by default. The rest were added by user.
+  repeated string default_sweep_parameters = 3;
+  // Which of the parameters in `return_parameters` were added by default. The rest were added by user.
+  repeated string default_data_parameters = 4;
+  map<string, iqm.data_definitions.common.v1.CartesianSweep> hard_sweeps = 5;
+  // Other, freeform fields.
+  google.protobuf.Struct additional_run_properties = 10;
+}
