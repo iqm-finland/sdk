@@ -1,32 +1,24 @@
 # IQM SDK Docs
 
 ## Content of this repository
-This repository contains the documentation for the IQM SDK. The documentation
-is hosted on GitHub Pages https://docs.iqm.tech/.
+
+This repository contains docs and source code mirrors for different
+IQM SDK versions.
+The rendered documentation can be found at https://docs.iqm.tech/.
 
 Note that public IQM Resonance quantum computers do not always support the
 latest versions of client packages.
-
 Refer to the Resonance user guides and documentation to find the compatible
 versions for different quantum computers.
 
-This GitHub repository is a read-only mirror that isn't used for accepting
-contributions.
+This repository is a read-only mirror, not used for accepting contributions.
 
+## Package sources
 
-## How to obtains package sources
+Source code mirrors for different QCCSW package versions can be found
+under the `src/` directory.
 
-To obtain the source code of the IQM SDK packages, please visit the
-[IQM SDK PyPI page](https://pypi.org/search/?q=iqm) and download the source
-distribution (sdist) for the desired package and version.
-
-An alternative way to obtain the source code is to use curl and extract the
-source distribution directly from PyPI. For example, to download and extract
- the source code for the `iqm-client` package version 35.0.0, you can use the
- following command:
-
-```bash
-curl -s https://pypi.org/pypi/iqm-client/35.0.0/json | jq -r '.urls[] | select(.packagetype == "sdist") | .url'
-```
+For versions not listed there, download the sdist from PyPI
+and extract the contents.
 
 **For support, contact `support@iqm.tech`**.
