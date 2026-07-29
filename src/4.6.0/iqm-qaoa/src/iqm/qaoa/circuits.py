@@ -1,0 +1,520 @@
+# Copyright (c) 2024-2025 IQM Quantum Computers
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without modification, are permitted (subject to the
+# limitations in the disclaimer below) provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+#   disclaimer.
+# * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+#   disclaimer in the documentation and/or other materials provided with the distribution.
+# * Neither the name of IQM Quantum Computers nor the names of its contributors may be used to endorse or promote
+#   products derived from this software without specific prior written permission.
+#
+# NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY
+# THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+# COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+"""Functions that build various types of circuits (e.g., in :mod:`qiskit` and :mod:`quimb`) from the QAOA object."""
+
+from __future__ import annotations
+
+from enum import StrEnum
+from typing import TYPE_CHECKING, Any
+import warnings
+
+from iqm.iqm_client.transpile import ExistingMoveHandlingOptions
+from iqm.qaoa.transpiler.hardwired.hardwired import hardwired_router
+from iqm.qaoa.transpiler.ptn.ptn import ptn_router
+from iqm.qaoa.transpiler.quantum_hardware import CrystalQPUFromBackend, HardQubit, StarQPU
+from iqm.qaoa.transpiler.routing import BaseRouting, CircuitSynthesis
+from iqm.qaoa.transpiler.sn.sn import sn_router
+from iqm.qaoa.transpiler.sparse.greedy_router import greedy_router
+from iqm.qaoa.transpiler.star.star import star_router
+from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
+from iqm.qiskit_iqm.iqm_naive_move_pass import transpile_to_IQM
+from qiskit import QuantumCircuit, QuantumRegister
+from qiskit.circuit import Qubit
+from qiskit.compiler.transpiler import Layout, transpile
+from qiskit.providers import BackendV2
+from qiskit_aer import AerSimulator
+import quimb.tensor as qtn
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
+    from iqm.qaoa.hubo_qaoa import HUBOQAOA
+    from iqm.qaoa.qubo_qaoa import QUBOQAOA
+
+
+class TranspilerOption(StrEnum):
+    """Available transpilation (routing) strategies for QAOA circuits."""
+
+    DEFAULT = "Default"
+    """Use the default Qiskit transpilation."""
+    HARDWIRED = "HardwiredTranspiler"
+    """Use the 'hardwired_router' transpiler for IQM Crystal backends."""
+    SPARSE = "SparseTranspiler"
+    """Use the 'greedy_router' sparse transpiler for IQM Crystal backends."""
+    SWAP_NETWORK = "SwapNetwork"
+    """Use the 'sn_router' swap network transpiler for IQM Crystal backends."""
+    MINIMUM_VERTEX_COVER = "MinimumVertexCover"
+    """Use the minimum vertex cover transpiler for IQM Star backends."""
+    PARITY_TWINE_NETWORK = "ParityTwineNetwork"
+    """Use the parity-twine network transpiler for IQM Crystal backends."""
+
+
+def qiskit_circuit(qaoa: QUBOQAOA, measurements: bool = True) -> QuantumCircuit:
+    """Constructs a :class:`~qiskit.circuit.QuantumCircuit` from the QAOA angles, ignoring details of the QPU.
+
+    Constructs a :class:`~qiskit.circuit.QuantumCircuit` corresponding to the QAOA, assuming perfect connectivity of
+    the qubits and complete set of available quantum gates. This circuit can be used for simulations or it can be
+    transpiled to be run on a real QPU.
+
+    Args:
+        qaoa: A :class:`~iqm.qaoa.qubo_qaoa.QUBOQAOA` object whose angles and interaction strengths are used in
+            the construction of the :class:`~qiskit.circuit.QuantumCircuit`.
+        measurements: Should measurements be added at the end of the circuit? If the circuit is used for statevector
+            simulation, there shouldn't be measurements. If the circuit is used for sampling, there should be
+            measurements.
+
+    Returns:
+        A quantum circuit corresponding to the QAOA, excluding any measurements.
+
+    """
+    qc = QuantumCircuit(qaoa.num_qubits)
+
+    for qubit in range(qaoa.num_qubits):
+        qc.h(qubit)
+    for p in range(qaoa.num_layers):
+        for var, linear_bias in qaoa.hamiltonian_bqm.linear.items():
+            qc.rz(2 * qaoa.angles[2 * p] * linear_bias, qaoa.hamiltonian_bqm.variables.index(var))
+        for (var1, var2), quadratic_bias in qaoa.hamiltonian_bqm.quadratic.items():
+            qc.rzz(
+                2 * qaoa.angles[2 * p] * quadratic_bias,
+                qaoa.hamiltonian_bqm.variables.index(var1),
+                qaoa.hamiltonian_bqm.variables.index(var2),
+            )
+        for qubit in range(qaoa.num_qubits):
+            qc.rx(2 * qaoa.angles[2 * p + 1], qubit)
+    if measurements:
+        qc.measure_all()
+    return qc
+
+
+def qiskit_circuit_specific_nodes(qaoa: QUBOQAOA, starting_qubits: set[int]) -> QuantumCircuit:
+    """Constructs a :class:`~qiskit.circuit.QuantumCircuit` for the RCC of given qubits, ignoring details of the QPU.
+
+    The *reverse causal cone* (RCC) of a set of qubits contains all the gates and qubits which have any influence
+    on the measurement results on the initial set of qubits. This method constructs
+    a :class:`~qiskit.circuit.QuantumCircuit` containing these gates and extra qubits.
+
+    Args:
+        qaoa: A :class:`~iqm.qaoa.qubo_qaoa.QUBOQAOA` object whose angles and interaction strengths are used in
+            the construction of the :class:`~qiskit.circuit.QuantumCircuit`.
+        starting_qubits: A set of the starting qubits for which we construct the RCC circuit.
+
+    Returns:
+        A :class:`~qiskit.circuit.QuantumCircuit` representing the RCC.
+
+    """
+    qubits_generation = [starting_qubits]
+    for _ in range(qaoa.num_layers):
+        nodes = set()
+        for node in qubits_generation[-1]:
+            nodes.add(node)
+            for neighbor, _ in qaoa.hamiltonian_bqm.iter_neighborhood(node):
+                nodes.add(neighbor)
+
+        qubits_generation.append(nodes)
+    qubits_generation.reverse()
+
+    qc = QuantumCircuit(0, len(starting_qubits))
+    qrs: dict = {}  # quantum registers
+    for qubit in qubits_generation[-1]:
+        qrs[qubit] = QuantumRegister(1, str(qubit))
+        qc.add_register(qrs[qubit])
+        qc.h(qrs[qubit])
+    for qubit in qubits_generation[0] - qubits_generation[-1]:
+        qrs[qubit] = QuantumRegister(1, str(qubit))
+        qc.add_register(qrs[qubit])
+        qc.h(qrs[qubit])
+    for p in range(qaoa.num_layers):
+        for qubit in qubits_generation[p]:
+            qc.rz(2 * qaoa.angles[2 * p] * qaoa.hamiltonian_bqm.get_linear(qubit), qrs[qubit])
+        for q1, q2 in qaoa.hamiltonian_bqm.quadratic:
+            if (q1 in qubits_generation[p] and q2 in qubits_generation[p + 1]) or (
+                q2 in qubits_generation[p] and q1 in qubits_generation[p + 1]
+            ):
+                qc.rzz(2 * qaoa.angles[2 * p] * qaoa.hamiltonian_bqm.get_quadratic(q1, q2), qrs[q1], qrs[q2])
+        for qubit in qubits_generation[p + 1]:
+            qc.rx(2 * qaoa.angles[2 * p + 1], qrs[qubit])
+    return qc
+
+
+def quimb_tn(qaoa: QUBOQAOA) -> qtn.Circuit:
+    """Constructs a :mod:`quimb` tensor network representing the quantum circuit.
+
+    The object is constructed just like any other quantum circuit by applying quantum gates. :mod:`quimb`
+    transforms those into tensors.
+
+    Args:
+        qaoa: A :class:`~iqm.qaoa.qubo_qaoa.QUBOQAOA` object whose angles and interaction strengths are used in
+            the construction of the tensor network.
+
+    Returns:
+        :mod:`quimb` tensor network representing the QAOA circuit (without measurements).
+
+    """
+    tn = qtn.Circuit(qaoa.num_qubits)
+
+    for qubit in range(qaoa.num_qubits):
+        tn.apply_gate("H", qubit)
+    for p in range(qaoa.num_layers):
+        for var, linear_bias in qaoa.hamiltonian_bqm.linear.items():
+            tn.apply_gate("RZ", 2 * qaoa.angles[2 * p] * linear_bias, qaoa.hamiltonian_bqm.variables.index(var))
+        for (var1, var2), quadratic_bias in qaoa.hamiltonian_bqm.quadratic.items():
+            tn.apply_gate(
+                "RZZ",
+                2 * qaoa.angles[2 * p] * quadratic_bias,
+                qaoa.hamiltonian_bqm.variables.index(var1),
+                qaoa.hamiltonian_bqm.variables.index(var2),
+            )
+        for qubit in range(qaoa.num_qubits):
+            tn.apply_gate("RX", 2 * qaoa.angles[2 * p + 1], qubit)
+    return tn
+
+
+def _build_initial_layout_for_qiskit(hard_qbs: Iterable[HardQubit], qc: QuantumCircuit) -> Layout:
+    """Return a Qiskit layout mapping HardQubit -> Qubit.
+
+    The mapping is somewhat trivial in that each qubit "maps to itself", but this is the type of layout that
+    :func:`~qiskit.compuler.transpiler.transpile` requires.
+
+    Args:
+        hard_qbs: Hardware qubits used in our internal routing.
+        qc: The quantum circuit generated from out internal routing.
+
+    Returns:
+        Qiskit-compatible representation of the layout.
+
+    """
+    mapping: dict[HardQubit, Qubit] = {hard_q: qc.qubits[hard_q] for hard_q in hard_qbs}
+    return Layout(mapping)
+
+
+def transpiled_circuit(
+    qaoa: QUBOQAOA,
+    backend: BackendV2 | None = None,
+    transpiler: TranspilerOption | None = None,
+    **kwargs: Any,
+) -> QuantumCircuit:
+    """Build a QAOA quantum circuit for the given QAOA instance.
+
+    This function has highly varying outputs based on which transpiler is used. If no transpiler is used,
+    the perfect :class:`~qiskit.circuit.QuantumCircuit` is returned using :meth:`qiskit_circuit`. Otherwise,
+    the QAOA circuit is transpiled using one of the transpilers, respecting the topology of ``backend``.
+
+    Args:
+        qaoa: The QAOA instance object whose quantum circuit is constructed.
+        backend: Backend that the circuit is to be run on. The connectivity of the backend is required
+            for the transpilation. ``None`` means use the :class:`~qiskit_aer.AerSimulator` statevector simulation.
+        transpiler: Defines which algorithm should be used for transpilation (if any).
+        **kwargs: Keyword arguments are passed on to :func:`~qiskit.provider.transpiler.transpile`, for examples see
+            Keyword Args.
+
+    Keyword Args:
+        initial_layout (list[int]): List of hardware qubits onto which the circuit qubits are mapped.
+        seed_transpiler (int): Random seed for the transpilation.
+
+    Returns:
+        A quantum circuit transpiled to the topology of ``backend``.
+
+    Raises:
+        TypeError: If the ``backend`` is not an IQM backend and a custom ``transpiler`` is selected (i.e., other than
+            ``None`` or "Default").
+        ValueError: If the provided ``transpiler`` is not one of the allowed transpilers.
+
+    """
+    if isinstance(transpiler, str):
+        try:
+            transpiler = TranspilerOption(transpiler)
+        except ValueError:
+            valid = ", ".join(repr(t.value) for t in TranspilerOption)
+            raise ValueError(f"Unknown transpiler provided: {transpiler!r}. Valid options are: {valid}") from None
+
+    if backend is None:
+        backend = AerSimulator(method="statevector")
+
+    # No transpilation, just the pure QAOA circuit.
+    if transpiler is None:
+        if backend.coupling_map is not None:
+            warnings.warn("The backend has a coupling map, but the circuit is not transpiled to it.", stacklevel=2)
+        return qiskit_circuit(qaoa, measurements=True)
+
+    # Use the default Qiskit transpilation
+    if transpiler == "Default":
+        starting_circuit = qiskit_circuit(qaoa, measurements=True)
+        return transpile(starting_circuit, backend, **kwargs)
+
+    if not isinstance(backend, IQMBackendBase):
+        raise TypeError("Currently, only IQM backends are supported with transpilation other than 'Default' or `None`.")
+    routed: BaseRouting | CircuitSynthesis
+
+    if transpiler == "HardwiredTranspiler":
+        # This `qpu` object is just a carrier of the QPU connectivity for `hardwired_router`.
+        qpu = CrystalQPUFromBackend(backend)
+        routed = hardwired_router(qaoa.hamiltonian_bqm, qpu)
+        qc_hw = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
+
+        # With `routing_method="none"` and `initial_layout` given, transpiler only changing gates to QPU-native ones.
+        kwargs.setdefault("optimization_level", 3)
+
+        layout_for_qiskit = _build_initial_layout_for_qiskit(routed.initial_mapping.hard_qbs, qc_hw)
+
+        qc_hw_transpiled = transpile(
+            qc_hw,
+            backend=backend,
+            initial_layout=layout_for_qiskit,
+            routing_method="none",
+            **kwargs,
+        )
+        return qc_hw_transpiled
+
+    if transpiler == "SparseTranspiler":
+        # This `qpu` object is just a carrier of the QPU connectivity for `greedy_router`.
+        qpu = CrystalQPUFromBackend(backend)
+        routed = greedy_router(qaoa.hamiltonian_bqm, qpu)
+        qc_sparse = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
+
+        # With `routing_method="none"` and `initial_layout` given, transpiler only changing gates to QPU-native ones.
+        kwargs.setdefault("optimization_level", 3)
+
+        layout_for_qiskit = _build_initial_layout_for_qiskit(routed.initial_mapping.hard_qbs, qc_sparse)
+
+        qc_sparse_transpiled = transpile(
+            qc_sparse,
+            backend=backend,
+            initial_layout=layout_for_qiskit,
+            routing_method="none",
+            **kwargs,
+        )
+        return qc_sparse_transpiled
+
+    if transpiler == "SwapNetwork":
+        # This `qpu` object is just a carrier of the QPU connectivity for `sn_router`.
+        qpu = CrystalQPUFromBackend(backend)
+        routed = sn_router(qaoa.hamiltonian_bqm, qpu)
+        qc_sn = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
+
+        # With `routing_method="none"` and `initial_layout` given, transpiler only changing gates to QPU-native ones.
+        kwargs.setdefault("optimization_level", 3)
+
+        layout_for_qiskit = _build_initial_layout_for_qiskit(routed.initial_mapping.hard_qbs, qc_sn)
+
+        qc_sn_transpiled = transpile(
+            qc_sn,
+            backend=backend,
+            initial_layout=layout_for_qiskit,
+            routing_method="none",
+            **kwargs,
+        )
+        return qc_sn_transpiled
+
+    if transpiler == "ParityTwineNetwork":
+        qpu = CrystalQPUFromBackend(backend)
+        routed = ptn_router(qaoa.hamiltonian_bqm, qpu)
+        qc_ptn = routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
+
+        # Default layout method uses the VF2 algorithm to find an exact layout match.
+        # An exact layout match is guaranteed to exist, so no further routing is needed.
+        kwargs.setdefault("optimization_level", 3)
+        layout_for_qiskit = _build_initial_layout_for_qiskit(routed.initial_mapping.hard_qbs, qc_ptn)
+        qc_ptn_transpiled = transpile(
+            qc_ptn,
+            backend=backend,
+            initial_layout=layout_for_qiskit,
+            routing_method="none",
+            **kwargs,
+        )
+
+        return qc_ptn_transpiled
+
+    if transpiler == "MinimumVertexCover":
+        star_qpu = StarQPU(qaoa.hamiltonian_bqm.num_variables)
+
+        # Here the variable has a different name from above to avoid confusing `mypy`.
+        star_routed = star_router(qaoa.hamiltonian_bqm, star_qpu)
+        qc_mvc = star_routed.build_qiskit(qaoa.betas.tolist(), qaoa.gammas.tolist())
+
+        handling_of_errors = ExistingMoveHandlingOptions("keep")
+        # Optimization level > 1 causes the transpiler to put SQG on the resonator
+        kwargs.setdefault("optimization_level", 1)
+        qc_mvc_transpiled = transpile_to_IQM(
+            qc_mvc,
+            backend=backend,
+            perform_move_routing=False,
+            existing_moves_handling=handling_of_errors,
+            initial_layout=[backend.qubit_name_to_index("COMPR1")] + list(range(qaoa.hamiltonian_bqm.num_variables)),
+            **kwargs,  # Warning: Here we're passing **kwargs meant for `transpile` into `transpile_to_IQM`.
+        )
+
+        return qc_mvc_transpiled
+
+    raise ValueError(f"Unknown transpiler provided: {transpiler}")
+
+
+def rnz(n: int, theta: float) -> QuantumCircuit:
+    r"""Construct an n-qubit Pauli-Z string rotation circuit.
+
+    This circuit implements the unitary
+
+    .. math::
+
+        U(\\theta) = e^{-i \\frac{\\theta}{2} Z^{\\otimes n}}
+
+    where :math:`Z^{\\otimes n}` denotes the tensor product of Pauli-Z operators acting on all ``n`` qubits.
+
+    The implementation uses a CNOT ladder to compute the parity of qubits ``1`` through ``n-1`` onto qubit ``0``,
+    applies a single-qubit :math:`R_Z(\\theta)` rotation on qubit ``0``, and then uncomputes the parity.
+
+    Args:
+        n: Number of qubits in the Pauli string.
+        theta: Rotation angle :math:`\\theta`.
+
+    Returns:
+        A quantum circuit implementing the n-qubit Z-string rotation.
+
+    """
+    qc = QuantumCircuit(n, name="R" + "Z" * n + f"({theta:.6g})")
+    for i in range(1, n):
+        qc.cx(i, 0)
+    qc.rz(theta, 0)
+    for i in range(n - 1, 0, -1):
+        qc.cx(i, 0)
+    return qc
+
+
+def qiskit_circuit_hubo(qaoa: HUBOQAOA, measurements: bool = True) -> QuantumCircuit:
+    r"""Construct a Qiskit quantum circuit implementing the QAOA ansatz for a HUBO.
+
+    This function builds a parameterized Quantum Approximate Optimization Algorithm (QAOA) circuit for a Higher-Order
+    Unconstrained Binary Optimization (HUBO) problem encoded as a binary polynomial. The resulting circuit alternates
+    between phase-separation and mixing layers.
+
+    The QAOA unitary for :math:`p` layers is given by
+
+    .. math::
+
+        U(\\boldsymbol{\\gamma}, \\boldsymbol{\\beta}) =
+        \\prod_{\\ell=1}^{p}
+        \\left(
+            e^{-i \\beta_\\ell \\sum_{i} X_i}
+            \\, e^{-i \\gamma_\\ell H_C}
+        \\right),
+
+    where :math:`H_C` is the cost Hamiltonian derived from the HUBO:
+
+    .. math::
+
+        H_C = \\sum_{S \\subseteq \\{1, \\dots, n\\}} c_S \\prod_{i \\in S} Z_i.
+
+    Each term in the Hamiltonian is implemented using an n-qubit Pauli-Z string rotation via :func:`rnz`, i.e.,
+
+    .. math::
+
+        e^{-i \\gamma c_S \\prod_{i \\in S} Z_i}.
+
+    The mixer corresponds to independent single-qubit X-rotations:
+
+    .. math::
+
+        e^{-i \\beta \\sum_i X_i} = \\prod_i R_X(2\\beta).
+
+    The circuit is initialized in the uniform superposition state by applying Hadamard gates to all qubits.
+
+    Args:
+        qaoa: QAOA instance containing the HUBO Hamiltonian, number of qubits, number of layers, and variational
+            parameters ``gammas`` and ``betas``.
+        measurements: If ``True``, append measurements on all qubits at the end of the circuit. Defaults to ``True``.
+
+    Returns:
+        A Qiskit circuit implementing the QAOA ansatz for the given HUBO.
+
+    """
+    var_to_qubit = {var: i for i, var in enumerate(qaoa.problem.sorted_vars)}
+
+    qc = QuantumCircuit(qaoa.num_qubits)
+
+    # Initialize in uniform superposition.
+    for q in range(qaoa.num_qubits):
+        qc.h(q)
+
+    # Loop over QAOA layers.
+    for layer in range(qaoa.num_layers):
+        g = qaoa.gammas[layer]
+        b = qaoa.betas[layer]
+
+        # --- Phase Separator ---
+        for term, coeff in qaoa.hamiltonian_bp.items():
+            term_as_tuple = tuple(term)
+            k = len(term_as_tuple)  # Order of the interaction.
+            if k == 0:
+                continue  # Ignore the constant term.
+
+            qubits = [var_to_qubit[v] for v in term_as_tuple]
+            angle = 2 * g * coeff
+
+            qc.append(rnz(k, angle), qubits)
+
+        # --- Mixer Layer ---
+        for q in range(qaoa.num_qubits):
+            qc.rx(2 * b, q)
+
+    if measurements:
+        qc.measure_all()
+
+    return qc
+
+
+def quimb_tn_hubo(qaoa: HUBOQAOA) -> qtn.Circuit:
+    """Constructs a :mod:`quimb` tensor network representing the quantum circuit.
+
+    The object is constructed just like any other quantum circuit by applying quantum gates. :mod:`quimb`
+    transforms those into tensors.
+
+    Args:
+        qaoa: A :class:`~iqm.qaoa.hubo_qaoa.HUBOQAOA` object whose angles and interaction strengths are used in
+            the construction of the tensor network.
+
+    Returns:
+        :mod:`quimb` tensor network representing the QAOA circuit (without measurements).
+
+    """
+    tn = qtn.Circuit(qaoa.num_qubits)
+
+    for qubit in range(qaoa.num_qubits):
+        tn.apply_gate("H", qubit)
+    for p in range(qaoa.num_layers):
+        for involved_qbts, coeff in qaoa.hamiltonian_bp.items():
+            if not involved_qbts:  # Skip constant term.
+                continue
+
+            # Quimb doesn't have a generic multi-qubit RZZ..ZZ gate, so we construct it from CNOTs and RZ.
+            involved_qbts_sorted = sorted(involved_qbts)  # Sort the qubits involved in the interaction.
+            consecutive_pairs_of_qbts = list(zip(involved_qbts_sorted[:-1], involved_qbts_sorted[1:], strict=True))
+            for qb1, qb2 in consecutive_pairs_of_qbts:
+                tn.apply_gate("CNOT", qaoa.problem.sorted_vars.index(qb1), qaoa.problem.sorted_vars.index(qb2))
+            tn.apply_gate(
+                "RZ", 2 * qaoa.angles[2 * p] * coeff, qaoa.problem.sorted_vars.index(involved_qbts_sorted[-1])
+            )
+            for qb1, qb2 in consecutive_pairs_of_qbts[::-1]:
+                tn.apply_gate("CNOT", qaoa.problem.sorted_vars.index(qb1), qaoa.problem.sorted_vars.index(qb2))
+
+        for qubit in range(qaoa.num_qubits):
+            tn.apply_gate("RX", 2 * qaoa.angles[2 * p + 1], qubit)
+    return tn
