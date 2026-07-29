@@ -1,0 +1,155 @@
+# mock gate calibration data for an star station
+experiment:
+    gates:
+        prx:
+            drag_crf:
+                []:
+                    duration: 40e-9
+                    amplitude_i: 1.0
+                    amplitude_q: 0.5
+                    full_width: 40e-9
+                    center_offset: 0.0
+                ['QB1']:
+                    amplitude_i: 0.77
+                ['QB2']:
+                    amplitude_i: 0.45
+                ['QB4']:
+                    amplitude_i: 0.49
+        cz:
+            tgss_crf:
+                []:
+                    duration: 120e-9
+                    coupler:
+                        amplitude: -0.1
+                        rise_time: 7e-9
+                        full_width: 40e-9
+                        center_offset: 0.0
+                    qubit:
+                        amplitude: 0.05
+                        rise_time: 10e-9
+                        full_width: 30e-9
+                        center_offset: 0.0
+                ['QB1', 'COMP_R']:  # data for a specific qubit pair locus, overrides the defaults
+                    coupler:
+                        amplitude: -0.11
+                    rz:
+                        QB1: 0.1
+                        COMP_R: 0.2
+        move:
+            crf_crf:
+                []:
+                    duration: 120e-9
+                    detuning: 100e6
+                    coupler:
+                        amplitude: 0.13
+                        rise_time: 9e-9
+                        full_width: 45e-9
+                        center_offset: 0.0
+                    qubit:
+                        amplitude: 0.05
+                        rise_time: 20e-9
+                        full_width: 40e-9
+                        center_offset: 0.0
+
+                ['QB2', 'COMP_R']:
+                    qubit:
+                        amplitude: 0.07
+                    coupler:
+                        amplitude: 0.12
+                    rz:
+                        QB2: 0.1
+                        COMP_R: 0.2
+
+            slepian_crf:
+                []:
+                    duration: 40e-9
+                    detuning: 100e6
+                    coupler:
+                        full_width: 30e-9
+                        center_offset: 0
+                        amplitude: 0
+                        lambda_1: -0.51714509
+                        lambda_2: 0.11001021
+                        frequency_initial_normalized: 0.756135
+                        frequency_to_minimize_normalized: 0.92280
+                        coupling_strength_normalized: 0.01377
+                    qubit:
+                        full_width: 36e-9
+                        rise_time: 1e-9
+                        center_offset: 0
+                        amplitude: 0
+
+                ['QB2', 'COMP_R']:
+                    qubit:
+                       amplitude: 0.07
+                    coupler:
+                       amplitude: 0.12
+                    rz:
+                       QB2: 0.1
+                       COMP_R: 0.2
+
+            tgss_crf:
+                []:
+                    duration: 120e-9
+                    detuning: 100e6
+                    coupler:
+                        amplitude: 0.13
+                        rise_time: 9e-9
+                        full_width: 45e-9
+                        center_offset: 0.0
+                    qubit:
+                        amplitude: 0.05
+                        rise_time: 20e-9
+                        full_width: 40e-9
+                        center_offset: 0.0
+                ['QB2', 'COMP_R']:
+                    qubit:
+                        amplitude: 0.07
+                    coupler:
+                        amplitude: 0.12
+                    rz:
+                        QB2: 0.1
+                        COMP_R: 0.2
+        measure:
+            constant:
+                []:
+                  duration: 1.2e-06
+                  frequency: 5e9
+                  phase: 0.0
+                  amplitude_i: 0.0
+                  amplitude_q: 0.0
+                  integration_length: 1.6e-7
+                  integration_threshold: 0.5
+                  integration_weights_I:
+                  integration_weights_Q:
+                  acquisition_type: 'complex'
+                  acquisition_delay: 1.6e-7
+                ['QB1']:
+                  amplitude_i: 0.1
+                ['QB2']:
+                  amplitude_i: 0.2
+                ['QB3']:
+                  amplitude_i: 0.3
+                ['QB5']:
+                  amplitude_i: 0.5
+    gate_definitions:
+        measure:
+            implementations:
+                constant: Measure_Constant
+        prx:
+            implementations:
+                drag_crf: PRX_DRAGCosineRiseFall
+        rz:
+            implementations:
+                virtual: RZ_Virtual
+        cz:
+            implementations:
+                tgss_crf: FluxPulseGate_TGSS_CRF
+        move:
+            implementations:
+                tgss_crf: MOVE_TGSS_CRF
+                crf_crf: MOVE_CRF_CRF
+                slepian_crf: MOVE_SLEPIAN_CRF
+        barrier:
+            implementations:
+                '': Barrier

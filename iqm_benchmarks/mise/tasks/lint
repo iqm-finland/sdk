@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#MISE description="Lint package: iqm-benchmarks"
+set -euo pipefail
+
+ruff format --check .
+ruff check .
+mypy src --config-file pyproject.toml --cache-dir=.mypy_cache

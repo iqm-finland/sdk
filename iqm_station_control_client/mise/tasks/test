@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#MISE description="Test package: station-control-client"
+set -euo pipefail
+
+source "$QCCSW_ROOT/mise/scripts/qccsw-test-common.sh"
+
+unset IQM_TOKEN
+uv_pkg_run pytest \
+    --timeout=300 \
+    --timeout_method=signal \
+    --cov=./src/ \
+    --cov-report=term-missing:skip-covered \
+    --cov-report=xml:./coverage.xml \
+    --cov-report=html:./htmlcov \
+    --junitxml=./test_report.xml \
+    ./tests

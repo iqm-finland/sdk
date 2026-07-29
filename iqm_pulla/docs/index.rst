@@ -1,0 +1,38 @@
+IQM Pulla
+#########
+
+:Release: |release|
+:Date: |today|
+
+Client-side library for Pulse-level access to `IQM <https://iqm.tech/>`_ quantum computers.
+
+Contents
+========
+
+.. toctree::
+   :maxdepth: 1
+
+   readme
+
+.. toctree::
+   :maxdepth: 2
+
+   user_guides
+   examples
+   API
+
+.. toctree::
+   :maxdepth: 1
+
+   common_errors
+   changelog
+   license
+   References <references>
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

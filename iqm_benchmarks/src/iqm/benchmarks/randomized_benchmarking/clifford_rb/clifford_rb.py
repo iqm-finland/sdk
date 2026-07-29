@@ -1,0 +1,462 @@
+# Copyright 2024 IQM Benchmarks developers
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+"""'Standard' Clifford Randomized Benchmarking."""
+
+from collections.abc import Sequence
+from datetime import datetime, timezone
+import time
+from typing import Any, cast
+
+from iqm.benchmarks.benchmark_definition import (
+    BENCHMARK_TIMESTAMP_FORMAT,
+    Benchmark,
+    BenchmarkAnalysisResult,
+    BenchmarkConfigurationBase,
+    BenchmarkObservation,
+    BenchmarkObservationIdentifier,
+    BenchmarkRunResult,
+    add_counts_to_dataset,
+)
+from iqm.benchmarks.circuit_containers import BenchmarkCircuit, CircuitGroup, Circuits
+from iqm.benchmarks.logging_config import qcvv_logger
+from iqm.benchmarks.randomized_benchmarking.randomized_benchmarking_common import (
+    exponential_rb,
+    fit_decay_lmfit,
+    generate_all_rb_circuits,
+    generate_fixed_depth_parallel_rb_circuits,
+    get_survival_probabilities,
+    import_native_gate_cliffords,
+    lmfit_minimizer,
+    plot_rb_decay,
+    submit_parallel_rb_job,
+    submit_sequential_rb_jobs,
+    survival_probabilities_parallel,
+    validate_rb_qubits,
+)
+from iqm.benchmarks.utils import (
+    retrieve_all_counts,
+    retrieve_all_job_metadata,
+    timeit,
+    xrvariable_to_counts,
+)
+from iqm.qiskit_iqm import IQMCircuit as QuantumCircuit
+from iqm.qiskit_iqm.iqm_backend import IQMBackendBase
+import numpy as np
+import xarray as xr
+
+
+def clifford_rb_analysis(run: BenchmarkRunResult) -> BenchmarkAnalysisResult:
+    """Analysis function for a Clifford RB experiment.
+
+    Args:
+        run: A Clifford RB experiment run for which analysis result is created
+    Returns:
+        AnalysisResult corresponding to Clifford RB
+
+    """
+    dataset = run.dataset.copy(deep=True)
+    observations: list[BenchmarkObservation] = []
+    obs_dict = {}
+    plots = {}
+
+    is_parallel_execution = dataset.attrs["parallel_execution"]
+    qubits_array = dataset.attrs["qubits_array"]
+    num_circuit_samples = dataset.attrs["num_circuit_samples"]
+    sequence_lengths = dataset.attrs["sequence_lengths"]
+
+    all_noisy_counts: dict[str, dict[int, list[dict[str, int]]]] = {}
+    fidelities: dict[str, dict[int, list[float]]] = {str(q): {} for q in qubits_array}
+
+    if is_parallel_execution:
+        qcvv_logger.info(f"Post-processing parallel RB for qubits {qubits_array}")
+        all_noisy_counts[str(qubits_array)] = {}
+        for depth in sequence_lengths:
+            identifier = f"qubits_{str(qubits_array)}_depth_{str(depth)}"
+            all_noisy_counts[str(qubits_array)][depth] = xrvariable_to_counts(dataset, identifier, num_circuit_samples)
+
+            qcvv_logger.info(f"Depth {depth}")
+
+            # Retrieve the marginalized survival probabilities
+            all_survival_probabilities = survival_probabilities_parallel(
+                qubits_array, all_noisy_counts[str(qubits_array)][depth]
+            )
+
+            # The marginalized survival probabilities will be arranged by qubit layouts
+            for qubits_str in all_survival_probabilities.keys():
+                fidelities[qubits_str][depth] = all_survival_probabilities[qubits_str]
+            # Remaining analysis is the same regardless of whether execution was in parallel or sequential
+    else:  # sequential
+        qcvv_logger.info(f"Post-processing sequential RB for qubits {qubits_array}")
+
+        for q in qubits_array:
+            all_noisy_counts[str(q)] = {}
+            num_qubits = len(q)
+            fidelities[str(q)] = {}
+            for depth in sequence_lengths:
+                identifier = f"qubits_{str(q)}_depth_{str(depth)}"
+                all_noisy_counts[str(q)][depth] = xrvariable_to_counts(dataset, identifier, num_circuit_samples)
+
+                qcvv_logger.info(f"Qubits {q} and depth {depth}")
+                fidelities[str(q)][depth] = get_survival_probabilities(num_qubits, all_noisy_counts[str(q)][depth])
+                # Remaining analysis is the same regardless of whether execution was in parallel or sequential
+
+    # All remaining (fitting & plotting) is done per qubit layout
+    for qubits_idx, qubits in enumerate(qubits_array):
+        # Fit decays
+        list_of_fidelities = list(fidelities[str(qubits)].values())
+        fit_data, fit_parameters = fit_decay_lmfit(exponential_rb, qubits, list_of_fidelities, "clifford")
+        rb_fit_results = lmfit_minimizer(fit_parameters, fit_data, sequence_lengths, exponential_rb)
+
+        average_fidelities = {d: np.mean(fidelities[str(qubits)][d]) for d in sequence_lengths}
+        stddevs_from_mean = {
+            d: np.std(fidelities[str(qubits)][d]) / np.sqrt(num_circuit_samples) for d in sequence_lengths
+        }
+        popt = {
+            "amplitude": rb_fit_results.params["amplitude_1"],
+            "offset": rb_fit_results.params["offset_1"],
+            "decay_rate": rb_fit_results.params["p_rb"],
+        }
+        fidelity = rb_fit_results.params["fidelity_per_clifford"]
+
+        processed_results = {
+            "average_gate_fidelity": {
+                "value": fidelity.value,
+                "uncertainty": fidelity.stderr,
+            },
+        }
+
+        if len(qubits) == 1:
+            fidelity_native = rb_fit_results.params["fidelity_per_native_sqg"]
+            processed_results.update(
+                {
+                    "average_native_gate_fidelity": {
+                        "value": fidelity_native.value,
+                        "uncertainty": fidelity_native.stderr,
+                    }
+                }
+            )
+
+        dataset.attrs[qubits_idx].update(
+            {
+                "decay_rate": {
+                    "value": popt["decay_rate"].value,
+                    "uncertainty": popt["decay_rate"].stderr,
+                },
+                "fit_amplitude": {
+                    "value": popt["amplitude"].value,
+                    "uncertainty": popt["amplitude"].stderr,
+                },
+                "fit_offset": {
+                    "value": popt["offset"].value,
+                    "uncertainty": popt["offset"].stderr,
+                },
+                "fidelities": fidelities[str(qubits)],
+                "average_fidelities_nominal_values": average_fidelities,
+                "average_fidelities_stderr": stddevs_from_mean,
+                "fitting_method": str(rb_fit_results.method),
+                "num_function_evals": int(rb_fit_results.nfev),
+                "data_points": int(rb_fit_results.ndata),
+                "num_variables": int(rb_fit_results.nvarys),
+                "chi_square": float(rb_fit_results.chisqr),
+                "reduced_chi_square": float(rb_fit_results.redchi),
+                "Akaike_info_crit": float(rb_fit_results.aic),
+                "Bayesian_info_crit": float(rb_fit_results.bic),
+            }
+        )
+
+        obs_dict.update({qubits_idx: processed_results})
+        observations.extend(
+            [
+                BenchmarkObservation(
+                    name=key,
+                    identifier=BenchmarkObservationIdentifier(qubits),
+                    value=values["value"],
+                    uncertainty=values["uncertainty"],
+                )
+                for key, values in processed_results.items()
+            ]
+        )
+
+        # Generate individual decay plots
+        fig_name, fig = plot_rb_decay("clifford", [qubits], dataset, obs_dict)
+        plots[fig_name] = fig
+
+    return BenchmarkAnalysisResult(dataset=dataset, observations=observations, plots=plots)
+
+
+class CliffordRandomizedBenchmarking(Benchmark):
+    """Clifford RB estimates the average gate fidelity of the n-qubit Clifford group."""
+
+    analysis_function = staticmethod(clifford_rb_analysis)
+
+    @classmethod
+    def name(cls) -> str:
+        """Returns the name of the benchmark."""
+        return "clifford_rb"
+
+    def __init__(
+        self,
+        backend_arg: IQMBackendBase | str,
+        configuration: "CliffordRBConfiguration",
+    ):
+        """Construct the CliffordRandomizedBenchmark class.
+
+        Args:
+            backend_arg: the backend to execute Clifford RB on
+            configuration: The Clifford RB configuration
+
+        """
+        super().__init__(backend_arg, configuration)
+
+        # EXPERIMENT
+        self.qubits_array = configuration.qubits_array
+        self.sequence_lengths = configuration.sequence_lengths
+        self.num_circuit_samples = configuration.num_circuit_samples
+
+        self.parallel_execution = configuration.parallel_execution
+
+        self.session_timestamp = datetime.now(timezone.utc).strftime(BENCHMARK_TIMESTAMP_FORMAT)
+        self.execution_timestamp = ""
+
+    def add_all_metadata_to_dataset(self, dataset: xr.Dataset) -> None:
+        """Adds all configuration metadata and circuits to the dataset variable.
+
+        Args:
+            dataset: The xarray dataset
+
+        """
+        dataset.attrs["session_timestamp"] = self.session_timestamp
+        dataset.attrs["execution_timestamp"] = self.execution_timestamp
+        dataset.attrs["backend_name"] = self.backend_name
+
+        for key, value in self.configuration:
+            if key == "benchmark":  # Avoid saving the class object
+                dataset.attrs[key] = value.name
+            else:
+                dataset.attrs[key] = value
+        # Defined outside configuration - if any
+
+    @timeit
+    def add_all_circuits_to_dataset(self, dataset: xr.Dataset) -> None:
+        """Adds all generated circuits during execution to the dataset variable.
+
+        Args:
+            dataset:  The xarray dataset
+
+        """
+        qcvv_logger.info("Adding all circuits to the dataset")
+        dataset.attrs["untranspiled_circuits"] = self.untranspiled_circuits
+        dataset.attrs["transpiled_circuits"] = self.transpiled_circuits
+
+    def execute(self, backend: IQMBackendBase) -> xr.Dataset:  # noqa: PLR0915
+        """Executes the benchmark."""
+        self.execution_timestamp = datetime.now(timezone.utc).strftime(BENCHMARK_TIMESTAMP_FORMAT)
+        validate_rb_qubits(cast(list[list[int]], self.qubits_array), backend)
+
+        dataset = xr.Dataset()
+        self.add_all_metadata_to_dataset(dataset)
+
+        clifford_1q_dict = import_native_gate_cliffords("1q")
+        clifford_2q_dict = import_native_gate_cliffords("2q")
+
+        # Submit jobs for all qubit layouts
+        all_rb_jobs: list[dict[str, Any]] = []
+        time_circuit_generation: dict[str, float] = {}
+        total_submit: float = 0
+        total_retrieve: float = 0
+
+        # Initialize the variable to contain the circuits for each layout
+        self.untranspiled_circuits = BenchmarkCircuit("untranspiled_circuits")
+        self.transpiled_circuits = BenchmarkCircuit("transpiled_circuits")
+
+        # Auxiliary dict from str(qubits) to indices
+        qubit_idx: dict[str, Any] = {}
+
+        if self.parallel_execution:
+            # Take the whole qubits_array and do RB in parallel on each qubits_array element
+            parallel_untranspiled_rb_circuits = {}
+            parallel_transpiled_rb_circuits = {}
+            qcvv_logger.info(
+                f"Executing parallel RB on qubits {self.qubits_array}."
+                f" Will generate and submit all {self.num_circuit_samples} Clifford RB circuits"
+                f" for each depth {self.sequence_lengths}"
+            )
+
+            time_circuit_generation[str(self.qubits_array)] = 0
+            # Generate and submit all circuits
+            for seq_length in self.sequence_lengths:
+                qcvv_logger.info(f"Sequence length {seq_length}")
+                (
+                    (
+                        parallel_untranspiled_rb_circuits[seq_length],
+                        parallel_transpiled_rb_circuits[seq_length],
+                    ),
+                    elapsed_time,
+                ) = generate_fixed_depth_parallel_rb_circuits(
+                    self.qubits_array,
+                    clifford_1q_dict,
+                    clifford_2q_dict,
+                    seq_length,
+                    self.num_circuit_samples,
+                    backend,
+                )
+                time_circuit_generation[str(self.qubits_array)] += elapsed_time
+
+                # Submit all
+                flat_qubits_array = [x for y in self.qubits_array for x in y]
+                sorted_transpiled_qc_list = {tuple(flat_qubits_array): parallel_transpiled_rb_circuits[seq_length]}
+                t_start = time.monotonic()
+                all_rb_jobs.append(
+                    submit_parallel_rb_job(
+                        backend,
+                        self.qubits_array,
+                        seq_length,
+                        sorted_transpiled_qc_list,
+                        self.shots,
+                        self.max_gates_per_batch,
+                        self.configuration.max_circuits_per_batch,
+                        self.circuit_compilation_options,
+                    )
+                )
+                total_submit += time.monotonic() - t_start
+                qcvv_logger.info(f"Job for sequence length {seq_length} submitted successfully!")
+
+                self.untranspiled_circuits.circuit_groups.append(
+                    CircuitGroup(
+                        name=f"{str(self.qubits_array)}_length_{seq_length}",
+                        circuits=parallel_untranspiled_rb_circuits[seq_length],
+                    )
+                )
+                self.transpiled_circuits.circuit_groups.append(
+                    CircuitGroup(
+                        name=f"{str(self.qubits_array)}_length_{seq_length}",
+                        circuits=parallel_transpiled_rb_circuits[seq_length],
+                    )
+                )
+            qubit_idx = {str(self.qubits_array): "parallel_all"}
+            dataset.attrs["parallel_all"] = {"qubits": self.qubits_array}
+            dataset.attrs.update({q_idx: {"qubits": q} for q_idx, q in enumerate(self.qubits_array)})
+        else:
+            rb_untranspiled_circuits: dict[str, dict[int, list[QuantumCircuit]]] = {}
+            rb_transpiled_circuits: dict[str, dict[int, list[QuantumCircuit]]] = {}
+            for qubits_idx, qubits in enumerate(self.qubits_array):
+                qubit_idx[str(qubits)] = qubits_idx
+                qcvv_logger.info(
+                    f"Executing sequential Clifford RB on qubits {qubits}."
+                    f" Will generate and submit all {self.num_circuit_samples} Clifford RB circuits"
+                    f" for each depth {self.sequence_lengths}"
+                )
+
+                num_qubits = len(qubits)
+                rb_untranspiled_circuits[str(qubits)] = {}
+                rb_transpiled_circuits[str(qubits)] = {}
+
+                (
+                    (
+                        rb_untranspiled_circuits[str(qubits)],
+                        rb_transpiled_circuits[str(qubits)],
+                    ),
+                    time_circuit_generation[str(qubits)],
+                ) = generate_all_rb_circuits(
+                    qubits,
+                    self.sequence_lengths,
+                    clifford_1q_dict if num_qubits == 1 else clifford_2q_dict,
+                    self.num_circuit_samples,
+                    backend,
+                    interleaved_gate=None,
+                )
+
+                # Submit
+                t_start = time.monotonic()
+                all_rb_jobs.extend(
+                    submit_sequential_rb_jobs(
+                        list(qubits),
+                        rb_transpiled_circuits[str(qubits)],
+                        self.shots,
+                        self.backend,
+                        max_gates_per_batch=self.max_gates_per_batch,
+                        max_circuits_per_batch=self.configuration.max_circuits_per_batch,
+                        circuit_compilation_options=self.circuit_compilation_options,
+                    )
+                )
+                total_submit += time.monotonic() - t_start
+                qcvv_logger.info(
+                    f"All jobs for qubits {qubits} and sequence lengths {self.sequence_lengths} submitted successfully!"
+                )
+
+                for circ_key, circ_list in rb_untranspiled_circuits[str(qubits)].items():
+                    self.untranspiled_circuits.circuit_groups.append(
+                        CircuitGroup(name=f"{qubits}_{circ_key}", circuits=circ_list)
+                    )
+
+                for circ_key, circ_list in rb_transpiled_circuits[str(qubits)].items():
+                    self.transpiled_circuits.circuit_groups.append(
+                        CircuitGroup(name=f"{qubits}_{circ_key}", circuits=circ_list)
+                    )
+
+                dataset.attrs[qubits_idx] = {"qubits": qubits}
+
+        # Retrieve counts of jobs for all qubit layouts
+        all_job_metadata = {}
+        for job_dict in all_rb_jobs:
+            qubits = job_dict["qubits"]
+            depth = job_dict["depth"]
+            # Retrieve counts
+            identifier = f"qubits_{str(qubits)}_depth_{str(depth)}"
+            execution_results, time_retrieve = retrieve_all_counts(job_dict["jobs"], identifier)
+            # Retrieve all job meta data
+            all_job_metadata = retrieve_all_job_metadata(job_dict["jobs"])
+            total_retrieve += time_retrieve
+            # Export all to dataset
+            dataset.attrs[qubit_idx[str(qubits)]].update(
+                {
+                    f"depth_{str(depth)}": {
+                        "time_circuit_generation": time_circuit_generation[str(qubits)],
+                        "time_submit": job_dict["time_submit"],
+                        "time_retrieve": time_retrieve,
+                        "all_job_metadata": all_job_metadata,
+                    },
+                }
+            )
+
+            qcvv_logger.info(f"Adding counts of qubits {qubits} and depth {depth} run to the dataset")
+            dataset, _ = add_counts_to_dataset(execution_results, identifier, dataset)
+
+        dataset.attrs["total_submit_time"] = total_submit
+        dataset.attrs["total_retrieve_time"] = total_retrieve
+        qcvv_logger.info("RB experiment concluded !")
+        self.circuits = Circuits([self.transpiled_circuits, self.untranspiled_circuits])
+
+        return dataset
+
+
+class CliffordRBConfiguration(BenchmarkConfigurationBase):
+    """Clifford RB configuration.
+
+    Attributes:
+        benchmark: CliffordRandomizedBenchmarking
+        qubits_array: The array of qubits on which to execute the benchmark.
+        sequence_lengths: The length of Cliffords sequences with which to execute benchmark.
+        num_circuit_samples: The number of Cliffords circuits per sequence length.
+        shots: The number of measurement shots per circuit.
+        parallel_execution: Whether the benchmark is executed on all qubits in parallel or not.
+
+    """
+
+    benchmark: type[Benchmark] = CliffordRandomizedBenchmarking
+    qubits_array: Sequence[Sequence[int]]
+    sequence_lengths: Sequence[int]
+    num_circuit_samples: int
+    parallel_execution: bool = False

@@ -1,0 +1,91 @@
+{% macro valuerepr(v, unit=None) %}
+    {% if v is none %}
+        <span class="exasn-valrep-none">not set/auto</span>
+    {% elif v is boolean %}
+        <span style="color: {% if v %}skyblue{% else %}tomato{% endif %};">{{ v }}</span>
+    {% elif v is number %}
+        <span style="color: lightgreen;">{{ "{:12_.6g}".format(v) | replace("_", " ") }}</span>
+        {% if unit is not none %}<i style="color: gray;">{{ unit }}</i>{% endif %}
+    {% elif v is string %}
+        <span style="color: orange; font-family: monospace;">"{{ v }}"</span>
+        {% if unit is not none %}<i style="color: gray;">{{ unit }}</i>{% endif %}
+    {% elif v is sequence %}
+        [
+        {% for vi in v %}
+            {{ valuerepr(vi) }}
+            {% if not loop.last %},{% endif %}
+        {% endfor %}
+        ]
+    {% else %}
+        ??? {{ v }} <i>{{ unit }}</i>
+    {% endif %}
+{% endmacro %}
+
+{% macro slistitem2(key, s) %}
+    <li>
+        <span style="font-family: monospace; font-weight: bold;">{{ key }}</span>: {{ s.label }} =
+        {{ valuerepr (s.value, s.unit) }}
+    </li>
+{% endmacro %}
+
+{% macro slisttabrow(key, s) %}
+    <tr style={{"color:gray" if s.read_only else ""}}>
+        <td style="text-align: left">
+            <span style="font-family: monospace;
+                         font-weight: bold"
+                  title="{{ s | pprint }}">{{ key }}</span>
+        </td>
+        {% set v, unit = withsi(s.value, s.unit) %}
+        <td>
+            <span title="{{ s.value }} {{ s.unit }}">{{ valuerepr (v) }}</span>
+        </td>
+        <td style="text-align: left">
+            <span style="color:lightgray;">{{ unit }}</span>
+        </td>
+        <td style="text-align: left">{{ s.label }}</td>
+    </tr>
+{% endmacro %}
+{% macro snlistitem(key, sn, lvl) %}
+    <li>
+        <details {% if lvl <= startopen %}open{% endif %} style="margin-top: .2em">
+            <summary>
+                <span style="font-family: monospace; font-weight: bold;">{{ key }}:</span> 
+                <span style="font-size: smaller; color: gray">(Name: "{{ sn.name }}", class:{{ sn.__class__.__qualname__ }}) {{lvl}}</span>
+            </summary>
+            {{ snlist(sn, lvl) }}
+        </details>
+    </li>
+{% endmacro %}
+{% macro snlist(s, lvl=0) %}
+    {% if slistmode %}
+        <ul style="padding-left: 2em; list-style: none;">
+            {% for key, subs in s.settings.items() %}{{ slistitem(key, subs) }}{% endfor %}
+        </ul>
+    {% else %}
+        {% if s.settings %}
+            <table style="margin-left: 1em;">
+                {% for key, subs in s.settings.items() %}{{ slisttabrow(key, subs) }}{% endfor %}
+            </table>
+        {% endif %}
+    {% endif %}
+    {% if s.subtrees %}
+        <ul class="exa-subtree">
+            {% for key, subsn in s.subtrees.items() %}{{ snlistitem(key, subsn, lvl+1) }}{% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
+<p>
+    <style>
+.exa-subtree ul  { padding-left: 1.5em; }
+.exasn-valrep-none { color: gray; }
+li { list-style: none;}
+summary {cursor: pointer;}
+summary:nth-child(even) {background: DarkSlateGray;}
+    </style>
+
+    ({{ s.name }})
+
+    {{ snlistitem(s.name, s, 0) }}
+
+
+</p>

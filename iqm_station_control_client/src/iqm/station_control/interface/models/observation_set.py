@@ -1,0 +1,127 @@
+# Copyright 2025 IQM
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+"""Observation set related station control interface models."""
+
+from datetime import datetime
+import enum
+import uuid
+
+from pydantic import ConfigDict, Field, computed_field
+
+from exa.common.helpers.deprecation import format_deprecated
+from iqm.station_control.interface.models.observation import ObservationLite
+from iqm.station_control.interface.pydantic_base import PydanticBase
+
+
+class ObservationSetType(enum.StrEnum):
+    """Different types of observation sets."""
+
+    GENERIC_SET = "generic-set"
+    """For human users."""
+    CALIBRATION_SET = "calibration-set"
+    """Describes an operating point of a quantum computer."""
+    QUALITY_METRIC_SET = "quality-metric-set"
+    """Describes the quality of a calibration set at a certain point in time."""
+    CHARACTERIZATION_SET = "characterization-set"
+    """Starting point for a calibration procedure."""
+
+
+class ObservationSetBase(PydanticBase):
+    """Abstract base class of the observation set definition and data."""
+
+    observation_set_type: ObservationSetType
+    """Indicates the type (i.e. purpose) of the observation set."""
+    describes_id: uuid.UUID | None = Field(default=None)
+    """Unique identifier of the observation set this observation set describes."""
+    invalid: bool = Field(default=False)
+    """Flag indicating if the set is invalid. Automated systems must not use invalid sets."""
+
+
+class ObservationSetDefinition(ObservationSetBase):
+    """The content of the observation set object when creating it."""
+
+    observation_ids: list[int]
+    """Database IDs of the observations belonging to the observation set."""
+
+    model_config = ConfigDict(
+        extra="forbid",  # Forbid any extra attributes
+    )
+
+
+class ObservationSetData(ObservationSetBase):
+    """The content of the observation set stored in the database."""
+
+    observation_ids: list[int]
+    """Database IDs of the observations belonging to the observation set."""
+    dut_label: str | None
+    """String representation of the DUT the observation set is associated with. Can only be None for generic sets."""
+    observation_set_id: uuid.UUID
+    """Unique identifier of the observation set."""
+    created_timestamp: datetime
+    """Time when the object was created in the database."""
+    end_timestamp: datetime | None
+    """Time when the observation set was finalized. If ``None``, the set is not finalized yet."""
+
+
+class ObservationSetUpdate(PydanticBase):
+    """The observation set data to be updated in the database."""
+
+    model_config = ConfigDict(
+        extra="forbid",  # Forbid any extra attributes
+    )
+
+    observation_set_id: uuid.UUID
+    """Unique identifier of the observation set."""
+
+    observation_ids: list[int] | None = Field(default=None)
+    """Database IDs of the observations belonging to the observation set.
+
+    This will only add new observations to the observation set, deleting existing ones is not possible.
+    Setting this to ``None`` or omitting it will leave existing :attr:`observation_ids` as is with no changes.
+    """
+    invalid: bool
+    """Flag indicating if the set is invalid. Automated systems must not use invalid sets."""
+
+
+class ObservationSetWithObservations(ObservationSetBase):
+    """The content of the observation set stored in the database, with a list of observations."""
+
+    dut_label: str | None
+    """String representation of the DUT the observation set is associated with. Can only be None for generic sets."""
+    observation_set_id: uuid.UUID
+    """Unique identifier of the observation set."""
+    created_timestamp: datetime
+    """Time when the object was created in the database."""
+    end_timestamp: datetime | None
+    """Time when the observation set was finalized. If ``None``, the set is not finalized yet."""
+    observations: list[ObservationLite]
+    """Observations belonging to the observation set."""
+
+    @computed_field(
+        return_type=list[int],
+        json_schema_extra={
+            "deprecated": True,
+            "description": format_deprecated(old="`observation_ids`", new="`observations`", since="2025-10-06"),
+        },
+    )
+    def observation_ids(self) -> list[int]:
+        """Database IDs of the observations belonging to the observation set."""
+        # "observation_ids" is deprecated to unify the format with IQM Server which uses "observations"
+        return [observation.observation_id for observation in self.observations]
+
+
+class QualityMetrics(ObservationSetWithObservations):
+    """The content of the quality metric set stored in the database, with a list of observations and calibration set."""
+
+    calibration_set: ObservationSetData
