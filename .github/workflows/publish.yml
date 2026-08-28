@@ -1,49 +1,107 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Build and deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # Builds run on every branch; only the deploy job below is gated on main.
   push:
-    branches: ["main"]
+    branches: ["**"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# Least privilege by default; the deploy job widens this for itself.
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+env:
+  # Custom domain written to docs/CNAME for GitHub Pages
+  DOCS_DOMAIN: docs.iqm.tech
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    concurrency:
+      group: "build-${{ github.ref }}"
+      cancel-in-progress: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Copy default SDK docs to root (for stable version)
         shell: bash
         run: |
-          bash -x docs/create_latest.sh
+          set -euo pipefail
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+          default_sdk="$(awk -F, '
+          /^[[:space:]]*($|#)/ { next }
+          {
+            sdk = $1
+            gsub(/^[[:space:]]+|[[:space:]]+$/, "", sdk)
+            for (i = 2; i <= NF; i++) {
+              flag = $i
+              gsub(/^[[:space:]]+|[[:space:]]+$/, "", flag)
+              if (tolower(flag) == "default") {
+                print sdk
+                exit
+              }
+            }
+          }
+          ' docs/advertised_sdk.txt)"
+
+          if [[ -z "$default_sdk" ]]; then
+            echo "::error::No default SDK found in docs/advertised_sdk.txt"
+            exit 1
+          fi
+
+          default_sdk_dir="docs/$default_sdk"
+          if [[ ! -d "$default_sdk_dir" ]]; then
+            echo "::error::Default SDK directory not found: $default_sdk_dir"
+            exit 1
+          fi
+
+          for package_dir in "$default_sdk_dir"/*/; do
+            [[ -d "$package_dir" ]] || continue
+            package_name="$(basename "$package_dir")"
+
+            echo "Copying $package_name from $default_sdk_dir to docs/$package_name"
+            cp -a "$package_dir" "docs/$package_name"
+          done
+
+      - name: Create GitHub Pages helper files
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "$DOCS_DOMAIN" > docs/CNAME
+          touch docs/.nojekyll
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
-          # Upload entire repository
+          # Only the docs directory is needed for deployment
           path: 'docs'
+          retention-days: 1
+
+  # Deploying is restricted to the main branch
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # Allow only one concurrent deployment
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
