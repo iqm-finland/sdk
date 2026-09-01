@@ -34,12 +34,14 @@ playlist\_pb2
       ConditionalInstruction
       Constant
       CosineRiseFall
+      CosineRiseFallDerivative
       Gaussian
       GaussianDerivative
       GaussianSmoothedSquare
       IQChannelConfig
       IQPulse
       Instruction
+      ModulatedCosineRiseFall
       MultiplexedIQPulse
       MultiplexedRealPulse
       Playlist
@@ -49,6 +51,7 @@ playlist\_pb2
       RealPulse
       Samples
       Schedule
+      Slepian
       TruncatedGaussian
       TruncatedGaussianDerivative
       TruncatedGaussianSmoothedSquare

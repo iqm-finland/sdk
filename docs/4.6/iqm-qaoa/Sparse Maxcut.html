@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sparse Maxcut &#8212; IQM QAOA 2.0.1 documentation</title>
+    <title>Sparse Maxcut &#8212; IQM QAOA 2.0.2 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=75c5c689"></script>
+    <script src="_static/documentation_options.js?v=62b146ef"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -53,7 +53,7 @@
     <link rel="prev" title="SK Model and Transpilation" href="SK%20Model%20and%20Transpilation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2026-08-10"/>
+    <meta name="docbuild:last-update" content="2026-08-26"/>
   </head>
   
   
@@ -143,8 +143,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="IQM QAOA 2.0.1 documentation - Home"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM QAOA 2.0.1 documentation - Home"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM QAOA 2.0.2 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM QAOA 2.0.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -168,7 +168,6 @@
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Sparse Maxcut</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Portfolio%20Optimization.html">Portfolio Optimization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Training%20the%20QAOA.html">Training the QAOA</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Which%20Qubits%20on%20the%20QPU%20Are%20Used.html">Which Qubits on the QPU Are Used?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Circuit%20Synthesis.html">Circuit Synthesis</a></li>
 </ul>
 </details></li>
@@ -485,8 +484,9 @@ We print out the largest, lowest and average energy of the model, calculated by 
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="n">SERVER_URL_CRYSTAL</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IQM_RESONANCE_URL_CRYSTAL&quot;</span><span class="p">,</span> <span class="s2">&quot;https://resonance.iqm.tech/garnet:mock&quot;</span><span class="p">)</span>
-<span class="n">SERVER_URL_STAR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IQM_RESONANCE_URL_STAR&quot;</span><span class="p">,</span> <span class="s2">&quot;https://resonance.iqm.tech/sirius:mock&quot;</span><span class="p">)</span>
+<span class="n">SERVER_URL</span> <span class="o">=</span> <span class="s2">&quot;https://resonance.iqm.tech&quot;</span>
+<span class="n">QC_CRYSTAL</span> <span class="o">=</span> <span class="s2">&quot;garnet:mock&quot;</span>
+<span class="n">QC_STAR</span> <span class="o">=</span> <span class="s2">&quot;sirius:mock&quot;</span>
 
 <span class="c1"># If the token isn&#39;t saved in the environment, replace this by the token as a string.</span>
 <span class="n">API_TOKEN</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;IQM_RESONANCE_API_TOKEN&quot;</span><span class="p">)</span>
@@ -508,7 +508,7 @@ We print out the largest, lowest and average energy of the model, calculated by 
 <p>We don’t need the samples here for anything, so we’ll discard them.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">crystal_qpu_sampler</span> <span class="o">=</span> <span class="n">SamplerResonance</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">API_TOKEN</span><span class="p">,</span> <span class="n">server_url</span><span class="o">=</span><span class="n">SERVER_URL_CRYSTAL</span><span class="p">,</span> <span class="n">transpiler</span><span class="o">=</span><span class="s2">&quot;SparseTranspiler&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">crystal_qpu_sampler</span> <span class="o">=</span> <span class="n">SamplerResonance</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">API_TOKEN</span><span class="p">,</span> <span class="n">server_url</span><span class="o">=</span><span class="n">SERVER_URL</span><span class="p">,</span> <span class="n">quantum_computer</span><span class="o">=</span><span class="n">QC_CRYSTAL</span><span class="p">,</span> <span class="n">transpiler</span><span class="o">=</span><span class="s2">&quot;SparseTranspiler&quot;</span><span class="p">)</span>
 <span class="n">crystal_qpu_estimator</span> <span class="o">=</span> <span class="n">EstimatorFromSampler</span><span class="p">(</span><span class="n">crystal_qpu_sampler</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">my_qaoa</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">crystal_qpu_sampler</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>  <span class="c1"># This line is just to test if sampling works.</span>
 <span class="n">energy_on_crystal</span> <span class="o">=</span> <span class="n">my_qaoa</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">crystal_qpu_estimator</span><span class="p">)</span>
@@ -520,7 +520,7 @@ We print out the largest, lowest and average energy of the model, calculated by 
 <p>Same as the above, except on the star QPU.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">star_qpu_sampler</span> <span class="o">=</span> <span class="n">SamplerResonance</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">API_TOKEN</span><span class="p">,</span> <span class="n">server_url</span><span class="o">=</span><span class="n">SERVER_URL_STAR</span><span class="p">,</span> <span class="n">transpiler</span><span class="o">=</span><span class="s2">&quot;MinimumVertexCover&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">star_qpu_sampler</span> <span class="o">=</span> <span class="n">SamplerResonance</span><span class="p">(</span><span class="n">token</span><span class="o">=</span><span class="n">API_TOKEN</span><span class="p">,</span> <span class="n">server_url</span><span class="o">=</span><span class="n">SERVER_URL</span><span class="p">,</span> <span class="n">quantum_computer</span><span class="o">=</span><span class="n">QC_STAR</span><span class="p">,</span> <span class="n">transpiler</span><span class="o">=</span><span class="s2">&quot;MinimumVertexCover&quot;</span><span class="p">)</span>
 <span class="n">star_qpu_estimator</span> <span class="o">=</span> <span class="n">EstimatorFromSampler</span><span class="p">(</span><span class="n">star_qpu_sampler</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">my_qaoa</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">star_qpu_sampler</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>  <span class="c1"># This line is just to test if sampling works.</span>
 <span class="n">energy_on_star</span> <span class="o">=</span> <span class="n">my_qaoa</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">star_qpu_estimator</span><span class="p">)</span>
@@ -596,7 +596,7 @@ By IQM QAOA developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2026-08-10.
+  Last updated on 2026-08-26.
   <br/>
 </p>
   </div>

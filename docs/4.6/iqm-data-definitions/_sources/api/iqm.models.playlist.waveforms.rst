@@ -43,10 +43,13 @@ waveforms
       CanonicalWaveform
       Constant
       CosineRiseFall
+      CosineRiseFallDerivative
       Gaussian
       GaussianDerivative
       GaussianSmoothedSquare
+      ModulatedCosineRiseFall
       Samples
+      Slepian
       TruncatedGaussian
       TruncatedGaussianDerivative
       TruncatedGaussianSmoothedSquare
