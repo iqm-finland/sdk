@@ -9,6 +9,12 @@ iqm.error\_reduction\_tools.twirling.twirling\_api.CircuitTwirler
 
    
    
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CircuitTwirler.readout_twirling_applied
+   
    
 
 

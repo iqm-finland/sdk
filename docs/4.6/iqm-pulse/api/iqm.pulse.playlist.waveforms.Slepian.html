@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Slepian &#8212; iqm.pulse 14.0.0 documentation</title>
+    <title>Slepian &#8212; iqm.pulse 14.0.1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=41769e0b"></script>
+    <script src="../_static/documentation_options.js?v=22cb0e50"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -55,7 +55,7 @@
     <link rel="prev" title="PolynomialCosine" href="iqm.pulse.playlist.waveforms.PolynomialCosine.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2026-07-16"/>
+    <meta name="docbuild:last-update" content="2026-08-10"/>
   </head>
   
   
@@ -145,8 +145,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 14.0.0 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 14.0.0 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm.pulse 14.0.1 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 14.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -298,6 +298,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.get_other_colour.html">iqm.pulse.utils.get_other_colour</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
 <li class="toctree-l4"><a class="reference internal" href="iqm.pulse.utils.normalize_angle.html">iqm.pulse.utils.normalize_angle</a></li>
@@ -445,7 +446,7 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="iqm.pulse.playlist.waveforms.Slepian">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.pulse.playlist.waveforms.</span></span><span class="sig-name descname"><span class="pre">Slepian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency_initial_normalized</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frequency_to_minimize_normalized</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coupling_strength_normalized</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">squid_asymmetry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.pulse.playlist.waveforms.Slepian" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference external" href="../../iqm-data-definitions/api/iqm.models.playlist.waveforms.Waveform.html#iqm.models.playlist.waveforms.Waveform" title="(in IQM data definitions v2.28)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Waveform</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="../../iqm-data-definitions/api/iqm.models.playlist.waveforms.Waveform.html#iqm.models.playlist.waveforms.Waveform" title="(in IQM data definitions v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Waveform</span></code></a></p>
 <p>Slepian waveform, which minimizes non-adiabatic errors during a gate.</p>
 <p>It is assumed that the user has done the minimization in a prior step, such that the optimal <span class="math notranslate nohighlight">\(\lambda_n\)</span> for
 a specific length <span class="math notranslate nohighlight">\(\tau_\text{pulse}\)</span> (in the accelerated frame) is known. This class then reconstructs the
@@ -621,7 +622,7 @@ By Author name not set
 
   <p class="copyright">
     
-      © Copyright 2019-2026, IQM Finland Oy, Release 14.0.0.
+      © Copyright 2019-2026, IQM Finland Oy, Release 14.0.1.
       <br/>
     
   </p>
@@ -630,7 +631,7 @@ By Author name not set
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2026-07-16.
+  Last updated on 2026-08-10.
   <br/>
 </p>
   </div>

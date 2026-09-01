@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Custom gate implementations &#8212; iqm.pulse 14.0.0 documentation</title>
+    <title>Custom gate implementations &#8212; iqm.pulse 14.0.1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=41769e0b"></script>
+    <script src="_static/documentation_options.js?v=22cb0e50"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -53,7 +53,7 @@
     <link rel="prev" title="Using ScheduleBuilder" href="using_builder.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2026-07-16"/>
+    <meta name="docbuild:last-update" content="2026-08-10"/>
   </head>
   
   
@@ -143,8 +143,8 @@
       
     
     
-    <img src="_static/logo.png" class="logo__image only-light" alt="iqm.pulse 14.0.0 documentation - Home"/>
-    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 14.0.0 documentation - Home"/>`);</script>
+    <img src="_static/logo.png" class="logo__image only-light" alt="iqm.pulse 14.0.1 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="iqm.pulse 14.0.1 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -296,6 +296,7 @@
 <li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.pulse.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.TOLERANCE.html">iqm.pulse.utils.TOLERANCE</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.fuse_iq_pulses.html">iqm.pulse.utils.fuse_iq_pulses</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.get_other_colour.html">iqm.pulse.utils.get_other_colour</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.map_waveform_param_types.html">iqm.pulse.utils.map_waveform_param_types</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.modulate_iq.html">iqm.pulse.utils.modulate_iq</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/iqm.pulse.utils.normalize_angle.html">iqm.pulse.utils.normalize_angle</a></li>
@@ -577,7 +578,7 @@ loci are supported to a client application (e.g. EXA). In addition, the gate imp
 use this information <code class="docutils literal notranslate"><span class="pre">self.builder.chip_topology</span></code>.</p>
 <p>For example, a PRX can be defined on all single components that are connected to a drive line, and CZ can be defined on
 connected pairs of qubits. Locus mappings live in <code class="docutils literal notranslate"><span class="pre">ScheduleBuilder.chip_topology</span></code> which is a
-<a class="reference external" href="../iqm-exa-common/api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology" title="(in iqm-exa-common v28.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChipTopology</span></code></a> object. Locus mapping is a dict whose keys are the loci
+<a class="reference external" href="../iqm-exa-common/api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology" title="(in iqm-exa-common v28.0.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChipTopology</span></code></a> object. Locus mapping is a dict whose keys are the loci
 (<code class="docutils literal notranslate"><span class="pre">tuple[str,</span> <span class="pre">...]</span></code> keys denote asymmetric loci where the order of the components matter, and <code class="docutils literal notranslate"><span class="pre">frozenset[str]</span></code> type
 loci denote symmetric ones), and the values are groups of components, typed <code class="docutils literal notranslate"><span class="pre">tuple[str,</span> <span class="pre">...]</span></code>, where each locus can be
 mapped with some additional components that are needed for the operation of the implementation. For example, some CZ
@@ -597,7 +598,7 @@ so it is then mandatory to define the mapping explicitly using the aforementione
 <p>In order to implement most QuantumOps, one has to physically alter the state of the QPU. This is typically done by playing
 specified and correctly calibrated pulses via the control electronics (this applies to all typical logical gates such as
 e.g. PRX or CZ – non-physcial metaoperations such as Barrier are an exception). In defining these pulses, there are two
-levels of abstractions: <a class="reference external" href="../iqm-data-definitions/api/iqm.models.playlist.waveforms.Waveform.html#iqm.models.playlist.waveforms.Waveform" title="(in IQM data definitions v2.28)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Waveform</span></code></a> and <a class="reference internal" href="api/iqm.pulse.playlist.instructions.Instruction.html#iqm.pulse.playlist.instructions.Instruction" title="iqm.pulse.playlist.instructions.Instruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></a>.</p>
+levels of abstractions: <a class="reference external" href="../iqm-data-definitions/api/iqm.models.playlist.waveforms.Waveform.html#iqm.models.playlist.waveforms.Waveform" title="(in IQM data definitions v3.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Waveform</span></code></a> and <a class="reference internal" href="api/iqm.pulse.playlist.instructions.Instruction.html#iqm.pulse.playlist.instructions.Instruction" title="iqm.pulse.playlist.instructions.Instruction"><code class="xref py py-class docutils literal notranslate"><span class="pre">Instruction</span></code></a>.</p>
 <p>Waveform represents the physical form of the control pulse, typically normalized to the interval <code class="docutils literal notranslate"><span class="pre">[-1.0,</span> <span class="pre">1.0]</span></code>.
 Each Waveform subclass can define any number of parameters as class
 attributes, which can be used to programmatically define the waveform. For example, a Gaussian could be defined in terms
@@ -637,7 +638,7 @@ conversion manually. For this reason, there is logic that converts anything that
 Similarly, parameters with <code class="docutils literal notranslate"><span class="pre">&quot;Hz&quot;</span></code> units are converted to <code class="docutils literal notranslate"><span class="pre">1/sample</span></code>. For the Waveform parameters, the same logic
 applies, but by default it is assumed that all parameters are time-like and this converted from seconds to samples.
 If some Waveform parameters needs to be made unitless or e.g. frequency-like (with <code class="docutils literal notranslate"><span class="pre">&quot;Hz&quot;</span></code> units), it can be achieved
-with the method <a class="reference external" href="../iqm-data-definitions/api/iqm.models.playlist.waveforms.Waveform.html#iqm.models.playlist.waveforms.Waveform.non_timelike_attributes" title="(in IQM data definitions v2.28)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">non_timelike_attributes()</span></code></a>:</p>
+with the method <a class="reference external" href="../iqm-data-definitions/api/iqm.models.playlist.waveforms.Waveform.html#iqm.models.playlist.waveforms.Waveform.non_timelike_attributes" title="(in IQM data definitions v3.0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">non_timelike_attributes()</span></code></a>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">non_timelike_attributes</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
     <span class="k">return</span> <span class="p">{</span>
         <span class="s2">&quot;frequency&quot;</span><span class="p">:</span> <span class="s2">&quot;Hz&quot;</span><span class="p">,</span>
@@ -805,7 +806,7 @@ By Author name not set
 
   <p class="copyright">
     
-      © Copyright 2019-2026, IQM Finland Oy, Release 14.0.0.
+      © Copyright 2019-2026, IQM Finland Oy, Release 14.0.1.
       <br/>
     
   </p>
@@ -814,7 +815,7 @@ By Author name not set
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2026-07-16.
+  Last updated on 2026-08-10.
   <br/>
 </p>
   </div>

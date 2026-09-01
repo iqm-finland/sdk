@@ -34,24 +34,10 @@ jobs:
         run: |
           set -euo pipefail
 
-          default_sdk="$(awk -F, '
-          /^[[:space:]]*($|#)/ { next }
-          {
-            sdk = $1
-            gsub(/^[[:space:]]+|[[:space:]]+$/, "", sdk)
-            for (i = 2; i <= NF; i++) {
-              flag = $i
-              gsub(/^[[:space:]]+|[[:space:]]+$/, "", flag)
-              if (tolower(flag) == "default") {
-                print sdk
-                exit
-              }
-            }
-          }
-          ' docs/advertised_sdk.txt)"
+          default_sdk="$(jq -r '.default' docs/advertised_sdk.json)"
 
-          if [[ -z "$default_sdk" ]]; then
-            echo "::error::No default SDK found in docs/advertised_sdk.txt"
+          if [[ -z "$default_sdk" || "$default_sdk" == "null" ]]; then
+            echo "::error::No default SDK found in docs/advertised_sdk.json"
             exit 1
           fi
 
