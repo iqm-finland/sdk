@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler &#8212; IQM Error Reduction Tools 0.2.0 documentation</title>
+    <title>iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler &#8212; IQM Error Reduction Tools 0.2.2 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=7f7c277e"></script>
+    <script src="../_static/documentation_options.js?v=d3f42505"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -53,7 +53,7 @@
     <link rel="prev" title="iqm.error_reduction_tools.twirling.twirling_api" href="iqm.error_reduction_tools.twirling.twirling_api.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2026-07-16"/>
+    <meta name="docbuild:last-update" content="2026-08-10"/>
   </head>
   
   
@@ -143,8 +143,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Error Reduction Tools 0.2.0 documentation - Home"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Error Reduction Tools 0.2.0 documentation - Home"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Error Reduction Tools 0.2.2 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Error Reduction Tools 0.2.2 documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -361,6 +361,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits_flat"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_twirled_circuits_flat()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_rot_strings"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_rot_strings()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_qubit_to_bit_mapping"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_qubit_to_bit_mapping()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.readout_twirling_applied"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.readout_twirling_applied</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_job"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_job()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.to_dict"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.to_dict()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.from_dict"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.from_dict()</span></code></a></li>
@@ -420,6 +421,15 @@ decoupling.  For example:</p>
 <span class="n">randomized</span> <span class="o">=</span> <span class="n">twirler</span><span class="o">.</span><span class="n">twirl</span><span class="p">(</span><span class="n">circuits</span><span class="p">)</span><span class="o">.</span><span class="n">get_twirled_circuits</span><span class="p">()</span>
 </pre></div>
 </div>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.readout_twirling_applied" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.readout_twirling_applied"><code class="xref py py-obj docutils literal notranslate"><span class="pre">readout_twirling_applied</span></code></a></p></td>
+<td><p>Whether readout twirling was actually applied to the counts.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p class="rubric">Methods</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table">
 <tbody>
@@ -474,7 +484,7 @@ decoupling.  For example:</p>
 <dd><p>Convert input circuits to pulse form, generate rotation strings, and randomize.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>circuits</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference internal" href="iqm.error_reduction_tools.utils.circuit_utils.TwirledCircuit.html#iqm.error_reduction_tools.utils.circuit_utils.TwirledCircuit" title="iqm.error_reduction_tools.utils.circuit_utils.TwirledCircuit"><em>TwirledCircuit</em></a><em> | </em><em>QuantumCircuit</em><em> | </em><em>QuantumCircuit</em><em> | </em><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v14.0.0)"><em>Circuit</em></a><em>]</em>) – Input circuits to twirl.</p>
+<dd class="field-odd"><p><strong>circuits</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference internal" href="iqm.error_reduction_tools.utils.circuit_utils.TwirledCircuit.html#iqm.error_reduction_tools.utils.circuit_utils.TwirledCircuit" title="iqm.error_reduction_tools.utils.circuit_utils.TwirledCircuit"><em>TwirledCircuit</em></a><em> | </em><em>QuantumCircuit</em><em> | </em><em>QuantumCircuit</em><em> | </em><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v14.0.1)"><em>Circuit</em></a><em>]</em>) – Input circuits to twirl.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">self</span></code>, to allow method chaining.</p>
@@ -573,7 +583,7 @@ circuit, in the same order as the circuits passed to <a class="reference interna
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> has not been called yet.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v14.0.0)"><em>Circuit</em></a>]] | <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<em>QuantumCircuit</em>]]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v14.0.1)"><em>Circuit</em></a>]] | <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<em>QuantumCircuit</em>]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -596,7 +606,7 @@ internally by <a class="reference internal" href="#iqm.error_reduction_tools.twi
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> has not been called yet.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v14.0.0)"><em>Circuit</em></a>] | <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<em>QuantumCircuit</em>]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v14.0.1)"><em>Circuit</em></a>] | <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<em>QuantumCircuit</em>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -630,6 +640,23 @@ one rot string (e.g. <code class="docutils literal notranslate"><span class="pre
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>One mapping per input circuit</p>
 </dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> has not been called yet.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.readout_twirling_applied">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">readout_twirling_applied</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></em><a class="headerlink" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.readout_twirling_applied" title="Link to this definition">#</a></dt>
+<dd><p>Whether readout twirling was actually applied to the counts.</p>
+<p><code class="docutils literal notranslate"><span class="pre">True</span></code> only if a non-<code class="docutils literal notranslate"><span class="pre">NONE</span></code> strategy was requested <em>and</em> twirling was
+not skipped by a fallback (missing LOCAL topology, MOVE-gate QPU). This is
+the correct value to pass as <code class="docutils literal notranslate"><span class="pre">twirled</span></code> to
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">mitigate_counts()</span></code>:
+symmetrizing the confusion matrix is only appropriate when the counts were
+readout-twirled.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If <a class="reference internal" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl" title="iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.twirl"><code class="xref py py-meth docutils literal notranslate"><span class="pre">twirl()</span></code></a> has not been called yet.</p>
 </dd>
@@ -778,6 +805,7 @@ but no circuits or job — it can be used for post-processing only.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_twirled_circuits_flat"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_twirled_circuits_flat()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_rot_strings"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_rot_strings()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_qubit_to_bit_mapping"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_qubit_to_bit_mapping()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.readout_twirling_applied"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.readout_twirling_applied</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.get_job"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.get_job()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.to_dict"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.to_dict()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.twirling.twirling_api.CircuitTwirler.from_dict"><code class="docutils literal notranslate"><span class="pre">CircuitTwirler.from_dict()</span></code></a></li>
@@ -809,7 +837,7 @@ By IQM Error Reduction Tools developers
 
   <p class="copyright">
     
-      © Copyright 2024-2026, IQM Finland Oy, Release 0.2.0.
+      © Copyright 2024-2026, IQM Finland Oy, Release 0.2.2.
       <br/>
     
   </p>
@@ -818,7 +846,7 @@ By IQM Error Reduction Tools developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2026-07-16.
+  Last updated on 2026-08-10.
   <br/>
 </p>
   </div>
