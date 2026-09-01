@@ -7,4 +7,3 @@ API Reference
    :recursive:
 
    iqm.error_reduction_tools
-   iqm.readout_characterization

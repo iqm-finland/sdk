@@ -8,5 +8,4 @@ Usage Examples
    Sparse Maxcut
    Portfolio Optimization
    Training the QAOA
-   Which Qubits on the QPU Are Used
    Circuit Synthesis

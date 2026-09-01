@@ -28,6 +28,7 @@ task\_service\_pb2
       :nosignatures:
       :template: autosummary-class-template.rst
    
+      SweepResultsChunk
       SweepResultsResponse
    
    

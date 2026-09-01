@@ -53,7 +53,7 @@
     <link rel="prev" title="iqm.error_reduction_tools.readout_characterization.data_collection" href="iqm.error_reduction_tools.readout_characterization.data_collection.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="2026-08-10"/>
+    <meta name="docbuild:last-update" content="2026-08-26"/>
   </head>
   
   
@@ -163,6 +163,10 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-error-reduction-tools</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../user_guide.html">User Guide</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quick_Start.html">Quick Start Guide for IQM Error Reduction Tools</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial_rem_workflow_highlevel.html">Tutorial: REM Workflow (High-Level API)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial_twirling_workflow.html">Tutorial: Circuit Twirling API</a></li>
@@ -371,7 +375,7 @@ document.write(`
 <dt class="sig sig-object py" id="iqm.error_reduction_tools.readout_characterization.data_collection.create_calibration_circuits">
 <span class="sig-prename descclassname"><span class="pre">iqm.error_reduction_tools.readout_characterization.data_collection.</span></span><span class="sig-name descname"><span class="pre">create_calibration_circuits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">number_of_circuits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symmetrize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">equatorial_randomization</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.readout_characterization.data_collection.create_calibration_circuits" title="Link to this definition">#</a></dt>
 <dd><p>Generate readout error characterization (REC) circuits and preparation strings.</p>
-<p>Creates circuits that prepare qubits in computational basis states (<a href="#id1"><span class="problematic" id="id2">|</span></a>0&gt; or <a href="#id3"><span class="problematic" id="id4">|</span></a>1&gt;)
+<p>Creates circuits that prepare qubits in computational basis states (<code class="docutils literal notranslate"><span class="pre">|0&gt;</span></code> or <code class="docutils literal notranslate"><span class="pre">|1&gt;</span></code>)
 using I (identity) or X gates, then measure all qubits. Optionally applies
 equatorial randomization to X gates for improved error characterization.</p>
 <dl class="field-list simple">
@@ -380,7 +384,7 @@ equatorial randomization to X gates for improved error characterization.</p>
 <li><p><strong>qubits</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – IQM qubit names to characterize (e.g., [‘QB1’, ‘QB2’]).</p></li>
 <li><p><strong>number_of_circuits</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of calibration circuits to generate.</p></li>
 <li><p><strong>symmetrize</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, generates complementary circuit pairs (I↔X) to
-balance <a href="#id5"><span class="problematic" id="id6">|</span></a>0&gt; and <a href="#id7"><span class="problematic" id="id8">|</span></a>1&gt; state preparations across all qubits.</p></li>
+balance <code class="docutils literal notranslate"><span class="pre">|0&gt;</span></code> and <code class="docutils literal notranslate"><span class="pre">|1&gt;</span></code> state preparations across all qubits.</p></li>
 <li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – Random seed for reproducible circuit generation.</p></li>
 <li><p><strong>equatorial_randomization</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, randomize X gate phase angles (phi)
 around the Bloch sphere equator. This distributes state preparation over
@@ -391,7 +395,7 @@ the XY plane.</p></li>
 <dd class="field-even"><p><ul class="simple">
 <li><p>Circuits ready for compilation.</p></li>
 <li><p>Preparation strings (same length as circuits), where each
-character is ‘I’ (prepare <a href="#id9"><span class="problematic" id="id10">|</span></a>0&gt;) or ‘X’ (prepare <a href="#id11"><span class="problematic" id="id12">|</span></a>1&gt;).</p></li>
+character is ‘I’ (prepare <code class="docutils literal notranslate"><span class="pre">|0&gt;</span></code>) or ‘X’ (prepare <code class="docutils literal notranslate"><span class="pre">|1&gt;</span></code>).</p></li>
 </ul>
 </p>
 </dd>
@@ -399,7 +403,7 @@ character is ‘I’ (prepare <a href="#id9"><span class="problematic" id="id10"
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If qubits list is empty or <code class="docutils literal notranslate"><span class="pre">number_of_circuits</span></code> &lt; 1.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v14.0.1)"><em>Circuit</em></a>], <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v14.0.2)"><em>Circuit</em></a>], <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>]]</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -491,7 +495,7 @@ By IQM Error Reduction Tools developers
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on 2026-08-10.
+  Last updated on 2026-08-26.
   <br/>
 </p>
   </div>

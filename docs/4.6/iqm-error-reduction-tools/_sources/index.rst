@@ -13,6 +13,7 @@ Contents
    :maxdepth: 1
 
    readme
+   user_guide
    examples
    API
    changelog
