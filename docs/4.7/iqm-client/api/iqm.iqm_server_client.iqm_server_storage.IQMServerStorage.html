@@ -1,0 +1,1277 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>IQMServerStorage &#8212; IQM client 36.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=341de41d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.iqm_server_client.iqm_server_storage.IQMServerStorage';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="models" href="iqm.iqm_server_client.models.html" />
+    <link rel="prev" title="iqm_server_storage" href="iqm.iqm_server_client.iqm_server_storage.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-10-06"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM client 36.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM client 36.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-client</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../user_guide_qrisp/index.html">Qrisp on IQM user guide</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide_qrisp/plasma_sabre_tutorial.html">Plasma-SABRE tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide_qrisp/detector_experiment_demo.html">QEC memory experiment with the repetition code</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../user_guide_qrisp/qrisp_iqm_api_index.html">Qrisp on IQM API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide_qrisp/qrisp_iqm_backend_infrastructure.html">Backend infrastructure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide_qrisp/qrisp_iqm_transpilation.html">Transpilation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide_qrisp/qrisp_iqm_pulse_operations.html">Pulse operations &amp; conversion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../user_guide_qrisp/qrisp_iqm_qec.html">Quantum error correction</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide_qiskit.html">Qiskit on IQM user guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide_cirq.html">Cirq on IQM user guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../integration_guide.html">Integration guide</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.iqm_client.html">iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_client.iqm_client.html">iqm_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.iqm_client.IQMClient.html">IQMClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_client.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.models.STANDARD_DD_STRATEGY.html">iqm.iqm_client.models.STANDARD_DD_STRATEGY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.models.validate_circuit.html">iqm.iqm_client.models.validate_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.models.CircuitCompilationOptions.html">CircuitCompilationOptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.models.CircuitJobParameters.html">CircuitJobParameters</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_client.transpile.html">transpile</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.transpile.Resolution.html">iqm.iqm_client.transpile.Resolution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.transpile.simplify_architecture.html">iqm.iqm_client.transpile.simplify_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.transpile.transpile_insert_moves.html">iqm.iqm_client.transpile.transpile_insert_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.transpile.transpile_remove_moves.html">iqm.iqm_client.transpile.transpile_remove_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.transpile.ExistingMoveHandlingOptions.html">ExistingMoveHandlingOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_client.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.util.print_env_vars.html">iqm.iqm_client.util.print_env_vars</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.util.to_json_dict.html">iqm.iqm_client.util.to_json_dict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.util.IQMJSONEncoder.html">IQMJSONEncoder</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_client.validation.html">validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.validation.validate_circuit_instructions.html">iqm.iqm_client.validation.validate_circuit_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.validation.validate_circuit_moves.html">iqm.iqm_client.validation.validate_circuit_moves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.validation.validate_instruction.html">iqm.iqm_client.validation.validate_instruction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_client.validation.validate_qubit_mapping.html">iqm.iqm_client.validation.validate_qubit_mapping</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.iqm_server_client.html">iqm_server_client</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_server_client.iqm_server_client.html">iqm_server_client</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.iqm_server_client.IQMServerClient.html">IQMServerClient</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.iqm_server_client.IQMServerClient.html">IQMServerClient</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_server_client.iqm_server_executor.html">iqm_server_executor</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.iqm_server_executor.IQMServerExecutor.html">IQMServerExecutor</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.iqm_server_client.iqm_server_storage.html">iqm_server_storage</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">IQMServerStorage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.iqm_server_client.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.ListQuantumComputersResponse.html">ListQuantumComputersResponse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.iqm_server_client.models.QuantumComputer.html">QuantumComputer</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.cirq_iqm.html">cirq_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.devices.html">devices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.devices.adonis.html">adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.devices.aphrodite.html">aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.devices.apollo.html">apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.devices.iqm_device.html">iqm_device</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.devices.iqm_device_metadata.html">iqm_device_metadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.extended_qasm_parser.html">extended_qasm_parser</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm.html">iqm.cirq_iqm.extended_qasm_parser.circuit_from_qasm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.iqm_gates.html">iqm_gates</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.iqm_gates.IQMMoveGate.html">IQMMoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.iqm_sampler.html">iqm_sampler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.iqm_sampler.IQMResult.html">IQMResult</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.iqm_sampler.IQMSampler.html">IQMSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.iqm_sampler.ResultMetadata.html">ResultMetadata</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.optimizers.html">optimizers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.optimizers.simplify_circuit.html">iqm.cirq_iqm.optimizers.simplify_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.optimizers.DropRZBeforeMeasurement.html">DropRZBeforeMeasurement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.optimizers.MergeOneParameterGroupGates.html">MergeOneParameterGroupGates</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.serialize.html">serialize</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.serialize.circuit_operation_to_operation.html">iqm.cirq_iqm.serialize.circuit_operation_to_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.serialize.deserialize_circuit.html">iqm.cirq_iqm.serialize.deserialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.serialize.operation_to_circuit_operation.html">iqm.cirq_iqm.serialize.operation_to_circuit_operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.serialize.serialize_circuit.html">iqm.cirq_iqm.serialize.serialize_circuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.serialize.OperationNotSupportedError.html">iqm.cirq_iqm.serialize.OperationNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.cirq_iqm.transpiler.html">transpiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit.html">iqm.cirq_iqm.transpiler.transpile_insert_moves_into_circuit</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.qiskit_iqm.html">qiskit_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.examples.html">examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.examples.bell_measure.html">bell_measure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.examples.transpile_example.html">transpile_example</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.html">fake_backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.fake_adonis.html">fake_adonis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.fake_aphrodite.html">fake_aphrodite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.fake_apollo.html">fake_apollo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.fake_deneb.html">fake_deneb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.fake_garnet.html">fake_garnet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.fake_backends.iqm_fake_backend.html">iqm_fake_backend</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_backend.html">iqm_backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_backend.IQMBackendBase.html">IQMBackendBase</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_circuit.html">iqm_circuit</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_circuit.IQMCircuit.html">IQMCircuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_circuit_validation.html">iqm_circuit_validation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit.html">iqm.qiskit_iqm.iqm_circuit_validation.validate_circuit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_job.html">iqm_job</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_job.IQMJob.html">IQMJob</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_move_layout.html">iqm_move_layout</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout.html">iqm.qiskit_iqm.iqm_move_layout.generate_initial_layout</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_move_layout.IQMMoveLayout.html">IQMMoveLayout</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_naive_move_pass.html">iqm_naive_move_pass</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM.html">iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_naive_move_pass.IQMNaiveResonatorMoving.html">IQMNaiveResonatorMoving</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_provider.html">iqm_provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_provider.IQMBackend.html">IQMBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_provider.IQMFacadeBackend.html">IQMFacadeBackend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_provider.IQMProvider.html">IQMProvider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_target.html">iqm_target</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_target.Locus.html">iqm.qiskit_iqm.iqm_target.Locus</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_target.LocusIdx.html">iqm.qiskit_iqm.iqm_target.LocusIdx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_target.IQMTarget.html">IQMTarget</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.iqm_transpilation.html">iqm_transpilation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates.html">iqm.qiskit_iqm.iqm_transpilation.optimize_single_qubit_gates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_transpilation.IQMOptimizeSingleQubitGates.html">IQMOptimizeSingleQubitGates</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.iqm_transpilation.IQMReplaceGateWithUnitaryPass.html">IQMReplaceGateWithUnitaryPass</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.move_gate.html">move_gate</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY.html">iqm.qiskit_iqm.move_gate.MOVE_GATE_UNITARY</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.move_gate.MoveGate.html">MoveGate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.pulse_level_utils.html">pulse_level_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.pulse_level_utils.get_qiskit_compiler.html">iqm.qiskit_iqm.pulse_level_utils.get_qiskit_compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.pulse_level_utils.parallelize_and_transpile.html">iqm.qiskit_iqm.pulse_level_utils.parallelize_and_transpile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.pulse_level_utils.qiskit_circuits_to_iqm_circuits.html">iqm.qiskit_iqm.pulse_level_utils.qiskit_circuits_to_iqm_circuits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.pulse_level_utils.qiskit_to_iqm.html">iqm.qiskit_iqm.pulse_level_utils.qiskit_to_iqm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.pulse_level_utils.sweep_job_to_qiskit.html">iqm.qiskit_iqm.pulse_level_utils.sweep_job_to_qiskit</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.qir_utils.html">qir_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.qir_utils.generate_qiskit_qir_qubit_mapping.html">iqm.qiskit_iqm.qir_utils.generate_qiskit_qir_qubit_mapping</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.qiskit_to_iqm.html">qiskit_to_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.deserialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions.html">iqm.qiskit_iqm.qiskit_to_iqm.serialize_instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.qiskit_to_iqm.MeasurementKey.html">MeasurementKey</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError.html">iqm.qiskit_iqm.qiskit_to_iqm.InstructionNotSupportedError</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.html">transpiler_plugins</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.IQMDefaultSchedulingPlugin.html">IQMDefaultSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.IQMSchedulingPlugin.html">IQMSchedulingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingIgnoreBarriersKeepExistingMovesPlugin.html">MoveGateRoutingIgnoreBarriersKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingIgnoreBarriersRemoveExistingMovesPlugin.html">MoveGateRoutingIgnoreBarriersRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingIgnoreBarriersTrustExistingMovesPlugin.html">MoveGateRoutingIgnoreBarriersTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingKeepExistingMovesPlugin.html">MoveGateRoutingKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyKeepExistingMovesPlugin.html">MoveGateRoutingOnlyKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyPlugin.html">MoveGateRoutingOnlyPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyRemoveExistingMovesPlugin.html">MoveGateRoutingOnlyRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingOnlyTrustExistingMovesPlugin.html">MoveGateRoutingOnlyTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingPlugin.html">MoveGateRoutingPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingRemoveExistingMovesPlugin.html">MoveGateRoutingRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingTrustExistingMovesPlugin.html">MoveGateRoutingTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithDroppedRZIgnoreBarriersKeepExistingMovesPlugin.html">MoveGateRoutingWithDroppedRZIgnoreBarriersKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithDroppedRZIgnoreBarriersPlugin.html">MoveGateRoutingWithDroppedRZIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithDroppedRZIgnoreBarriersRemoveExistingMovesPlugin.html">MoveGateRoutingWithDroppedRZIgnoreBarriersRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithDroppedRZIgnoreBarriersTrustExistingMovesPlugin.html">MoveGateRoutingWithDroppedRZIgnoreBarriersTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithDroppedRZKeepExistingMovesPlugin.html">MoveGateRoutingWithDroppedRZKeepExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithDroppedRZPlugin.html">MoveGateRoutingWithDroppedRZPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithDroppedRZRemoveExistingMovesPlugin.html">MoveGateRoutingWithDroppedRZRemoveExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithDroppedRZTrustExistingMovesPlugin.html">MoveGateRoutingWithDroppedRZTrustExistingMovesPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithExactRZPlugin.html">MoveGateRoutingWithExactRZPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin.html">MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationDropFinalRZIgnoreBarriersPlugin.html">OnlyRZOptimizationDropFinalRZIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationDropFinalRZPlugin.html">OnlyRZOptimizationDropFinalRZPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactIgnoreBarriersPlugin.html">OnlyRZOptimizationExactIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationExactPlugin.html">OnlyRZOptimizationExactPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationIgnoreBarriersPlugin.html">OnlyRZOptimizationIgnoreBarriersPlugin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qiskit_iqm.transpiler_plugins.OnlyRZOptimizationPlugin.html">OnlyRZOptimizationPlugin</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="iqm.qrisp_iqm.html">qrisp_iqm</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qrisp_iqm.backends.html">backends</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.backends.backend.html">backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.backends.iqm_circuit_job.html">iqm_circuit_job</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.backends.iqm_job.html">iqm_job</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.backends.iqm_pulse_job.html">iqm_pulse_job</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qrisp_iqm.custom_pulse_operations.html">custom_pulse_operations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.custom_pulse_operations.delay.html">delay</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qrisp_iqm.extract_iqm_pulse_decorator.html">extract_iqm_pulse_decorator</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.extract_iqm_pulse_decorator.extract_iqm_pulse.html">iqm.qrisp_iqm.extract_iqm_pulse_decorator.extract_iqm_pulse</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qrisp_iqm.iqm_converter.html">iqm_converter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.iqm_converter.get_coupling_map.html">iqm.qrisp_iqm.iqm_converter.get_coupling_map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.iqm_converter.qrisp_to_iqm_converter.html">iqm.qrisp_iqm.iqm_converter.qrisp_to_iqm_converter</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qrisp_iqm.passes.html">passes</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.passes.commute_phases.html">commute_phases</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.passes.default_pass_manager.html">default_pass_manager</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.passes.measurement_parallelization.html">measurement_parallelization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.passes.routing.html">routing</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qrisp_iqm.pulse_operation.html">pulse_operation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.pulse_operation.GREEK_LETTERS.html">iqm.qrisp_iqm.pulse_operation.GREEK_LETTERS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.pulse_operation.JAX_COMPATIBLE_TYPES.html">iqm.qrisp_iqm.pulse_operation.JAX_COMPATIBLE_TYPES</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.pulse_operation.quantum_op_to_qrisp_func.html">iqm.qrisp_iqm.pulse_operation.quantum_op_to_qrisp_func</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.pulse_operation.IQMPulseOperation.html">IQMPulseOperation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.pulse_operation.QrispFunction.html">QrispFunction</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.qrisp_iqm.qec.html">qec</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.qrisp_iqm.qec.detector_experiment.html">detector_experiment</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../common_errors.html">Common errors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>IQMServerStorage</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_chip_design_record"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_chip_design_record()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_run"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_runs"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.query_runs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_observations"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.create_observations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_observations"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.query_observations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.update_observations"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.update_observations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_observation_sets"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.query_observation_sets()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_observation_set"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.create_observation_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_observation_set"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_observation_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.update_observation_set"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.update_observation_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.finalize_observation_set"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.finalize_observation_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_observation_set_observations"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_observation_set_observations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_calibration_set"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_calibration_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_dynamic_quantum_architecture"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_dynamic_quantum_architecture()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_calibration_set_quality_metric_set"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_calibration_set_quality_metric_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_dut_fields"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_dut_fields()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_sequence_metadatas"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.query_sequence_metadatas()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_sequence_metadata"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.create_sequence_metadata()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.save_sequence_result"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.save_sequence_result()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_sequence_result"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_sequence_result()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.serialize"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.serialize()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.deserialize"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.deserialize()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="iqmserverstorage">
+<h1>IQMServerStorage<a class="headerlink" href="#iqmserverstorage" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="iqm.iqm_server_client.iqm_server_storage.html#module-iqm.iqm_server_client.iqm_server_storage" title="iqm.iqm_server_client.iqm_server_storage"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.iqm_server_client.iqm_server_storage</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.iqm_server_client.iqm_server_storage.</span></span><span class="sig-name descname"><span class="pre">IQMServerStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="iqm.iqm_server_client.iqm_server_client.IQMServerClient.html#iqm.iqm_server_client.iqm_server_client.IQMServerClient" title="iqm.iqm_server_client.iqm_server_client.IQMServerClient"><span class="pre">IQMServerClient</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StorageInterface</span></code></p>
+<p>Concrete implementation of the StorageInterface using an IQM Server backend.</p>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_observation_set" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_observation_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_observation_set</span></code></a></p></td>
+<td><p>Create an observation set in the database.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_observations" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_observations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_observations</span></code></a></p></td>
+<td><p>Not yet supported.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_sequence_metadata" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_sequence_metadata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_sequence_metadata</span></code></a></p></td>
+<td><p>Create and persist new sequence metadata in the database.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.deserialize" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.deserialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deserialize</span></code></a></p></td>
+<td><p>Reconstruct an instance from a dictionary payload.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.finalize_observation_set" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.finalize_observation_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">finalize_observation_set</span></code></a></p></td>
+<td><p>Finalize an observation set in the database.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_calibration_set" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_calibration_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_calibration_set</span></code></a></p></td>
+<td><p>Get a calibration set from the database for the given calibration set ID.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_calibration_set_quality_metric_set" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_calibration_set_quality_metric_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_calibration_set_quality_metric_set</span></code></a></p></td>
+<td><p>Get the latest quality metric set for the given calibration set ID.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_chip_design_record" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_chip_design_record"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_chip_design_record</span></code></a></p></td>
+<td><p>Get the chip design record for the given DUT label.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_dut_fields" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_dut_fields"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dut_fields</span></code></a></p></td>
+<td><p>Get available fields for a specific DUT label from the database.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_dynamic_quantum_architecture" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_dynamic_quantum_architecture"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dynamic_quantum_architecture</span></code></a></p></td>
+<td><p>Get the dynamic quantum architecture for the given calibration set ID.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_observation_set" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_observation_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_observation_set</span></code></a></p></td>
+<td><p>Get an observation set from the database.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_observation_set_observations" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_observation_set_observations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_observation_set_observations</span></code></a></p></td>
+<td><p>Get the constituent observations of an observation set from the database.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_run" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_run</span></code></a></p></td>
+<td><p>Get run data from the database.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_sequence_result" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_sequence_result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_sequence_result</span></code></a></p></td>
+<td><p>Get sequence result from the database.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_observation_sets" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_observation_sets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">query_observation_sets</span></code></a></p></td>
+<td><p>Query observation sets from the database.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_observations" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_observations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">query_observations</span></code></a></p></td>
+<td><p>Query observations from the database.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_runs" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_runs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">query_runs</span></code></a></p></td>
+<td><p>Query runs from the database.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_sequence_metadatas" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_sequence_metadatas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">query_sequence_metadatas</span></code></a></p></td>
+<td><p>Query sequence metadatas from the database.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.save_sequence_result" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.save_sequence_result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_sequence_result</span></code></a></p></td>
+<td><p>Save sequence result in the database.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.serialize" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.serialize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">serialize</span></code></a></p></td>
+<td><p>Serialize the object instance into a dictionary payload.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.update_observation_set" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.update_observation_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_observation_set</span></code></a></p></td>
+<td><p>Update an observation set in the database.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.update_observations" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.update_observations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">update_observations</span></code></a></p></td>
+<td><p>Update observations in the database.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>client</strong> (<a class="reference internal" href="iqm.iqm_server_client.iqm_server_client.IQMServerClient.html#iqm.iqm_server_client.iqm_server_client.IQMServerClient" title="iqm.iqm_server_client.iqm_server_client.IQMServerClient"><em>IQMServerClient</em></a>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_chip_design_record">
+<span class="sig-name descname"><span class="pre">get_chip_design_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dut_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_chip_design_record" title="Link to this definition">#</a></dt>
+<dd><p>Get the chip design record for the given DUT label.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dut_label</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_run">
+<span class="sig-name descname"><span class="pre">get_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><span class="pre">UUID</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">RunData</span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_run" title="Link to this definition">#</a></dt>
+<dd><p>Get run data from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>run_id</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><em>UUID</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>RunData</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_runs">
+<span class="sig-name descname"><span class="pre">query_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ListWithMeta</span><span class="p"><span class="pre">[</span></span><span class="pre">RunLite</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_runs" title="Link to this definition">#</a></dt>
+<dd><p>Query runs from the database.</p>
+<dl class="simple">
+<dt>Runs are queried by the given query parameters. Currently supported query parameters:</dt><dd><ul class="simple">
+<li><p>run_id: uuid.UUID</p></li>
+<li><p>run_id__in: list[uuid.UUID]</p></li>
+<li><p>sweep_id: uuid.UUID</p></li>
+<li><p>sweep_id__in: list[uuid.UUID]</p></li>
+<li><p>username: str</p></li>
+<li><p>username__in: list[str]</p></li>
+<li><p>username__contains: str</p></li>
+<li><p>username__icontains: str</p></li>
+<li><p>experiment_label: str</p></li>
+<li><p>experiment_label__in: list[str]</p></li>
+<li><p>experiment_label__contains: str</p></li>
+<li><p>experiment_label__icontains: str</p></li>
+<li><p>experiment_name: str</p></li>
+<li><p>experiment_name__in: list[str]</p></li>
+<li><p>experiment_name__contains: str</p></li>
+<li><p>experiment_name__icontains: str</p></li>
+<li><p>software_version_set_id: int</p></li>
+<li><p>software_version_set_id__in: list[int]</p></li>
+<li><p>begin_timestamp__range: tuple[datetime, datetime]</p></li>
+<li><p>end_timestamp__range: tuple[datetime, datetime]</p></li>
+<li><p>end_timestamp__isnull: bool</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Queried runs with some query related metadata.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>ListWithMeta</em>[<em>RunLite</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_observations">
+<span class="sig-name descname"><span class="pre">create_observations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_definitions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObservationDefinition</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ListWithMeta</span><span class="p"><span class="pre">[</span></span><span class="pre">ObservationData</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_observations" title="Link to this definition">#</a></dt>
+<dd><p>Not yet supported.</p>
+<p>Since <cite>IqmServerExecutor</cite> does not proxy the job sumbission, observations also can’t be saved,
+due to there not being any job in station-control to link them to.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>observation_definitions</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><em>ObservationDefinition</em><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ListWithMeta</em>[<em>ObservationData</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_observations">
+<span class="sig-name descname"><span class="pre">query_observations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ListWithMeta</span><span class="p"><span class="pre">[</span></span><span class="pre">ObservationData</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_observations" title="Link to this definition">#</a></dt>
+<dd><p>Query observations from the database.</p>
+<dl class="simple">
+<dt>Observations are queried by the given query parameters. Currently supported query parameters:</dt><dd><ul class="simple">
+<li><p>observation_id: int</p></li>
+<li><p>observation_id__in: list[int]</p></li>
+<li><p>dut_label: str</p></li>
+<li><p>dut_field: str</p></li>
+<li><p>dut_field__in: list[str]</p></li>
+<li><p>tags__overlap: list[str]</p></li>
+<li><p>tags__contains: list[str]</p></li>
+<li><p>invalid: bool</p></li>
+<li><p>source__run_id__in: list[uuid.UUID]</p></li>
+<li><p>source__sequence_id__in: list[uuid.UUID]</p></li>
+<li><p>source__type: str</p></li>
+<li><p>observation_set_ids__overlap: list[uuid.UUID]</p></li>
+<li><p>observation_set_ids__contains: list[uuid.UUID]</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Queried observations with some query related metadata.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>ListWithMeta</em>[<em>ObservationData</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.update_observations">
+<span class="sig-name descname"><span class="pre">update_observations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_updates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObservationUpdate</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObservationData</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.update_observations" title="Link to this definition">#</a></dt>
+<dd><p>Update observations in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>observation_updates</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><em>ObservationUpdate</em><em>]</em>) – A sequence of observation updates,
+each containing the content of the observation which will be updated.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated observations, each including also the database created fields like ID and timestamps.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<em>ObservationData</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_observation_sets">
+<span class="sig-name descname"><span class="pre">query_observation_sets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ListWithMeta</span><span class="p"><span class="pre">[</span></span><span class="pre">ObservationSetData</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_observation_sets" title="Link to this definition">#</a></dt>
+<dd><p>Query observation sets from the database.</p>
+<dl class="simple">
+<dt>Observation sets are queried by the given query parameters. Currently supported query parameters:</dt><dd><ul class="simple">
+<li><p>observation_set_id: UUID</p></li>
+<li><p>observation_set_id__in: list[UUID]</p></li>
+<li><p>observation_set_type: Literal[“calibration-set”, “generic-set”, “quality-metric-set”]</p></li>
+<li><p>describes_id: UUID</p></li>
+<li><p>describes_id__in: list[UUID]</p></li>
+<li><p>invalid: bool</p></li>
+<li><p>created_timestamp__range: tuple[datetime, datetime]</p></li>
+<li><p>dut_label: str</p></li>
+<li><p>dut_label__in: list[str]</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Queried observation sets with some query related metadata</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>ListWithMeta</em>[<em>ObservationSetData</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_observation_set">
+<span class="sig-name descname"><span class="pre">create_observation_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_set_definition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ObservationSetDefinition</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ObservationSetData</span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_observation_set" title="Link to this definition">#</a></dt>
+<dd><p>Create an observation set in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>observation_set_definition</strong> (<em>ObservationSetDefinition</em>) – The content of the observation set to be created.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The content of the observation set.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>IQMError</strong> – If creation failed.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ObservationSetData</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_observation_set">
+<span class="sig-name descname"><span class="pre">get_observation_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_set_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><span class="pre">UUID</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ObservationSetData</span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_observation_set" title="Link to this definition">#</a></dt>
+<dd><p>Get an observation set from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>observation_set_id</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><em>UUID</em></a>) – Observation set to retrieve.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The content of the observation set.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>IQMError</strong> – If retrieval failed.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ObservationSetData</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.update_observation_set">
+<span class="sig-name descname"><span class="pre">update_observation_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_set_update</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ObservationSetUpdate</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ObservationSetData</span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.update_observation_set" title="Link to this definition">#</a></dt>
+<dd><p>Update an observation set in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>observation_set_update</strong> (<em>ObservationSetUpdate</em>) – The content of the observation set to be updated.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The content of the observation set.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>IQMError</strong> – If updating failed.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ObservationSetData</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.finalize_observation_set">
+<span class="sig-name descname"><span class="pre">finalize_observation_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_set_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><span class="pre">UUID</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.finalize_observation_set" title="Link to this definition">#</a></dt>
+<dd><p>Finalize an observation set in the database.</p>
+<p>A finalized set is nearly immutable, allowing to change only <code class="docutils literal notranslate"><span class="pre">invalid</span></code> flag after finalization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>observation_set_id</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><em>UUID</em></a>) – Observation set to finalize.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>IQMError</strong> – If finalization failed.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_observation_set_observations">
+<span class="sig-name descname"><span class="pre">get_observation_set_observations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_set_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><span class="pre">UUID</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObservationData</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_observation_set_observations" title="Link to this definition">#</a></dt>
+<dd><p>Get the constituent observations of an observation set from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>observation_set_id</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><em>UUID</em></a>) – UUID of the observation set to retrieve.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Observations belonging to the given observation set.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<em>ObservationData</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_calibration_set">
+<span class="sig-name descname"><span class="pre">get_calibration_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_set_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><span class="pre">UUID</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Literal" title="(in Python v3.11)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'default'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ObservationSetWithObservationData</span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_calibration_set" title="Link to this definition">#</a></dt>
+<dd><p>Get a calibration set from the database for the given calibration set ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>calibration_set_id</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><em>UUID</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Literal" title="(in Python v3.11)"><em>Literal</em></a><em>[</em><em>'default'</em><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ObservationSetWithObservationData</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_dynamic_quantum_architecture">
+<span class="sig-name descname"><span class="pre">get_dynamic_quantum_architecture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_set_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><span class="pre">UUID</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Literal" title="(in Python v3.11)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'default'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DynamicQuantumArchitecture</span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_dynamic_quantum_architecture" title="Link to this definition">#</a></dt>
+<dd><p>Get the dynamic quantum architecture for the given calibration set ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dynamic quantum architecture of the quantum computer for the given calibration set ID.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>calibration_set_id</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><em>UUID</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Literal" title="(in Python v3.11)"><em>Literal</em></a><em>[</em><em>'default'</em><em>]</em>)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>DynamicQuantumArchitecture</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_calibration_set_quality_metric_set">
+<span class="sig-name descname"><span class="pre">get_calibration_set_quality_metric_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">calibration_set_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><span class="pre">UUID</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Literal" title="(in Python v3.11)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'default'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ObservationSetWithObservationData</span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_calibration_set_quality_metric_set" title="Link to this definition">#</a></dt>
+<dd><p>Get the latest quality metric set for the given calibration set ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>calibration_set_id</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><em>UUID</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Literal" title="(in Python v3.11)"><em>Literal</em></a><em>[</em><em>'default'</em><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ObservationSetWithObservationData</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_dut_fields">
+<span class="sig-name descname"><span class="pre">get_dut_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dut_label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">DutFieldData</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_dut_fields" title="Link to this definition">#</a></dt>
+<dd><p>Get available fields for a specific DUT label from the database.</p>
+<p>Scans every field ever observed for the DUT, independent of any actual query need. Prefer filtering
+observations directly (e.g. by tags or observation set) instead of enumerating all dut fields upfront.</p>
+<p>This method will be removed in a future release.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dut_label</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)">list</a>[<em>DutFieldData</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_sequence_metadatas">
+<span class="sig-name descname"><span class="pre">query_sequence_metadatas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ListWithMeta</span><span class="p"><span class="pre">[</span></span><span class="pre">SequenceMetadataData</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_sequence_metadatas" title="Link to this definition">#</a></dt>
+<dd><p>Query sequence metadatas from the database.</p>
+<dl class="simple">
+<dt>Sequence metadatas are queried by the given query parameters. Currently supported query parameters:</dt><dd><ul class="simple">
+<li><p>origin_id: str</p></li>
+<li><p>origin_id__in: list[str]</p></li>
+<li><p>origin_uri: str</p></li>
+<li><p>origin_uri__icontains: str</p></li>
+<li><p>created_timestamp__range: tuple[datetime, datetime]</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Sequence metadatas with some query related metadata.</p>
+</dd>
+<dt class="field-even">Parameters<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>ListWithMeta</em>[<em>SequenceMetadataData</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_sequence_metadata">
+<span class="sig-name descname"><span class="pre">create_sequence_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence_metadata_definition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SequenceMetadataDefinition</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SequenceMetadataData</span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_sequence_metadata" title="Link to this definition">#</a></dt>
+<dd><p>Create and persist new sequence metadata in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sequence_metadata_definition</strong> (<em>SequenceMetadataDefinition</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>SequenceMetadataData</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.save_sequence_result">
+<span class="sig-name descname"><span class="pre">save_sequence_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence_result_definition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SequenceResultDefinition</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SequenceResultData</span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.save_sequence_result" title="Link to this definition">#</a></dt>
+<dd><p>Save sequence result in the database.</p>
+<p>This method creates the object if it doesn’t exist and completely replaces the “data” and “final” if it does.
+Timestamps are assigned by the database. “modified_timestamp” is not set on initial creation,
+but it’s updated on each subsequent call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sequence_result_definition</strong> (<em>SequenceResultDefinition</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>SequenceResultData</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_sequence_result">
+<span class="sig-name descname"><span class="pre">get_sequence_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><span class="pre">UUID</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SequenceResultData</span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_sequence_result" title="Link to this definition">#</a></dt>
+<dd><p>Get sequence result from the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>sequence_id</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><em>UUID</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>SequenceResultData</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.serialize" title="Link to this definition">#</a></dt>
+<dd><p>Serialize the object instance into a dictionary payload.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.deserialize">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deserialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage"><span class="pre">IQMServerStorage</span></a></span></span><a class="headerlink" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.deserialize" title="Link to this definition">#</a></dt>
+<dd><p>Reconstruct an instance from a dictionary payload.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage" title="iqm.iqm_server_client.iqm_server_storage.IQMServerStorage"><em>IQMServerStorage</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-c0dba150ccdad7ff7c7a1588513bae508e96a500.png" alt="Inheritance diagram of iqm.iqm_server_client.iqm_server_storage.IQMServerStorage" usemap="#inheritancef64d068052" class="inheritance graphviz" /></div>
+<map id="inheritancef64d068052" name="inheritancef64d068052">
+<area shape="rect" id="node1" href="https://docs.python.org/3.11/library/abc.html#abc.ABC" target="_top" title="Helper class that provides a standard way to create an ABC using" alt="" coords="5,5,77,33"/>
+<area shape="rect" id="node2" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage" target="_top" title="Concrete implementation of the StorageInterface using an IQM Server backend." alt="" coords="448,5,587,33"/>
+</map></section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.iqm_server_client.iqm_server_storage.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">iqm_server_storage</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.iqm_server_client.models.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">models</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_chip_design_record"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_chip_design_record()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_run"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_runs"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.query_runs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_observations"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.create_observations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_observations"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.query_observations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.update_observations"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.update_observations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_observation_sets"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.query_observation_sets()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_observation_set"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.create_observation_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_observation_set"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_observation_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.update_observation_set"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.update_observation_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.finalize_observation_set"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.finalize_observation_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_observation_set_observations"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_observation_set_observations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_calibration_set"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_calibration_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_dynamic_quantum_architecture"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_dynamic_quantum_architecture()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_calibration_set_quality_metric_set"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_calibration_set_quality_metric_set()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_dut_fields"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_dut_fields()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.query_sequence_metadatas"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.query_sequence_metadatas()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.create_sequence_metadata"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.create_sequence_metadata()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.save_sequence_result"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.save_sequence_result()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.get_sequence_result"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.get_sequence_result()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.serialize"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.serialize()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.iqm_server_client.iqm_server_storage.IQMServerStorage.deserialize"><code class="docutils literal notranslate"><span class="pre">IQMServerStorage.deserialize()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM client developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2026, IQM Finland Oy, Release 36.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-10-06.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
