@@ -1,0 +1,54 @@
+// Copyright 2019-2025 IQM
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/*
+ * Protobuf message definitions for transferring Station Control settings tree.
+ */
+
+syntax = "proto3";
+
+package iqm.data_definitions.common.v1;
+
+import "iqm/data_definitions/common/v1/parameter.proto";
+import "iqm/data_definitions/common/v1/data_types.proto";
+
+
+// Node of a setting tree. Nodes in the tree consist of settings (leaves) or other nodes (branches).
+message SettingNode {
+
+  // Setting that combines a parameter and a value
+  message Setting {
+
+    // The parameter can be represented with the whole Parameter, or just it's name as a string.
+    oneof parameter_desc {
+      // The string is to be used when request is sent to the server which already knows the aux data.
+      string parameter_name = 1;
+      // Parameter is to be used when the auxiliary data, like unit and required datatype,
+      // must be communicated to a client.
+      iqm.data_definitions.common.v1.Parameter parameter = 2;
+    }
+    // The actual payload.
+    iqm.data_definitions.common.v1.Datum value = 3;
+    // Whether the setting is read only. Default is False.
+    optional bool read_only = 4;
+  }
+  // Name of the node. By convention, the name is a dot-separated string whose fragments are the keys leading from
+  // the root node to this node. For example, a nested node `root_node::sub_1::sub_2` should be named `"sub_1.sub_2"`
+  // which makes the name unique.
+  string name = 1;
+  // Settings contained in this node.
+  map<string, Setting> settings = 2;
+  // Subnodes contained in the node.
+  map<string, SettingNode> subnodes = 3;
+}

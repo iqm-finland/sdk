@@ -1,0 +1,180 @@
+<script>
+    function togglePassDetails(rowElement, detailId) {
+        const detailRow = document.getElementById(detailId);
+        if (!detailRow) return;
+
+        const isVisible = window.getComputedStyle(detailRow).display !== "none";
+
+        if (isVisible) {
+            detailRow.style.display = "none";
+            detailRow.classList.remove("auto-open");
+        } else {
+            detailRow.style.display = "table-row";
+        }
+    }
+</script>
+
+<style>
+    .comp-container {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #333;
+        background: #fff;
+        padding: 15px;
+        contain: content;
+    }
+    .comp-stage-group {
+        margin-bottom: 15px;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    .comp-group-header {
+        background: #f6f8fa;
+        padding: 8px 15px;
+        font-weight: bold;
+        cursor: pointer;
+        border-bottom: 1px solid #e1e4e8;
+    }
+
+    .comp-stage-details { border-top: 1px solid #e1e4e8; }
+    .comp-stage-summary {
+        display: flex;
+        justify-content: flex-start;
+        padding: 10px 15px;
+        background: #fff;
+        cursor: pointer;
+        align-items: center;
+    }
+    .comp-stage-summary strong {
+        margin-right: auto;
+    }
+    .comp-stage-info {
+        color: #6a737d;
+        font-size: 0.82em;
+        font-style: italic;
+        margin-left: 10px;
+    }
+
+    .comp-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: auto;
+        margin: 0;
+    }
+    .comp-pass-row {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 8px 15px;
+        border-bottom: 1px solid #f0f0f0;
+        cursor: pointer;
+        transition: background 0.1s;
+    }
+    .comp-pass-row:hover { background-color: #f1f8ff !important; }
+
+    .comp-pass-row td {
+        padding: 8px 15px;
+        border-bottom: 1px solid #f0f0f0;
+        vertical-align: middle;
+        text-align: left !important;
+    }
+
+    .comp-pass-name {
+        color: #0366d6;
+        font-family: monospace;
+        font-weight: 600;
+        white-space: nowrap;
+        margin-right: auto;
+        text-align: left;
+    }
+
+    .comp-return-type {
+        color: #22863a;
+        font-family: monospace;
+        font-size: 0.85em;
+        margin-left: 20px;
+        white-space: nowrap;
+        text-align: right;
+    }
+    .comp-details-row { display: none; background: #fcfcfc !important; }
+    .comp-details-row.auto-open { display: table-row; }
+
+    .comp-details-content { padding: 15px 40px; border-left: 4px solid #0366d6; text-align: left; }
+    .comp-label { color: #6a737d; font-weight: bold; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 4px; display: block; }
+    .comp-doc-label { margin-top: 12px; }
+
+    .comp-code-block {
+        display: block;
+        background: #f1f3f5;
+        padding: 8px 12px;
+        border-radius: 4px;
+        border: 1px solid #d1d5da;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 0.85em;
+        line-height: 1.2;
+        color: #24292e;
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+    .comp-arg { display: block; padding-left: 15px; margin: 1px 0; }
+    .comp-doc-text { white-space: pre-wrap; font-size: 0.92em; line-height: 1.5; color: #444; margin-top: 5px; }
+</style>
+
+{% macro render_stage_list(label, stages, section_id, search_query) %}
+    <div class="comp-stage-group">
+        <details open>
+            <summary class="comp-group-header">{{ label }} ({{ stages|length }})</summary>
+            {% for stage in stages %}
+                {% set s_idx = loop.index0 %}
+                {% set ns = namespace(stage_has_match=false) %}
+                {% if search_query %}
+                    {% for p in stage.passes %}
+                        {% if search_query in p.__name__.lower() %}
+                            {% set ns.stage_has_match = true %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                <details class="comp-stage-details" {{ 'open' if ns.stage_has_match else '' }}>
+                    <summary class="comp-stage-summary">
+                        <strong>Stage {{ s_idx }}: {{ stage.name }}</strong>
+                        <span class="comp-stage-info">{{ stage.info or "" }}</span>
+                    </summary>
+                    <table class="comp-table">
+                        {% for pass_fn in stage.passes %}
+                            {% set p_idx = loop.index0 %}
+                            {% set d_id = section_id ~ "-" ~ s_idx ~ "-" ~ p_idx %}
+                            {% set is_match = search_query and search_query in pass_fn.__name__.lower() %}
+                            {% set meta = stage.get_pass_metadata(pass_fn) %}
+
+                            <tr class="comp-pass-row" onclick="togglePassDetails(this, '{{ d_id }}')">
+                                <td class="comp-pass-name">Pass {{ p_idx }}: {{ pass_fn.__name__ }}</td>
+                                <td class="comp-return-type">{{ meta.return_type }}</td>
+                            </tr>
+
+                            <tr id="{{ d_id }}" class="comp-details-row {{ 'auto-open' if is_match else '' }}">
+                                <td colspan="2">
+                                    <div class="comp-details-content">
+                                        <span class="comp-label">Full Signature</span>
+                                        <div class="comp-code-block">(<br>{% for arg in meta.arg_list %}<span class="comp-arg">{{ arg }}{{ "," if not loop.last }}</span>{% endfor %}) -> {{ meta.return_type }}</div>
+                                        {% if meta.doc and meta.doc != "No docstring available." %}
+                                            <span class="comp-label comp-doc-label">Documentation</span>
+                                            <div class="comp-doc-text">{{ meta.doc }}</div>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </details>
+            {% endfor %}
+        </details>
+    </div>
+{% endmacro %}
+
+<div class="comp-container">
+    {{ render_stage_list("Circuit-level Stages", compiler.circuit_stages, "circ", search_query) }}
+    {{ render_stage_list("Pulse-level Stages", compiler.pulse_stages, "pulse", search_query) }}
+    {{ render_stage_list("Finalization Stages", compiler.final_stages, "final", search_query) }}
+    {{ render_stage_list("Post-processing Stages", compiler.pp_stages, "post", search_query) }}
+</div>

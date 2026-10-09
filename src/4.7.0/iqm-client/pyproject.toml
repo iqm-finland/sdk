@@ -1,0 +1,625 @@
+[build-system]
+requires = [
+    "hatchling>=1,<2",
+]
+build-backend = "hatchling.build"
+
+[project]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+]
+description = "Client library for accessing an IQM quantum computer"
+name = "iqm-client"
+readme = "build/README.md"
+license = "Apache-2.0"
+license-files = [
+    "LICENSE.txt",
+]
+requires-python = ">=3.11, <3.15"
+dependencies = [
+    "iqm-exa-common",
+    "iqm-pulla",
+    "iqm-pulse",
+    "iqm-station-control-client",
+    "numpy<3,>=2.2",
+    "packaging<25,>=24.0",
+    "pydantic<2.13.0,>=2.12.4",
+    "requests<3,>=2.32.3",
+]
+authors = [
+    { name = "IQM Finland Oy", email = "developers@iqm.tech" },
+]
+version = "36.0.0"
+
+[project.optional-dependencies]
+cirq = [
+    "cirq-core[contrib]~=1.2",
+    "llvmlite<0.47,>=0.44.0",
+    "numba<0.64,>=0.61.0",
+    "ply==3.11",
+]
+qiskit = [
+    "qiskit-aer<0.18,>=0.13.1",
+    "qiskit<2.2,>=1.0",
+]
+qrisp = [
+    "pymatching<3,>=2.3.1",
+    "qrisp<0.10,>=0.9.5",
+    "stim<2,>=1.16",
+]
+pin-iqm = [
+    "iqm-data-definitions==3.1.0",
+    "iqm-exa-common==29.0.0",
+    "iqm-pulla==15.0.0",
+    "iqm-pulse==15.0.0",
+    "iqm-station-control-client==14.0.0",
+]
+pin-all = [
+    "annotated-types==0.7.0",
+    "asttokens==3.0.1",
+    "certifi==2026.1.4",
+    "charset-normalizer==3.4.4",
+    "colorama==0.4.6; sys_platform == 'win32'",
+    "decorator==5.2.1",
+    "executing==2.2.1",
+    "googleapis-common-protos==1.72.0",
+    "grpcio==1.76.0",
+    "idna==3.11",
+    "importlib-metadata==7.1.0",
+    "ipython==8.21.0",
+    "iqm-data-definitions==3.1.0",
+    "iqm-exa-common==29.0.0",
+    "iqm-pulla==15.0.0",
+    "iqm-pulse==15.0.0",
+    "iqm-station-control-client==14.0.0",
+    "jedi==0.18.2",
+    "jinja2==3.1.6",
+    "markupsafe==3.0.3",
+    "matplotlib-inline==0.2.1",
+    "numpy==2.3.5",
+    "opentelemetry-api==1.40.0",
+    "opentelemetry-exporter-otlp==1.40.0",
+    "opentelemetry-exporter-otlp-proto-common==1.40.0",
+    "opentelemetry-exporter-otlp-proto-grpc==1.40.0",
+    "opentelemetry-exporter-otlp-proto-http==1.40.0",
+    "opentelemetry-proto==1.40.0",
+    "opentelemetry-sdk==1.40.0",
+    "opentelemetry-semantic-conventions==0.61b0",
+    "optype==0.15.0",
+    "packaging==24.2",
+    "pandas==2.3.3",
+    "parso==0.8.5",
+    "pexpect==4.9.0; sys_platform != 'win32'",
+    "prompt-toolkit==3.0.52",
+    "protobuf==6.33.6",
+    "ptyprocess==0.7.0; sys_platform != 'win32'",
+    "pure-eval==0.2.3",
+    "pydantic==2.12.5",
+    "pydantic-core==2.41.5",
+    "pygments==2.19.2",
+    "pylatexenc==2.10",
+    "python-dateutil==2.9.0.post0",
+    "python-dotenv==1.2.2",
+    "python-rapidjson==1.20",
+    "pytz==2024.1",
+    "pyyaml==6.0.2",
+    "requests==2.32.3",
+    "ruamel-yaml==0.17.32",
+    "ruamel-yaml-clib==0.2.11; python_full_version < '3.12' and platform_python_implementation == 'CPython'",
+    "scipy==1.17.0",
+    "scipy-stubs==1.16.0.0",
+    "six==1.16.0",
+    "stack-data==0.6.3",
+    "tqdm==4.67.2",
+    "traitlets==5.9.0",
+    "types-protobuf==6.32.1.20251210",
+    "types-requests==2.32.4.20260107",
+    "types-six==1.17.0.20251009",
+    "types-tqdm==4.67.2.20260202",
+    "typing-extensions==4.15.0",
+    "typing-inspection==0.4.2",
+    "tzdata==2025.3",
+    "urllib3==2.6.3",
+    "wcwidth==0.5.3",
+    "xarray==2024.10.0",
+    "zipp==3.23.0",
+]
+cirq-pin-iqm = [
+    "cirq-core[contrib]~=1.2",
+    "iqm-data-definitions==3.1.0",
+    "iqm-exa-common==29.0.0",
+    "iqm-pulla==15.0.0",
+    "iqm-pulse==15.0.0",
+    "iqm-station-control-client==14.0.0",
+    "llvmlite<0.47,>=0.44.0",
+    "numba<0.64,>=0.61.0",
+    "ply==3.11",
+]
+cirq-pin-all = [
+    "annotated-types==0.7.0",
+    "asttokens==3.0.1",
+    "attrs==22.2.0",
+    "autoray==0.8.4",
+    "certifi==2026.1.4",
+    "charset-normalizer==3.4.4",
+    "cirq-core==1.5.0",
+    "colorama==0.4.6; sys_platform == 'win32'",
+    "contourpy==1.3.3",
+    "cotengra==0.7.5",
+    "cycler==0.12.1",
+    "cytoolz==1.1.0",
+    "decorator==5.2.1",
+    "duet==0.2.9",
+    "executing==2.2.1",
+    "fonttools==4.61.1",
+    "googleapis-common-protos==1.72.0",
+    "grpcio==1.76.0",
+    "idna==3.11",
+    "importlib-metadata==7.1.0",
+    "ipython==8.21.0",
+    "iqm-data-definitions==3.1.0",
+    "iqm-exa-common==29.0.0",
+    "iqm-pulla==15.0.0",
+    "iqm-pulse==15.0.0",
+    "iqm-station-control-client==14.0.0",
+    "jedi==0.18.2",
+    "jinja2==3.1.6",
+    "kiwisolver==1.4.9",
+    "llvmlite==0.46.0",
+    "markupsafe==3.0.3",
+    "matplotlib==3.10.8",
+    "matplotlib-inline==0.2.1",
+    "mpmath==1.3.0",
+    "networkx==3.3",
+    "numba==0.63.1",
+    "numpy==2.3.5",
+    "opentelemetry-api==1.40.0",
+    "opentelemetry-exporter-otlp==1.40.0",
+    "opentelemetry-exporter-otlp-proto-common==1.40.0",
+    "opentelemetry-exporter-otlp-proto-grpc==1.40.0",
+    "opentelemetry-exporter-otlp-proto-http==1.40.0",
+    "opentelemetry-proto==1.40.0",
+    "opentelemetry-sdk==1.40.0",
+    "opentelemetry-semantic-conventions==0.61b0",
+    "opt-einsum==3.4.0",
+    "optype==0.15.0",
+    "ordered-set==4.1.0",
+    "packaging==24.2",
+    "pandas==2.3.3",
+    "parso==0.8.5",
+    "pexpect==4.9.0; sys_platform != 'win32'",
+    "pillow==12.1.0",
+    "ply==3.11",
+    "prompt-toolkit==3.0.52",
+    "protobuf==6.33.6",
+    "psutil==7.2.2",
+    "ptyprocess==0.7.0; sys_platform != 'win32'",
+    "pure-eval==0.2.3",
+    "pydantic==2.12.5",
+    "pydantic-core==2.41.5",
+    "pygments==2.19.2",
+    "pylatex==1.4.2",
+    "pylatexenc==2.10",
+    "pyparsing==3.3.2",
+    "python-dateutil==2.9.0.post0",
+    "python-dotenv==1.2.2",
+    "python-rapidjson==1.20",
+    "pytz==2024.1",
+    "pyyaml==6.0.2",
+    "quimb==1.12.1",
+    "requests==2.32.3",
+    "ruamel-yaml==0.17.32",
+    "ruamel-yaml-clib==0.2.11; python_full_version < '3.12' and platform_python_implementation == 'CPython'",
+    "scipy==1.17.0",
+    "scipy-stubs==1.16.0.0",
+    "six==1.16.0",
+    "sortedcontainers==2.4.0",
+    "stack-data==0.6.3",
+    "sympy==1.12",
+    "toolz==1.1.0",
+    "tqdm==4.67.2",
+    "traitlets==5.9.0",
+    "types-protobuf==6.32.1.20251210",
+    "types-requests==2.32.4.20260107",
+    "types-six==1.17.0.20251009",
+    "types-tqdm==4.67.2.20260202",
+    "typing-extensions==4.15.0",
+    "typing-inspection==0.4.2",
+    "tzdata==2025.3",
+    "urllib3==2.6.3",
+    "wcwidth==0.5.3",
+    "xarray==2024.10.0",
+    "zipp==3.23.0",
+]
+qiskit-pin-iqm = [
+    "iqm-data-definitions==3.1.0",
+    "iqm-exa-common==29.0.0",
+    "iqm-pulla==15.0.0",
+    "iqm-pulse==15.0.0",
+    "iqm-station-control-client==14.0.0",
+    "qiskit-aer<0.18,>=0.13.1",
+    "qiskit<2.2,>=1.0",
+]
+qiskit-pin-all = [
+    "annotated-types==0.7.0",
+    "asttokens==3.0.1",
+    "certifi==2026.1.4",
+    "charset-normalizer==3.4.4",
+    "colorama==0.4.6; sys_platform == 'win32'",
+    "decorator==5.2.1",
+    "dill==0.4.1",
+    "executing==2.2.1",
+    "googleapis-common-protos==1.72.0",
+    "grpcio==1.76.0",
+    "idna==3.11",
+    "importlib-metadata==7.1.0",
+    "ipython==8.21.0",
+    "iqm-data-definitions==3.1.0",
+    "iqm-exa-common==29.0.0",
+    "iqm-pulla==15.0.0",
+    "iqm-pulse==15.0.0",
+    "iqm-station-control-client==14.0.0",
+    "jedi==0.18.2",
+    "jinja2==3.1.6",
+    "markupsafe==3.0.3",
+    "matplotlib-inline==0.2.1",
+    "numpy==2.3.5",
+    "opentelemetry-api==1.40.0",
+    "opentelemetry-exporter-otlp==1.40.0",
+    "opentelemetry-exporter-otlp-proto-common==1.40.0",
+    "opentelemetry-exporter-otlp-proto-grpc==1.40.0",
+    "opentelemetry-exporter-otlp-proto-http==1.40.0",
+    "opentelemetry-proto==1.40.0",
+    "opentelemetry-sdk==1.40.0",
+    "opentelemetry-semantic-conventions==0.61b0",
+    "optype==0.15.0",
+    "packaging==24.2",
+    "pandas==2.3.3",
+    "parso==0.8.5",
+    "pexpect==4.9.0; sys_platform != 'win32'",
+    "prompt-toolkit==3.0.52",
+    "protobuf==6.33.6",
+    "psutil==7.2.2",
+    "ptyprocess==0.7.0; sys_platform != 'win32'",
+    "pure-eval==0.2.3",
+    "pydantic==2.12.5",
+    "pydantic-core==2.41.5",
+    "pygments==2.19.2",
+    "pylatexenc==2.10",
+    "python-dateutil==2.9.0.post0",
+    "python-dotenv==1.2.2",
+    "python-rapidjson==1.20",
+    "pytz==2024.1",
+    "pyyaml==6.0.2",
+    "qiskit==2.1.2",
+    "qiskit-aer==0.17.2",
+    "requests==2.32.3",
+    "ruamel-yaml==0.17.32",
+    "ruamel-yaml-clib==0.2.11; python_full_version < '3.12' and platform_python_implementation == 'CPython'",
+    "rustworkx==0.17.1",
+    "scipy==1.17.0",
+    "scipy-stubs==1.16.0.0",
+    "six==1.16.0",
+    "stack-data==0.6.3",
+    "stevedore==5.6.0",
+    "tqdm==4.67.2",
+    "traitlets==5.9.0",
+    "types-protobuf==6.32.1.20251210",
+    "types-requests==2.32.4.20260107",
+    "types-six==1.17.0.20251009",
+    "types-tqdm==4.67.2.20260202",
+    "typing-extensions==4.15.0",
+    "typing-inspection==0.4.2",
+    "tzdata==2025.3",
+    "urllib3==2.6.3",
+    "wcwidth==0.5.3",
+    "xarray==2024.10.0",
+    "zipp==3.23.0",
+]
+qrisp-pin-iqm = [
+    "iqm-data-definitions==3.1.0",
+    "iqm-exa-common==29.0.0",
+    "iqm-pulla==15.0.0",
+    "iqm-pulse==15.0.0",
+    "iqm-station-control-client==14.0.0",
+    "pymatching<3,>=2.3.1",
+    "qrisp<0.10,>=0.9.5",
+    "stim<2,>=1.16",
+]
+qrisp-pin-all = [
+    "annotated-types==0.7.0",
+    "asttokens==3.0.1",
+    "certifi==2026.1.4",
+    "charset-normalizer==3.4.4",
+    "colorama==0.4.6; sys_platform == 'win32'",
+    "contourpy==1.3.3",
+    "cycler==0.12.1",
+    "decorator==5.2.1",
+    "dill==0.4.1",
+    "executing==2.2.1",
+    "fonttools==4.61.1",
+    "googleapis-common-protos==1.72.0",
+    "grpcio==1.76.0",
+    "idna==3.11",
+    "importlib-metadata==7.1.0",
+    "ipython==8.21.0",
+    "iqm-data-definitions==3.1.0",
+    "iqm-exa-common==29.0.0",
+    "iqm-pulla==15.0.0",
+    "iqm-pulse==15.0.0",
+    "iqm-station-control-client==14.0.0",
+    "jax==0.7.1",
+    "jaxlib==0.7.1",
+    "jedi==0.18.2",
+    "jinja2==3.1.6",
+    "kiwisolver==1.4.9",
+    "llvmlite==0.46.0",
+    "markupsafe==3.0.3",
+    "matplotlib==3.10.8",
+    "matplotlib-inline==0.2.1",
+    "ml-dtypes==0.5.4",
+    "mpmath==1.3.0",
+    "networkx==3.3",
+    "numba==0.63.1",
+    "numpy==2.3.5",
+    "opentelemetry-api==1.40.0",
+    "opentelemetry-exporter-otlp==1.40.0",
+    "opentelemetry-exporter-otlp-proto-common==1.40.0",
+    "opentelemetry-exporter-otlp-proto-grpc==1.40.0",
+    "opentelemetry-exporter-otlp-proto-http==1.40.0",
+    "opentelemetry-proto==1.40.0",
+    "opentelemetry-sdk==1.40.0",
+    "opentelemetry-semantic-conventions==0.61b0",
+    "opt-einsum==3.4.0",
+    "optype==0.15.0",
+    "packaging==24.2",
+    "pandas==2.3.3",
+    "parso==0.8.5",
+    "pexpect==4.9.0; sys_platform != 'win32'",
+    "pillow==12.1.0",
+    "prompt-toolkit==3.0.52",
+    "protobuf==6.33.6",
+    "psutil==7.2.2",
+    "ptyprocess==0.7.0; sys_platform != 'win32'",
+    "pure-eval==0.2.3",
+    "pydantic==2.12.5",
+    "pydantic-core==2.41.5",
+    "pygments==2.19.2",
+    "pylatexenc==2.10",
+    "pymatching==2.3.1",
+    "pyparsing==3.3.2",
+    "python-dateutil==2.9.0.post0",
+    "python-dotenv==1.2.2",
+    "python-rapidjson==1.20",
+    "pytz==2024.1",
+    "pyyaml==6.0.2",
+    "qiskit==2.1.2",
+    "qrisp==0.9.5",
+    "requests==2.32.3",
+    "ruamel-yaml==0.17.32",
+    "ruamel-yaml-clib==0.2.11; python_full_version < '3.12' and platform_python_implementation == 'CPython'",
+    "rustworkx==0.17.1",
+    "scipy==1.17.0",
+    "scipy-stubs==1.16.0.0",
+    "six==1.16.0",
+    "stack-data==0.6.3",
+    "stevedore==5.6.0",
+    "stim==1.16.0",
+    "sympy==1.12",
+    "tqdm==4.67.2",
+    "traitlets==5.9.0",
+    "types-protobuf==6.32.1.20251210",
+    "types-requests==2.32.4.20260107",
+    "types-six==1.17.0.20251009",
+    "types-tqdm==4.67.2.20260202",
+    "typing-extensions==4.15.0",
+    "typing-inspection==0.4.2",
+    "tzdata==2025.3",
+    "urllib3==2.6.3",
+    "wcwidth==0.5.3",
+    "xarray==2024.10.0",
+    "zipp==3.23.0",
+]
+
+[project.urls]
+Documentation = "https://docs.iqm.tech/iqm-client/"
+Homepage = "https://pypi.org/project/iqm-client/"
+
+[project.entry-points."qiskit.transpiler.scheduling"]
+iqm_default_scheduling = "iqm.qiskit_iqm:IQMDefaultSchedulingPlugin"
+move_routing = "iqm.qiskit_iqm:MoveGateRoutingPlugin"
+move_routing_drop_final_rzs = "iqm.qiskit_iqm:MoveGateRoutingWithDroppedRZPlugin"
+move_routing_drop_final_rzs_ignore_barriers = "iqm.qiskit_iqm:MoveGateRoutingWithDroppedRZIgnoreBarriersPlugin"
+move_routing_drop_final_rzs_ignore_barriers_keep = "iqm.qiskit_iqm:MoveGateRoutingWithDroppedRZIgnoreBarriersKeepExistingMovesPlugin"
+move_routing_drop_final_rzs_ignore_barriers_remove = "iqm.qiskit_iqm:MoveGateRoutingWithDroppedRZIgnoreBarriersRemoveExistingMovesPlugin"
+move_routing_drop_final_rzs_ignore_barriers_trust = "iqm.qiskit_iqm:MoveGateRoutingWithDroppedRZIgnoreBarriersTrustExistingMovesPlugin"
+move_routing_drop_final_rzs_keep = "iqm.qiskit_iqm:MoveGateRoutingWithDroppedRZKeepExistingMovesPlugin"
+move_routing_drop_final_rzs_remove = "iqm.qiskit_iqm:MoveGateRoutingWithDroppedRZRemoveExistingMovesPlugin"
+move_routing_drop_final_rzs_trust = "iqm.qiskit_iqm:MoveGateRoutingWithDroppedRZTrustExistingMovesPlugin"
+move_routing_exact_global_phase = "iqm.qiskit_iqm:MoveGateRoutingWithExactRZPlugin"
+move_routing_ignore_barriers = "iqm.qiskit_iqm:MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin"
+move_routing_ignore_barriers_keep = "iqm.qiskit_iqm:MoveGateRoutingIgnoreBarriersKeepExistingMovesPlugin"
+move_routing_ignore_barriers_remove = "iqm.qiskit_iqm:MoveGateRoutingIgnoreBarriersRemoveExistingMovesPlugin"
+move_routing_ignore_barriers_trust = "iqm.qiskit_iqm:MoveGateRoutingIgnoreBarriersTrustExistingMovesPlugin"
+move_routing_keep = "iqm.qiskit_iqm:MoveGateRoutingKeepExistingMovesPlugin"
+move_routing_remove = "iqm.qiskit_iqm:MoveGateRoutingRemoveExistingMovesPlugin"
+move_routing_rz_optimization_ignores_barriers = "iqm.qiskit_iqm:MoveGateRoutingWithRZOptimizationIgnoreBarriersPlugin"
+move_routing_trust = "iqm.qiskit_iqm:MoveGateRoutingTrustExistingMovesPlugin"
+only_move_routing = "iqm.qiskit_iqm:MoveGateRoutingOnlyPlugin"
+only_move_routing_keep = "iqm.qiskit_iqm:MoveGateRoutingOnlyKeepExistingMovesPlugin"
+only_move_routing_remove = "iqm.qiskit_iqm:MoveGateRoutingOnlyRemoveExistingMovesPlugin"
+only_move_routing_trust = "iqm.qiskit_iqm:MoveGateRoutingOnlyTrustExistingMovesPlugin"
+only_rz_optimization = "iqm.qiskit_iqm:OnlyRZOptimizationPlugin"
+only_rz_optimization_drop_final_rzs = "iqm.qiskit_iqm:OnlyRZOptimizationDropFinalRZPlugin"
+only_rz_optimization_drop_final_rzs_ignore_barriers = "iqm.qiskit_iqm:OnlyRZOptimizationDropFinalRZIgnoreBarriersPlugin"
+only_rz_optimization_exact_global_phase = "iqm.qiskit_iqm:OnlyRZOptimizationExactPlugin"
+only_rz_optimization_exact_global_phase_ignore_barriers = "iqm.qiskit_iqm:OnlyRZOptimizationExactIgnoreBarriersPlugin"
+only_rz_optimization_ignore_barriers = "iqm.qiskit_iqm:OnlyRZOptimizationIgnoreBarriersPlugin"
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "src/iqm",
+]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    ".gitignore",
+    "tests/",
+    "changelog/",
+    "pytest.ini",
+    "mise.toml",
+    "mise/",
+    "docs/",
+]
+
+[tool.mypy]
+explicit_package_bases = true
+mypy_path = "$MYPY_CONFIG_FILE_DIR/src"
+namespace_packages = true
+
+[[tool.mypy.overrides]]
+module = [
+    "qiskit.*",
+    "qiskit_aer.*",
+    "numba.*",
+    "stim.*",
+    "pymatching.*",
+]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = [
+    "qrisp.*",
+]
+ignore_missing_imports = true
+
+[tool.ruff]
+exclude = [
+    "*.ipynb",
+    "*.rst",
+]
+extend-include = [
+    "sub-setup-py.template",
+]
+line-length = 120
+
+[tool.ruff.lint]
+ignore = [
+    "D107",
+    "D203",
+    "D213",
+    "ANN002",
+    "ANN003",
+    "ANN204",
+    "ANN401",
+]
+select = [
+    "E4",
+    "E7",
+    "E9",
+    "E5",
+    "F",
+    "Q",
+    "PL",
+    "I",
+    "D",
+    "UP",
+    "ANN",
+    "NPY",
+    "PERF",
+    "PGH003",
+    "C4",
+    "N801",
+    "B007",
+    "SIM",
+]
+unfixable = [
+    "F401",
+]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+known-first-party = [
+    "exa.experiments",
+    "exa.core",
+    "exa.common",
+    "iqm.cocos",
+    "iqm.gbc",
+    "iqm.calibration_graphs",
+    "iqm.pulse",
+    "iqm.cpc",
+    "iqm.pulla",
+    "iqm.station_control",
+    "tests",
+]
+known-local-folder = [
+    "src",
+]
+known-third-party = [
+    "exa",
+    "iqm",
+]
+relative-imports-order = "closest-to-furthest"
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = [
+    "F401",
+]
+"src/*" = [
+    "D105",
+    "D401",
+]
+"src/iqm/qrisp_iqm/*" = [
+    "D416",
+]
+"tests/*" = [
+    "PLR2004",
+    "D",
+    "ANN001",
+    "ANN201",
+    "ANN202",
+    "ANN205",
+    "ANN206",
+]
+
+[tool.ruff.lint.pylint]
+max-args = 8
+max-branches = 16
+max-locals = 21
+max-returns = 9
+max-statements = 60
+
+[tool.coverage.paths]
+source = [
+    "src/",
+    "*/site-packages/",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self\\.debug",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
+
+[tool.coverage.run]
+branch = true
+source = [
+    "iqm",
+]
+
+[tool.pytest.ini_options]
+nb_diff_ignore = [
+    "/metadata/language_info",
+    "/metadata/widgets",
+    "/cells/*/execution_count",
+    "/cells/*/outputs",
+]

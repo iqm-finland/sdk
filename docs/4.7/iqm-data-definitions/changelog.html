@@ -1,0 +1,730 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Changelog &#8212; IQM data definitions 3.1.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=969bf561"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'changelog';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="SweepResultsResponse" href="api/iqm.data_definitions.station_control.v2.task_service_pb2.SweepResultsResponse.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-10-06"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM data definitions 3.1.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM data definitions 3.1.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">iqm-data-definitions</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.models.html">models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.models.channel_properties.html">channel_properties</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.models.channel_properties.channel_properties.html">channel_properties</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.models.playlist.html">playlist</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.models.playlist.channel_descriptions.html">channel_descriptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.models.playlist.instructions.html">instructions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.models.playlist.playlist.html">playlist</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.models.playlist.segment.html">segment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.models.playlist.waveforms.html">waveforms</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.data_definitions.html">data_definitions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.data_definitions.common.html">common</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.data_definitions.common.v1.html">v1</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.data_definitions.station_control.html">station_control</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.data_definitions.station_control.v1.html">v1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.data_definitions.station_control.v2.html">v2</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/changelog.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Changelog</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="changelog">
+<span id="changes"></span><h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Changelog
+
+## Version 3.1.0 (2026-09-29)
+
+### Features
+
+- Add `flat_width` parameter to `Slepian` waveform and protobuf
+  definition. The `flat_width` parameter defines the duration of the flat
+  part in the middle of the waveform. The rise and fall parts together have
+  duration `full_width - flat_width`. Defaults to 0.0 (standard Slepian
+  without flat top part).
+
+## Version 3.0.0 (2026-08-04)
+
+- Add `sweep_results_format` to `SweepTaskRequest` to support selecting legacy vs streaming sweep results artifacts.
+- Add `SweepResultsChunk` protobuf message for chunked streaming sweep results payloads.
+- Add `CosineRiseFallDerivative`, `CosineRiseFallDerivative` and `Slepian` to waveforms.
+- Add `CosineRiseFallDerivative`, `CosineRiseFallDerivative` and `Slepian` to protobuf definitions.
+- Update docs links to &lt;https://docs.iqm.tech/iqm-data-definitions/&gt;.
+- Fix missing changelog file.
+
+## Version 2.24 (2026-03-25)
+
+- Relax protobuf version range to &gt;=6, &lt;8.
+
+## Version 2.23 (2026-03-25)
+
+- Bump protobuf dependency to 7.34.1 as the previous version had reached its end of life.
+
+## Version 2.22 (2026-01-15)
+
+- Increase upper version limit of scipy to 2.0
+
+## Version 2.21 (2026-01-05)
+
+- `Setting.read_only` is included in the proto.
+
+## Version 2.20 (2025-12-18)
+
+- Fix incorrect output of `Playlist.view`.
+
+## Version 2.19 (2025-09-30)
+
+- Supply mypy type information for `iqm.data_definitions` generated sources.
+
+## Version 2.18 (2025-09-29)
+
+- Add protobuf descriptor_set.bin to the package under generated source.
+
+## Version 2.17 (2025-09-26)
+
+- Fix package publishing step in CI.
+
+## Version 2.16 (2025-09-25)
+
+- Supply mypy type information for `iqm.models`.
+- Require Python version greater than 3.11. Testing is done with 3.13.
+
+## Version 2.15 (2025-08-19)
+
+- Improve docstrings and type annotations in `Playlist`.
+
+## Version 2.14 (2025-08-12)
+
+- Add method `view` to `Playlist` to view operations of a given playlist, for simple inspection and
+  debugging purposes.
+
+## Version 2.13 (2025-05-15)
+
+- Bump minimum NumPy version to 1.26.4.
+
+## Version 2.12 (2025-04-03)
+
+- Fix `ChannelProperties` `instruction_duration_granularity` and `instruction_duration_min` typehints to integers.
+- Add fields `instruction_duration_granularity_samples`  and `instruction_duration_min_samples` to
+  message ChannelProperties.
+
+## Version 2.11 (2025-04-01)
+
+- Fix `ReadoutProperties` `integration_start_dead_time` and `integration_stop_dead_time` typehints to integers.
+- Add fields `integration_start_dead_time_samples`  and `integration_stop_dead_time_samples` to
+  message ReadoutProperties.
+
+## Version 2.10 (2025-03-26)
+
+- Fix version string in documentation and include .proto files in sdist.
+
+## Version 2.9 (2025-03-24)
+
+- Add option to specify numcodecs-compatible compression stages for protobuf spot_result array data. SW-1307
+
+## Version 2.8 (2025-02-17)
+
+- Fix links.
+
+## Version 2.7 (2025-01-21)
+
+- Add protobuf definitions for channel properties.
+- Add python classes of channel properties.
+
+## Version 2.6 (2025-01-09)
+
+- Support NumPy 2
+
+## Version 2.5 (2025-01-02)
+
+- Update licensing information.
+
+## Versions 2.4 (2024-10-24)
+
+- Bump NumPy version
+
+## Versions 2.3 (2024-10-10)
+
+- Fix docs generation.
+
+## Versions 2.2 (2024-10-10)
+
+- Update scipy requirement from 1.11.1 to 1.11.4. The new version includes
+  bugfixes and a Python 3.12 wheel.
+
+## Version 2.1 (2024-10-10)
+
+### Features
+
+- Add HTML documentation. SW-703.
+
+## Version 2.0 (2024-10-01)
+
+### Features
+
+- Waveform canonicality is no longer an inheritable property of the class, but instead there is a decorator
+  `register_canonical_waveform` that can be used to make a waveform canonical.
+
+## Version 1.18 (2024-07-18)
+
+### Features
+
+- Add new attribute `feedback_signal_label` for ThresholdStateDiscrimination.
+
+## Versions 1.15-1.17 (2024-06-06)
+
+- Update protobuf version to increase serialization speed.
+
+## Version 1.14 (2024-06-05)
+
+### Features
+
+- Add new attribute `phase_increment` for IQ pulses in both `Playlist` and protobuf definition.
+  EXA-1751
+
+## Version 1.13 (2024-05-31)
+
+### Features
+
+- Add boolean and array of booleans and strings to `ObservationValue`.
+
+## Version 1.12 (2024-05-27)
+
+### Features
+
+- Add `ObservationValue`, `ObservationUncertainty`, and `SpotResultValue`, originating from exa-data,
+  as well as `Int64Array`, `Float64Array`, and `Complex128Array`, which are required for observations
+  and spot results.
+
+## Version 1.11 (2024-05-24)
+
+### Features
+
+- Add `iqm.models` module which contains definition of the iqm.pulse.playlist.
+
+## Version 1.10 (2024-05-06)
+
+### Features
+
+- Add field `sweep_definition_payload` to `RunDefintion` v2.
+
+## Version 1.9 (2024-05-06)
+
+### Features
+
+- Add messages for programmable readout.
+
+## Version 1.8 (2024-01-09)
+
+### Features
+
+- Add `TruncatedGaussian`, `TruncatedGaussianSmoothedSquare`, `TruncatedGaussianDerivative`
+  and `CosineRiseFall` as `oneof` types for the Waveform.
+
+## Version 1.7 (2023-12-01)
+
+### Features
+
+- Add v2 RunDefinition model using custom Struct implementation with integer support.
+
+## Version 1.6 (2023-09-21)
+
+### Features
+
+- Add protobuf model for `RunDefinition`.
+
+## Version 1.5 (2023-09-15)
+
+### Features
+
+- Add `playlist.proto` file which defines `Playlist` message for exa.pulse2 `Schedule`
+- Add `playlist` field to `SweepRequest`
+
+## Version 1.4 (2023-08-29)
+
+### Features
+
+- Add v2 SweepResultsResponse, which changes results format from `dict[str,np.ndarray]` to
+  `dict[str, list[np.ndarray]]`.
+
+## Version 1.3 (2023-08-17)
+
+### Features
+
+- Add optional `element_indices`, `parent_name`, and `parent_label` fields to parameter.
+
+## Version 1.2 (2023-05-22)
+
+### Features
+
+- Add optional dut_label field to sweep requests.
+
+## Version 1.1 (2023-03-28)
+
+### Features
+
+- Added optional full parameter spec to sweeps.
+
+## Version 1.0 (2023-02-01)
+
+### Features
+
+- Added first data definitions aimed to change Station Control Service communication from JSON to Protobuf.
+- Added automatic generation of `.pyi` files by using `mypy-protobuf`.
+- Allow local installation with pip &lt;21.3.
+
+### Breaking changes
+
+- Dummy definitions removed.
+
+## Version 0.5 (2022-12-19)
+
+### Breaking changes
+
+- Use protoc version &lt; 21 in order to be compatible with the transitive dependency brought by qcodes in exa-experiment.
+  Protobuf versioning has changed recently a little bit, such that libprotoc&#39;s version is kept in sync with the minor
+  version of different language package distributions, and those distributions have their own major versions to indicate
+  breaking changes. Compiler version 21 brings a breaking change to the Python package `protobuf` and bumps its major
+  version to 4. With quick testing the changes appear to be backwards compatible in simple cases, however, it&#39;s best
+  to limit the Python package&#39;s major version to have more confidence in compatibility with more complex protobuf
+  definitions.
+- Note that this breaking change does not bump major version because we are still in alpha.
+
+## Version 0.4 (2022-12-19)
+
+### Bug fixes
+
+- Pin protoc version in the pipeline. This makes the generated Python package to be compatible with the newest
+  `protobuf` package major version 4 that is currently required in pyproject.toml.
+
+## Version 0.3 (2022-12-16)
+
+### Features
+
+- Protobuf definition directory paths are changed.
+- The official `protoc` compiler is used instead of betterproto.
+- A non-breaking change is introduced in DummyTaskServiceMessage.
+
+## Version 0.2 (2022-12-14)
+
+### Features
+
+- Add a non-breaking change to StringSequence
+- Add another placeholder proto, BoolSequence
+
+## Version 0.1 (2022-11-30)
+
+### Features
+
+- Initialize new repository
+- Add first placeholder .proto definition
+</pre></div>
+</div>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="api/iqm.data_definitions.station_control.v2.task_service_pb2.SweepResultsResponse.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">SweepResultsResponse</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="license.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">License</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021-2026, IQM.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-10-06.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

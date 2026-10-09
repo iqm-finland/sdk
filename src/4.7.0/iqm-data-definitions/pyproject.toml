@@ -1,0 +1,186 @@
+[build-system]
+requires = [
+    "hatchling>=1,<2",
+]
+build-backend = "hatchling.build"
+
+[project]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Intended Audience :: Science/Research",
+]
+description = "Common repository for data definitions inside IQM"
+name = "iqm-data-definitions"
+readme = "build/README.md"
+requires-python = ">=3.11, <3.15"
+dependencies = [
+    "numpy<3.0,>=1.26.4",
+    "protobuf<8.0,>=6.33.6",
+    "scipy-stubs",
+    "scipy<2.0,>=1.11.4",
+    "types-protobuf",
+]
+authors = [
+    { name = "IQM Finland Oy", email = "developers@meetiqm.com" },
+]
+version = "3.1.0"
+
+[project.license]
+file = "LICENSE.txt"
+
+[project.urls]
+Documentation = "https://docs.iqm.tech/iqm-data-definitions/"
+Homepage = "https://pypi.org/project/iqm-data-definitions/"
+
+[project.optional-dependencies]
+pin-iqm = []
+pin-all = [
+    "numpy==2.3.5",
+    "optype==0.15.0",
+    "protobuf==6.33.6",
+    "scipy==1.17.0",
+    "scipy-stubs==1.16.0.0",
+    "types-protobuf==6.32.1.20251210",
+    "typing-extensions==4.15.0; python_full_version < '3.13'",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "src/iqm",
+]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    ".gitignore",
+    "tests/",
+    "changelog/",
+    "mise.toml",
+    "mise/",
+    "docs/",
+    "scripts/",
+    "dev-README.md",
+]
+
+[tool.mypy]
+explicit_package_bases = true
+mypy_path = "$MYPY_CONFIG_FILE_DIR/src"
+namespace_packages = true
+
+[tool.ruff]
+exclude = [
+    "*.ipynb",
+    "*.rst",
+]
+extend-exclude = [
+    "src/iqm/data_definitions",
+]
+line-length = 120
+
+[tool.ruff.lint]
+ignore = [
+    "D203",
+    "D213",
+]
+select = [
+    "E4",
+    "E7",
+    "E9",
+    "E5",
+    "F",
+    "Q",
+    "PL",
+    "I",
+    "D",
+    "UP007",
+    "UP006",
+    "UP035",
+    "ANN001",
+    "ANN201",
+    "ANN202",
+]
+unfixable = [
+    "F401",
+]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+known-first-party = [
+    "iqm.models",
+    "tests",
+]
+known-local-folder = [
+    "src",
+]
+known-third-party = [
+    "exa",
+    "iqm",
+]
+relative-imports-order = "closest-to-furthest"
+
+[tool.ruff.lint.per-file-ignores]
+"**/__init__.py" = [
+    "F401",
+    "PLR0402",
+]
+"**/docs/*" = [
+    "E402",
+    "D100",
+]
+"**/src/*" = [
+    "PLR2004",
+    "D400",
+    "D415",
+    "D205",
+    "D401",
+    "D417",
+    "D100",
+    "D101",
+    "D107",
+    "D102",
+    "D105",
+    "D103",
+    "D404",
+    "D104",
+]
+"**/tests/*" = [
+    "F632",
+    "PLR2004",
+    "PLR0402",
+    "PLC0414",
+    "D",
+    "ANN001",
+    "ANN201",
+    "ANN202",
+]
+
+[tool.ruff.lint.pylint]
+max-args = 8
+max-branches = 16
+max-locals = 21
+max-returns = 9
+max-statements = 60
+
+[tool.coverage.paths]
+source = [
+    "src/",
+    "*/site-packages/",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self\\.debug",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
+
+[tool.coverage.run]
+branch = true
+source = [
+    "iqm.models",
+]
