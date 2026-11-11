@@ -1,0 +1,1000 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Example: Dynamical decoupling &#8212; IQM Pulla 16.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=fd824495"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Example - Dynamical Decoupling';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Executing QIR programs" href="Example%20-%20Executing%20QIR%20programs.html" />
+    <link rel="prev" title="Example: Measuring T1" href="Example%20-%20Measuring%20T1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-11-10"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM Pulla 16.0.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM Pulla 16.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">iqm-pulla</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="user_guides.html">User guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Quick%20Start.html">Quick Start</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Configuration%20and%20Usage.html">Configuration and Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Sweeps.html">Sweeps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compilation%20Stages.html">Compilation Stages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Custom%20Gates%20and%20Implementations.html">Custom Gates and Gate Implementations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="examples.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Measuring%20T1.html">Example: Measuring T1</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Example: Dynamical decoupling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Executing%20QIR%20programs.html">Executing QIR programs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Example%20-%20Randomized%20Benchmarking.html">Import required packages</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.cpc.html">cpc</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.compiler.html">compiler</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compilation_stage.html">compilation_stage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.compiler.html">compiler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.dd.html">dd</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.errors.html">errors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.layering_stages.html">layering_stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.post_process.html">post_process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.standard_stages.html">standard_stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.compiler.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.config.html">config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.parallel_utils.html">parallel_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.core.run_result.html">run_result</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.interface.html">interface</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.interface.circuit_execution.html">circuit_execution</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.qir_utils.html">qir_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.qir_utils.qir_to_iqm.html">iqm.cpc.qir_utils.qir_to_iqm</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.quantum_architecture.html">quantum_architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.quantum_architecture.CalibrationSetValues.html">CalibrationSetValues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.quantum_architecture.create_dynamic_quantum_architecture.html">iqm.cpc.quantum_architecture.create_dynamic_quantum_architecture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.quantum_architecture.create_static_quantum_architecture.html">iqm.cpc.quantum_architecture.create_static_quantum_architecture</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.cpc.utils.html">utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.utils.calset_from_observations.html">iqm.cpc.utils.calset_from_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.utils.calset_to_cal_data_tree.html">iqm.cpc.utils.calset_to_cal_data_tree</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.utils.convert_sweep_spot_to_arrays.html">iqm.cpc.utils.convert_sweep_spot_to_arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero.html">iqm.cpc.utils.convert_sweep_spot_to_arrays_with_heralding_mode_zero</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.utils.map_sweep_results_to_logical_qubits.html">iqm.cpc.utils.map_sweep_results_to_logical_qubits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.cpc.utils.PostSelectionError.html">iqm.cpc.utils.PostSelectionError</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Example - Dynamical Decoupling.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Example: Dynamical decoupling</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section-a-simple-dynamical-decoupling">Section A: Simple dynamical decoupling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-ddstrategy-class">Using the <code class="docutils literal notranslate"><span class="pre">DDStrategy</span></code> class</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section-b-generalized-dynamical-decoupling">Section B: Generalized dynamical decoupling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qubit-specific-dd">Qubit-specific DD</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qubits-not-in-qubit-specific-dd">Qubits not in <code class="docutils literal notranslate"><span class="pre">qubit_specific_dd</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#idling-specific-dd">Idling-specific DD</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-then-decide">Inspect, then decide</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#idling-specific-dd-when-the-idleddmap-is-already-known">Idling-specific DD when the <code class="docutils literal notranslate"><span class="pre">IdleDDMap</span></code> is already known</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#idle-windows-not-in-idling-specific-dd">Idle windows not in <code class="docutils literal notranslate"><span class="pre">idling_specific_dd</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="example-dynamical-decoupling">
+<h1>Example: Dynamical decoupling<a class="headerlink" href="#example-dynamical-decoupling" title="Link to this heading">#</a></h1>
+<p>The IQM Circuit to Pulse Compiler has a standard compilation stage for automatically applying dynamical decoupling (DD) sequences to an instruction schedule. It is controlled by <code class="docutils literal notranslate"><span class="pre">CircuitCompilationOptions.dd_mode</span></code> for basic circuit execution jobs using <code class="docutils literal notranslate"><span class="pre">IQMClient</span></code>, and the DD compilation stage settings when using the compiler directly. By default the DD stage is disabled.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">iqm.cpc.compiler.dd</span></code> module contains various utility functions the DD stage uses, e.g. for locating specific instructions in a schedule, constructing DD sequences, and replacing select instructions with them. For example, we can find locations of <code class="docutils literal notranslate"><span class="pre">Wait</span></code> instructions on qubit drive channels with a certain minimum duration, and replace them with an arbitrary sequence of <code class="docutils literal notranslate"><span class="pre">Wait</span></code> and <code class="docutils literal notranslate"><span class="pre">IQPulse</span></code> instructions that dynamically decouples the qubit, given that the total duration of the sequence is the same as the duration of the original <code class="docutils literal notranslate"><span class="pre">Wait</span></code>.</p>
+<p>This notebook is in two parts:</p>
+<ul class="simple">
+<li><p><strong>Section A - Simple dynamical decoupling</strong> introduces the <code class="docutils literal notranslate"><span class="pre">dynamical_decoupling</span></code> stage on a single idling qubit: how to enable it, how to define a DD sequence through the settings tree or through the compilation context, and what the resulting schedule and measured results look like with and without DD.</p></li>
+<li><p><strong>Section B - Generalized dynamical decoupling</strong> builds on that and covers the generalized DD implementations: applying one DD strategy to selected qubits, giving each qubit its own strategy, and choosing a strategy per idle window - including the two-part compilation used when the idle windows are not known in advance.</p></li>
+</ul>
+<section id="setup">
+<h2>Setup<a class="headerlink" href="#setup" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.core.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.compiler</span><span class="w"> </span><span class="kn">import</span> <span class="n">transpile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit.result</span><span class="w"> </span><span class="kn">import</span> <span class="n">marginal_distribution</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.station_control.interface.models</span><span class="w"> </span><span class="kn">import</span>  <span class="n">MoveGateFrameTrackingMode</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.playlist.visualisation.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">inspect_playlist</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.iqm_client.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_env_vars</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm.pulse_level_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">qiskit_to_iqm</span><span class="p">,</span> <span class="n">sweep_job_to_qiskit</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.cpc.compiler.dd</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">IdleDDMap</span><span class="p">,</span>
+    <span class="n">IdleWindow</span><span class="p">,</span>
+    <span class="n">identify_idle_windows_for_settings</span><span class="p">,</span>
+    <span class="n">display_idle_windows</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_env_vars</span><span class="p">()</span>
+
+<span class="n">provider</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">()</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+<span class="n">iqm_client</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">client</span>
+<span class="n">standard_compiler</span> <span class="o">=</span> <span class="n">iqm_client</span><span class="o">.</span><span class="n">get_standard_compiler</span><span class="p">()</span>
+<span class="n">shots</span> <span class="o">=</span> <span class="mi">1000</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="section-a-simple-dynamical-decoupling">
+<h2>Section A: Simple dynamical decoupling<a class="headerlink" href="#section-a-simple-dynamical-decoupling" title="Link to this heading">#</a></h2>
+<p>We start from the simplest case: a single qubit left idling while other qubits are kept busy. We compile the same circuit twice, once with the DD stage disabled and once with it enabled, and compare both the schedules and the measured results.</p>
+<p>Let’s create and transpile a quantum circuit that prepares a superposition on one qubit, and then executes a long sequence of gates on other qubits while the first qubit is idling and experiencing decoherence. Finally we reverse the superposition and measure the qubits.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qc_transpiled</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">circuits</span><span class="p">,</span> <span class="n">compiler</span> <span class="o">=</span> <span class="n">qiskit_to_iqm</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">qc_transpiled</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now let us create a pair of Compiler settings objects, one with DD turned on and one without.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">standard_settings</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">)</span>
+<span class="n">dd_settings</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are two ways to define a DD sequence. First, by changing the attributes of the <code class="docutils literal notranslate"><span class="pre">dynamical_decoupling</span></code> compilation stage. Let’s look at the available settings.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">stages.dynamical_decoupling.apply_dd_strategy.dd_is_disabled</span></code> is used to turn the entire compilation stage on and off.</p></li>
+<li><p>The default DD strategy to be used if the stage is on is defined in the <code class="docutils literal notranslate"><span class="pre">stages.dynamical_decoupling.apply_dd_strategy.DDStrategy_*</span></code> settings.</p></li>
+</ul>
+<p>We can see that DD is by default disabled, let’s turn it on in <code class="docutils literal notranslate"><span class="pre">dd_settings</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">standard_settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dd_settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span><span class="o">.</span><span class="n">dd_is_disabled</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Compiling the circuit using the non-DD settings produces a schedule with a long wait on the drive channel of the idling qubit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">standard_settings</span><span class="o">.</span><span class="n">set_shots</span><span class="p">(</span><span class="n">shots</span><span class="p">)</span>
+<span class="n">job_def</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="n">standard_settings</span><span class="p">)</span>
+
+<span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">job_def</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We then execute this schedule and compute the probability of finding the idling qubit in the |0&gt; state. Ideally this should be one, but due to the decoherence experienced by the superposition state it will be less.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_tracker</span> <span class="o">=</span> <span class="n">iqm_client</span><span class="o">.</span><span class="n">submit_playlist</span><span class="p">(</span><span class="n">job_def</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+<span class="n">job_tracker</span><span class="o">.</span><span class="n">wait_for_completion</span><span class="p">()</span>
+<span class="n">qiskit_result</span> <span class="o">=</span> <span class="n">sweep_job_to_qiskit</span><span class="p">(</span><span class="n">job_tracker</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+
+<span class="n">counts_orig</span> <span class="o">=</span> <span class="n">qiskit_result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Qiskit result counts:</span><span class="se">\n</span><span class="si">{</span><span class="n">counts_orig</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">prob</span> <span class="o">=</span> <span class="n">marginal_distribution</span><span class="p">(</span><span class="n">counts_orig</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="s1">&#39;0&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">shots</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability of finding qubit 0 it the |0&gt; state (original circuit): </span><span class="si">{</span><span class="n">prob</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Compiling the circuit using the DD settings instead produces a schedule where the long wait on the idling qubit is replaced by a DD sequence.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dd_settings</span><span class="o">.</span><span class="n">set_shots</span><span class="p">(</span><span class="n">shots</span><span class="p">)</span>
+<span class="n">job_def</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="n">dd_settings</span><span class="p">)</span>
+
+<span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">job_def</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We execute the DD schedule and again compute the probability of finding the idling qubit in the |0&gt; state, and will likely see that the probability has gone up, due to the DD sequence partially decoupling it from various decoherence sources and better preserving the superposition state.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_tracker</span> <span class="o">=</span> <span class="n">iqm_client</span><span class="o">.</span><span class="n">submit_playlist</span><span class="p">(</span><span class="n">job_def</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+<span class="n">job_tracker</span><span class="o">.</span><span class="n">wait_for_completion</span><span class="p">()</span>
+<span class="n">qiskit_result</span> <span class="o">=</span> <span class="n">sweep_job_to_qiskit</span><span class="p">(</span><span class="n">job_tracker</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+<span class="n">counts_dd</span> <span class="o">=</span> <span class="n">qiskit_result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Qiskit result counts:</span><span class="se">\n</span><span class="si">{</span><span class="n">counts_dd</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">prob</span> <span class="o">=</span> <span class="n">marginal_distribution</span><span class="p">(</span><span class="n">counts_dd</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="s1">&#39;0&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">shots</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability of finding qubit 0 it the |0&gt; state (dynamically decoupled circuit): </span><span class="si">{</span><span class="n">prob</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="using-the-ddstrategy-class">
+<h3>Using the <code class="docutils literal notranslate"><span class="pre">DDStrategy</span></code> class<a class="headerlink" href="#using-the-ddstrategy-class" title="Link to this heading">#</a></h3>
+<p>DD can also be applied on circuit-level jobs using <code class="docutils literal notranslate"><span class="pre">CircuitCompilationOptions.dd_mode</span></code> and <code class="docutils literal notranslate"><span class="pre">CircuitCompilationOptions.dd_strategy</span></code> together with <code class="docutils literal notranslate"><span class="pre">IQMClient.submit_circuits</span></code>, in which case DD will be applied on the serverside.
+The <code class="docutils literal notranslate"><span class="pre">dd_strategy</span></code> option can be left unspecified in which case the default strategy is used, or you can provide a custom <code class="docutils literal notranslate"><span class="pre">DDStrategy</span></code>.</p>
+<p>When using the Compiler, you can also provide a <code class="docutils literal notranslate"><span class="pre">DDStrategy</span></code> object in the compilation context, which will override the corresponding settings.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, you construct the DDStrategy object</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.station_control.interface.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">DDStrategy</span>
+
+<span class="n">dd_strategy</span> <span class="o">=</span> <span class="n">DDStrategy</span><span class="p">(</span>
+    <span class="n">gate_sequences</span><span class="o">=</span><span class="p">[(</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;YXYX&quot;</span><span class="p">,</span> <span class="s2">&quot;center&quot;</span><span class="p">)],</span>
+<span class="p">)</span>
+<span class="n">dd_settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span><span class="o">.</span><span class="n">dd_is_disabled</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Then you provide it as the initial context to the Compiler</span>
+<span class="n">dd_settings</span><span class="o">.</span><span class="n">set_shots</span><span class="p">(</span><span class="n">shots</span><span class="p">)</span>
+<span class="n">job_def</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">,</span>
+    <span class="n">settings</span><span class="o">=</span><span class="n">dd_settings</span><span class="p">,</span>
+    <span class="n">context</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;DDStrategy&quot;</span><span class="p">:</span> <span class="n">dd_strategy</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">job_def</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">job_tracker</span> <span class="o">=</span> <span class="n">iqm_client</span><span class="o">.</span><span class="n">submit_playlist</span><span class="p">(</span><span class="n">job_def</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+<span class="n">job_tracker</span><span class="o">.</span><span class="n">wait_for_completion</span><span class="p">()</span>
+<span class="n">qiskit_result</span> <span class="o">=</span> <span class="n">sweep_job_to_qiskit</span><span class="p">(</span><span class="n">job_tracker</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+<span class="n">counts_dd</span> <span class="o">=</span> <span class="n">qiskit_result</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Qiskit result counts:</span><span class="se">\n</span><span class="si">{</span><span class="n">counts_dd</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">prob</span> <span class="o">=</span> <span class="n">marginal_distribution</span><span class="p">(</span><span class="n">counts_dd</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="s1">&#39;0&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">shots</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Probability of finding qubit 0 it the |0&gt; state (dynamically decoupled circuit): </span><span class="si">{</span><span class="n">prob</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="section-b-generalized-dynamical-decoupling">
+<h2>Section B: Generalized dynamical decoupling<a class="headerlink" href="#section-b-generalized-dynamical-decoupling" title="Link to this heading">#</a></h2>
+<p>This section demonstrates more involved ways of applying DD.
+Section A already covered standard DD: how <code class="docutils literal notranslate"><span class="pre">dd_is_disabled=False</span></code> enables the built-in
+<code class="docutils literal notranslate"><span class="pre">STANDARD_DD_STRATEGY</span></code>, leaving it <code class="docutils literal notranslate"><span class="pre">True</span></code> disables DD entirely, and how to use <code class="docutils literal notranslate"><span class="pre">DDStrategy</span></code>
+to specify the default DD sequences to apply.</p>
+<p>Two further workflows are shown here, both reachable through the same standard settings tree:</p>
+<ol class="arabic simple">
+<li><p><strong>Qubit-specific DD</strong> - each qubit can have its own DD strategy.</p></li>
+<li><p><strong>Idling-specific DD</strong> - a specific DD strategy can be chosen for each idle window.
+When the idle window keys are not known in advance, the compilation
+can be run in two parts: first the stages up to the DD stage, then, after inspecting the idle
+windows and choosing the map, the remaining stages.
+Splitting the compilation uses the <code class="docutils literal notranslate"><span class="pre">Compiler.run_stages</span></code> and <code class="docutils literal notranslate"><span class="pre">Compiler.finalize</span></code> methods.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">QB1</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">index_to_qubit_name</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">QB2</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">index_to_qubit_name</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using qubits </span><span class="si">{</span><span class="n">QB1</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">QB2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="qubit-specific-dd">
+<h3>Qubit-specific DD<a class="headerlink" href="#qubit-specific-dd" title="Link to this heading">#</a></h3>
+<p>Apply <code class="docutils literal notranslate"><span class="pre">XX</span></code> (CPMG) on one physical qubit and <code class="docutils literal notranslate"><span class="pre">YXYX</span></code> (XY4) on another in the same
+compilation call, through the settings tree. Qubits absent from the map receive the default
+DD strategy; set <code class="docutils literal notranslate"><span class="pre">DDStrategy_gate_sequences_ratio</span> <span class="pre">=</span> <span class="pre">[]</span></code> to turn that off.</p>
+<p>The circuits below are a delay sweep on two qubits, so both of them idle and both can be
+given their own sequence.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">delay_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">10_000</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">delay_exp_2q</span><span class="p">(</span><span class="n">wait_ns</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">wait_ns</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ns&quot;</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">wait_ns</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ns&quot;</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+
+<span class="n">qc_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">delay_exp_2q</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">delay_arr</span><span class="p">]</span>
+<span class="n">circuits</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">qiskit_to_iqm</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">qc_list</span><span class="p">)</span>
+<span class="n">qc_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qubit_dd_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">QB1</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;YXYX&quot;</span><span class="p">,</span> <span class="s2">&quot;center&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">QB2</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;XX&quot;</span><span class="p">,</span> <span class="s2">&quot;asap&quot;</span><span class="p">),</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">qb_settings</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">)</span>
+<span class="n">dd</span> <span class="o">=</span> <span class="n">qb_settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span>
+<span class="n">dd</span><span class="o">.</span><span class="n">dd_is_disabled</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">dd</span><span class="o">.</span><span class="n">qubit_specific_dd</span> <span class="o">=</span> <span class="n">qubit_dd_map</span>
+<span class="n">dd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">qb_settings</span><span class="o">.</span><span class="n">set_shots</span><span class="p">(</span><span class="n">shots</span><span class="p">)</span>
+<span class="n">job_def</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="n">qb_settings</span><span class="p">)</span>
+
+<span class="c1"># Inspect the first circuit&#39;s schedule — QB1 gets centered XY4, QB2 gets left-aligned XX.</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">job_def</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="qubits-not-in-qubit-specific-dd">
+<h4>Qubits not in <code class="docutils literal notranslate"><span class="pre">qubit_specific_dd</span></code><a class="headerlink" href="#qubits-not-in-qubit-specific-dd" title="Link to this heading">#</a></h4>
+<p>Qubits that are not listed in <code class="docutils literal notranslate"><span class="pre">qubit_specific_dd</span></code> receive the default DD strategy, which is
+<code class="docutils literal notranslate"><span class="pre">STANDARD_DD_STRATEGY</span></code> unless you change the <code class="docutils literal notranslate"><span class="pre">DDStrategy_gate_sequences_*</span></code> settings.</p>
+<p>To give unlisted qubits <strong>no</strong> DD, set any one of the three <code class="docutils literal notranslate"><span class="pre">DDStrategy_gate_sequences_*</span></code>
+settings to an empty list, for example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dd</span> <span class="o">=</span> <span class="n">settings_qb</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span>
+<span class="n">dd</span><span class="o">.</span><span class="n">DDStrategy_gate_sequences_ratio</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># or ..._gate_pattern_xy = [], or ..._align = []</span>
+</pre></div>
+</div>
+<p>To skip DD on a single listed qubit instead, map it to an empty list (or <code class="docutils literal notranslate"><span class="pre">None</span></code>) in
+<code class="docutils literal notranslate"><span class="pre">qubit_specific_dd</span></code>.</p>
+</section>
+</section>
+<section id="idling-specific-dd">
+<h3>Idling-specific DD<a class="headerlink" href="#idling-specific-dd" title="Link to this heading">#</a></h3>
+<p>For a circuit with multiple idle windows per qubit, assign a specific DD
+sequence to each window, or opt out on selected windows.</p>
+<section id="inspect-then-decide">
+<h4>Inspect, then decide<a class="headerlink" href="#inspect-then-decide" title="Link to this heading">#</a></h4>
+<p>When the idle-window keys are not known in advance, you can run the compilation in two parts
+using <code class="docutils literal notranslate"><span class="pre">Compiler.run_stages</span></code>.</p>
+<p>Build a circuit with multiple idles per qubit:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SHORT_WAIT</span> <span class="o">=</span> <span class="mi">2_00</span>   <span class="c1"># ns</span>
+<span class="n">LONG_WAIT</span>  <span class="o">=</span> <span class="mi">8_00</span>   <span class="c1"># ns</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">multi_idle_circuit</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">QuantumCircuit</span><span class="p">:</span>
+    <span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">SHORT_WAIT</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ns&quot;</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">SHORT_WAIT</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ns&quot;</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">LONG_WAIT</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ns&quot;</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">LONG_WAIT</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;ns&quot;</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+
+<span class="n">qc</span> <span class="o">=</span> <span class="n">multi_idle_circuit</span><span class="p">()</span>
+<span class="n">circuits</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">qiskit_to_iqm</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="p">[</span><span class="n">qc</span><span class="p">])</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">output</span><span class="o">=</span><span class="s1">&#39;mpl&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, run the compilation stages up to the DD stage and inspect the idle windows in the instruction schedule.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idle_settings</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">)</span>
+<span class="n">idle_settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span><span class="o">.</span><span class="n">dd_is_disabled</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">stages</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">circuit_stages</span> <span class="o">+</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">pulse_stages</span>
+<span class="n">dd_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">stage</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">stage</span> <span class="ow">in</span> <span class="n">stages</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;dynamical_decoupling&quot;</span><span class="p">)</span>
+<span class="n">context_idle</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">compiler_context</span><span class="p">(</span><span class="n">components</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">settings</span><span class="o">=</span><span class="n">idle_settings</span><span class="p">)</span>
+
+<span class="c1"># Part 1: run all stages before the DD stage</span>
+<span class="n">schedules</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">run_stages</span><span class="p">(</span><span class="n">circuits</span><span class="p">,</span> <span class="n">context_idle</span><span class="p">,</span> <span class="n">stages</span><span class="o">=</span><span class="n">stages</span><span class="p">[:</span><span class="n">dd_idx</span><span class="p">])</span>
+
+<span class="n">idle_windows</span> <span class="o">=</span> <span class="n">identify_idle_windows_for_settings</span><span class="p">(</span><span class="n">schedules</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+<span class="n">display_idle_windows</span><span class="p">(</span><span class="n">idle_windows</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Design chosen after reading the window table:</p>
+<ul class="simple">
+<li><p>first physical qubit, idle 0 (SHORT_WAIT): <strong><code class="docutils literal notranslate"><span class="pre">XX</span></code></strong> (CPMG), center-aligned</p></li>
+<li><p>first physical qubit, idle 1 (LONG_WAIT): <strong><code class="docutils literal notranslate"><span class="pre">YXYX</span></code></strong> (XY4), asap-aligned</p></li>
+<li><p>second physical qubit, idle 0 (SHORT_WAIT): <strong><code class="docutils literal notranslate"><span class="pre">None</span></code></strong> — skip DD entirely</p></li>
+<li><p>second physical qubit, idle 1 (LONG_WAIT): <strong><code class="docutils literal notranslate"><span class="pre">XX</span></code></strong> (CPMG), alap-aligned</p></li>
+</ul>
+<p>Any idle <em>not</em> listed uses the sequences given in the <code class="docutils literal notranslate"><span class="pre">DDStrategy_gate_sequences_*</span></code> settings,
+or gets no DD if those are empty.</p>
+<p>Use the keys from <code class="docutils literal notranslate"><span class="pre">idle_windows</span></code> to build <code class="docutils literal notranslate"><span class="pre">idle_dd_map</span></code> in the settings, and run the remaining compilation stages.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idle_qubits</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="n">idle_windows</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">window</span><span class="o">.</span><span class="n">schedule_index</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">window</span><span class="o">.</span><span class="n">qubit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">idle_qubits</span><span class="p">:</span>
+        <span class="n">idle_qubits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">window</span><span class="o">.</span><span class="n">qubit</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idle_qubits</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected idle windows on two qubits, found </span><span class="si">{</span><span class="n">idle_qubits</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">idle_qubit_a</span><span class="p">,</span> <span class="n">idle_qubit_b</span> <span class="o">=</span> <span class="n">idle_qubits</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="n">idle_dd_map</span><span class="p">:</span> <span class="n">IdleDDMap</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idle_qubit_a</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;XX&quot;</span><span class="p">,</span>   <span class="s2">&quot;center&quot;</span><span class="p">)],</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idle_qubit_a</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">[(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;YXYX&quot;</span><span class="p">,</span> <span class="s2">&quot;asap&quot;</span><span class="p">)],</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idle_qubit_b</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="p">[],</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idle_qubit_b</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;XX&quot;</span><span class="p">,</span>   <span class="s2">&quot;alap&quot;</span><span class="p">)],</span>
+<span class="p">}</span>
+
+<span class="n">available_idle_keys</span> <span class="o">=</span> <span class="p">{</span><span class="n">window</span><span class="o">.</span><span class="n">key</span> <span class="k">for</span> <span class="n">window</span> <span class="ow">in</span> <span class="n">idle_windows</span><span class="p">}</span>
+<span class="n">unknown_idle_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">idle_dd_map</span><span class="p">)</span> <span class="o">-</span> <span class="n">available_idle_keys</span>
+<span class="k">if</span> <span class="n">unknown_idle_keys</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;IdleDDMap contains keys that are not in idle_windows: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">unknown_idle_keys</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">idle_settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span><span class="o">.</span><span class="n">idling_specific_dd</span> <span class="o">=</span> <span class="n">idle_dd_map</span>
+<span class="n">idle_settings</span><span class="o">.</span><span class="n">set_shots</span><span class="p">(</span><span class="n">shots</span><span class="p">)</span>
+
+<span class="c1"># Part 2: run the DD stage and all stages after it, then finalize</span>
+<span class="n">schedules</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">run_stages</span><span class="p">(</span><span class="n">schedules</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">stages</span><span class="o">=</span><span class="n">stages</span><span class="p">[</span><span class="n">dd_idx</span><span class="p">:])</span>
+<span class="n">job_def</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">finalize</span><span class="p">(</span><span class="n">schedules</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+
+<span class="c1"># First discovered qubit: idle 0 -&gt; CPMG, idle 1 -&gt; XY4.</span>
+<span class="c1"># Second discovered qubit: idle 0 -&gt; plain Wait, idle 1 -&gt; CPMG.</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">job_def</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="idling-specific-dd-when-the-idleddmap-is-already-known">
+<h4>Idling-specific DD when the <code class="docutils literal notranslate"><span class="pre">IdleDDMap</span></code> is already known<a class="headerlink" href="#idling-specific-dd-when-the-idleddmap-is-already-known" title="Link to this heading">#</a></h4>
+<p>If the idle-window keys are already known, no inspection step is needed. This mirrors the
+qubit-specific DD settings workflow: create the map, assign it to
+<code class="docutils literal notranslate"><span class="pre">stages.dynamical_decoupling.apply_dd_strategy.idling_specific_dd</span></code>, and call
+<code class="docutils literal notranslate"><span class="pre">standard_compiler.compile(...)</span></code> once.</p>
+<p><code class="docutils literal notranslate"><span class="pre">IdleDDMap</span></code> keys are <code class="docutils literal notranslate"><span class="pre">(schedule_index,</span> <span class="pre">physical_qubit,</span> <span class="pre">idle_index)</span></code>. Values are either a
+DD gate-sequence list or <code class="docutils literal notranslate"><span class="pre">None</span></code> to skip DD on that idle.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># In a real known-map workflow these keys come from prior calibration, prior inspection,</span>
+<span class="c1"># or documentation for the exact compiled circuit family. In this notebook we reuse</span>
+<span class="c1"># the physical qubits discovered above so the demo remains valid after routing to physical qubits.</span>
+<span class="n">known_idle_dd_map</span><span class="p">:</span> <span class="n">IdleDDMap</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idle_qubit_a</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;XX&quot;</span><span class="p">,</span>   <span class="s2">&quot;center&quot;</span><span class="p">)],</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idle_qubit_a</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">[(</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;YXYX&quot;</span><span class="p">,</span> <span class="s2">&quot;asap&quot;</span><span class="p">)],</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idle_qubit_b</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span> <span class="p">[],</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idle_qubit_b</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;XX&quot;</span><span class="p">,</span>   <span class="s2">&quot;alap&quot;</span><span class="p">)],</span>
+<span class="p">}</span>
+
+<span class="n">unknown_known_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">known_idle_dd_map</span><span class="p">)</span> <span class="o">-</span> <span class="n">available_idle_keys</span>
+<span class="k">if</span> <span class="n">unknown_known_keys</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;known_idle_dd_map contains keys not present in idle_windows: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">unknown_known_keys</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">known_idle_dd_map</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idle_settings</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">get_settings</span><span class="p">(</span><span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">)</span>
+<span class="n">dd</span> <span class="o">=</span> <span class="n">idle_settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">dynamical_decoupling</span><span class="o">.</span><span class="n">apply_dd_strategy</span>
+<span class="n">dd</span><span class="o">.</span><span class="n">dd_is_disabled</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">dd</span><span class="o">.</span><span class="n">idling_specific_dd</span> <span class="o">=</span> <span class="n">known_idle_dd_map</span>
+
+<span class="n">job_def</span><span class="p">,</span> <span class="n">context</span> <span class="o">=</span> <span class="n">standard_compiler</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="n">circuits</span><span class="o">=</span><span class="n">circuits</span><span class="p">,</span>
+    <span class="n">settings</span><span class="o">=</span><span class="n">idle_settings</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">HTML</span><span class="p">(</span><span class="n">inspect_playlist</span><span class="p">(</span><span class="n">job_def</span><span class="o">.</span><span class="n">sweep_definition</span><span class="o">.</span><span class="n">playlist</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="idle-windows-not-in-idling-specific-dd">
+<h4>Idle windows not in <code class="docutils literal notranslate"><span class="pre">idling_specific_dd</span></code><a class="headerlink" href="#idle-windows-not-in-idling-specific-dd" title="Link to this heading">#</a></h4>
+<p>Idle windows that are not listed in <code class="docutils literal notranslate"><span class="pre">idling_specific_dd</span></code> receive the default DD strategy, which is
+<code class="docutils literal notranslate"><span class="pre">STANDARD_DD_STRATEGY</span></code> unless you change the <code class="docutils literal notranslate"><span class="pre">DDStrategy_gate_sequences_*</span></code> settings.</p>
+<p>To give unlisted idle windows <strong>no</strong> DD, set any one of the three <code class="docutils literal notranslate"><span class="pre">DDStrategy_gate_sequences_*</span></code>
+settings to an empty list, for example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dd</span><span class="o">.</span><span class="n">DDStrategy_gate_sequences_ratio</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># or ..._gate_pattern_xy = [], or ..._align = []</span>
+</pre></div>
+</div>
+<p>To skip DD on a single listed idle window instead, map its key to an empty list (or <code class="docutils literal notranslate"><span class="pre">None</span></code>) in
+<code class="docutils literal notranslate"><span class="pre">idling_specific_dd</span></code>.</p>
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Example%20-%20Measuring%20T1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Example: Measuring T1</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Example%20-%20Executing%20QIR%20programs.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Executing QIR programs</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup">Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section-a-simple-dynamical-decoupling">Section A: Simple dynamical decoupling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-ddstrategy-class">Using the <code class="docutils literal notranslate"><span class="pre">DDStrategy</span></code> class</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#section-b-generalized-dynamical-decoupling">Section B: Generalized dynamical decoupling</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qubit-specific-dd">Qubit-specific DD</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qubits-not-in-qubit-specific-dd">Qubits not in <code class="docutils literal notranslate"><span class="pre">qubit_specific_dd</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#idling-specific-dd">Idling-specific DD</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-then-decide">Inspect, then decide</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#idling-specific-dd-when-the-idleddmap-is-already-known">Idling-specific DD when the <code class="docutils literal notranslate"><span class="pre">IdleDDMap</span></code> is already known</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#idle-windows-not-in-idling-specific-dd">Idle windows not in <code class="docutils literal notranslate"><span class="pre">idling_specific_dd</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Pulla developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024-2026, IQM Finland Oy, Release 16.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-11-10.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

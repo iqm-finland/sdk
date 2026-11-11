@@ -1,0 +1,23 @@
+# ========= Example loggers YAML configuration =========
+# Below is an example logger configuration file for using with Exa Core runtime.
+# Usage: set the environment variable (see 'exa.core.environment' module) to point to a loggers configuration
+# yaml file. In case no loggers yaml file is present there is a default loggers configuration, see the function
+# 'exa.core.provider.provider.init_loggers' for details.
+# 'loggers' is a mapping from logger name to (case insensitive) logging level, exactly how Python standard library
+# logging handles named loggers (https://docs.python.org/3/library/logging.html).
+# The logger with empty string "" as its name is the root logger, following Python standard library logging conventions.
+# 'verbose' can be true or false, it affects the format of log output.
+# 'default_level' will be used for any logger whose logging level is None or an empty string "" (In YAML, specifying
+# no value equals None).
+# It is possible to fine tune logging for individual modules, since logger propagation is turned off.
+# Overriding works both ways: a parent logger can have higher logging level than its descendants, and vice versa.
+# For example, 'iqm: ', 'iqm.pulse: debug' will put 'iqm' and its descendants (i.e. 'iqm.station_control',
+# 'iqm.station_control.interface', etc.) into 'default_level', except for 'iqm.engine' for which DEBUG level is defined.
+# ======================================================
+
+loggers:
+  "":
+  iqm:
+  exa:
+verbose: true
+default_level: info

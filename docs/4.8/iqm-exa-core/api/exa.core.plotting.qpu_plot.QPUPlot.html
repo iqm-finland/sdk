@@ -1,0 +1,1116 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>QPUPlot &#8212; iqm-exa-core 20.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=3f23208d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/exa.core.plotting.qpu_plot.QPUPlot';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="qpu_table" href="exa.core.plotting.qpu_table.html" />
+    <link rel="prev" title="ImageOptions" href="exa.core.plotting.qpu_plot.ImageOptions.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-11-10"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm-exa-core 20.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm-exa-core 20.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-exa-core</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../basic_guide/index.html">Basics of EXA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/experiment.html">Running Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/settings_workflow.html">Workflow with Experiment settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/database.html">Data access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/observation.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/sequence.html">Sequences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/configuration_file.html">EXA Configuration File</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guide/index.html">Creating EXA experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guide/concept.html">Conceptualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/prototype.html">Prototyping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/subclass.html">Making a subclass of Experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/circuit.html">Circuit generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/sweep.html">Sweep generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/compiler.html">Compiler passes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/analysis.html">Post-processing and analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/plotting.html">Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/observations.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/integration.html">Integrating your experiment in a sequence or graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/maturity.html">Is my experiment mature?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../notebooks/index.html">Example Notebooks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/experiment_basics.html">Experiment Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/example_local_storage.html">Local Storage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="exa.core.html">core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.analyze_result.html">analyze_result</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.analyze_result.analyze_result.html">analyze_result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.analyze_result.plot_definition.html">plot_definition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.database_wrapper.html">database_wrapper</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.batch_save_observations.html">exa.core.database_wrapper.batch_save_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.get_all_dut_fields.html">exa.core.database_wrapper.get_all_dut_fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.get_latest_observations_for_tags.html">exa.core.database_wrapper.get_latest_observations_for_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.invalidate_observation.html">exa.core.database_wrapper.invalidate_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.save_observation.html">exa.core.database_wrapper.save_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.save_observations_with_new_tags.html">exa.core.database_wrapper.save_observations_with_new_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.set_observation_validity.html">exa.core.database_wrapper.set_observation_validity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.environment.html">environment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.environment.load_environment.html">exa.core.environment.load_environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.environment.EnvironmentConfig.html">EnvironmentConfig</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.error_estimation.html">error_estimation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.error_estimation.fit_statistical_error.html">fit_statistical_error</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="exa.core.error_experiment.html">error_experiment</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.experiment.html">experiment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment.edge_coloring.html">edge_coloring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment.experiment.html">experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment.stages.html">stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="exa.core.experiment_configuration.html">experiment_configuration</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.experiment_definitions.html">experiment_definitions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_definitions.ChipProperties.html">exa.core.experiment_definitions.ChipProperties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_definitions.ParallelGroup.html">ParallelGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_definitions.QPUType.html">QPUType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_definitions.ReadoutMode.html">ReadoutMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_definitions.ReadoutProgrammingMode.html">ReadoutProgrammingMode</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.experiment_options.html">experiment_options</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_options.ExperimentOptions.html">ExperimentOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.experiment_utils.html">experiment_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_utils.load_observations.html">exa.core.experiment_utils.load_observations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.gate_implementations.html">gate_implementations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.gate_implementations.flux_pulse.html">flux_pulse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.gate_implementations.modulated_pulse_gate.html">modulated_pulse_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.gate_implementations.rz.html">rz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.gate_implementations.x_ef_gate.html">x_ef_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.local_storage.html">local_storage</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.local_storage.LocalStorage.html">LocalStorage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.model_selection_fitter.html">model_selection_fitter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.fitter.html">fitter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.fitting.html">fitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.model_selection.html">model_selection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.models.html">models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.packaging.html">packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.plotting.html">plotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.preprocessing.html">preprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.structures.html">structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.multistate_classifier.html">multistate_classifier</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.multistate_classifier.classifier.html">classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.multistate_classifier.distance_classifier.html">distance_classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.multistate_classifier.linear_discriminant_analysis.html">linear_discriminant_analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.multistate_classifier.parameters.html">parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.multistate_classifier.support_vector_machine.html">support_vector_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.multistate_classifier.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.observation.html">observation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation.observation_handler.html">observation_handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation.observation_loading_rules.html">observation_loading_rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation.observation_parameters.html">observation_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation.observation_stash.html">observation_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation.observation_validation_rules.html">observation_validation_rules</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.observation_set_utils.html">observation_set_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.add_to_observation_set.html">exa.core.observation_set_utils.add_to_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.adjust_trigger_delays_in_stash.html">exa.core.observation_set_utils.adjust_trigger_delays_in_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.copy_station_specific_observations.html">exa.core.observation_set_utils.copy_station_specific_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.create_observation_set.html">exa.core.observation_set_utils.create_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.create_quality_metric_set.html">exa.core.observation_set_utils.create_quality_metric_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.finalize_observation_set.html">exa.core.observation_set_utils.finalize_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.get_latest_observation_set_id.html">exa.core.observation_set_utils.get_latest_observation_set_id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.get_observation_set.html">exa.core.observation_set_utils.get_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate.html">exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation.html">exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="exa.core.plotting.html">plotting</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.extended_wilkinson_tick_locator.html">extended_wilkinson_tick_locator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.figure.html">figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.figure_helper.html">figure_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.generic_plot.html">generic_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.plot_cumulative_distribution.html">plot_cumulative_distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.plot_helper.html">plot_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.plot_options.html">plot_options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.plot_styles.html">plot_styles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.plots.html">plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.qpu_core.html">qpu_core</a></li>
+<li class="toctree-l4 current active"><a class="reference internal" href="exa.core.plotting.qpu_plot.html">qpu_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.qpu_table.html">qpu_table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.time_series.html">time_series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.topology.html">topology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.post_processing.html">post_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.post_processing.transpose_data.html">exa.core.post_processing.transpose_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.post_processing.contrast_computation.html">contrast_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.post_processing.excited_state_probability_computation.html">excited_state_probability_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.post_processing.single_shot_to_counter.html">single_shot_to_counter</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.provider.html">provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.provider.provider.html">provider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.readout_helpers.html">readout_helpers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.readout_helpers.get_measure_gate_name.html">exa.core.readout_helpers.get_measure_gate_name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.readout_helpers.resolve_target_name_for_f_state.html">exa.core.readout_helpers.resolve_target_name_for_f_state</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="exa.core.run_result.html">run_result</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.sequence.html">sequence</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.context.html">context</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.data_access.html">data_access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.experiment_tracker.html">experiment_tracker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.interface.html">interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.result.html">result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.sequence.html">sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.sequence_executor.html">sequence_executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.trackers.html">trackers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.util.html">util</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.wrap_analyze.html">wrap_analyze</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.calibration_utils.html">calibration_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.chad_utils.html">chad_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.dut_field_decoder.html">dut_field_decoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.esprit.html">esprit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.experiment_class.html">experiment_class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.fft_helper.html">fft_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.formatting.html">formatting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.ipython_helper.html">ipython_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.migration.html">migration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.model_functions.html">model_functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.param_parsing.html">param_parsing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.pca.html">pca</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.phase_helper.html">phase_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.qpu_utils.html">qpu_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.qubit_utils.html">qubit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.report.html">report</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.serialization.html">serialization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.topology.html">topology</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/exa.core.plotting.qpu_plot.QPUPlot.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>QPUPlot</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot"><code class="docutils literal notranslate"><span class="pre">QPUPlot</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.chip_label"><code class="docutils literal notranslate"><span class="pre">QPUPlot.chip_label</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.chad"><code class="docutils literal notranslate"><span class="pre">QPUPlot.chad</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.figs"><code class="docutils literal notranslate"><span class="pre">QPUPlot.figs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.observations"><code class="docutils literal notranslate"><span class="pre">QPUPlot.observations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.add_observations"><code class="docutils literal notranslate"><span class="pre">QPUPlot.add_observations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.add_observations_from_database"><code class="docutils literal notranslate"><span class="pre">QPUPlot.add_observations_from_database()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.add_observations_from_stash"><code class="docutils literal notranslate"><span class="pre">QPUPlot.add_observations_from_stash()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_all"><code class="docutils literal notranslate"><span class="pre">QPUPlot.draw_all()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_topology"><code class="docutils literal notranslate"><span class="pre">QPUPlot.draw_topology()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_cdf"><code class="docutils literal notranslate"><span class="pre">QPUPlot.draw_cdf()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_bar_chart"><code class="docutils literal notranslate"><span class="pre">QPUPlot.draw_bar_chart()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_time_series"><code class="docutils literal notranslate"><span class="pre">QPUPlot.draw_time_series()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_histogram"><code class="docutils literal notranslate"><span class="pre">QPUPlot.draw_histogram()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.summarize"><code class="docutils literal notranslate"><span class="pre">QPUPlot.summarize()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.set_save_directory"><code class="docutils literal notranslate"><span class="pre">QPUPlot.set_save_directory()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.set_colormaps"><code class="docutils literal notranslate"><span class="pre">QPUPlot.set_colormaps()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.set_qb_colormap"><code class="docutils literal notranslate"><span class="pre">QPUPlot.set_qb_colormap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.set_tc_colormap"><code class="docutils literal notranslate"><span class="pre">QPUPlot.set_tc_colormap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.set_cr_colormap"><code class="docutils literal notranslate"><span class="pre">QPUPlot.set_cr_colormap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.set_aux_colormap"><code class="docutils literal notranslate"><span class="pre">QPUPlot.set_aux_colormap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.convert_fidelity_and_error"><code class="docutils literal notranslate"><span class="pre">QPUPlot.convert_fidelity_and_error()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="qpuplot">
+<h1>QPUPlot<a class="headerlink" href="#qpuplot" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="exa.core.plotting.qpu_plot.html#module-exa.core.plotting.qpu_plot" title="exa.core.plotting.qpu_plot"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exa.core.plotting.qpu_plot</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">QPUPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chip_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qb_colormap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_colormap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cr_colormap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aux_colormap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figure_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split_dut_field</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chip_layout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Help creating a plot for a given QPU that shows observation data.</p>
+<p>Initialize QPUPlot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chip_label</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The DUT label of the chip, used to find the respective chip design record.</p></li>
+<li><p><strong>qb_colormap</strong> (<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="(in Matplotlib v3.10.8)"><em>ListedColormap</em></a><em> | </em><em>None</em>) – If provided, color the qubits in the topology plot based on their data value,
+otherwise qubits are uncolored.</p></li>
+<li><p><strong>tc_colormap</strong> (<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="(in Matplotlib v3.10.8)"><em>ListedColormap</em></a><em> | </em><em>None</em>) – If provided, color the couplers in the topology plot based on their data value,
+otherwise couplers are uncolored.</p></li>
+<li><p><strong>cr_colormap</strong> (<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="(in Matplotlib v3.10.8)"><em>ListedColormap</em></a><em> | </em><em>None</em>) – If provided, color the computational resonators in the topology plot based on their data value,
+otherwise computational resonators are uncolored.</p></li>
+<li><p><strong>aux_colormap</strong> (<a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.colors.ListedColormap.html#matplotlib.colors.ListedColormap" title="(in Matplotlib v3.10.8)"><em>ListedColormap</em></a><em> | </em><em>None</em>) – Auxiliary colormap that is used by CDF plot.</p></li>
+<li><p><strong>observations</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="../../iqm-station-control-client/api/iqm.station_control.interface.models.observation.ObservationDefinition.html#iqm.station_control.interface.models.observation.ObservationDefinition" title="(in iqm-station-control-client v15.0.0)"><em>ObservationDefinition</em></a><em>] </em><em>| </em><em>None</em>) – An optional list of observations passed on initialization, to be used in the plot.
+More observations can be added via add_observations or add_observations_from_database methods.</p></li>
+<li><p><strong>save_directory</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a><em> | </em><em>None</em>) – Where to save the figure.</p></li>
+<li><p><strong>resolution</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – If figures are saved, rasterize with the given value in dpi.</p></li>
+<li><p><strong>figure_format</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – All figures will be saved in this format, for example, png, jpg, pdf, svg.</p></li>
+<li><p><strong>split_dut_field</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – How to extract component and parameter names from the DUT field. Default assumes that
+{dut_field}=={component_name}.{parameter_name}.</p></li>
+<li><p><strong>chip_layout</strong> (<a class="reference external" href="../../iqm-exa-common/api/exa.common.qcm_data.chip_layout.ChipLayout.html#exa.common.qcm_data.chip_layout.ChipLayout" title="(in iqm-exa-common v29.1.0)"><em>ChipLayout</em></a><em> | </em><em>None</em>) – Providing a chip layout is required if the metro data is not available in the chip design record.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.chad" title="exa.core.plotting.qpu_plot.QPUPlot.chad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chad</span></code></a></p></td>
+<td><p>The chip architecture definition (CHAD).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.chip_label" title="exa.core.plotting.qpu_plot.QPUPlot.chip_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chip_label</span></code></a></p></td>
+<td><p>The chip label, same as the DUT label.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.figs" title="exa.core.plotting.qpu_plot.QPUPlot.figs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">figs</span></code></a></p></td>
+<td><p>List of figures rather than list of dictionary of figures for compliance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.observations" title="exa.core.plotting.qpu_plot.QPUPlot.observations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">observations</span></code></a></p></td>
+<td><p>The plain list of observations.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.add_observations" title="exa.core.plotting.qpu_plot.QPUPlot.add_observations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_observations</span></code></a></p></td>
+<td><p>Add the given observations to our observations list.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.add_observations_from_database" title="exa.core.plotting.qpu_plot.QPUPlot.add_observations_from_database"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_observations_from_database</span></code></a></p></td>
+<td><p>Add observations from database, filtering based on the provided criteria.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.add_observations_from_stash" title="exa.core.plotting.qpu_plot.QPUPlot.add_observations_from_stash"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_observations_from_stash</span></code></a></p></td>
+<td><p>Get observations from an existing stash, independently of their origin.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.convert_fidelity_and_error" title="exa.core.plotting.qpu_plot.QPUPlot.convert_fidelity_and_error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_fidelity_and_error</span></code></a></p></td>
+<td><p>Converts fidelities to errors and errors to fidelities.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_all" title="exa.core.plotting.qpu_plot.QPUPlot.draw_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_all</span></code></a></p></td>
+<td><p>Draw all the plots for all the data we have.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_bar_chart" title="exa.core.plotting.qpu_plot.QPUPlot.draw_bar_chart"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_bar_chart</span></code></a></p></td>
+<td><p>Draw bar chart plots for the latest observations of a given type.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_cdf" title="exa.core.plotting.qpu_plot.QPUPlot.draw_cdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_cdf</span></code></a></p></td>
+<td><p>Draw a cumulative histogram plot for all the observations of the given obs_types.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_histogram" title="exa.core.plotting.qpu_plot.QPUPlot.draw_histogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_histogram</span></code></a></p></td>
+<td><p>Plot a histogram for observation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_time_series" title="exa.core.plotting.qpu_plot.QPUPlot.draw_time_series"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_time_series</span></code></a></p></td>
+<td><p>Draw a time series plot for multiple DUT fields.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_topology" title="exa.core.plotting.qpu_plot.QPUPlot.draw_topology"><code class="xref py py-obj docutils literal notranslate"><span class="pre">draw_topology</span></code></a></p></td>
+<td><p>Draw the topology plots for all the observations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.set_aux_colormap" title="exa.core.plotting.qpu_plot.QPUPlot.set_aux_colormap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_aux_colormap</span></code></a></p></td>
+<td><p>Set the auxiliary colormap.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.set_colormaps" title="exa.core.plotting.qpu_plot.QPUPlot.set_colormaps"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_colormaps</span></code></a></p></td>
+<td><p>Set the colormaps to the given ones.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.set_cr_colormap" title="exa.core.plotting.qpu_plot.QPUPlot.set_cr_colormap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_cr_colormap</span></code></a></p></td>
+<td><p>Set the computational resonator colormap to the given one.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.set_qb_colormap" title="exa.core.plotting.qpu_plot.QPUPlot.set_qb_colormap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_qb_colormap</span></code></a></p></td>
+<td><p>Set the qubit colormap to the given one.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.set_save_directory" title="exa.core.plotting.qpu_plot.QPUPlot.set_save_directory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_save_directory</span></code></a></p></td>
+<td><p>Set the directory to which we save resulting figures to.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.set_tc_colormap" title="exa.core.plotting.qpu_plot.QPUPlot.set_tc_colormap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_tc_colormap</span></code></a></p></td>
+<td><p>Set the coupler colormap to the given one.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.plotting.qpu_plot.QPUPlot.summarize" title="exa.core.plotting.qpu_plot.QPUPlot.summarize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">summarize</span></code></a></p></td>
+<td><p>Print out a summary of the data stored within the QPUPlot object.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.chip_label">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chip_label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></em><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.chip_label" title="Link to this definition">#</a></dt>
+<dd><p>The chip label, same as the DUT label.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.chad">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">chad</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="../../iqm-exa-common/api/exa.common.qcm_data.chad_model.CHAD.html#exa.common.qcm_data.chad_model.CHAD" title="(in iqm-exa-common v29.1.0)"><span class="pre">CHAD</span></a></em><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.chad" title="Link to this definition">#</a></dt>
+<dd><p>The chip architecture definition (CHAD).</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.figs">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">figs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="(in Matplotlib v3.10.8)"><span class="pre">Figure</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.figs" title="Link to this definition">#</a></dt>
+<dd><p>List of figures rather than list of dictionary of figures for compliance.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.observations">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">observations</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="../../iqm-station-control-client/api/iqm.station_control.interface.models.observation.ObservationData.html#iqm.station_control.interface.models.observation.ObservationData" title="(in iqm-station-control-client v15.0.0)"><span class="pre">ObservationData</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="exa.core.observation.observation.LocalObservation.html#exa.core.observation.observation.LocalObservation" title="exa.core.observation.observation.LocalObservation"><span class="pre">LocalObservation</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.observations" title="Link to this definition">#</a></dt>
+<dd><p>The plain list of observations.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.add_observations">
+<span class="sig-name descname"><span class="pre">add_observations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observations</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.add_observations" title="Link to this definition">#</a></dt>
+<dd><p>Add the given observations to our observations list.</p>
+<p>It’s up to the caller of the method to decide where these observations came from.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>observations</strong> (<a class="reference external" href="../../iqm-station-control-client/api/iqm.station_control.interface.models.observation.ObservationDefinition.html#iqm.station_control.interface.models.observation.ObservationDefinition" title="(in iqm-station-control-client v15.0.0)"><em>ObservationDefinition</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="../../iqm-station-control-client/api/iqm.station_control.interface.models.observation.ObservationDefinition.html#iqm.station_control.interface.models.observation.ObservationDefinition" title="(in iqm-station-control-client v15.0.0)"><em>ObservationDefinition</em></a><em>]</em>) – This will be added to the QPUPlot’s observations list.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.add_observations_from_database">
+<span class="sig-name descname"><span class="pre">add_observations_from_database</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">latest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dut_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.add_observations_from_database" title="Link to this definition">#</a></dt>
+<dd><p>Add observations from database, filtering based on the provided criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>latest</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Add only the latest observation for each DUT field. Otherwise add all observations
+for the given filters.</p></li>
+<li><p><strong>all_tags</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Add the observations that satisfy all tags. Otherwise add observations that contain at least one tag
+if specified in <code class="docutils literal notranslate"><span class="pre">tags</span></code>.</p></li>
+<li><p><strong>dut_fields</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – The IDs of the type of observation in the database, e.g., component_name.parameter_name.</p></li>
+<li><p><strong>obs_params</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Parameter.html#exa.common.data.parameter.Parameter" title="(in iqm-exa-common v29.1.0)"><em>Parameter</em></a><em>] </em><em>| </em><em>None</em>) – Add the observations with this parameter for each of the components on the chip if they have it.</p></li>
+<li><p><strong>run_id</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><em>UUID</em></a><em> | </em><em>None</em>) – Add only the observations from the specified run ID.</p></li>
+<li><p><strong>tags</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – Tags to filter the observations. If this is the only argument, the latest observations for these
+tags are returned.</p></li>
+<li><p><strong>min_date</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/datetime.html#datetime.date" title="(in Python v3.11)"><em>date</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – Exclude observations with earlier created_timestamp. If defined as a string, it
+should be in ISO-8601 date format. Dates are not aware of timezones. Requires <code class="docutils literal notranslate"><span class="pre">max_date</span></code> to be set.</p></li>
+<li><p><strong>max_date</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/datetime.html#datetime.date" title="(in Python v3.11)"><em>date</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – Only include observations with earlier created_timestamp. If defined as a string, it
+should be in ISO-8601 date format. Dates are not aware of timezones. Requires <code class="docutils literal notranslate"><span class="pre">min_date</span></code> to be set.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.add_observations_from_stash">
+<span class="sig-name descname"><span class="pre">add_observations_from_stash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stash</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.add_observations_from_stash" title="Link to this definition">#</a></dt>
+<dd><p>Get observations from an existing stash, independently of their origin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stash</strong> (<a class="reference internal" href="exa.core.observation.observation_stash.ObservationStash.html#exa.core.observation.observation_stash.ObservationStash" title="exa.core.observation.observation_stash.ObservationStash"><em>ObservationStash</em></a>) – ObservationStash to load from.</p></li>
+<li><p><strong>components</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – List of components to load observations for. Defaults to None.</p></li>
+<li><p><strong>observations</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – List of observations to load. Defaults to None.</p></li>
+<li><p><strong>tags</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – List of tags to load. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.draw_all">
+<span class="sig-name descname"><span class="pre">draw_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_all" title="Link to this definition">#</a></dt>
+<dd><p>Draw all the plots for all the data we have.</p>
+<dl class="simple">
+<dt>Supported plots:</dt><dd><ul class="simple">
+<li><p>topology plot</p></li>
+<li><p>cumulative histogram (CDF)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_directory</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – The path to store the figures.</p></li>
+<li><p><strong>**kwargs</strong> – kwargs for topology and CDF plot methods.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.draw_topology">
+<span class="sig-name descname"><span class="pre">draw_topology</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_comp_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_fig</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_topology" title="Link to this definition">#</a></dt>
+<dd><p>Draw the topology plots for all the observations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_directory</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – If provided, the resulting plots are saved to that directory.</p></li>
+<li><p><strong>include_comp_names</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If True, include labels for component names.</p></li>
+<li><p><strong>close_fig</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If True, closes plt figures.</p></li>
+<li><p><strong>**kwargs</strong> – kwargs for topology plot methods.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The topology plot for each observation parameter.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="(in Matplotlib v3.10.8)"><em>Figure</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.draw_cdf">
+<span class="sig-name descname"><span class="pre">draw_cdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observation_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6.0,</span> <span class="pre">4.0)</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_cdf" title="Link to this definition">#</a></dt>
+<dd><p>Draw a cumulative histogram plot for all the observations of the given obs_types.</p>
+<p>The observations for each obs_type will be drawn on its own line, but in the same plot with the rest. The
+obs_types of the same unit will be plotted on the same plot, otherwise they will be drawn on different plots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observation_types</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#set" title="(in Python v3.11)"><em>set</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – The types of observations to plot from observations gathered in QPUPlot.</p></li>
+<li><p><strong>save_directory</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – If provided, the resulting plot is saved to that directory.</p></li>
+<li><p><strong>figsize</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – Width, height in inches.</p></li>
+<li><p><strong>**kwargs</strong> – kwargs for plot multi cdf method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The CDF plot for each unit.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="(in Matplotlib v3.10.8)"><em>Figure</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.draw_bar_chart">
+<span class="sig-name descname"><span class="pre">draw_bar_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_bar_chart" title="Link to this definition">#</a></dt>
+<dd><p>Draw bar chart plots for the latest observations of a given type.</p>
+<p>If one_per_dut_field = True, all observations (not only the latest) are plotted in a box plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_directory</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – If provided, the resulting plots are saved to that directory.</p></li>
+<li><p><strong>**kwargs</strong> – kwargs for plot bar chart method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The bar chart for each observation parameter.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="(in Matplotlib v3.10.8)"><em>Figure</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.draw_time_series">
+<span class="sig-name descname"><span class="pre">draw_time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dut_fields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_time_series" title="Link to this definition">#</a></dt>
+<dd><p>Draw a time series plot for multiple DUT fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dut_fields</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – The fields for the time series.</p></li>
+<li><p><strong>save_directory</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – If provided, the resulting plots are saved to that directory.</p></li>
+<li><p><strong>**kwargs</strong> – kwargs for plot time series method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The time series plot.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="(in Matplotlib v3.10.8)"><em>Figure</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.draw_histogram">
+<span class="sig-name descname"><span class="pre">draw_histogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_histogram" title="Link to this definition">#</a></dt>
+<dd><p>Plot a histogram for observation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>save_directory</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – If directory is provided, figures are saved to the directory</p></li>
+<li><p><strong>obs_types</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – Similarly to CDF plot, histogram will only be provided for these (different histograms).</p></li>
+<li><p><strong>**kwargs</strong> – kwargs for plot histogram method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The histogram for each observation parameter.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>, <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="(in Matplotlib v3.10.8)"><em>Figure</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.summarize">
+<span class="sig-name descname"><span class="pre">summarize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.summarize" title="Link to this definition">#</a></dt>
+<dd><p>Print out a summary of the data stored within the QPUPlot object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.set_save_directory">
+<span class="sig-name descname"><span class="pre">set_save_directory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">save_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.set_save_directory" title="Link to this definition">#</a></dt>
+<dd><p>Set the directory to which we save resulting figures to.</p>
+<p>Leaving this blank will clear the save_directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>save_directory</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a><em> | </em><em>None</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.set_colormaps">
+<span class="sig-name descname"><span class="pre">set_colormaps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qb_colormap=&lt;matplotlib.colors.ListedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tc_colormap=&lt;matplotlib.colors.ListedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cr_colormap=&lt;matplotlib.colors.ListedColormap</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aux_colormap=&lt;matplotlib.colors.ListedColormap</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.set_colormaps" title="Link to this definition">#</a></dt>
+<dd><p>Set the colormaps to the given ones. Default is IQM colormap for both qubits and couplers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.set_qb_colormap">
+<span class="sig-name descname"><span class="pre">set_qb_colormap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colormap=&lt;matplotlib.colors.ListedColormap</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.set_qb_colormap" title="Link to this definition">#</a></dt>
+<dd><p>Set the qubit colormap to the given one. Default is IQM colormap.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.set_tc_colormap">
+<span class="sig-name descname"><span class="pre">set_tc_colormap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colormap=&lt;matplotlib.colors.ListedColormap</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.set_tc_colormap" title="Link to this definition">#</a></dt>
+<dd><p>Set the coupler colormap to the given one. Default is IQM colormap.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.set_cr_colormap">
+<span class="sig-name descname"><span class="pre">set_cr_colormap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colormap=&lt;matplotlib.colors.ListedColormap</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.set_cr_colormap" title="Link to this definition">#</a></dt>
+<dd><p>Set the computational resonator colormap to the given one. Default is IQM colormap.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.set_aux_colormap">
+<span class="sig-name descname"><span class="pre">set_aux_colormap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">colormap=&lt;matplotlib.colors.ListedColormap</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.set_aux_colormap" title="Link to this definition">#</a></dt>
+<dd><p>Set the auxiliary colormap. Default is IQM colormap.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.plotting.qpu_plot.QPUPlot.convert_fidelity_and_error">
+<span class="sig-name descname"><span class="pre">convert_fidelity_and_error</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.plotting.qpu_plot.QPUPlot.convert_fidelity_and_error" title="Link to this definition">#</a></dt>
+<dd><p>Converts fidelities to errors and errors to fidelities.</p>
+<p>Note that in order to convert, we create new local observations with the correct parameters and delete the old
+ones, so this function is not perfectly reversible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-a77d98e2be38e04ff36d7c6bfbd7c97ae505651c.png" alt="Inheritance diagram of exa.core.plotting.qpu_plot.QPUPlot" usemap="#inheritance6badfd9311" class="inheritance graphviz" /></div>
+<map id="inheritance6badfd9311" name="inheritance6badfd9311">
+<area shape="rect" id="node1" href="#exa.core.plotting.qpu_plot.QPUPlot" target="_top" title="Help creating a plot for a given QPU that shows observation data." alt="" coords="5,5,92,53"/>
+</map></section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="exa.core.plotting.qpu_plot.ImageOptions.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">ImageOptions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="exa.core.plotting.qpu_table.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">qpu_table</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot"><code class="docutils literal notranslate"><span class="pre">QPUPlot</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.chip_label"><code class="docutils literal notranslate"><span class="pre">QPUPlot.chip_label</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.chad"><code class="docutils literal notranslate"><span class="pre">QPUPlot.chad</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.figs"><code class="docutils literal notranslate"><span class="pre">QPUPlot.figs</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.observations"><code class="docutils literal notranslate"><span class="pre">QPUPlot.observations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.add_observations"><code class="docutils literal notranslate"><span class="pre">QPUPlot.add_observations()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.add_observations_from_database"><code class="docutils literal notranslate"><span class="pre">QPUPlot.add_observations_from_database()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.add_observations_from_stash"><code class="docutils literal notranslate"><span class="pre">QPUPlot.add_observations_from_stash()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_all"><code class="docutils literal notranslate"><span class="pre">QPUPlot.draw_all()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_topology"><code class="docutils literal notranslate"><span class="pre">QPUPlot.draw_topology()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_cdf"><code class="docutils literal notranslate"><span class="pre">QPUPlot.draw_cdf()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_bar_chart"><code class="docutils literal notranslate"><span class="pre">QPUPlot.draw_bar_chart()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_time_series"><code class="docutils literal notranslate"><span class="pre">QPUPlot.draw_time_series()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.draw_histogram"><code class="docutils literal notranslate"><span class="pre">QPUPlot.draw_histogram()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.summarize"><code class="docutils literal notranslate"><span class="pre">QPUPlot.summarize()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.set_save_directory"><code class="docutils literal notranslate"><span class="pre">QPUPlot.set_save_directory()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.set_colormaps"><code class="docutils literal notranslate"><span class="pre">QPUPlot.set_colormaps()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.set_qb_colormap"><code class="docutils literal notranslate"><span class="pre">QPUPlot.set_qb_colormap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.set_tc_colormap"><code class="docutils literal notranslate"><span class="pre">QPUPlot.set_tc_colormap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.set_cr_colormap"><code class="docutils literal notranslate"><span class="pre">QPUPlot.set_cr_colormap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.set_aux_colormap"><code class="docutils literal notranslate"><span class="pre">QPUPlot.set_aux_colormap()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.plotting.qpu_plot.QPUPlot.convert_fidelity_and_error"><code class="docutils literal notranslate"><span class="pre">QPUPlot.convert_fidelity_and_error()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2019-2026, IQM Finland Oy, Release 20.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-11-10.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

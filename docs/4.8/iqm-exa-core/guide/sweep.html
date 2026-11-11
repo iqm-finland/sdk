@@ -1,0 +1,1078 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Sweep generation &#8212; iqm-exa-core 20.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=3f23208d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'guide/sweep';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Configuring compiler passes" href="compiler.html" />
+    <link rel="prev" title="Circuit generation functions" href="circuit.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-11-10"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm-exa-core 20.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm-exa-core 20.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-exa-core</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../basic_guide/index.html">Basics of EXA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/experiment.html">Running Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/settings_workflow.html">Workflow with Experiment settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/database.html">Data access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/observation.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/sequence.html">Sequences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/configuration_file.html">EXA Configuration File</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Creating EXA experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="concept.html">Conceptualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prototype.html">Prototyping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subclass.html">Making a subclass of Experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit.html">Circuit generation functions</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Sweep generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compiler.html">Compiler passes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html">Post-processing and analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html">Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="observations.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html">Integrating your experiment in a sequence or graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maturity.html">Is my experiment mature?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../notebooks/index.html">Example Notebooks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/experiment_basics.html">Experiment Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/example_local_storage.html">Local Storage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/exa.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.analyze_result.html">analyze_result</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.analyze_result.analyze_result.html">analyze_result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.analyze_result.plot_definition.html">plot_definition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.database_wrapper.html">database_wrapper</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.batch_save_observations.html">exa.core.database_wrapper.batch_save_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.get_all_dut_fields.html">exa.core.database_wrapper.get_all_dut_fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.get_latest_observations_for_tags.html">exa.core.database_wrapper.get_latest_observations_for_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.invalidate_observation.html">exa.core.database_wrapper.invalidate_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.save_observation.html">exa.core.database_wrapper.save_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.save_observations_with_new_tags.html">exa.core.database_wrapper.save_observations_with_new_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.set_observation_validity.html">exa.core.database_wrapper.set_observation_validity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.environment.html">environment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.environment.load_environment.html">exa.core.environment.load_environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.environment.EnvironmentConfig.html">EnvironmentConfig</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.error_estimation.html">error_estimation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.error_estimation.fit_statistical_error.html">fit_statistical_error</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.error_experiment.html">error_experiment</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment.html">experiment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.edge_coloring.html">edge_coloring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.experiment.html">experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.stages.html">stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.experiment_configuration.html">experiment_configuration</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_definitions.html">experiment_definitions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ChipProperties.html">exa.core.experiment_definitions.ChipProperties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ParallelGroup.html">ParallelGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.QPUType.html">QPUType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ReadoutMode.html">ReadoutMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ReadoutProgrammingMode.html">ReadoutProgrammingMode</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_options.html">experiment_options</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html">ExperimentOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_utils.html">experiment_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_utils.load_observations.html">exa.core.experiment_utils.load_observations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.gate_implementations.html">gate_implementations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.flux_pulse.html">flux_pulse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.modulated_pulse_gate.html">modulated_pulse_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.rz.html">rz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.x_ef_gate.html">x_ef_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.local_storage.html">local_storage</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.local_storage.LocalStorage.html">LocalStorage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.model_selection_fitter.html">model_selection_fitter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.fitter.html">fitter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.fitting.html">fitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.model_selection.html">model_selection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.models.html">models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.packaging.html">packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.plotting.html">plotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.preprocessing.html">preprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.structures.html">structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.multistate_classifier.html">multistate_classifier</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.classifier.html">classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.distance_classifier.html">distance_classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.linear_discriminant_analysis.html">linear_discriminant_analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.parameters.html">parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.support_vector_machine.html">support_vector_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.observation.html">observation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_handler.html">observation_handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_loading_rules.html">observation_loading_rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_parameters.html">observation_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_stash.html">observation_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_validation_rules.html">observation_validation_rules</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.observation_set_utils.html">observation_set_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.add_to_observation_set.html">exa.core.observation_set_utils.add_to_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.adjust_trigger_delays_in_stash.html">exa.core.observation_set_utils.adjust_trigger_delays_in_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.copy_station_specific_observations.html">exa.core.observation_set_utils.copy_station_specific_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.create_observation_set.html">exa.core.observation_set_utils.create_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.create_quality_metric_set.html">exa.core.observation_set_utils.create_quality_metric_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.finalize_observation_set.html">exa.core.observation_set_utils.finalize_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.get_latest_observation_set_id.html">exa.core.observation_set_utils.get_latest_observation_set_id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.get_observation_set.html">exa.core.observation_set_utils.get_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate.html">exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation.html">exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.plotting.html">plotting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.extended_wilkinson_tick_locator.html">extended_wilkinson_tick_locator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.figure.html">figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.figure_helper.html">figure_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.generic_plot.html">generic_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_cumulative_distribution.html">plot_cumulative_distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_helper.html">plot_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_options.html">plot_options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_styles.html">plot_styles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plots.html">plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_core.html">qpu_core</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_plot.html">qpu_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_table.html">qpu_table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.time_series.html">time_series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.topology.html">topology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.post_processing.html">post_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.transpose_data.html">exa.core.post_processing.transpose_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.contrast_computation.html">contrast_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.excited_state_probability_computation.html">excited_state_probability_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.single_shot_to_counter.html">single_shot_to_counter</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.provider.html">provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.provider.provider.html">provider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.readout_helpers.html">readout_helpers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.readout_helpers.get_measure_gate_name.html">exa.core.readout_helpers.get_measure_gate_name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.readout_helpers.resolve_target_name_for_f_state.html">exa.core.readout_helpers.resolve_target_name_for_f_state</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.run_result.html">run_result</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.sequence.html">sequence</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.context.html">context</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.data_access.html">data_access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.experiment_tracker.html">experiment_tracker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.interface.html">interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.result.html">result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.sequence.html">sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.sequence_executor.html">sequence_executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.trackers.html">trackers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.util.html">util</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.wrap_analyze.html">wrap_analyze</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.calibration_utils.html">calibration_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.chad_utils.html">chad_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.dut_field_decoder.html">dut_field_decoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.esprit.html">esprit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.experiment_class.html">experiment_class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.fft_helper.html">fft_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.formatting.html">formatting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.ipython_helper.html">ipython_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.migration.html">migration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.model_functions.html">model_functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.param_parsing.html">param_parsing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.pca.html">pca</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.phase_helper.html">phase_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.qpu_utils.html">qpu_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.qubit_utils.html">qubit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.report.html">report</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.serialization.html">serialization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.topology.html">topology</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/guide/sweep.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Sweep generation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-actually-be-swept">What can <em>actually</em> be swept?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-multiple-sweeps">Combining multiple sweeps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#type-of-sweep-vs-type-of-experiment">Type of sweep vs type of experiment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arguments-to-sweep-generation-functions">Arguments to sweep generation functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chip-topology">Chip topology</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sweeps-in-the-parallel-framework">Sweeps in the parallel framework</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-default-sweep-ranges-in-parallel-framework">Changing default sweep ranges in parallel framework</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-of-experiments">Design of Experiments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-constraints">Adding constraints</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#miscellaneous">Miscellaneous</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iterator-sweep">Iterator sweep</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-selection-sweeps">Circuit selection sweeps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#list-element-sweeps">List-element sweeps</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="sweep-generation">
+<span id="guide-sweep"></span><h1>Sweep generation<a class="headerlink" href="#sweep-generation" title="Link to this heading">#</a></h1>
+<p>While discussing the <a class="reference internal" href="prototype.html"><span class="doc">prototyping</span></a> of Exa <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment" title="exa.core.experiment.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a> s, we
+learnt that any experimental setting can be swept, and we saw a simple sweep generation function in the
+<a class="reference internal" href="subclass.html"><span class="doc">subclassing</span></a> chapter. Here, we will talk about the default sweeps in more detail and explore ways
+to design your experiments effectively.</p>
+<p>When you sweep a setting, Exa executes multiple experiments, one per each value, and returns the results back to you
+aggregated into a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.Dataset</span></code></a>, where the sweep name becomes a coordinate, and most of the time, also
+a dimension of the measured data <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>. Just like we saw with our Bell state experiment, where
+<code class="docutils literal notranslate"><span class="pre">phase</span></code> became such a coordinate.</p>
+<section id="what-can-actually-be-swept">
+<h2>What can <em>actually</em> be swept?<a class="headerlink" href="#what-can-actually-be-swept" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Q: Wait a second, you just said that every setting can be swept! What is happening?</strong></p>
+<p>A: You can create a <a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Sweep.html#exa.common.data.parameter.Sweep" title="(in iqm-exa-common v29.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sweep</span></code></a> from any <a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Setting.html#exa.common.data.parameter.Setting" title="(in iqm-exa-common v29.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Setting</span></code></a>,
+that much is absolutely true. It is done through the <a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Setting.html#exa.common.data.parameter.Setting.sweep" title="(in iqm-exa-common v29.1.0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sweep()</span></code></a> method, like
+demonstrated before, and you can add that sweep to your experiment. However, not every sweep will affect execution
+of your experiment directly, or at all. Some settings are given as information, which can be used and referenced,
+and so is valuable, but does not do anything or cannot be <em>set</em> at the instrument level. Some settings have an
+explicit <code class="docutils literal notranslate"><span class="pre">read_only</span></code> property, which prevents them from being changed or swept. This is what this section
+is about.</p>
+</div>
+<p>In Exa, the setting tree is a <a class="reference external" href="../../iqm-exa-common/api/exa.common.data.setting_node.SettingNode.html#exa.common.data.setting_node.SettingNode" title="(in iqm-exa-common v29.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">SettingNode</span></code></a> object, containing 5 separate sections:</p>
+<ol class="arabic simple">
+<li><p>Controllers. This section contains all the settings that directly affect some instrument participating in experiment
+execution. This is the only section which is actually submitted to the station. Modifying most of the settings here,
+via a sweep or otherwise, will turn some knob or change a value somewhere in the laboratory. Some of the settings
+are just references and cannot be changed, however. They are still included in the setting tree, because knowing them
+is necessary. For example, <code class="docutils literal notranslate"><span class="pre">controllers.QB1.drive.awg.sampling_rate</span></code> cannot be changed from the settings
+(on some devices it can only be changed at the hardware level). It is useful to know it, though, because when
+sweeping a duration of anything, it has to be
+a multiple of one time sample.</p></li>
+<li><p>Gates. Here, all the gate calibration data is stored. These settings populate the
+<a class="reference external" href="../../iqm-pulse/api/iqm.pulse.builder.ScheduleBuilder.html#iqm.pulse.builder.ScheduleBuilder" title="(in iqm.pulse v16.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ScheduleBuilder</span></code></a> we learnt about in the section concerning <a class="reference internal" href="circuit.html"><span class="doc">circuit</span></a> design.
+If sweeping a setting from this section, each time the circuit generation function is called during compilation,
+the builder will contain modified calibration data, adjusted by the sweep.</p></li>
+<li><p>Gate definitions. Here, the definitions of operations are stored, as well as which implementations are default for
+which loci. Sweeping those is definitely unusual, but possible, for example to evaluate the performance of
+different implementations within one experiment run. Note that most of these settings are anyway read-only. Exceptions
+include exactly the <code class="docutils literal notranslate"><span class="pre">gate_definitions.&lt;gate&gt;.default_implementation</span></code> setting.</p></li>
+<li><p>Characterization. This section is entirely for your convenience, it contains the characterization information,
+such as relaxation times or couplings that were measured, and does not affect anything when swept.</p></li>
+<li><p>Stages. This section sets the behaviour of the <a class="reference internal" href="compiler.html"><span class="doc">compiler</span></a>, specifically the compilation stages and
+passes within them. One of the first passes is to resolve the <a class="reference internal" href="circuit.html"><span class="doc">circuit</span></a>, so this is where all the
+arguments to the circuit generation function end up. These arguments are one of the most important settings to sweep,
+so we will talk about them separately. Note that every setting affecting the compiler can be swept, and it will
+alter the compilation process producing the schedule for that specific sweep spot.</p></li>
+</ol>
+<p>In summary, section 1 settings affect the <strong>instruments</strong> themselves, while sections 2 and 5 affect the <strong>instructions</strong>
+we give the instruments. This is an important distinction. All the sweeps from sections 2 and 5, collectively known as
+hardware sweeps, are combined into one very long <a class="reference external" href="../../iqm-data-definitions/api/iqm.models.playlist.playlist.Playlist.html#iqm.models.playlist.playlist.Playlist" title="(in IQM data definitions v3.2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Playlist</span></code></a> before being sent to be
+executed. This means the time needed to switch from one value to the next is only limited by the sampling time of those
+instruments (in practice you might want to reset your qubits, but you don’t have to). On the other hand, the controllers
+settings need to be modified between executing subsequent playlists. As a result, the hardware sweep spots, or sweeps
+of gates and stages settings, are always done in the <strong>inner</strong> loop, while the <strong>software</strong> sweeps, or sweeps of
+controllers settings, are always done in the <strong>outer</strong> loop.</p>
+</section>
+<section id="combining-multiple-sweeps">
+<h2>Combining multiple sweeps<a class="headerlink" href="#combining-multiple-sweeps" title="Link to this heading">#</a></h2>
+<p>We have seen so far how to make a single sweep, and what kinds of sweeps are possible. Often the design of the
+experiment requires multiple settings to be swept. How to combine different sweeps together?</p>
+<p>In Exa, there are two ways of doing that:</p>
+<ol class="arabic simple">
+<li><p>Cartesian sweep, or “nested loop” sweep: one circuit per each possible N-tuple of values from N sweeps.</p></li>
+<li><p>Pointwise sweep, or “zipped” sweep: one circuit per a corresponding pair of values. Also known as “parallel sweep”
+across the codebase.</p></li>
+</ol>
+<p>To produce a Cartesian sweep, put two sweeps together in a list, and to produce a pointwise sweep, put them in a tuple:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_diag_cz_sweeps</span><span class="p">(</span>
+    <span class="n">group</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="n">chip_topology</span><span class="p">:</span> <span class="n">ChipTopology</span><span class="p">,</span>
+    <span class="n">settings</span><span class="p">:</span> <span class="n">SettingNode</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sweeps</span><span class="p">:</span>
+
+    <span class="n">cz_node</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get_gate_node_for_locus</span><span class="p">(</span><span class="s2">&quot;cz&quot;</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+
+    <span class="c1"># make sweeps</span>
+    <span class="n">amp_sweep</span> <span class="o">=</span> <span class="n">cz_node</span><span class="o">.</span><span class="n">coupler</span><span class="o">.</span><span class="n">amplitude</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+    <span class="n">width_sweep</span> <span class="o">=</span> <span class="n">cz_node</span><span class="o">.</span><span class="n">coupler</span><span class="o">.</span><span class="n">full_width</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">20e-9</span><span class="p">,</span> <span class="mf">30e-9</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+
+    <span class="n">q_amp_sweep</span> <span class="o">=</span> <span class="n">cz_node</span><span class="o">.</span><span class="n">qubit</span><span class="o">.</span><span class="n">amplitude</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">21</span><span class="p">))</span>
+
+    <span class="c1"># pointwise coupler pulse sweep</span>
+    <span class="n">coupler_sweep</span> <span class="o">=</span> <span class="p">(</span><span class="n">amp_sweep</span><span class="p">,</span> <span class="n">width_sweep</span><span class="p">)</span>
+
+    <span class="c1"># sweeps in a tuple need to have the same number of values in them!</span>
+    <span class="n">bad_sweep</span> <span class="o">=</span> <span class="p">(</span><span class="n">q_amp_sweep</span><span class="p">,</span> <span class="n">amp_sweep</span><span class="p">)</span> <span class="c1"># more elements in the qubit sweep -&gt; error!</span>
+
+    <span class="c1"># cartesian sweep</span>
+    <span class="n">qubit_first_sweeps</span> <span class="o">=</span> <span class="p">[</span><span class="n">q_amp_sweep</span><span class="p">,</span> <span class="n">coupler_sweep</span><span class="p">]</span>
+
+    <span class="n">coupler_first_sweeps</span> <span class="o">=</span> <span class="p">[</span><span class="n">coupler_sweep</span><span class="p">,</span> <span class="n">q_amp_sweep</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">qubit_first_sweeps</span>
+</pre></div>
+</div>
+<p>The type annotation <code class="docutils literal notranslate"><span class="pre">Sweeps</span></code> is list[<a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Sweep.html#exa.common.data.parameter.Sweep" title="(in iqm-exa-common v29.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sweep</span></code></a> | tuple[<a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Sweep.html#exa.common.data.parameter.Sweep" title="(in iqm-exa-common v29.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sweep</span></code></a>, …]],
+which is as far as those can be nested. The output of the sweep generation function needs to be a list of either tuples
+of sweeps, or individual sweeps. The sweeps are then, as much as possible, executed from left to right. The first sweep
+becomes the innermost loop, changing the fastest, and the last sweep becomes the outermost loop, changing the slowest.</p>
+<p>In the example above, the first 21 executed schedules have the coupler pulse amplitude and width set to 0.0 and 20 ns,
+while the qubit pulse amplitude is increasing from 0.0 to 0.1. Then, the schedules 22 to 42 have coupler pulse amplitude
+increased to 0.01 and the width to 21 ns, while the qubit pulse amplitude again starts at 0.0, increasing to 0.1.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The gates and compiler (hardware) sweeps cannot be combined with the controllers (software) sweeps to form a single
+pointwise / zipped / tuple sweep right now. In some situations we would really like to do that, but there are ways
+around it - for example using a <strong>modulated</strong> drive pulse to change the drive frequency (hardware sweep) instead of directly changing the drive frequency (software sweep).</p>
+</div>
+</section>
+<section id="type-of-sweep-vs-type-of-experiment">
+<h2>Type of sweep vs type of experiment<a class="headerlink" href="#type-of-sweep-vs-type-of-experiment" title="Link to this heading">#</a></h2>
+<p>Any of the above sweeps can be added to any type of experiment discussed in the <a class="reference internal" href="concept.html"><span class="doc">conceptualization</span></a>
+chapter. However, there are certain strong correlations.</p>
+<ol class="arabic simple">
+<li><p>When we calibrate gates, we typically sweep the calibration settings of those gates. Sometimes, certain gate
+implementations will have parameters others don’t. It is OK, and probably necessary, to write experiments
+sweeping those parameters – they need calibration too. It is good to have informative error messages show as early
+as possible, informing the user that the experiment cannot go through if the default gate implementation does not
+have this parameter.</p></li>
+<li><p>When characterizing the chip or calibrating the general frequency landscape, we often sweep the controllers settings,
+most commonly centre AWG frequencies and flux voltages. But we might also use certain kinds of auxiliary gates,
+such as <code class="docutils literal notranslate"><span class="pre">flux_pulse</span></code> or <code class="docutils literal notranslate"><span class="pre">chirp</span></code>. Sometimes, we want to actually characterize the <strong>instrument</strong> or the whole
+classical transfer line between the instrument and the QPU, and the controllers settings’ sweeps are necessary then.</p></li>
+<li><p>Circuit settings are swept in almost any type of experiment, because often we simply need more than one point
+to determine some property of a gate or the chip. The most common sweeps have names like <code class="docutils literal notranslate"><span class="pre">wait</span></code> or <code class="docutils literal notranslate"><span class="pre">phase</span></code>, but
+there are some taking discrete values, like <code class="docutils literal notranslate"><span class="pre">add_initial_pi_pulse</span></code>. Some of these could be achieved with adding
+a new compiler pass and sweeping its settings instead, but there is a lot of freedom in the framework for you to
+choose which way you prefer.</p></li>
+</ol>
+</section>
+<section id="arguments-to-sweep-generation-functions">
+<h2>Arguments to sweep generation functions<a class="headerlink" href="#arguments-to-sweep-generation-functions" title="Link to this heading">#</a></h2>
+<p>The first argument to the sweep generation functions always is, like in the case of the circuit
+generation function, either <code class="docutils literal notranslate"><span class="pre">components</span></code> or <code class="docutils literal notranslate"><span class="pre">group</span></code>. The other arguments can be any default context arguments.
+Two commonly used ones are <code class="docutils literal notranslate"><span class="pre">chip_topology</span></code>, which the framework will
+populate with a <a class="reference external" href="../../iqm-exa-common/api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology" title="(in iqm-exa-common v29.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChipTopology</span></code></a> corresponding to the QPU the experiment is
+executed on, and <code class="docutils literal notranslate"><span class="pre">settings</span></code>, populated with the full setting tree. The other context arguments are discussed in
+the <a class="reference internal" href="compiler.html"><span class="doc">next chapter</span></a>.</p>
+<p>You may add additional arguments, which can be anything, and their
+values will be supplied from experiment options, as long as the names match up. We will discuss parallelization later,
+for now let’s focus on the other arguments.</p>
+<section id="chip-topology">
+<h3>Chip topology<a class="headerlink" href="#chip-topology" title="Link to this heading">#</a></h3>
+<p>The chip topology is supplied for the sweep generation function for a simple reason. The components given are only the
+active, computational components, but in many experiments we would like to sweep a setting which is not associated with
+any of those, but with a component <strong>connected to</strong> them.</p>
+<p>The simplest example is the coupler:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">coupler</span> <span class="o">=</span> <span class="n">chip_topology</span><span class="o">.</span><span class="n">get_coupler_for</span><span class="p">(</span><span class="n">first_qubit</span><span class="p">,</span> <span class="n">second_qubit</span><span class="p">)</span>
+
+<span class="n">coupler_voltage</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">controllers</span><span class="p">[</span><span class="n">coupler</span><span class="p">]</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">voltage</span>
+
+<span class="n">coupler_sweep</span> <span class="o">=</span> <span class="n">coupler_voltage</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Sweeping the DC voltage on the coupler flux line is needed in experiments measuring the ZZ interaction between
+the qubits, which are used to calibrate such a coupler frequency that the effective ZZ coupling is zero.</p>
+<p>Another example is the probe line:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">probe_line</span> <span class="o">=</span> <span class="n">chip_topology</span><span class="o">.</span><span class="n">component_to_probe_line</span><span class="p">[</span><span class="n">qubit</span><span class="p">]</span>
+
+<span class="c1"># TWPA stands for &quot;Travelling Wave Parametric Amplifier&quot;, and this is a pump power setting</span>
+<span class="n">twpa_power</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">controllers</span><span class="p">[</span><span class="n">probe_line</span><span class="p">]</span><span class="o">.</span><span class="n">twpa</span><span class="o">.</span><span class="n">power</span>
+
+<span class="n">twpa_sweep</span> <span class="o">=</span> <span class="n">twpa_power</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span> <span class="c1"># units are dBm</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Q: Wouldn’t it be easier to just have the coupler or probe line included in the components to begin with?</strong></p>
+<p>A: You can absolutely do that. In our collection of experiment classes, we have mostly adopted the convention of
+only using computational elements (qubits and occasionally computational resonators) as “active” components which
+are given to the <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.run" title="exa.core.experiment.experiment.Experiment.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> method. But whatever you provide there will
+end up in the <code class="docutils literal notranslate"><span class="pre">components</span></code> argument for the circuit and sweep generation functions. So you can absolutely just
+use the coupler. The chip topology is there for your convenience. In practice, it is much cleaner to always think
+of qubits as active, and supplying both the connected qubits and their connecting coupler each time is redundant.</p>
+<p>Keep in mind also the <strong>expectations</strong> and <strong>assumptions</strong> other users will make when using your experiment. In 99%
+of cases, the experiments concerning pairs of qubits and couplers connecting them will accept pairs of qubits
+as run arguments, and users will expect that and be confused if it is not the case. However, if your QPU happens to
+have driveable and directly measurable couplers, they will expect an experiment calibrating a single qubit gate to
+work when a coupler is provided as a run argument – because now it is an <strong>active</strong> component!</p>
+</div>
+</section>
+</section>
+<section id="sweeps-in-the-parallel-framework">
+<h2>Sweeps in the parallel framework<a class="headerlink" href="#sweeps-in-the-parallel-framework" title="Link to this heading">#</a></h2>
+<p>When using the parallel execution framework, the first argument to the sweep generation function needs to be <code class="docutils literal notranslate"><span class="pre">group</span></code>,
+which is a sequence of the components involved in one particular slice of the experiment, like in case of the
+circuit generation function.</p>
+<p>When writing the default sweep function, you can <em>almost</em> just think about a single qubit or pair that the experiment
+is affecting, and write your sweeps just like these were all the components. The only thing you need to remember is to
+<strong>use the same number of points in each sweep for each component group</strong>. If the first default sweep has 10 points, and
+the second has 5 points, this has to be uniform for all the involved groups.</p>
+<p>Under the hood, the sweeps returned by this function will be combined into pointwise sweeps by the framework, following
+the same order. The sweeps affecting the same parameters will not be duplicated. If the same parameter is swept for two
+different groups, only one of the sweeps is maintained. For that reason, this common parameter needs to always get the
+same sweep values.</p>
+<p>For example, in a two-qubit gate calibration experiment, you might sweep a gate parameter like
+<code class="docutils literal notranslate"><span class="pre">gates.cz.crf_crf.QB1__QB2.coupler.amplitude</span></code> and also a circuit parameter <code class="docutils literal notranslate"><span class="pre">phase</span></code>, determining a phase of the used
+Z rotation in a Ramsey sequence. At least, this is what the parameters are for the group <code class="docutils literal notranslate"><span class="pre">(&quot;QB1&quot;,</span> <span class="pre">&quot;QB2&quot;)</span></code>. For
+another locus, e.g. <code class="docutils literal notranslate"><span class="pre">(&quot;QB3&quot;,</span> <span class="pre">&quot;QB4&quot;)</span></code>, we would like <code class="docutils literal notranslate"><span class="pre">gates.cz.crf_crf.QB3__QB4.coupler.amplitude</span></code> and <code class="docutils literal notranslate"><span class="pre">phase</span></code>.</p>
+<p>In such a scenario, the <code class="docutils literal notranslate"><span class="pre">QB3__QB4</span></code> sweep has to have the same number of points as the <code class="docutils literal notranslate"><span class="pre">QB1__QB2</span></code> sweep, but the
+values of these points can be anything. The <code class="docutils literal notranslate"><span class="pre">phase</span></code> sweep however needs to be the same for both loci.</p>
+<p>One simple way of achieving this is to have one of the options in the <a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html#exa.core.experiment_options.ExperimentOptions" title="exa.core.experiment_options.ExperimentOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExperimentOptions</span></code></a>
+be something like <code class="docutils literal notranslate"><span class="pre">amplitude_sweep_points</span></code>, setting the number of points in the amplitude sweep for all involved
+pairs. This may look something like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_diag_cz_sweeps</span><span class="p">(</span>
+    <span class="n">group</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="n">chip_topology</span><span class="p">:</span> <span class="n">ChipTopology</span><span class="p">,</span>
+    <span class="n">settings</span><span class="p">:</span> <span class="n">SettingNode</span><span class="p">,</span>
+    <span class="n">amplitude_sweep_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sweeps</span><span class="p">:</span>
+
+    <span class="n">cz_node</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get_gate_node_for_locus</span><span class="p">(</span><span class="s2">&quot;cz&quot;</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+
+    <span class="c1"># make sweeps</span>
+    <span class="n">amp_sweep</span> <span class="o">=</span> <span class="n">cz_node</span><span class="o">.</span><span class="n">coupler</span><span class="o">.</span><span class="n">amplitude</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">amplitude_sweep_points</span><span class="p">))</span>
+    <span class="n">width_sweep</span> <span class="o">=</span> <span class="n">cz_node</span><span class="o">.</span><span class="n">coupler</span><span class="o">.</span><span class="n">full_width</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">20e-9</span><span class="p">,</span> <span class="mf">30e-9</span><span class="p">,</span> <span class="n">amplitude_sweep_points</span><span class="p">))</span>
+
+    <span class="c1"># pointwise coupler pulse sweep</span>
+    <span class="n">coupler_sweep</span> <span class="o">=</span> <span class="p">(</span><span class="n">amp_sweep</span><span class="p">,</span> <span class="n">width_sweep</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">coupler_sweep</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>And yes, the sweeps returned by this function can already be pointwise – they will just be combined into a larger
+pointwise sweep. Here we ensure not only that <code class="docutils literal notranslate"><span class="pre">amp_sweep</span></code> and <code class="docutils literal notranslate"><span class="pre">width_sweep</span></code> have the same number of points, but also
+that the analogous sweeps for other pairs have the same number of points.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Q: Why is this so complicated, why can’t I just define everything independently?</strong></p>
+<p>A: Ultimately it is because the “parallel execution framework” is not performing multiple different
+experiments on different parts of the chip completely in parallel. It is still just one big job which is executed
+as one big job on the hardware. Completely parallelizing the execution on disconnected parts of the chip by
+running <strong>separate</strong> experiment instances at the same exact time is not supported now. This means we need to conform
+to limitations imposed by <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a> for example.</p>
+</div>
+<section id="changing-default-sweep-ranges-in-parallel-framework">
+<h3>Changing default sweep ranges in parallel framework<a class="headerlink" href="#changing-default-sweep-ranges-in-parallel-framework" title="Link to this heading">#</a></h3>
+<p>This is not really about writing new experiments, but it is useful to know regardless. Having hundreds of default sweeps
+attached to the experiment, all with different values, might make it problematic to allow users to change their values.
+Typically, it is good to use options to provide maximum flexibility, so the users never have to do this. This may
+result in options like <code class="docutils literal notranslate"><span class="pre">amplitude_sweep_frequency_range</span></code>, <code class="docutils literal notranslate"><span class="pre">width_sweep_start</span></code> or <code class="docutils literal notranslate"><span class="pre">width_sweep_end_per_pair</span></code>,
+but you should aim to do all the frequently needed adjustments via options, and not by passing
+the <code class="docutils literal notranslate"><span class="pre">default_sweep_ranges</span></code> run argument.</p>
+<p>However, it can still be done. A useful method here is <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.get_default_sweeps_as_dict" title="exa.core.experiment.experiment.Experiment.get_default_sweeps_as_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_default_sweeps_as_dict()</span></code></a>,
+which returns a dictionary where the keys are full sweep parameters and the values are numpy arrays representing the
+sweep data. To update one sweep out of many, you can pass an update dictionary, containing only the keys you would like
+to modify, to the <code class="docutils literal notranslate"><span class="pre">default_sweep_ranges</span></code> run argument.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">custom_sweep_ranges</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;gates.cz.crf_crf.QB1__QB2.coupler.amplitude&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">11</span><span class="p">)}</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">([(</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB4&quot;</span><span class="p">)],</span> <span class="n">default_sweep_ranges</span><span class="o">=</span><span class="n">custom_sweep_ranges</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will just modify the range of the sweep for the first pair, keeping the default sweep for the second pair.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Be careful when adding soft sweeps in the parallel framework! If two of the component groups share components,
+their circuits cannot be executed simultaneously, and they will be downgraded to a <strong>sequential</strong> execution.
+However, software sweeps are just added to the entire experiment. If you modify the voltage on a coupler, this
+voltage will be modified for all the component groups. Changing the voltage on <code class="docutils literal notranslate"><span class="pre">TC-1-2</span></code> might be intended when
+measuring the pair <code class="docutils literal notranslate"><span class="pre">(&quot;QB1&quot;,</span> <span class="pre">&quot;QB2&quot;)</span></code>, but it will also affect results on the pair <code class="docutils literal notranslate"><span class="pre">(&quot;QB1&quot;,</span> <span class="pre">&quot;QB4&quot;)</span></code> by virtue of
+hybridizing the coupler differently with <code class="docutils literal notranslate"><span class="pre">QB1</span></code>. In such cases it is better to throw warnings or prevent the
+user from running sequential experiments. They are not even the fastest way of accomplishing the task in practice.</p>
+</div>
+</section>
+</section>
+<section id="design-of-experiments">
+<h2>Design of Experiments<a class="headerlink" href="#design-of-experiments" title="Link to this heading">#</a></h2>
+<p>The term “design-of-experiments” (DoE) in general refers to everything we may do ahead of time to help the experiment
+estimate the required information faster, more accurately or precisely. The general area is vast, but this is a
+chapter specifically about how to generate sweeps that follow certain rules which improve our efficiency in terms of
+extracting information from an experiment. There are <strong>adaptive experiment designs</strong>, in which one would perform some
+measurements and use them to inform the sweeps used in the next experiments, targeting the volume of the space where
+measuring provides the most information, for example using Bayesian inference.</p>
+<p>Here, we will not be talking about adaptive experiment designs, because they break the abstraction of a single
+experiment run, as understood within the <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment" title="exa.core.experiment.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a> framework. They might
+be implemented on a higher level of abstraction, such as using <a class="reference internal" href="../api/exa.core.sequence.sequence.Sequence.html#exa.core.sequence.sequence.Sequence" title="exa.core.sequence.sequence.Sequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code></a> or
+optimization frameworks outside of EXA.</p>
+<p>Instead, we will focus on <strong>static designs</strong>. There is a plethora of static designs, but the overall target for them
+is to answer a question that can be roughly defined as “How to best fill a multidimensional space with points to
+learn the most information”. Different types of designs aim to answer this question in different ways, such as
+minimizing the mathematical “discrepancy” between the multidimensional hypercube and the experiment design, or
+maximizing some property of the Fisher information matrix. The actual extraction of the information from the measured
+data will be then described in the <a class="reference internal" href="analysis.html"><span class="doc">analysis</span></a> chapter.</p>
+<p>Our implementation uses the <a class="reference external" href="https://emukit.github.io">emukit</a> toolkit, and you are invited to read its documentation
+as a supplement to this guide.</p>
+<section id="adding-constraints">
+<h3>Adding constraints<a class="headerlink" href="#adding-constraints" title="Link to this heading">#</a></h3>
+<p>Sometimes, we already have some constraints on our space. For example, we know that the readout pulse that is both very
+long and high amplitude will excite our qubits too much. However, both weak but long pulses and short but high amplitude
+pulses might be fine.</p>
+<p>In other words, we might want to not sample from a hypercube, but for example from a hypersphere.</p>
+<p>This can be achieved by adding constraints directly to the design space. A constraint here needs to be a function, which
+takes a mapping from parameter names to their values (produced later by the space sampler) and returns either <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+if the point is OK, or <code class="docutils literal notranslate"><span class="pre">False</span></code> if it is not. For example, here we might want to do:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">constraint</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">paramvals</span><span class="p">:</span> <span class="n">paramvals</span><span class="p">[</span><span class="n">amp_param</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">*</span> <span class="n">paramvals</span><span class="p">[</span><span class="n">duration_param</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="mf">0.2e-6</span>
+
+<span class="n">space</span> <span class="o">=</span> <span class="n">LatinSweepDesign</span><span class="p">(</span><span class="n">parameter_domains</span><span class="o">=</span><span class="p">[</span><span class="n">amp_param_domain</span><span class="p">,</span> <span class="n">duration_param_domain</span><span class="p">],</span> <span class="n">constraints</span><span class="o">=</span><span class="p">[</span><span class="n">constraint</span><span class="p">])</span>
+
+<span class="n">sweeps</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">generate_sweep</span><span class="p">(</span><span class="n">n_points</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can add multiple constraints, which uses only points satisfying all of them. The constraints are enforced
+by rejection sampling, so it might increase the sampling time. Also beware that certain constraints might make it
+impossible to find points due to being infeasible, so it is important to define them carefully.</p>
+<figure class="align-center" id="id1">
+<img alt="Two figures showing sample points in amplitude and pulse duration, grid on the left, constrained latin samples on the right." src="../_images/grid_vs_latin_constraint.png" />
+<figcaption>
+<p><span class="caption-text">Now, a significant area in the sampling space is empty after applying the constraint.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="miscellaneous">
+<h2>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Link to this heading">#</a></h2>
+<p>To close off this chapter, let’s talk about some additional sweep-related tips and tricks.</p>
+<section id="iterator-sweep">
+<h3>Iterator sweep<a class="headerlink" href="#iterator-sweep" title="Link to this heading">#</a></h3>
+<p>Often times, one wants to add a sweep that just does nothing in a safe way. Usually it is to collect statistics, or
+statistics over time. This sweep is also a good way of checking if your <a class="reference internal" href="analysis.html"><span class="doc">analysis</span></a> supports extra
+sweeps. It is doing literally nothing, so it should be the easiest sweep to support on the level of handling data.</p>
+<p>This sweep should be added in the following way:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">iterator_sweep</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">controllers</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">iterator</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_iterations</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Do not add any extra settings, or sweep settings which “seem unrelated” and “probably won’t do anything”.</p>
+</section>
+<section id="circuit-selection-sweeps">
+<h3>Circuit selection sweeps<a class="headerlink" href="#circuit-selection-sweeps" title="Link to this heading">#</a></h3>
+<p>This section belongs somewhere between this chapter and the previous one about <a class="reference internal" href="circuit.html"><span class="doc">circuits</span></a>. When designing
+your experiment, you might want to execute multiple circuits which differ by more than a simple phase or duration, but
+in a more fundamental way. Executing multiple circuits is a type of a sweep, and the easiest way to implement it is
+as a sweep of an argument to the circuit generation function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">bell_circuit</span><span class="p">(</span><span class="n">group</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">builder</span><span class="p">:</span> <span class="n">ScheduleBuilder</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;00_11&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeBox</span><span class="p">:</span>
+
+    <span class="n">circuit</span> <span class="o">=</span> <span class="n">TimeBox</span><span class="o">.</span><span class="n">composite</span><span class="p">([],</span> <span class="n">scheduling</span><span class="o">=</span><span class="n">SchedulingStrategy</span><span class="o">.</span><span class="n">ALAP</span><span class="p">)</span>
+    <span class="n">target_qubit</span><span class="p">,</span> <span class="n">control_qubit</span> <span class="o">=</span> <span class="n">group</span>
+    <span class="n">target_x90</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_implementation</span><span class="p">(</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">target_qubit</span><span class="p">])</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">cz_locus</span> <span class="o">=</span> <span class="n">override_2qb_gate_locus</span><span class="p">(</span><span class="n">target_qubit</span><span class="p">,</span> <span class="n">control_qubit</span><span class="p">,</span> <span class="n">cz_locus_priority_qubits</span><span class="p">)</span>
+
+    <span class="k">match</span> <span class="n">state</span><span class="p">:</span>
+        <span class="k">case</span> <span class="s2">&quot;00_11&quot;</span><span class="p">:</span>
+            <span class="c1"># Double-quantum coherence Ramsey-like experiment</span>
+
+            <span class="c1"># ... prepare the |00&gt; + |11&gt; state</span>
+            <span class="n">circuit</span> <span class="o">+=</span> <span class="n">builder</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">cz_locus</span><span class="p">,</span> <span class="n">pulse_delay</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="c1"># ... unprepare the |00&gt; + |11&gt; state</span>
+
+        <span class="k">case</span> <span class="s2">&quot;10_01&quot;</span><span class="p">:</span>
+            <span class="c1"># Zero-quantum coherence T2 Ramsey-like experiment</span>
+
+            <span class="c1"># ... prepare the |10&gt; + |01&gt; state</span>
+            <span class="n">circuit</span> <span class="o">+=</span> <span class="n">builder</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">cz_locus</span><span class="p">,</span> <span class="n">pulse_delay</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="c1"># ... unprepare the |10&gt; + |01&gt; state</span>
+
+    <span class="k">return</span> <span class="n">circuit</span>
+</pre></div>
+</div>
+<p>Then, the <code class="docutils literal notranslate"><span class="pre">state</span></code> argument becomes a circuit setting under <code class="docutils literal notranslate"><span class="pre">settings.stages.circuit_generation.circuit.state</span></code> and
+can be swept:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">state_sweep</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s2">&quot;00_11&quot;</span><span class="p">,</span> <span class="s2">&quot;10_01&quot;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</section>
+<section id="list-element-sweeps">
+<h3>List-element sweeps<a class="headerlink" href="#list-element-sweeps" title="Link to this heading">#</a></h3>
+<p>There are some settings which are not single numbers, but sequences of numbers, for example the IIR filter amplitudes,
+or the measurement integration weights. Unfortunately, sweeping entire sequences at once is not allowed due to limitations
+of <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a>, which is used to store and handle data after execution. Instead, we might extract single values at certain
+indices of these sequences and sweep just those. This is especially useful for calibration of the precompensation filters.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># pick the setting</span>
+<span class="n">precompensation_amplitudes_setting</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">controllers</span><span class="p">[</span><span class="n">coupler</span><span class="p">]</span><span class="o">.</span><span class="n">flux</span><span class="o">.</span><span class="n">awg</span><span class="o">.</span><span class="n">precompensation</span><span class="o">.</span><span class="n">amplitudes</span>
+
+<span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c1"># create the auxiliary parameter</span>
+<span class="n">single_element_parameter</span> <span class="o">=</span> <span class="n">precompensation_amplitudes_setting</span><span class="o">.</span><span class="n">create_element_parameter_for</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+<span class="c1"># make sweep directly</span>
+<span class="n">amplitude_sweep</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span><span class="n">parameter</span><span class="o">=</span><span class="n">single_element_parameter</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This sweep can then be executed and added to the dataset.</p>
+</section>
+</section>
+<section id="conclusions">
+<h2>Conclusions<a class="headerlink" href="#conclusions" title="Link to this heading">#</a></h2>
+<p>After consulting this chapter, you should be able to write arbitrary sweep generation functions and design your
+experiments properly. Since sweeps often involve circuit generation and compilation pass arguments, making an experiment
+can be an iterative process.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="circuit.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Circuit generation functions</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="compiler.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Configuring compiler passes</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-can-actually-be-swept">What can <em>actually</em> be swept?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-multiple-sweeps">Combining multiple sweeps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#type-of-sweep-vs-type-of-experiment">Type of sweep vs type of experiment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arguments-to-sweep-generation-functions">Arguments to sweep generation functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chip-topology">Chip topology</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sweeps-in-the-parallel-framework">Sweeps in the parallel framework</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-default-sweep-ranges-in-parallel-framework">Changing default sweep ranges in parallel framework</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-of-experiments">Design of Experiments</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-constraints">Adding constraints</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#miscellaneous">Miscellaneous</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iterator-sweep">Iterator sweep</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-selection-sweeps">Circuit selection sweeps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#list-element-sweeps">List-element sweeps</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2019-2026, IQM Finland Oy, Release 20.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-11-10.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1219 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Automated data analysis &#8212; iqm-exa-core 20.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=3f23208d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'guide/analysis';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Plotting the analysed data" href="plotting.html" />
+    <link rel="prev" title="Configuring compiler passes" href="compiler.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-11-10"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm-exa-core 20.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm-exa-core 20.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-exa-core</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../basic_guide/index.html">Basics of EXA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/experiment.html">Running Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/settings_workflow.html">Workflow with Experiment settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/database.html">Data access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/observation.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/sequence.html">Sequences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/configuration_file.html">EXA Configuration File</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Creating EXA experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="concept.html">Conceptualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prototype.html">Prototyping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="subclass.html">Making a subclass of Experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit.html">Circuit generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sweep.html">Sweep generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compiler.html">Compiler passes</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Post-processing and analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html">Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="observations.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html">Integrating your experiment in a sequence or graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maturity.html">Is my experiment mature?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../notebooks/index.html">Example Notebooks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/experiment_basics.html">Experiment Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/example_local_storage.html">Local Storage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/exa.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.analyze_result.html">analyze_result</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.analyze_result.analyze_result.html">analyze_result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.analyze_result.plot_definition.html">plot_definition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.database_wrapper.html">database_wrapper</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.batch_save_observations.html">exa.core.database_wrapper.batch_save_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.get_all_dut_fields.html">exa.core.database_wrapper.get_all_dut_fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.get_latest_observations_for_tags.html">exa.core.database_wrapper.get_latest_observations_for_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.invalidate_observation.html">exa.core.database_wrapper.invalidate_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.save_observation.html">exa.core.database_wrapper.save_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.save_observations_with_new_tags.html">exa.core.database_wrapper.save_observations_with_new_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.set_observation_validity.html">exa.core.database_wrapper.set_observation_validity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.environment.html">environment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.environment.load_environment.html">exa.core.environment.load_environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.environment.EnvironmentConfig.html">EnvironmentConfig</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.error_estimation.html">error_estimation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.error_estimation.fit_statistical_error.html">fit_statistical_error</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.error_experiment.html">error_experiment</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment.html">experiment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.edge_coloring.html">edge_coloring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.experiment.html">experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.stages.html">stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.experiment_configuration.html">experiment_configuration</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_definitions.html">experiment_definitions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ChipProperties.html">exa.core.experiment_definitions.ChipProperties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ParallelGroup.html">ParallelGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.QPUType.html">QPUType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ReadoutMode.html">ReadoutMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ReadoutProgrammingMode.html">ReadoutProgrammingMode</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_options.html">experiment_options</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html">ExperimentOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_utils.html">experiment_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_utils.load_observations.html">exa.core.experiment_utils.load_observations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.gate_implementations.html">gate_implementations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.flux_pulse.html">flux_pulse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.modulated_pulse_gate.html">modulated_pulse_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.rz.html">rz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.x_ef_gate.html">x_ef_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.local_storage.html">local_storage</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.local_storage.LocalStorage.html">LocalStorage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.model_selection_fitter.html">model_selection_fitter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.fitter.html">fitter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.fitting.html">fitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.model_selection.html">model_selection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.models.html">models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.packaging.html">packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.plotting.html">plotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.preprocessing.html">preprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.structures.html">structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.multistate_classifier.html">multistate_classifier</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.classifier.html">classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.distance_classifier.html">distance_classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.linear_discriminant_analysis.html">linear_discriminant_analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.parameters.html">parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.support_vector_machine.html">support_vector_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.observation.html">observation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_handler.html">observation_handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_loading_rules.html">observation_loading_rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_parameters.html">observation_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_stash.html">observation_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_validation_rules.html">observation_validation_rules</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.observation_set_utils.html">observation_set_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.add_to_observation_set.html">exa.core.observation_set_utils.add_to_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.adjust_trigger_delays_in_stash.html">exa.core.observation_set_utils.adjust_trigger_delays_in_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.copy_station_specific_observations.html">exa.core.observation_set_utils.copy_station_specific_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.create_observation_set.html">exa.core.observation_set_utils.create_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.create_quality_metric_set.html">exa.core.observation_set_utils.create_quality_metric_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.finalize_observation_set.html">exa.core.observation_set_utils.finalize_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.get_latest_observation_set_id.html">exa.core.observation_set_utils.get_latest_observation_set_id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.get_observation_set.html">exa.core.observation_set_utils.get_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate.html">exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation.html">exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.plotting.html">plotting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.extended_wilkinson_tick_locator.html">extended_wilkinson_tick_locator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.figure.html">figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.figure_helper.html">figure_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.generic_plot.html">generic_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_cumulative_distribution.html">plot_cumulative_distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_helper.html">plot_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_options.html">plot_options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_styles.html">plot_styles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plots.html">plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_core.html">qpu_core</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_plot.html">qpu_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_table.html">qpu_table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.time_series.html">time_series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.topology.html">topology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.post_processing.html">post_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.transpose_data.html">exa.core.post_processing.transpose_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.contrast_computation.html">contrast_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.excited_state_probability_computation.html">excited_state_probability_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.single_shot_to_counter.html">single_shot_to_counter</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.provider.html">provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.provider.provider.html">provider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.readout_helpers.html">readout_helpers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.readout_helpers.get_measure_gate_name.html">exa.core.readout_helpers.get_measure_gate_name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.readout_helpers.resolve_target_name_for_f_state.html">exa.core.readout_helpers.resolve_target_name_for_f_state</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.run_result.html">run_result</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.sequence.html">sequence</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.context.html">context</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.data_access.html">data_access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.experiment_tracker.html">experiment_tracker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.interface.html">interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.result.html">result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.sequence.html">sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.sequence_executor.html">sequence_executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.trackers.html">trackers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.util.html">util</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.wrap_analyze.html">wrap_analyze</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.calibration_utils.html">calibration_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.chad_utils.html">chad_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.dut_field_decoder.html">dut_field_decoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.esprit.html">esprit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.experiment_class.html">experiment_class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.fft_helper.html">fft_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.formatting.html">formatting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.ipython_helper.html">ipython_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.migration.html">migration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.model_functions.html">model_functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.param_parsing.html">param_parsing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.pca.html">pca</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.phase_helper.html">phase_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.qpu_utils.html">qpu_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.qubit_utils.html">qubit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.report.html">report</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.serialization.html">serialization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.topology.html">topology</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/guide/analysis.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Automated data analysis</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#purpose-of-analysis">Purpose of analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basics-of-analysis-functions">Basics of analysis functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arguments-and-data-variables">Arguments and data variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extra-arguments">Extra arguments</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulating-xarray-arrays">Manipulating xarray arrays</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-pointwise-sweeps">Handling pointwise sweeps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-coordinates-and-dims">Changing coordinates and dims</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-apply-ufunc">Using apply_ufunc</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting">Fitting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-curve-fit">Using curve_fit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-model-selection-fitter">Using Model Selection Fitter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-2-dimensional-data">Fitting 2-dimensional data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="automated-data-analysis">
+<span id="guide-analysis"></span><h1>Automated data analysis<a class="headerlink" href="#automated-data-analysis" title="Link to this heading">#</a></h1>
+<p>You have your circuit and sweeps, and you have run the experiment. Now it is time to analyze the data. We have seen a
+simple analysis function in the <a class="reference internal" href="prototype.html"><span class="doc">prototyping</span></a> chapter. Here we will explore analysis in more detail.</p>
+<p>By the time the analysis function is called, automatic post-processing has happened and produced the
+<a class="reference external" href="../../iqm-pulla/api/iqm.cpc.core.run_result.RunResult.html#iqm.cpc.core.run_result.RunResult" title="(in IQM Pulla v16.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunResult</span></code></a> object for us to use. The post-processing can be adjusted via post-processing
+passes, which belong to the <a class="reference internal" href="compiler.html"><span class="doc">compiler</span></a> chapter, but we will here assume the default post-processing has
+run. The division between post-processing and analysis is not clear-cut, and it is possible to arbitrarily process
+data during the analysis. If possible, using compiler passes is preferred, but the analysis is the most flexible
+part of the framework for a reason.</p>
+<p>In this chapter, we will learn about how to approach analysing data produced by the <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment" title="exa.core.experiment.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>
+class, different fitting methods, some basics of operating on <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a>, as well as some additional tricks to making
+your analysis fast and reliable.</p>
+<section id="purpose-of-analysis">
+<h2>Purpose of analysis<a class="headerlink" href="#purpose-of-analysis" title="Link to this heading">#</a></h2>
+<p>Automatic analysis is where your experiment finally produces the information it was designed to produce. This is done by
+calculation of one or multiple <strong>derived quantities</strong>. It may proceed in phases, deriving further quantities from ones
+derived earlier.</p>
+<p>Remember, analysis is a communication tool! It is important to strike the balance between communicating to the experimentalist using the
+experiment class, and enabling further automation. For an experimentalist, keeping all the derived quantities making
+the experiment visualization easy is important. It enables flexible use of the experiment class, as a starting point
+for further research. For an automated process, speed, reliability, and keeping just enough data to explain why
+something went wrong, are crucial. Each raw dataset is stored in the database, but the analysis needs
+to run every time it is recovered. Thus the speed requirement for analysis should be stricter than for the execution,
+as it could be performed multiple times for the same raw data.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Think about the purpose of the experiment class. Sometimes, producing a single number at the end is not the
+goal, but instead visualizing some 2D quantity. This is commonly true for experiments where the circuit may be
+complicated, and the measured quantity is highly sensitive to small variations in the input parameters.</p>
+</div>
+<p>The analysis is allowed to create observations and plots. However, plots should never be built in the main body of the
+analysis, because they can be pretty expensive, both in time and memory, even on relatively small datasets, and the
+automated routines consisting of many experiments typically do not need to make them at all. Instead, make all the
+actual plotting in a separate <a class="reference internal" href="plotting.html"><span class="doc">plotting function</span></a>.</p>
+<p>Observations are described in a <a class="reference internal" href="observations.html"><span class="doc">later chapter</span></a> of this guide. Each observation is either a quantity
+metric, or it should map to somewhere in the setting tree. For this reason, think about if producing observations
+makes sense with arbitrary extra sweeps. Maybe it does with some sweeps, but not others?</p>
+<p>As mentioned before, the analysis framework is not very mature, but it is very flexible. Still, organizing it internally
+into multiple stages using separate functions that can be then reused is a good practice, even if not enforced by
+a structure of some compiler.</p>
+</section>
+<section id="basics-of-analysis-functions">
+<h2>Basics of analysis functions<a class="headerlink" href="#basics-of-analysis-functions" title="Link to this heading">#</a></h2>
+<p>A good way of starting the analysis is to create the <a class="reference internal" href="../api/exa.core.analyze_result.analyze_result.AnalyzeResult.html#exa.core.analyze_result.analyze_result.AnalyzeResult" title="exa.core.analyze_result.analyze_result.AnalyzeResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalyzeResult</span></code></a>,
+and extract the dataset and settings from it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">AnalyzeResult</span><span class="p">(</span><span class="n">run_result</span><span class="p">)</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">dataset</span>
+<span class="n">settings</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">settings</span>
+</pre></div>
+</div>
+<p>Then, try to work as much as possible with the <code class="docutils literal notranslate"><span class="pre">result</span></code> variable, adding arrays, observations and plots to it. You
+can use these methods:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">exa.core.analyze_result</span><span class="w"> </span><span class="kn">import</span> <span class="n">PlotDefinition</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.station_control.client.qon</span><span class="w"> </span><span class="kn">import</span> <span class="n">QONGateMetric</span>
+
+<span class="n">qon_metric</span> <span class="o">=</span> <span class="n">QONGateMetric</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+<span class="n">result</span><span class="o">.</span><span class="n">add_arrays</span><span class="p">(</span><span class="n">array_1</span><span class="p">,</span> <span class="n">array_2</span><span class="p">,</span> <span class="n">array_3</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">plots</span><span class="p">[</span><span class="s2">&quot;plot_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">PlotDefinition</span><span class="p">(</span><span class="n">plotting_function</span><span class="p">,</span> <span class="n">default_kwargs</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">add_setting_observation</span><span class="p">(</span><span class="n">setting</span><span class="o">=</span><span class="n">setting_node</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span> <span class="n">uncertainty</span><span class="o">=</span><span class="n">error</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">add_observation_with_qon</span><span class="p">(</span><span class="n">qon</span><span class="o">=</span><span class="n">qon_metric</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">gate_fidelity</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A useful function is <a class="reference external" href="../../iqm-pulla/api/iqm.cpc.core.dataset.annotate.html#iqm.cpc.core.dataset.annotate" title="(in IQM Pulla v16.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">iqm.cpc.core.dataset.annotate()</span></code></a>, which attaches Parameter to a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">xarray.DataArray</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.cpc.core.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">exa.common.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataType</span><span class="p">,</span> <span class="n">Parameter</span>
+
+<span class="n">array_1_param</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;optimal_time&quot;</span><span class="p">,</span> <span class="s2">&quot;Optimal Time to do the thing&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">DataType</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">)</span>
+
+<span class="n">annotate</span><span class="p">(</span><span class="n">array_1</span><span class="p">,</span> <span class="n">array_1_param</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">add_arrays</span><span class="p">(</span><span class="n">array_1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It modifies the array in place, but also returns it, which makes it easier to use it on views into some bigger array.
+The parameter label is automatically used as a plot label when plotting from <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a>, and the <code class="docutils literal notranslate"><span class="pre">prefix</span></code>
+argument, typically the name of the qubit or a pair, is appended to both the parameter name and label by the
+<a class="reference external" href="../../iqm-pulla/api/iqm.cpc.core.dataset.annotate.html#iqm.cpc.core.dataset.annotate" title="(in IQM Pulla v16.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">annotate()</span></code></a> function.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Q: What quantities should I add to the dataset? I would like to avoid from it becoming too large.</strong></p>
+<p>A: Come back to the purpose of your experiment. If it is meant to be a flexible research tool, generally any
+quantity carrying useful information should be added to the dataset. Such a flexible tool could be run with extra
+sweeps added by the user. For this reason, even the <strong>zero-dimensional quantities</strong>, like the final observations
+produced along with their uncertainties, should be added to the dataset, making sure any extra sweeps become a new
+dimension on this variable. Stashing information, for example fit parameters, in the attributes of the array is not
+recommended for this reason, as it makes it harder to plot them. However, some of the fit parameters are not really
+<strong>interesting</strong> on their own, so skipping adding them to the dataset is OK.</p>
+</div>
+<p>As a reminder, the analysis function needs to <strong>return</strong> the <a class="reference internal" href="../api/exa.core.analyze_result.analyze_result.AnalyzeResult.html#exa.core.analyze_result.analyze_result.AnalyzeResult" title="exa.core.analyze_result.analyze_result.AnalyzeResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalyzeResult</span></code></a>
+object, if it created a new one.</p>
+</section>
+<section id="arguments-and-data-variables">
+<h2>Arguments and data variables<a class="headerlink" href="#arguments-and-data-variables" title="Link to this heading">#</a></h2>
+<p>Similarly to the compiler passes, the analysis functions can take some extra context arguments.</p>
+<ol class="arabic simple">
+<li><p>Arguments <code class="docutils literal notranslate"><span class="pre">chip_topology</span></code> (<a class="reference external" href="../../iqm-exa-common/api/exa.common.qcm_data.chip_topology.ChipTopology.html#exa.common.qcm_data.chip_topology.ChipTopology" title="(in iqm-exa-common v29.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChipTopology</span></code></a> ), <code class="docutils literal notranslate"><span class="pre">chip_properties</span></code> and
+<code class="docutils literal notranslate"><span class="pre">gate_definitions</span></code> (mapping of names of <a class="reference external" href="../../iqm-pulse/api/iqm.pulse.quantum_ops.QuantumOp.html#iqm.pulse.quantum_ops.QuantumOp" title="(in iqm.pulse v16.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">QuantumOp</span></code></a> s) are always available.</p></li>
+<li><p>Additionally, when the first argument is <code class="docutils literal notranslate"><span class="pre">group</span></code> and you’re using the parallel execution framework, the arguments
+<code class="docutils literal notranslate"><span class="pre">data_color</span></code> (<a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a>, reduced to only contain data pertaining to this group), and <code class="docutils literal notranslate"><span class="pre">circuit_index</span></code>
+(index of the circuit that contains this color group, relevant for sequential execution of overlapping groups)
+are available.</p></li>
+<li><p>In the parallel framework, <code class="docutils literal notranslate"><span class="pre">analyze_result</span></code> could also be given as an argument, in which case a new
+<a class="reference internal" href="../api/exa.core.analyze_result.analyze_result.AnalyzeResult.html#exa.core.analyze_result.analyze_result.AnalyzeResult" title="exa.core.analyze_result.analyze_result.AnalyzeResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalyzeResult</span></code></a> needs not be created or returned. The function should
+instead modify the received object.</p></li>
+</ol>
+<p>The dataset will contain some raw and post-processed data, depending on the
+<a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html#exa.core.experiment_options.ExperimentOptions.readout_mode" title="exa.core.experiment_options.ExperimentOptions.readout_mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">readout_mode</span></code></a> option. Each of these <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataArray</span></code></a> s
+name is of the format <code class="docutils literal notranslate"><span class="pre">f&quot;{label}_{name}&quot;</span></code>, where the <code class="docutils literal notranslate"><span class="pre">label</span></code> is by default a qubit name, such as <code class="docutils literal notranslate"><span class="pre">'QB1'</span></code>. If the
+measure operations were performed with custom keys (which can be added through the <code class="docutils literal notranslate"><span class="pre">key</span></code> argument when creating the
+timebox), the labels are <code class="docutils literal notranslate"><span class="pre">f&quot;{qubit}__{key}&quot;</span></code>. This helps separate data collected with different kinds of readouts.
+For example, the default heralding key is <code class="docutils literal notranslate"><span class="pre">&quot;__HERALD&quot;</span></code>, resulting in data variable labels like <code class="docutils literal notranslate"><span class="pre">&quot;QB1____HERALD&quot;</span></code>.</p>
+<p>The default readout variables are:</p>
+<ol class="arabic simple">
+<li><p>The variable <code class="docutils literal notranslate"><span class="pre">readout</span></code> contains <strong>averaged</strong> raw measurement results, either the averaged complex or averaged
+raw counts, depending on the readout mode - complex in <code class="docutils literal notranslate"><span class="pre">complex</span></code> and <code class="docutils literal notranslate"><span class="pre">single_shot</span></code> modes, averaged counts
+otherwise.</p></li>
+<li><p>The variable <code class="docutils literal notranslate"><span class="pre">readout_single_shot</span></code> contains single shot <strong>complex</strong> data, individual in-phase and quadrature
+amplitudes of the integrated signal. This variable always has a <code class="docutils literal notranslate"><span class="pre">repetitions</span></code> dimension, corresponding to shots.
+It is only present if the readout mode is <code class="docutils literal notranslate"><span class="pre">single_shot</span></code>.</p></li>
+<li><p>The variable <code class="docutils literal notranslate"><span class="pre">state_single_shot</span></code> contains single shot thresholded data, each being either 0 or 1. It also has a
+<code class="docutils literal notranslate"><span class="pre">repetitions</span></code> dimension. If the readout mode is <code class="docutils literal notranslate"><span class="pre">single_shot_threshold</span></code>, it is what is returned from the readout
+instrument. In the <code class="docutils literal notranslate"><span class="pre">single_shot</span></code> (complex) readout mode, the post-processing passes produce this variable by
+thresholding in software, if the readout calibration information is already available. In the <code class="docutils literal notranslate"><span class="pre">counter</span></code> mode,
+it is calculated from the counts.</p></li>
+<li><p>The variables <code class="docutils literal notranslate"><span class="pre">contrast</span></code> and <code class="docutils literal notranslate"><span class="pre">phase_optimal_quad</span></code> are calculated in <code class="docutils literal notranslate"><span class="pre">complex</span></code> and <code class="docutils literal notranslate"><span class="pre">single_shot</span></code> modes
+by performing a principal component analysis of the averaged complex data along the first dimension. They correspond
+to the amplitude and phase of the first principal component. These are useful variables before the readout is
+calibrated.</p></li>
+<li><p>The variable <code class="docutils literal notranslate"><span class="pre">excited_state_probability</span></code> is the <strong>readout-error-mitigated</strong> best estimate for the probability
+of the qubit collapsing to the excited state when measured. In <code class="docutils literal notranslate"><span class="pre">complex</span></code> and <code class="docutils literal notranslate"><span class="pre">single_shot</span></code> modes, it is
+calculated from the averaged complex data using the average complex response of the ground and excited state
+measured with a readout calibration experiment. In the other modes, it is calculated from the averaged counts by
+inverting the readout assignment matrix. This mitigation is necessary so the variable is unbiasedly the same in all
+readout modes, assuming no higher states are present.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">counter.result</span></code> variable does not have a label, because it corresponds to all the qubits. It is the default
+variable when the readout mode is <code class="docutils literal notranslate"><span class="pre">counter</span></code>, but also calculated in <code class="docutils literal notranslate"><span class="pre">single_shot</span></code> and <code class="docutils literal notranslate"><span class="pre">single_shot_threshold</span></code>
+modes. These are the raw, unmitigated frequencies of different bitstrings (like “110”, “010”) measured across all
+qubits.</p></li>
+<li><p>Only when using <code class="docutils literal notranslate"><span class="pre">counter</span></code> mode, if the <code class="docutils literal notranslate"><span class="pre">subscribed_components</span></code> are a mapping from names to subsets of qubits,
+there will be additional variables <code class="docutils literal notranslate"><span class="pre">f&quot;{group_name}_counter_readout&quot;</span></code>, containing counts only for those subsets.
+The ordering of the qubits within this subset is inside <code class="docutils literal notranslate"><span class="pre">run_result.additional_run_properties[&quot;readout_groups&quot;]</span></code>,
+and will need to be extracted if the ordering of the bits inside the bitstring is important. This is the default
+behaviour when using the <code class="docutils literal notranslate"><span class="pre">counter</span></code> mode while <code class="docutils literal notranslate"><span class="pre">parallel_group</span></code> is <code class="docutils literal notranslate"><span class="pre">CONNECTED_PAIRS</span></code>, in which case the names of
+the groups are the names of couplers connecting the qubits and the groups each have two qubits.</p></li>
+</ol>
+<p>The general principle behind the post-processing is to always give the user all the available information, so all the
+variables which are possible to be calculated, are calculated. You could always remove or add more post-processing
+passes, if that is what you require!</p>
+<section id="extra-arguments">
+<h3>Extra arguments<a class="headerlink" href="#extra-arguments" title="Link to this heading">#</a></h3>
+<p>Analysis functions are allowed to have extra arguments, which can be populated when calling
+<a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.analyze" title="exa.core.experiment.experiment.Experiment.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a>. Make sure that the analyze call without any
+arguments works almost all, or ideally, all the time. Each experimental data are different, and a parameter default that works
+on one station might not work on another. It is good practice to make the arguments dimensionless and derive as much
+as possible from the chip and component properties stored in the settings.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For example, flux pulse amplitude modifies the qubit frequency, but this relationship is non-linear. The qubit
+frequency itself has some maximum and minimum. In an appropriate context, “max relative qubit frequency shift” might
+be a better argument than “max qubit flux pulse amplitude”. Those analysis knobs can be turned instead of rewriting
+the analysis. Including arguments with defaults in your function signature is better than using magic numbers, but
+an automated routine will at least need an automated way of adjusting them.</p>
+</div>
+</section>
+</section>
+<section id="manipulating-xarray-arrays">
+<h2>Manipulating xarray arrays<a class="headerlink" href="#manipulating-xarray-arrays" title="Link to this heading">#</a></h2>
+<p>All the data in analysis are represented as an <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a> <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataArray</span></code></a> s. Those structures generally
+behave similarly to numpy arrays, and can be manipulated directly, using already implemented “utility functions”
+or “ufuncs”. Those operations will generally always return a <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataArray</span></code></a> and maintain all the dimension
+structure, including extra sweeps, and so using them should be your first priority. Let’s have a look at some examples.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="n">da1</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">))</span>
+<span class="n">da2</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dims</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+
+<span class="n">doubled</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">da1</span>
+
+<span class="c1"># xarray will handle the extra dimensions on both arrays. Each slice corresponding to a specific &quot;y&quot; is multiplied</span>
+<span class="c1"># separately. Then the slices are combined, and the product has dimensions of the larger array</span>
+<span class="n">array_product</span> <span class="o">=</span> <span class="n">da1</span> <span class="o">*</span> <span class="n">da2</span>
+
+<span class="c1"># bitwise XOR, useful for QEC applications</span>
+<span class="n">array_xor</span> <span class="o">=</span> <span class="n">da1</span> <span class="o">^</span> <span class="n">da2</span>
+
+<span class="c1"># when calculating statistical measures, specify dimensions to avoid collapsing the array to a single number!</span>
+<span class="n">da1_mean_x</span> <span class="o">=</span> <span class="n">da1</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="c1"># dimensions: &quot;y&quot;</span>
+<span class="n">da1_std_x</span> <span class="o">=</span> <span class="n">da1</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The arrays in analysis will have dimensions and coordinates corresponding to sweeps. Additionally, single shot arrays
+will have a <code class="docutils literal notranslate"><span class="pre">repetitions</span></code> dimension and coordinate. Instead of indexing with integers, use <code class="docutils literal notranslate"><span class="pre">sel</span></code>, <code class="docutils literal notranslate"><span class="pre">isel</span></code> or <code class="docutils literal notranslate"><span class="pre">loc</span></code>
+to ensure the correct slice is selected.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># phase is output of exa.core.util.phase_helper.get_phase_array</span>
+<span class="n">cphase</span> <span class="o">=</span> <span class="p">(</span><span class="n">phase</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="s2">&quot;conditioned&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-</span> <span class="n">phase</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="s2">&quot;conditioned&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This allows the original <code class="docutils literal notranslate"><span class="pre">phase</span></code> array to have any extra coordinates. Here we used <code class="docutils literal notranslate"><span class="pre">sel</span></code> which selects based on the
+<strong>value</strong> of the coordinate. This is generally the correct approach, but you might also want to use <code class="docutils literal notranslate"><span class="pre">isel</span></code>, which
+selects based on the <strong>index</strong> – you need to know what is the correct index, but you don’t need to
+know the value, which is helpful if it was generated automatically.</p>
+<section id="handling-pointwise-sweeps">
+<h3>Handling pointwise sweeps<a class="headerlink" href="#handling-pointwise-sweeps" title="Link to this heading">#</a></h3>
+<p>This is one of consequences of the analysis not being entirely mature. In the chapter about <a class="reference internal" href="sweep.html"><span class="doc">sweeping</span></a>
+we discussed pointwise sweeps, or sweeps where multiple settings are swept in parallel. The way those are handled in
+<a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a> is that all swept settings become coordinates of the dataset, but only the first one becomes
+a dimension, and the dimensions are the same for all arrays.</p>
+<p>For example, let’s say we ran an experiment on many qubits, and swept the amplitude of a PRX gate on all of them as
+a pointwise sweep. Then we want to do some analysis on it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">target_data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">qubit</span><span class="si">}</span><span class="s2">_excited_state_probability&quot;</span><span class="p">]</span>
+
+<span class="n">prx_amplitude_setting_name</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get_gate_node_for_locus</span><span class="p">(</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span> <span class="n">qubit</span><span class="p">)</span><span class="o">.</span><span class="n">amplitude_i</span><span class="o">.</span><span class="n">name</span>
+
+<span class="c1"># this data array is a coordinate, and it has only one dimension</span>
+<span class="n">amplitude_dimension</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="n">prx_amplitude_setting_name</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># dimension of all other arrays</span>
+
+<span class="n">first_point</span> <span class="o">=</span> <span class="n">target_data</span><span class="o">.</span><span class="n">isel</span><span class="p">({</span><span class="n">amplitude_dimension</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Using the actual setting name, not the dimension name, will sometimes work, but it is generally safer to use the
+dimension name. In the above scenario, both of these names are quite convoluted, and will generally only differ by the
+name of the qubit and optionally, the PRX gate implementation.</p>
+</section>
+<section id="changing-coordinates-and-dims">
+<h3>Changing coordinates and dims<a class="headerlink" href="#changing-coordinates-and-dims" title="Link to this heading">#</a></h3>
+<p>Sometimes there is a need to change the coordinate of the data. For example, the swept quantity was voltage on the
+flux line of the coupler, but the analysis needs the coupler frequency to derive meaningful results. We can use
+some <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a> functionality to address this problem.</p>
+<p>First, we can use <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.assign_coords.html#xarray.DataArray.assign_coords" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assign_coords()</span></code></a> to assign new coordinates to our array.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.cpc.core.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotate</span>
+
+<span class="c1"># Obtain coupler_frequency from the coupler voltages, for</span>
+<span class="c1"># example, say using a custom function called get_frequency_from_voltage:</span>
+<span class="n">coupler_frequency</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span> <span class="o">=</span> <span class="n">get_frequency_from_voltage</span><span class="p">(</span><span class="n">coupler_voltage</span><span class="p">,</span> <span class="o">**</span><span class="n">dispersion_parameters</span><span class="p">)</span>
+
+<span class="n">annotate</span><span class="p">(</span><span class="n">coupler_frequency</span><span class="p">,</span> <span class="s2">&quot;coupler_frequency&quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">coupler_name</span><span class="p">)</span>
+
+<span class="c1"># assign_coords returns a new object</span>
+<span class="n">target_data</span> <span class="o">=</span> <span class="n">target_data</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="n">coupler_frequency</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">coupler_frequency</span><span class="p">})</span>
+
+<span class="c1"># to make the coordinate aligned with the coupler_voltage explicitly:</span>
+<span class="n">target_data</span> <span class="o">=</span> <span class="n">target_data</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="n">coupler_frequency</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="p">(</span><span class="n">coupler_voltage</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">coupler_frequency</span><span class="p">)})</span>
+</pre></div>
+</div>
+<p>Now, this will add a new coordinate, but this coordinate is not a dimension of the array. Maybe this is fine, but if
+it is not, you should follow it up with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">swapped</span> <span class="o">=</span> <span class="n">target_data</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">({</span><span class="n">coupler_voltage</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">coupler_frequency</span><span class="o">.</span><span class="n">name</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>The method <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.swap_dims.html#xarray.DataArray.swap_dims" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">swap_dims()</span></code></a> returns a <strong>new</strong> <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataArray</span></code></a> with swapped dims.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Be careful with swapping dims on the arrays already in the dataset. This might prevent the analysis from being
+re-runnable, as the dataset is modified in-place, and the <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.swap_dims.html#xarray.DataArray.swap_dims" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">swap_dims()</span></code></a> method will expect
+the old dimension to still be a dimension. If you invoke it twice, it will break on the second call.</p>
+</div>
+<p>Other useful methods of <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataArray</span></code></a> and <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a> functionalities include:</p>
+<ol class="arabic simple">
+<li><p>Concatenation of multiple arrays along a new or existing coordinate: <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.concat.html#xarray.concat" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">concat()</span></code></a>.</p></li>
+<li><p>Merging multiple <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a> objects (you need to be careful in analysis): <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.merge.html#xarray.Dataset.merge" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">merge()</span></code></a> or <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.merge.html#xarray.merge" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">merge()</span></code></a>.</p></li>
+<li><p>Renaming the variables, <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.rename.html#xarray.DataArray.rename" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rename()</span></code></a>.</p></li>
+</ol>
+<p>Additionally, you can make coordinate arrays directly from <a class="reference external" href="../../iqm-exa-common/api/exa.common.data.parameter.Parameter.html#exa.common.data.parameter.Parameter" title="(in iqm-exa-common v29.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parameter</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">exa.common.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataType</span><span class="p">,</span> <span class="n">Parameter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">coord_array_1_param</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;optimal_time&quot;</span><span class="p">,</span> <span class="s2">&quot;Optimal Time to do the thing&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">DataType</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">)</span>
+<span class="n">coord_array_1</span> <span class="o">=</span> <span class="n">coord_array_1_param</span><span class="o">.</span><span class="n">build_data_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1e-7</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Which populates attributes like <code class="docutils literal notranslate"><span class="pre">standard_name</span></code>, <code class="docutils literal notranslate"><span class="pre">long_name</span></code> correctly. Those arrays are useful when combined with
+concatenation of multiple arrays.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="n">array1</span> <span class="o">=</span> <span class="n">coord_array_1_param</span><span class="o">.</span><span class="n">build_data_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1e-7</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+<span class="n">array2</span> <span class="o">=</span> <span class="n">coord_array_1_param</span><span class="o">.</span><span class="n">build_data_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1e-7</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+<span class="n">concatenated_array</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">array1</span><span class="p">,</span><span class="n">array2</span><span class="p">],</span> <span class="n">coord_array_1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This produces a new array with a new coordinate and dimension given by <code class="docutils literal notranslate"><span class="pre">coord_array_1</span></code>.</p>
+</section>
+<section id="using-apply-ufunc">
+<h3>Using apply_ufunc<a class="headerlink" href="#using-apply-ufunc" title="Link to this heading">#</a></h3>
+<p>Many numpy utility functions have been ported to <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a>, but not all. Some will still work on xarray objects,
+but produce a numpy array. In such a scenario, first try using <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.apply_ufunc.html#xarray.apply_ufunc" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_ufunc()</span></code></a>. A good example is
+<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.unwrap.html#numpy.unwrap" title="(in NumPy v2.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">unwrap()</span></code></a>, since it is commonly used in quantum experiment analysis:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_ufunc</span>
+
+<span class="n">unwrapped</span> <span class="o">=</span> <span class="n">apply_ufunc</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">unwrap</span><span class="p">,</span>
+    <span class="n">phase_array</span><span class="p">,</span>
+    <span class="n">input_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="n">vz_param_name</span><span class="p">]],</span>
+    <span class="n">output_core_dims</span><span class="o">=</span><span class="p">[[</span><span class="n">vz_param_name</span><span class="p">]],</span>
+    <span class="n">vectorize</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># np.unwrap is already vectorized</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Check the documentation for <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.apply_ufunc.html#xarray.apply_ufunc" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_ufunc()</span></code></a> to learn more tricks. Most importantly, <code class="docutils literal notranslate"><span class="pre">input_core_dims</span></code> and
+<code class="docutils literal notranslate"><span class="pre">output_core_dims</span></code> are always lists of lists of dimension names, corresponding to the dimensions along which <strong>not</strong> to vectorize,
+or in other words, the dimensions the original utility function expects the data to have. In the unwrapping example, it
+is the dimension along which to unwrap. Because the unwrapping function <strong>takes</strong> one array, there is only one list of
+dimensions. Each list corresponds to a separate array. Because the unwrapping function <strong>returns</strong> one array, the
+argument <code class="docutils literal notranslate"><span class="pre">output_core_dims</span></code> also has only one element. Finally, the argument <code class="docutils literal notranslate"><span class="pre">vectorize</span></code> is set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, because
+the unwrapping function is already vectorized.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Q: What functions can I use inside apply_ufunc?</strong></p>
+<p>A: Any function which takes and returns some numpy arrays will work. If some of the arguments the original
+function needs should be fixed, or are not <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataArray</span></code></a> s, you might consider writing a small wrapper which fixes
+them. Otherwise, you may write your own function, which takes some arrays and returns some arrays, and then setting
+<code class="docutils literal notranslate"><span class="pre">vectorize</span> <span class="pre">=</span> <span class="pre">True</span></code> will make <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.apply_ufunc.html#xarray.apply_ufunc" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_ufunc()</span></code></a> work with xarray arrays of any dimensions, albeit
+the implementation of that is no more efficient than a for loop. Before going down this rabbit hole, please consider if
+the functions <a class="reference external" href="../../iqm-pulla/api/iqm.cpc.core.dataset.apply_along_coordinate.html#iqm.cpc.core.dataset.apply_along_coordinate" title="(in IQM Pulla v16.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_along_coordinate()</span></code></a> or <a class="reference external" href="../../iqm-pulla/api/iqm.cpc.core.dataset.multifit_along_coordinates.html#iqm.cpc.core.dataset.multifit_along_coordinates" title="(in IQM Pulla v16.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">multifit_along_coordinates()</span></code></a>
+are not better suited to the task.</p>
+</div>
+</section>
+</section>
+<section id="fitting">
+<h2>Fitting<a class="headerlink" href="#fitting" title="Link to this heading">#</a></h2>
+<p>Often, you would like to specifically fit some model to the data, in order to extract some fitted parameters. These
+tasks form a subset of “manipulating xarray arrays”, and can in principle be done using <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.apply_ufunc.html#xarray.apply_ufunc" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_ufunc()</span></code></a> and
+arbitrary fitting tools. However, there already exist more specific helpers for fitting, which will also produce
+properly annotated arrays and sometimes even plots.</p>
+<p>The basic tools are written on top of <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html#scipy.optimize.curve_fit" title="(in SciPy v1.17.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit()</span></code></a>, and should be used if the problem is quite
+simple, there is not much variability, and performance is important. Then, <a class="reference internal" href="../api/exa.core.model_selection_fitter.fitter.Fitter.html#exa.core.model_selection_fitter.fitter.Fitter" title="exa.core.model_selection_fitter.fitter.Fitter"><code class="xref py py-class docutils literal notranslate"><span class="pre">exa.core.model_selection_fitter.fitter.Fitter</span></code></a>
+is built on top of <code class="xref py py-mod docutils literal notranslate"><span class="pre">lmfit</span></code> and supports more advanced statistics and automatic selection of the best model. Both
+work fully with <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a> and allow arbitrary extra dimensions.</p>
+<section id="using-curve-fit">
+<h3>Using curve_fit<a class="headerlink" href="#using-curve-fit" title="Link to this heading">#</a></h3>
+<p>First, let’s have a look at <a class="reference external" href="../../iqm-pulla/api/iqm.cpc.core.dataset.apply_along_coordinate.html#iqm.cpc.core.dataset.apply_along_coordinate" title="(in IQM Pulla v16.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_along_coordinate()</span></code></a>. This helper function is made mostly
+for fitting, but it might be used for other purposes. Let’s have a look at the syntax:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span><span class="p">,</span> <span class="n">param_0_array</span><span class="p">,</span> <span class="n">param_1_array</span><span class="p">,</span> <span class="n">param_1_stddev_array</span> <span class="o">=</span> <span class="n">multifit_along_coordinates</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="n">target_name</span><span class="p">],</span> <span class="c1"># data array to apply the function to</span>
+    <span class="n">coord</span><span class="o">=</span><span class="n">coordinate_name</span><span class="p">,</span> <span class="c1"># coordinate along which to apply it</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">fitting_function</span><span class="p">,</span> <span class="c1"># fitting function of specific input/output</span>
+    <span class="n">returns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;param_0&quot;</span><span class="p">,</span> <span class="s2">&quot;param_1&quot;</span><span class="p">,</span> <span class="s2">&quot;param_1_stddev&quot;</span><span class="p">,],</span> <span class="c1"># additionally returned array names</span>
+    <span class="n">prefix</span><span class="o">=</span><span class="n">qubit</span><span class="p">,</span> <span class="c1"># add this to all array names other than the fit</span>
+    <span class="n">add_to</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span> <span class="c1"># add all arrays to this dataset - can be None</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The most important mechanics to understand here is the interplay of the outputs of <code class="docutils literal notranslate"><span class="pre">fitting_function</span></code>, the <code class="docutils literal notranslate"><span class="pre">returns</span></code>
+argument and the returned arrays. The <code class="docutils literal notranslate"><span class="pre">fitting_function</span></code> must take only two 1D numpy arrays, understood to be
+x-values and y-values representing some data to be fitted, and return two things: first, a dictionary mapping arbitrary
+names of fit parameters to their values, and second - a numpy array representing the fit.</p>
+<p>The names given to <code class="docutils literal notranslate"><span class="pre">returns</span></code> are keys in that dictionary. The function will package these values into data arrays.
+The first returned array is the <code class="docutils literal notranslate"><span class="pre">fit</span></code>, which will have the same dimensions and coordinates as the input array. All
+the other arrays are fit parameters, and they will be missing the dimension corresponding to the given coordinate along
+which the fit is performed.</p>
+<p>Exa contains several typical fitting functions, and it is not difficult to write your own. The <code class="docutils literal notranslate"><span class="pre">fitting_function</span></code> is
+allowed to do anything, as long as the output is correctly formatted. These examples are in
+<a class="reference internal" href="../api/exa.core.util.model_functions.html#module-exa.core.util.model_functions" title="exa.core.util.model_functions"><code class="xref py py-mod docutils literal notranslate"><span class="pre">model_functions</span></code></a>. Typically, you’d write a function that takes some meta-parameters, or guesses,
+and that returns the fitting function proper, eg:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">exa.core.util.model_functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_oscillation_fitter</span>
+<span class="n">fit</span><span class="p">,</span> <span class="n">period</span><span class="p">,</span> <span class="n">period_stddev</span> <span class="o">=</span> <span class="n">apply_along_coordinate</span><span class="p">(</span>
+    <span class="n">analyze_result</span><span class="o">.</span><span class="n">run_result</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="n">target_name</span><span class="p">],</span>
+    <span class="n">coord</span><span class="o">=</span><span class="n">amplitude_sweep</span><span class="p">,</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">get_oscillation_fitter</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">guesses</span><span class="o">.</span><span class="n">items</span><span class="p">()}),</span>
+    <span class="n">returns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="s2">&quot;period_stddev&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>To generate these fitting functions we can use the <a class="reference external" href="../../iqm-pulla/api/iqm.cpc.core.dataset.compute_1d_fit.html#iqm.cpc.core.dataset.compute_1d_fit" title="(in IQM Pulla v16.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">iqm.cpc.core.dataset.compute_1d_fit()</span></code></a> function. This function
+takes the x and y data, as well as a model function and some guesses, and wraps <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html#scipy.optimize.curve_fit" title="(in SciPy v1.17.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit()</span></code></a> to
+produce output in the correct format. The keys in the returned dict are the names of the arguments of the model
+function plus those same names with a <code class="docutils literal notranslate"><span class="pre">_stddev</span></code> suffix, which is the standard deviation calculated from the output
+covariance matrix for each parameter.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Q: The limitation to only 1D models is quite severe, why wouldn’t I just use apply_ufunc?</strong></p>
+<p>A: Realistically this is what you need most of the time, and all you need to define is the model function and
+some guessing logic, for which there are many examples. With raw <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.apply_ufunc.html#xarray.apply_ufunc" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_ufunc()</span></code></a>, you need to do the same calls
+to <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.curve_fit.html#scipy.optimize.curve_fit" title="(in SciPy v1.17.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.optimize.curve_fit()</span></code></a> every time, extract the uncertainties yourself etc, which generates a lot of
+bloat. If you need something more powerful, be sure to check the next section though.</p>
+</div>
+</section>
+<section id="using-model-selection-fitter">
+<h3>Using Model Selection Fitter<a class="headerlink" href="#using-model-selection-fitter" title="Link to this heading">#</a></h3>
+<p>Alternatively to using <a class="reference external" href="../../iqm-pulla/api/iqm.cpc.core.dataset.apply_along_coordinate.html#iqm.cpc.core.dataset.apply_along_coordinate" title="(in IQM Pulla v16.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_along_coordinate()</span></code></a>, you may want to consider a solution built
+on top of <code class="xref py py-mod docutils literal notranslate"><span class="pre">lmfit</span></code> called the Model Selection Fitter (MSF). Please check the
+<a class="reference external" href="https://lmfit.github.io/lmfit-py/index.html">lmfit documentation</a> to learn more about making your own models, since
+it is something you will need. This section only covers the usage of MSF.</p>
+<p>What MSF does for you:</p>
+<ol class="arabic simple">
+<li><p>Fit multiple <code class="xref py py-class docutils literal notranslate"><span class="pre">lmfit.Model</span></code> s to the data.</p></li>
+<li><p>Parallelize over extra dimensions.</p></li>
+<li><p>Select the best model, separately for each sweep spot, based on the Akaike Information Criterion.</p></li>
+<li><p>Wrap everything into <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataArray</span></code></a> s.</p></li>
+<li><p>Generate informative plot definitions.</p></li>
+</ol>
+<p>Let’s look at an example. A common reason to select from multiple models arises in a <span class="math notranslate nohighlight">\(T_2\)</span> Ramsey experiment,
+where the signal not only oscillates, but also decays. This decay might be a simple exponential decay, a Gaussian decay,
+or a combination of both. That is, we need three different models.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">exa.core.model_selection_fitter</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">msf</span>
+
+<span class="n">fitter</span> <span class="o">=</span> <span class="n">msf</span><span class="o">.</span><span class="n">Fitter</span><span class="p">()</span>
+<span class="n">model_exp</span> <span class="o">=</span> <span class="n">msf</span><span class="o">.</span><span class="n">GaussExpSineModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;exp&quot;</span><span class="p">)</span>
+<span class="n">model_exp</span><span class="o">.</span><span class="n">set_param_hint</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;T_gauss&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">model_gauss</span> <span class="o">=</span> <span class="n">msf</span><span class="o">.</span><span class="n">GaussExpSineModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;gauss&quot;</span><span class="p">)</span>
+<span class="n">model_gauss</span><span class="o">.</span><span class="n">set_param_hint</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;T_exp&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">vary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">model_both</span> <span class="o">=</span> <span class="n">msf</span><span class="o">.</span><span class="n">GaussExpSineModel</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">)</span>
+
+<span class="n">fitter</span><span class="o">.</span><span class="n">add_model</span><span class="p">(</span><span class="n">model_gauss</span><span class="p">)</span>
+<span class="n">fitter</span><span class="o">.</span><span class="n">add_model</span><span class="p">(</span><span class="n">model_exp</span><span class="p">)</span>
+<span class="n">fitter</span><span class="o">.</span><span class="n">add_model</span><span class="p">(</span><span class="n">model_both</span><span class="p">)</span>
+<span class="n">fitter_options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;max_nfev&quot;</span><span class="p">:</span> <span class="mi">1500</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;leastsq&quot;</span><span class="p">,</span> <span class="s2">&quot;nan_policy&quot;</span><span class="p">:</span> <span class="s2">&quot;raise&quot;</span><span class="p">}</span>
+
+<span class="c1"># set qubit name:</span>
+<span class="c1"># qubit = ...</span>
+
+<span class="n">target_data</span> <span class="o">=</span> <span class="n">analyze_result</span><span class="o">.</span><span class="n">dataset</span>
+<span class="n">target_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">qubit</span><span class="si">}</span><span class="s2">_excited_state_probability&quot;</span>
+
+<span class="n">fit_result</span> <span class="o">=</span> <span class="n">fitter</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">target_data</span><span class="p">,</span> <span class="c1"># Dataset or DataArray</span>
+    <span class="n">datavar</span><span class="o">=</span><span class="n">target_name</span><span class="p">,</span> <span class="c1"># name of the DataArray within the Dataset, ignored if DataArray given</span>
+    <span class="n">t</span><span class="o">=</span><span class="s2">&quot;pulse_delay&quot;</span><span class="p">,</span> <span class="c1"># name of the independent variable t as a coordinate of the DataArray</span>
+    <span class="n">fitter_options</span><span class="o">=</span><span class="n">fitter_options</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">best_fit</span> <span class="o">=</span> <span class="n">annotate</span><span class="p">(</span><span class="n">fit_result</span><span class="p">[</span><span class="s2">&quot;best_fit&quot;</span><span class="p">],</span> <span class="s2">&quot;fit&quot;</span><span class="p">)</span>
+<span class="n">r_squared</span> <span class="o">=</span> <span class="n">annotate</span><span class="p">(</span><span class="n">fit_result</span><span class="o">.</span><span class="n">r2s</span><span class="p">,</span> <span class="s2">&quot;R2&quot;</span><span class="p">)</span>
+<span class="n">t_2</span> <span class="o">=</span> <span class="n">annotate</span><span class="p">(</span><span class="n">fit_result</span><span class="o">.</span><span class="n">T_2</span><span class="p">,</span> <span class="s2">&quot;T2&quot;</span><span class="p">)</span>
+<span class="n">t_2_stderr</span> <span class="o">=</span> <span class="n">annotate</span><span class="p">(</span><span class="n">fit_result</span><span class="o">.</span><span class="n">T_2_stderr</span><span class="p">,</span> <span class="s2">&quot;T2_stddev&quot;</span><span class="p">,)</span>
+
+<span class="n">best_model_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">fit_result</span><span class="o">.</span><span class="n">best_model_index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">plot_definition</span> <span class="o">=</span> <span class="n">fit_result</span><span class="o">.</span><span class="n">plot_definitions</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">models</span><span class="o">=</span><span class="n">best_model_index</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">analyze_result</span><span class="o">.</span><span class="n">plots</span><span class="p">[</span><span class="n">qubit</span><span class="p">]</span> <span class="o">=</span> <span class="n">plot_definition</span>
+</pre></div>
+</div>
+<p>Here we construct different models by simply taking the same model and setting some of the parameters to not vary.
+As you can see, Model Selection Fitter produces many extra arrays, such as <span class="math notranslate nohighlight">\(R^2\)</span> or standard errors of each
+fit parameter. It also produces a plot definition, which can be immediately attached to the analyze result. More about
+those in the <a class="reference internal" href="plotting.html"><span class="doc">plotting</span></a> chapter.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Q: Why are you annotating? I thought that is done automatically…</strong></p>
+<p>A: Apply along coordinates does annotate the data arrays, but MSF doesn’t, so you need to do it yourself to the
+output.</p>
+</div>
+<p>Model Selection Fitter uses the model’s <code class="xref py py-meth docutils literal notranslate"><span class="pre">lmfit.Model.guess()</span></code> method, so it should always be defined. Additionally,
+it is good practice to make sure each of the used models has the same fit parameters, even if they are fixed or
+quantities derived from other parameters via an expression. This will ensure proper error propagation, which lmfit
+will perform for you, using the full covariance matrix – sometimes, the uncertainty in some derived quantity can be
+<strong>lower</strong> than either of the uncertainties of the “original” parameters, if those parameters are strongly correlated.</p>
+<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">lmfit</span></code> library supports models with an arbitrary number of independent variables, and MSF will correctly
+package them into <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataArray</span></code></a> s. Check the collection of models in Exa and in the lmfit library proper
+for examples.</p>
+</section>
+<section id="fitting-2-dimensional-data">
+<h3>Fitting 2-dimensional data<a class="headerlink" href="#fitting-2-dimensional-data" title="Link to this heading">#</a></h3>
+<p>In most analysis protocols fitting only a single dimension of the data at the time is sufficient. Additionally,
+collecting data along only a single dimension is much faster, and reducing the number of dimensions your experiment
+needs is one of the most effective ways of making it quicker to execute. But what if your problem is fundamentally larger?</p>
+<p>As mentioned above, the <code class="xref py py-mod docutils literal notranslate"><span class="pre">lmfit</span></code> library and by extension MSF support two-dimensional models. Simply define a
+model with two independent coordinates and some parameters and proceed like described in the previous section. You might
+even assume the shape of one of the dimensions, e.g. always using two frequencies for a Ramsey experiment.</p>
+<p>There is a variation of this problem which would require substantial modifications to lmfit Models to solve, and there
+is a solution to it in Exa. This is where you have multiple 1-D datasets which generally follow the same kind of model,
+but some parameters vary between them. For example, multiple exponential decays which are expected to have the same
+decay rate, but different amplitudes. Or <span class="math notranslate nohighlight">\(T_2\)</span> traces where the Gaussian part is considered the same for all
+traces, but the <span class="math notranslate nohighlight">\(T_1\)</span> contribution varies quickly. To fit such a dataset, we need to treat some parameters as
+<strong>global</strong>, affecting all traces, and some as <strong>local</strong>, affecting just one. If all parameters are global, the problem
+reduces to a 2-D fit; if all are local, it reduces to multiple 1-D fits.</p>
+<p>There is a tool called <a class="reference external" href="../../iqm-pulla/api/iqm.cpc.core.dataset.multifit_along_coordinates.html#iqm.cpc.core.dataset.multifit_along_coordinates" title="(in IQM Pulla v16.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">multifit_along_coordinates()</span></code></a> which allows you to fit your data like that.
+Let’s go through its usage.</p>
+<p>The function itself is mostly an <a class="reference external" href="https://docs.xarray.dev/en/stable/index.html#module-xarray" title="(in xarray v2024.10.1.dev0)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code></a> wrapper that works similarly to <a class="reference external" href="../../iqm-pulla/api/iqm.cpc.core.dataset.apply_along_coordinate.html#iqm.cpc.core.dataset.apply_along_coordinate" title="(in IQM Pulla v16.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">apply_along_coordinate()</span></code></a>
+with slightly different arguments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span><span class="p">,</span> <span class="n">param_0_array</span><span class="p">,</span> <span class="n">param_1_array</span><span class="p">,</span> <span class="n">param_1_stddev_array</span> <span class="o">=</span> <span class="n">multifit_along_coordinates</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="p">[</span><span class="n">target_name</span><span class="p">],</span> <span class="c1"># data array to apply the function to</span>
+    <span class="n">main_coord</span><span class="o">=</span><span class="n">main_coordinate_name</span><span class="p">,</span> <span class="c1"># the coordinate describing the 1-D slice</span>
+    <span class="n">supp_coord</span><span class="o">=</span><span class="n">supp_coordinate_name</span><span class="p">,</span> <span class="c1"># the coordinate describing the second index</span>
+    <span class="n">func</span><span class="o">=</span><span class="n">fitting_function</span><span class="p">,</span> <span class="c1"># fitting function of specific input/output</span>
+    <span class="n">returns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;param_0&quot;</span><span class="p">,</span> <span class="s2">&quot;param_1&quot;</span><span class="p">,</span> <span class="s2">&quot;param_1_stddev&quot;</span><span class="p">,],</span> <span class="c1"># additionally returned array names</span>
+    <span class="n">cloned_arguments</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;param_0&quot;</span><span class="p">],</span> <span class="c1"># names of arguments which are cloned the number of times equal to shape of supp_coord</span>
+    <span class="n">prefix</span><span class="o">=</span><span class="n">qubit</span><span class="p">,</span> <span class="c1"># add this to all array names other than the fit</span>
+    <span class="n">add_to</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span> <span class="c1"># add all arrays to this dataset - can be None</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>In the above example, the <code class="docutils literal notranslate"><span class="pre">main_coord</span></code> is the independent coordinate along which regular 1-D fitting would take place.
+In the example with multiple decaying exponentials, this would be e.g. the <code class="docutils literal notranslate"><span class="pre">time</span></code> variable. The <code class="docutils literal notranslate"><span class="pre">supp_coord</span></code> is the
+other coordinate. This coordinate could be an index of measurement, initial state, or something else that <strong>modifies</strong>
+the main experiment, which is measuring the exponential decay in time.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">cloned_arguments</span></code> is a list of arguments to <code class="docutils literal notranslate"><span class="pre">fitting_function</span></code> which will be cloned along <code class="docutils literal notranslate"><span class="pre">supp_coord</span></code>. The
+number of times it is cloned depends on the number of points in <code class="docutils literal notranslate"><span class="pre">supp_coord</span></code>. If there are 5 points in <code class="docutils literal notranslate"><span class="pre">supp_coord</span></code>,
+there will be 5 parameters in the model, independently fitted to the data, all representing the variable <code class="docutils literal notranslate"><span class="pre">param_0</span></code>,
+but for different values of <code class="docutils literal notranslate"><span class="pre">supp_coord</span></code>.</p>
+<p>The returned arrays will have different shapes and dimensions depending on which arguments were cloned. The <code class="docutils literal notranslate"><span class="pre">param_0_array</span></code>
+will have a dimension <code class="docutils literal notranslate"><span class="pre">supp_coordinate_name</span></code>, which <code class="docutils literal notranslate"><span class="pre">param_1_array</span></code> will not have. Of course <code class="docutils literal notranslate"><span class="pre">fit</span></code> is the total
+2-D array which has the same dimensions as the input data array.</p>
+<p>For this to work, the <code class="docutils literal notranslate"><span class="pre">fitting_function</span></code> has to be quite specific. It should still return a dict of fitted parameters
+and a fit, but the values in the dict need to be themselves either numbers or 1-D numpy arrays, depending on which
+arguments have been “cloned”. This means this function needs to take a kwarg <code class="docutils literal notranslate"><span class="pre">cloned_arguments</span></code> too, to know what to do.</p>
+<p>Thus the <code class="docutils literal notranslate"><span class="pre">fitting_function</span></code> has 3 positional arguments: x, y and z, corresponding to the main coord, supp coord and data,
+as well as the 4th, keyword argument <code class="docutils literal notranslate"><span class="pre">cloned_arguments</span></code>. Note that if anything is cloned, x and y are not equivalent,
+as the cloning is done along y.</p>
+<p>The simplest way to make such a function is to use <a class="reference external" href="../../iqm-pulla/api/iqm.cpc.core.dataset.compute_2d_fit.html#iqm.cpc.core.dataset.compute_2d_fit" title="(in IQM Pulla v16.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">compute_2d_fit()</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">param_0</span><span class="p">,</span> <span class="n">param_1</span><span class="p">):</span>
+    <span class="c1">#.. do some math</span>
+    <span class="k">return</span> <span class="n">fit</span> <span class="c1"># 2d array</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_fitting_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">cloned_arguments</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="n">estimates</span> <span class="o">=</span> <span class="n">get_estimates</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">cloned_arguments</span><span class="p">)</span>
+    <span class="n">fit_results</span> <span class="o">=</span> <span class="n">compute_2d_fit</span><span class="p">(</span>
+        <span class="n">x</span><span class="p">,</span> <span class="c1"># 1-D array corresponding to main_coord</span>
+        <span class="n">y</span><span class="p">,</span> <span class="c1"># 1-D array corresponding to supp_coord</span>
+        <span class="n">z</span><span class="p">,</span> <span class="c1"># 2-D array corresponding to data</span>
+        <span class="n">_model</span><span class="p">,</span> <span class="c1"># model function returning a 2d array</span>
+        <span class="n">estimates</span><span class="p">,</span> <span class="c1"># dict of model estimates, cloned arguments should be given as arrays</span>
+        <span class="n">cloned_arguments</span><span class="p">,</span> <span class="c1"># list of cloned arguments</span>
+        <span class="n">only_index_y</span><span class="o">=</span><span class="kc">True</span> <span class="c1"># if True, replace the values of y with 0, 1, 2, ... for the model evaluation</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">fit_results</span>
+</pre></div>
+</div>
+<p>Inside this function all the heavy lifting associated with upgrading the simple model to a model with some arguments
+cloned is done for you. This enables changing which arguments are cloned without rewriting the fitting function.</p>
+<p>The actual model function should be written to work with parameters <code class="docutils literal notranslate"><span class="pre">param_0</span></code>, <code class="docutils literal notranslate"><span class="pre">param_1</span></code> being numbers or 1-D numpy
+arrays with the same shape as y. If the model only uses simple arithmetic, numpy will generally do it automatically.
+Note that y itself does not need to be used in the model and often is not - the
+functional relationship between y and the data is captured through the cloned arguments. This means the actual values
+of y could be anything, e.g. strings, and setting <code class="docutils literal notranslate"><span class="pre">only_index_y=True</span></code> is essentially saying that the value of y is not
+important.</p>
+<p>If your model does explicitly depend on y and you’re not cloning any arguments, it is most likely easier to just use
+the model selection fitter instead.</p>
+</section>
+</section>
+<section id="conclusions">
+<h2>Conclusions<a class="headerlink" href="#conclusions" title="Link to this heading">#</a></h2>
+<p>You should now know how to write a good analysis function that works with <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment" title="exa.core.experiment.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>.
+Now let’s learn more about observations and plotting.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="compiler.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Configuring compiler passes</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="plotting.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Plotting the analysed data</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#purpose-of-analysis">Purpose of analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basics-of-analysis-functions">Basics of analysis functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arguments-and-data-variables">Arguments and data variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#extra-arguments">Extra arguments</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manipulating-xarray-arrays">Manipulating xarray arrays</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-pointwise-sweeps">Handling pointwise sweeps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changing-coordinates-and-dims">Changing coordinates and dims</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-apply-ufunc">Using apply_ufunc</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting">Fitting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-curve-fit">Using curve_fit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-model-selection-fitter">Using Model Selection Fitter</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting-2-dimensional-data">Fitting 2-dimensional data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2019-2026, IQM Finland Oy, Release 20.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-11-10.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

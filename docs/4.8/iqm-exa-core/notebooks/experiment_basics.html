@@ -1,0 +1,1323 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Experiment basic usage &#8212; iqm-exa-core 20.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=3f23208d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/experiment_basics';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Local storage example" href="example_local_storage.html" />
+    <link rel="prev" title="Example Notebooks" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-11-10"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm-exa-core 20.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm-exa-core 20.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-exa-core</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../basic_guide/index.html">Basics of EXA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/experiment.html">Running Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/settings_workflow.html">Workflow with Experiment settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/database.html">Data access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/observation.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/sequence.html">Sequences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/configuration_file.html">EXA Configuration File</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guide/index.html">Creating EXA experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guide/concept.html">Conceptualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/prototype.html">Prototyping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/subclass.html">Making a subclass of Experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/circuit.html">Circuit generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/sweep.html">Sweep generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/compiler.html">Compiler passes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/analysis.html">Post-processing and analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/plotting.html">Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/observations.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/integration.html">Integrating your experiment in a sequence or graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/maturity.html">Is my experiment mature?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Example Notebooks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Experiment Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="example_local_storage.html">Local Storage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/exa.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.analyze_result.html">analyze_result</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.analyze_result.analyze_result.html">analyze_result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.analyze_result.plot_definition.html">plot_definition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.database_wrapper.html">database_wrapper</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.batch_save_observations.html">exa.core.database_wrapper.batch_save_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.get_all_dut_fields.html">exa.core.database_wrapper.get_all_dut_fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.get_latest_observations_for_tags.html">exa.core.database_wrapper.get_latest_observations_for_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.invalidate_observation.html">exa.core.database_wrapper.invalidate_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.save_observation.html">exa.core.database_wrapper.save_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.save_observations_with_new_tags.html">exa.core.database_wrapper.save_observations_with_new_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.set_observation_validity.html">exa.core.database_wrapper.set_observation_validity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.environment.html">environment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.environment.load_environment.html">exa.core.environment.load_environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.environment.EnvironmentConfig.html">EnvironmentConfig</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.error_estimation.html">error_estimation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.error_estimation.fit_statistical_error.html">fit_statistical_error</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.error_experiment.html">error_experiment</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment.html">experiment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.edge_coloring.html">edge_coloring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.experiment.html">experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.stages.html">stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.experiment_configuration.html">experiment_configuration</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_definitions.html">experiment_definitions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ChipProperties.html">exa.core.experiment_definitions.ChipProperties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ParallelGroup.html">ParallelGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.QPUType.html">QPUType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ReadoutMode.html">ReadoutMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ReadoutProgrammingMode.html">ReadoutProgrammingMode</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_options.html">experiment_options</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html">ExperimentOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_utils.html">experiment_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_utils.load_observations.html">exa.core.experiment_utils.load_observations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.gate_implementations.html">gate_implementations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.flux_pulse.html">flux_pulse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.modulated_pulse_gate.html">modulated_pulse_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.rz.html">rz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.x_ef_gate.html">x_ef_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.local_storage.html">local_storage</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.local_storage.LocalStorage.html">LocalStorage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.model_selection_fitter.html">model_selection_fitter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.fitter.html">fitter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.fitting.html">fitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.model_selection.html">model_selection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.models.html">models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.packaging.html">packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.plotting.html">plotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.preprocessing.html">preprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.structures.html">structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.multistate_classifier.html">multistate_classifier</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.classifier.html">classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.distance_classifier.html">distance_classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.linear_discriminant_analysis.html">linear_discriminant_analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.parameters.html">parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.support_vector_machine.html">support_vector_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.observation.html">observation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_handler.html">observation_handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_loading_rules.html">observation_loading_rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_parameters.html">observation_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_stash.html">observation_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_validation_rules.html">observation_validation_rules</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.observation_set_utils.html">observation_set_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.add_to_observation_set.html">exa.core.observation_set_utils.add_to_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.adjust_trigger_delays_in_stash.html">exa.core.observation_set_utils.adjust_trigger_delays_in_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.copy_station_specific_observations.html">exa.core.observation_set_utils.copy_station_specific_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.create_observation_set.html">exa.core.observation_set_utils.create_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.create_quality_metric_set.html">exa.core.observation_set_utils.create_quality_metric_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.finalize_observation_set.html">exa.core.observation_set_utils.finalize_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.get_latest_observation_set_id.html">exa.core.observation_set_utils.get_latest_observation_set_id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.get_observation_set.html">exa.core.observation_set_utils.get_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate.html">exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation.html">exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.plotting.html">plotting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.extended_wilkinson_tick_locator.html">extended_wilkinson_tick_locator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.figure.html">figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.figure_helper.html">figure_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.generic_plot.html">generic_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_cumulative_distribution.html">plot_cumulative_distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_helper.html">plot_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_options.html">plot_options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_styles.html">plot_styles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plots.html">plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_core.html">qpu_core</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_plot.html">qpu_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_table.html">qpu_table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.time_series.html">time_series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.topology.html">topology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.post_processing.html">post_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.transpose_data.html">exa.core.post_processing.transpose_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.contrast_computation.html">contrast_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.excited_state_probability_computation.html">excited_state_probability_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.single_shot_to_counter.html">single_shot_to_counter</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.provider.html">provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.provider.provider.html">provider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.readout_helpers.html">readout_helpers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.readout_helpers.get_measure_gate_name.html">exa.core.readout_helpers.get_measure_gate_name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.readout_helpers.resolve_target_name_for_f_state.html">exa.core.readout_helpers.resolve_target_name_for_f_state</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.run_result.html">run_result</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.sequence.html">sequence</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.context.html">context</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.data_access.html">data_access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.experiment_tracker.html">experiment_tracker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.interface.html">interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.result.html">result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.sequence.html">sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.sequence_executor.html">sequence_executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.trackers.html">trackers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.util.html">util</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.wrap_analyze.html">wrap_analyze</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.calibration_utils.html">calibration_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.chad_utils.html">chad_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.dut_field_decoder.html">dut_field_decoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.esprit.html">esprit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.experiment_class.html">experiment_class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.fft_helper.html">fft_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.formatting.html">formatting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.ipython_helper.html">ipython_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.migration.html">migration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.model_functions.html">model_functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.param_parsing.html">param_parsing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.pca.html">pca</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.phase_helper.html">phase_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.qpu_utils.html">qpu_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.qubit_utils.html">qubit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.report.html">report</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.serialization.html">serialization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.topology.html">topology</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/notebooks/experiment_basics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Experiment basic usage</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-imports">Setup and imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-example-recreate-t2-ramsey-experiment">Simple example: recreate T2 Ramsey experiment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-circuit-parameters">Setting circuit parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-readout-modes">Different readout modes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-bit-more-complicated-sequence">A bit more complicated sequence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-from-experiment">Deriving from Experiment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-framework">Parallel Framework</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#developing-new-gates-gate-implementations">Developing new gates &amp; gate implementations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-new-gateimplementations">Creating new GateImplementations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#registering-new-gates-operations-using-compositegate">Registering new gates (operations) using CompositeGate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#programmable-readout">Programmable readout</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="experiment-basic-usage">
+<h1>Experiment basic usage<a class="headerlink" href="#experiment-basic-usage" title="Link to this heading">#</a></h1>
+<section id="setup-and-imports">
+<h2>Setup and imports<a class="headerlink" href="#setup-and-imports" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">exa.core</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">exa.core.provider</span><span class="w"> </span><span class="kn">import</span> <span class="n">provider</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">exa.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">TimeBox</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#provider.init_loggers()  # Optionally specify path to loggers conf file: `provider.init_loggers(&quot;loggers.yml.example&quot;)`</span>
+<span class="n">provider</span><span class="o">.</span><span class="n">init_iqm_server_runtime</span><span class="p">(</span>
+        <span class="n">iqm_server_url</span><span class="o">=</span><span class="s2">&quot;https://example.qc.com/&quot;</span><span class="p">,</span>
+        <span class="n">quantum_computer</span><span class="o">=</span><span class="s2">&quot;&lt;quantum-computer-name&gt;&quot;</span><span class="p">,</span>
+        <span class="n">username</span><span class="o">=</span><span class="s2">&quot;&lt;username&gt;&quot;</span><span class="p">,</span>
+        <span class="n">token</span><span class="o">=</span><span class="s2">&quot;&lt;api-token&gt;&quot;</span><span class="p">,</span>  <span class="c1"># or set the IQM_TOKEN environment variable instead</span>
+        <span class="c1"># experiment_configuration_path=&quot;experiment.yml&quot;,  # optional</span>
+    <span class="p">)</span>
+<span class="n">obs_stash</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">set_global_observation_stash</span><span class="p">([</span><span class="n">ec</span><span class="o">.</span><span class="n">GetCalibrationSet</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="simple-example-recreate-t2-ramsey-experiment">
+<h2>Simple example: recreate T2 Ramsey experiment<a class="headerlink" href="#simple-example-recreate-t2-ramsey-experiment" title="Link to this heading">#</a></h2>
+<p>Creating an <code class="docutils literal notranslate"><span class="pre">Experiment</span></code> object with no init arguments inits the class with the default options and the
+default circuit generation function. The available gates are taken from configuration.</p>
+<p>By default, the <code class="docutils literal notranslate"><span class="pre">readout_mode</span></code> is “complex”.
+The <code class="docutils literal notranslate"><span class="pre">subscribed_components</span></code> (i.e. the components that are read) default to all qubits found in the QPU.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">Experiment</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gates available:</span><span class="se">\n</span><span class="s2">  &quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">exp</span><span class="o">.</span><span class="n">gate_definitions</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Gates with calibration:</span><span class="se">\n</span><span class="s2">  &quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">exp</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The options:</span><span class="se">\n</span><span class="s2">  &quot;</span><span class="p">,</span> <span class="n">exp</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The circuit generation function:</span><span class="se">\n</span><span class="s2">  &quot;</span><span class="p">,</span> <span class="n">exp</span><span class="o">.</span><span class="n">circuit_generation_function</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>By default, this experiment generates a single circuit without gates and measures all qubits.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span><span class="o">.</span><span class="n">last_run</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To do something more useful, we should define circuit(s) to run.
+One way is to create a new Experiment class, and define the default circuit generator in the
+class, as explained later.
+We can also proceed without defining an Experiment class by passing circuit generation function to the constructor.</p>
+<p>As an example, let’s create a circuit generation function that executes the T2 Ramsey experiment on all qubits.
+In this case, the given pulse sequences simply consists of pi/2 - wait - pi/2 pulses.
+The latter pi/2 pulse can be applied either around X or Y axis.</p>
+<p>The pulse sequence generation functions are in principle free form, but the first two parameters are fixed:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">components</span></code>: The logical chip components, i.e. qubits and computational resonators.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">builder</span></code>: A ScheduleBuilder object which will realize the gates.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ramsey</span><span class="p">(</span>
+    <span class="n">components</span><span class="p">,</span>
+    <span class="n">builder</span><span class="p">:</span> <span class="n">ec</span><span class="o">.</span><span class="n">ScheduleBuilder</span><span class="p">,</span>
+    <span class="n">pulse_delay</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">,</span>
+    <span class="n">use_XY</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">TimeBox</span><span class="p">]:</span>
+
+    <span class="n">timeboxes_for_qubits</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+        <span class="n">prx</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">([</span><span class="n">qubit</span><span class="p">])</span>
+        <span class="n">first_pi2</span> <span class="o">=</span> <span class="n">prx</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">wait</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">wait</span><span class="p">([</span><span class="n">qubit</span><span class="p">],</span> <span class="n">pulse_delay</span><span class="p">,</span> <span class="n">rounding</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">use_XY</span><span class="p">:</span>
+            <span class="n">second_pi2</span> <span class="o">=</span> <span class="n">prx</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">second_pi2</span> <span class="o">=</span> <span class="n">prx</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">timeboxes_for_qubits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">TimeBox</span><span class="o">.</span><span class="n">composite</span><span class="p">(</span><span class="n">first_pi2</span> <span class="o">+</span> <span class="n">wait</span> <span class="o">+</span> <span class="n">second_pi2</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">TimeBox</span><span class="o">.</span><span class="n">composite</span><span class="p">(</span><span class="n">timeboxes_for_qubits</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now use the function to execute the pulse schedule with the default circuit values.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
+    <span class="n">circuit_generation_function</span><span class="o">=</span><span class="n">ramsey</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span><span class="o">.</span><span class="n">last_run</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="setting-circuit-parameters">
+<h2>Setting circuit parameters<a class="headerlink" href="#setting-circuit-parameters" title="Link to this heading">#</a></h2>
+<p>Circuit parameter values that are not part of a sweep can be set through <code class="docutils literal notranslate"><span class="pre">settings.stages.circuit_generation.circuit</span></code>.
+If not set manually, the circuit parameters will be created from the parameter names of the circuit generation function.</p>
+<p>It is possible to sweep any of the circuit parameters.
+Let’s sweep both the pulse_delay and use_XY parameters and then run the experiment.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">settings</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">get_settings</span><span class="p">()</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">print_tree</span><span class="p">()</span>
+
+<span class="n">p_XY</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">use_XY</span>  <span class="c1"># This is a circuit setting</span>
+<span class="n">p_delay</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">pulse_delay</span> <span class="c1"># This is a circuit setting</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">settings</span><span class="o">=</span><span class="n">settings</span><span class="p">,</span>
+    <span class="n">sweeps</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">p_delay</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">,</span> <span class="mf">20e-6</span><span class="p">,</span> <span class="mi">21</span><span class="p">)),</span>
+        <span class="n">p_XY</span><span class="o">.</span><span class="n">sweep</span><span class="p">([</span><span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+<span class="n">analyze_result</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">analyze_result</span><span class="o">.</span><span class="n">plot_all</span><span class="p">()</span>
+<span class="n">analyze_result</span><span class="o">.</span><span class="n">run_result</span><span class="o">.</span><span class="n">dataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>By default, the experiment does not know the units or datatypes of the circuit parameters,
+so we have to add them here if we want to display them.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">p_delay</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;pulse_delay&#39;</span><span class="p">,</span> <span class="s1">&#39;Pulse Delay&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="n">p_XY</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;use_XY&#39;</span><span class="p">,</span> <span class="s1">&#39;Y gate&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">ec</span><span class="o">.</span><span class="n">DataType</span><span class="o">.</span><span class="n">BOOLEAN</span><span class="p">)</span>
+
+<span class="n">settings</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">get_settings</span><span class="p">()</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">use_XY</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">Setting</span><span class="p">(</span><span class="n">p_XY</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">pulse_delay</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">Setting</span><span class="p">(</span><span class="n">p_delay</span><span class="p">,</span> <span class="mf">1e-6</span><span class="p">)</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">print_tree</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="different-readout-modes">
+<h2>Different readout modes<a class="headerlink" href="#different-readout-modes" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Experiment</span></code> supports five readout modes:</p>
+<ul class="simple">
+<li><p>“complex” (the default)</p></li>
+<li><p>“threshold”</p></li>
+<li><p>“single_shot”</p></li>
+<li><p>“single_shot_threshold”</p></li>
+<li><p>“counter”</p></li>
+</ul>
+<p>See the docstrings in <code class="docutils literal notranslate"><span class="pre">ExperimentOptions</span></code> and <code class="docutils literal notranslate"><span class="pre">experiment_definitions.ReadoutMode</span></code> for more
+info on the readout modes.</p>
+<p>Now, let’s change the <code class="docutils literal notranslate"><span class="pre">readout_mode</span></code> to “single_shot” and run the same T2 Ramsey experiment:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp_ss</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span><span class="n">circuit_generation_function</span><span class="o">=</span><span class="n">ramsey</span><span class="p">)</span>
+<span class="n">exp_ss</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">readout_mode</span> <span class="o">=</span> <span class="s2">&quot;single_shot&quot;</span>
+<span class="n">exp_ss</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">repetitions</span> <span class="o">=</span> <span class="mi">64</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note how the dataset now contains the “repetitions” dimension,
+which corresponds to the non-averaged single shots.
+The averaged results are computed as well.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">exp_ss</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">sweeps</span><span class="o">=</span><span class="p">[</span><span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">pulse_delay</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">,</span> <span class="mf">20e-6</span><span class="p">,</span> <span class="mi">7</span><span class="p">))]</span>
+<span class="p">)</span>
+<span class="n">analyze_result</span> <span class="o">=</span> <span class="n">exp_ss</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">analyze_result</span><span class="o">.</span><span class="n">plot_all</span><span class="p">()</span>
+<span class="n">analyze_result</span><span class="o">.</span><span class="n">run_result</span><span class="o">.</span><span class="n">dataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="a-bit-more-complicated-sequence">
+<h2>A bit more complicated sequence<a class="headerlink" href="#a-bit-more-complicated-sequence" title="Link to this heading">#</a></h2>
+<p>Let’s use Native Instructions for specifying the single qubit gates this time, and do some
+CZ gates between two qubits.
+Let’s run the experiment in the “counter” readout mode.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.gates.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">XYGate</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">N_CZ</span><span class="p">(</span><span class="n">components</span><span class="p">,</span> <span class="n">builder</span><span class="p">,</span> <span class="n">CZ_count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Applies X180 on all qubits, then `CZ_count` number of CZ&#39;s to the first pair.&quot;&quot;&quot;</span>
+    <span class="n">flips</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">([</span><span class="n">qubit</span><span class="p">])</span><span class="o">.</span><span class="n">clifford</span><span class="p">(</span><span class="n">XYGate</span><span class="o">.</span><span class="n">X_180</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">components</span>
+    <span class="p">]</span>
+    <span class="n">cz_on_first_pair</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">czs</span> <span class="o">=</span> <span class="p">[</span><span class="n">cz_on_first_pair</span><span class="p">()]</span> <span class="o">*</span> <span class="n">CZ_count</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">TimeBox</span><span class="o">.</span><span class="n">composite</span><span class="p">(</span><span class="n">flips</span> <span class="o">+</span> <span class="n">czs</span><span class="p">)]</span>
+
+
+<span class="n">exp_cz</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span><span class="n">circuit_generation_function</span><span class="o">=</span><span class="n">N_CZ</span><span class="p">)</span>
+<span class="n">exp_cz</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">readout_mode</span> <span class="o">=</span> <span class="s2">&quot;counter&quot;</span>
+
+<span class="n">sweep</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;CZ_count&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sweep</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="n">exp_cz</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;QB2&quot;</span><span class="p">,</span> <span class="s2">&quot;QB3&quot;</span><span class="p">],</span>
+    <span class="n">sweeps</span><span class="o">=</span><span class="p">[</span><span class="n">sweep</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">exp_cz</span><span class="o">.</span><span class="n">last_run</span><span class="o">.</span><span class="n">dataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="deriving-from-experiment">
+<h2>Deriving from Experiment<a class="headerlink" href="#deriving-from-experiment" title="Link to this heading">#</a></h2>
+<p>Simple example of deriving a new experiment from <code class="docutils literal notranslate"><span class="pre">Experiment</span></code>.
+The idea is not to override core functions like <code class="docutils literal notranslate"><span class="pre">_run</span></code> and <code class="docutils literal notranslate"><span class="pre">get_settings</span></code>,
+but instead just define the minimal changes needed for the experiment to function.</p>
+<p>Below, we need to only define the circuit generation function, the default sweeps and the default options.</p>
+<p>One could also add extra arguments to the circuit function and get them to the settings tree
+via <code class="docutils literal notranslate"><span class="pre">Experiment.get_default_circuit_settings</span></code>, do additional default changes to the settings tree
+via <code class="docutils literal notranslate"><span class="pre">Experiment.update_settings</span></code>, and modify the default observation loading rules,
+or use a custom connection graph via <code class="docutils literal notranslate"><span class="pre">Experiment.setup_additional_init_properties</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Define the circuit.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">parallel_rabi_circuit</span><span class="p">(</span><span class="n">components</span><span class="p">,</span> <span class="n">builder</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="n">TimeBox</span><span class="o">.</span><span class="n">composite</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">([</span><span class="n">q</span><span class="p">])</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">components</span><span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">set_alap</span><span class="p">()</span>
+    <span class="p">]</span>
+
+<span class="c1"># 2. Define the new experiment</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RabiMQ</span><span class="p">(</span><span class="n">ec</span><span class="o">.</span><span class="n">Experiment</span><span class="p">):</span>
+    <span class="n">default_options</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">ExperimentOptions</span><span class="p">(</span><span class="n">readout_mode</span><span class="o">=</span><span class="s2">&quot;complex&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Here you pick the default circuit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_default_circuit_generation_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">parallel_rabi_circuit</span>
+
+    <span class="c1"># Define the default sweeps here. The ranges defined here are the lowest priority and are overridden by</span>
+    <span class="c1"># 1. default sweeps from the configuration (if they exist)</span>
+    <span class="c1"># 2. User provided ranges</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_default_sweeps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+        <span class="n">pi_sweep</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">components</span><span class="p">:</span>
+            <span class="n">pi_sweep</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">prx</span><span class="o">.</span><span class="n">drag_gaussian</span><span class="p">[</span><span class="n">qubit</span><span class="p">]</span><span class="o">.</span><span class="n">amplitude_i</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">pi_sweep</span><span class="p">)]</span>
+
+    <span class="c1">#If you want the analysis to use parameters that are derived from the originally measured ones, define them here.</span>
+    <span class="c1">#For Rabi, we want to use contrast. Default data parameters will be updated.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_target_data_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscribed_components</span><span class="p">,</span> <span class="n">components</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ec</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">qubit</span><span class="si">}</span><span class="s1">_contrast&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">components</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rabi_mq</span> <span class="o">=</span> <span class="n">RabiMQ</span><span class="p">()</span>
+<span class="n">rabi_mq</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">rabi_mq</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span><span class="o">.</span><span class="n">plot_all</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="parallel-framework">
+<h2>Parallel Framework<a class="headerlink" href="#parallel-framework" title="Link to this heading">#</a></h2>
+<p>Writing parallelized 1QB experiments in the aforementioned way is easy, but when we want to create an experiment where the parallel elements are not single components but groups of components, e.g. connected qubit-pairs, it would result in a lot of boilerplate code. For this reason, Experiment provides functionalities that allow one to write the relevant experiment functions in terms of the quantities that actually matter. Also, now that we (hopefully) understand what Experiment does, we can actually skip writing most of the typical Experiment methods and instead define them as just functions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># let&#39;s first define the circuit, sweep and analysis functions in terms of a single connected qubit-pair</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">n_cphases_subschedule</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">builder</span><span class="p">,</span> <span class="n">n_cphases</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;You don&#39;t need to write the circuit for the whole chip, but just for the given unit of</span>
+<span class="sd">    parallelisation, ``group``, which here is the connected qubit-pair.&quot;&quot;&quot;</span>
+    <span class="n">target_qubit</span><span class="p">,</span> <span class="n">control_qubit</span> <span class="o">=</span> <span class="n">group</span>
+    <span class="n">x_target</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">([</span><span class="n">target_qubit</span><span class="p">])</span><span class="o">.</span><span class="n">clifford</span><span class="p">(</span><span class="n">XYGate</span><span class="o">.</span><span class="n">X_180</span><span class="p">)</span>
+    <span class="n">x_control</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">([</span><span class="n">control_qubit</span><span class="p">])</span><span class="o">.</span><span class="n">clifford</span><span class="p">(</span><span class="n">XYGate</span><span class="o">.</span><span class="n">X_180</span><span class="p">)</span>
+    <span class="n">cz</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">cz</span><span class="p">([</span><span class="n">target_qubit</span><span class="p">,</span> <span class="n">control_qubit</span><span class="p">])()</span>
+    <span class="n">flips</span> <span class="o">=</span> <span class="n">TimeBox</span><span class="o">.</span><span class="n">composite</span><span class="p">([</span><span class="n">x_target</span><span class="p">,</span> <span class="n">x_control</span><span class="p">])</span>
+    <span class="n">czs</span> <span class="o">=</span> <span class="n">TimeBox</span><span class="o">.</span><span class="n">composite</span><span class="p">([</span><span class="n">cz</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_cphases</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">TimeBox</span><span class="o">.</span><span class="n">composite</span><span class="p">([</span><span class="n">flips</span><span class="p">,</span> <span class="n">czs</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">n_cphases_sweep</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">chip_topology</span><span class="p">,</span> <span class="n">settings</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;We simply sweep the ``n_cphases``circuit param.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">ec</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="s2">&quot;n_cphases&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sweep</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">dummy_analyze_for_pair</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">chip_topology</span><span class="p">,</span> <span class="n">run_result</span><span class="p">,</span> <span class="n">data_color</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">circuit_index</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The analyze function can also be written for just the pair.&quot;&quot;&quot;</span>
+    <span class="n">ec</span><span class="o">.</span><span class="n">AnalyzeResult</span><span class="p">(</span><span class="n">run_result</span><span class="o">=</span><span class="n">run_result</span><span class="p">,</span> <span class="n">observations</span><span class="o">=</span><span class="p">[],</span> <span class="n">plots</span><span class="o">=</span><span class="p">{})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Then writing the actual experiment class becomes just a couple of lines of &quot;fitting the functions in their slots&quot;</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">NCPhaseTest</span><span class="p">(</span><span class="n">ec</span><span class="o">.</span><span class="n">Experiment</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;n cphase test&quot;</span>
+    <span class="n">parallel_group</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">ParallelGroup</span><span class="o">.</span><span class="n">CONNECTED_PAIRS</span>
+    <span class="n">default_circuit_generation_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">n_cphases_subschedule</span><span class="p">)</span>
+    <span class="n">default_sweep_generation_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">n_cphases_sweep</span><span class="p">)</span>
+    <span class="n">default_analyze_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">dummy_analyze_for_pair</span><span class="p">)</span>
+
+<span class="n">n_cphase</span> <span class="o">=</span> <span class="n">NCPhaseTest</span><span class="p">()</span>
+<span class="c1"># let&#39;s run the experiment. Note that even though we defined everything in terms of just a single-pair, this will</span>
+<span class="c1"># now run it for the whole chip, dividing the components to sets of parallelly runnable pairs (so called colors)</span>
+<span class="n">n_cphase</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">n_cphase</span><span class="o">.</span><span class="n">last_run</span><span class="o">.</span><span class="n">dataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="developing-new-gates-gate-implementations">
+<h2>Developing new gates &amp; gate implementations<a class="headerlink" href="#developing-new-gates-gate-implementations" title="Link to this heading">#</a></h2>
+<section id="creating-new-gateimplementations">
+<h3>Creating new GateImplementations<a class="headerlink" href="#creating-new-gateimplementations" title="Link to this heading">#</a></h3>
+<p>iqm.pulse allows users to define their own gates and implementations and registering them for ad-hoc usage in a notebook/script without having to touch any of the underlying libraries. In the simplest case, this means changing some detail in one of the generic gate implementations, for example the pulse waveforms. However, it is also possible to write the gate implementation from scratch.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">exa.core.provider</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExaRuntime</span>
+<span class="c1"># let&#39;s define a new PRX implementation by defining the I and Q waveforms via the PRX_CustomWaveforms base class:</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.models.playlist.waveforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">Waveform</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.gates.prx</span><span class="w"> </span><span class="kn">import</span> <span class="n">PRX_CustomWaveforms</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.gate_implementation</span><span class="w"> </span><span class="kn">import</span> <span class="n">CompositeGate</span>
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RaisedCosine</span><span class="p">(</span><span class="n">Waveform</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Raised cosine pulse.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        f(t) = \frac{1}{2} (1 + \cos((t - c) \pi / w)) \quad \text{when} \: |t - c| \le w, 0 \: \text{otherwise}</span>
+
+<span class="sd">    where :math:`c` is :attr:`center_offset`, and :math:`w` is :attr:`width`.</span>
+<span class="sd">    The raised cosine has a finite support.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: half-width of the support</span>
+<span class="sd">        center_offset: center offset</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">center_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">offset_coords</span> <span class="o">=</span> <span class="n">sample_coords</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">center_offset</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">offset_coords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">offset_coords</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)),</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RaisedCosineDerivative</span><span class="p">(</span><span class="n">Waveform</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Scaled derivative of the RaisedCosine pulse.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        f(t) = -\sin((t - c) \pi / w) \quad \text{when} \: |t - c| \le w, 0 \: \text{otherwise}</span>
+
+<span class="sd">    where :math:`c` is :attr:`center_offset`, and :math:`w` is :attr:`width`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        width: half-width of the support</span>
+<span class="sd">        center_offset: center offset</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">width</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">center_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">offset_coords</span> <span class="o">=</span> <span class="n">sample_coords</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">center_offset</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">offset_coords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span>
+            <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">offset_coords</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">),</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">RaisedCosinePRX</span><span class="p">(</span><span class="n">PRX_CustomWaveforms</span><span class="p">,</span> <span class="n">wave_i</span><span class="o">=</span><span class="n">RaisedCosine</span><span class="p">,</span> <span class="n">wave_q</span><span class="o">=</span><span class="n">RaisedCosineDerivative</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implementation of PRX using a raised cosine pulse instead of a gaussian.&quot;&quot;&quot;</span>
+
+<span class="c1"># Now that we have defined the gate implementation, we must register it for the gate prx.</span>
+<span class="c1"># Let&#39;s do this for the whole of the current session such that all experiments can use the new implementation:</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">ExaRuntime</span><span class="o">.</span><span class="n">experiment_configuration</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">register_gate_implementation</span><span class="p">(</span>
+    <span class="n">gate_name</span><span class="o">=</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span>
+    <span class="n">impl_name</span><span class="o">=</span><span class="s2">&quot;raised_cosine&quot;</span><span class="p">,</span>
+    <span class="n">impl_class</span><span class="o">=</span><span class="n">RaisedCosinePRX</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="c1"># Set some default values for the gate parameters:</span>
+<span class="n">config</span><span class="o">.</span><span class="n">set_calibration_data_for_gate_implementation</span><span class="p">(</span>
+    <span class="s2">&quot;prx&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;raised_cosine&quot;</span><span class="p">,</span>
+    <span class="p">{():</span> <span class="p">{</span>  <span class="c1"># empty locus () denotes default values. You can set values for specific locus, like (&quot;QB1&quot;,) similarly</span>
+        <span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">4e-8</span><span class="p">,</span>
+        <span class="s2">&quot;amplitude_i&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;amplitude_q&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;i&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mf">3e-8</span><span class="p">,</span> <span class="s2">&quot;center_offset&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">},</span>
+        <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mf">3e-8</span><span class="p">,</span> <span class="s2">&quot;center_offset&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}</span>
+    <span class="p">}}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Or alternatively only for a specific experiment instance (using the same method):</span>
+<span class="n">my_exp</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">Experiment</span><span class="p">()</span>
+<span class="n">my_exp</span><span class="o">.</span><span class="n">register_gate_implementation</span><span class="p">(</span>
+    <span class="n">gate_name</span><span class="o">=</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span>
+    <span class="n">impl_name</span><span class="o">=</span><span class="s2">&quot;raised_cosine&quot;</span><span class="p">,</span>
+    <span class="n">impl_class</span><span class="o">=</span><span class="n">RaisedCosinePRX</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">my_exp</span><span class="o">.</span><span class="n">set_calibration_data_for_gate_implementation</span><span class="p">(</span>
+    <span class="s2">&quot;prx&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;raised_cosine&quot;</span><span class="p">,</span>
+    <span class="p">{():</span> <span class="p">{</span>
+        <span class="s2">&quot;duration&quot;</span><span class="p">:</span> <span class="mf">4e-8</span><span class="p">,</span>
+        <span class="s2">&quot;amplitude_i&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;amplitude_q&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">&quot;i&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mf">3e-8</span><span class="p">,</span> <span class="s2">&quot;center_offset&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">},</span>
+        <span class="s2">&quot;q&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mf">3e-8</span><span class="p">,</span> <span class="s2">&quot;center_offset&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">}</span>
+    <span class="p">}}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Most experiments are written such that they will always use the currently defined default implementation.</span>
+<span class="c1"># Let&#39;s create a Rabi experiment but change the default PRX into RaisedCosinePRX.</span>
+<span class="c1"># NOTE: we could also set the default for the whole session, similarly to the registering above.</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">exa.public_experiments</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rabi</span>
+
+<span class="n">rabi</span> <span class="o">=</span> <span class="n">Rabi</span><span class="p">()</span>
+<span class="n">rabi</span><span class="o">.</span><span class="n">set_gate_implementation_as_default</span><span class="p">(</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span> <span class="s2">&quot;raised_cosine&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Observe that the default has now been changed into RaisedCosinePRX</span>
+<span class="n">rabi_settings</span> <span class="o">=</span> <span class="n">rabi</span><span class="o">.</span><span class="n">get_settings</span><span class="p">()</span>
+<span class="n">rabi_settings</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">prx</span><span class="o">.</span><span class="n">print_tree</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s run it and see the results. We can also save the observations and have amplitude calibration</span>
+<span class="c1"># for our RaisedCosinePRX. We could then continue with the full calibration sequence if we wanted.</span>
+<span class="n">rabi</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">analyze_result</span> <span class="o">=</span> <span class="n">rabi</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">analyze_result</span><span class="o">.</span><span class="n">render_report</span><span class="p">()</span>
+<span class="n">analyze_result</span><span class="o">.</span><span class="n">run_result</span><span class="o">.</span><span class="n">observations</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span><span class="o">.</span><span class="n">tag</span><span class="p">(</span><span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span><span class="o">.</span><span class="n">stash</span><span class="p">(</span><span class="n">obs_stash</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="registering-new-gates-operations-using-compositegate">
+<h3>Registering new gates (operations) using CompositeGate<a class="headerlink" href="#registering-new-gates-operations-using-compositegate" title="Link to this heading">#</a></h3>
+<p>iqm.pulse also allows for creating a completely new gate/operation in one’s notebook/script and then registering it
+similarly to the GateImplementation above. The user may of course write the logic for any implementations of this new gate from the scratch, but there is also a useful base class CompositeGate, which can be used to create GateImplementations in terms of other already existing gates.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s define a Hadamard gate implementation in terms of PRX gate:</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.quantum_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumOp</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CompositeHadamard</span><span class="p">(</span><span class="n">CompositeGate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hadamard gate.&quot;&quot;&quot;</span>
+    <span class="n">registered_gates</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;prx&quot;</span><span class="p">,)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_call</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeBox</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">locus</span><span class="p">)</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;prx&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">locus</span><span class="p">)</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+
+<span class="c1"># Let&#39;s further define a CNot gate implementation in terms of Hadamard and CZ gates:</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CompositeCNot</span><span class="p">(</span><span class="n">CompositeGate</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;CNot gate.&quot;&quot;&quot;</span>
+    <span class="n">registered_gates</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;hadamard&quot;</span><span class="p">,</span> <span class="s2">&quot;cz&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_call</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TimeBox</span><span class="p">:</span>
+        <span class="n">target_hadamard</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;hadamard&quot;</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">locus</span><span class="p">[</span><span class="mi">0</span><span class="p">],))()</span>
+        <span class="k">return</span> <span class="n">target_hadamard</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s2">&quot;cz&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">locus</span><span class="p">)()</span> <span class="o">+</span> <span class="n">target_hadamard</span>
+
+<span class="c1"># Let&#39;s register both gates and their composite implementations. Since there are no prior implementations for either,</span>
+<span class="c1"># gate, the above implementations will be defaults automatically</span>
+<span class="c1"># NOTE: as these are composite gate implementations, we don&#39;t necessarily need to add any calibration data for them.</span>
+<span class="c1"># They will use the normal CZ and PRX calibrations unless otherwise specified (see the below cells)</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">ExaRuntime</span><span class="o">.</span><span class="n">experiment_configuration</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">register_gate_implementation</span><span class="p">(</span>
+    <span class="n">gate_name</span><span class="o">=</span><span class="s2">&quot;hadamard&quot;</span><span class="p">,</span>
+    <span class="n">impl_name</span><span class="o">=</span><span class="s2">&quot;composite_hadamard&quot;</span><span class="p">,</span>
+    <span class="n">impl_class</span><span class="o">=</span><span class="n">CompositeHadamard</span><span class="p">,</span>
+    <span class="n">quantum_op</span><span class="o">=</span><span class="n">QuantumOp</span><span class="p">(</span>  <span class="c1"># here we define the new quantum operation, i.e. &quot;gate&quot; for which to add the implementation</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hadamard&quot;</span><span class="p">,</span>
+        <span class="n">arity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># how many locus components the operation has</span>
+        <span class="n">symmetric</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># does not matter for arity=1</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="n">config</span><span class="o">.</span><span class="n">register_gate_implementation</span><span class="p">(</span>
+    <span class="n">gate_name</span><span class="o">=</span><span class="s2">&quot;cnot&quot;</span><span class="p">,</span>
+    <span class="n">impl_name</span><span class="o">=</span><span class="s2">&quot;composite_cnot&quot;</span><span class="p">,</span>
+    <span class="n">impl_class</span><span class="o">=</span><span class="n">CompositeCNot</span><span class="p">,</span>
+    <span class="n">quantum_op</span><span class="o">=</span><span class="n">QuantumOp</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cnot&quot;</span><span class="p">,</span>
+        <span class="n">arity</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">symmetric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># cnot is asymmetric</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CNot is a 2-qubit gate that flips the target qubit if and only if the control qubit is in the excited state.</span>
+<span class="c1"># Let&#39;s write a quick (inconclusive) experiment that verifies this</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">verify_cnot_circuit</span><span class="p">(</span><span class="n">components</span><span class="p">,</span> <span class="n">builder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Circuit where the first element corresponds to CNot * |00&gt;, the second element to CNot * |01&gt;,</span>
+<span class="sd">    the third to CNot * |10&gt;, and the fourth to |11&gt;&quot;&quot;&quot;</span>
+    <span class="n">pair</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">control</span> <span class="o">=</span> <span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">idn</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">control</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">flip_t</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">((</span><span class="n">target</span><span class="p">,))</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="n">flip_c</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">((</span><span class="n">control</span><span class="p">,))</span><span class="o">.</span><span class="n">ry</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+    <span class="n">flips</span> <span class="o">=</span> <span class="p">[</span><span class="n">idn</span><span class="p">,</span> <span class="n">flip_c</span><span class="p">,</span> <span class="n">flip_t</span><span class="p">,</span> <span class="n">flip_t</span> <span class="o">+</span> <span class="n">flip_c</span><span class="p">]</span>
+    <span class="n">boxes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">flip</span> <span class="ow">in</span> <span class="n">flips</span><span class="p">:</span>
+        <span class="n">boxes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flip</span> <span class="o">+</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_implementation</span><span class="p">(</span><span class="s2">&quot;cnot&quot;</span><span class="p">,</span> <span class="n">pair</span><span class="p">)())</span>
+    <span class="k">return</span> <span class="n">boxes</span>
+
+<span class="n">cnot_exp</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span><span class="n">circuit_generation_function</span><span class="o">=</span><span class="n">verify_cnot_circuit</span><span class="p">)</span>
+<span class="n">cnot_exp</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">readout_mode</span> <span class="o">=</span> <span class="s2">&quot;counter&quot;</span>
+<span class="n">cnot_settings</span> <span class="o">=</span> <span class="n">cnot_exp</span><span class="o">.</span><span class="n">get_settings</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The settings tree structure for CNot contains its component gates recursively</span>
+<span class="c1"># You may set different values for CZ inside the CNOT or further a PRX inside the Hadamard inside the CNot.</span>
+<span class="c1"># The values set like this will override the default values of CZ, PRX etc.</span>
+<span class="n">cnot_settings</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">cnot</span><span class="o">.</span><span class="n">composite_cnot</span><span class="o">.</span><span class="n">QB2__QB3</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">cz</span><span class="o">.</span><span class="n">tgss</span><span class="o">.</span><span class="n">QB2__QB3</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="mf">4e-8</span>
+<span class="n">cnot_settings</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">cnot</span><span class="o">.</span><span class="n">print_tree</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s run it and compare with ideal CNot operation:</span>
+<span class="n">cnot_exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">components</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB1&quot;</span><span class="p">)])</span>
+<span class="n">cnot_00</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cnot_exp</span><span class="o">.</span><span class="n">last_run</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;counter.result&quot;</span><span class="p">][:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">cnot_01</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cnot_exp</span><span class="o">.</span><span class="n">last_run</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;counter.result&quot;</span><span class="p">][:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">cnot_10</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cnot_exp</span><span class="o">.</span><span class="n">last_run</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;counter.result&quot;</span><span class="p">][:,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">cnot_11</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cnot_exp</span><span class="o">.</span><span class="n">last_run</span><span class="o">.</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;counter.result&quot;</span><span class="p">][:,</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ideally we expect CNot to map |00&gt; to |00&gt;, i.e. in counter readout: [1,0,0,0]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The measured counter readout was: </span><span class="si">{</span><span class="n">cnot_00</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ideally we expect CNot to map |01&gt; to |11&gt;, i.e. in counter readout: [0,0,0,1]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The measured counter readout was: </span><span class="si">{</span><span class="n">cnot_01</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ideally we expect CNot to map |10&gt; to |10&gt;, i.e. in counter readout: [0,0,1,0]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The measured counter readout was: </span><span class="si">{</span><span class="n">cnot_10</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ideally we expect CNot to map |11&gt; to |01&gt;, i.e. in counter readout: [0,1,0,0]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The measured counter readout was: </span><span class="si">{</span><span class="n">cnot_11</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="programmable-readout">
+<h2>Programmable readout<a class="headerlink" href="#programmable-readout" title="Link to this heading">#</a></h2>
+<p>By default Experiment appends each segment in a circuit with a multiplexed measurement operation that reads all the readout components simultaneously. When this behaviour is enough, the user does not need to add any measurement operations in the circuit function itself. However, in case a more complicated measurement scheme is needed, the readouts can also be included in schedule itself. There can be any number of measurements in a circuit (also different numbers between different components). Currently the number of measurements for a given component must be constant between different segments of the circuit, and the measurements must happen at same times in each segment, however.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">circuit_with_readouts</span><span class="p">(</span><span class="n">components</span><span class="p">,</span> <span class="n">builder</span><span class="p">:</span> <span class="n">ec</span><span class="o">.</span><span class="n">ScheduleBuilder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple circuit that runs X180 + measurement for all qubits twice, and then does one more X180 and</span>
+<span class="sd">    adds a third measurement for just the first qubit.&quot;&quot;&quot;</span>
+    <span class="n">prxs</span> <span class="o">=</span> <span class="n">TimeBox</span><span class="o">.</span><span class="n">composite</span><span class="p">([</span><span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">((</span><span class="n">c</span><span class="p">,))</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">])</span>
+    <span class="n">measure_all</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">components</span><span class="p">))()</span>
+    <span class="n">measure1</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">measure</span><span class="p">((</span><span class="n">components</span><span class="p">[</span><span class="mi">0</span><span class="p">],))()</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">prxs</span> <span class="o">+</span> <span class="n">measure_all</span> <span class="o">+</span> <span class="n">prxs</span> <span class="o">+</span> <span class="n">measure_all</span> <span class="o">+</span> <span class="n">prxs</span> <span class="o">+</span> <span class="n">measure1</span><span class="p">]</span>
+
+<span class="n">readout_exp</span> <span class="o">=</span> <span class="n">ec</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span><span class="n">circuit_generation_function</span><span class="o">=</span><span class="n">circuit_with_readouts</span><span class="p">)</span>
+<span class="c1"># CUSTOM programming mode does not add any extra readouts, they must be included in the schedule itself.</span>
+<span class="n">readout_exp</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">readout_programming_mode</span> <span class="o">=</span> <span class="s2">&quot;custom&quot;</span>
+<span class="c1"># All readout_modes are supported, but the &quot;counter&quot; mode has a caveat that it does not currently support</span>
+<span class="c1"># different number of measurements per component due to xarray limitations.</span>
+<span class="n">readout_exp</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">readout_mode</span> <span class="o">=</span> <span class="s2">&quot;threshold&quot;</span>
+<span class="n">readout_settings</span> <span class="o">=</span> <span class="n">readout_exp</span><span class="o">.</span><span class="n">get_settings</span><span class="p">()</span>
+<span class="c1"># Let&#39;s print the settings and observe the calibration data for the measure operation:</span>
+<span class="n">readout_settings</span><span class="o">.</span><span class="n">gates</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">print_tree</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s run the experiment and display the resulting dataset. We see there is a data dimension &lt;qubit&gt;_readout_slot</span>
+<span class="c1"># that defines the index of the measurement for that qubit. For all the other qubits, the dimensionality is 2 but</span>
+<span class="c1"># for the first qubit, it is 3. We also observe from the measured data that the consecutive X180 gates flip</span>
+<span class="c1"># qubits between |0&gt; and |1&gt;, as expected.</span>
+<span class="n">readout_exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">settings</span><span class="o">=</span><span class="n">readout_settings</span><span class="p">)</span>
+<span class="n">readout_exp</span><span class="o">.</span><span class="n">last_run</span><span class="o">.</span><span class="n">dataset</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Example Notebooks</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="example_local_storage.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Local storage example</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-and-imports">Setup and imports</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simple-example-recreate-t2-ramsey-experiment">Simple example: recreate T2 Ramsey experiment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-circuit-parameters">Setting circuit parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#different-readout-modes">Different readout modes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-bit-more-complicated-sequence">A bit more complicated sequence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deriving-from-experiment">Deriving from Experiment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parallel-framework">Parallel Framework</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#developing-new-gates-gate-implementations">Developing new gates &amp; gate implementations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-new-gateimplementations">Creating new GateImplementations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#registering-new-gates-operations-using-compositegate">Registering new gates (operations) using CompositeGate</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#programmable-readout">Programmable readout</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2019-2026, IQM Finland Oy, Release 20.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-11-10.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

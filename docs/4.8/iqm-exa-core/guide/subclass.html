@@ -1,0 +1,829 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Making an Experiment subclass &#8212; iqm-exa-core 20.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=3f23208d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'guide/subclass';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Circuit generation functions" href="circuit.html" />
+    <link rel="prev" title="Prototyping your experiment" href="prototype.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-11-10"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm-exa-core 20.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm-exa-core 20.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-exa-core</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../basic_guide/index.html">Basics of EXA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/experiment.html">Running Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/settings_workflow.html">Workflow with Experiment settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/database.html">Data access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/observation.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/sequence.html">Sequences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/configuration_file.html">EXA Configuration File</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Creating EXA experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="concept.html">Conceptualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prototype.html">Prototyping</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Making a subclass of Experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="circuit.html">Circuit generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sweep.html">Sweep generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compiler.html">Compiler passes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analysis.html">Post-processing and analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plotting.html">Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="observations.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html">Integrating your experiment in a sequence or graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maturity.html">Is my experiment mature?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../notebooks/index.html">Example Notebooks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/experiment_basics.html">Experiment Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/example_local_storage.html">Local Storage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/exa.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.analyze_result.html">analyze_result</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.analyze_result.analyze_result.html">analyze_result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.analyze_result.plot_definition.html">plot_definition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.database_wrapper.html">database_wrapper</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.batch_save_observations.html">exa.core.database_wrapper.batch_save_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.get_all_dut_fields.html">exa.core.database_wrapper.get_all_dut_fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.get_latest_observations_for_tags.html">exa.core.database_wrapper.get_latest_observations_for_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.invalidate_observation.html">exa.core.database_wrapper.invalidate_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.save_observation.html">exa.core.database_wrapper.save_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.save_observations_with_new_tags.html">exa.core.database_wrapper.save_observations_with_new_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.set_observation_validity.html">exa.core.database_wrapper.set_observation_validity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.environment.html">environment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.environment.load_environment.html">exa.core.environment.load_environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.environment.EnvironmentConfig.html">EnvironmentConfig</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.error_estimation.html">error_estimation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.error_estimation.fit_statistical_error.html">fit_statistical_error</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.error_experiment.html">error_experiment</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment.html">experiment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.edge_coloring.html">edge_coloring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.experiment.html">experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.stages.html">stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.experiment_configuration.html">experiment_configuration</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_definitions.html">experiment_definitions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ChipProperties.html">exa.core.experiment_definitions.ChipProperties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ParallelGroup.html">ParallelGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.QPUType.html">QPUType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ReadoutMode.html">ReadoutMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ReadoutProgrammingMode.html">ReadoutProgrammingMode</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_options.html">experiment_options</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html">ExperimentOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_utils.html">experiment_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_utils.load_observations.html">exa.core.experiment_utils.load_observations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.gate_implementations.html">gate_implementations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.flux_pulse.html">flux_pulse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.modulated_pulse_gate.html">modulated_pulse_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.rz.html">rz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.x_ef_gate.html">x_ef_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.local_storage.html">local_storage</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.local_storage.LocalStorage.html">LocalStorage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.model_selection_fitter.html">model_selection_fitter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.fitter.html">fitter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.fitting.html">fitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.model_selection.html">model_selection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.models.html">models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.packaging.html">packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.plotting.html">plotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.preprocessing.html">preprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.structures.html">structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.multistate_classifier.html">multistate_classifier</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.classifier.html">classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.distance_classifier.html">distance_classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.linear_discriminant_analysis.html">linear_discriminant_analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.parameters.html">parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.support_vector_machine.html">support_vector_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.observation.html">observation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_handler.html">observation_handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_loading_rules.html">observation_loading_rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_parameters.html">observation_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_stash.html">observation_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_validation_rules.html">observation_validation_rules</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.observation_set_utils.html">observation_set_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.add_to_observation_set.html">exa.core.observation_set_utils.add_to_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.adjust_trigger_delays_in_stash.html">exa.core.observation_set_utils.adjust_trigger_delays_in_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.copy_station_specific_observations.html">exa.core.observation_set_utils.copy_station_specific_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.create_observation_set.html">exa.core.observation_set_utils.create_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.create_quality_metric_set.html">exa.core.observation_set_utils.create_quality_metric_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.finalize_observation_set.html">exa.core.observation_set_utils.finalize_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.get_latest_observation_set_id.html">exa.core.observation_set_utils.get_latest_observation_set_id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.get_observation_set.html">exa.core.observation_set_utils.get_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate.html">exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation.html">exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.plotting.html">plotting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.extended_wilkinson_tick_locator.html">extended_wilkinson_tick_locator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.figure.html">figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.figure_helper.html">figure_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.generic_plot.html">generic_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_cumulative_distribution.html">plot_cumulative_distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_helper.html">plot_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_options.html">plot_options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_styles.html">plot_styles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plots.html">plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_core.html">qpu_core</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_plot.html">qpu_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_table.html">qpu_table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.time_series.html">time_series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.topology.html">topology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.post_processing.html">post_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.transpose_data.html">exa.core.post_processing.transpose_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.contrast_computation.html">contrast_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.excited_state_probability_computation.html">excited_state_probability_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.single_shot_to_counter.html">single_shot_to_counter</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.provider.html">provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.provider.provider.html">provider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.readout_helpers.html">readout_helpers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.readout_helpers.get_measure_gate_name.html">exa.core.readout_helpers.get_measure_gate_name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.readout_helpers.resolve_target_name_for_f_state.html">exa.core.readout_helpers.resolve_target_name_for_f_state</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.run_result.html">run_result</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.sequence.html">sequence</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.context.html">context</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.data_access.html">data_access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.experiment_tracker.html">experiment_tracker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.interface.html">interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.result.html">result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.sequence.html">sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.sequence_executor.html">sequence_executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.trackers.html">trackers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.util.html">util</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.wrap_analyze.html">wrap_analyze</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.calibration_utils.html">calibration_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.chad_utils.html">chad_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.dut_field_decoder.html">dut_field_decoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.esprit.html">esprit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.experiment_class.html">experiment_class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.fft_helper.html">fft_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.formatting.html">formatting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.ipython_helper.html">ipython_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.migration.html">migration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.model_functions.html">model_functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.param_parsing.html">param_parsing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.pca.html">pca</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.phase_helper.html">phase_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.qpu_utils.html">qpu_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.qubit_utils.html">qubit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.report.html">report</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.serialization.html">serialization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.topology.html">topology</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/guide/subclass.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Making an Experiment subclass</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-class">Defining the class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#options-and-sweeps">Options and sweeps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-settings">Circuit settings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-specific-settings">Experiment-specific settings</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="making-an-experiment-subclass">
+<span id="guide-subclass"></span><h1>Making an Experiment subclass<a class="headerlink" href="#making-an-experiment-subclass" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>After making a successful <a class="reference internal" href="prototype.html"><span class="doc">prototype</span></a> that allows you to run the experiment you want to create, it is
+time to actually create it! We will inherit from <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment" title="exa.core.experiment.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a>,
+but most of the time there is no need to override many or any methods, just the ones we will need. The code in exa
+is written to follow the principle of composition, not inheritance, as often as possible. This is why circuit, sweep and
+analyze functions are functions, and are just attached to the experiment as static methods. We already have those from
+the prototyping stage!</p>
+</section>
+<section id="defining-the-class">
+<h2>Defining the class<a class="headerlink" href="#defining-the-class" title="Link to this heading">#</a></h2>
+<p>We will use the Bell coherence example here as well, but build it up to something more interesting. For now, let’s just
+define a new class:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">exa.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Experiment</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">BellCoherence</span><span class="p">(</span><span class="n">Experiment</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;bell_coherence&quot;</span>
+    <span class="n">default_label</span> <span class="o">=</span> <span class="s2">&quot;Bell Coherence&quot;</span>
+    <span class="n">parallel_group</span> <span class="o">=</span> <span class="n">ParallelGroup</span><span class="o">.</span><span class="n">CONNECTED_PAIRS</span>
+
+    <span class="n">default_circuit_generation_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">bell_coherence_circuit</span><span class="p">)</span>
+    <span class="n">default_analyze_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">analyze_bell</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.name" title="exa.core.experiment.experiment.Experiment.name"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Experiment.name</span></code></a> and <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.default_label" title="exa.core.experiment.experiment.Experiment.default_label"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Experiment.default_label</span></code></a> attributes should be added as
+soon as possible, especially the first one. This is because the function <a class="reference internal" href="../api/exa.core.experiment.experiment.get_experiment.html#exa.core.experiment.experiment.get_experiment" title="exa.core.experiment.experiment.get_experiment"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_experiment()</span></code></a>,
+which is used to retrieve experimental data from previous runs from the database, uses the <code class="docutils literal notranslate"><span class="pre">name</span></code> attribute
+to decide which class to initialize. The latter attribute will be displayed in all the reports, so it should be more descriptive.</p>
+<p>We also specify the <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.parallel_group" title="exa.core.experiment.experiment.Experiment.parallel_group"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Experiment.parallel_group</span></code></a> and attach the parallel versions of the functions written before as static
+methods. This experiment can now be initialized, run and analyzed to produce results identical to our notebook
+prototype… If we attach the sweeps manually. The default sweeps are clearly missing, so let’s add them next!</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>What do you think will happen if we do not add any default sweeps?</p>
+</div>
+</section>
+<section id="options-and-sweeps">
+<h2>Options and sweeps<a class="headerlink" href="#options-and-sweeps" title="Link to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment" title="exa.core.experiment.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a> subclasses use
+the <a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html#exa.core.experiment_options.ExperimentOptions" title="exa.core.experiment_options.ExperimentOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExperimentOptions</span></code></a>, which are a
+pydantic model, to specify the behaviour of the experiment object. The options become an attribute
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">Experiment.options</span></code> and can be modified after initializing. When creating a subclass, we need to
+specify the default values of the options, if different from the base class, and we can also add our own, new options,
+if they are needed. Options are used for many things at the moment, but can be thought of as variables that affect many
+settings needed to work in tandem, and too complicated to modify separately. Options are also commonly used to control
+the behaviour of sweeps, especially in parallel experiments used for calibration. There, each used gate needs a sweep,
+but all sweeps happening in parallel need the same number of points.</p>
+<p>To <strong>add new options</strong> we create a subclass of <a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html#exa.core.experiment_options.ExperimentOptions" title="exa.core.experiment_options.ExperimentOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExperimentOptions</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">exa.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExperimentOptions</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">BellOptions</span><span class="p">(</span><span class="n">ExperimentOptions</span><span class="p">):</span>
+
+    <span class="n">phase_sweep_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span>
+</pre></div>
+</div>
+<p>To <strong>modify the values of the default options</strong> we modify them at init:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">BellCoherence</span><span class="p">(</span><span class="n">Experiment</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;bell_coherence&quot;</span>
+    <span class="n">default_label</span> <span class="o">=</span> <span class="s2">&quot;Bell Coherence&quot;</span>
+<span class="hll">    <span class="n">options</span><span class="p">:</span> <span class="n">BellOptions</span>
+</span><span class="hll">    <span class="n">default_options</span> <span class="o">=</span> <span class="n">BellOptions</span><span class="p">(</span><span class="n">repetitions</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">readout_mode</span><span class="o">=</span><span class="s2">&quot;threshold&quot;</span><span class="p">)</span>
+</span>    <span class="n">parallel_group</span> <span class="o">=</span> <span class="n">ParallelGroup</span><span class="o">.</span><span class="n">CONNECTED_PAIRS</span>
+
+    <span class="n">default_circuit_generation_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">bell_coherence_circuit</span><span class="p">)</span>
+    <span class="n">default_analyze_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">analyze_bell</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, we added a new option which will control the behaviour of our default sweep, as well as modified the existing
+default values for <code class="docutils literal notranslate"><span class="pre">repetitions</span></code> and <code class="docutils literal notranslate"><span class="pre">readout_mode</span></code>. Now each point will be averaged 128 times, and the readout
+instrument will decide if the measured voltage corresponds to 0 or 1, and only then they will be averaged all together
+during postprocessing.</p>
+<p>Let’s write the sweep generation function now:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_sweeps_bell</span><span class="p">(</span>
+    <span class="n">group</span><span class="p">,</span>
+    <span class="n">chip_topology</span><span class="p">,</span>
+    <span class="n">settings</span><span class="p">,</span>
+    <span class="n">phase_sweep_points</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">phase_sweep</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">stages</span><span class="o">.</span><span class="n">circuit_generation</span><span class="o">.</span><span class="n">circuit</span><span class="o">.</span><span class="n">phase</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">phase_sweep_points</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">phase_sweep</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The first argument to a sweep generation function must be <code class="docutils literal notranslate"><span class="pre">group</span></code> or <code class="docutils literal notranslate"><span class="pre">components</span></code>, depending on whether one wishes
+to use the parallel framework or not. Here, it does not actually matter since the sweep does not affect any
+locus-specific settings, but we will use <code class="docutils literal notranslate"><span class="pre">group</span></code> for consistency. The second and third arguments must be
+<code class="docutils literal notranslate"><span class="pre">chip_topology</span></code> and <code class="docutils literal notranslate"><span class="pre">settings</span></code>. The setting tree is a source of the swept parameters, and chip topology is used for
+example for finding the relevant coupler connecting a qubit pair. The remaining arguments should be a subset of the
+options, with the same name and type, because they will be automatically populated from options where the function is
+called.</p>
+<p>We can now attach it to the experiment:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">BellCoherence</span><span class="p">(</span><span class="n">Experiment</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;bell_coherence&quot;</span>
+    <span class="n">default_label</span> <span class="o">=</span> <span class="s2">&quot;Bell Coherence&quot;</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">BellOptions</span>
+    <span class="n">default_options</span> <span class="o">=</span> <span class="n">BellOptions</span><span class="p">(</span><span class="n">repetitions</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">readout_mode</span><span class="o">=</span><span class="s2">&quot;threshold&quot;</span><span class="p">)</span>
+    <span class="n">parallel_group</span> <span class="o">=</span> <span class="n">ParallelGroup</span><span class="o">.</span><span class="n">CONNECTED_PAIRS</span>
+
+    <span class="n">default_circuit_generation_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">bell_coherence_circuit</span><span class="p">)</span>
+<span class="hll">    <span class="n">default_sweep_generation_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">get_sweeps_bell</span><span class="p">)</span>
+</span>    <span class="n">default_analyze_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">analyze_bell</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This class now captures our prototype exactly. We can modify the number of points in the phase sweep very easily:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bell_exp</span> <span class="o">=</span> <span class="n">BellCoherence</span><span class="p">()</span>
+<span class="n">bell_exp</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">phase_sweep_points</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">bell_exp</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;QB3&#39;</span><span class="p">,</span> <span class="s1">&#39;QB2&#39;</span><span class="p">])</span>
+<span class="n">bell_res</span> <span class="o">=</span> <span class="n">bell_exp</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+<span class="n">bell_res</span><span class="o">.</span><span class="n">render_report</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We see:</p>
+<figure class="align-center" id="id1">
+<img alt="Exa analysis report, showing experimental data for one pair, with 15 points in the sweep." src="../_images/bell_analyzed_36bf4a93-7c5e-4309-8abc-ae00dbd8df3f.png" />
+<figcaption>
+<p><span class="caption-text">We see that we were able to easily modify the number of points in the sweep using options. Note that the label we
+set is also displayed instead of “Multi Qubit Experiment”.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>We will discuss <a class="reference internal" href="sweep.html"><span class="doc">sweeps</span></a> and how to generate them more in the appropriate section. Now, let’s explore what
+other class methods and attributes can be useful to override.</p>
+</section>
+<section id="circuit-settings">
+<h2>Circuit settings<a class="headerlink" href="#circuit-settings" title="Link to this heading">#</a></h2>
+<p>The circuit argument defaults may be provided using the method: <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.get_default_circuit_settings" title="exa.core.experiment.experiment.Experiment.get_default_circuit_settings"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Experiment.get_default_circuit_settings()</span></code></a>.
+The most common use of this method is to set the circuit defaults based on experiment options, which allows specifying
+how the circuit is to behave per experiment instance. If your circuit defaults are static, you can just provide them in
+the signature of your circuit generation function, and there is no need to override this method.</p>
+<p>Our circuit only has one argument, <code class="docutils literal notranslate"><span class="pre">phase</span></code> (the first two don’t count), so let us provide some default for that.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">exa.common.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataType</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">Setting</span>
+</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BellCoherence</span><span class="p">(</span><span class="n">Experiment</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;bell_coherence&quot;</span>
+    <span class="n">default_label</span> <span class="o">=</span> <span class="s2">&quot;Bell Coherence&quot;</span>
+    <span class="n">options</span><span class="p">:</span> <span class="n">BellOptions</span>
+    <span class="n">default_options</span> <span class="o">=</span> <span class="n">BellOptions</span><span class="p">(</span><span class="n">repetitions</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">readout_mode</span><span class="o">=</span><span class="s2">&quot;threshold&quot;</span><span class="p">)</span>
+    <span class="n">parallel_group</span> <span class="o">=</span> <span class="n">ParallelGroup</span><span class="o">.</span><span class="n">CONNECTED_PAIRS</span>
+
+    <span class="n">default_circuit_generation_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">bell_coherence_circuit</span><span class="p">)</span>
+    <span class="n">default_sweep_generation_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">get_sweeps_bell</span><span class="p">)</span>
+    <span class="n">default_analyze_function</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">analyze_bell</span><span class="p">)</span>
+
+<span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">get_default_circuit_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Setting</span><span class="p">]:</span>
+</span><span class="hll">        <span class="k">return</span> <span class="p">[</span>
+</span><span class="hll">            <span class="n">Setting</span><span class="p">(</span>
+</span><span class="hll">                <span class="n">Parameter</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;phase&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Applied phase&quot;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">DataType</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">),</span>
+</span><span class="hll">                <span class="mf">3.14</span>
+</span><span class="hll">            <span class="p">),</span>
+</span><span class="hll">        <span class="p">]</span>
+</span></pre></div>
+</div>
+<p>We added a label to the <code class="docutils literal notranslate"><span class="pre">phase</span></code> parameter, which will now display automatically as a plot label if we plot against
+this quantity. Other than that, this experiment is a bit too simple for this to be particularly useful, so I will revisit
+the circuit settings later.</p>
+</section>
+<section id="experiment-specific-settings">
+<h2>Experiment-specific settings<a class="headerlink" href="#experiment-specific-settings" title="Link to this heading">#</a></h2>
+<p>In the Experiment framework, a setting tree may be generated by calling <code class="docutils literal notranslate"><span class="pre">exp.get_settings()</span></code>. The setting tree is mutable,
+and may be modified and passed back to the experiment run through the <code class="docutils literal notranslate"><span class="pre">settings</span></code> key argument. You should never
+override the <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.get_settings" title="exa.core.experiment.experiment.Experiment.get_settings"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Experiment.get_settings()</span></code></a> method, but you are allowed and encouraged to override
+<a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.update_settings" title="exa.core.experiment.experiment.Experiment.update_settings"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Experiment.update_settings()</span></code></a> which is called inside of it. We may decide some
+experiment needs the settings modified in some way systematically, and we would like that to be automatic. Common
+reasons include:</p>
+<ol class="arabic simple">
+<li><p>A more complicated calculation is needed to obtain correct circuit settings.</p></li>
+<li><p>The experiment needs additional post-processing information, for example for multi-state readout.</p></li>
+<li><p>Certain gate implementations should do something different than in general (for example, not use Virtual Z rotations).</p></li>
+</ol>
+<p>All of these can be added in the <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.update_settings" title="exa.core.experiment.experiment.Experiment.update_settings"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Experiment.update_settings()</span></code></a>. This method is called at the end of
+the creation of the setting tree and receives the setting tree already updated with the full calibration and all the
+other information needed.</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="prototype.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Prototyping your experiment</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="circuit.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Circuit generation functions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-class">Defining the class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#options-and-sweeps">Options and sweeps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#circuit-settings">Circuit settings</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-specific-settings">Experiment-specific settings</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2019-2026, IQM Finland Oy, Release 20.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-11-10.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
