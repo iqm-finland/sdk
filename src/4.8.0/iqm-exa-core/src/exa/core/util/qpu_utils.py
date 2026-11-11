@@ -1,0 +1,39 @@
+#  ********************************************************************************
+#    _____  ____ _
+#   / _ \ \/ / _` |  Framework for control
+#  |  __/>  < (_| |  and measurement of
+#   \___/_/\_\__,_|  superconducting qubits
+#
+#  Copyright 2019-2026 IQM Finland Oy
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#  ********************************************************************************
+"""Utility functions for helping with QPU calibration."""
+
+import re
+
+
+def natural_keys(text: str) -> list[str | int]:
+    """Sorts the a list in natural human order.
+
+    Implementation from http://nedbatchelder.com/blog/200712/human_sorting.html
+
+    Args:
+        text: text in the key
+
+    """
+
+    def _atoi(text: str) -> str | int:
+        return int(text) if text.isdigit() else text
+
+    return [_atoi(c) for c in re.split(r"(\d+)", text)]

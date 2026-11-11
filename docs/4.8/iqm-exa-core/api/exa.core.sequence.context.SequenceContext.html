@@ -1,0 +1,890 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SequenceContext &#8212; iqm-exa-core 20.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=3f23208d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/exa.core.sequence.context.SequenceContext';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="data_access" href="exa.core.sequence.data_access.html" />
+    <link rel="prev" title="exa.core.sequence.context.ATTRIBUTE_OPTIONS" href="exa.core.sequence.context.ATTRIBUTE_OPTIONS.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-11-10"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm-exa-core 20.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm-exa-core 20.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-exa-core</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../basic_guide/index.html">Basics of EXA</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/experiment.html">Running Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/settings_workflow.html">Workflow with Experiment settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/database.html">Data access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/observation.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/sequence.html">Sequences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../basic_guide/configuration_file.html">EXA Configuration File</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guide/index.html">Creating EXA experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guide/concept.html">Conceptualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/prototype.html">Prototyping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/subclass.html">Making a subclass of Experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/circuit.html">Circuit generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/sweep.html">Sweep generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/compiler.html">Compiler passes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/analysis.html">Post-processing and analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/plotting.html">Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/observations.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/integration.html">Integrating your experiment in a sequence or graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/maturity.html">Is my experiment mature?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../notebooks/index.html">Example Notebooks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/experiment_basics.html">Experiment Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/example_local_storage.html">Local Storage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="exa.core.html">core</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.analyze_result.html">analyze_result</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.analyze_result.analyze_result.html">analyze_result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.analyze_result.plot_definition.html">plot_definition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.database_wrapper.html">database_wrapper</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.batch_save_observations.html">exa.core.database_wrapper.batch_save_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.get_all_dut_fields.html">exa.core.database_wrapper.get_all_dut_fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.get_latest_observations_for_tags.html">exa.core.database_wrapper.get_latest_observations_for_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.invalidate_observation.html">exa.core.database_wrapper.invalidate_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.save_observation.html">exa.core.database_wrapper.save_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.save_observations_with_new_tags.html">exa.core.database_wrapper.save_observations_with_new_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.database_wrapper.set_observation_validity.html">exa.core.database_wrapper.set_observation_validity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.environment.html">environment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.environment.load_environment.html">exa.core.environment.load_environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.environment.EnvironmentConfig.html">EnvironmentConfig</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.error_estimation.html">error_estimation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.error_estimation.fit_statistical_error.html">fit_statistical_error</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="exa.core.error_experiment.html">error_experiment</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.experiment.html">experiment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment.edge_coloring.html">edge_coloring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment.experiment.html">experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment.stages.html">stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="exa.core.experiment_configuration.html">experiment_configuration</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.experiment_definitions.html">experiment_definitions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_definitions.ChipProperties.html">exa.core.experiment_definitions.ChipProperties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_definitions.ParallelGroup.html">ParallelGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_definitions.QPUType.html">QPUType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_definitions.ReadoutMode.html">ReadoutMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_definitions.ReadoutProgrammingMode.html">ReadoutProgrammingMode</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.experiment_options.html">experiment_options</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_options.ExperimentOptions.html">ExperimentOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.experiment_utils.html">experiment_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.experiment_utils.load_observations.html">exa.core.experiment_utils.load_observations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.gate_implementations.html">gate_implementations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.gate_implementations.flux_pulse.html">flux_pulse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.gate_implementations.modulated_pulse_gate.html">modulated_pulse_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.gate_implementations.rz.html">rz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.gate_implementations.x_ef_gate.html">x_ef_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.local_storage.html">local_storage</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.local_storage.LocalStorage.html">LocalStorage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.model_selection_fitter.html">model_selection_fitter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.fitter.html">fitter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.fitting.html">fitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.model_selection.html">model_selection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.models.html">models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.packaging.html">packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.plotting.html">plotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.preprocessing.html">preprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.structures.html">structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.model_selection_fitter.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.multistate_classifier.html">multistate_classifier</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.multistate_classifier.classifier.html">classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.multistate_classifier.distance_classifier.html">distance_classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.multistate_classifier.linear_discriminant_analysis.html">linear_discriminant_analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.multistate_classifier.parameters.html">parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.multistate_classifier.support_vector_machine.html">support_vector_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.multistate_classifier.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.observation.html">observation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation.observation_handler.html">observation_handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation.observation_loading_rules.html">observation_loading_rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation.observation_parameters.html">observation_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation.observation_stash.html">observation_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation.observation_validation_rules.html">observation_validation_rules</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.observation_set_utils.html">observation_set_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.add_to_observation_set.html">exa.core.observation_set_utils.add_to_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.adjust_trigger_delays_in_stash.html">exa.core.observation_set_utils.adjust_trigger_delays_in_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.copy_station_specific_observations.html">exa.core.observation_set_utils.copy_station_specific_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.create_observation_set.html">exa.core.observation_set_utils.create_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.create_quality_metric_set.html">exa.core.observation_set_utils.create_quality_metric_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.finalize_observation_set.html">exa.core.observation_set_utils.finalize_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.get_latest_observation_set_id.html">exa.core.observation_set_utils.get_latest_observation_set_id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.get_observation_set.html">exa.core.observation_set_utils.get_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate.html">exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation.html">exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.plotting.html">plotting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.extended_wilkinson_tick_locator.html">extended_wilkinson_tick_locator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.figure.html">figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.figure_helper.html">figure_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.generic_plot.html">generic_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.plot_cumulative_distribution.html">plot_cumulative_distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.plot_helper.html">plot_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.plot_options.html">plot_options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.plot_styles.html">plot_styles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.plots.html">plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.qpu_core.html">qpu_core</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.qpu_plot.html">qpu_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.qpu_table.html">qpu_table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.time_series.html">time_series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.plotting.topology.html">topology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.post_processing.html">post_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.post_processing.transpose_data.html">exa.core.post_processing.transpose_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.post_processing.contrast_computation.html">contrast_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.post_processing.excited_state_probability_computation.html">excited_state_probability_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.post_processing.single_shot_to_counter.html">single_shot_to_counter</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.provider.html">provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.provider.provider.html">provider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.readout_helpers.html">readout_helpers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.readout_helpers.get_measure_gate_name.html">exa.core.readout_helpers.get_measure_gate_name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.readout_helpers.resolve_target_name_for_f_state.html">exa.core.readout_helpers.resolve_target_name_for_f_state</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="exa.core.run_result.html">run_result</a></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="exa.core.sequence.html">sequence</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4 current active"><a class="reference internal" href="exa.core.sequence.context.html">context</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.data_access.html">data_access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.experiment_tracker.html">experiment_tracker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.interface.html">interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.result.html">result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.sequence.html">sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.sequence_executor.html">sequence_executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.trackers.html">trackers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.util.html">util</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.sequence.wrap_analyze.html">wrap_analyze</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="exa.core.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.calibration_utils.html">calibration_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.chad_utils.html">chad_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.dut_field_decoder.html">dut_field_decoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.esprit.html">esprit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.experiment_class.html">experiment_class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.fft_helper.html">fft_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.formatting.html">formatting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.ipython_helper.html">ipython_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.migration.html">migration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.model_functions.html">model_functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.param_parsing.html">param_parsing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.pca.html">pca</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.phase_helper.html">phase_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.qpu_utils.html">qpu_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.qubit_utils.html">qubit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.report.html">report</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.serialization.html">serialization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="exa.core.util.topology.html">topology</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/exa.core.sequence.context.SequenceContext.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>SequenceContext</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext"><code class="docutils literal notranslate"><span class="pre">SequenceContext</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.sub_stashes"><code class="docutils literal notranslate"><span class="pre">SequenceContext.sub_stashes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.execute_experiment"><code class="docutils literal notranslate"><span class="pre">SequenceContext.execute_experiment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.execute_sequence"><code class="docutils literal notranslate"><span class="pre">SequenceContext.execute_sequence()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.to_result"><code class="docutils literal notranslate"><span class="pre">SequenceContext.to_result()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.track"><code class="docutils literal notranslate"><span class="pre">SequenceContext.track()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.end_tracking"><code class="docutils literal notranslate"><span class="pre">SequenceContext.end_tracking()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.AnalyzeError"><code class="docutils literal notranslate"><span class="pre">SequenceContext.AnalyzeError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.ChildSequenceExecuteError"><code class="docutils literal notranslate"><span class="pre">SequenceContext.ChildSequenceExecuteError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.InternalError"><code class="docutils literal notranslate"><span class="pre">SequenceContext.InternalError</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="sequencecontext">
+<h1>SequenceContext<a class="headerlink" href="#sequencecontext" title="Link to this heading">#</a></h1>
+<p>Module: <a class="reference internal" href="exa.core.sequence.context.html#module-exa.core.sequence.context" title="exa.core.sequence.context"><code class="xref py py-mod docutils literal notranslate"><span class="pre">exa.core.sequence.context</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="exa.core.sequence.context.SequenceContext">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SequenceContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tracker_class=&lt;class</span> <span class="pre">'exa.core.sequence.experiment_tracker.ExperimentTracker'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observation_stash=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute_options=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence_executor_class=&lt;class</span> <span class="pre">'exa.core.sequence.sequence_executor.SequenceExecutor'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence_run_id=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.sequence.context.SequenceContext" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A stateful object that provides the tools for Sequence execution and captures the inputs and outputs.</p>
+<p>SequenceContext is a context object that captures the run IDs, analysis results,
+and analysis arguments for each <code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code> execution done within the context.</p>
+<p>A user does not need to construct a SequenceContext. The intended way is to use it as a context manager,
+see <a class="reference internal" href="exa.core.sequence.sequence.Sequence.html#exa.core.sequence.sequence.Sequence.context" title="exa.core.sequence.sequence.Sequence.context"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Sequence.context()</span></code></a>.</p>
+<p>If exceptions are caught in <code class="docutils literal notranslate"><span class="pre">execute_sequence</span></code> and <code class="docutils literal notranslate"><span class="pre">execute_experiment</span></code>, error summary and traceback are stored
+in results. Execution errors are stored in sequence result data which will be stored to persistence.
+On the contrary, analysis errors are stored only locally in analyze results.</p>
+<p>Logging of errors is handled exclusively in <code class="docutils literal notranslate"><span class="pre">__exit__</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<a class="reference internal" href="exa.core.sequence.interface.SequenceData.html#exa.core.sequence.interface.SequenceData" title="exa.core.sequence.interface.SequenceData"><em>SequenceData</em></a>) – The serializable part of the Sequence that will be executed with this context.</p></li>
+<li><p><strong>tracker_class</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><em>type</em></a><em>[</em><a class="reference internal" href="exa.core.sequence.experiment_tracker.ExperimentTracker.html#exa.core.sequence.experiment_tracker.ExperimentTracker" title="exa.core.sequence.experiment_tracker.ExperimentTracker"><em>ExperimentTracker</em></a><em>]</em>) – Optional subclass of <a class="reference internal" href="exa.core.sequence.experiment_tracker.ExperimentTracker.html#exa.core.sequence.experiment_tracker.ExperimentTracker" title="exa.core.sequence.experiment_tracker.ExperimentTracker"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExperimentTracker</span></code></a>.
+This class will be used when creating a tracker object with <a class="reference internal" href="#exa.core.sequence.context.SequenceContext.track" title="exa.core.sequence.context.SequenceContext.track"><code class="xref py py-meth docutils literal notranslate"><span class="pre">track()</span></code></a>.</p></li>
+<li><p><strong>observation_stash</strong> (<a class="reference internal" href="exa.core.observation.observation_stash.ObservationStash.html#exa.core.observation.observation_stash.ObservationStash" title="exa.core.observation.observation_stash.ObservationStash"><em>ObservationStash</em></a><em> | </em><em>None</em>) – The stash to save observations to instead of the DB.</p></li>
+<li><p><strong>sequence_executer_class</strong> – Will be used when executing a sequence.</p></li>
+<li><p><strong>attribute_options</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>sequence_executor_class</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><em>type</em></a><em>[</em><a class="reference internal" href="exa.core.sequence.sequence_executor.SequenceExecutor.html#exa.core.sequence.sequence_executor.SequenceExecutor" title="exa.core.sequence.sequence_executor.SequenceExecutor"><em>SequenceExecutor</em></a><em>]</em>)</p></li>
+<li><p><strong>sequence_run_id</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><em>UUID</em></a><em> | </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.sequence.context.SequenceContext.sub_stashes" title="exa.core.sequence.context.SequenceContext.sub_stashes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sub_stashes</span></code></a></p></td>
+<td><p>Stores the observation stashes of any subsequences executed in this context (mapped to the <code class="docutils literal notranslate"><span class="pre">sequence_run_id</span></code>).</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.sequence.context.SequenceContext.end_tracking" title="exa.core.sequence.context.SequenceContext.end_tracking"><code class="xref py py-obj docutils literal notranslate"><span class="pre">end_tracking</span></code></a></p></td>
+<td><p>Get the captured data from an ExperimentTracker instance and store it to the context.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.core.sequence.context.SequenceContext.execute_experiment" title="exa.core.sequence.context.SequenceContext.execute_experiment"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execute_experiment</span></code></a></p></td>
+<td><p>Run a single experiment and its analysis.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.sequence.context.SequenceContext.execute_sequence" title="exa.core.sequence.context.SequenceContext.execute_sequence"><code class="xref py py-obj docutils literal notranslate"><span class="pre">execute_sequence</span></code></a></p></td>
+<td><p>Execute and analyze another sequence in this context.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#exa.core.sequence.context.SequenceContext.to_result" title="exa.core.sequence.context.SequenceContext.to_result"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_result</span></code></a></p></td>
+<td><p>Converts the captured execution results into a <code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceExecuteResult</span></code> data object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#exa.core.sequence.context.SequenceContext.track" title="exa.core.sequence.context.SequenceContext.track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">track</span></code></a></p></td>
+<td><p>Create a tracker object that wraps an Experiment instance and captures the actions done with it.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="exa.core.sequence.context.SequenceContext.sub_stashes">
+<span class="sig-name descname"><span class="pre">sub_stashes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/uuid.html#uuid.UUID" title="(in Python v3.11)"><span class="pre">UUID</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="exa.core.observation.observation_stash.ObservationStash.html#exa.core.observation.observation_stash.ObservationStash" title="exa.core.observation.observation_stash.ObservationStash"><span class="pre">ObservationStash</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#exa.core.sequence.context.SequenceContext.sub_stashes" title="Link to this definition">#</a></dt>
+<dd><p>Stores the observation stashes of any subsequences executed in this context
+(mapped to the <code class="docutils literal notranslate"><span class="pre">sequence_run_id</span></code>).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.sequence.context.SequenceContext.execute_experiment">
+<span class="sig-name descname"><span class="pre">execute_experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_analysis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analyze_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observation_stash</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.sequence.context.SequenceContext.execute_experiment" title="Link to this definition">#</a></dt>
+<dd><p>Run a single experiment and its analysis.</p>
+<p>This includes:</p>
+<ul class="simple">
+<li><p>running the experiment on hardware</p></li>
+<li><p>analyzing the execution results with given arguments</p></li>
+<li><p>tagging the observations from the analysis. Note: the <code class="docutils literal notranslate"><span class="pre">tags</span></code> entry of <a class="reference internal" href="exa.core.sequence.sequence.Sequence.html#exa.core.sequence.sequence.Sequence.options" title="exa.core.sequence.sequence.Sequence.options"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Sequence.options</span></code></a> will be
+used for tagging, if any.</p></li>
+<li><p>saving the observations.</p></li>
+</ul>
+<p>Under the hood, the Experiment is wrapped with <code class="xref py py-attr docutils literal notranslate"><span class="pre">tracker_class</span></code>, which means that a tracker class can be
+used to customize the behavior without calling <a class="reference internal" href="#exa.core.sequence.context.SequenceContext.track" title="exa.core.sequence.context.SequenceContext.track"><code class="xref py py-meth docutils literal notranslate"><span class="pre">track()</span></code></a> explicitly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>experiment</strong> (<a class="reference internal" href="exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment" title="exa.core.experiment.experiment.Experiment"><em>Experiment</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><em>type</em></a><em>[</em><a class="reference internal" href="exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment" title="exa.core.experiment.experiment.Experiment"><em>Experiment</em></a><em>]</em>) – The experiment to execute.
+Can be either an instance or a class, in which case a new instance is created.</p></li>
+<li><p><strong>custom_analysis</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference internal" href="exa.core.analyze_result.analyze_result.AnalyzeResult.html#exa.core.analyze_result.analyze_result.AnalyzeResult" title="exa.core.analyze_result.analyze_result.AnalyzeResult"><em>AnalyzeResult</em></a><em>] </em><em>| </em><em>None</em>) – Custom analysis function for the experiment.</p></li>
+<li><p><strong>run_args</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – Arguments to pass to the <code class="docutils literal notranslate"><span class="pre">experiment.run</span></code>, most commonly at least the list of components.</p></li>
+<li><p><strong>analyze_args</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – Arguments to pass to the <code class="docutils literal notranslate"><span class="pre">experiment.analyze</span></code>.</p></li>
+<li><p><strong>observation_stash</strong> (<a class="reference internal" href="exa.core.observation.observation_stash.ObservationStash.html#exa.core.observation.observation_stash.ObservationStash" title="exa.core.observation.observation_stash.ObservationStash"><em>ObservationStash</em></a><em> | </em><em>None</em>) – The stash to save observations to instead of the DB. If not provided, will use
+the stash in <code class="docutils literal notranslate"><span class="pre">self._observation_stash</span></code>, and if that is empty as well, the observations will
+be saved to the DB.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The result of the <code class="docutils literal notranslate"><span class="pre">experiment.analyze</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="exa.core.analyze_result.analyze_result.AnalyzeResult.html#exa.core.analyze_result.analyze_result.AnalyzeResult" title="exa.core.analyze_result.analyze_result.AnalyzeResult"><em>AnalyzeResult</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.sequence.context.SequenceContext.execute_sequence">
+<span class="sig-name descname"><span class="pre">execute_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analyze_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.sequence.context.SequenceContext.execute_sequence" title="Link to this definition">#</a></dt>
+<dd><p>Execute and analyze another sequence in this context.</p>
+<p>The analyze_results of each Experiment or sub-sequence within <cite>sequence</cite> are captured.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">sequence</span></code> does not have a stash and the context has <code class="docutils literal notranslate"><span class="pre">self._observation_stash</span></code> populated, will copy
+the contents of <code class="docutils literal notranslate"><span class="pre">self._observation_stash</span></code> and run <code class="docutils literal notranslate"><span class="pre">sequence</span></code> on that stash. At the end of execution,
+the stash of <code class="docutils literal notranslate"><span class="pre">sequence</span></code> will be saved (i.e. either merged to <code class="docutils literal notranslate"><span class="pre">self._observation_stash</span></code> or if that does not
+exist, saved to the DB) based on the value of the attribute option <code class="docutils literal notranslate"><span class="pre">save_stash</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sequence</strong> (<em>_Sequence</em>) – The sequence instance to execute.</p></li>
+<li><p><strong>analyze_args</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.11/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – Arguments to pass to the <code class="docutils literal notranslate"><span class="pre">sequence.analyze</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The analyzed result of executing <cite>sequence</cite>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="exa.core.sequence.result.SequenceAnalyzeResult.html#exa.core.sequence.result.SequenceAnalyzeResult" title="exa.core.sequence.result.SequenceAnalyzeResult"><em>SequenceAnalyzeResult</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.sequence.context.SequenceContext.to_result">
+<span class="sig-name descname"><span class="pre">to_result</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.sequence.context.SequenceContext.to_result" title="Link to this definition">#</a></dt>
+<dd><p>Converts the captured execution results into a <code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceExecuteResult</span></code> data object.</p>
+<p>As a side effect, the final result of this sequence is saved to persistence. The result is marked final after
+which further changes to it are prevented. Thus, this method is callable only once per object.</p>
+<p>Should be called at the end of <a class="reference internal" href="exa.core.sequence.sequence.Sequence.html#exa.core.sequence.sequence.Sequence.execute" title="exa.core.sequence.sequence.Sequence.execute"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Sequence.execute()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new instance of SequenceExecuteResult.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="exa.core.sequence.result.SequenceExecuteResult.html#exa.core.sequence.result.SequenceExecuteResult" title="exa.core.sequence.result.SequenceExecuteResult"><em>SequenceExecuteResult</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.sequence.context.SequenceContext.track">
+<span class="sig-name descname"><span class="pre">track</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observation_stash</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.sequence.context.SequenceContext.track" title="Link to this definition">#</a></dt>
+<dd><p>Create a tracker object that wraps an Experiment instance and captures the actions done with it.</p>
+<p>As an alternative to <a class="reference internal" href="#exa.core.sequence.context.SequenceContext.execute_experiment" title="exa.core.sequence.context.SequenceContext.execute_experiment"><code class="xref py py-meth docutils literal notranslate"><span class="pre">execute_experiment()</span></code></a>, the tracker allows a more fluent workflow with the
+experiment instance.
+The tracker behaves like a normal Experiment.
+The use cases are, for example, tuning settings, sweep ranges, and options before running.</p>
+<p>The tracker should only be used for one round of <code class="docutils literal notranslate"><span class="pre">run</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">analyze</span></code>. After this, <a class="reference internal" href="#exa.core.sequence.context.SequenceContext.end_tracking" title="exa.core.sequence.context.SequenceContext.end_tracking"><code class="xref py py-meth docutils literal notranslate"><span class="pre">end_tracking()</span></code></a>
+should be called.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>experiment</strong> (<a class="reference internal" href="exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment" title="exa.core.experiment.experiment.Experiment"><em>Experiment</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#type" title="(in Python v3.11)"><em>type</em></a><em>[</em><a class="reference internal" href="exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment" title="exa.core.experiment.experiment.Experiment"><em>Experiment</em></a><em>] </em><em>| </em><a class="reference internal" href="exa.core.sequence.experiment_tracker.ExperimentTracker.html#exa.core.sequence.experiment_tracker.ExperimentTracker" title="exa.core.sequence.experiment_tracker.ExperimentTracker"><em>ExperimentTracker</em></a>) – An Experiment instance or an Experiment class. In case of class, a new instance is created.</p></li>
+<li><p><strong>observation_stash</strong> (<a class="reference internal" href="exa.core.observation.observation_stash.ObservationStash.html#exa.core.observation.observation_stash.ObservationStash" title="exa.core.observation.observation_stash.ObservationStash"><em>ObservationStash</em></a><em> | </em><em>None</em>) – The stash to save observations to instead of the DB. If not provided, the observations</p></li>
+<li><p><strong>DB.</strong> (<em>will be saved to the</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new instance of ExperimentTracker. The created class is determined be <code class="xref py py-attr docutils literal notranslate"><span class="pre">tracker_class</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="exa.core.sequence.experiment_tracker.ExperimentTracker.html#exa.core.sequence.experiment_tracker.ExperimentTracker" title="exa.core.sequence.experiment_tracker.ExperimentTracker"><em>ExperimentTracker</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="exa.core.sequence.context.SequenceContext.end_tracking">
+<span class="sig-name descname"><span class="pre">end_tracking</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tracker</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#exa.core.sequence.context.SequenceContext.end_tracking" title="Link to this definition">#</a></dt>
+<dd><p>Get the captured data from an ExperimentTracker instance and store it to the context.</p>
+<p>This should be called after performing the desired <code class="docutils literal notranslate"><span class="pre">run</span></code> and <code class="docutils literal notranslate"><span class="pre">analyze</span></code> actions with the
+tracker, so that the results and used arguments are stored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tracker</strong> (<a class="reference internal" href="exa.core.sequence.experiment_tracker.ExperimentTracker.html#exa.core.sequence.experiment_tracker.ExperimentTracker" title="exa.core.sequence.experiment_tracker.ExperimentTracker"><em>ExperimentTracker</em></a>) – the instance to get data from.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The AnalyzeResult captured by the tracker, if any.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="exa.core.analyze_result.analyze_result.AnalyzeResult.html#exa.core.analyze_result.analyze_result.AnalyzeResult" title="exa.core.analyze_result.analyze_result.AnalyzeResult"><em>AnalyzeResult</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="exa.core.sequence.context.SequenceContext.AnalyzeError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">AnalyzeError</span></span><a class="headerlink" href="#exa.core.sequence.context.SequenceContext.AnalyzeError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#Exception" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Internal helper type for propagating analysis errors.</p>
+<p>Analysis error can happen:</p>
+<ul class="simple">
+<li><p>subsequence or experiment analysis in <code class="docutils literal notranslate"><span class="pre">execute_sequence</span></code> method inside <code class="docutils literal notranslate"><span class="pre">sequence.execute</span></code>.</p></li>
+<li><p>in sequence analysis in <code class="docutils literal notranslate"><span class="pre">execute_sequence</span></code> method.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="exa.core.sequence.context.SequenceContext.ChildSequenceExecuteError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ChildSequenceExecuteError</span></span><a class="headerlink" href="#exa.core.sequence.context.SequenceContext.ChildSequenceExecuteError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#Exception" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Internal helper type for propagating child sequence execution errors to upper level context.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="exa.core.sequence.context.SequenceContext.InternalError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">InternalError</span></span><a class="headerlink" href="#exa.core.sequence.context.SequenceContext.InternalError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#Exception" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Internal helper type for propagating internal sequence execution errors to upper level context.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p class="rubric">Inheritance</p>
+<div class="graphviz"><img src="../_images/inheritance-292149953f2b162249b73b28ed6ddb0f72c9e684.png" alt="Inheritance diagram of exa.core.sequence.context.SequenceContext" usemap="#inheritance2aee5b59bf" class="inheritance graphviz" /></div>
+<map id="inheritance2aee5b59bf" name="inheritance2aee5b59bf">
+<area shape="rect" id="node1" href="#exa.core.sequence.context.SequenceContext" target="_top" title="A stateful object that provides the tools for Sequence execution and captures the inputs and outputs." alt="" coords="5,5,168,53"/>
+</map></section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="exa.core.sequence.context.ATTRIBUTE_OPTIONS.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">exa.core.sequence.context.ATTRIBUTE_OPTIONS</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="exa.core.sequence.data_access.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">data_access</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext"><code class="docutils literal notranslate"><span class="pre">SequenceContext</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.sub_stashes"><code class="docutils literal notranslate"><span class="pre">SequenceContext.sub_stashes</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.execute_experiment"><code class="docutils literal notranslate"><span class="pre">SequenceContext.execute_experiment()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.execute_sequence"><code class="docutils literal notranslate"><span class="pre">SequenceContext.execute_sequence()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.to_result"><code class="docutils literal notranslate"><span class="pre">SequenceContext.to_result()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.track"><code class="docutils literal notranslate"><span class="pre">SequenceContext.track()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.end_tracking"><code class="docutils literal notranslate"><span class="pre">SequenceContext.end_tracking()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.AnalyzeError"><code class="docutils literal notranslate"><span class="pre">SequenceContext.AnalyzeError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.ChildSequenceExecuteError"><code class="docutils literal notranslate"><span class="pre">SequenceContext.ChildSequenceExecuteError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exa.core.sequence.context.SequenceContext.InternalError"><code class="docutils literal notranslate"><span class="pre">SequenceContext.InternalError</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2019-2026, IQM Finland Oy, Release 20.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-11-10.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

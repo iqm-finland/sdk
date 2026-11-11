@@ -1,0 +1,817 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>iqm.error_reduction_tools.workflow.ErrorReductionWorkflow &#8212; IQM Error Reduction Tools 0.4.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=183391d5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/iqm.error_reduction_tools.workflow.ErrorReductionWorkflow';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="iqm.error_reduction_tools.zne" href="iqm.error_reduction_tools.zne.html" />
+    <link rel="prev" title="MIN_BOOTSTRAP_SAMPLES" href="iqm.error_reduction_tools.workflow.MIN_BOOTSTRAP_SAMPLES.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-11-10"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="IQM Error Reduction Tools 0.4.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="IQM Error Reduction Tools 0.4.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-error-reduction-tools</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_rem_and_twirling.html">Readout error mitigation and circuit randomization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_zne.html">Zero-noise extrapolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_cdr.html">Clifford data regression</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../API.html">API Reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="iqm.error_reduction_tools.html">iqm.error_reduction_tools</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.cdr.html">iqm.error_reduction_tools.cdr</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.cdr.cdr_clifford_utils.html">iqm.error_reduction_tools.cdr.cdr_clifford_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.cdr.cdr_observables.html">iqm.error_reduction_tools.cdr.cdr_observables</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.cdr.cdr_plots.html">iqm.error_reduction_tools.cdr.cdr_plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.cdr.cdr_processors.html">iqm.error_reduction_tools.cdr.cdr_processors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.cdr.cdr_technique.html">iqm.error_reduction_tools.cdr.cdr_technique</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.cdr.cdr_training_circuits.html">iqm.error_reduction_tools.cdr.cdr_training_circuits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.cdr.cdr_training_set.html">iqm.error_reduction_tools.cdr.cdr_training_set</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.circuits.html">iqm.error_reduction_tools.circuits</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.circuits.measurement_map.html">iqm.error_reduction_tools.circuits.measurement_map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.circuits.CircuitKey.html">iqm.error_reduction_tools.circuits.CircuitKey</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.circuits.CircuitVariant.html">iqm.error_reduction_tools.circuits.CircuitVariant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.circuits.TargetCircuit.html">iqm.error_reduction_tools.circuits.TargetCircuit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.circuits.TwirlingInstance.html">iqm.error_reduction_tools.circuits.TwirlingInstance</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.estimation.html">iqm.error_reduction_tools.estimation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.estimation.measure_term_values.html">iqm.error_reduction_tools.estimation.measure_term_values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.estimation.resample_counts.html">iqm.error_reduction_tools.estimation.resample_counts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.estimation.variant_counts.html">iqm.error_reduction_tools.estimation.variant_counts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.estimation.EstimationResult.html">iqm.error_reduction_tools.estimation.EstimationResult</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.execution.html">iqm.error_reduction_tools.execution</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.execution.Executor.html">iqm.error_reduction_tools.execution.Executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.execution.ResonanceExecutor.html">iqm.error_reduction_tools.execution.ResonanceExecutor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.execution.Submission.html">iqm.error_reduction_tools.execution.Submission</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.execution.SubmittedJob.html">iqm.error_reduction_tools.execution.SubmittedJob</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.observables.html">iqm.error_reduction_tools.observables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.observables.ObservableLike.html">ObservableLike</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.observables.ObservableSet.html">iqm.error_reduction_tools.observables.ObservableSet</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.plan.html">iqm.error_reduction_tools.plan</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.plan.DEFAULT_SHOTS.html">DEFAULT_SHOTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.plan.build_plan.html">iqm.error_reduction_tools.plan.build_plan</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.plan.Batch.html">iqm.error_reduction_tools.plan.Batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.plan.CalibrationPlan.html">iqm.error_reduction_tools.plan.CalibrationPlan</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.plan.ExecutionPlan.html">iqm.error_reduction_tools.plan.ExecutionPlan</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.html">iqm.error_reduction_tools.readout_characterization</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.data_collection.html">iqm.error_reduction_tools.readout_characterization.data_collection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.data_processing.html">iqm.error_reduction_tools.readout_characterization.data_processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.readout_error_characterization.html">iqm.error_reduction_tools.readout_characterization.readout_error_characterization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.topologies.html">iqm.error_reduction_tools.readout_characterization.topologies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.visualization.html">iqm.error_reduction_tools.readout_characterization.visualization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.rem.html">iqm.error_reduction_tools.rem</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.rem.rem_api.html">iqm.error_reduction_tools.rem.rem_api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.rem.rem_processors.html">iqm.error_reduction_tools.rem.rem_processors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.technique.html">iqm.error_reduction_tools.technique</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.technique.Estimation.html">iqm.error_reduction_tools.technique.Estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.technique.TargetEstimate.html">iqm.error_reduction_tools.technique.TargetEstimate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.technique.Technique.html">iqm.error_reduction_tools.technique.Technique</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.twirling.html">iqm.error_reduction_tools.twirling</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.twirling.twirling_api.html">iqm.error_reduction_tools.twirling.twirling_api</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.twirling.twirling_modifiers.html">iqm.error_reduction_tools.twirling.twirling_modifiers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.twirling.twirling_processors.html">iqm.error_reduction_tools.twirling.twirling_processors</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.utils.html">iqm.error_reduction_tools.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.circuit_utils.html">iqm.error_reduction_tools.utils.circuit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.general_utils.html">iqm.error_reduction_tools.utils.general_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.hadamard.html">iqm.error_reduction_tools.utils.hadamard</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.job_utils.html">iqm.error_reduction_tools.utils.job_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.qiskit_utils.html">iqm.error_reduction_tools.utils.qiskit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.readout_twirling_strings.html">iqm.error_reduction_tools.utils.readout_twirling_strings</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.serialization.html">iqm.error_reduction_tools.utils.serialization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.utils.topology_utils.html">iqm.error_reduction_tools.utils.topology_utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="iqm.error_reduction_tools.workflow.html">iqm.error_reduction_tools.workflow</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.workflow.MIN_BOOTSTRAP_SAMPLES.html">MIN_BOOTSTRAP_SAMPLES</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">iqm.error_reduction_tools.workflow.ErrorReductionWorkflow</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="iqm.error_reduction_tools.zne.html">iqm.error_reduction_tools.zne</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.zne.zne_modifiers.html">iqm.error_reduction_tools.zne.zne_modifiers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.zne.zne_plots.html">iqm.error_reduction_tools.zne.zne_plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.zne.zne_processors.html">iqm.error_reduction_tools.zne.zne_processors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="iqm.error_reduction_tools.zne.zne_technique.html">iqm.error_reduction_tools.zne.zne_technique</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/api/iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>iqm.error_reduction_tools.workflow.ErrorReductionWorkflow</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.plan"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.plan()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.circuits"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.circuits</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.submit"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.submit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.collect"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.collect()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.estimate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.run"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.save"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.save()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.load"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.load()</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="iqm-error-reduction-tools-workflow-errorreductionworkflow">
+<h1>iqm.error_reduction_tools.workflow.ErrorReductionWorkflow<a class="headerlink" href="#iqm-error-reduction-tools-workflow-errorreductionworkflow" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iqm.error_reduction_tools.workflow.</span></span><span class="sig-name descname"><span class="pre">ErrorReductionWorkflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">observables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">technique</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compilation_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">twirling_configuration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rec_configuration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Workflow to estimate observables of target circuits with an error reduction technique.</p>
+<p>The four stages are separate methods, and each stores its output on the workflow: <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.plan" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.plan"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plan()</span></code></a> sets
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">execution_plan</span></code>, <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.submit" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.submit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">submit()</span></code></a> sets <code class="xref py py-attr docutils literal notranslate"><span class="pre">submission</span></code>, <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.collect" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.collect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">collect()</span></code></a> sets <code class="xref py py-attr docutils literal notranslate"><span class="pre">counts</span></code>, and
+<a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">estimate()</span></code></a> sets <code class="xref py py-attr docutils literal notranslate"><span class="pre">result</span></code>. <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.run" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a> does all four in one call.</p>
+<p><a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.submit" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.submit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">submit()</span></code></a> and <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.collect" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.collect"><code class="xref py py-meth docutils literal notranslate"><span class="pre">collect()</span></code></a> use the quantum computer. <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.plan" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.plan"><code class="xref py py-meth docutils literal notranslate"><span class="pre">plan()</span></code></a> and <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">estimate()</span></code></a> do not,
+and can be repeated with other settings.</p>
+<p><a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.save" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save()</span></code></a> and <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.load" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a> can be used after the collection and before the estimation, respectively,
+to store and retrieve the workflow state from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>targets</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/functions.html#object" title="(in Python v3.11)"><em>object</em></a><em>]</em>) – Circuits whose observables are estimated, transpiled to the native gate set and the physical qubits
+of the quantum computer: <code class="xref py py-class docutils literal notranslate"><span class="pre">iqm.pulse.Circuit</span></code>, qiskit or Qrisp circuits, or anything else
+<a class="reference internal" href="iqm.error_reduction_tools.utils.qiskit_utils.canonicalize_circuit.html#iqm.error_reduction_tools.utils.qiskit_utils.canonicalize_circuit" title="iqm.error_reduction_tools.utils.qiskit_utils.canonicalize_circuit"><code class="xref py py-func docutils literal notranslate"><span class="pre">canonicalize_circuit()</span></code></a> accepts. They are converted
+to <code class="xref py py-class docutils literal notranslate"><span class="pre">iqm.pulse.Circuit</span></code>.</p></li>
+<li><p><strong>observables</strong> (<em>ObservableLike</em><em> | </em><em>Sequence</em><em>[</em><em>ObservableLike</em><em>]</em>) – One observable or a sequence of observables, each a sum of I/Z Pauli terms, applied to every
+target. See <a class="reference internal" href="iqm.error_reduction_tools.observables.ObservableSet.html#iqm.error_reduction_tools.observables.ObservableSet.build" title="iqm.error_reduction_tools.observables.ObservableSet.build"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build()</span></code></a>.</p></li>
+<li><p><strong>technique</strong> (<a class="reference internal" href="iqm.error_reduction_tools.technique.Technique.html#iqm.error_reduction_tools.technique.Technique" title="iqm.error_reduction_tools.technique.Technique"><em>Technique</em></a>) – The error reduction technique, e.g. <code class="xref py py-class docutils literal notranslate"><span class="pre">ZNE</span></code> or
+<code class="xref py py-class docutils literal notranslate"><span class="pre">CDR</span></code>.</p></li>
+<li><p><strong>client</strong> (<em>IQMClient</em>) – Client connected to the IQM quantum computer the circuits run on.</p></li>
+<li><p><strong>compilation_options</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>) – Extra entries for the compiler context, e.g. a dynamical decoupling strategy. The
+readout calibration job is compiled without them.</p></li>
+<li><p><strong>twirling_configuration</strong> (<a class="reference internal" href="iqm.error_reduction_tools.twirling.twirling_api.TwirlingConfiguration.html#iqm.error_reduction_tools.twirling.twirling_api.TwirlingConfiguration" title="iqm.error_reduction_tools.twirling.twirling_api.TwirlingConfiguration"><em>TwirlingConfiguration</em></a><em> | </em><em>None</em>) – Twirling configuration, or <code class="docutils literal notranslate"><span class="pre">None</span></code> to execute every variant once as it is.</p></li>
+<li><p><strong>rec_configuration</strong> (<a class="reference internal" href="iqm.error_reduction_tools.readout_characterization.readout_error_characterization.RECConfiguration.html#iqm.error_reduction_tools.readout_characterization.readout_error_characterization.RECConfiguration" title="iqm.error_reduction_tools.readout_characterization.readout_error_characterization.RECConfiguration"><em>RECConfiguration</em></a><em> | </em><em>Mapping</em><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>np.ndarray</em><em>] </em><em>| </em><em>None</em>) – Readout error characterization configuration, or <code class="docutils literal notranslate"><span class="pre">None</span></code> for no readout error
+mitigation. Readout assignment matrices of an earlier characterization, e.g. the <code class="xref py py-attr docutils literal notranslate"><span class="pre">readout_errors</span></code>
+of another workflow, are used instead of a new calibration job.</p></li>
+<li><p><strong>shots</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – Total shots of each variant, split over its twirling instances. <code class="docutils literal notranslate"><span class="pre">None</span></code> uses 20 000. A technique can
+set its own shots for some variants, which override these with a warning.</p></li>
+<li><p><strong>backend</strong> (<em>IQMBackendBase</em><em> | </em><em>None</em>) – IQM Qiskit backend the targets were transpiled for, used to name the qubits of qiskit and Qrisp
+targets. <code class="docutils literal notranslate"><span class="pre">None</span></code> names qubit <code class="docutils literal notranslate"><span class="pre">i</span></code> <code class="docutils literal notranslate"><span class="pre">QB{i</span> <span class="pre">+</span> <span class="pre">1}</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#TypeError" title="(in Python v3.11)"><strong>TypeError</strong></a> – If a target is of an unsupported type.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If the reused readout assignment matrices do not cover every measured qubit.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.circuits" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.circuits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">circuits</span></code></a></p></td>
+<td><p>Return the circuit of every twirling instance, nested by target, variant and instance.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_check_estimate_arguments</span></code>(estimation, ...)</p></td>
+<td><p>Reject estimate() arguments that would fail, before any circuits run.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_estimate_once</span></code>(plan, counts, estimation, ...)</p></td>
+<td><p>Compute the term values of every variant and the estimate of every target from one set of counts.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_require_executor</span></code>()</p></td>
+<td><p>Return the executor, or explain that the stage needs one.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">_setup</span></code>(targets, observables, technique, *, ...)</p></td>
+<td><p>Validate the inputs and set the initial state.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.collect" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.collect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collect</span></code></a>()</p></td>
+<td><p>Wait for every job and store the counts of every twirling instance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate</span></code></a>(estimation, *[, apply_rem, ...])</p></td>
+<td><p>Estimate the observables of every target from the collected counts.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.load" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>(path[, client, compilation_options])</p></td>
+<td><p>Read a workflow written by <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.save" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save()</span></code></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.plan" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.plan"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plan</span></code></a>()</p></td>
+<td><p>Build the variants of every target, twirl them and group them into jobs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.run" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(estimation, *[, apply_rem, ...])</p></td>
+<td><p>Run every remaining stage, from planning to estimation, and wait for the quantum computer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.save" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(path)</p></td>
+<td><p>Write the configuration, plan, submission, counts and readout errors to a JSON file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.submit" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.submit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">submit</span></code></a>()</p></td>
+<td><p>Submit every job of the plan, planning first if needed.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.plan">
+<span class="sig-name descname"><span class="pre">plan</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.plan" title="Link to this definition">#</a></dt>
+<dd><p>Build the variants of every target, twirl them and group them into jobs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The plan, also stored as <code class="xref py py-attr docutils literal notranslate"><span class="pre">execution_plan</span></code>.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If the workflow has already been submitted.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If the executor cannot run twirled circuits, or the <code class="docutils literal notranslate"><span class="pre">&quot;LOCAL&quot;</span></code> strategy has no topology.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iqm.error_reduction_tools.plan.ExecutionPlan.html#iqm.error_reduction_tools.plan.ExecutionPlan" title="iqm.error_reduction_tools.plan.ExecutionPlan"><em>ExecutionPlan</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.circuits">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">circuits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#list" title="(in Python v3.11)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="../../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v16.0.0)"><span class="pre">Circuit</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.circuits" title="Link to this definition">#</a></dt>
+<dd><p>Return the circuit of every twirling instance, nested by target, variant and instance.</p>
+<p><code class="docutils literal notranslate"><span class="pre">circuits[i][j][k]</span></code> is twirling instance <code class="docutils literal notranslate"><span class="pre">k</span></code> of variant <code class="docutils literal notranslate"><span class="pre">j</span></code> of target <code class="docutils literal notranslate"><span class="pre">i</span></code>. The readout calibration
+circuits belong to no target and are not included, see <code class="xref py py-attr docutils literal notranslate"><span class="pre">execution_plan</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If the workflow has not been planned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.submit">
+<span class="sig-name descname"><span class="pre">submit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.submit" title="Link to this definition">#</a></dt>
+<dd><p>Submit every job of the plan, planning first if needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The submission, also stored as <code class="xref py py-attr docutils literal notranslate"><span class="pre">submission</span></code>.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If the workflow was loaded without a client, or has already been submitted.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="iqm.error_reduction_tools.execution.Submission.html#iqm.error_reduction_tools.execution.Submission" title="iqm.error_reduction_tools.execution.Submission"><em>Submission</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.collect">
+<span class="sig-name descname"><span class="pre">collect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.collect" title="Link to this definition">#</a></dt>
+<dd><p>Wait for every job and store the counts of every twirling instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The counts, also stored as <code class="xref py py-attr docutils literal notranslate"><span class="pre">counts</span></code>.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If the workflow was loaded without a client, has not been submitted, or the client is
+    connected to another quantum computer than the one the jobs were submitted to.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference internal" href="iqm.error_reduction_tools.circuits.CircuitKey.html#iqm.error_reduction_tools.circuits.CircuitKey" title="iqm.error_reduction_tools.circuits.CircuitKey"><em>CircuitKey</em></a>, <a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a>[<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)">int</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate">
+<span class="sig-name descname"><span class="pre">estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimation</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">apply_rem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate" title="Link to this definition">#</a></dt>
+<dd><p>Estimate the observables of every target from the collected counts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>estimation</strong> (<a class="reference internal" href="iqm.error_reduction_tools.technique.Estimation.html#iqm.error_reduction_tools.technique.Estimation" title="iqm.error_reduction_tools.technique.Estimation"><em>Estimation</em></a>) – Post-processing settings of the technique, e.g.
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ZNEEstimation</span></code>.</p></li>
+<li><p><strong>apply_rem</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em> | </em><em>None</em>) – Whether to mitigate readout errors. <code class="docutils literal notranslate"><span class="pre">None</span></code> mitigates them when they were characterized.</p></li>
+<li><p><strong>bootstrap_samples</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of bootstrap samples for the standard deviations, <code class="docutils literal notranslate"><span class="pre">0</span></code> for none. Each sample
+resamples the counts of every instance and repeats the whole estimation.</p></li>
+<li><p><strong>bootstrap_seed</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – Seed of the resampling.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The estimate, also stored as <code class="xref py py-attr docutils literal notranslate"><span class="pre">result</span></code>.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If no counts have been collected.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If the estimation does not match the technique, readout errors are to be mitigated but were
+    not characterized, or <code class="docutils literal notranslate"><span class="pre">bootstrap_samples</span></code> is 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="iqm.error_reduction_tools.estimation.EstimationResult.html#iqm.error_reduction_tools.estimation.EstimationResult" title="iqm.error_reduction_tools.estimation.EstimationResult"><em>EstimationResult</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimation</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">apply_rem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.run" title="Link to this definition">#</a></dt>
+<dd><p>Run every remaining stage, from planning to estimation, and wait for the quantum computer.</p>
+<p>Stages that have already run are not repeated, so a loaded or partly run workflow continues where it
+stopped. The arguments are checked before anything is submitted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>estimation</strong> (<a class="reference internal" href="iqm.error_reduction_tools.technique.Estimation.html#iqm.error_reduction_tools.technique.Estimation" title="iqm.error_reduction_tools.technique.Estimation"><em>Estimation</em></a>) – Post-processing settings of the technique, e.g.
+<code class="xref py py-class docutils literal notranslate"><span class="pre">ZNEEstimation</span></code>.</p></li>
+<li><p><strong>apply_rem</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em> | </em><em>None</em>) – Passed to <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">estimate()</span></code></a>.</p></li>
+<li><p><strong>bootstrap_samples</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Passed to <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">estimate()</span></code></a>.</p></li>
+<li><p><strong>bootstrap_seed</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – Passed to <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">estimate()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The estimate, also stored as <code class="xref py py-attr docutils literal notranslate"><span class="pre">result</span></code>.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.11/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If an argument is invalid, see <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">estimate()</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="iqm.error_reduction_tools.estimation.EstimationResult.html#iqm.error_reduction_tools.estimation.EstimationResult" title="iqm.error_reduction_tools.estimation.EstimationResult"><em>EstimationResult</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.save" title="Link to this definition">#</a></dt>
+<dd><p>Write the configuration, plan, submission, counts and readout errors to a JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3.11/library/pathlib.html#pathlib.Path" title="(in Python v3.11)"><em>Path</em></a>) – Destination file.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.load">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compilation_options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.load" title="Link to this definition">#</a></dt>
+<dd><p>Read a workflow written by <a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.save" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.save"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>Path</em>) – The file.</p></li>
+<li><p><strong>client</strong> (<em>IQMClient</em><em> | </em><em>None</em>) – Client connected to the quantum computer, needed to plan, submit or collect. <code class="docutils literal notranslate"><span class="pre">None</span></code> is enough to
+estimate from saved counts.</p></li>
+<li><p><strong>compilation_options</strong> (<a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3.11/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>) – Extra entries for the compiler context, e.g. a dynamical decoupling strategy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The workflow, in the stage it was saved in.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow" title="iqm.error_reduction_tools.workflow.ErrorReductionWorkflow">ErrorReductionWorkflow</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="iqm.error_reduction_tools.workflow.MIN_BOOTSTRAP_SAMPLES.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">MIN_BOOTSTRAP_SAMPLES</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="iqm.error_reduction_tools.zne.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">iqm.error_reduction_tools.zne</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.plan"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.plan()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.circuits"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.circuits</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.submit"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.submit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.collect"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.collect()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.estimate"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.estimate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.run"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.run()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.save"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.save()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm.error_reduction_tools.workflow.ErrorReductionWorkflow.load"><code class="docutils literal notranslate"><span class="pre">ErrorReductionWorkflow.load()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Error Reduction Tools developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024-2026, IQM Finland Oy, Release 0.4.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-11-10.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,233 @@
+{% set width = 1 / schedule.channel_descriptions.keys()|length * 100 %}
+
+<style>
+
+    .channels {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+    .channel {
+        width: {{width}}%;
+        padding: 1rem;
+        background-color: white;
+        border: 1px solid black;
+        font-size: 1.8rem
+    }
+    .channel-properties {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        text-align: left;
+        font-weight:400;
+        font-size: 1.2rem;
+    }
+    .instructions {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+    .column {
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        width: {{width}}%;
+    }
+    .instruction-box {
+        position: relative;
+        min-height: 50px;
+        max-height: 200px;
+        border-bottom: 1px solid black;
+        border-radius: 2px;
+        padding: 5px;
+    }
+
+    .index-val {
+        position:absolute;
+        top: 20%;
+        left: 90%;
+        transform: translate(-50%, -50%);
+    }
+
+    .IQPulse {
+        background: linear-gradient(140deg, rgba(200,215,215,1) 0%, rgba(111,205,233,1) 78%, rgba(0,212,255,1) 100%);
+    }
+
+    .waveform-info {
+        display: none;
+        
+    }
+
+    .waveform-attributes {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .waveform-image {
+        width: 17.5rem !important;
+        height: 17.5rem !important;
+        max-width: 17.5rem !important;
+        max-height: 17.5rem !important;
+    }
+
+    .IQPulse:hover .waveform-info {
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        bottom: 100%;
+        left: 100%;
+        border: 1px solid black;
+        padding: 0.5rem;
+        z-index: 3;
+        background: rgba(255,255,255,1);
+    }
+
+    .RealPulse:hover .waveform-info {
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        bottom: 100%;
+        left: 100%;
+        border: 1px solid black;
+        padding: 0.5rem;
+        z-index: 3;
+        background: rgba(255,255,255,1);
+    }
+
+    .Wait {
+        background-color: pink;
+    }
+
+    .VirtualRz {
+        background-color: rgb(61, 167, 109);
+    }
+
+    .RealPulse {
+        background-color: rgba(233, 78, 78, 0.653);
+    }
+    .wrapper {
+        border: 2px solid black;
+        border-radius: 1rem;
+        padding: 1rem;
+    }
+
+    .column:nth-last-child(-n +2) .waveform-info{
+        right: 0%;
+        left:auto;
+    }
+
+    #segment-inspector-title {
+        font-size: 3rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    #settings {
+        position: absolute;
+        font-size: 1rem;
+    }
+    #top-bar {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    .instruction-name {
+        font-size: 2rem;
+        margin-top: 0.2rem !important;
+        font-weight:400;
+    }
+
+    .instruction-attributes {
+        font-weight:400;
+        font-size: 1.2rem;
+    }
+    .tooltip-exa {
+        position: relative;
+        display: inline-block;
+      }
+      
+      .tooltip-exa .tooltiptext-exa {
+        visibility: hidden;
+        width: 100px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 2px 0;
+        border-radius: 6px;
+        position: absolute;
+        z-index: 1;
+      }
+      
+      .tooltip-exa:hover .tooltiptext-exa {
+        visibility: visible;
+      }
+
+</style>
+<div id="top-bar">
+    <h1 id="segment-inspector-title">Segment Inspection Tool</h1>
+</div>
+<div class="wrapper">
+    <div class="channels">
+        {% for name in schedule.channel_descriptions.keys() %}
+        <div class="channel">
+            {{name}}
+        <div class="channel-properties">
+            Config: {{schedule.channel_descriptions[name].channel_config.__class__.__name__}} <br>
+            Sampling rate:{{round(schedule.channel_descriptions[name].channel_config.sampling_rate * 1e-9 ,1)}} GHz
+
+        </div>
+        </div>
+
+        {% endfor %}
+
+            
+    </div>
+    <div class="instructions">
+        {% for name in schedule.channel_descriptions.keys() %}
+        <div class="column">
+            {% for instruction in schedule.segments[index].instructions[name] %}
+            {% set instruction = schedule.channel_descriptions[name].instruction_table[instruction]%}
+            <div class="instruction-box {{instruction.operation.__class__.__name__}}">
+                {% if instruction.operation.__class__.__name__ in ["IQPulse", "RealPulse"] %}
+                    <div class="waveform-info">
+                        {{waveforms[name][instruction]}}
+                        <div class="waveform-attributes">
+                        {% if instruction.operation.__class__.__name__ in ["IQPulse"] %}
+
+                            <p style="font-size: 1rem">{{instruction.operation.wave_i}}</p>
+                            <p style="font-size: 1rem">{{instruction.operation.wave_q}}</p>
+                        {% elif instruction.operation.__class__.__name__ in ["RealPulse"] %}
+                            <p style="font-size: 1rem">{{instruction.operation.wave}}</p>
+                        {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+                <p class="instruction-name">{{instruction.operation.__class__.__name__}}</p>
+                
+                <p class="instruction-attributes">Duration: 
+                    <span class="tooltip-exa">
+                        {{round(instruction.duration_samples / schedule.channel_descriptions[name].channel_config.sampling_rate * 1e9 ,3)}} ns
+                        <span class="tooltiptext-exa">{{instruction.duration_samples}} samples</span>
+                    </span> <br>
+                {% if instruction.operation.__class__.__name__ in ["IQPulse"] %}
+                        scale_i: {{round(instruction.operation.scale_i, 3)}} <br>
+                        scale_q: {{round(instruction.operation.scale_q, 3)}} <br>
+                        phase: {{instruction.operation.phase}} <br>
+                {% elif instruction.operation.__class__.__name__ in ["RealPulse"] %}
+                        scale: {{round(instruction.operation.scale, 3)}} <br>
+                {% elif instruction.operation.__class__.__name__ in ["VirtualRZ"] %}
+                        phase_increment: {{instruction.operation.phase_increment}} <br>
+                {% endif %}
+                </p>
+
+                <span class="index-val">
+                    {{instruction}}
+                </span>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+        
+
+    </div>
+</div>

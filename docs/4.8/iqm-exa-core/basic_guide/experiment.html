@@ -1,0 +1,1089 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Running Experiments &#8212; iqm-exa-core 20.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=63862cf7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=3f23208d"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'basic_guide/experiment';</script>
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Workflow with Experiment settings" href="settings_workflow.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-11-10"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.png" class="logo__image only-light" alt="iqm-exa-core 20.0.0 documentation - Home"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="iqm-exa-core 20.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../readme.html">iqm-exa-core</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Basics of EXA</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Running Experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="settings_workflow.html">Workflow with Experiment settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="database.html">Data access</a></li>
+<li class="toctree-l2"><a class="reference internal" href="observation.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sequence.html">Sequences</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration_file.html">EXA Configuration File</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guide/index.html">Creating EXA experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guide/concept.html">Conceptualization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/prototype.html">Prototyping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/subclass.html">Making a subclass of Experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/circuit.html">Circuit generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/sweep.html">Sweep generation functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/compiler.html">Compiler passes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/analysis.html">Post-processing and analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/plotting.html">Plotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/observations.html">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/integration.html">Integrating your experiment in a sequence or graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guide/maturity.html">Is my experiment mature?</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../notebooks/index.html">Example Notebooks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/experiment_basics.html">Experiment Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/example_local_storage.html">Local Storage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../API.html">API reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../api/exa.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.analyze_result.html">analyze_result</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.analyze_result.analyze_result.html">analyze_result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.analyze_result.plot_definition.html">plot_definition</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.database_wrapper.html">database_wrapper</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.batch_save_observations.html">exa.core.database_wrapper.batch_save_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.get_all_dut_fields.html">exa.core.database_wrapper.get_all_dut_fields</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.get_latest_observations_for_tags.html">exa.core.database_wrapper.get_latest_observations_for_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.invalidate_observation.html">exa.core.database_wrapper.invalidate_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.save_observation.html">exa.core.database_wrapper.save_observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.save_observations_with_new_tags.html">exa.core.database_wrapper.save_observations_with_new_tags</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.database_wrapper.set_observation_validity.html">exa.core.database_wrapper.set_observation_validity</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.environment.html">environment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.environment.load_environment.html">exa.core.environment.load_environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.environment.EnvironmentConfig.html">EnvironmentConfig</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.error_estimation.html">error_estimation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.error_estimation.fit_statistical_error.html">fit_statistical_error</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.error_experiment.html">error_experiment</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment.html">experiment</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.edge_coloring.html">edge_coloring</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.experiment.html">experiment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.stages.html">stages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.experiment_configuration.html">experiment_configuration</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_definitions.html">experiment_definitions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ChipProperties.html">exa.core.experiment_definitions.ChipProperties</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ParallelGroup.html">ParallelGroup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.QPUType.html">QPUType</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ReadoutMode.html">ReadoutMode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_definitions.ReadoutProgrammingMode.html">ReadoutProgrammingMode</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_options.html">experiment_options</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html">ExperimentOptions</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.experiment_utils.html">experiment_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.experiment_utils.load_observations.html">exa.core.experiment_utils.load_observations</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.gate_implementations.html">gate_implementations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.flux_pulse.html">flux_pulse</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.modulated_pulse_gate.html">modulated_pulse_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.rz.html">rz</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.gate_implementations.x_ef_gate.html">x_ef_gate</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.local_storage.html">local_storage</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.local_storage.LocalStorage.html">LocalStorage</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.model_selection_fitter.html">model_selection_fitter</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.fitter.html">fitter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.fitting.html">fitting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.model_selection.html">model_selection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.models.html">models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.packaging.html">packaging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.plotting.html">plotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.preprocessing.html">preprocessing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.structures.html">structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.model_selection_fitter.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.multistate_classifier.html">multistate_classifier</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.classifier.html">classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.distance_classifier.html">distance_classifier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.linear_discriminant_analysis.html">linear_discriminant_analysis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.parameters.html">parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.support_vector_machine.html">support_vector_machine</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.multistate_classifier.utils.html">utils</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.observation.html">observation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_handler.html">observation_handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_loading_rules.html">observation_loading_rules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_parameters.html">observation_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_stash.html">observation_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation.observation_validation_rules.html">observation_validation_rules</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.observation_set_utils.html">observation_set_utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.add_to_observation_set.html">exa.core.observation_set_utils.add_to_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.adjust_trigger_delays_in_stash.html">exa.core.observation_set_utils.adjust_trigger_delays_in_stash</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.copy_station_specific_observations.html">exa.core.observation_set_utils.copy_station_specific_observations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.create_observation_set.html">exa.core.observation_set_utils.create_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.create_quality_metric_set.html">exa.core.observation_set_utils.create_quality_metric_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.finalize_observation_set.html">exa.core.observation_set_utils.finalize_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.get_latest_observation_set_id.html">exa.core.observation_set_utils.get_latest_observation_set_id</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.get_observation_set.html">exa.core.observation_set_utils.get_observation_set</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate.html">exa.core.observation_set_utils.migrate_observation_set_for_measure_fidelity_gate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation.html">exa.core.observation_set_utils.migrate_observation_stash_for_measure_operation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.plotting.html">plotting</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.extended_wilkinson_tick_locator.html">extended_wilkinson_tick_locator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.figure.html">figure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.figure_helper.html">figure_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.generic_plot.html">generic_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_cumulative_distribution.html">plot_cumulative_distribution</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_helper.html">plot_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_options.html">plot_options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plot_styles.html">plot_styles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.plots.html">plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_core.html">qpu_core</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_plot.html">qpu_plot</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.qpu_table.html">qpu_table</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.time_series.html">time_series</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.plotting.topology.html">topology</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.post_processing.html">post_processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.transpose_data.html">exa.core.post_processing.transpose_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.contrast_computation.html">contrast_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.excited_state_probability_computation.html">excited_state_probability_computation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.post_processing.single_shot_to_counter.html">single_shot_to_counter</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.provider.html">provider</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.provider.provider.html">provider</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.readout_helpers.html">readout_helpers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.readout_helpers.get_measure_gate_name.html">exa.core.readout_helpers.get_measure_gate_name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.readout_helpers.resolve_target_name_for_f_state.html">exa.core.readout_helpers.resolve_target_name_for_f_state</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../api/exa.core.run_result.html">run_result</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.sequence.html">sequence</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.context.html">context</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.data_access.html">data_access</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.experiment_tracker.html">experiment_tracker</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.interface.html">interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.result.html">result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.sequence.html">sequence</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.sequence_executor.html">sequence_executor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.trackers.html">trackers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.util.html">util</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.sequence.wrap_analyze.html">wrap_analyze</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../api/exa.core.util.html">util</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.calibration_utils.html">calibration_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.chad_utils.html">chad_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.dataset.html">dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.dut_field_decoder.html">dut_field_decoder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.esprit.html">esprit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.experiment_class.html">experiment_class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.fft_helper.html">fft_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.formatting.html">formatting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.ipython_helper.html">ipython_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.migration.html">migration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.model_functions.html">model_functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.observation.html">observation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.param_parsing.html">param_parsing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.pca.html">pca</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.phase_helper.html">phase_helper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.qpu_utils.html">qpu_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.qubit_utils.html">qubit_utils</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.report.html">report</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.serialization.html">serialization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../api/exa.core.util.topology.html">topology</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/basic_guide/experiment.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Running Experiments</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-workflow">Basic workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-setup">0. Initial setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-calibration">1. Choose calibration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-experiment-instance-s">2. Create experiment instance(s)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-options-optional">3. Modify options (optional)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#repetitions"><code class="xref py py-attr docutils literal notranslate"><span class="pre">repetitions</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#readout-mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">readout_mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#active-reset-cycles"><code class="xref py py-attr docutils literal notranslate"><span class="pre">active_reset_cycles</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#readout-programming-mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">readout_programming_mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#used-measure-operations"><code class="xref py py-attr docutils literal notranslate"><span class="pre">used_measure_operations</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#subscribed-components"><code class="xref py py-attr docutils literal notranslate"><span class="pre">subscribed_components</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-settings-optional">4. Modify settings (optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-experiment">5. Run the Experiment</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#components"><code class="docutils literal notranslate"><span class="pre">components</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#settings"><code class="docutils literal notranslate"><span class="pre">settings</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#default-sweep-ranges"><code class="docutils literal notranslate"><span class="pre">default_sweep_ranges</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sweeps"><code class="docutils literal notranslate"><span class="pre">sweeps</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-results">6. Inspect results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyze-results">7. Analyze results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-results">8. Plot results</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="running-experiments">
+<span id="run-and-use-experiments"></span><h1>Running Experiments<a class="headerlink" href="#running-experiments" title="Link to this heading">#</a></h1>
+<p>Here we describe the basic workflow when working with Experiments.
+This section is <strong>not</strong> about writing new experiments, or about running quantum circuits.</p>
+<section id="basic-workflow">
+<h2>Basic workflow<a class="headerlink" href="#basic-workflow" title="Link to this heading">#</a></h2>
+<section id="initial-setup">
+<span id="id1"></span><h3>0. Initial setup<a class="headerlink" href="#initial-setup" title="Link to this heading">#</a></h3>
+<p>First, we need to connect to a selected Quantum computer and load an Exa configuration to use.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">exa.core.provider</span><span class="w"> </span><span class="kn">import</span> <span class="n">provider</span>
+
+<span class="n">provider</span><span class="o">.</span><span class="n">init_iqm_server_runtime</span><span class="p">(</span>
+    <span class="n">iqm_server_url</span><span class="o">=</span><span class="s2">&quot;https://example.qc.com/&quot;</span><span class="p">,</span>
+    <span class="n">quantum_computer</span><span class="o">=</span><span class="s2">&quot;&lt;quantum-computer-name&gt;&quot;</span><span class="p">,</span>
+    <span class="n">username</span><span class="o">=</span><span class="s2">&quot;&lt;username&gt;&quot;</span><span class="p">,</span>
+    <span class="n">token</span><span class="o">=</span><span class="s2">&quot;&lt;api-token&gt;&quot;</span><span class="p">,</span>  <span class="c1"># or set the IQM_TOKEN environment variable instead</span>
+    <span class="c1"># experiment_configuration_path=&quot;experiment.yml&quot;,  # optional</span>
+<span class="p">)</span>
+
+<span class="c1"># Optional: set up logging</span>
+<span class="c1"># provider.init_loggers(&quot;loggers.yml&quot;)</span>
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">iqm_server_url</span></code> is the URL of the IQM Server, and <code class="docutils literal notranslate"><span class="pre">quantum_computer</span></code> is the name
+of the quantum computer to use, since one server can host several quantum computers.
+The API token can be obtained from the IQM Server frontend using a web browser.</p>
+<p>The optional command uses the <code class="docutils literal notranslate"><span class="pre">&quot;loggers.yml&quot;</span></code> file to set up logging behavior.</p>
+<p>Instead of the above, you can define the same information through environment variables.
+To do that, set</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">STATION_CONTROL_SERVICE_URL</span><span class="o">=</span><span class="s2">&quot;https://example.qc.com&quot;</span>
+<span class="nv">IQM_TOKEN</span><span class="o">=</span><span class="s2">&quot;...&quot;</span>
+<span class="nv">EXA_CONFIGURATION_PATH</span><span class="o">=</span><span class="s2">&quot;experiment.yml&quot;</span>
+<span class="nv">EXA_LOGGERS_CONF_PATH</span><span class="o">=</span><span class="s2">&quot;loggers.yml.example&quot;</span>
+</pre></div>
+</div>
+<p>in the <code class="docutils literal notranslate"><span class="pre">.env</span></code> file and call</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">provider</span><span class="o">.</span><span class="n">init_from_env</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>When <code class="docutils literal notranslate"><span class="pre">env_path</span></code> is not given, <code class="docutils literal notranslate"><span class="pre">init_from_env()</span></code> reads the current process
+environment and loads values from an auto-discovered <code class="docutils literal notranslate"><span class="pre">.env</span></code> file.</p>
+<p>If you want to load a specific env file instead of the auto-discovered <code class="docutils literal notranslate"><span class="pre">.env</span></code>, pass it explicitly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">provider</span><span class="o">.</span><span class="n">init_from_env</span><span class="p">(</span><span class="n">env_path</span><span class="o">=</span><span class="s2">&quot;path/to/.env&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>These two approaches can be mixed.</p>
+</section>
+<section id="choose-calibration">
+<h3>1. Choose calibration<a class="headerlink" href="#choose-calibration" title="Link to this heading">#</a></h3>
+<p>To get meaningful results, EXA must know which calibration values to use.
+Calibration is described using Observations which are stored in the server’s database.</p>
+<p>In short, you can select the observations using tags or calibration sets.
+The various rules related to Observation loading are explained in more detail in <a class="reference internal" href="observation.html#observations"><span class="std std-ref">Observations</span></a>.</p>
+<p>To get started without diving into the details, you can load the default calibration set, which is the same
+that is used by circuit execution through other client libraries:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">exa.core</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ec</span>
+<span class="n">ec</span><span class="o">.</span><span class="n">set_global_observation_stash</span><span class="p">([</span><span class="n">ec</span><span class="o">.</span><span class="n">GetCalibrationSet</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)])</span>
+</pre></div>
+</div>
+</section>
+<section id="create-experiment-instance-s">
+<h3>2. Create experiment instance(s)<a class="headerlink" href="#create-experiment-instance-s" title="Link to this heading">#</a></h3>
+<p>To conduct an experiment, we create an instance of the Experiment class, for example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">exa.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Experiment</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">exa.public_experiments</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rabi</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">Experiment</span><span class="p">()</span>
+<span class="n">rabi</span> <span class="o">=</span> <span class="n">Rabi</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>An experiment represents a recipe to conduct a certain task on the quantum computer.
+The <code class="docutils literal notranslate"><span class="pre">Experiment</span></code> instances generate the execution instructions,
+keep experimental data gathered during the session in memory,
+and allow analyzing and plotting the data.
+Each class has one or multiple default Sweeps
+they are designed to perform, and default parameters they are designed to measure.</p>
+<p><a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment" title="exa.core.experiment.experiment.Experiment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Experiment</span></code></a> is the base class that works also as a standalone prototyping tool.
+All other experiments, like <code class="xref py py-class docutils literal notranslate"><span class="pre">Rabi</span></code> in the example, are derived from the base class.
+<code class="docutils literal notranslate"><span class="pre">Rabi</span></code> contains the standard recipe for executing a textbook Rabi experiment.</p>
+<p>Notable methods of experiments are
+<a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.get_settings" title="exa.core.experiment.experiment.Experiment.get_settings"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_settings()</span></code></a>,
+<a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.run" title="exa.core.experiment.experiment.Experiment.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a>,
+and <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.analyze" title="exa.core.experiment.experiment.Experiment.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">analyze()</span></code></a>, explained below.</p>
+</section>
+<section id="modify-options-optional">
+<h3>3. Modify options (optional)<a class="headerlink" href="#modify-options-optional" title="Link to this heading">#</a></h3>
+<p>Basic behaviour of experiments is configured via the <code class="docutils literal notranslate"><span class="pre">options</span></code> attribute of the experiment instance.
+It is of the type <a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html#exa.core.experiment_options.ExperimentOptions" title="exa.core.experiment_options.ExperimentOptions"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExperimentOptions</span></code></a>.</p>
+<p>Some options are shared by all experiments, while some are experiment-specific.
+The common attributes are explained below:</p>
+<section id="repetitions">
+<h4><a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html#exa.core.experiment_options.ExperimentOptions.repetitions" title="exa.core.experiment_options.ExperimentOptions.repetitions"><code class="xref py py-attr docutils literal notranslate"><span class="pre">repetitions</span></code></a><a class="headerlink" href="#repetitions" title="Link to this heading">#</a></h4>
+<p>The number of times each circuit is executed to collect data.
+It depends on the used <code class="docutils literal notranslate"><span class="pre">readout_mode</span></code> how the averaging is done.</p>
+</section>
+<section id="readout-mode">
+<h4><a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html#exa.core.experiment_options.ExperimentOptions.readout_mode" title="exa.core.experiment_options.ExperimentOptions.readout_mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">readout_mode</span></code></a><a class="headerlink" href="#readout-mode" title="Link to this heading">#</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">readout_mode</span></code> has 5 possible values. Their meanings and effects are as follows:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;complex&quot;</span></code> (the default): normal complex voltage readout for each channel. The contrast and the excited state probability
+are computed in post processing. The averaging is done in hardware.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;threshold&quot;</span></code>: thresholded readout for each readout channel, representing the excited state probability.
+The averaging is done in hardware.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;single_shot&quot;</span></code>: complex single shot readout for each channel. The averaged complex readout (equivalent to the above
+<code class="docutils literal notranslate"><span class="pre">&quot;complex&quot;</span></code> mode) is computed in post processing, in addition to contrast and excited state probability.
+The averaging is done in software, in the aforementioned post processing step.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;single_shot_threshold&quot;</span></code>: thresholded single shot readout for each readout channel. The averaged complex readout
+(equivalent to the above <code class="docutils literal notranslate"><span class="pre">&quot;complex&quot;</span></code> mode) is computed in post processing. The averaging is done in software,
+in the aforementioned post processing step.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;counter&quot;</span></code>: the correlated multi-qubit readout, counting the occurrences of bitstrings.
+The data for each readout group is extracted from the full data in addition to the single-qubit excited state
+probability for each qubit. The counting and averaging is done on the server.</p></li>
+</ul>
+</section>
+<section id="active-reset-cycles">
+<h4><a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html#exa.core.experiment_options.ExperimentOptions.active_reset_cycles" title="exa.core.experiment_options.ExperimentOptions.active_reset_cycles"><code class="xref py py-attr docutils literal notranslate"><span class="pre">active_reset_cycles</span></code></a><a class="headerlink" href="#active-reset-cycles" title="Link to this heading">#</a></h4>
+<p>Number of active <code class="docutils literal notranslate"><span class="pre">reset</span></code> operations inserted at the beginning of each segment for each active qubit. Uses the default
+implementation of <code class="docutils literal notranslate"><span class="pre">reset</span></code>. <code class="docutils literal notranslate"><span class="pre">None</span></code> means active reset is not used but instead reset is done by waiting (relaxation),
+using the default implementation of the <code class="docutils literal notranslate"><span class="pre">reset_wait</span></code> operation. Integer values smaller than 1 result in neither active
+nor reset by waiting (relaxation) is used, in which case any reset operations must be explicitly added in the circuit generation
+function.</p>
+</section>
+<section id="readout-programming-mode">
+<h4><a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html#exa.core.experiment_options.ExperimentOptions.readout_programming_mode" title="exa.core.experiment_options.ExperimentOptions.readout_programming_mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">readout_programming_mode</span></code></a><a class="headerlink" href="#readout-programming-mode" title="Link to this heading">#</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">readout_programming_mode</span></code> controls how readout operations are added to the circuit(s).</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;classic&quot;</span></code> (the default): Each qubit is measured at the end of the circuit.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;heralding&quot;</span></code>: Each qubit is measured before and after each circuit execution. The measurement before is the
+so-called “heralding” measurement that can be used to check that the qubit was initially in the ground state.
+The heralding data appears in the dataset as a separate key, but data is not post-selected automatically.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;reset_at_end&quot;</span></code>: Similarly to <code class="docutils literal notranslate"><span class="pre">&quot;classic&quot;</span></code>, a terminal measurement is added. However, the terminal measurement is
+done with a feedback key, and a conditional prx is applied after. NOTE: this mode
+overrides <a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html#exa.core.experiment_options.ExperimentOptions.active_reset_cycles" title="exa.core.experiment_options.ExperimentOptions.active_reset_cycles"><code class="xref py py-attr docutils literal notranslate"><span class="pre">active_reset_cycles</span></code></a>
+(forcing one conditional reset at the end of the segment)
+and requires a station which supports fast feedback.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;custom&quot;</span></code>: Measurements are not added automatically. Any measurement must be defined explicitly by the
+experiment source code.</p></li>
+</ul>
+</section>
+<section id="used-measure-operations">
+<h4><a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html#exa.core.experiment_options.ExperimentOptions.used_measure_operations" title="exa.core.experiment_options.ExperimentOptions.used_measure_operations"><code class="xref py py-attr docutils literal notranslate"><span class="pre">used_measure_operations</span></code></a><a class="headerlink" href="#used-measure-operations" title="Link to this heading">#</a></h4>
+<p>Names of the measurement QuantumOps the various readout programming modes use when building
+the circuits.</p>
+<p>The purpose of having more than one measure QuantumOps is to allow calibrating and optimizing different
+implementations for different use cases. For example, for a terminal measurement of a qubit, it is not so important
+that the measurement is projective, as the qubits state is just discarded after that.</p>
+<p>The value of this attribute is a dict mapping different measure-use cases to the measure operation names. By default,
+it is given as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">used_measure_operations</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;terminal&quot;</span><span class="p">:</span> <span class="s2">&quot;measure_fidelity&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;heralding&quot;</span><span class="p">:</span> <span class="s2">&quot;measure&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;reset_at_end&quot;</span><span class="p">:</span> <span class="s2">&quot;measure&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;terminal&quot;</span></code> is used for terminal measurement when <code class="docutils literal notranslate"><span class="pre">readout_programming_mode</span></code> is
+either <code class="docutils literal notranslate"><span class="pre">&quot;classic&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">heralding</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;heralding&quot;</span></code> is used for the heralding measurement when <code class="docutils literal notranslate"><span class="pre">readout_programming_mode</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;heralding&quot;</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;reset_at_end&quot;</span></code> is used when <code class="docutils literal notranslate"><span class="pre">readout_programming_mode</span></code> is <code class="docutils literal notranslate"><span class="pre">&quot;reset_at_end&quot;</span></code>.</p></li>
+</ul>
+<p>Here, the terminal measurement is by default done with the <code class="docutils literal notranslate"><span class="pre">measure_fidelity</span></code> gate, which is meant to optimize
+measurement fidelity but might not be optimally projective. The heralding measurement and the conditional feedback
+providing measurements however must be projective, so they are done with the <code class="docutils literal notranslate"><span class="pre">measure</span></code> gate that is optimized to
+be a compromise between fidelity and QNDness (this is the standard measurement best suitable for
+mid-circuit-measurements)</p>
+<p>Users may change these default values in their experiment run, but note that this (e.g. making <code class="docutils literal notranslate"><span class="pre">&quot;heralding&quot;</span></code> use
+<code class="docutils literal notranslate"><span class="pre">&quot;measure_fidelity&quot;</span></code>) may result in sub-optimal behavior. Specific experiments may also hard-code different default
+behaviour based on their needs.</p>
+<p>Note: this attribute applies only to the measure operations added automatically by Experiment. If the experiment adds measure
+operations explicitly in its circuit, you must write the logic for choosing the right operation to the circuit
+generation function itself. Typically, experiments handle this also via options, in which case there is an additional
+options attribute, usually named as <code class="docutils literal notranslate"><span class="pre">measure_gate_name</span></code>.</p>
+</section>
+<section id="subscribed-components">
+<h4><a class="reference internal" href="../api/exa.core.experiment_options.ExperimentOptions.html#exa.core.experiment_options.ExperimentOptions.subscribed_components" title="exa.core.experiment_options.ExperimentOptions.subscribed_components"><code class="xref py py-attr docutils literal notranslate"><span class="pre">subscribed_components</span></code></a><a class="headerlink" href="#subscribed-components" title="Link to this heading">#</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">subscribed_components</span></code> define which components are read out in the experiment. The subscribed components are given as
+a list of component names. These can be different from the active components given as run arguments. The run settings
+will however limit the used <code class="docutils literal notranslate"><span class="pre">subscribed_components</span></code> (as one cannot access the readout channel of a component that is
+not in the settings). By default, the <code class="docutils literal notranslate"><span class="pre">subscribed_components</span></code> is set to None. This will result in the behaviour that
+all active run components are read out.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">&quot;counter&quot;</span></code> readout mode is used, the <code class="docutils literal notranslate"><span class="pre">subscribed_components</span></code> can also be given as a dict
+of lists of component names (the so called “grouped readout”). The counter then returns correlation data
+for each group, but not between the groups (the groups could be e.g. all the qubit-pairs in the QPU).
+The grouped readout is only available in the <code class="docutils literal notranslate"><span class="pre">&quot;counter&quot;</span></code> readout mode, otherwise an error will be thrown.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># not defining the subscribed_components will read out the</span>
+<span class="c1"># run components: &quot;QB1&quot;, &quot;QB2&quot;, &quot;QB3&quot;, &quot;QB4&quot;</span>
+<span class="n">rabi</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">,</span> <span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB4&quot;</span><span class="p">])</span>
+
+<span class="c1"># now we read only &quot;QB1&quot; and &quot;QB2&quot;, but run with all four</span>
+<span class="n">rabi</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">subscribed_components</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">]</span>
+<span class="n">rabi</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">,</span> <span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB4&quot;</span><span class="p">])</span>
+
+<span class="c1"># use the counter&#39;s grouped readout to read all adjacent pairs</span>
+<span class="n">rabi</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">readout_mode</span> <span class="o">=</span> <span class="s2">&quot;counter&quot;</span>
+<span class="n">rabi</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">subscribed_components</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;pair_1_2&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;pair_2_3&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;QB2&quot;</span><span class="p">,</span> <span class="s2">&quot;QB3&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;pair_3_4&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB4&quot;</span><span class="p">]}</span>
+<span class="n">rabi</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">,</span> <span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB4&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="modify-settings-optional">
+<h3>4. Modify settings (optional)<a class="headerlink" href="#modify-settings-optional" title="Link to this heading">#</a></h3>
+<p>The options determine the general behavior of the Experiment.
+They define how to generate the Settings and pulse playlists, which are the final truth about what will be executed
+on the quantum computer.</p>
+<p>Before starting an experiment run, we might want to deviate from the baseline defined by the latest calibration.
+After choosing the options and the target components for a run, the settings can be generated as, e.g.
+<code class="docutils literal notranslate"><span class="pre">rabi.get_settings()</span></code>.
+The usage of settings is described in detail in <a class="reference internal" href="settings_workflow.html"><span class="doc">Workflow with Experiment settings</span></a>.</p>
+</section>
+<section id="run-the-experiment">
+<h3>5. Run the Experiment<a class="headerlink" href="#run-the-experiment" title="Link to this heading">#</a></h3>
+<p>By default, the experiment is executed on all qubits / qubit pairs on the QPU in parallel,
+or sequentially if the pairs overlap,
+whichever is applicable to the experiment.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rabi</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The experiment knows what settings to set, sweep and measure.
+We only need to select the qubit on which we want to conduct the experiment on.</p>
+<p>To run the Rabi experiment on a selected subset of qubits we can do</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rabi</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;QB2&quot;</span><span class="p">,</span> <span class="s2">&quot;QB3&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&quot;QB2&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;QB3&quot;</span></code> are named qubits of the QPU.
+The names are defined in the <cite>components</cite> section in the
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">chip_topology</span></code>.</p>
+<p>The <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.run" title="exa.core.experiment.experiment.Experiment.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Experiment.run()</span></code></a> method has optional arguments, explained below.
+These arguments together provide a lot of flexibility and a way to improvise when conducting experiments.</p>
+<section id="components">
+<h4><code class="docutils literal notranslate"><span class="pre">components</span></code><a class="headerlink" href="#components" title="Link to this heading">#</a></h4>
+<p>The locus or target of the experiment. In the example above, the experiment is performed on both qubits in parallel.</p>
+<p>The components given to the run method as an argument define the active components that will be part of the generated circuits.
+The run components are propagated to the circuit generation function.
+Note: the run components must be present in the settings.
+By default, the settings are generated for all components even if they are not active.</p>
+<p>The run components can be given in four different forms:</p>
+<ul class="simple">
+<li><p>Flat list of component names</p></li>
+<li><p>List of tuples of component names, i.e. component groups</p></li>
+<li><p>Lists of lists of tuples of component names, i.e. colour groups. The lists of tuples then define partitions
+of the QPU based on the application’s needs.</p></li>
+<li><p>(default) <code class="docutils literal notranslate"><span class="pre">None</span></code>. By default, this results in running the experiment as if
+the user had provided a flat list of all qubits found in the QPU.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">exp</span> <span class="o">=</span> <span class="n">Experiment</span><span class="p">(</span><span class="n">circuit_generation_function</span><span class="o">=</span><span class="n">some_circuit_function</span><span class="p">)</span>
+
+<span class="c1"># flat list, i.e. run the experiment on these qubits. if this</span>
+<span class="c1"># is a pair-experiment, this could result in automatically</span>
+<span class="c1"># finding all connected pairs of these qubits and</span>
+<span class="c1"># then running the experiment on them</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">components</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">,</span> <span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB4&quot;</span><span class="p">])</span>
+
+<span class="c1"># no components given, will run with all qubits in the QPU</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+<span class="c1"># groups, e.g. run the experiment on these qubit pairs exactly</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">components</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB4&quot;</span><span class="p">)])</span>
+
+<span class="c1"># colour groups, i.e. partition the QPU into logically</span>
+<span class="c1"># separate partitions of components. these could for example</span>
+<span class="c1"># denote pairs we want to run in parallel.</span>
+<span class="c1"># The first circuit performs the operations on QB1-QB2 and QB3-QB4,</span>
+<span class="c1"># and second on QB2-QB4.</span>
+<span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">components</span><span class="o">=</span><span class="p">[[(</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="s2">&quot;QB4&quot;</span><span class="p">)],</span> <span class="p">[(</span><span class="s2">&quot;QB2&quot;</span><span class="p">,</span> <span class="s2">&quot;QB4&quot;</span><span class="p">)]])</span>
+</pre></div>
+</div>
+</section>
+<section id="settings">
+<h4><code class="docutils literal notranslate"><span class="pre">settings</span></code><a class="headerlink" href="#settings" title="Link to this heading">#</a></h4>
+<aside class="margin sidebar">
+<p class="sidebar-title">Example: Passing custom settings</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">settings</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">get_settings</span><span class="p">()</span>
+<span class="n">settings</span><span class="o">.</span><span class="n">controllers</span><span class="o">.</span><span class="n">QB2</span><span class="o">.</span><span class="n">drive</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="mf">5.5e9</span>
+<span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">settings</span><span class="o">=</span><span class="n">settings</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</aside>
+<p>These are the ones generated in step 4.</p>
+</section>
+<section id="default-sweep-ranges">
+<h4><code class="docutils literal notranslate"><span class="pre">default_sweep_ranges</span></code><a class="headerlink" href="#default-sweep-ranges" title="Link to this heading">#</a></h4>
+<p>Depending on the experiment, this allows specifying a sweep range of the default sweep(s).
+For the FineSpectroscopy for example, this would change the minimum, maximum and
+number of points in the frequency scan of the qubit readout signal.
+If not specified, the range(s) are read from the configuration file, or hardcoded defaults of the experiment are used.</p>
+<p>Similar to the settings, the most convenient way to make modifications is to ask for the defaults using
+<a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.get_default_sweeps_as_dict" title="exa.core.experiment.experiment.Experiment.get_default_sweeps_as_dict"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_default_sweeps_as_dict()</span></code></a>,
+modify the values, and feed them to <code class="docutils literal notranslate"><span class="pre">run</span></code>.</p>
+<aside class="margin sidebar">
+<p class="sidebar-title">Example: Passing custom settings</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="n">sweeps</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">get_default_sweeps_as_dict</span><span class="p">()</span>
+<span class="n">sweeps</span><span class="p">[</span><span class="s2">&quot;my dimension&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">57</span><span class="p">)</span>
+<span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">default_sweep_ranges</span><span class="o">=</span><span class="n">sweeps</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</aside>
+</section>
+<section id="sweeps">
+<h4><code class="docutils literal notranslate"><span class="pre">sweeps</span></code><a class="headerlink" href="#sweeps" title="Link to this heading">#</a></h4>
+<aside class="margin sidebar">
+<p class="sidebar-title">Example: Add sweep over frequency</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">settings</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">get_settings</span><span class="p">()</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">controllers</span><span class="o">.</span><span class="n">QB1</span><span class="o">.</span><span class="n">drive</span><span class="o">.</span><span class="n">frequency</span>
+<span class="n">ranges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">50e6</span><span class="p">,</span> <span class="mf">50e6</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span> <span class="o">+</span> <span class="mf">5.5e9</span>
+<span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">sweeps</span><span class="o">=</span><span class="p">[</span><span class="n">freq</span><span class="o">.</span><span class="n">sweep</span><span class="p">(</span><span class="n">ranges</span><span class="p">)]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</aside>
+<p>Additional sweeps to perform over the default sweeps.
+These can be thought as additional <code class="docutils literal notranslate"><span class="pre">for</span></code> loops on top of the default sweeps of the experiment.
+In general, most Settings in EXA can be swept over.
+For the Rabi for example, we could add a sweep over the pulse duration, or the drive frequency.</p>
+<p>Sweeps have a 3-level hierarchy. The simplest entity is a <code class="docutils literal notranslate"><span class="pre">Sweep</span></code> object which
+defines a single parameter and the associated values to loop over.
+A tuple Sweep objects defines a <strong>parallel sweep</strong>, which means several parameters are changed in tandem,
+similar to the <cite>zip</cite> function in Python. The tuple can be omitted.
+Finally, a list of N parallel sweeps defines an N-dimensional <strong>cartesian sweep</strong> over all the parameters.
+This can be thought of as N nested for loops.</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Note on sweep types</p>
+<p>Singular sweeps come in 2 varieties:</p>
+<p><strong>Software sweep</strong>: Software sweep, or soft sweep, means the looping logic is done “in software”, that is,
+there is a for loop in the Station Control which goes through the range of values one by one,
+passing the control to the devices after setting the current iteration of values.</p>
+<p><strong>Hardware sweep</strong>: In contrast to software sweeps, hard sweeps perform the looping logic in a dedicated instrument.
+This means that the range of values to iterate over is first gathered to a list, which is then passed to the
+instrument.
+The instrument then returns a list of results.
+The most common use case is sweeping pulse or circuit parameters.
+The list of pulse variations is generated in advance and sent to the station to be executed as a batch.</p>
+<p>The hardware sweeps are always the “innermost” loop of the N-dimensional sweep, meaning the values in hardware
+sweeps change most frequently and the values in software sweeps are the slowest to change.
+To the user, they appear the same.</p>
+</div>
+</section>
+</section>
+<section id="inspect-results">
+<h3>6. Inspect results<a class="headerlink" href="#inspect-results" title="Link to this heading">#</a></h3>
+<p>When calling <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.run" title="exa.core.experiment.experiment.Experiment.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Experiment.run()</span></code></a>, a sweep request is generated and sent to the server.
+The request contains the <em>settings</em> to
+instruments, instructions to perform an N-dimensional sweep over the specified <em>sweep parameters</em> and to measure
+data of the specified <em>return parameters</em>.
+Station Control saves the data to a database, and the experiment instance reads it into the runtime memory.</p>
+<p>After the run, the resulting dataset can be accessed by <a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.last_run" title="exa.core.experiment.experiment.Experiment.last_run"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Experiment.last_run</span></code></a>
+or <code class="xref py py-attr docutils literal notranslate"><span class="pre">Experiment.run_results</span></code>, which provide a <a class="reference external" href="../../iqm-pulla/api/iqm.cpc.core.run_result.RunResult.html#iqm.cpc.core.run_result.RunResult" title="(in IQM Pulla v16.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RunResult</span></code></a> object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rabi</span><span class="o">.</span><span class="n">run_results</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Returns the latest run in the session, containing dataset and metadata.</span>
+<span class="n">rabi</span><span class="o">.</span><span class="n">last_run</span>  <span class="c1"># Returns dataset from latest run, same as rabi.run_results[-1].</span>
+</pre></div>
+</div>
+<p>The metadata includes the run ID, experiment options, the sweep request that was sent to the station, etc.
+The measurement data is collected to a <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.html">xarray datasets</a>.
+It includes the sweep parameters as <em>coordinates</em> and measured return parameters as <em>data variables</em>.
+You are encouraged to get familiar with the <a class="reference external" href="http://xarray.pydata.org/en/stable/">xarray documentation</a>.</p>
+</section>
+<section id="analyze-results">
+<h3>7. Analyze results<a class="headerlink" href="#analyze-results" title="Link to this heading">#</a></h3>
+<p>After a run, the dataset contains mostly raw data. To make sense of the data, we analyze it with
+<a class="reference internal" href="../api/exa.core.experiment.experiment.Experiment.html#exa.core.experiment.experiment.Experiment.analyze" title="exa.core.experiment.experiment.Experiment.analyze"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Experiment.analyze()</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result1</span> <span class="o">=</span> <span class="n">rabi</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>  <span class="c1"># analyze latest run by default</span>
+</pre></div>
+</div>
+<p>Here, we have analyzed the latest run of the session.
+Most analysis functions do some sort of fitting to the raw data according to the mathematical model defined in the
+experiment, and store the resulting fitting parameters.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">analyze</span></code> method returns a <a class="reference internal" href="../api/exa.core.analyze_result.analyze_result.AnalyzeResult.html#exa.core.analyze_result.analyze_result.AnalyzeResult" title="exa.core.analyze_result.analyze_result.AnalyzeResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">AnalyzeResult</span></code></a> object,
+which contains plots of data, observations made, and any data arrays that were additionally calculated during analysis.</p>
+</section>
+<section id="plot-results">
+<h3>8. Plot results<a class="headerlink" href="#plot-results" title="Link to this heading">#</a></h3>
+<p>Finally, we can visualize the results with
+<a class="reference internal" href="../api/exa.core.analyze_result.analyze_result.AnalyzeResult.html#exa.core.analyze_result.analyze_result.AnalyzeResult.plot" title="exa.core.analyze_result.analyze_result.AnalyzeResult.plot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">AnalyzeResult.plot</span></code></a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result1</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>  <span class="c1"># show the default plot</span>
+<span class="n">result1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="s2">&quot;QB3&quot;</span><span class="p">,</span> <span class="n">figure_options</span><span class="o">=...</span><span class="p">)</span>  <span class="c1"># show selected plot and customize it</span>
+<span class="n">result1</span><span class="o">.</span><span class="n">plot_all</span><span class="p">()</span>  <span class="c1"># show all defined plots</span>
+</pre></div>
+</div>
+<p>See the <code class="docutils literal notranslate"><span class="pre">plotting_guide</span></code> notebook for an in-depth guide on the plotting functionality.</p>
+<p>We can also summarize the results in a report, which contains the plots and a list of observations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result1</span><span class="o">.</span><span class="n">render_report</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="installation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="settings_workflow.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Workflow with Experiment settings</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-workflow">Basic workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initial-setup">0. Initial setup</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choose-calibration">1. Choose calibration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-experiment-instance-s">2. Create experiment instance(s)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-options-optional">3. Modify options (optional)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#repetitions"><code class="xref py py-attr docutils literal notranslate"><span class="pre">repetitions</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#readout-mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">readout_mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#active-reset-cycles"><code class="xref py py-attr docutils literal notranslate"><span class="pre">active_reset_cycles</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#readout-programming-mode"><code class="xref py py-attr docutils literal notranslate"><span class="pre">readout_programming_mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#used-measure-operations"><code class="xref py py-attr docutils literal notranslate"><span class="pre">used_measure_operations</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#subscribed-components"><code class="xref py py-attr docutils literal notranslate"><span class="pre">subscribed_components</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#modify-settings-optional">4. Modify settings (optional)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run-the-experiment">5. Run the Experiment</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#components"><code class="docutils literal notranslate"><span class="pre">components</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#settings"><code class="docutils literal notranslate"><span class="pre">settings</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#default-sweep-ranges"><code class="docutils literal notranslate"><span class="pre">default_sweep_ranges</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sweeps"><code class="docutils literal notranslate"><span class="pre">sweeps</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect-results">6. Inspect results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analyze-results">7. Analyze results</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-results">8. Plot results</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Author name not set
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2019-2026, IQM Finland Oy, Release 20.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-11-10.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

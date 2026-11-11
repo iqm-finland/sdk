@@ -1,0 +1,101 @@
+experiment:
+    controller_mapping: "qpu_convention"
+    gates_used: [prx, prx_12, u, sx, cz, rz, measure, barrier, reset, reset_wait, cc_prx, probe, measure_fidelity]
+
+    gate_definitions:
+        prx:
+            implementations:
+                drag_crf: PRX_DRAGCosineRiseFall
+                drag_gaussian: PRX_DRAGGaussian
+        cz:
+            implementations:
+                crf: CZ_CRF
+                tgss: CZ_TruncatedGaussianSmoothedSquare
+
+
+    gates:
+        prx_12:
+            modulated_drag_crf:
+                []:
+                    duration: 4e-08
+                    amplitude_i: 1.0
+                    amplitude_q: 0.0
+                    frequency: 7e9
+                    full_width: 4e-08
+        prx:
+            drag_crf:
+                []:
+                    duration: 40e-9
+                    full_width: 40e-9
+                    amplitude_i: 1.0
+                    amplitude_q: 0.0
+
+            drag_gaussian:
+                []:
+                    duration: 40e-9
+                    full_width: 60e-9
+                    amplitude_i: 1.0
+                    amplitude_q: 0.0
+        cc_prx:
+            prx_composite:
+                []:
+                    control_delays: [150e-9]    # guesstimate
+        cz:
+            crf:
+                []:
+                    duration: 80e-9
+                    coupler:
+                        amplitude: 1.0
+                        full_width: 60e-9
+                        rise_time: 10e-9
+                        center_offset: 0.0
+
+            tgss:
+                []:
+                    duration: 80e-9
+                    coupler:
+                        full_width: 50e-9
+                        rise_time: 5e-9
+                        amplitude: 0.01
+                        center_offset: 0.0
+        measure:
+            constant:
+                []:
+                    duration: 1.2e-6
+                    frequency: 7e9
+                    phase: 0.0
+                    amplitude_i: 0.1
+                    amplitude_q: 0.0
+                    integration_length: 1.2e-6
+                    integration_threshold: 0.0
+                    acquisition_delay: 496e-9
+        reset_wait:
+            reset_wait:
+                []:
+                    duration: 299e-6
+        probe:
+            chirp:
+                []:
+                    duration: 2e-6
+                    integration_length: 2e-6
+
+        measure_fidelity:
+            constant:
+                []:
+                    duration: 1.2e-6
+                    frequency: 7e9
+                    phase: 0.0
+                    amplitude_i: 0.1
+                    amplitude_q: 0.0
+                    integration_length: 1.2e-6
+                    integration_threshold: 0.0
+                    acquisition_delay: 496e-9
+    controllers:
+        common:
+            readout:
+                center_frequency: 5.55e9
+            drive:
+                frequency: 4.0e9
+
+        options:
+            end_delay: 5e-6

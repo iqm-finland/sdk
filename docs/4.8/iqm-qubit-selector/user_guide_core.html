@@ -1,0 +1,957 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Qubit Selector user guide &#8212; IQM Qubit Selector 2.0.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=ce394494"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide_core';</script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="iqm-qubit-selector" href="readme.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="2026-11-10"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="IQM Qubit Selector 2.0.0 documentation - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="IQM Qubit Selector 2.0.0 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">iqm-qubit-selector</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Qubit Selector user guide</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="qubit_selector_core_qiskit_example.html">Example: GHZ state on the best qubits</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="API.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/iqm.qubit_selector.html">qubit_selector</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="api/iqm.qubit_selector.core.html">core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qubit_selector.core.cost.html">cost</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qubit_selector.core.enumerator.html">enumerator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qubit_selector.core.graph_builder.html">graph_builder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qubit_selector.core.ir.html">ir</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qubit_selector.core.metrics_data.html">metrics_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/iqm.qubit_selector.core.selector.html">selector</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">CHANGELOG</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/user_guide_core.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Qubit Selector user guide</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-a-qpu">Connecting to a QPU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture-and-calibration-metrics">Architecture and calibration metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-circuit">Preparing the circuit</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm-pulse">IQM Pulse</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qiskit">Qiskit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cirq">Cirq</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qrisp">Qrisp</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-layouts">Selecting layouts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-a-layout">Reading a layout</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-scores">Detailed scores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#readout">Readout</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#excluding-qubits">Excluding qubits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#search-budget">Search budget</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-metrics">What-if metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-blocks">Building blocks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-on-the-selected-layout">Running on the selected layout</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#star-architectures">Star architectures</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="qubit-selector-user-guide">
+<span id="user-guide"></span><h1>Qubit Selector user guide<a class="headerlink" href="#qubit-selector-user-guide" title="Link to this heading">#</a></h1>
+<p>This guide shows how to choose the physical qubits a circuit runs on with IQM Qubit Selector,
+<a class="reference internal" href="api/iqm.qubit_selector.core.html#module-iqm.qubit_selector.core" title="iqm.qubit_selector.core"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.qubit_selector.core</span></code></a>. The core enumerates the placements of the couplings that the QPU allows for and ranks them with
+the latest calibration metrics, without transpiling the circuit for any candidate. It works on an
+<a class="reference external" href="../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v16.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iqm.pulse.Circuit</span></code></a>, so it does not depend on the SDK the circuit was
+written in: IQM Pulse, Qiskit, Cirq and Qrisp circuits are all placed with the same call.</p>
+<p>For a notebook you can run and check the output of yourself, see the <a class="reference internal" href="examples.html"><span class="doc">examples</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>IQM provides access to its quantum computers via IQM Resonance – IQM’s quantum cloud service.
+Please head over <a class="reference external" href="https://iqm.tech/products/iqm-resonance/">to our website</a> to learn more.</p>
+</div>
+<p>The steps are:</p>
+<ol class="arabic simple">
+<li><p>Connect to a QPU and fetch its architecture and calibration metrics.</p></li>
+<li><p>Convert a circuit from your SDK to an <a class="reference external" href="../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v16.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iqm.pulse.Circuit</span></code></a>.</p></li>
+<li><p>Rank layouts with <a class="reference internal" href="api/iqm.qubit_selector.core.selector.select_layout.html#iqm.qubit_selector.core.selector.select_layout" title="iqm.qubit_selector.core.selector.select_layout"><code class="xref py py-func docutils literal notranslate"><span class="pre">select_layout()</span></code></a> and
+<a class="reference internal" href="api/iqm.qubit_selector.core.selector.score_layouts.html#iqm.qubit_selector.core.selector.score_layouts" title="iqm.qubit_selector.core.selector.score_layouts"><code class="xref py py-func docutils literal notranslate"><span class="pre">score_layouts()</span></code></a>.</p></li>
+<li><p>Tune the ranking: readout, excluded qubits, search budget, what-if metrics.</p></li>
+<li><p>Run the circuit on the selected layout.</p></li>
+</ol>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>Install the <code class="docutils literal notranslate"><span class="pre">iqm-qubit-selector</span></code> distribution package from the Python Package Index (PyPI). It brings IQM Client,
+IQM Pulse and IQM Station Control Client along, which is all <a class="reference internal" href="api/iqm.qubit_selector.core.html#module-iqm.qubit_selector.core" title="iqm.qubit_selector.core"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.qubit_selector.core</span></code></a> needs for circuits
+written in IQM Pulse:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>iqm-qubit-selector
+</pre></div>
+</div>
+<p>Qiskit is not installed by default. To prepare circuits in Qiskit, Cirq or Qrisp, connect with
+<a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.iqm_provider.IQMProvider.html#iqm.qiskit_iqm.iqm_provider.IQMProvider" title="(in IQM client v37.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMProvider</span></code></a>, or run the example notebooks, install the <code class="docutils literal notranslate"><span class="pre">notebook</span></code> feature as
+well. It brings IQM Client with its Qiskit, Cirq and Qrisp adapters, and Jupyter:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;iqm-qubit-selector[notebook]&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Link to this heading">#</a></h2>
+<p>Set the <code class="docutils literal notranslate"><span class="pre">IQM_TOKEN</span></code> environment variable to the API token obtained from the IQM Server web dashboard.
+<a class="reference external" href="../iqm-client/api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient" title="(in IQM client v37.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMClient</span></code></a> and <a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.iqm_provider.IQMProvider.html#iqm.qiskit_iqm.iqm_provider.IQMProvider" title="(in IQM client v37.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMProvider</span></code></a> read it from
+there, so the token does not have to appear in your code or notebooks.</p>
+</section>
+<section id="connecting-to-a-qpu">
+<h2>Connecting to a QPU<a class="headerlink" href="#connecting-to-a-qpu" title="Link to this heading">#</a></h2>
+<p>Connect with <a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.iqm_provider.IQMProvider.html#iqm.qiskit_iqm.iqm_provider.IQMProvider" title="(in IQM client v37.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IQMProvider</span></code></a>. The backend carries both the client and the
+architecture of the QPU:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IQMProvider</span>
+
+<span class="n">iqm_server_url</span> <span class="o">=</span> <span class="s2">&quot;https://resonance.iqm.tech/&quot;</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="n">iqm_server_url</span><span class="p">,</span> <span class="n">quantum_computer</span><span class="o">=</span><span class="s2">&quot;garnet&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">client</span>
+</pre></div>
+</div>
+<p>Without Qiskit, connect with <a class="reference external" href="../iqm-client/api/iqm.iqm_client.iqm_client.IQMClient.html#iqm.iqm_client.iqm_client.IQMClient.from_url" title="(in IQM client v37.0.0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">from_url()</span></code></a> instead.</p>
+</section>
+<section id="architecture-and-calibration-metrics">
+<h2>Architecture and calibration metrics<a class="headerlink" href="#architecture-and-calibration-metrics" title="Link to this heading">#</a></h2>
+<p>The selector needs two inputs besides the circuit:</p>
+<ul class="simple">
+<li><p>the <a class="reference external" href="../iqm-station-control-client/api/iqm.station_control.interface.models.dynamic_quantum_architecture.DynamicQuantumArchitecture.html#iqm.station_control.interface.models.dynamic_quantum_architecture.DynamicQuantumArchitecture" title="(in iqm-station-control-client v15.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicQuantumArchitecture</span></code></a> of the
+QPU, which says which gates act on which qubits, and</p></li>
+<li><p>a <a class="reference internal" href="api/iqm.qubit_selector.core.metrics_data.MetricsData.html#iqm.qubit_selector.core.metrics_data.MetricsData" title="iqm.qubit_selector.core.metrics_data.MetricsData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetricsData</span></code></a> with the gate and readout fidelities of the latest
+calibration.</p></li>
+</ul>
+<p><a class="reference internal" href="api/iqm.qubit_selector.core.metrics_data.MetricsDataManager.html#iqm.qubit_selector.core.metrics_data.MetricsDataManager.get_metrics_data" title="iqm.qubit_selector.core.metrics_data.MetricsDataManager.get_metrics_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_metrics_data()</span></code></a> fetches the metrics of a calibration
+set and keeps what the cost model uses: CZ fidelities per qubit pair (<code class="docutils literal notranslate"><span class="pre">two_qubit</span></code>), PRX fidelities per qubit
+(<code class="docutils literal notranslate"><span class="pre">single_qubit</span></code>) and readout metrics per qubit (<code class="docutils literal notranslate"><span class="pre">readout</span></code>, keyed by
+<a class="reference internal" href="api/iqm.qubit_selector.core.metrics_data.ReadoutMode.html#iqm.qubit_selector.core.metrics_data.ReadoutMode" title="iqm.qubit_selector.core.metrics_data.ReadoutMode"><code class="xref py py-class docutils literal notranslate"><span class="pre">ReadoutMode</span></code></a>). Pass the calibration set of the architecture, so that the
+metrics match it; without one, the server’s current default calibration set is used:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qubit_selector.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">MetricsDataManager</span>
+
+<span class="n">arch</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">architecture</span>  <span class="c1"># or client.get_dynamic_quantum_architecture()</span>
+<span class="n">manager</span> <span class="o">=</span> <span class="n">MetricsDataManager</span><span class="p">()</span>
+<span class="n">metrics</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">get_metrics_data</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">arch</span><span class="o">.</span><span class="n">calibration_set_id</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Qubits:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arch</span><span class="o">.</span><span class="n">qubits</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Two-qubit fidelity entries:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">two_qubit</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Readout metrics:&quot;</span><span class="p">,</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span> <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">readout</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="api/iqm.qubit_selector.core.metrics_data.MetricsDataManager.html#iqm.qubit_selector.core.metrics_data.MetricsDataManager.get_full_metrics_data" title="iqm.qubit_selector.core.metrics_data.MetricsDataManager.get_full_metrics_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_full_metrics_data()</span></code></a> returns everything it parses
+as a <a class="reference internal" href="api/iqm.qubit_selector.core.metrics_data.FullMetricsData.html#iqm.qubit_selector.core.metrics_data.FullMetricsData" title="iqm.qubit_selector.core.metrics_data.FullMetricsData"><code class="xref py py-class docutils literal notranslate"><span class="pre">FullMetricsData</span></code></a>, including Clifford fidelities and <code class="docutils literal notranslate"><span class="pre">T1</span></code>/<code class="docutils literal notranslate"><span class="pre">T2</span></code>
+times. These are for reference only and are not used for ranking:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">full_metrics</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">get_full_metrics_data</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">arch</span><span class="o">.</span><span class="n">calibration_set_id</span><span class="p">)</span>
+
+<span class="n">qubit</span> <span class="o">=</span> <span class="n">arch</span><span class="o">.</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">qubit</span><span class="si">}</span><span class="s2">: T1 = </span><span class="si">{</span><span class="n">full_metrics</span><span class="o">.</span><span class="n">t1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span><span class="si">}</span><span class="s2"> us, T2 = </span><span class="si">{</span><span class="n">full_metrics</span><span class="o">.</span><span class="n">t2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">qubit</span><span class="p">)</span><span class="si">}</span><span class="s2"> us&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="preparing-the-circuit">
+<h2>Preparing the circuit<a class="headerlink" href="#preparing-the-circuit" title="Link to this heading">#</a></h2>
+<p>The selector only looks at which qubits a circuit uses and how many gates act on each qubit and qubit pair. Any
+circuit that can be expressed as an <a class="reference external" href="../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v16.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iqm.pulse.Circuit</span></code></a> can therefore
+be placed. The circuit’s qubit names only identify its qubits; the selector decides which physical qubits they go to.</p>
+<p>The examples below all build a GHZ circuit on six qubits.</p>
+<section id="iqm-pulse">
+<h3>IQM Pulse<a class="headerlink" href="#iqm-pulse" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="../iqm-pulse/api/iqm.pulse.circuit_operations.CircuitOperationList.html#iqm.pulse.circuit_operations.CircuitOperationList" title="(in iqm.pulse v16.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitOperationList</span></code></a> builds a circuit from native IQM operations, on
+placeholder qubits <code class="docutils literal notranslate"><span class="pre">QB1</span></code> to <code class="docutils literal notranslate"><span class="pre">QBn</span></code>. A <code class="docutils literal notranslate"><span class="pre">measure</span></code> operation acts on any number of qubits, so it is added with
+<a class="reference external" href="../iqm-pulse/api/iqm.pulse.circuit_operations.CircuitOperationList.html#iqm.pulse.circuit_operations.CircuitOperationList.add_op" title="(in iqm.pulse v16.0.0)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_op()</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">pi</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse</span><span class="w"> </span><span class="kn">import</span> <span class="n">Circuit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.pulse.circuit_operations</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitOperationList</span>
+
+<span class="n">nqubits</span> <span class="o">=</span> <span class="mi">6</span>
+
+<span class="n">builder</span> <span class="o">=</span> <span class="n">CircuitOperationList</span><span class="p">(</span><span class="n">num_qubits</span><span class="o">=</span><span class="n">nqubits</span><span class="p">)</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nqubits</span><span class="p">):</span>
+    <span class="n">builder</span><span class="o">.</span><span class="n">prx</span><span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">builder</span><span class="o">.</span><span class="n">cz</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">add_op</span><span class="p">(</span><span class="s2">&quot;measure&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nqubits</span><span class="p">)),</span> <span class="s2">&quot;m&quot;</span><span class="p">)</span>
+
+<span class="n">circuit</span> <span class="o">=</span> <span class="n">Circuit</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;ghz&quot;</span><span class="p">,</span> <span class="n">instructions</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">builder</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="qiskit">
+<h3>Qiskit<a class="headerlink" href="#qiskit" title="Link to this heading">#</a></h3>
+<p>Transpile the circuit to the backend with <a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM.html#iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM" title="(in IQM client v37.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">transpile_to_IQM()</span></code></a>, then convert
+it with <a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.pulse_level_utils.qiskit_to_iqm.html#iqm.qiskit_iqm.pulse_level_utils.qiskit_to_iqm" title="(in IQM client v37.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">qiskit_to_iqm()</span></code></a>, which returns the converted circuits and a compiler.
+The transpiled circuit already sits on physical qubits that Qiskit picked; the selector treats those names as
+placeholders and may move the circuit elsewhere:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">transpile_to_IQM</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qiskit_iqm.pulse_level_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">qiskit_to_iqm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span>
+
+<span class="n">qc</span> <span class="o">=</span> <span class="n">QuantumCircuit</span><span class="p">(</span><span class="n">nqubits</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nqubits</span><span class="p">):</span>
+    <span class="n">qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="n">qc</span><span class="o">.</span><span class="n">measure_all</span><span class="p">()</span>
+
+<span class="n">qc_transpiled</span> <span class="o">=</span> <span class="n">transpile_to_IQM</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">converted</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">qiskit_to_iqm</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">qc_transpiled</span><span class="p">)</span>
+<span class="n">circuit</span> <span class="o">=</span> <span class="n">converted</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="cirq">
+<h3>Cirq<a class="headerlink" href="#cirq" title="Link to this heading">#</a></h3>
+<p><a class="reference external" href="../iqm-client/api/iqm.cirq_iqm.serialize.serialize_circuit.html#iqm.cirq_iqm.serialize.serialize_circuit" title="(in IQM client v37.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">serialize_circuit()</span></code></a> converts a Cirq circuit in native IQM gates (<code class="docutils literal notranslate"><span class="pre">PhasedXPowGate</span></code> to
+<code class="docutils literal notranslate"><span class="pre">prx</span></code>, <code class="docutils literal notranslate"><span class="pre">CZ</span></code> to <code class="docutils literal notranslate"><span class="pre">cz</span></code>, measurements to <code class="docutils literal notranslate"><span class="pre">measure</span></code>) on <code class="docutils literal notranslate"><span class="pre">NamedQid</span></code> qubits named like IQM qubits:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cirq</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.cirq_iqm.serialize</span><span class="w"> </span><span class="kn">import</span> <span class="n">serialize_circuit</span>
+
+<span class="n">qubits</span> <span class="o">=</span> <span class="p">[</span><span class="n">cirq</span><span class="o">.</span><span class="n">NamedQid</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;QB</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nqubits</span><span class="p">)]</span>
+<span class="n">cirq_circuit</span> <span class="o">=</span> <span class="n">cirq</span><span class="o">.</span><span class="n">Circuit</span><span class="p">()</span>
+<span class="n">cirq_circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cirq</span><span class="o">.</span><span class="n">PhasedXPowGate</span><span class="p">(</span><span class="n">exponent</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">phase_exponent</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nqubits</span><span class="p">):</span>
+    <span class="n">cirq_circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cirq</span><span class="o">.</span><span class="n">PhasedXPowGate</span><span class="p">(</span><span class="n">exponent</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">phase_exponent</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="n">cirq_circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cirq</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="n">qubits</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">qubits</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="n">cirq_circuit</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cirq</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="o">*</span><span class="n">qubits</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;m&quot;</span><span class="p">))</span>
+
+<span class="n">circuit</span> <span class="o">=</span> <span class="n">serialize_circuit</span><span class="p">(</span><span class="n">cirq_circuit</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="qrisp">
+<h3>Qrisp<a class="headerlink" href="#qrisp" title="Link to this heading">#</a></h3>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">transpile_to_iqm()</span></code> converts the circuit to native IQM gates and needs the connectivity of the
+circuit’s qubits as pairs of indices. Since the selector chooses the physical qubits afterwards, allow every pair to
+interact so that the transpiler adds no SWAPs. <code class="xref py py-func docutils literal notranslate"><span class="pre">qrisp_to_iqm_converter()</span></code> then produces the
+<a class="reference external" href="../iqm-pulse/api/iqm.pulse.circuit_operations.Circuit.html#iqm.pulse.circuit_operations.Circuit" title="(in iqm.pulse v16.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">iqm.pulse.Circuit</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">combinations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qrisp_iqm</span><span class="w"> </span><span class="kn">import</span> <span class="n">qrisp_to_iqm_converter</span><span class="p">,</span> <span class="n">transpile_to_iqm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qrisp</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumCircuit</span> <span class="k">as</span> <span class="n">QrispQuantumCircuit</span>
+
+<span class="n">qrisp_qc</span> <span class="o">=</span> <span class="n">QrispQuantumCircuit</span><span class="p">(</span><span class="n">nqubits</span><span class="p">)</span>
+<span class="n">qrisp_qc</span><span class="o">.</span><span class="n">h</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nqubits</span><span class="p">):</span>
+    <span class="n">qrisp_qc</span><span class="o">.</span><span class="n">cx</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="n">qrisp_qc</span><span class="o">.</span><span class="n">measure</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nqubits</span><span class="p">)))</span>
+
+<span class="n">qrisp_transpiled</span> <span class="o">=</span> <span class="n">transpile_to_iqm</span><span class="p">(</span><span class="n">qrisp_qc</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nqubits</span><span class="p">),</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="n">circuit</span> <span class="o">=</span> <span class="n">qrisp_to_iqm_converter</span><span class="p">(</span><span class="n">qrisp_transpiled</span><span class="p">,</span> <span class="n">arch</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="selecting-layouts">
+<h2>Selecting layouts<a class="headerlink" href="#selecting-layouts" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="api/iqm.qubit_selector.core.selector.select_layout.html#iqm.qubit_selector.core.selector.select_layout" title="iqm.qubit_selector.core.selector.select_layout"><code class="xref py py-func docutils literal notranslate"><span class="pre">select_layout()</span></code></a> returns the best <code class="docutils literal notranslate"><span class="pre">num_layouts</span></code> layouts as
+<code class="docutils literal notranslate"><span class="pre">(layout,</span> <span class="pre">error)</span></code> pairs, best first. The error is the estimated probability that at least one gate or readout
+fails, so lower is better. The call is the same for every SDK; the results can differ slightly because each SDK
+decomposes the GHZ circuit into a different number of gates:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qubit_selector.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">select_layout</span>
+
+<span class="k">for</span> <span class="n">layout</span><span class="p">,</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">select_layout</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">arch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">num_layouts</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">layout</span><span class="si">}</span><span class="s2">  error </span><span class="si">{</span><span class="n">error</span><span class="si">:</span><span class="s2">.3%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The QPU can also be given as a client, and the selector fetches the architecture and metrics of the default
+calibration set itself:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">best_layout</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">select_layout</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Give either a client alone, or <code class="docutils literal notranslate"><span class="pre">arch</span></code> and <code class="docutils literal notranslate"><span class="pre">metrics</span></code> without one. The selector fetches on every call, so when placing
+several circuits, or scoring with freshly measured metrics, fetch <code class="docutils literal notranslate"><span class="pre">arch</span></code> once, as above, and pass it with the
+metrics.</p>
+<section id="reading-a-layout">
+<h3>Reading a layout<a class="headerlink" href="#reading-a-layout" title="Link to this heading">#</a></h3>
+<p>A layout lists one physical qubit per circuit qubit. Position <code class="docutils literal notranslate"><span class="pre">i</span></code> belongs to the <code class="docutils literal notranslate"><span class="pre">i</span></code>-th circuit qubit in this
+order: the qubits with two-qubit gates first, then the others, each group sorted by name. Names sort as strings, so
+<code class="docutils literal notranslate"><span class="pre">QB10</span></code> comes before <code class="docutils literal notranslate"><span class="pre">QB2</span></code>. The helper below turns a layout into an explicit mapping; use it whenever you place
+the circuit yourself:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qubit_selector.core.ir</span><span class="w"> </span><span class="kn">import</span> <span class="n">active_qubits</span><span class="p">,</span> <span class="n">interactions_from_circuit</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">layout_order</span><span class="p">(</span><span class="n">circuit</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the circuit qubit that each position of a layout belongs to.&quot;&quot;&quot;</span>
+    <span class="n">core</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">({</span><span class="n">qubit</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">interactions_from_circuit</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span> <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">pair</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">core</span> <span class="o">+</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">active_qubits</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">core</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">layout_mapping</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">layout</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return which physical qubit each circuit qubit goes to.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">layout_order</span><span class="p">(</span><span class="n">circuit</span><span class="p">),</span> <span class="n">layout</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+
+<span class="n">best_layout</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">select_layout</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">arch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">layout_mapping</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">best_layout</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="detailed-scores">
+<h2>Detailed scores<a class="headerlink" href="#detailed-scores" title="Link to this heading">#</a></h2>
+<p>Each layout is scored as an error budget in nats: every gate or readout with fidelity <code class="docutils literal notranslate"><span class="pre">F</span></code> adds <code class="docutils literal notranslate"><span class="pre">-ln(F)</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">total</span></code> is the sum. A difference of <code class="docutils literal notranslate"><span class="pre">d</span></code> nats between two layouts means the better one is <code class="docutils literal notranslate"><span class="pre">exp(d)</span></code> times more
+likely to run without error. The error of <a class="reference internal" href="api/iqm.qubit_selector.core.selector.select_layout.html#iqm.qubit_selector.core.selector.select_layout" title="iqm.qubit_selector.core.selector.select_layout"><code class="xref py py-func docutils literal notranslate"><span class="pre">select_layout()</span></code></a> is
+<code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">-</span> <span class="pre">exp(-total)</span></code>; for deep circuits it approaches 100% for every candidate, while <code class="docutils literal notranslate"><span class="pre">total</span></code> still tells them apart.</p>
+<p><a class="reference internal" href="api/iqm.qubit_selector.core.selector.score_layouts.html#iqm.qubit_selector.core.selector.score_layouts" title="iqm.qubit_selector.core.selector.score_layouts"><code class="xref py py-func docutils literal notranslate"><span class="pre">score_layouts()</span></code></a> returns every candidate as a
+<a class="reference internal" href="api/iqm.qubit_selector.core.cost.LayoutScore.html#iqm.qubit_selector.core.cost.LayoutScore" title="iqm.qubit_selector.core.cost.LayoutScore"><code class="xref py py-class docutils literal notranslate"><span class="pre">LayoutScore</span></code></a>, sorted by <code class="docutils literal notranslate"><span class="pre">total</span></code>, with the two-qubit, single-qubit and readout
+terms that make it up:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qubit_selector.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">score_layouts</span>
+
+<span class="n">scores</span> <span class="o">=</span> <span class="n">score_layouts</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">arch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">layout</span><span class="si">}</span><span class="s2">  2Q </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">two_qubit</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  1Q </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">single_qubit</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  &quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;RO </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">readout</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  total </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">total</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">  error </span><span class="si">{</span><span class="n">score</span><span class="o">.</span><span class="n">error</span><span class="si">:</span><span class="s2">.3%</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="readout">
+<h2>Readout<a class="headerlink" href="#readout" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">readout_mode</span></code> selects which readout metric enters the score:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ReadoutMode.NONE</span></code> (default): readout is not scored.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ReadoutMode.FIDELITY</span></code>: single-shot readout fidelity. Use it when you do not mitigate readout errors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ReadoutMode.QNDNESS</span></code>: how well the measured state survives the measurement. Use it when the circuit keeps using
+a qubit after measuring it.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qubit_selector.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReadoutMode</span>
+
+<span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="n">ReadoutMode</span><span class="p">:</span>
+    <span class="n">best</span> <span class="o">=</span> <span class="n">score_layouts</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">arch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">readout_mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mode</span><span class="si">!s:</span><span class="s2">&gt;8</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">best</span><span class="o">.</span><span class="n">layout</span><span class="si">}</span><span class="s2">  readout </span><span class="si">{</span><span class="n">best</span><span class="o">.</span><span class="n">readout</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> nats, error </span><span class="si">{</span><span class="n">best</span><span class="o">.</span><span class="n">error</span><span class="si">:</span><span class="s2">.3%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="excluding-qubits">
+<h2>Excluding qubits<a class="headerlink" href="#excluding-qubits" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">remove_qubits_list</span></code> keeps qubits out of every layout, for example qubits you know to be faulty although their
+metrics do not show it. They are removed from the coupling graph before the search, so they do not connect other
+qubits either:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qubits_to_remove</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">]</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">select_layout</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">arch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">num_layouts</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">remove_qubits_list</span><span class="o">=</span><span class="n">qubits_to_remove</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">layout</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span> <span class="o">&amp;</span> <span class="nb">set</span><span class="p">(</span><span class="n">qubits_to_remove</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="search-budget">
+<h2>Search budget<a class="headerlink" href="#search-budget" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">max_num_layouts</span></code> caps the number of candidate layouts that are scored. The default, 20000, spreads the candidates
+over the whole QPU for chips of up to about 150 qubits. A larger budget finds more candidates in each region, at the
+cost of a slower search:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">scores</span> <span class="o">=</span> <span class="n">score_layouts</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">arch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">max_num_layouts</span><span class="o">=</span><span class="mi">200000</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When the budget is too small to cover every candidate, the enumerators sample with a fixed seed, so the same inputs
+always give the same ranking. Pass <code class="docutils literal notranslate"><span class="pre">seed</span></code> to <a class="reference internal" href="api/iqm.qubit_selector.core.enumerator.make_enumerator.html#iqm.qubit_selector.core.enumerator.make_enumerator" title="iqm.qubit_selector.core.enumerator.make_enumerator"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_enumerator()</span></code></a> to draw a
+different sample; see <a class="reference internal" href="#building-blocks">Building blocks</a>.</p>
+</section>
+<section id="what-if-metrics">
+<h2>What-if metrics<a class="headerlink" href="#what-if-metrics" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="api/iqm.qubit_selector.core.metrics_data.MetricsData.html#iqm.qubit_selector.core.metrics_data.MetricsData" title="iqm.qubit_selector.core.metrics_data.MetricsData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetricsData</span></code></a> is a plain dataclass, so you can edit the metrics to see
+how the ranking reacts. Two-qubit fidelities are keyed by <a class="reference internal" href="api/iqm.qubit_selector.core.metrics_data.two_qubit_key.html#iqm.qubit_selector.core.metrics_data.two_qubit_key" title="iqm.qubit_selector.core.metrics_data.two_qubit_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">two_qubit_key()</span></code></a>
+in both orientations. Here the couplers the best layout uses are made much worse, and the selector moves the circuit
+elsewhere:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qubit_selector.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">two_qubit_key</span>
+
+<span class="n">best_layout</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">select_layout</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">arch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">mapping</span> <span class="o">=</span> <span class="n">layout_mapping</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">best_layout</span><span class="p">)</span>
+
+<span class="n">degraded</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">two_qubit</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">interactions_from_circuit</span><span class="p">(</span><span class="n">circuit</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">mapping</span><span class="p">[</span><span class="n">qubit</span><span class="p">]</span> <span class="k">for</span> <span class="n">qubit</span> <span class="ow">in</span> <span class="n">pair</span><span class="p">)</span>
+    <span class="n">degraded</span><span class="p">[</span><span class="n">two_qubit_key</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)]</span> <span class="o">=</span> <span class="n">degraded</span><span class="p">[</span><span class="n">two_qubit_key</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="n">what_if</span> <span class="o">=</span> <span class="n">replace</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">two_qubit</span><span class="o">=</span><span class="n">degraded</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;With degraded couplers:&quot;</span><span class="p">,</span> <span class="n">select_layout</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">arch</span><span class="p">,</span> <span class="n">what_if</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>You can also build <a class="reference internal" href="api/iqm.qubit_selector.core.metrics_data.MetricsData.html#iqm.qubit_selector.core.metrics_data.MetricsData" title="iqm.qubit_selector.core.metrics_data.MetricsData"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetricsData</span></code></a> from scratch, for example from your own
+characterisation data. <a class="reference internal" href="api/iqm.qubit_selector.core.metrics_data.two_qubit_fidelities.html#iqm.qubit_selector.core.metrics_data.two_qubit_fidelities" title="iqm.qubit_selector.core.metrics_data.two_qubit_fidelities"><code class="xref py py-func docutils literal notranslate"><span class="pre">two_qubit_fidelities()</span></code></a> stores each pair in both
+orientations. A readout mode you never score may be left out. A qubit or pair without a metric gives every layout
+that uses it infinite error, so it is never selected, and a fidelity outside <code class="docutils literal notranslate"><span class="pre">(0,</span> <span class="pre">1]</span></code> raises <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qubit_selector.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">MetricsData</span><span class="p">,</span> <span class="n">two_qubit_fidelities</span>
+
+<span class="n">custom_metrics</span> <span class="o">=</span> <span class="n">MetricsData</span><span class="p">(</span>
+    <span class="n">two_qubit</span><span class="o">=</span><span class="n">two_qubit_fidelities</span><span class="p">({(</span><span class="s2">&quot;QB1&quot;</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">):</span> <span class="mf">0.995</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;QB2&quot;</span><span class="p">,</span> <span class="s2">&quot;QB3&quot;</span><span class="p">):</span> <span class="mf">0.990</span><span class="p">}),</span>
+    <span class="n">single_qubit</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;QB1&quot;</span><span class="p">:</span> <span class="mf">0.999</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">:</span> <span class="mf">0.998</span><span class="p">,</span> <span class="s2">&quot;QB3&quot;</span><span class="p">:</span> <span class="mf">0.997</span><span class="p">},</span>
+    <span class="n">readout</span><span class="o">=</span><span class="p">{</span><span class="n">ReadoutMode</span><span class="o">.</span><span class="n">FIDELITY</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;QB1&quot;</span><span class="p">:</span> <span class="mf">0.98</span><span class="p">,</span> <span class="s2">&quot;QB2&quot;</span><span class="p">:</span> <span class="mf">0.97</span><span class="p">,</span> <span class="s2">&quot;QB3&quot;</span><span class="p">:</span> <span class="mf">0.96</span><span class="p">}},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="building-blocks">
+<h2>Building blocks<a class="headerlink" href="#building-blocks" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="api/iqm.qubit_selector.core.selector.score_layouts.html#iqm.qubit_selector.core.selector.score_layouts" title="iqm.qubit_selector.core.selector.score_layouts"><code class="xref py py-func docutils literal notranslate"><span class="pre">score_layouts()</span></code></a> chains four steps, each available on its own:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="api/iqm.qubit_selector.core.ir.html#module-iqm.qubit_selector.core.ir" title="iqm.qubit_selector.core.ir"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.qubit_selector.core.ir</span></code></a> reads the circuit: two-qubit gate counts per pair
+(<a class="reference internal" href="api/iqm.qubit_selector.core.ir.interactions_from_circuit.html#iqm.qubit_selector.core.ir.interactions_from_circuit" title="iqm.qubit_selector.core.ir.interactions_from_circuit"><code class="xref py py-func docutils literal notranslate"><span class="pre">interactions_from_circuit()</span></code></a>), single-qubit gate counts per qubit and the
+measured qubits.</p></li>
+<li><p><a class="reference internal" href="api/iqm.qubit_selector.core.graph_builder.build_coupling_graph.html#iqm.qubit_selector.core.graph_builder.build_coupling_graph" title="iqm.qubit_selector.core.graph_builder.build_coupling_graph"><code class="xref py py-func docutils literal notranslate"><span class="pre">build_coupling_graph()</span></code></a> turns the architecture into a <code class="docutils literal notranslate"><span class="pre">networkx</span></code>
+graph of coupled qubits.</p></li>
+<li><p><a class="reference internal" href="api/iqm.qubit_selector.core.enumerator.make_enumerator.html#iqm.qubit_selector.core.enumerator.make_enumerator" title="iqm.qubit_selector.core.enumerator.make_enumerator"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_enumerator()</span></code></a> picks the enumerator for that graph:
+<a class="reference internal" href="api/iqm.qubit_selector.core.enumerator.VF2Enumerator.html#iqm.qubit_selector.core.enumerator.VF2Enumerator" title="iqm.qubit_selector.core.enumerator.VF2Enumerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">VF2Enumerator</span></code></a> searches the graph for placements of the circuit’s
+interactions, and <a class="reference internal" href="api/iqm.qubit_selector.core.enumerator.AllToAllEnumerator.html#iqm.qubit_selector.core.enumerator.AllToAllEnumerator" title="iqm.qubit_selector.core.enumerator.AllToAllEnumerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">AllToAllEnumerator</span></code></a> picks qubit sets directly when
+every pair is coupled.</p></li>
+<li><p>A cost model, here <a class="reference internal" href="api/iqm.qubit_selector.core.cost.FastEdgeCost.html#iqm.qubit_selector.core.cost.FastEdgeCost" title="iqm.qubit_selector.core.cost.FastEdgeCost"><code class="xref py py-class docutils literal notranslate"><span class="pre">FastEdgeCost</span></code></a>, scores the layouts and sorts them.</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qubit_selector.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastEdgeCost</span><span class="p">,</span> <span class="n">make_enumerator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qubit_selector.core.graph_builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_coupling_graph</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qubit_selector.core.ir</span><span class="w"> </span><span class="kn">import</span> <span class="n">measured_qubits</span><span class="p">,</span> <span class="n">single_qubit_gate_counts</span>
+
+<span class="n">coupling_graph</span> <span class="o">=</span> <span class="n">build_coupling_graph</span><span class="p">(</span><span class="n">arch</span><span class="p">)</span>
+<span class="n">interaction_graph</span> <span class="o">=</span> <span class="n">interactions_from_circuit</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+<span class="n">order</span> <span class="o">=</span> <span class="n">layout_order</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+
+<span class="n">enumerator</span> <span class="o">=</span> <span class="n">make_enumerator</span><span class="p">(</span><span class="n">coupling_graph</span><span class="p">,</span> <span class="n">max_num_layouts</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<span class="n">layouts</span> <span class="o">=</span> <span class="n">enumerator</span><span class="o">.</span><span class="n">enumerate</span><span class="p">(</span><span class="n">interaction_graph</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">))</span>
+
+<span class="n">cost</span> <span class="o">=</span> <span class="n">FastEdgeCost</span><span class="p">(</span><span class="n">metrics</span><span class="p">,</span> <span class="n">ReadoutMode</span><span class="o">.</span><span class="n">NONE</span><span class="p">)</span>
+<span class="n">ranked</span> <span class="o">=</span> <span class="n">cost</span><span class="o">.</span><span class="n">sort_by_scores</span><span class="p">(</span>
+    <span class="n">layouts</span><span class="p">,</span> <span class="n">interaction_graph</span><span class="p">,</span> <span class="n">single_qubit_gate_counts</span><span class="p">(</span><span class="n">circuit</span><span class="p">),</span> <span class="n">measured_qubits</span><span class="p">(</span><span class="n">circuit</span><span class="p">),</span> <span class="n">order</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best:&quot;</span><span class="p">,</span> <span class="n">ranked</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>To rank with your own cost model, subclass <a class="reference internal" href="api/iqm.qubit_selector.core.cost.CostCalculatorBase.html#iqm.qubit_selector.core.cost.CostCalculatorBase" title="iqm.qubit_selector.core.cost.CostCalculatorBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">CostCalculatorBase</span></code></a> and implement
+<a class="reference internal" href="api/iqm.qubit_selector.core.cost.CostCalculatorBase.html#iqm.qubit_selector.core.cost.CostCalculatorBase.score_single_layout" title="iqm.qubit_selector.core.cost.CostCalculatorBase.score_single_layout"><code class="xref py py-meth docutils literal notranslate"><span class="pre">score_single_layout()</span></code></a>. It returns a
+<a class="reference internal" href="api/iqm.qubit_selector.core.cost.LayoutCost.html#iqm.qubit_selector.core.cost.LayoutCost" title="iqm.qubit_selector.core.cost.LayoutCost"><code class="xref py py-class docutils literal notranslate"><span class="pre">LayoutCost</span></code></a> (or a subclass), and the base class takes care of scoring and
+sorting. This one ranks on the two-qubit gates only:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">iqm.qubit_selector.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">CostCalculatorBase</span><span class="p">,</span> <span class="n">LayoutCost</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TwoQubitOnlyCost</span><span class="p">(</span><span class="n">CostCalculatorBase</span><span class="p">[</span><span class="n">LayoutCost</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Rank layouts by their two-qubit gate errors alone.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fast_cost</span> <span class="o">=</span> <span class="n">FastEdgeCost</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">score_single_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">interaction_graph</span><span class="p">,</span> <span class="n">sqg_counts</span><span class="p">,</span> <span class="n">measured</span><span class="p">,</span> <span class="n">logical_qubits</span><span class="p">):</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fast_cost</span><span class="o">.</span><span class="n">score_single_layout</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="n">interaction_graph</span><span class="p">,</span> <span class="p">{},</span> <span class="nb">set</span><span class="p">(),</span> <span class="n">logical_qubits</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">LayoutCost</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="n">score</span><span class="o">.</span><span class="n">two_qubit</span><span class="p">)</span>
+
+
+<span class="n">ranked</span> <span class="o">=</span> <span class="n">TwoQubitOnlyCost</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span><span class="o">.</span><span class="n">sort_by_scores</span><span class="p">(</span>
+    <span class="n">layouts</span><span class="p">,</span> <span class="n">interaction_graph</span><span class="p">,</span> <span class="n">single_qubit_gate_counts</span><span class="p">(</span><span class="n">circuit</span><span class="p">),</span> <span class="n">measured_qubits</span><span class="p">(</span><span class="n">circuit</span><span class="p">),</span> <span class="n">order</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="running-on-the-selected-layout">
+<h2>Running on the selected layout<a class="headerlink" href="#running-on-the-selected-layout" title="Link to this heading">#</a></h2>
+<p>Layout selection does not depend on the SDK, but running the circuit does. With Qiskit, pin the circuit’s virtual
+qubits to the selected physical qubits with <code class="docutils literal notranslate"><span class="pre">initial_layout</span></code> when transpiling it.</p>
+<p>For that, the selector should see the circuit’s virtual qubits rather than the physical qubits of a default
+placement. Convert the circuit to native IQM gates without placing it, with virtual qubit <code class="docutils literal notranslate"><span class="pre">i</span></code> named <code class="docutils literal notranslate"><span class="pre">QB{i+1}</span></code>,
+and turn the selected layout into the physical qubit index of each virtual qubit:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qiskit</span><span class="w"> </span><span class="kn">import</span> <span class="n">transpile</span>
+
+<span class="n">qc_native</span> <span class="o">=</span> <span class="n">transpile</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">basis_gates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;cz&quot;</span><span class="p">],</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">circuit</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">serialize_circuit</span><span class="p">(</span><span class="n">qc_native</span><span class="p">,</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;QB</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nqubits</span><span class="p">)})</span>
+
+<span class="n">best_layout</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">select_layout</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">arch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">mapping</span> <span class="o">=</span> <span class="n">layout_mapping</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">best_layout</span><span class="p">)</span>
+<span class="n">best_layout_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">backend</span><span class="o">.</span><span class="n">qubit_name_to_index</span><span class="p">(</span><span class="n">mapping</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;QB</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nqubits</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>Then transpile with that layout pinned, and run.
+<a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM.html#iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM" title="(in IQM client v37.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">transpile_to_IQM()</span></code></a> works on crystal and Star QPUs alike; on a Star QPU it
+also adds the <code class="docutils literal notranslate"><span class="pre">MOVE</span></code> gates:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qc_hw</span> <span class="o">=</span> <span class="n">transpile_to_IQM</span><span class="p">(</span><span class="n">qc</span><span class="p">,</span> <span class="n">backend</span><span class="p">,</span> <span class="n">initial_layout</span><span class="o">=</span><span class="n">best_layout_idx</span><span class="p">,</span> <span class="n">optimization_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">counts</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">qc_hw</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span><span class="o">.</span><span class="n">result</span><span class="p">()</span><span class="o">.</span><span class="n">get_counts</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">qubit_selector_core_qiskit_example</span></code> notebook in the <a class="reference internal" href="examples.html"><span class="doc">examples</span></a> runs a GHZ circuit this way on a
+crystal and a Star QPU, and compares it with the placement <code class="docutils literal notranslate"><span class="pre">transpile_to_IQM</span></code> picks without <code class="docutils literal notranslate"><span class="pre">initial_layout</span></code>.</p>
+</section>
+<section id="star-architectures">
+<span id="id1"></span><h2>Star architectures<a class="headerlink" href="#star-architectures" title="Link to this heading">#</a></h2>
+<p>On a Star QPU, such as <code class="docutils literal notranslate"><span class="pre">sirius</span></code>, the qubits do not couple to each other directly. Every two-qubit gate goes through
+a computational resonator: a <code class="docutils literal notranslate"><span class="pre">MOVE</span></code> gate moves the state of one qubit into the resonator, a CZ acts between the
+resonator and a second qubit, and another <code class="docutils literal notranslate"><span class="pre">MOVE</span></code> moves the state back. The calls stay the same:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">star_backend</span> <span class="o">=</span> <span class="n">IQMProvider</span><span class="p">(</span><span class="n">iqm_server_url</span><span class="p">,</span> <span class="n">quantum_computer</span><span class="o">=</span><span class="s2">&quot;sirius&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_backend</span><span class="p">()</span>
+<span class="n">star_arch</span> <span class="o">=</span> <span class="n">star_backend</span><span class="o">.</span><span class="n">architecture</span>
+<span class="n">star_metrics</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">get_metrics_data</span><span class="p">(</span><span class="n">star_backend</span><span class="o">.</span><span class="n">client</span><span class="p">,</span> <span class="n">star_arch</span><span class="o">.</span><span class="n">calibration_set_id</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computational resonators:&quot;</span><span class="p">,</span> <span class="n">star_arch</span><span class="o">.</span><span class="n">computational_resonators</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">select_layout</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">star_arch</span><span class="p">,</span> <span class="n">star_metrics</span><span class="p">,</span> <span class="n">num_layouts</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Three things happen behind the scenes:</p>
+<ul class="simple">
+<li><p><strong>Fictional CZ fidelities.</strong> A logical <code class="docutils literal notranslate"><span class="pre">CZ(q1,</span> <span class="pre">q2)</span></code> runs as <code class="docutils literal notranslate"><span class="pre">MOVE(q2,</span> <span class="pre">r)</span> <span class="pre">CZ(q1,</span> <span class="pre">r)</span> <span class="pre">MOVE(q2,</span> <span class="pre">r)</span></code> through a
+shared resonator <code class="docutils literal notranslate"><span class="pre">r</span></code>, so its fidelity is <code class="docutils literal notranslate"><span class="pre">F_cz(q1,</span> <span class="pre">r)</span> <span class="pre">*</span> <span class="pre">F_move(q2,</span> <span class="pre">r)</span> <span class="pre">**</span> <span class="pre">2</span></code>, with the better choice of
+<code class="docutils literal notranslate"><span class="pre">MOVE</span></code> qubit kept.
+<a class="reference internal" href="api/iqm.qubit_selector.core.metrics_data.MetricsDataManager.html#iqm.qubit_selector.core.metrics_data.MetricsDataManager.get_metrics_data" title="iqm.qubit_selector.core.metrics_data.MetricsDataManager.get_metrics_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_metrics_data()</span></code></a> returns these qubit-qubit
+fidelities in <code class="docutils literal notranslate"><span class="pre">two_qubit</span></code>, computed from the measured resonator fidelities by
+<a class="reference internal" href="api/iqm.qubit_selector.core.metrics_data.fictional_two_qubit_fidelities.html#iqm.qubit_selector.core.metrics_data.fictional_two_qubit_fidelities" title="iqm.qubit_selector.core.metrics_data.fictional_two_qubit_fidelities"><code class="xref py py-func docutils literal notranslate"><span class="pre">fictional_two_qubit_fidelities()</span></code></a>.</p></li>
+<li><p><strong>A collapsed coupling graph.</strong> <a class="reference internal" href="api/iqm.qubit_selector.core.graph_builder.build_coupling_graph.html#iqm.qubit_selector.core.graph_builder.build_coupling_graph" title="iqm.qubit_selector.core.graph_builder.build_coupling_graph"><code class="xref py py-func docutils literal notranslate"><span class="pre">build_coupling_graph()</span></code></a> replaces the
+resonator loci with the qubit pairs that <code class="docutils literal notranslate"><span class="pre">MOVE</span></code> + CZ can couple. With a single resonator every pair can, so the
+graph is complete and <a class="reference internal" href="api/iqm.qubit_selector.core.enumerator.make_enumerator.html#iqm.qubit_selector.core.enumerator.make_enumerator" title="iqm.qubit_selector.core.enumerator.make_enumerator"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_enumerator()</span></code></a> picks
+<a class="reference internal" href="api/iqm.qubit_selector.core.enumerator.AllToAllEnumerator.html#iqm.qubit_selector.core.enumerator.AllToAllEnumerator" title="iqm.qubit_selector.core.enumerator.AllToAllEnumerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">AllToAllEnumerator</span></code></a>, which ranks sets of qubits directly.</p></li>
+<li><p><strong>MOVE gates are removed from the circuit.</strong> A Qiskit circuit transpiled with
+<a class="reference external" href="../iqm-client/api/iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM.html#iqm.qiskit_iqm.iqm_naive_move_pass.transpile_to_IQM" title="(in IQM client v37.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">transpile_to_IQM()</span></code></a> for a Star QPU contains <code class="docutils literal notranslate"><span class="pre">MOVE</span></code> gates. The selector
+removes them to recover the qubit-qubit interactions, so the circuit can be passed as it is.</p></li>
+</ul>
+<p>For the same reason, a Qrisp circuit for a single-resonator Star QPU can be transpiled with all-to-all connectivity,
+as in the Qrisp example above.</p>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="API.html"><span class="doc">API reference</span></a> documents every function and class of <a class="reference internal" href="api/iqm.qubit_selector.core.html#module-iqm.qubit_selector.core" title="iqm.qubit_selector.core"><code class="xref py py-mod docutils literal notranslate"><span class="pre">iqm.qubit_selector.core</span></code></a>.</p></li>
+<li><p>The <a class="reference internal" href="examples.html"><span class="doc">examples</span></a> include <code class="docutils literal notranslate"><span class="pre">qubit_selector_core_qiskit_example</span></code>, a ready-to-run notebook that
+places a GHZ circuit on a crystal and a Star QPU and compares it with the default placement.</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="readme.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">iqm-qubit-selector</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="examples.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-a-qpu">Connecting to a QPU</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture-and-calibration-metrics">Architecture and calibration metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-circuit">Preparing the circuit</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#iqm-pulse">IQM Pulse</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qiskit">Qiskit</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cirq">Cirq</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qrisp">Qrisp</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selecting-layouts">Selecting layouts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-a-layout">Reading a layout</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detailed-scores">Detailed scores</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#readout">Readout</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#excluding-qubits">Excluding qubits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#search-budget">Search budget</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-if-metrics">What-if metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-blocks">Building blocks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-on-the-selected-layout">Running on the selected layout</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#star-architectures">Star architectures</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps">Next steps</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By IQM Qubit Selector developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2026, IQM Finland Oy, Release 2.0.0.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on 2026-11-10.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
